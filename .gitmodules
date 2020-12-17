@@ -1,6 +1,0 @@
-[submodule "nvim/.config/nvim/autoload/plugged/ctrlp.vim"]
-	path = nvim/.config/nvim/autoload/plugged/ctrlp.vim
-	url = https://github.com/kien/ctrlp.vim.git
-[submodule "nvim/.config/nvim/autoload/plugged/gruvbox"]
-	path = nvim/.config/nvim/autoload/plugged/gruvbox
-	url = https://github.com/morhetz/gruvbox
