@@ -1,0 +1,34 @@
+#! /bin/bash
+# Adapted from https://delicious-insights.com/en/posts/git-hooks/
+FILENAME=`basename "$0"`
+
+# Hash using the search regex as keys, and the matching error messages as values
+declare -A PATTERNS;
+PATTERNS['^[<>|=]{4,}']="Conflict markers";
+PATTERNS['FIXME']="FIXME";
+PATTERNS['binding.pry']="binding.pry";
+
+# Declare empty errors array
+declare -a errors;
+
+# Loop over staged files and check for any specific pattern listed in PATTERNS keys
+# Filter only added (A), copied (C), modified (M) files
+for file in $(git diff --staged --name-only --diff-filter=ACM); do
+  for elem in ${!PATTERNS[*]} ; do
+    { git show :0:"$file" | grep -Eq ${elem}; } || continue;
+      errors+=("$(tput setaf 2)${file}$(tput sgr0): ${PATTERNS[${elem}]}");
+  done
+done
+
+# Print errors
+for error in "${errors[@]}"; do
+  echo "$(tput setaf 1)Preventing commit ($FILENAME)$(tput sgr0)"
+  echo "$(tput setaf 240)To override, use $(tput bold)git commit --no-verify$(tput sgr0)"
+  echo -e "  ${error}"
+done
+
+# If there is any error, then stop commit creation
+if [ ${#errors[@]} -ne 0 ]; then
+  exit 1
+fi
+
