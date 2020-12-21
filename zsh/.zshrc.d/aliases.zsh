@@ -1,57 +1,43 @@
-# General
-alias pcp="rsync --progress -ah"
-alias tailf="less +F -R"
-alias ls="exa -lga --group-directories-first"
-alias ll="ls"
-alias sha256="shasum -a 256"
-alias sha1="openssl sha1"
-alias fetch="curl -LO#"
-alias sz="source $HOME/.zshrc"
-alias sshkey="clip $HOME/.ssh/id_rsa.pub && echo 'Copied SSH key to clipboard.'"
-alias ducks="du -cksh * | sort -hr"
-alias myip='curl ifconfig.co'
-alias genpass="openssl rand -base64 24"
-alias n="nnn"
-alias lg="lazygit"
-alias cat="bat"
+# -- general
+alias ..='cd ..' 
+alias ...='cd ../../../'
+alias ....='cd ../../../../'
+alias .....='cd ../../../../'
+
+alias ll="ls" 
+alias ls='ls -AlhF --color=auto' 
+alias lt='du -sh * | sort -h'
+
 alias ca="cat"
-alias ssh-fingerprint="ssh-keygen -E md5 -lf"
-alias serve="python -m SimpleHTTPServer"
-alias ssh="TERM=xterm ssh" # kitty has issues
+alias cat="bat"
+alias cpv='rsync -ah --info=progress2'
+alias mkdir='mkdir -pv'
+alias tailf="less +F -R"
 
-# Ruby/Rails
-alias c="clear"
-alias be="bundle exec"
-alias rake="bundle exec rake"
-alias rspec="bundle exec rspec"
-alias cap="bundle exec cap"
-alias rails="bundle exec rails"
-alias html2haml="html2haml --ruby19-attributes --erb"
-alias rdbc="rails db:create db:schema:load"
-alias rtdbc="RAILS_ENV=test rails db:create"
-alias csdp="SKIP_DATA_SYNC_CONFIRM=true cap staging db:pull"
-alias cpdp="SKIP_DATA_SYNC_CONFIRM=true cap production db:pull"
+# -- misc.
+alias genpass="openssl rand -base64 24"
+alias myip='curl ifconfig.co'
+alias sshkey="clip $HOME/.ssh/id_rsa.pub && echo 'Copied SSH key to clipboard.'"
+alias sz="source $HOME/.zshrc"
 
-alias tm="tmux"
-alias tmn="tmux new -s"
-alias tma="tmux attach-session -t"
-alias tmks="tmux kill-server"
+# -- webserver debugging
+alias ping='ping -c 10' 
+alias ports='netstat -tulanp'       # list open ports
+alias header='curl -I'              # get web server headers
+alias headerc='curl -I --compress'  # does remote server supports gzip / mod_deflate
 
-alias vi="nvim"
+# -- editor
+alias scratch="vim $(mktemp -t scratch.XXX.md)" 
+alias v.="nvim ." 
+alias v="nvim" 
+alias vi="nvim" 
 alias vim="nvim"
-alias v="nvim"
-alias v.="nvim ."
-alias scratch="vim $(mktemp -t scratch.XXX.md)"
 
-# 'latest' will refer to the last modified file.
-#
-# e.g. `open latest`
-#        `rm latest`
-alias -g latest='*(om[1])'
+# -- python
+alias serve="python -m SimpleHTTPServer" 
+alias va='source ./venv/bin/activate'
+alias ve=python3 -m venv ./venv' 
 
-# Most git aliases are in ~/.gitconfig.
-alias g='git'
+# -- git aliases are in ~/.gitconfig.
 alias gcd='cd $(git rev-parse --show-toplevel)'
-
-alias dex="docker exec -it"
-alias rg="rg --ignore-file $HOME/.ignore"
+alias g='git' 
