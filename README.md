@@ -1,5 +1,8 @@
 # Dotfiles
 
+![MacOS CI](https://github.com/vladdoster/dotfiles/workflows/MacOS%20CI/badge.svg)
+![Arch Linux CI](https://github.com/vladdoster/dotfiles/workflows/Arch%20Linux%20CI/badge.svg)
+
 | Solution                                       | Problem                  |
 | ---------------------------------------------- | ------------------------ |
 | [GNU Stow](https://www.gnu.org/software/stow/) | manage dotfiles          |
