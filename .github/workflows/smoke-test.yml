@@ -34,7 +34,7 @@ jobs:
       run: |
         su - test_user bash -c 'yay -S --noconfirm \
                                               stow \
-                                              nvim \
+                                              neovim \
                                               tmux \
                                               make'
     - name: install dotfiles
