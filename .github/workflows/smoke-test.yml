@@ -16,23 +16,26 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: update system
-      run: pacman -Syyu --noconfirm
+      run: |
+            pacman -Syyu --noconfirm
+    - name: create non-root user
+      run: |
+            pacman --sync --needed --noconfirm base-devel git sudo
+            useradd test_user -m
+            passwd -d test_user
+            printf 'test_user ALL=(ALL) ALL\n' | tee -a /etc/sudoers
     - name: install yay
       run: |
-           pacman -S --needed --noconfirm base-devel git sudo
-           useradd builduser -m
-           passwd -d builduser
-           printf 'builduser ALL=(ALL) ALL\n' | tee -a /etc/sudoers
-           su - builduser bash -c 'cd ~ && \
+            su - test_user bash -c 'cd /tmp && \
                                     git clone https://aur.archlinux.org/yay.git yay && \
                                     cd yay && \
-                                    makepkg -s --noconfirm'
+                                    makepkg -si --noconfirm'
     - name: install dependencies
       run: |
-        su - builduser bash -c ' yay -S --noconfirm \
-                                               stow \
-                                               nvim \
-                                               tmux \
-                                               make
+        su - test_user bash -c 'yay -S --noconfirm \
+                                              stow \
+                                              nvim \
+                                              tmux \
+                                              make'
     - name: install dotfiles
       run: make dotfiles
