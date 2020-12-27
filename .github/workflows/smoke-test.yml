@@ -15,6 +15,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: create non-root user
+      run: |
+        useradd --no-log-init \
+                --user-group \
+                --shell /bin/bash \
+                test
     - name: update system
       run: pacman -Syyu --noconfirm
     - name: install yay
@@ -25,7 +31,9 @@ jobs:
            cd yay
            makepkg -si
     - name: install dependencies
-      run: yay -S --noconfirm \
+      run: |
+        su - test
+        yay -S --noconfirm \
                          stow \
                          nvim \
                          tmux \
