@@ -1,7 +1,7 @@
 # Dotfiles
 
-![MacOS CI](https://github.com/vladdoster/dotfiles/workflows/MacOS%20CI/badge.svg)
-![Arch Linux CI](https://github.com/vladdoster/dotfiles/workflows/Arch%20Linux%20CI/badge.svg)
+![MacOS](https://github.com/vladdoster/dotfiles/workflows/MacOS%20CI/badge.svg)
+![Arch Linux](https://github.com/vladdoster/dotfiles/workflows/Arch%20Linux%20CI/badge.svg)
 
 | Solution                                       | Problem                  |
 | ---------------------------------------------- | ------------------------ |
