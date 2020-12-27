@@ -34,7 +34,7 @@ alias vim="nvim"
 # -- python
 alias serve="python -m SimpleHTTPServer" 
 alias va='source ./venv/bin/activate'
-alias ve=python3 -m venv ./venv' 
+alias ve='python3 -m venv ./venv' 
 
 # -- git aliases are in ~/.gitconfig.
 alias gcd='cd $(git rev-parse --show-toplevel)'
