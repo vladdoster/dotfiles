@@ -21,15 +21,18 @@ jobs:
                 --user-group \
                 --shell /bin/bash \
                 test
+        groupadd -r mygrp && useradd -r -g mygrp myuser
     - name: update system
       run: pacman -Syyu --noconfirm
     - name: install yay
       run: |
-           su - test
+           whoami
+           su - myuser
            pacman -S --noconfirm git
            cd /tmp
            git clone https://aur.archlinux.org/yay.git
            cd yay
+           whoami
            makepkg -si
     - name: install dependencies
       run: |
