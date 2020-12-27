@@ -1,0 +1,27 @@
+name: Arch Linux CI
+
+on:
+  push:
+    branches: [ arch-linux ]
+  pull_request:
+    branches: [ arch-linux ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: update system
+      run: pacman -Syyu
+    - name: install dependencies
+      run: |
+        pacman -S stow \
+                  nvim \
+                  tmux \
+                  make
+    - name: install dotfiles
+      run: make dotfiles
