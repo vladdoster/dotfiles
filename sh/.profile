@@ -1,16 +1,20 @@
 export XDG_CONFIG_HOME="$HOME/.config"
 # export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 
-# case "$OSTYPE" in
-#   darwin*)  
-#     alias readlink="greadlink"
-#     ;;
-#   linux*)
-#     eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv) # linuxbrew
-#     ;;
-#   *) 
-#     echo "unknown: $OSTYPE" ;;
-# esac
+case "$OSTYPE" in
+  darwin*)  
+    alias readlink="greadlink"
+    ;;
+  linux*)
+    if [[ $(uname --kernel-release) =~ "arch" ]]; then
+        # source arch related scripts
+        export PATH="$HOME/.config/arch/statusbar:$PATH"
+        echo "btw, I use arch"
+    fi
+    ;;
+  *) 
+    echo "unknown: $OSTYPE" ;;
+esac
 
 # # if running bash
 # if [ -n "$BASH_VERSION" ]; then

@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Show wifi 📶 and percent strength or 📡 if none.
+# Show 🌐 if connected to ethernet or ❎ if none.
+
+case $BLOCK_BUTTON in
+	1) "$TERMINAL" -e nmtui; pkill -RTMIN+4 dwmblocks ;;
+	3) notify-send "🌐 Internet module" "\- Click to connect
+📡: no wifi connection
+📶: wifi connection with quality
+❎: no ethernet
+🌐: ethernet working
+💻: USB interface
+" ;;
+	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
+
+case "$(cat /sys/class/net/w*/operstate 2>/dev/null)" in
+	down) wifiicon="📡 " ;;
+	up) wifiicon="$(awk '/^\s*w/ { print "📶", int($3 * 100 / 70) "% " }' /proc/net/wireless)" ;;
+esac
+
+printf "%s" "$wifiicon"
+for dev in /sys/class/net/e* ;do
+    if cat "$dev/device/uevent" | grep -q usb ;then
+        printf " %s" "💻"
+    else
+        printf " %s" "$(sed "s/down/❎/;s/up/🌐/" "$dev/operstate" 2>/dev/null)"
+    fi
+done
+printf "\n"

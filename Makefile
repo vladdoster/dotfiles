@@ -1,18 +1,33 @@
+
+define run-stow
+find * -not -path '*/\.*' -type d -exec stow {} --ignore=#\.bash*\# --target=$$HOME $^ \;
+endef
+
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+	UNAME_D := $(shell uname --kernel-release)
+	ifeq ($(filter %arch%,$(UNAME_D)),)
+        FLAGS += ARCH
+    endif
+	FLAGS += LINUX
+endif
+ifeq ($(UNAME_S),Darwin)
+	FLAGS += OSX
+endif
+
 .SILENT:
 SHELL := bash
 .ONESHELL:
 MAKEFLAGS += --no-builtin-rules
 .PHONY : --restow --simulate list
 
-define run-stow
-find * -not -path '*/\.*' -type d -exec stow {} --ignore=#\.bash*\# --target=$$HOME $^ \;
-endef
-
 list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
+	echo $(FLAGS)
+
 
 dotfiles:
-	$(run-stow)
+	#$(run-stow)
 	echo "++ installed dotfiles ++"
 
 setup: dotfiles

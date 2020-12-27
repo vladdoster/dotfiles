@@ -1,0 +1,53 @@
+#!/bin/python3
+# -*- coding: utf-8 -*-
+
+# Author: Vlad Doster <mvdoster@gmail.com>
+# Date: 2020-07-06 23:10:31
+# Last Modified by: Vlad Doster <mvdoster@gmail.com>
+# Last Modified time: 2020-07-07 00:04:37
+
+# Updates 'battery' block and alerts user to low battery
+
+import os
+import subprocess
+import sys
+
+import psutil
+
+block_btn = int(os.environ.get("BLOCK_BUTTON", 0))
+if block_btn == 3:
+    # send notification about battery module
+    pass
+elif block_btn == 6:
+    # open editor to battery module
+    pass
+
+
+battery = psutil.sensors_battery()  # (percent, secs_left, power_plugged)
+batt_options = {"low_batt": "❗", "discharging": "🔋", "charging": "🔌", "charged": "⚡"}
+batt_percentage = int(battery[0])
+
+if not battery[2]:
+    batt_emoji = "🔋"
+    if 5 < battery[0] <= 25:
+        batt_emoji += batt_options.get("low_batt")
+    elif battery[0] <= 5:
+        # play low battery sound
+        if int(os.environ.get("LOW_BATTERY_WARNINGS", 0)) <= 3:
+            os.environ["LOW_BATTERY_WARNINGS"] = str(
+                int(os.environ.get("LOW_BATTERY_WARNINGS", 0) + 1)
+            )
+            subprocess.run(
+                [
+                    "paplay",
+                    "${XDG_CONFIG_DIR:-$HOME/.config/assets/sounds/suspend-error.oga}",
+                ]
+            )
+        batt_emoji += batt_options.get("low_batt")
+else:
+    if battery[0] >= 95:
+        batt_emoji = batt_options.get("charged")
+    else:
+        batt_emoji = batt_options.get("charging")
+
+print("{emoji} {percentage}%".format(emoji=batt_emoji, percentage=batt_percentage))
