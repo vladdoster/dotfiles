@@ -5,7 +5,10 @@
 | [GNU Stow](https://www.gnu.org/software/stow/) | manage dotfiles          |
 | [Make](Makefile)                               | {install,update} systems |
 
-- Git branchs for acheiving basic seperation of concerns. 
+## Design Choices
+
+- Git branchs for basic seperation of concerns. Mixing led to ugly workarounds removing configs
+and development overhead deciphering configs.
 - Pull requests to keep system branchs up to date. This can seem tedious, but 
 enables basic smoke testing via CI tests (github actions) before merging into a different
 system branch.
