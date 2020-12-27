@@ -17,10 +17,10 @@ system branch.
 
 #### Change branch
 
-| System     | Repository Branch                                                | Documentation                                                                  |
-|------------|------------------------------------------------------------------|--------------------------------------------------------------------------------|
-| Arch Linux | [Branch](https://github.com/vladdoster/dotfiles/tree/arch-linux) | [README.md](https://github.com/vladdoster/dotfiles/tree/arch-linux#arch-linux) |
-| Mac OS     | [Branch](https://github.com/vladdoster/dotfiles/tree/mac-os)     | [README.md](https://github.com/vladdoster/dotfiles/tree/mac-os#mac-os-darwin)  |
+| System     | Repository Branch                                                    | Documentation                                                                  |
+|------------|----------------------------------------------------------------------|--------------------------------------------------------------------------------|
+| Arch Linux | [arch-linux](https://github.com/vladdoster/dotfiles/tree/arch-linux) | [README.md](https://github.com/vladdoster/dotfiles/tree/arch-linux#arch-linux) |
+| Mac OS     | [mac-os](https://github.com/vladdoster/dotfiles/tree/mac-os)         | [README.md](https://github.com/vladdoster/dotfiles/tree/mac-os#mac-os-darwin)  |
 
 ```bash
 git checkout -b {arch-linux, mac-os}
