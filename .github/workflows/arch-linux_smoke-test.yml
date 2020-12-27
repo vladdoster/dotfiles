@@ -7,8 +7,7 @@ on:
     branches: [ arch-linux ]
 
 jobs:
-
-  build:
+  arch-linux-dotfiles:
 
     runs-on: ubuntu-latest
     container: archlinux:latest
@@ -32,10 +31,11 @@ jobs:
                                     makepkg -si --noconfirm'
     - name: install dependencies
       run: |
-        su - test_user bash -c 'yay -S --noconfirm \
-                                              stow \
-                                              neovim \
-                                              tmux \
-                                              make'
+            su - test_user bash -c 'yay -S --noconfirm \
+                                                  stow \
+                                                  neovim \
+                                                  tmux \
+                                                  make'
     - name: install dotfiles
-      run: make dotfiles
+      run: |
+            make dotfiles
