@@ -20,7 +20,6 @@ jobs:
         useradd --create-home \
                 --no-log-init \
                 --user-group \
-                --shell /bin/bash \
                 test
         groupadd -r mygrp && useradd --create-home -r -g mygrp myuser
     - name: update system
@@ -28,14 +27,16 @@ jobs:
     - name: install yay
       run: |
            whoami
-           su - myuser
+           su - test
            whoami
            pacman -S --noconfirm git
+           pacman -S --noconfirm gosu || echo "not a valid package"
            cd /tmp
            git clone https://aur.archlinux.org/yay.git
            cd yay
            whoami
-           whoami && makepkg -si
+           su - test
+           whoami && gosu makepkg -si
     - name: install dependencies
       run: |
         su - test
