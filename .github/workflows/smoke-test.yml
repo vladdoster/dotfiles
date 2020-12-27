@@ -25,6 +25,7 @@ jobs:
       run: pacman -Syyu --noconfirm
     - name: install yay
       run: |
+           su - test
            pacman -S --noconfirm git
            cd /tmp
            git clone https://aur.archlinux.org/yay.git
