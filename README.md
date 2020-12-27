@@ -7,6 +7,17 @@
 
 ## Usage
 
+#### Change branch
+
+Currently support:
+
+* MacOS
+* Arch Linux
+
+```bash
+git checkout -b {arch-linux, mac-os
+```
+
 #### Install dotfiles
 
 ```bash
