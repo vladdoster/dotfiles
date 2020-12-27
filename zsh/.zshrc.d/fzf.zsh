@@ -67,15 +67,3 @@ fssh() {
 
   ssh -t $host $command
 }
-
-fsshr() {
-  fssh '/bin/bash -l -c "cd rails/current && bundle exec rails console"'
-}
-
-frsssh() {
-  fssh '"${SHELL}" -l -c "bundle exec rails c -e staging"'
-}
-
-frpssh() {
-  fssh '"${SHELL}" -l -c "bundle exec rails c -e production"'
-}
