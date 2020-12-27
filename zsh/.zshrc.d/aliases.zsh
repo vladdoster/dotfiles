@@ -8,8 +8,6 @@ alias ll="ls"
 alias ls='ls -AlhF --color=auto' 
 alias lt='du -sh * | sort -h'
 
-alias ca="cat"
-alias cat="bat"
 alias cpv='rsync -ah --info=progress2'
 alias mkdir='mkdir -pv'
 alias tailf="less +F -R"
