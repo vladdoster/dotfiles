@@ -1,7 +1,7 @@
 # Dotfiles
 
-![Arch Linux CI](https://github.com/vladdoster/dotfiles/workflows/Arch-Linux/badge.svg?branch=arch-linux)
-![MacOS CI](https://github.com/vladdoster/dotfiles/workflows/MacOS/badge.svg?branch=mac-os)
+![Arch Linux](https://github.com/vladdoster/dotfiles/workflows/Arch%20Linux/badge.svg)
+![MacOS](https://github.com/vladdoster/dotfiles/workflows/MacOS/badge.svg)
 
 | System     | Repository Branch                                                    | Documentation                                                                  |
 |------------|----------------------------------------------------------------------|--------------------------------------------------------------------------------|
