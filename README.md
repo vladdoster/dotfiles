@@ -5,6 +5,11 @@
 | [GNU Stow](https://www.gnu.org/software/stow/) | manage dotfiles          |
 | [Make](Makefile)                               | {install,update} systems |
 
+- Git branchs for acheiving basic seperation of concerns. 
+- Pull requests to keep system branchs up to date. This can seem tedious, but 
+enables basic smoke testing via CI tests (github actions) before merging into a different
+system branch.
+
 ## Usage
 
 #### Change branch
@@ -25,8 +30,6 @@ make dotfiles
 ```
 
 #### Setup a new system
-
-The Makefile will deduce what system and distro (if applicable). 
 
 ```bash
 make setup
