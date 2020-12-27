@@ -15,19 +15,6 @@ dotfiles:
 	$(run-stow)
 	echo "++ installed dotfiles ++"
 
-setup: dotfiles
-	OS=$(shell uname -s)
-	ifeq ($OS, Darwin)
-		echo "Setting up MacOS"
-		bash "$$HOME/.local/bin/system-setup/mac_os.sh"
-	else
-		DISTRO=$(shell cat /etc/issue*)
-			ifneq (,$(findstring Arch, $$DISTRO))
-				echo "Setting up Arch Linux"
-				bash "$$HOME/.local/bin/system-setup/arch_linux.sh"
-			endif
-	endif
-
 update : --restow
 	$(run-stow)
 	echo "++ updated dotfiles ++"
