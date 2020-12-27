@@ -31,7 +31,7 @@ jobs:
            cd /tmp
            git clone https://aur.archlinux.org/yay.git
            cd yay
-           sudo -u nobody makepkg -s
+           su -u nobody makepkg -s
            pacman -U $(ls -A1 -rt | tail -n 1 | awk '{print $9}')
     - name: install dependencies
       run: |
