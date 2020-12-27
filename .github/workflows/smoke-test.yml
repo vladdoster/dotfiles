@@ -31,11 +31,15 @@ jobs:
            cd /tmp
            git clone https://aur.archlinux.org/yay.git
            cd yay
-           su - nobody makepkg -si
-           pacman -U $(ls -A1 -rt | tail -n 1 | awk '{print $9}')
+           su - nobody
+           whoami
+           makepkg -si
+           whoami
     - name: install dependencies
       run: |
-        su - test
+        whoami
+        su - nobody
+        whoami
         yay -S --noconfirm \
                          stow \
                          nvim \
