@@ -15,26 +15,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: create non-root user
-      run: |
-        useradd --create-home \
-                --no-log-init \
-                --user-group \
-                test
-        groupadd -r mygrp && useradd --create-home -r -g mygrp myuser
     - name: update system
       run: pacman -Syyu --noconfirm
     - name: install yay
       run: |
-           su - test
-           pacman -S --noconfirm git
-           cd /tmp
-           git clone https://aur.archlinux.org/yay.git
-           cd yay
-           su - nobody
-           whoami
-           makepkg -si
-           whoami
+           pacman -S --needed --noconfirm sudo
+           useradd builduser -m
+           passwd -d builduser
+           printf 'builduser ALL=(ALL) ALL\n' | tee -a /etc/sudoers
+           su -u builduser bash -c 'cd ~ && \
+                                    git clone https://aur.archlinux.org/yay.git yay && \
+                                    cd yay && \
+                                    makepkg -s --noconfirm'
     - name: install dependencies
       run: |
         whoami
