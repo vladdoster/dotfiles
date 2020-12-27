@@ -1,9 +1,9 @@
-# Dotfiles
+# Mac OS (darwin)
 
-| Solution                                       | Problem                  |
-| ---------------------------------------------- | ------------------------ |
-| [GNU Stow](https://www.gnu.org/software/stow/) | manage dotfiles          |
-| [Make](Makefile)                               | {install,update} systems |
+- Install CLI/GUI programs via HomeBrew
+- Systemwide config via Applescript
+
+> [!NOTE] sudo access is required or errors will occur.
 
 ## Usage
 
@@ -15,13 +15,9 @@ make dotfiles
 
 #### Setup a new system
 
-The Makefile will deduce what system and distro (if applicable). 
-
 ```bash
 make setup
 ```
-
-## Useful commands
 
 #### List possible targets
 
