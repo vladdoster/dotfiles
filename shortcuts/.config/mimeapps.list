@@ -1,0 +1,17 @@
+[Default Applications]
+
+# Zathura
+application/pdf=pdf.desktop;
+application/postscript=pdf.desktop;
+
+# Sxiv
+image/gif=img.desktop;
+image/jpeg=img.desktop;
+image/png=img.desktop;
+
+# Ranger
+inode/directory=file.desktop
+
+# Neovim
+text/plain=text.desktop;
+text/x-shellscript=text.desktop;
