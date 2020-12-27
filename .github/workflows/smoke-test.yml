@@ -15,14 +15,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: update system
-      run: pacman -Syyu
     - name: install dependencies
-      run: |
-        pacman --noconfirm -S \
-                         stow \
-                         nvim \
-                         tmux \
-                         make
+      run: pacman -Syyu --noconfirm \
+                               stow \
+                               nvim \
+                               tmux \
+                               make
     - name: install dotfiles
       run: make dotfiles
