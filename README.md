@@ -22,7 +22,7 @@ make setup
 #### List possible targets
 
 ```bash
-make list
+make
 ```
 
 #### Change shell
