@@ -29,13 +29,10 @@ jobs:
                                     makepkg -s --noconfirm'
     - name: install dependencies
       run: |
-        whoami
-        su - nobody
-        whoami
-        yay -S --noconfirm \
-                         stow \
-                         nvim \
-                         tmux \
-                         make
+        su - builduser bash -c ' yay -S --noconfirm \
+                                               stow \
+                                               nvim \
+                                               tmux \
+                                               make
     - name: install dotfiles
       run: make dotfiles
