@@ -13,14 +13,14 @@ and development overhead deciphering configs.
 enables basic smoke testing via CI tests (github actions) before merging into a different
 system branch.
 
-## Usage
-
-#### Change branch
-
 | System     | Repository Branch                                                    | Documentation                                                                  |
 |------------|----------------------------------------------------------------------|--------------------------------------------------------------------------------|
 | Arch Linux | [arch-linux](https://github.com/vladdoster/dotfiles/tree/arch-linux) | [README.md](https://github.com/vladdoster/dotfiles/tree/arch-linux#arch-linux) |
 | Mac OS     | [mac-os](https://github.com/vladdoster/dotfiles/tree/mac-os)         | [README.md](https://github.com/vladdoster/dotfiles/tree/mac-os#mac-os-darwin)  |
+
+## Usage
+
+#### Change branch
 
 ```bash
 git checkout -b {arch-linux, mac-os}
