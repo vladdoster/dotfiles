@@ -19,7 +19,7 @@ jobs:
       run: pacman -Syyu --noconfirm
     - name: install yay
       run: |
-           pacman -S --needed --noconfirm sudo git
+           pacman -S --needed --noconfirm base-devel git sudo
            useradd builduser -m
            passwd -d builduser
            printf 'builduser ALL=(ALL) ALL\n' | tee -a /etc/sudoers
