@@ -17,11 +17,12 @@ jobs:
     - uses: actions/checkout@v2
     - name: create non-root user
       run: |
-        useradd --no-log-init \
+        useradd --create-home \
+                --no-log-init \
                 --user-group \
                 --shell /bin/bash \
                 test
-        groupadd -r mygrp && useradd -r -g mygrp myuser
+        groupadd -r mygrp && useradd --create-home -r -g mygrp myuser
     - name: update system
       run: pacman -Syyu --noconfirm
     - name: install yay
