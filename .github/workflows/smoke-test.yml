@@ -15,11 +15,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: install yay
+      run: |
+           pacman -S git
+           cd /tmp
+           git clone https://aur.archlinux.org/yay.git
+           cd yay
+           makepkg -si
     - name: install dependencies
-      run: pacman -Syyu --noconfirm \
-                               stow \
-                               nvim \
-                               tmux \
-                               make
+      run: yay -S --noconfirm \
+                         stow \
+                         nvim \
+                         tmux \
+                         make
     - name: install dotfiles
       run: make dotfiles
