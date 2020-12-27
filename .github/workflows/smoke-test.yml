@@ -15,8 +15,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: update system
+      run: pacman -Syyu
     - name: install yay
       run: |
+           pacman -S --noconfirm git
            cd /tmp
            git clone https://aur.archlinux.org/yay.git
            cd yay
