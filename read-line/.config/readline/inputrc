@@ -1,0 +1,64 @@
+$include /etc/inputrc
+
+#-----------
+#   Bash   #
+#-----------
+$if Bash
+# Tab autocomplete regardless of filename case
+set completion-ignore-case on
+
+# All matches in case multiple possible completions are possible
+set show-all-if-ambiguous on
+
+# Immediately add a trailing slash when autocompleting symlinks to directories
+set mark-symlinked-directories on
+
+# more intelligent Up/Down behavior
+"\e[B": history-search-forward
+"\e[A": history-search-backward
+
+# Do not autocomplete hidden files unless the pattern explicitly begins with a dot
+set match-hidden-files off
+
+# Show all autocomplete results
+set page-completions off
+
+# When more than 200 possible completions, ask to show them all
+set completion-query-items 200
+
+# Extra file information when completing, like `ls -F` does
+set visible-stats on
+set skip-completed-text on
+
+# UTF-8 input and output, instead of showing stuff like $'\0123\0456'
+set input-meta on
+set output-meta on
+set convert-meta off
+
+# Alt/Meta + Delete to delete the preceding word
+"\e[3;3~": kill-word
+
+$endif
+
+#--------------
+#   vi mode   #
+#--------------
+set editing-mode vi
+$if mode=vi
+
+set show-mode-in-prompt on
+set vi-ins-mode-string \1\e[6 q\2
+set vi-cmd-mode-string \1\e[2 q\2
+
+set keymap vi-command
+# these are for vi-command mode
+Control-l: clear-screen
+Control-a: beginning-of-line
+
+set keymap vi-insert
+# these are for vi-insert mode
+Control-l: clear-screen
+Control-a: beginning-of-line
+
+$endif
+
