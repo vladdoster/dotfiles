@@ -23,32 +23,4 @@ system branch.
 
 ## Usage
 
-#### Change branch
-
-```bash
-git checkout -b {arch-linux, mac-os}
-```
-
-#### Install dotfiles
-
-```bash
-make dotfiles
-```
-
-#### Setup a new system
-
-```bash
-make setup
-```
-
-#### List possible targets
-
-```bash
-make list
-```
-
-#### Change shell
-
-```bash
-sudo usermod --shell /bin/zsh
-```
+Check out each systems branch README.md for usage information.
