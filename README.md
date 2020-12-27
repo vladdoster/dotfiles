@@ -9,13 +9,13 @@
 
 #### Change branch
 
-Currently support:
-
-* MacOS
-* Arch Linux
+| System     | Repository Branch                                                |
+|------------|------------------------------------------------------------------|
+| Arch Linux | [Branch](https://github.com/vladdoster/dotfiles/tree/arch-linux) |
+| Mac OS     | [Branch](https://github.com/vladdoster/dotfiles/tree/mac-os)     |
 
 ```bash
-git checkout -b {arch-linux, mac-os
+git checkout -b {arch-linux, mac-os}
 ```
 
 #### Install dotfiles
@@ -31,8 +31,6 @@ The Makefile will deduce what system and distro (if applicable).
 ```bash
 make setup
 ```
-
-## Useful commands
 
 #### List possible targets
 
