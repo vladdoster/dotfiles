@@ -23,7 +23,7 @@ jobs:
            useradd builduser -m
            passwd -d builduser
            printf 'builduser ALL=(ALL) ALL\n' | tee -a /etc/sudoers
-           su -u builduser bash -c 'cd ~ && \
+           su - builduser bash -c 'cd ~ && \
                                     git clone https://aur.archlinux.org/yay.git yay && \
                                     cd yay && \
                                     makepkg -s --noconfirm'
