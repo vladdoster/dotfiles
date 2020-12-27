@@ -17,7 +17,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: install yay
       run: |
-           pacman -S git
            cd /tmp
            git clone https://aur.archlinux.org/yay.git
            cd yay
