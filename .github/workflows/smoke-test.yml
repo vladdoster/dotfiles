@@ -26,17 +26,22 @@ jobs:
       run: pacman -Syyu --noconfirm
     - name: install yay
       run: |
-           whoami
-           su - test
-           whoami
-           pacman -S --noconfirm git
-           pacman -S --noconfirm gosu || echo "not a valid package"
-           cd /tmp
-           git clone https://aur.archlinux.org/yay.git
-           cd yay
-           whoami
-           su - test
-           whoami && gosu makepkg -si
+        if ! builtin type -p 'yay' >/dev/null 2>&1; then
+            echo 'Install yay.'
+            sudo pacman -S --needed base base-devel wget
+            tmpdir="$(command mktemp -d)"
+            command cd "${tmpdir}" || return 1
+            dl_url="$(
+                command curl -sfLS 'https://api.github.com/repos/Jguer/yay/releases/latest' |
+                command grep 'browser_download_url' |
+                command cut -d '"' -f 4
+            )"
+            command wget "${dl_url}"
+            command tar xzvf yay_*_x86_64.tar.gz
+            command cd yay_*_x86_64 || return 1
+            ./yay -Sy yay-bin
+            rm -rf "${tmpdir}"
+        fi
     - name: install dependencies
       run: |
         su - test
