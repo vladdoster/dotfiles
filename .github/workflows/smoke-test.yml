@@ -29,12 +29,13 @@ jobs:
       run: |
            whoami
            su - myuser
+           whoami
            pacman -S --noconfirm git
            cd /tmp
            git clone https://aur.archlinux.org/yay.git
            cd yay
            whoami
-           makepkg -si
+           whoami && makepkg -si
     - name: install dependencies
       run: |
         su - test
