@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: update system
-      run: pacman -Syyu
+      run: pacman -Syyu --noconfirm
     - name: install yay
       run: |
            pacman -S --noconfirm git
