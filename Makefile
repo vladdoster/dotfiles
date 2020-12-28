@@ -6,13 +6,13 @@ endef
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
 	UNAME_D := $(shell uname --kernel-release)
-	ifeq ($(filter %arch%,$(UNAME_D)),)
-        FLAGS += ARCH
-    endif
-	FLAGS += LINUX
-endif
-ifeq ($(UNAME_S),Darwin)
-	FLAGS += OSX
+	ifneq ($(filter %arch%,$(UNAME_D)),)
+        	echo "This should be run only on Arch Linux. Aborting."
+		exit 0
+	endif
+else
+	echo "Must be a GNU/Linux system. Aborting."
+	exit 0
 endif
 
 .SILENT:
@@ -25,23 +25,12 @@ list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 	echo $(FLAGS)
 
-
 dotfiles:
 	#$(run-stow)
 	echo "++ installed dotfiles ++"
 
 setup: dotfiles
-	OS=$(shell uname -s)
-	ifeq ($OS, Darwin)
-		echo "Setting up MacOS"
-		bash "$$HOME/.local/bin/system-setup/mac_os.sh"
-	else
-		DISTRO=$(shell cat /etc/issue*)
-			ifneq (,$(findstring Arch, $$DISTRO))
-				echo "Setting up Arch Linux"
-				bash "$$HOME/.local/bin/system-setup/arch_linux.sh"
-			endif
-	endif
+	bash "$$HOME/.local/bin/system-setup/arch_linux.sh"
 
 update : --restow
 	$(run-stow)
