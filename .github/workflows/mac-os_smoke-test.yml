@@ -15,10 +15,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: install dependencies
       run: | 
-            brew install \
-                    stow \
-                    nvim \
-                    tmux 
+            brew install stow \
+                         nvim \
+                         tmux 
     - name: install dotfiles
       run: |
             make dotfiles

@@ -3,9 +3,9 @@
     name = Vladislav Doster
 [core]
     editor = nvim
-    pager = "delta --dark"
+    pager = less
     commentChar = ~
-    ignorecase = false
+    ignorecase = true
 # hooksPath = ~/.git_hooks # disabled for now because it no likey macos
 [color]
     ui = true

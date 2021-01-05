@@ -5,7 +5,7 @@ MAKEFLAGS += --no-builtin-rules
 .PHONY : --restow --simulate list
 
 define run-stow
-find * -not -path '*/\.*' -type d -exec stow {} --ignore=#\.bash*\# --target=$$HOME $^ \;
+find * -not -path '*/\.*' -type d -exec stow {} --override=#\*\# --target=$$HOME $^ \;
 endef
 
 list:

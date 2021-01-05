@@ -7,24 +7,26 @@ endif
 call plug#begin('~/.config/nvim/autoload/plugged')
 
   Plug 'ctrlpvim/ctrlp.vim'
+  Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+  Plug 'godlygeek/tabular'
   Plug 'gruvbox-community/gruvbox'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 
 set guicursor=
 set relativenumber
 set nohlsearch
-set hidden
 set noerrorbells
-set tabstop=4 softtabstop=4
 set shiftwidth=4
+set softtabstop=4
+set tabstop=4 
 set expandtab
 set smartindent
 set nu
 set nowrap
 set smartcase
 set noswapfile
-set nobackup
 set undodir=~/.config/nvim/undodir
 set undofile
 set incsearch
@@ -32,11 +34,10 @@ set termguicolors
 set scrolloff=8
 set noshowmode
 set completeopt=menuone,noinsert,noselect
-set cmdheight=2
 set colorcolumn=80
-set shortmess+=c
-set updatetime=50
 highlight ColorColumn ctermbg=0 guibg=lightgrey
+
+let mapleader = " "
 
 " Easily resize split windows with Ctrl+hjkl
 nnoremap <C-j> <C-w>+
@@ -61,6 +62,33 @@ map Y y$
 " Select another file from the directory of the current one
 nnoremap <leader>F :execute 'edit' expand("%:p:h")<cr>
 
+"--- code completion
+set cmdheight=2
+set hidden
+set nobackup
+set nowritebackup
+set shortmess+=c
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+set updatetime=50
+
+" tab complete
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
 "--- colorscheme
 colorscheme gruvbox
 let g:gruvbox_contrast_dark = 'hard'
@@ -70,6 +98,12 @@ set background=dark
 "--- ctrl-p
 let g:ctrlp_switch_buffer = 'et'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
+"--- firenvim
+"
+" Install with:
+" $ nvim --headless "+call firenvim#install(0) | q"
+
 
 "--- netrw
 let g:NetrwIsOpen=0
