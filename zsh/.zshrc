@@ -9,34 +9,37 @@ autoload -Uz colors && colors
 autoload -Uz compinit && compinit
 autoload -Uz edit-command-line && zle -N edit-command-line
 autoload -Uz vcs_info
-
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 
-setopt always_to_end # move cursor to end if word had one match
-setopt auto_list # automatically list choices on ambiguous completion
-setopt auto_menu # automatically use menu completion
-setopt autocd             # change dir without cd
-setopt correct            # help with mistyped commands
-setopt correct_all # autocorrect commands
-setopt extended_history   # add timestamps and other info to history
-setopt hist_ignore_all_dups # remove older duplicate entries from history
-setopt hist_reduce_blanks # remove superfluous blanks from history items
-setopt hist_verify        # show substituted history command before executing
-setopt histignorealldups  # filter dupes from history
-setopt inc_append_history # add to history after every command
-setopt no_case_glob       # case insensitive globbing
-setopt printexitvalue     # for non-zero exits
+if [[ "$TERM" =~ "kitty" ]]; then
+    kitty + complete setup zsh | source /dev/stdin
+fi
+
+setopt always_to_end  # move cursor to end if word had one match
+setopt auto_list  # automatically list choices on ambiguous completion
+setopt auto_menu  # automatically use menu completion
+setopt autocd  # change dir without cd
+setopt correct  # help with mistyped commands
+setopt correct_all  # autocorrect commands
+setopt no_case_glob  # case insensitive globbing
+setopt printexitvalue  # for non-zero exits
 setopt prompt_subst
-setopt share_history # share history between different instances of the shell
-setopt sharehistory       # share history across all shells
 
 # -- HISTORY
 
+HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
 HISTSIZE=10000
 SAVEHIST=$HISTSIZE
-HISTFILE="$HOME/.zsh_history"
 
+setopt extended_history   # add timestamps and other info to history
+setopt hist_expire_dups_first  # expire duplicates first
+setopt hist_find_no_dups  # ignore duplicates when searching
+setopt hist_ignore_all_dups  # remove older duplicate entries from history
+setopt hist_reduce_blanks  # remove superfluous blanks from history items
+setopt hist_verify  # show substituted history command before executing
+setopt inc_append_history  # add to history after every command
+setopt share_history  # share history between zsh instances
 
 # -- COMPLETION 
 
@@ -50,7 +53,6 @@ LISTMAX=1000
 
 precmd() { vcs_info }                    # call vcs info
 zstyle ':vcs_info:git:*' formats '(%b)'  # only want current branch
-
 PROMPT='%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[cyan]%}%~%{$fg[blue]%}${vcs_info_msg_0_}%{$fg[red]%}]%{$reset_color%}$ %b'
 
 # -- MAPPINGS
@@ -100,5 +102,3 @@ bindkey '^e' edit-command-line
 source "$HOME/.zshrc.d/fzf.zsh"
 source "$HOME/.zshrc.d/aliases.zsh"
 source "$HOME/.zshrc.d/functions.zsh"
-
-
