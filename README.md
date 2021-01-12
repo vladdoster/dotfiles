@@ -3,10 +3,11 @@
 ![Arch Linux](https://github.com/vladdoster/dotfiles/workflows/Arch%20Linux/badge.svg)
 ![MacOS](https://github.com/vladdoster/dotfiles/workflows/MacOS/badge.svg)
 
-| System     | Repository Branch                                                    | Documentation                                                                  |
-|------------|----------------------------------------------------------------------|--------------------------------------------------------------------------------|
-| Arch Linux | [arch-linux](https://github.com/vladdoster/dotfiles/tree/arch-linux) | [README.md](https://github.com/vladdoster/dotfiles/tree/arch-linux#arch-linux) |
-| Mac OS     | [mac-os](https://github.com/vladdoster/dotfiles/tree/mac-os)         | [README.md](https://github.com/vladdoster/dotfiles/tree/mac-os#mac-os-darwin)  |
+| System      | Repository Branch                                                      |
+|-------------|------------------------------------------------------------------------|
+| Arch Linux  | [arch-linux](https://github.com/vladdoster/dotfiles/tree/arch-linux)   |
+| Mac OS      | [mac-os](https://github.com/vladdoster/dotfiles/tree/mac-os)           |
+| Remote Host | [remote host](https://github.com/vladdoster/dotfiles/tree/remote-host) | 
 
 ## Problem & Solution
 
