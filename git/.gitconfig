@@ -69,7 +69,6 @@
     uncommit = reset --soft HEAD^
 
 [push]
-# Push only the current branch
     default = current
     followTags = true
 [status]
@@ -84,15 +83,9 @@
     clean = git-lfs clean -- %f
 [difftool]
     prompt = false
-[difftool "difftool"]
-    cmd = difftool "$LOCAL" "$REMOTE"
 [diff]
     tool = difftool
 [mergetool]
     prompt  = false
-[mergetool "mergetool"]
-    cmd = mergetool "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
-[mergetool "vimdiff"]
-    cmd = vimdiff "$LOCAL" "$MERGED" "$REMOTE"
 [merge]
     tool = mergetool

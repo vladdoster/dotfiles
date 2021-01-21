@@ -4,9 +4,9 @@ if [ -d /usr/share/fzf/shell ]; then
 elif [ -d /usr/share/fzf ]; then
   source /usr/share/fzf/key-bindings.zsh
   source /usr/share/fzf/completion.zsh
-elif [ -f ~/.fzf.zsh ]; then 
+elif [ -f ~/.fzf.zsh ]; then
   source ~/.fzf.zsh
-elif [ -f $XDG_CONFIG_HOME/fzf/zsh.zsh ]; then 
+elif [ -f $XDG_CONFIG_HOME/fzf/zsh.zsh ]; then
   source $XDG_CONFIG_HOME/fzf/zsh.zsh
 fi
 
@@ -43,8 +43,7 @@ ffd() {
 fkill() {
   pid=$(ps -ef | sed 1d | fzf | awk '{print $2}')
 
-  if [ "x$pid" != "x" ]
-  then
+  if [ "x$pid" != "x" ]; then
     kill -${1:-9} $pid
   fi
 }

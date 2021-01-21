@@ -7,7 +7,10 @@ endif
 call plug#begin('~/.config/nvim/autoload/plugged')
 
   Plug 'ctrlpvim/ctrlp.vim'
+<<<<<<< HEAD
   Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+=======
+>>>>>>> origin/remote-host
   Plug 'godlygeek/tabular'
   Plug 'gruvbox-community/gruvbox'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}

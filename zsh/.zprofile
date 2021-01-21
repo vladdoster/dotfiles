@@ -5,16 +5,17 @@ export EDITOR="nvim"
 export XDG_CACHE_HOME="${HOME}/.cache"
 export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_USER_LOCAL="${HOME}/.local"
+export XDG_DATA_HOME="${XDG_USER_LOCAL:-$HOME/.local}/share"
+export XDG_USER_BINARIES="${XDG_USER_LOCAL:-$HOME/.local}/bin"
 
 # ---  $HOME clean-up --- #
 
 export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
-export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
+export INPUTRC="${XDG_CONFIG_HOME}/inputrc"
 export PYTHONSTARTUP="${XDG_CONFIG_HOME}/python/startup"
 export WGETRC="${XDG_CONFIG_HOME}/wget/wgetrc"
 
 export CARGO_HOME="${XDG_DATA_HOME}/cargo"                     
-export GNUPGHOME="${XDG_DATA_HOME}/gnupg"                      
 export GOPATH="${XDG_DATA_HOME}/go"                            
 
 # --- less --- #

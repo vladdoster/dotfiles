@@ -4,10 +4,10 @@ function dcb() {
 function cdd() {
   cd $(dirname $1)
 }
-#function zipdir() {
-#  zip -r "$1.zip" $1
-#}
-#compdef _dirs zipdir
+function zipdir() {
+  zip -r "$1.zip" $1
+}
+compdef _dirs zipdir
 function unzipall() {
   for x in *.zip; do
     unar -d $x
@@ -37,15 +37,11 @@ function add-ssh-host() {
     echo -n "Enter user: " && read USER
     echo -n "Enter port: " && read PORT
   fi
-  cat >> "${HOME:-~}/.ssh/config" <<- END
+  cat >>"${HOME:-~}/.ssh/config" <<-END
 		Host $HOST  
 		  HostName $HOSTNAME
 		  User $USER
 		  Port $PORT
-
+		
 	END
 }
-function reload-shell() {
-  exec $SHELL -l
-}
-
