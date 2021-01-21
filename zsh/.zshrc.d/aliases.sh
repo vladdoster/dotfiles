@@ -4,19 +4,20 @@ alias ...='cd ../../../'
 alias ....='cd ../../../../'
 alias .....='cd ../../../../'
 
-if [[ $OSTYPE =~ "darwin"   ]]; then
-  alias ll="gls"
-  alias ls='gls -AlhF --color=auto'
-  alias readlink="greadlink"
-  alias sshkey="cat $HOME/.ssh/id_rsa.pub | pbcopy -pboard general && echo 'Copied SSH key to clipboard.'"
-else
-  alias ll="ls"
-  alias ls='ls -AlhF --color=auto'
-  alias sshkey="clip $HOME/.ssh/id_rsa.pub && echo 'Copied SSH key to clipboard.'"
-fi
+if [[ $OSTYPE =~ "darwin" ]]; then
+	alias ll="gls"
+	alias ls='gls -AlhF --color=auto'
+	alias readlink="greadlink"
+	alias sshkey="cat $HOME/.ssh/id_rsa.pub | pbcopy -pboard general && echo 'Copied SSH key to clipboard.'"
 
-if [[ $TERM =~ "kitty"   ]]; then
-  alias ssh="kitty +kitten ssh"
+	if [[ $TERM =~ "kitty" ]]; then
+		alias ssh="kitty +kitten ssh"
+	fi
+
+else
+	alias ll="ls"
+	alias ls='ls -AlhF --color=auto'
+	alias sshkey="clip $HOME/.ssh/id_rsa.pub && echo 'Copied SSH key to clipboard.'"
 fi
 
 alias cpv='rsync -ah --info=progress2'
@@ -27,14 +28,14 @@ alias tailf="less +F -R"
 # -- misc.
 alias genpass="openssl rand -base64 24"
 alias myip='curl ifconfig.co'
-alias shfmt='shfmt -i 2 -ci -sr -kp -s -w'
+alias shfmt='shfmt -i 1 -ci -sr -kp -s -w'
 alias sz="source $HOME/.zshrc"
 
 # -- webserver debugging
 alias ping='ping -c 10'
-alias ports='netstat -tulanp'       # list open ports
-alias header='curl -I'              # get web server headers
-alias headerc='curl -I --compress'  # does remote server supports gzip / mod_deflate
+alias ports='netstat -tulanp'      # list open ports
+alias header='curl -I'             # get web server headers
+alias headerc='curl -I --compress' # does remote server supports gzip / mod_deflate
 
 # -- editor
 alias scratch="vim $(mktemp -t scratch.XXX.md)"
