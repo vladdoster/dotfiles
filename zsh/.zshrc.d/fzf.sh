@@ -12,7 +12,7 @@ fi
 
 export FZF_COMPLETION_TRIGGER=''
 bindkey '^X^O' fzf-completion
-bindkey '^I' $fzf_default_completion
+bindkey '^I' fzf_default_completion
 
 # Nord
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
