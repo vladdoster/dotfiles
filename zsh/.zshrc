@@ -23,8 +23,6 @@ setopt always_to_end  # move cursor to end if word had one match
 setopt auto_list      # automatically list choices on ambiguous completion
 setopt auto_menu      # automatically use menu completion
 setopt autocd         # change dir without cd
-setopt correct        # help with mistyped commands
-setopt correct_all    # autocorrect commands
 setopt no_case_glob   # case insensitive globbing
 setopt printexitvalue # for non-zero exits
 setopt prompt_subst
@@ -33,7 +31,7 @@ setopt prompt_subst
 
 HISTFILE="${HOME}"/.zsh_history
 HISTSIZE=10000
-SAVEHIST=$HISTSIZE
+SAVEHIST="${HISTSIZE}"
 
 setopt extended_history       # add timestamps and other info to history
 setopt hist_expire_dups_first # expire duplicates first
@@ -58,7 +56,6 @@ precmd() {
 	vcs_info
 }
 zstyle ':vcs_info:git:*' formats '(%b)' # only want current branch
->>>>>>> origin/remote-host
 PROMPT='%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[cyan]%}%~%{$fg[blue]%}${vcs_info_msg_0_}%{$fg[red]%}]%{$reset_color%}$ %b'
 
 # -- MAPPINGS

@@ -7,10 +7,6 @@ endif
 call plug#begin('~/.config/nvim/autoload/plugged')
 
   Plug 'ctrlpvim/ctrlp.vim'
-<<<<<<< HEAD
-  Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
-=======
->>>>>>> origin/remote-host
   Plug 'godlygeek/tabular'
   Plug 'gruvbox-community/gruvbox'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -101,12 +97,6 @@ set background=dark
 "--- ctrl-p
 let g:ctrlp_switch_buffer = 'et'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-
-"--- firenvim
-"
-" Install with:
-" $ nvim --headless "+call firenvim#install(0) | q"
-
 
 "--- netrw
 let g:NetrwIsOpen=0
