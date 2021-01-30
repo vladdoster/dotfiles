@@ -26,8 +26,7 @@ set nu
 set nowrap
 set smartcase
 set noswapfile
-set undodir=~/.config/nvim/undodir
-set undofile
+set noundofile
 set incsearch
 set termguicolors
 set scrolloff=8
@@ -105,6 +104,7 @@ let g:netrw_winsize = 15
 let g:netrw_browse_split = 2
 let g:netrw_winsize = 20
 let g:netrw_localrmdir='rm -r'
+let g:netrw_dirhistmax = 0
 
 function! ToggleNetrw()
     if g:NetrwIsOpen
