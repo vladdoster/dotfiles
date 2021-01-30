@@ -1,7 +1,6 @@
-#!/usr/bin/env bash
-
+#!/bin/bash
 # Installs latest Homebrew version
-#
+set -e
 
 # error handling
 traperr() {
