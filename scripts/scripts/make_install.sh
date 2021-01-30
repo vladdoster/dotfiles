@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
-#
+#!/bin/bash
+set -e
+
 # Takes either a git URL or file path and attempts to install it
-#
 
 _cleanup() {
 	rm -rf "$program"
