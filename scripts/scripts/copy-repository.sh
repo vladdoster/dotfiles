@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo "---Cloning old repo"
 git clone "${1}" "old-repository"
