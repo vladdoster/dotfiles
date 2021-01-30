@@ -1,7 +1,5 @@
-#!/usr/bin/env zsh
-#
-# Installs git completion for zsh
-#
+#!/bin/bash
+set -e
 
 _cleanup() {
 	[ -d "fzf" ] && rm -rf fzf
