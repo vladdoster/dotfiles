@@ -47,48 +47,11 @@ cdf() {
 	file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
 }
 
-#----------------------------------------#
-# using ripgrep combined with preview    #
-# find-in-file - usage: fif <searchTerm> #
-#----------------------------------------#
-grep --line-buffered --color=never -r "" * | fzf
-ag --nobreak --nonumbers --noheading . | fzf
-fif() {
-	if [ ! "$#" -gt 0 ]; then
-		echo "Need a string to search for!"
-		return 1
-	fi
-	rg --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
-}
-
 fkill() {
 	pid=$(ps -ef | sed 1d | fzf | awk '{print $2}')
 
 	if [ "x$pid" != "x" ]; then
 		kill -${1:-9} $pid
-	fi
-}
-
-#------------------------------------------------------------------------------------------#
-# A CTRL-R script to insert the selected command from history into the command line/region
-#------------------------------------------------------------------------------------------#
-bind '"\C-r": "\C-x1\e^\er"'
-bind -x '"\C-x1": __fzf_history'
-__fzf_history() {
-	__ehc $(history | fzf --tac --tiebreak=index | perl -ne 'm/^\s*([0-9]+)/ and print "!$1"')
-}
-
-__ehc() {
-	if
-		[[ -n $1 ]]
-	then
-		bind '"\er": redraw-current-line'
-		bind '"\e^": magic-space'
-		READLINE_LINE=${READLINE_LINE:+${READLINE_LINE:0:READLINE_POINT}}${1}${READLINE_LINE:+${READLINE_LINE:READLINE_POINT}}
-		READLINE_POINT=$((READLINE_POINT + ${#1}))
-	else
-		bind '"\er":'
-		bind '"\e^":'
 	fi
 }
 

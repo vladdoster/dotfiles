@@ -5,12 +5,12 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.config/nvim/autoload/plugged')
-
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'godlygeek/tabular'
   Plug 'gruvbox-community/gruvbox'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
 call plug#end()
 
 set guicursor=
