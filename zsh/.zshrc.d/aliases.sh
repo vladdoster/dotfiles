@@ -62,5 +62,4 @@ alias venv_activate="source ./venv/bin/activate"
 alias venv_create="python3 -m venv ./venv"
 
 # __ git aliases are in ~/.gitconfig.
-alias gcd="cd $(git rev-parse -show-toplevel)"
 alias g='git'

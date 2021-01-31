@@ -48,9 +48,6 @@ fkill() {
  fi
 }
 
-fco() {
- git  checkout $(git branch --format='%(refname:short)' | fzf)
-}
 
 # fssh - ssh into a host specified in ~/.ssh/config
 # Takes an argument which will instead execute that command.
