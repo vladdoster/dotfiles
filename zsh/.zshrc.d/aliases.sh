@@ -1,21 +1,17 @@
-#!/bin/bash
-
-set -euo
-
 if [[ "$OSTYPE" =~ "darwin" ]]; then
- alias ll="gls"
- alias ls='gls -AlhF --color=auto'
- alias readlink="greadlink"
- alias get_public_ssh_key="cat ${HOME}/.ssh/id_rsa.pub | pbcopy -pboard general && echo 'Copied SSH key to clipboard.'"
- 
- if  [[ ${TERM} =~ "kitty" ]]; then
-  alias ssh="kitty +kitten ssh"
- fi
- 
+    alias ll="gls"
+    alias ls='gls -AlhF --color=auto'
+    alias readlink="greadlink"
+    alias get_public_ssh_key="cat ${HOME}/.ssh/id_rsa.pub | pbcopy -pboard general && echo 'Copied SSH key to clipboard.'"
+
+    if [[ ${TERM} =~ "kitty" ]]; then
+        alias ssh="kitty +kitten ssh"
+    fi
+
 else
- alias ll="ls"
- alias ls="ls -AlhF --color=auto"
- alias get_public_ssh_key="clip $HOME/.ssh/id_rsa.pub && echo 'Copied SSH key to clipboard.'"
+    alias ll="ls"
+    alias ls="ls -AlhF --color=auto"
+    alias get_public_ssh_key="clip $HOME/.ssh/id_rsa.pub && echo 'Copied SSH key to clipboard.'"
 fi
 
 alias cpv="rsync -ah --info=progress2"
