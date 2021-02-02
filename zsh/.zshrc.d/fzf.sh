@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ -d /usr/share/fzf/shell ]; then
 	source /usr/share/zsh/site-functions/fzf
 	source /usr/share/fzf/shell/key-bindings.zsh
@@ -26,35 +28,26 @@ cf() {
 		fi
 	fi
 }
-
-#   - CTRL-O to open with `open` command,
-#   - CTRL-E or Enter key to open with the $EDITOR
-fo() {
-	IFS=$'\n' out=("$(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)")
-	key=$(head -1 <<<"$out")
-	file=$(head -2 <<<"$out" | tail -1)
-	if [ -n "$file" ]; then
-		[ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
-	fi
-}
-
-#--------------------------------------------------#
-# cdf - cd into the directory of the selected file #
-#--------------------------------------------------#
+#--------------------------------------------------
+# cdf - cd into the directory of the selected file 
+#--------------------------------------------------
 cdf() {
 	local file
 	local dir
-	file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
+	file=$(fzf +m -q "${1}") && dir=$(dirname "$file") && cd "$dir"
 }
-
-fkill() {
-	pid=$(ps -ef | sed 1d | fzf | awk '{print $2}')
-
-	if [ "x$pid" != "x" ]; then
-		kill -${1:-9} $pid
-	fi
+#---------------------#
+# fh - repeat history #
+#---------------------#
+fh() {
+  eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
 }
-
+#-------------------------------#
+# fhe - repeat history and edit #
+#-------------------------------#
+fhe() {
+  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
+}
 #----------------------------------------------------------------------------------------#
 # fkill - kill processes - list only the ones you can kill. Modified the earlier script. #
 #----------------------------------------------------------------------------------------#
@@ -70,7 +63,19 @@ fkill() {
 		echo $pid | xargs kill -${1:-9}
 	fi
 }
-
+#-----------------------------------------#
+# fo - open files in finder or editor     #
+# - CTRL-O to open with `open` command,   #
+# - CTRL-E/Enter to open with the $EDITOR #
+#-----------------------------------------#
+fo() {
+	IFS=$'\n' out=("$(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)")
+	key=$(head -1 <<<"$out")
+	file=$(head -2 <<<"$out" | tail -1)
+	if [ -n "$file" ]; then
+		[[ "$key" == "ctrl-o" ]] && open "$file" || "${EDITOR:-vim}" "$file"
+	fi
+}
 #------------------------------------------------------------#
 # fssh - ssh into a host specified in ~/.ssh/config          #
 # Takes an argument which will instead execute that command. #
@@ -87,3 +92,4 @@ fssh() {
 
 	ssh -t $host $command
 }
+
