@@ -1,3 +1,4 @@
+"--- plugins
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -5,21 +6,23 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.config/nvim/autoload/plugged')
-  Plug 'ctrlpvim/ctrlp.vim'
   Plug 'godlygeek/tabular'
   Plug 'gruvbox-community/gruvbox'
+  Plug 'mbbill/undotree'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
+  Plug 'stsewd/fzf-checkout.vim'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
+"--- general
 set guicursor=
 set relativenumber
 set nohlsearch
 set noerrorbells
 set shiftwidth=4
 set softtabstop=4
-set tabstop=4 
+set tabstop=4
 set expandtab
 set smartindent
 set nu
@@ -36,28 +39,22 @@ set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 let mapleader = " "
-
-" Easily resize split windows with Ctrl+hjkl
+" easily resize split windows with Ctrl+hjkl
 nnoremap <C-j> <C-w>+
 nnoremap <C-k> <C-w>-
 nnoremap <C-h> <C-w><
 nnoremap <C-l> <C-w>>
-
-" Reselect visual block after indent/outdent
+" reselect visual block after indent/outdent
 vnoremap < <gv
 vnoremap > >gv
-
-" Move by screen lines instead of file line
+" move by screen lines instead of file line
 nnoremap j gj
 nnoremap k gk
-
-" Join lines from below too. See :help J
+" join lines from below too. See :help J
 map K kJ
-
-" Make Y behave like other capitals
+" make Y behave like other capitals
 map Y y$
-
-" Select another file from the directory of the current one
+" select another file from the directory of the current one
 nnoremap <leader>F :execute 'edit' expand("%:p:h")<cr>
 
 "--- code completion
@@ -68,7 +65,6 @@ set nowritebackup
 set shortmess+=c
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 set updatetime=50
-
 " tab complete
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
@@ -80,11 +76,9 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-" Highlight the symbol and its references when holding the cursor.
+" highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming.
+" symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
 
 "--- colorscheme
@@ -93,14 +87,18 @@ let g:gruvbox_contrast_dark = 'hard'
 let g:gruvbox_invert_selection='0'
 set background=dark
 
-"--- ctrl-p
-let g:ctrlp_switch_buffer = 'et'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+"--- fzf
+let g:rg_derive_root='true'
+set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --follow
+nnoremap \ :Rg<CR>
+nnoremap <C-T> :Files<cr>
+nnoremap <Leader>b :Buffers<cr>
+nnoremap <Leader>s :BLines<cr>
 
 "--- netrw
 let g:NetrwIsOpen=0
 let g:netrw_banner = 0
-let g:netrw_winsize = 15               
+let g:netrw_winsize = 15
 let g:netrw_browse_split = 2
 let g:netrw_winsize = 20
 let g:netrw_localrmdir='rm -r'
@@ -111,7 +109,7 @@ function! ToggleNetrw()
         let i = bufnr("$")
         while (i >= 1)
             if (getbufvar(i, "&filetype") == "netrw")
-                silent exe "bwipeout " . i 
+                silent exe "bwipeout " . i
             endif
             let i-=1
         endwhile
@@ -123,3 +121,16 @@ function! ToggleNetrw()
 endfunction
 
 noremap <silent> <C-E> :call ToggleNetrw()<CR>
+
+"--- undotree
+if has("persistent_undo")
+    set undodir=$HOME."/.undodir"
+    set undofile
+endif
+
+"--- functions
+function! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun

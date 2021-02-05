@@ -1,12 +1,12 @@
-
-#-----------------------------#
-# cf - fuzzy cd from anywhere #
-#-----------------------------#
+#!/usr/bin/env zsh
+#-----------------------------
+# cf - fuzzy cd from anywhere 
+#-----------------------------
 # cf() {
 # 	local file
-
+#
 # 	file="$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf --read0 -0 -1)"
-
+#
 # 	if [[ -n $file ]]; then
 # 		if [[ -d $file ]]; then
 # 			cd -- $file
@@ -35,9 +35,9 @@ fh() {
 fhe() {
 	print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
 }
-#----------------------------------------------------------------------------------------
-# fkill - kill processes - list only the ones you can kill. Modified the earlier script.
-#----------------------------------------------------------------------------------------
+#-----------------------------------------------------
+# fkill - kill processes you have permissions to kill
+#-----------------------------------------------------
 fkill() {
 	local pid
 	if [ "$UID" != "0" ]; then
@@ -63,10 +63,10 @@ fkill() {
 # 		[[ "$key" == "ctrl-o" ]] && open "$file" || "${EDITOR:-vim}" "$file"
 # 	fi
 # }
-#------------------------------------------------------------#
-# fssh - ssh into a host specified in ~/.ssh/config          #
-# Takes an argument which will instead execute that command. #
-#------------------------------------------------------------#
+#-----------------------------------------------------------
+# fssh - ssh into a host specified in ~/.ssh/config          
+# Takes an argument which will instead execute that command 
+#-----------------------------------------------------------
 fssh() {
 	local command="${1}"
 	local host

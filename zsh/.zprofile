@@ -15,3 +15,4 @@ export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
 
 # --- misc. environment variables --- #
 export TMUX_TMPDIR="${XDG_RUNTIME_DIR}"
+export PATH="/usr/local/sbin:${PATH}"
