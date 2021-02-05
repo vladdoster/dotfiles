@@ -1,9 +1,7 @@
 # vim: ft=zsh
-
-# -- BASIC
-
+#--- BASIC
 export LANG=en_US.UTF-8 # set language locale
-
+#--- ZSH
 autoload -Uz bashcompinit && bashcompinit
 autoload -Uz colors && colors
 autoload -Uz edit-command-line && zle -N edit-command-line
@@ -26,9 +24,7 @@ setopt autocd         # change dir without cd
 setopt no_case_glob   # case insensitive globbing
 setopt printexitvalue # for non-zero exits
 setopt prompt_subst
-
-# -- HISTORY
-
+#--- HISTORY
 HISTFILE="${HOME}"/.zsh_history
 HISTSIZE=10000
 SAVEHIST="${HISTSIZE}"
@@ -41,25 +37,19 @@ setopt hist_reduce_blanks     # remove superfluous blanks from history items
 setopt hist_verify            # show substituted history command before executing
 setopt inc_append_history     # add to history after every command
 setopt share_history          # share history between zsh instances
-
-# -- COMPLETION
-
+#--- COMPLETION
 zmodload zsh/complist
 _comp_options+=(globdots)
 zstyle ':completion:*' list-colors ''
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=3'
 LISTMAX=1000
-
-# -- PROMPT
-
+#--- PROMPT
 precmd() {
 	vcs_info
 }
 zstyle ':vcs_info:git:*' formats '(%b)' # only want current branch
 PROMPT='%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[cyan]%}%~%{$fg[blue]%}${vcs_info_msg_0_}%{$fg[red]%}]%{$reset_color%}$ %b'
-
-# -- MAPPINGS
-
+#--- MAPPINGS
 bindkey ' ' magic-space
 bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
 bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
@@ -72,7 +62,6 @@ bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v '^?' backward-delete-char
-
 # vi mode
 bindkey -v
 export KEYTIMEOUT=1
@@ -97,10 +86,6 @@ zle-line-init() { # key binding to enter insert mode
 	echo -ne "\e[5 q"
 }
 zle -N zle-line-init
-
 bindkey '^e' edit-command-line
-
-# -- SOURCES
-
+#--- SOURCES
 source <(find "${HOME}"/.zshrc.d/ -type f -maxdepth 1 -exec cat {} \;)
-
