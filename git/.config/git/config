@@ -6,7 +6,6 @@
     pager = less
     commentChar = ~
     ignorecase = true
-# hooksPath = ~/.git_hooks # disabled for now because it no likey macos
 [color]
     ui = true
 [alias]
@@ -63,9 +62,6 @@
     s = status -sbu
     sh = show
     stash-all = stash save --include-untracked
-
-    # Linting
-    lr = "!f() { rubocop-git; }; f"
     uncommit = reset --soft HEAD^
 
 [push]

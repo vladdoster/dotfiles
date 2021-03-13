@@ -8,9 +8,6 @@ autoload -Uz edit-command-line && zle -N edit-command-line
 autoload -Uz vcs_info
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
-if [[ -e "${HOME}"/.zshrc.d/completion/_docker-compose ]]; then
-    fpath=(~/.zsh/completion $fpath)
-fi
 autoload -Uz compinit && compinit
 
 if [[ "$TERM" =~ "kitty" ]] && [[ "${OSTYPE}" == "darwin" ]]; then

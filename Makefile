@@ -2,10 +2,10 @@
 SHELL := bash
 .ONESHELL:
 MAKEFLAGS += --no-builtin-rules
-.PHONY : --restow --simulate list
+.PHONY : --restow --simulate --delete list
 
 define run-stow
-find * -not -path '*/\.*' -type d -exec stow {} --override=#\*\# --target=$$HOME $^ \;
+find * -not -path '*/\.*' -type d -exec stow --verbose 1 {} --override=#\*\# --target="$$HOME" \;
 endef
 
 list:
@@ -22,21 +22,5 @@ update : --restow
 test : --simulate
 	$(run-stow)
 
-clean :
-	find "$$HOME" -path '*/.*' -maxdepth 1 -type l -print \
-		| while read f_name ; do \
-				found=$$(readlink -e "$$f_name") ; \
-				if [ -z "$$found" ]; then \
-					exists=$$(find . -name "$$f_name") ; \
-					if [ -z "$$exists" ]; then \
-						rm $$f_name ; \
-						echo "Removed $$f_name but had a symlink mismatch" ; \
-					else \
-						echo "Unable to find $$f_name" ; \
-					fi ; \
-				else \
-					rm $$f_name ; \
-					echo "Removed $$f_name" ; \
-				fi ; \
-			done ; \
-	echo "++ removed dotfiles ++"
+clean : --delete
+	find * -type d -not -path '*/\.*' -exec stow --verbose 1 --delete {} \;	
