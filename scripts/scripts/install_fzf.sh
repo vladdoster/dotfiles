@@ -2,13 +2,13 @@
 set -e
 
 _cleanup() {
-	[ -d "fzf" ] && rm -rf fzf
+    [ -d "fzf" ] && rm -rf fzf
 }
 
 _main() {
-	git clone https://github.com/junegunn/fzf.git
-	cd fzf
-	./install
+    git clone https://github.com/junegunn/fzf.git
+    cd fzf
+    ./install
 }
 
 _cleanup
