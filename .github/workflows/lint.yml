@@ -16,7 +16,7 @@ jobs:
       run: |
             docker run --volume "$PWD":/mnt \
                        --rm \
-                       mvdan/shfmt -bn -ci -i 4 -p -s -sr -w /mnt
+                       mvdan/shfmt -bn -ci -i 4 -ln=bash -s -sr -w /mnt
                        
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
