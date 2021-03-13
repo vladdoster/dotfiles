@@ -1,0 +1,3 @@
+[submodule "scripts/scripts/linuxify"]
+	path = scripts/scripts/linuxify
+	url = https://github.com/vladdoster/linuxify
