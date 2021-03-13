@@ -89,3 +89,4 @@ zle -N zle-line-init
 bindkey '^e' edit-command-line
 #--- SOURCES
 source <(find "${HOME}"/.zshrc.d/ -type f -maxdepth 1 -exec cat {} \;)
+
