@@ -1,7 +1,6 @@
+[submodule "local/.local/share/ohmyzsh"]
+	path = local/.local/share/ohmyzsh
+	url = https://github.com/vladdoster/ohmyzsh.git
 [submodule "local/.local/share/linuxify"]
 	path = local/.local/share/linuxify
 	url = https://github.com/vladdoster/linuxify.git
-
-[submodule "local/.local/share/oh-my-zsh"]
-	path = local/.local/share/oh-my-zsh
-	url = https://github.com/vladdoster/oh-my-zsh.git

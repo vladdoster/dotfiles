@@ -13,14 +13,15 @@ list:
 
 dotfiles:
 	$(run-stow)
-	echo "++ installed dotfiles ++"
+	echo "--installed dotfiles"
 
 update : --restow
 	$(run-stow)
-	echo "++ updated dotfiles ++"
+	echo "--updated dotfiles"
 
 test : --simulate
 	$(run-stow)
+echo "--simulated dotfiles install"
 
 clean : --delete
 	find * -type d -not -path '*/\.*' -exec stow --verbose 1 --delete {} \;	
