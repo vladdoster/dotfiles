@@ -87,3 +87,24 @@ bindkey '^e' edit-command-line
 #--- SOURCES
 source <(find "${HOME}"/.zshrc.d/ -type f -maxdepth 1 -exec cat {} \;)
 
+## If you come from bash you might have to change your $PATH.
+#export PATH=$HOME/bin:/usr/local/bin:$PATH
+## Path to your oh-my-zsh installation.
+#export ZSH="/Users/anonymous/dotfiles/zsh/.zshrc.d/ohmyzsh"
+#ZSH_THEME="ys"
+#CASE_SENSITIVE="true"
+#DISABLE_UPDATE_PROMPT="true"
+#
+#plugins=(git tmux python)
+#
+#source $ZSH/oh-my-zsh.sh
+#
+## User configuration
+#export MANPATH="/usr/local/man:$MANPATH"
+#export LANG=en_US.UTF-8
+## Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='nvim'
+# else
+#   export EDITOR='nvim'
+# fi
