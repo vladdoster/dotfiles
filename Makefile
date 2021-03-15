@@ -21,7 +21,7 @@ update : --restow
 
 test : --simulate
 	$(run-stow)
-echo "--simulated dotfiles install"
+	echo "--simulated dotfiles install"
 
 clean : --delete
 	find * -type d -not -path '*/\.*' -exec stow --verbose 1 --delete {} \;	

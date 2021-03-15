@@ -85,7 +85,7 @@ zle-line-init() { # key binding to enter insert mode
 zle -N zle-line-init
 bindkey '^e' edit-command-line
 #--- SOURCES
-source <(find "${HOME}"/.zshrc.d/ -type f -maxdepth 1 -exec cat {} \;)
+source <(find "${HOME:-~}"/.zshrc.d/* -type f -maxdepth 1 -exec cat {} \;)
 
 ## If you come from bash you might have to change your $PATH.
 #export PATH=$HOME/bin:/usr/local/bin:$PATH

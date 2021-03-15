@@ -1,27 +1,13 @@
 #!/usr/bin/env zsh
-#-----------------------------
-# cf - fuzzy cd from anywhere 
-#-----------------------------
-# cf() {
-# 	local file
-#
-# 	file="$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf --read0 -0 -1)"
-#
-# 	if [[ -n $file ]]; then
-# 		if [[ -d $file ]]; then
-# 			cd -- $file
-# 		else
-# 			cd -- ${file:h}
-# 		fi
-# 	fi
-# }
 #--------------------------------------------------
-# cdf - cd into the directory of the selected file
+# fd - cd into the directory of the selected file
 #--------------------------------------------------
-cdf() {
-	local file
-	local dir
-	file=$(fzf +m -q "${1}") && dir=$(dirname "$file") && cd "$dir"
+# fd - cd to selected directory
+fd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | fzf +m) &&
+  cd "$dir"
 }
 #---------------------
 # fh - repeat history
@@ -55,14 +41,14 @@ fkill() {
 # - CTRL-O to open with `open` command,
 # - CTRL-E/Enter to open with the $EDITOR
 #-----------------------------------------
-# fo() {
-# 	IFS=$'\n' out=("$(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)")
-# 	key=$(head -1 <<<"$out")
-# 	file=$(head -2 <<<"$out" | tail -1)
-# 	if [ -n "$file" ]; then
-# 		[[ "$key" == "ctrl-o" ]] && open "$file" || "${EDITOR:-vim}" "$file"
-# 	fi
-# }
+fo() {
+	IFS=$'\n' out=("$(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)")
+	key=$(head -1 <<<"$out")
+	file=$(head -2 <<<"$out" | tail -1)
+	if [ -n "$file" ]; then
+		[[ "$key" == "ctrl-o" ]] && open "$file" || "${EDITOR:-vim}" "$file"
+	fi
+}
 #-----------------------------------------------------------
 # fssh - ssh into a host specified in ~/.ssh/config          
 # Takes an argument which will instead execute that command 
@@ -78,4 +64,26 @@ fssh() {
 	[ -n $command ] && echo "Command: ${command}"
 
 	ssh -t $host $command
+}
+
+# Interactive search.
+# Usage: `ff` or `ff <folder>`.
+ff(){
+[[ -n $1 ]] && cd $1 # go to provided folder or noop
+RG_DEFAULT_COMMAND="rg -i -l --hidden --no-ignore-vcs"
+
+selected=$(
+FZF_DEFAULT_COMMAND="rg --files" fzf \
+  -m \
+  -e \
+  --ansi \
+  --phony \
+  --reverse \
+  --bind "ctrl-a:select-all" \
+  --bind "f12:execute-silent:(subl -b {})" \
+  --bind "change:reload:$RG_DEFAULT_COMMAND {q} || true" \
+  --preview "rg -i --pretty --context 2 {q} {}" | cut -d":" -f1,2
+)
+
+[[ -n $selected ]] && subl $selected # open multiple files in editor
 }
