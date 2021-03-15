@@ -11,15 +11,15 @@ jobs:
     - uses: actions/checkout@v2
       with:
          ref: ${{ github.head_ref }}
-    
+
     - name: Run shfmt linting
       run: |
             docker run --volume "$PWD":/mnt \
                        --rm \
                        mvdan/shfmt -bn -ci -i 4 -ln=bash -s -sr -w /mnt
-                       
+
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: Apply shfmt linting changes
+        commit_message: shfmt linting fixes
         commit_options: '--cleanup=default --no-verify --signoff'
-        skip_dirty_check: false  
+        skip_dirty_check: false
