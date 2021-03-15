@@ -1,15 +1,12 @@
 name: MacOS
-
 on:
   push:
     branches: [mac-os]
   pull_request:
     branches: [mac-os]
-
 jobs:
   build:
     runs-on: macos-11.0
-
     steps:
       - uses: actions/checkout@v2
       - name: install dependencies
