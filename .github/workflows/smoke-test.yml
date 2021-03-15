@@ -1,4 +1,4 @@
-name: MacOS
+name: "macOS: smoketest"
 on:
   push:
     branches: [mac-os]
