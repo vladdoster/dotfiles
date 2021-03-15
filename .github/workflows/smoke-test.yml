@@ -2,22 +2,21 @@ name: MacOS
 
 on:
   push:
-    branches: [ mac-os ]
+    branches: [mac-os]
   pull_request:
-    branches: [ mac-os ]
+    branches: [mac-os]
 
 jobs:
   build:
-
     runs-on: macos-11.0
 
     steps:
-    - uses: actions/checkout@v2
-    - name: install dependencies
-      run: | 
-            brew install stow \
-                         nvim \
-                         tmux 
-    - name: install dotfiles
-      run: |
-            make dotfiles
+      - uses: actions/checkout@v2
+      - name: install dependencies
+        run: |
+          brew install stow \
+                       nvim \
+                       tmux
+      - name: install dotfiles
+        run: |
+          make dotfiles
