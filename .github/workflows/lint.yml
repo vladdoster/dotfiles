@@ -1,4 +1,4 @@
-name: shfmt
+name: "macOS: formatting"
 on: push
 jobs:
   shellcheck:
