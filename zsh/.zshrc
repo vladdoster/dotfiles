@@ -88,7 +88,7 @@ bindkey '^e' edit-command-line
 source <(find "${HOME:-~}"/.zshrc.d/* -type f -maxdepth 1 -exec cat {} \;)
 
 ## If you come from bash you might have to change your $PATH.
-#export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=${HOME}/.local/bin:$PATH
 ## Path to your oh-my-zsh installation.
 #export ZSH="/Users/anonymous/dotfiles/zsh/.zshrc.d/ohmyzsh"
 #ZSH_THEME="ys"

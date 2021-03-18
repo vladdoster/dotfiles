@@ -4,3 +4,6 @@
 [submodule "local/.local/share/linuxify"]
 	path = local/.local/share/linuxify
 	url = https://github.com/vladdoster/linuxify.git
+[submodule "local/.local/share/vim-wiki"]
+	path = local/.local/share/vim-wiki
+	url = https://github.com/vladdoster/vim-wiki.git
