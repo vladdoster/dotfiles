@@ -3,6 +3,15 @@
 if [[ ${TERM} =~ "kitty" ]]; then
     alias ssh="kitty +kitten ssh"
 fi
+
+CODE_DIR="${HOME}/code"
+if [[ -e $CODE_DIR ]] && [[ -d "$CODE_DIR" ]]; then
+    alias c="cd $CODE_DIR"
+else
+    mkdir "$CODE_DIR"
+    alias c="cd $CODE_DIR"
+fi
+
 # system specific
 if [[ "$OSTYPE" =~ "darwin" ]]; then
     alias ll="gls"
@@ -31,6 +40,12 @@ alias v.="nvim ."
 alias v="nvim"
 alias vi="nvim"
 alias vim="nvim"
+
+alias edit-aliases="vim $HOME/.zshrc.d/aliases"
+alias edit-cli-commands="vim $HOME/.zshrc.d/cli-commands"
+alias edit-fzf-commands="vim $HOME/.zshrc.d/fzf-commands"
+alias edit-vimrc="vim $HOME/.config/nvim/init.vim"
+alias edit-zshrc="vim $HOME/.zshrc"
 # git aliases are in ~/.gitconfig.
 alias g='git'
 # misc.
