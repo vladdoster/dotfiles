@@ -68,8 +68,8 @@ jobs:
       run: |
             make dotfiles
 
-  pre-release:
-    name: Pre-Release
+  release:
+    name: Release
     needs: build
     runs-on: "ubuntu-latest"
     steps:
