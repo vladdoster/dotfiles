@@ -1,4 +1,4 @@
-name: "macOS: devel build"
+name: "macOS: release"
 
 on:
   push:
@@ -79,5 +79,5 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "v${{ steps.gitversion.outputs.majorMinorPatch }}"
           prerelease: false
-          title: "v${{ steps.gitversion.outputs.majorMinorPatch }}"
+          title: "macOS: v${{ steps.gitversion.outputs.majorMinorPatch }}"
             
