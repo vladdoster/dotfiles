@@ -18,6 +18,7 @@ branches:
     prevent-increment-of-merged-branch-version: false
     track-merge-target: true
     regex: ^arch-linux$
+    source-branches: []
     tracks-release-branches: false
     is-release-branch: false
     is-mainline: true
@@ -29,6 +30,7 @@ branches:
     prevent-increment-of-merged-branch-version: false
     track-merge-target: false
     regex: ^mac-os$
+    source-branches: []
     tracks-release-branches: false
     is-release-branch: false
     is-mainline: true
