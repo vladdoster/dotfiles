@@ -78,6 +78,6 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "${{ steps.gitversion.outputs.fullSemVer }}"
-          prerelease: true
+          prerelease: false
           title: "${{ steps.gitversion.outputs.fullSemVer }}"
             
