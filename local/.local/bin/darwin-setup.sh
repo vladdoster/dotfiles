@@ -1,9 +1,8 @@
-#! /bin/bash
+#!/bin/bash
 set -e pipefail
 
 IFS=$' \t\n' var=$* # make single string from multiple words
-PROGRAMS_PATTERN='"^[C]*,"'
-PROGRAMS_FILE=~/.local/bin/system-setup/darwin/programs
+PROGRAMS_FILE="${HOME}/.local/share/homebrew/Brewfile"
 
 blue=$(tput setaf 28)
 cyan=$(tput setaf 12)
@@ -12,15 +11,15 @@ normal=$(tput sgr0)
 red=$(tput setaf 1)
 
 print_step() {
-    printf "\n== ${green}${1}${normal}:\n"
+    printf "\n${green}${1}${normal}:\n"
 }
 
-print_step_info() {
-    printf "---${cyan}${1}${normal}\n"
+print_info() {
+    printf "${cyan}INFO:${1}${normal}\n"
 }
 
-print_step_info() {
-    printf "---${cyan}${1}${normal}\n"
+print_error() {
+    printf "${red}ERROR: ${1}${normal}\n"
 }
 
 configuration() {
@@ -305,16 +304,16 @@ install_brew() {
         bash -c $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)
         print_step "brew installed"
     else
-        print_step "ERROR: homebrew already installed"
+        print_error "homebrew is already installed"
     fi
 }
 
 function install_programs() {
     if [[ ! -e $PROGRAMS_FILE ]]; then
-        print_step "ERROR: brew programs file not found"
+        print_error "Brewfile was not found"
     else
         print_step "installing programs"
-        brew bundle install --no-lock --file ${PROGRAMS_FILE}
+        brew bundle install --no-lock --file "${PROGRAMS_FILE}"
     fi
 }
 
@@ -328,7 +327,7 @@ while true; do
     kill -0 "$$" || exit
 done 2> /dev/null &
 print_step "configuring ${HOSTNAME}"
-configuration
+#configuration
 install_brew
 install_programs
 print_step "configured ${HOSTNAME}"
