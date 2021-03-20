@@ -1,41 +1,86 @@
-name: Arch Linux 
+name: "Arch Linux: devel build"
 
 on:
   push:
     branches: [ arch-linux ]
-  pull_request:
-    branches: [ arch-linux ]
 
 jobs:
-  arch-linux-dotfiles:
 
+  linting:
+    name: Lint code base
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Run shfmt linter
+        run: |
+          docker run --volume "$PWD":/mnt \
+                     --rm \
+                     mvdan/shfmt -bn -ci -i 4 -ln=bash -s -sr -w /mnt
+
+      - name: Commit shfmt fixes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: (linting) apply shfmt fixes
+          commit_options: "--cleanup=default --no-verify --signoff"
+          skip_dirty_check: false
+          
+  build:
+    name: Test
+    needs: linting
     runs-on: ubuntu-latest
     container: archlinux:latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: update system
+    
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.head_ref }}
+
+    - name: Update system
       run: |
             pacman -Syyu --noconfirm
-    - name: create non-root user
+            pacman --needed --noconfirm --sync base-devel git
+
+    - name: Create a non-root user
       run: |
-            pacman --sync --needed --noconfirm base-devel git sudo
-            useradd test_user -m
-            passwd -d test_user
+            useradd -m test_user && \
+            passwd -d test_user && \
             printf 'test_user ALL=(ALL) ALL\n' | tee -a /etc/sudoers
-    - name: install yay
+
+    - name: Install yay
       run: |
-            su - test_user bash -c 'cd /tmp && \
-                                    git clone https://aur.archlinux.org/yay.git yay && \
-                                    cd yay && \
-                                    makepkg -si --noconfirm'
-    - name: install dependencies
+            su - test_user bash -c 'git clone https://aur.archlinux.org/yay.git /tmp/yay && \
+            cd /tmp/yay && \
+            makepkg -si --noconfirm'
+    - name: Install dependencies
       run: |
-            su - test_user bash -c 'yay -S --noconfirm \
-                                                  stow \
-                                                  neovim \
-                                                  tmux \
-                                                  make'
-    - name: install dotfiles
+            su - test_user bash -c 'yay -S --noconfirm neovim \
+                                                       stow \
+                                                       tmux \
+                                                       zsh
+    - name: Install dotfiles
       run: |
             make dotfiles
+         
+  pre-release:
+    name: Pre-Release
+    needs: build
+    runs-on: "ubuntu-latest"
+    steps:
+
+      - name: "Release devel build"
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "arch-linux:latest"
+          prerelease: true
+          title: "Arch Linux: development build"
+          files: |
+            *
+
