@@ -1,6 +1,5 @@
 mode: ContinuousDeployment
-continuous-delivery-fallback-tag: ${{ github.head_ref }}
-tag-prefix: '[v]'
+continuous-delivery-fallback-tag: mac-os
 major-version-bump-message: '(\(breaking|major\))'
 minor-version-bump-message: '(\(docs|feature|minor\))'
 patch-version-bump-message: '(\(chore|fix|maint|patch\))'
