@@ -4,32 +4,32 @@
 command -v nvim > /dev/null && alias vim="nvim" vimdiff="nvim -d"
 # Verbosity and settings that you pretty much just always are going to want.
 alias \
-  ..="cd .. && ls -al" \
-  cp="cp -iv" \
-  cpr="cp -r" \
-  isx="chmod +x" \
-  mkd="mkdir -pv" \
-  mv="mv -iv" \
-  rm="rm -vI" \
-  rmr="sudo rm -r"
+    ..="cd .. && ls -al" \
+    cp="cp -iv" \
+    cpr="cp -r" \
+    isx="chmod +x" \
+    mkd="mkdir -pv" \
+    mv="mv -iv" \
+    rm="rm -vI" \
+    rmr="sudo rm -r"
 # Colorize commands when possible.
 alias \
-  ccat="highlight --out-format=ansi" \
-  diff="diff --color=auto" \
-  grep="grep -n --color=auto" \
-  la="ls --all --literal -l --human-readable --color=auto --group-directories-first" \
-  ls="ls --literal -l --human-readable --color=auto --group-directories-first"
+    ccat="highlight --out-format=ansi" \
+    diff="diff --color=auto" \
+    grep="grep -n --color=auto" \
+    la="ls --all --literal -l --human-readable --color=auto --group-directories-first" \
+    ls="ls --literal -l --human-readable --color=auto --group-directories-first"
 # These commands are too long! Abbreviate them.
 alias \
-  e="$EDITOR" \
-  f="$FILE" \
-  g="git" \
-  ka="killall" \
-  p="sudo pacman" \
-  v="$EDITOR" \
-  z="zathura"
+    e="$EDITOR" \
+    f="$FILE" \
+    g="git" \
+    ka="killall" \
+    p="sudo pacman" \
+    v="$EDITOR" \
+    z="zathura"
 alias \
-  magit="nvim -c MagitOnly" \
-  refresh_aliases="generate_shortcutrc; source ${XDG_CONFIG_HOME:-$HOME/.config}/shortcutrc;" \
-  tmux="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf" \
-  wget="wget --hsts-file=${XDG_CACHE_HOME:-$HOME/.cache}/wget-hsts"
+    magit="nvim -c MagitOnly" \
+    refresh_aliases="generate_shortcutrc; source ${XDG_CONFIG_HOME:-$HOME/.config}/shortcutrc;" \
+    tmux="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf" \
+    wget="wget --hsts-file=${XDG_CACHE_HOME:-$HOME/.cache}/wget-hsts"

@@ -3,11 +3,11 @@
 # Installs git completion for zsh
 #
 
-_cleanup(){
+_cleanup() {
     [ -d "fzf" ] && rm -rf fzf
 }
 
-_main(){
+_main() {
     git clone https://github.com/junegunn/fzf.git
     cd fzf
     ./install

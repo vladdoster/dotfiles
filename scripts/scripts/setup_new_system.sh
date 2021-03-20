@@ -72,8 +72,8 @@ arch_pkg_install() {
 
 aur_pkg_install() {
     display_info_box "Installing \`$1\` from the AUR\n($n of $total)"
-    echo "$aurinstalled" | grep "^$1$" >/dev/null 2>&1 && return
-    sudo -u "$name" "$aur_helper" -S --noconfirm "$1" >/dev/null 2>&1
+    echo "$aurinstalled" | grep "^$1$" > /dev/null 2>&1 && return
+    sudo -u "$name" "$aur_helper" -S --noconfirm "$1" > /dev/null 2>&1
 }
 
 create_fake_root_install_env() {
@@ -107,7 +107,7 @@ error() {
 get_user_credentials() {
     # Prompts user for new username and password.
     name=$(display_input_box "First, please enter a name for the user account.") || exit
-    while ! echo "$name" | grep "^[a-z_][a-z0-9_-]*$" >/dev/null 2>&1; do
+    while ! echo "$name" | grep "^[a-z_][a-z0-9_-]*$" > /dev/null 2>&1; do
         name=$(display_input_box "Username not valid. Give a username beginning with a letter, with only lowercase letters, - or _.")
     done
     user_passwd=$(display_password_input "Enter a password for that user.")
@@ -123,13 +123,13 @@ git_pkg_install() {
     progname="$(basename "$1")"
     dir="$repodir/$progname"
     display_info_box "Installing \`$progname\` ($n of $total) via \`git\` and \`make\`. $(basename "$1") $2"
-    sudo -u "$name" git clone --depth 1 "$1" "$dir" >/dev/null 2>&1 || {
+    sudo -u "$name" git clone --depth 1 "$1" "$dir" > /dev/null 2>&1 || {
         cd "$dir" || return
         sudo -u "$name" git pull --force origin master
     }
     cd "$dir" || exit
-    make >/dev/null 2>&1
-    make install >/dev/null 2>&1
+    make > /dev/null 2>&1
+    make install > /dev/null 2>&1
     cd /tmp || return
 }
 
@@ -146,22 +146,22 @@ install_nvim_plugins() {
     nvim +PlugInstall +qall
 }
 
-install_pkg() { pacman --noconfirm --needed -S "$1" >/dev/null 2>&1; }
+install_pkg() { pacman --noconfirm --needed -S "$1" > /dev/null 2>&1; }
 
 install_user_programs() {
-    ([ -f "$user_programs_file" ] && cp "$user_programs_file" /tmp/user_programs.csv) || curl -Ls "$user_programs_file" | sed '/^#/d' | eval grep "$USER_PROGRAMS_PARSE_PATTERN" >/tmp/user_programs.csv
-    total=$(wc -l </tmp/user_programs.csv)
+    ([ -f "$user_programs_file" ] && cp "$user_programs_file" /tmp/user_programs.csv) || curl -Ls "$user_programs_file" | sed '/^#/d' | eval grep "$USER_PROGRAMS_PARSE_PATTERN" > /tmp/user_programs.csv
+    total=$(wc -l < /tmp/user_programs.csv)
     aurinstalled=$(pacman -Qqm)
     while IFS=, read -r tag program comment; do
         n=$((n + 1))
-        echo "$comment" | grep "^\".*\"$" >/dev/null 2>&1 && comment="$(echo "$comment" | sed "s/\(^\"\|\"$\)//g")"
+        echo "$comment" | grep "^\".*\"$" > /dev/null 2>&1 && comment="$(echo "$comment" | sed "s/\(^\"\|\"$\)//g")"
         case "$tag" in
             "A") aur_pkg_install "$program" "$comment" ;;
             "G") git_pkg_install "$program" "$comment" ;;
             "P") pip_pkg_install "$program" "$comment" ;;
             *) arch_pkg_install "$program" "$comment" ;;
         esac
-    done </tmp/user_programs.csv
+    done < /tmp/user_programs.csv
 }
 
 manual_install() {
@@ -169,29 +169,29 @@ manual_install() {
         dialog --infobox "Installing \"$1\", an AUR helper..." 4 50
         cd /tmp || exit
         rm -rf /tmp/"$1"*
-        curl -sO https://aur.archlinux.org/cgit/aur.git/snapshot/"$1".tar.gz &&
-            sudo -u "$name" tar -xvf "$1".tar.gz >/dev/null 2>&1 &&
-            cd "$1" &&
-            sudo -u "$name" makepkg --noconfirm -si >/dev/null 2>&1
+        curl -sO https://aur.archlinux.org/cgit/aur.git/snapshot/"$1".tar.gz \
+            && sudo -u "$name" tar -xvf "$1".tar.gz > /dev/null 2>&1 \
+            && cd "$1" \
+            && sudo -u "$name" makepkg --noconfirm -si > /dev/null 2>&1
         cd /tmp || return
     )
 }
 
 pip_pkg_install() {
     display_info_box "Installing the Python package \`$1\` ($n of $total). $1 $2"
-    command -v pip || install_pkg python-pip >/dev/null 2>&1
+    command -v pip || install_pkg python-pip > /dev/null 2>&1
     yes | pip install "$1"
 }
 
 prettify_pacman() {
     display_info_box "Make pacman more appealing on the eyes"
-    grep "^Color" /etc/pacman.conf >/dev/null || sed -i "s/^#Color$/Color/" /etc/pacman.conf
-    grep "ILoveCandy" /etc/pacman.conf >/dev/null || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
+    grep "^Color" /etc/pacman.conf > /dev/null || sed -i "s/^#Color$/Color/" /etc/pacman.conf
+    grep "ILoveCandy" /etc/pacman.conf > /dev/null || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
 }
 
 set_postinstall_settings() {
     # Zsh is default shell
-    chsh -s /bin/zsh "$name" >/dev/null 2>&1
+    chsh -s /bin/zsh "$name" > /dev/null 2>&1
     sudo -u "$name" mkdir -p "/home/$name/.cache/zsh/"
     #sed -i "s/^$name:\(.*\):\/bin\/.*/$name:\1:\/bin\/zsh/" /etc/passwd
 
@@ -217,13 +217,13 @@ set_preinstall_settings() {
 set_permissions() {
     display_info_box "Set special 'sudoers' settings"
     sed -i "/#SYSBOOTSTRAP/d" /etc/sudoers
-    echo "$* #SYSBOOTSTRAP" >>/etc/sudoers
+    echo "$* #SYSBOOTSTRAP" >> /etc/sudoers
 }
 
 set_user_credentials() {
     display_info_box "Adding user \"$name\"..."
-    useradd -m -g wheel -s /bin/bash "$name" >/dev/null 2>&1 ||
-        usermod -a -G wheel "$name" && mkdir -p /home/"$name" && chown "$name":wheel /home/"$name"
+    useradd -m -g wheel -s /bin/bash "$name" > /dev/null 2>&1 \
+        || usermod -a -G wheel "$name" && mkdir -p /home/"$name" && chown "$name":wheel /home/"$name"
     repodir="/home/$name/.local/src"
     mkdir -p "$repodir"
     chown -R "$name":wheel $(dirname "$repodir")
@@ -237,7 +237,7 @@ start_pulse_audio_daemon() {
 }
 
 successful_install_alert() {
-    unsuccessfully_installed_programs=$(printf "\n" && echo "$(curl -s "${user_programs_file}" | sed '/^#/d')" | while IFS=, read -r tag program comment; do if [[ $tag == 'G' ]]; then printf "%s\n" "$program"; elif [[ "$(pacman -Qi "$program" >/dev/null)" ]]; then printf "%s\n" "$program"; fi; done)
+    unsuccessfully_installed_programs=$(printf "\n" && echo "$(curl -s "${user_programs_file}" | sed '/^#/d')" | while IFS=, read -r tag program comment; do if [[ $tag == 'G' ]]; then printf "%s\n" "$program"; elif [[ "$(pacman -Qi "$program" > /dev/null)" ]]; then printf "%s\n" "$program"; fi; done)
     dialog \
         --backtitle "$BACKTITLE" \
         --title "Configuration files installed" \
@@ -246,13 +246,13 @@ successful_install_alert() {
 }
 synchronize_clocks_with_ntp() {
     display_info_box "Synchronizing system time to ensure successful and secure installation of software..."
-    ntpdate 0.us.pool.ntp.org >/dev/null 2>&1
+    ntpdate 0.us.pool.ntp.org > /dev/null 2>&1
 }
 system_beep_off() {
     display_info_box "Getting rid of that retarded error beep sound..."
-    rmmod pcspkr ||
-        display_info_box "pcspkr module not loaded, skipping..."
-    echo "blacklist pcspkr" >/etc/modprobe.d/nobeep.conf
+    rmmod pcspkr \
+        || display_info_box "pcspkr module not loaded, skipping..."
+    echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
 }
 user_confirm_install() {
     dialog \
@@ -268,7 +268,7 @@ user_confirm_install() {
 }
 refresh_arch_keyring() {
     display_info_box "Refreshing Arch keyring"
-    pacman --noconfirm -Sy archlinux-keyring >/dev/null 2>&1
+    pacman --noconfirm -Sy archlinux-keyring > /dev/null 2>&1
 }
 run_reflector() {
     dialog \
@@ -283,7 +283,7 @@ run_reflector() {
             display_info_box "Installing reflector"
             install_pkg reflector
             display_info_box "Running reflector"
-            reflector --verbose --latest 100 --sort rate --save /etc/pacman.d/mirrorlist >/dev/null 2>&1
+            reflector --verbose --latest 100 --sort rate --save /etc/pacman.d/mirrorlist > /dev/null 2>&1
             ;;
         1)
             return
@@ -291,8 +291,8 @@ run_reflector() {
     esac
 }
 user_exists_warning() {
-    ! (id -u "$name" >/dev/null) 2>&1 ||
-        dialog \
+    ! (id -u "$name" > /dev/null) 2>&1 \
+        || dialog \
             --colors \
             --backtitle "$BACKTITLE" \
             --title "$TITLE" \
