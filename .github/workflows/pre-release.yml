@@ -63,7 +63,7 @@ jobs:
             su - test_user bash -c 'yay -S --noconfirm neovim \
                                                        stow \
                                                        tmux \
-                                                       zsh
+                                                       zsh'
     - name: Install dotfiles
       run: |
             make dotfiles
