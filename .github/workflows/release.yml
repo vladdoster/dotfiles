@@ -77,7 +77,7 @@ jobs:
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${{ steps.gitversion.outputs.fullSemVer }}"
+          automatic_release_tag: "v${{ steps.gitversion.outputs.SemVer }}"
           prerelease: false
-          title: "${{ steps.gitversion.outputs.fullSemVer }}"
+          title: "v${{ steps.gitversion.outputs.SemVer }}"
             
