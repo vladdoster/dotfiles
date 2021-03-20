@@ -17,9 +17,9 @@ branches:
     increment: Minor
     prevent-increment-of-merged-branch-version: false
     track-merge-target: true
-    regex: ^arch-linux?[/-]
+    regex: ^arch-linux$
     source-branches: []
-    tracks-release-branches: true
+    tracks-release-branches: false
     is-release-branch: false
     is-mainline: true
     pre-release-weight: 0
@@ -28,10 +28,10 @@ branches:
     tag: useBranchName
     increment: Minor
     prevent-increment-of-merged-branch-version: false
-    track-merge-target: true
-    regex: ^mac-os?[/-]
+    track-merge-target: false
+    regex: ^mac-os$
     source-branches: []
-    tracks-release-branches: true
+    tracks-release-branches: false
     is-release-branch: false
     is-mainline: true
     pre-release-weight: 0
