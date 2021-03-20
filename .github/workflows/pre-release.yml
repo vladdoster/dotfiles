@@ -10,10 +10,9 @@ jobs:
 
   linting:
     name: Lint code base
-    
     runs-on: ubuntu-latest
-    
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v2
         with:
@@ -33,7 +32,7 @@ jobs:
           skip_dirty_check: false
           
   build:
-    name: Test dotfiles
+    name: Test
     needs: linting
     runs-on: macos-11.0
     steps:
@@ -52,14 +51,17 @@ jobs:
           make dotfiles
          
   pre-release:
-    name: "Pre Release"
+    name: Pre-Release
     needs: build
     runs-on: "ubuntu-latest"
+    steps:
 
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - name: "Release devel build"
+        uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           prerelease: true
           title: "Development Build"
-          files: *
+          files: |
+            *
