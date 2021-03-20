@@ -1,5 +1,5 @@
 mode: ContinuousDeployment
-continuous-delivery-fallback-tag: $GITHUB_HEAD_REF
+continuous-delivery-fallback-tag: github.head_ref
 tag-prefix: '[v]'
 major-version-bump-message: '(\(breaking|major\))'
 minor-version-bump-message: '(\(docs|feature|minor\))'
