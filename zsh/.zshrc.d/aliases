@@ -1,9 +1,4 @@
 #!/usr/bin/env zsh
-# fixes terminfo 
-if [[ ${TERM} =~ "kitty" ]]; then
-    alias ssh="kitty +kitten ssh"
-fi
-
 CODE_DIR="${HOME}/code"
 if [[ -e $CODE_DIR ]] && [[ -d "$CODE_DIR" ]]; then
     alias c="cd $CODE_DIR"

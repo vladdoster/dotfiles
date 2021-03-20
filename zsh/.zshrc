@@ -9,6 +9,8 @@ autoload -Uz vcs_info
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 autoload -Uz compinit && compinit
+zstyle ':completion:*' rehash true
+
 
 if [[ "$TERM" =~ "kitty" ]] && [[ "${OSTYPE}" == "darwin" ]]; then
 	kitty + complete setup zsh | source /dev/stdin
