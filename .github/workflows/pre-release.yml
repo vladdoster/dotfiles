@@ -55,6 +55,11 @@ jobs:
     needs: build
     runs-on: "ubuntu-latest"
     steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
     
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.9.7
@@ -105,8 +110,8 @@ jobs:
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "mac-os/latest"
+          automatic_release_tag: "${{ steps.gitversion.outputs.fullSemVer }}"
           prerelease: true
-          title: "macOS: development build"
+          title: "${{ steps.gitversion.outputs.fullSemVer }}"
           files: |
             *
