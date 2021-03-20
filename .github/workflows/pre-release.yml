@@ -25,7 +25,7 @@ jobs:
                      mvdan/shfmt -bn -ci -i 4 -ln=bash -s -sr -w /mnt
 
       - name: Commit shfmt fixes
-      - uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: (linting) apply shfmt fixes
           commit_options: "--cleanup=default --no-verify --signoff"
