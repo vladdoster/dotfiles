@@ -1,43 +1,29 @@
-build-metadata-padding: 2
-commit-date-format: dd-MM-yyyy
-commit-message-incrementing: Enabled
-commits-since-version-source-padding: 4
-legacy-semver-padding: 2
-major-version-bump-message: '(\(breaking|major\))'
-merge-message-formats: {}
-minor-version-bump-message: '(\(docs|feature|minor\))'
 mode: ContinuousDeployment
-no-bump-message: '\+semver:\s?(none|skip)'
+continuous-delivery-fallback-tag: ${GITHUB_REF##*/}
+increment: Patch
+tag-prefix: '[vV]'
+major-version-bump-message: '(\(breaking|major\))'
+minor-version-bump-message: '(\(docs|feature|minor\))'
 patch-version-bump-message: '(\(chore|fix|maint|patch\))'
-tag-pre-release-weight: 60000
-tag-prefix: '[v]'
-update-build-number: true
+no-bump-message: '(\(none|skip\))'
+legacy-semver-padding: 4
+build-metadata-padding: 4
+commits-since-version-source-padding: 4
+commit-message-incrementing: Enabled
+commit-date-format: 'yyyy-MM-dd'
+source-branches: []
 ignore:
   sha: []
+merge-message-formats: {}
 branches:
-  arch-linux:
-    continuous-delivery-fallback-tag: useBranchName
-    increment: Patch
-    is-mainline: true
-    is-release-branch: false
-    mode: ContinuousDeployment
-    pre-release-weight: 0
-    prevent-increment-of-merged-branch-version: false
-    regex: ^arch-linux$
-    source-branches: []
-    tag: ''
-    track-merge-target: true
-    tracks-release-branches: false
   mac-os:
-    continuous-delivery-fallback-tag: useBranchName
-    increment: Patch
+    regex: ^mac-os$
     is-mainline: true
     is-release-branch: false
-    mode: ContinuousDeployment
     pre-release-weight: 0
     prevent-increment-of-merged-branch-version: false
-    regex: ^mac-os$
-    source-branches: []
     tag: ''
     track-merge-target: false
     tracks-release-branches: false
+    source-branches: []
+update-build-number: true
