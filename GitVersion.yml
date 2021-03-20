@@ -1,4 +1,4 @@
-mode: ContinuousDelivery
+mode: ContinuousDeployment
 tag-prefix: '[v]'
 continuous-delivery-fallback-tag: ci
 major-version-bump-message: '(\(breaking|major\))'
@@ -12,7 +12,7 @@ tag-pre-release-weight: 60000
 commit-message-incrementing: Enabled
 branches:
   arch-linux:
-    mode: ContinuousDeployment
+    mode: ContinuousDelivery
     tag: ''
     increment: Patch
     prevent-increment-of-merged-branch-version: false
@@ -24,7 +24,7 @@ branches:
     is-mainline: true
     pre-release-weight: 0
   mac-os:
-    mode: ContinuousDeployment
+    mode: ContinuousDelivery
     tag: ''
     increment: Patch
     prevent-increment-of-merged-branch-version: false
