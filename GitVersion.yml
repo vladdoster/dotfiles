@@ -7,14 +7,14 @@ patch-version-bump-message: '\(\((chore|fix|maint|patch)'
 no-bump-message: '\+semver:\s?(none|skip)'
 legacy-semver-padding: 2
 build-metadata-padding: 2
-commits-since-version-source-padding: 3
+commits-since-version-source-padding: 4
 tag-pre-release-weight: 60000
 commit-message-incrementing: Enabled
 branches:
   arch-linux:
     mode: ContinuousDeployment
     tag: useBranchName
-    increment: Minor
+    increment: Patch
     prevent-increment-of-merged-branch-version: false
     track-merge-target: true
     regex: ^arch-linux$
@@ -26,7 +26,7 @@ branches:
   mac-os:
     mode: ContinuousDeployment
     tag: useBranchName
-    increment: Minor
+    increment: Patch
     prevent-increment-of-merged-branch-version: false
     track-merge-target: false
     regex: ^mac-os$
