@@ -1,43 +1,43 @@
-mode: ContinuousDeployment
-tag-prefix: '[v]'
-continuous-delivery-fallback-tag: ci
-major-version-bump-message: '(\(breaking|major\))'
-minor-version-bump-message: '(\(docs|feature|minor\))'
-patch-version-bump-message: '(\(chore|fix|maint|patch\))'
-no-bump-message: '\+semver:\s?(none|skip)'
-legacy-semver-padding: 2
 build-metadata-padding: 2
-commits-since-version-source-padding: 4
-tag-pre-release-weight: 60000
+commit-date-format: dd-MM-yyyy
 commit-message-incrementing: Enabled
-branches:
-  arch-linux:
-    mode: ContinuousDelivery
-    tag: ''
-    increment: Patch
-    prevent-increment-of-merged-branch-version: false
-    track-merge-target: true
-    regex: ^arch-linux$
-    source-branches: []
-    tracks-release-branches: false
-    is-release-branch: false
-    is-mainline: true
-    pre-release-weight: 0
-  mac-os:
-    mode: ContinuousDelivery
-    tag: ''
-    increment: Patch
-    prevent-increment-of-merged-branch-version: false
-    track-merge-target: false
-    regex: ^mac-os$
-    source-branches: []
-    tracks-release-branches: false
-    is-release-branch: false
-    is-mainline: true
-    pre-release-weight: 0
+commits-since-version-source-padding: 4
+legacy-semver-padding: 2
+major-version-bump-message: '(\(breaking|major\))'
+merge-message-formats: {}
+minor-version-bump-message: '(\(docs|feature|minor\))'
+mode: ContinuousDeployment
+no-bump-message: '\+semver:\s?(none|skip)'
+patch-version-bump-message: '(\(chore|fix|maint|patch\))'
+tag-pre-release-weight: 60000
+tag-prefix: '[v]'
+update-build-number: true
 ignore:
   sha: []
-commit-date-format: dd-MM-yyyy
-merge-message-formats: {}
-update-build-number: true
-
+branches:
+  arch-linux:
+    continuous-delivery-fallback-tag: useBranchName
+    increment: Patch
+    is-mainline: true
+    is-release-branch: false
+    mode: ContinuousDeployment
+    pre-release-weight: 0
+    prevent-increment-of-merged-branch-version: false
+    regex: ^arch-linux$
+    source-branches: []
+    tag: ''
+    track-merge-target: true
+    tracks-release-branches: false
+  mac-os:
+    continuous-delivery-fallback-tag: useBranchName
+    increment: Patch
+    is-mainline: true
+    is-release-branch: false
+    mode: ContinuousDeployment
+    pre-release-weight: 0
+    prevent-increment-of-merged-branch-version: false
+    regex: ^mac-os$
+    source-branches: []
+    tag: ''
+    track-merge-target: false
+    tracks-release-branches: false
