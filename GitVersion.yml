@@ -1,29 +1,30 @@
 mode: ContinuousDeployment
 continuous-delivery-fallback-tag: ${GITHUB_REF##*/}
-increment: Patch
-tag-prefix: '[vV]'
+tag-prefix: '[v]'
 major-version-bump-message: '(\(breaking|major\))'
 minor-version-bump-message: '(\(docs|feature|minor\))'
 patch-version-bump-message: '(\(chore|fix|maint|patch\))'
-no-bump-message: '(\(none|skip\))'
-legacy-semver-padding: 4
-build-metadata-padding: 4
+no-bump-message: '\+semver:\s?(none|skip)'
+legacy-semver-padding: 2
+build-metadata-padding: 2
 commits-since-version-source-padding: 4
+tag-pre-release-weight: 60000
 commit-message-incrementing: Enabled
-commit-date-format: 'yyyy-MM-dd'
-source-branches: []
-ignore:
-  sha: []
-merge-message-formats: {}
 branches:
   mac-os:
-    regex: ^mac-os$
-    is-mainline: true
-    is-release-branch: false
-    pre-release-weight: 0
-    prevent-increment-of-merged-branch-version: false
+    mode: ContinuousDeployment
     tag: ''
+    increment: Patch
+    prevent-increment-of-merged-branch-version: false
     track-merge-target: false
-    tracks-release-branches: false
+    regex: ^mac-os$
     source-branches: []
+    tracks-release-branches: false
+    is-release-branch: false
+    is-mainline: true
+    pre-release-weight: 0
+ignore:
+  sha: []
+commit-date-format: dd-MM-yyyy
+merge-message-formats: {}
 update-build-number: true
