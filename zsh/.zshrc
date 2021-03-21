@@ -8,19 +8,6 @@ export PATH=${HOME}/.local/bin:$PATH
 if [[ "$TERM" =~ "kitty" ]] && [[ "${OSTYPE}" == "darwin" ]]; then
 	kitty + complete setup zsh | source /dev/stdin
 fi
-#--- zsh
-#autoload -Uz bashcompinit && bashcompinit
-#autoload -Uz edit-command-line && zle -N edit-command-line
-#autoload -U down-line-or-beginning-search
-#autoload -U up-line-or-beginning-search
-#
-#setopt always_to_end  # move cursor to end if word had one match
-#setopt auto_list      # automatically list choices on ambiguous completion
-#setopt auto_menu      # automatically use menu completion
-#setopt autocd         # change dir without cd
-#setopt no_case_glob   # case insensitive globbing
-#setopt printexitvalue # for non-zero exits
-#setopt prompt_subst
 #--- HISTORY
 HISTFILE="${HOME}"/.zsh_history
 HISTSIZE=10000
@@ -37,10 +24,26 @@ setopt share_history          # share history between zsh instances
 CASE_SENSITIVE="false"
 DISABLE_UPDATE_PROMPT="false"
 ZSH_THEME="ys"
-plugins=(git tmux python)
-source $OHMYZSH/oh-my-zsh.sh
+plugins=(git \
+         pip \
+         python \
+         tmux )
+source "$OHMYZSH"/oh-my-zsh.sh
 #--- sources
 source <(find "${HOME:-~}"/.zshrc.d/* -type f -maxdepth 1 -exec cat {} \;)
+#--- zsh
+#autoload -Uz bashcompinit && bashcompinit
+#autoload -Uz edit-command-line && zle -N edit-command-line
+#autoload -U down-line-or-beginning-search
+#autoload -U up-line-or-beginning-search
+#
+#setopt always_to_end  # move cursor to end if word had one match
+#setopt auto_list      # automatically list choices on ambiguous completion
+#setopt auto_menu      # automatically use menu completion
+#setopt autocd         # change dir without cd
+#setopt no_case_glob   # case insensitive globbing
+#setopt printexitvalue # for non-zero exits
+#setopt prompt_subst
 #--- completion
 #zmodload zsh/complist
 #_comp_options+=(globdots)
