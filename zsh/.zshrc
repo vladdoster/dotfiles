@@ -2,7 +2,7 @@
 #--- basic
 export LANG=en_US.UTF-8 # set language locale
 export MANPATH="/usr/local/man:$MANPATH"
-export OHMYZSH="/Users/anonymous/.local/share/ohmyzsh"
+export OHMYZSH="$HOME"/.local/share/ohmyzsh
 export PATH=${HOME}/.local/bin:$PATH
 
 if [[ "$TERM" =~ "kitty" ]] && [[ "${OSTYPE}" == "darwin" ]]; then
