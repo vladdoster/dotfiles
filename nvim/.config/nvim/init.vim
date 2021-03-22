@@ -56,6 +56,7 @@ map K kJ
 map Y y$
 " select another file from the directory of the current one
 nnoremap <leader>F :execute 'edit' expand("%:p:h")<cr>
+nnoremap <leader>gm /\v^\<\<\<\<\<\<\< \|\=\=\=\=\=\=\=$\|\>\>\>\>\>\>\> /<cr>
 
 "--- code completion
 set cmdheight=2

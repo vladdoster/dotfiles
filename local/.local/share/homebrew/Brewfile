@@ -60,6 +60,8 @@ brew "gpatch"
 brew "grep"
 # Popular GNU data compression program
 brew "gzip"
+# Ultra-High performance API Gateway built in Go
+brew "krakend"
 # Pager program similar to more
 brew "less"
 # Version of the SSL/TLS protocol forked from OpenSSL
@@ -120,6 +122,8 @@ brew "git-chglog/git-chglog/git-chglog"
 cask "amethyst"
 # Web browser
 cask "google-chrome"
+# File archiver
+cask "keka"
 # GPU-based terminal emulator
 cask "kitty"
 # IDE for professional Python development
@@ -134,3 +138,5 @@ cask "transmission"
 cask "virtualbox"
 # Open-source code editor
 cask "visual-studio-code"
+# Multimedia player
+cask "vlc"

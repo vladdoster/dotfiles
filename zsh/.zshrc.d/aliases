@@ -38,6 +38,7 @@ alias vim="nvim"
 
 alias edit-aliases="vim $HOME/.zshrc.d/aliases"
 alias edit-cli-commands="vim $HOME/.zshrc.d/cli-commands"
+alias edit-dfiles="cd $HOME/dotfiles && ls"
 alias edit-fzf-commands="vim $HOME/.zshrc.d/fzf-commands"
 alias edit-vimrc="vim $HOME/.config/nvim/init.vim"
 alias edit-zshrc="vim $HOME/.zshrc"

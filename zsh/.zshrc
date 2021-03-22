@@ -1,17 +1,18 @@
 # vim: ft=zsh
 #--- basic
+export HOMEBREW_BUNDLE_FILE="$HOME/.local/share/homebrew/Brewfile"
 export LANG=en_US.UTF-8 # set language locale
 export MANPATH="/usr/local/man:$MANPATH"
-export OHMYZSH="$HOME"/.local/share/ohmyzsh
-export PATH=${HOME}/.local/bin:$PATH
+export OHMYZSH="$HOME/.local/share/ohmyzsh"
+export PATH="$HOME/.local/bin:$PATH"
 
-if [[ "$TERM" =~ "kitty" ]] && [[ "${OSTYPE}" == "darwin" ]]; then
+if [[ "$TERM" =~ "kitty" ]] && [[ "$OSTYPE" == "darwin" ]]; then
 	kitty + complete setup zsh | source /dev/stdin
 fi
 #--- HISTORY
-HISTFILE="${HOME}"/.zsh_history
+HISTFILE="$HOME/.zshrc.d/zsh_history"
 HISTSIZE=10000
-SAVEHIST="${HISTSIZE}"
+SAVEHIST="$HISTSIZE"
 setopt extended_history       # add timestamps and other info to history
 setopt hist_expire_dups_first # expire duplicates first
 setopt hist_find_no_dups      # ignore duplicates when searching
@@ -24,13 +25,14 @@ setopt share_history          # share history between zsh instances
 CASE_SENSITIVE="false"
 DISABLE_UPDATE_PROMPT="false"
 ZSH_THEME="ys"
-plugins=(git \
+plugins=(brew \
+         git \
          pip \
          python \
          tmux )
-source "$OHMYZSH"/oh-my-zsh.sh
+source "$OHMYZSH/oh-my-zsh.sh"
 #--- sources
-source <(find "${HOME:-~}"/.zshrc.d/* -type f -maxdepth 1 -exec cat {} \;)
+source <(find "$HOME"/.zshrc.d/* -type f -maxdepth 1 -exec cat {} \;)
 #--- zsh
 #autoload -Uz bashcompinit && bashcompinit
 #autoload -Uz edit-command-line && zle -N edit-command-line
