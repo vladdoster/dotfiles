@@ -1,13 +1,11 @@
 # Dotfiles
 
-![Arch Linux](https://github.com/vladdoster/dotfiles/workflows/Arch%20Linux/badge.svg)
-![MacOS](https://github.com/vladdoster/dotfiles/workflows/MacOS/badge.svg)
 
-| System      | Repository Branch                                                      |
-|-------------|------------------------------------------------------------------------|
-| Arch Linux  | [arch-linux](https://github.com/vladdoster/dotfiles/tree/arch-linux)   |
-| Mac OS      | [mac-os](https://github.com/vladdoster/dotfiles/tree/mac-os)           |
-| Remote Host | [remote host](https://github.com/vladdoster/dotfiles/tree/remote-host) | 
+| System     | Repository Branch                                                      | CI build                                                                               |
+|------------|------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| arch linux | [arch-linux](https://github.com/vladdoster/dotfiles/tree/arch-linux)   | ![Arch Linux](https://github.com/vladdoster/dotfiles/workflows/Arch%20Linux/badge.svg) |
+| darwin     | [mac-os](https://github.com/vladdoster/dotfiles/tree/mac-os)           | ![MacOS](https://github.com/vladdoster/dotfiles/workflows/MacOS/badge.svg)             |
+| *nix       | [remote host](https://github.com/vladdoster/dotfiles/tree/remote-host) |                                                                                        |
 
 ## Problem & Solution
 
