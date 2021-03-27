@@ -16,10 +16,6 @@ brew "colordiff"
 brew "coreutils"
 # File comparison utilities
 brew "diffutils"
-# Pack, ship and run any application as a lightweight container
-brew "docker", link: false
-# Bash, Zsh and Fish completion for Docker
-brew "docker-completion"
 # Classic UNIX line editor
 brew "ed"
 # GNU Emacs text editor
@@ -60,8 +56,6 @@ brew "gpatch"
 brew "grep"
 # Popular GNU data compression program
 brew "gzip"
-# Ultra-High performance API Gateway built in Go
-brew "krakend"
 # Pager program similar to more
 brew "less"
 # Version of the SSL/TLS protocol forked from OpenSSL
@@ -78,8 +72,6 @@ brew "markdownlint-cli"
 brew "nano"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
-# OpenBSD freely-licensed SSH connectivity tools
-brew "openssh"
 # Highly capable, feature-rich programming language
 brew "perl"
 # Search tool like grep and The Silver Searcher
@@ -94,8 +86,6 @@ brew "shfmt"
 brew "stow"
 # Terminal multiplexer
 brew "tmux"
-# Lightweight BitTorrent client
-brew "transmission-cli"
 # Extraction utility for .zip compressed archives
 brew "unzip"
 # Vi 'workalike' with many additional features
@@ -106,37 +96,21 @@ brew "watch"
 brew "wdiff"
 # Internet file retriever
 brew "wget"
-# VNC server for real X displays
-brew "x11vnc"
 # Fake keyboard/mouse input and window management for X
 brew "xdotool"
 # In terminal graphical metrics for your *nix system
 brew "zenith"
 # UNIX shell (command interpreter)
 brew "zsh"
-# Additional completion definitions for zsh
-brew "zsh-completions"
 # CHANGELOG generator implemented in Go (Golang).
 brew "git-chglog/git-chglog/git-chglog"
 # Automatic tiling window manager similar to xmonad
 cask "amethyst"
 # Web browser
 cask "google-chrome"
-# File archiver
-cask "keka"
 # GPU-based terminal emulator
 cask "kitty"
-# IDE for professional Python development
-cask "pycharm"
-# Team communication and collaboration software
-cask "slack"
 # Music streaming service
 cask "spotify"
-# Open-source BitTorrent client
-cask "transmission"
-# Free and open-source hosted hypervisor for x86 virtualization
-cask "virtualbox"
-# Open-source code editor
-cask "visual-studio-code"
 # Multimedia player
 cask "vlc"
