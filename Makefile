@@ -24,4 +24,4 @@ test : --simulate
 	echo "--simulated dotfiles install"
 
 clean : --delete
-	find * -type d -not -path '*/\.*' -exec stow --verbose 1 --delete {} \;	
+	find * -type d -not -path '*/\.*' -exec stow --target="$$HOME" --verbose 1 --delete {} \;	

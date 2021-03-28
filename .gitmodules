@@ -1,9 +1,9 @@
-[submodule "local/.local/share/ohmyzsh"]
-	path = local/.local/share/ohmyzsh
-	url = https://github.com/vladdoster/ohmyzsh.git
-[submodule "local/.local/share/linuxify"]
-	path = local/.local/share/linuxify
-	url = https://github.com/vladdoster/linuxify.git
-[submodule "local/.local/share/vim-wiki"]
-	path = local/.local/share/vim-wiki
+[submodule "share/.local/share/ohmyzsh"]
+	path = share/.local/share/ohmyzsh
+	url = https://github.com/vladdoster/ohmyzsh
+[submodule "share/.local/share/vim-wiki"]
+	path = share/.local/share/vim-wiki
 	url = https://github.com/vladdoster/vim-wiki.git
+[submodule "share/.local/share/linuxify"]
+	path = share/.local/share/linuxify
+	url = https://github.com/vladdoster/linuxify

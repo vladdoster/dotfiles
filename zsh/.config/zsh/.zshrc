@@ -2,17 +2,17 @@
 #--- basic
 export CURL_SSL_BACKEND=secure-transport
 export LANG=en_US.UTF-8 # set language locale
-export OHMYZSH="$HOME/.local/share/ohmyzsh"
+export OHMYZSH="$XDG_DATA_HOME"/ohmyzsh
 export PATH="$HOME/.local/bin:$PATH"
 
 export HOMEBREW_FORCE_BREWED_CURL=1
-export HOMEBREW_BUNDLE_FILE="$HOME/.local/share/homebrew/Brewfile"
+export HOMEBREW_BUNDLE_FILE="$XDG_DATA_HOME"/homebrew/Brewfile
 
 if [[ "$TERM" =~ "kitty" ]] && [[ "$OSTYPE" == "darwin" ]]; then
 	kitty + complete setup zsh | source /dev/stdin
 fi
 #--- HISTORY
-HISTFILE="$HOME/.zsh_history"
+HISTFILE="$ZDOTDIR"/.zsh_history
 HISTSIZE=10000
 SAVEHIST="$HISTSIZE"
 setopt extended_history       # add timestamps and other info to history
@@ -34,4 +34,4 @@ plugins=(brew \
          vi-mode)
 source "$OHMYZSH/oh-my-zsh.sh"
 #--- sources
-source <(find "$HOME"/.zshrc.d/* -type f -maxdepth 1 -exec cat {} \;)
+source <(find "$ZDOTDIR"/.zshrc.d/* -type f -maxdepth 1 -exec cat {} \;)

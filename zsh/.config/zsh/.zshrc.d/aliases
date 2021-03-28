@@ -35,13 +35,13 @@ alias v.="nvim ."
 alias v="nvim"
 alias vi="nvim"
 alias vim="nvim"
-
-alias edit-aliases="vim $HOME/.zshrc.d/aliases"
-alias edit-cli-commands="vim $HOME/.zshrc.d/cli-commands"
-alias edit-dfiles="cd $HOME/dotfiles && ls"
-alias edit-fzf-commands="vim $HOME/.zshrc.d/fzf-commands"
-alias edit-vimrc="vim $HOME/.config/nvim/init.vim"
-alias edit-zshrc="vim $HOME/.zshrc"
+# config shortcuts
+alias edit-aliases="vim $ZDOTDIR/.zshrc.d/aliases"
+alias edit-cli-commands="vim $ZDOTDIR/.zshrc.d/cli-commands"
+alias edit-dfiles="cd $XDG_CONFIG_HOME/dotfiles && ls"
+alias edit-fzf-commands="vim $ZDOTDIR/.zshrc.d/fzf-commands"
+alias edit-vimrc="vim $XDG_CONFIG_HOME/.config/nvim/init.vim"
+alias edit-zshrc="vim $ZDOTDIR/.zshrc"
 # git aliases are in ~/.gitconfig.
 alias g='git'
 # misc.
