@@ -1,82 +1,32 @@
 [user]
-email = mvdoster@gmail.com
-name = Vladislav Doster
+	email = mvdoster@gmail.com
+	name = Vladislav Doster
 [core]
-editor = nvim
-pager = less
-commentChar = ~
-ignorecase = true
-	fileMode = true
+	editor = nvim
+	pager = less
+	commentChar = ~
+	ignorecase = true
+	fileMode = false
 [color]
-ui = true
-[alias]
-a = add
-aa = add -A
-ac = !git add -A && git commit --sign-off --gpg-
-acm = !git add -A && git commit -m
-b = for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
-bD = branch -D
-bd = branch -d
-bmv = branch -m
-c = commit
-ca = commit --amend
-can = commit --amend --no-edit
-cl = clone
-cm = commit -m
-co = checkout
-cob = checkout -b
-cp = cherry-pick
-d = diff
-d1 = diff HEAD^
-d2 = diff HEAD^^
-dc = diff --cached
-dh = diff HEAD
-dt = difftool
-dta = difftool --dir-diff
-i = init
-lf = log -u
-lg = log --stat --color
-ll = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
-ls = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
-lt = log --graph --decorate --pretty=oneline --abbrev-commit
-ma = merge --abort
-mc = merge --continue
-mt = mergetool
-pf = push -u --force-with-lease
-prune = fetch --prune
-pu = push -u
-r = rebase
-ra = rebase --abort
-rc = rebase --continue
-rev = rev-parse HEAD
-rs = reset
-rs1 = reset HEAD^
-rs2 = reset HEAD^^
-rsh = reset --hard
-rsh1 = reset HEAD^ --hard
-rsh2 = reset HEAD^^ --hard
-s = status -sbu
-sh = show
-stash-all = stash save --include-untracked
-uncommit = reset --soft HEAD^
+	ui = true
 [push]
-default = current
-followTags = true
+	default = current
+	followTags = true
 [pull]
-ff = only
-rebase = true
+	ff = only
+	rebase = true
 [status]
-showUntrackedFiles = all
+	showUntrackedFiles = all
 [difftool]
-prompt = false
+	prompt = false
 [diff]
-tool = vimdiff
+	tool = vimdiff
 [mergetool]
-prompt = false
+	prompt = false
 [merge]
-tool = vimdiff
+	tool = vimdiff
 [filter "lfs"]
-smudge = git-lfs smudge -- %f
-process = git-lfs filter-process
-clean = git-lfs clean -- %f
-required = true
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	clean = git-lfs clean -- %f
+	required = true
