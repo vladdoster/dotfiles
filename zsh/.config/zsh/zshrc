@@ -1,13 +1,12 @@
 # vim: ft=zsh
 #--- basic
-export HOMEBREW_BUNDLE_FILE="$HOME/.local/share/homebrew/Brewfile"
+export CURL_SSL_BACKEND=secure-transport
 export LANG=en_US.UTF-8 # set language locale
-export MANPATH="/usr/local/man:$MANPATH"
 export OHMYZSH="$HOME/.local/share/ohmyzsh"
 export PATH="$HOME/.local/bin:$PATH"
 
 export HOMEBREW_FORCE_BREWED_CURL=1
-export CURL_SSL_BACKEND=secure-transport
+export HOMEBREW_BUNDLE_FILE="$HOME/.local/share/homebrew/Brewfile"
 
 if [[ "$TERM" =~ "kitty" ]] && [[ "$OSTYPE" == "darwin" ]]; then
 	kitty + complete setup zsh | source /dev/stdin
@@ -31,7 +30,8 @@ plugins=(brew \
          git \
          pip \
          python \
-         tmux )
+         tmux \
+         vi-mode)
 source "$OHMYZSH/oh-my-zsh.sh"
 #--- sources
 source <(find "$HOME"/.zshrc.d/* -type f -maxdepth 1 -exec cat {} \;)
