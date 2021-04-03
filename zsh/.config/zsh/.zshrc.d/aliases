@@ -40,14 +40,14 @@ alias edit-aliases="vim $ZDOTDIR/.zshrc.d/aliases"
 alias edit-cli-commands="vim $ZDOTDIR/.zshrc.d/cli-commands"
 alias edit-dfiles="cd $XDG_CONFIG_HOME/dotfiles && ls"
 alias edit-fzf-commands="vim $ZDOTDIR/.zshrc.d/fzf-commands"
-alias edit-vimrc="vim $XDG_CONFIG_HOME/.config/nvim/init.vim"
+alias edit-vimrc="vim $XDG_CONFIG_HOME/nvim/init.vim"
 alias edit-zshrc="vim $ZDOTDIR/.zshrc"
 # git aliases are in ~/.gitconfig.
 alias g='git'
 # misc.
 alias generate_passwd="openssl rand -base64 24"
 alias get_my_ip="curl ifconfig.co"
-alias reload_zsh="source ${HOME}/.zshrc"
+alias reload_zsh="source ${ZDOTDIR}/.zshrc"
 alias reload_bash="source ${HOME}/.bashrc"
 # python
 alias start_http_server="python -m SimpleHTTPServer"

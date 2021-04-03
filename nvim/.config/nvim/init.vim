@@ -8,6 +8,7 @@ endif
 call plug#begin('~/.config/nvim/autoload/plugged')
   Plug 'godlygeek/tabular'
   Plug 'gruvbox-community/gruvbox'
+  Plug 'preservim/vimux'
   Plug 'mbbill/undotree'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
@@ -135,3 +136,11 @@ function! TrimWhitespace()
     keeppatterns %s/\s\+$//e
     call winrestview(l:save)
 endfun
+
+"--- vimux
+map <Leader>vp :VimuxPromptCommand<CR>
+map <Leader>vm :VimuxPromptCommand("make ")<CR>
+map <Leader>vl :VimuxRunLastCommand<CR>
+map <Leader>vq :VimuxCloseRunner<CR>
+map <Leader>vs :VimuxInterruptRunner<CR>
+map <Leader>v<C-l> :VimuxClearTerminalScreen<CR>

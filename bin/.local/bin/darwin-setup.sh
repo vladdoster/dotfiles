@@ -32,7 +32,7 @@ configuration() {
         sudo -n true
         sleep 60
         kill -0 "$$" || exit
-    done 2> /dev/null &
+    done 2>/dev/null &
     ###############################################################################
     # General UI/UX                                                               #
     ###############################################################################
@@ -56,16 +56,16 @@ configuration() {
     defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false                                                                             # Disable Resume system-wide
     defaults write com.apple.CrashReporter DialogType -string "none"                                                                                            # Disable the crash reporter
     defaults write com.apple.helpviewer DevMode -bool true                                                                                                      # Set Help Viewer windows to non-floating mode
-    echo "0x08000100:0" > ~/.CFUserTextEncoding                                                                                                                 # See https://github.com/mathiasbynens/dotfiles/issues/237
+    echo "0x08000100:0" >~/.CFUserTextEncoding                                                                                                                  # See https://github.com/mathiasbynens/dotfiles/issues/237
     sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName                                                                       # Reveal IP address, hostname, OS version, etc. when clicking the clock in the login window
     sudo systemsetup -setrestartfreeze on                                                                                                                       # Restart automatically if the computer freezes
-    sudo systemsetup -setcomputersleep Off > /dev/null                                                                                                          # Never go into computer sleep mode
-    launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null                                                          # Disable Notification Center and remove the menu bar icon
+    sudo systemsetup -setcomputersleep Off >/dev/null                                                                                                           # Never go into computer sleep mode
+    launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2>/dev/null                                                           # Disable Notification Center and remove the menu bar icon
     defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false                                                                               # Disable smart quotes as they’re annoying when typing code
     defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false                                                                                # Disable smart dashes as they’re annoying when typing code
-    rm -rf ~/Library/Application Support/Dock/desktoppicture.db                                                                                                 # all wallpapers are in `/Library/Desktop Pictures/`. The default is `Wave.jpg`.
-    sudo rm -rf /System/Library/CoreServices/DefaultDesktop.jpg
-    sudo ln -s /path/to/your/image /System/Library/CoreServices/DefaultDesktop.jpg
+    # rm -rf ~/Library/Application Support/Dock/desktoppicture.db                                                                                                 # all wallpapers are in `/Library/Desktop Pictures/`. The default is `Wave.jpg`.
+    # sudo rm -rf /System/Library/CoreServices/DefaultDesktop.jpg
+    # sudo ln -s /path/to/your/image /System/Library/CoreServices/DefaultDesktop.jpg
     ################################################################################
     ## SSD-specific tweaks                                                         #
     ################################################################################
@@ -97,9 +97,9 @@ configuration() {
     defaults write NSGlobalDomain AppleLocale -string "en_US@currency=USD"
     defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
     defaults write NSGlobalDomain AppleMetricUnits -bool false
-    sudo systemsetup -settimezone "America/New York" > /dev/null                      # Set the timezone; see `sudo systemsetup -listtimezones` for other values
-    defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false    # Disable auto-correct
-    launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null # Stop iTunes from responding to the keyboard media keys
+    sudo systemsetup -settimezone "America/New York" >/dev/null                      # Set the timezone; see `sudo systemsetup -listtimezones` for other values
+    defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false   # Disable auto-correct
+    launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2>/dev/null # Stop iTunes from responding to the keyboard media keys
     ################################################################################
     ## Screen                                                                      #
     ################################################################################
@@ -294,13 +294,13 @@ configuration() {
         "SystemUIServer" \
         "Terminal" \
         "Transmission"; do
-        killall "${APP}" &> /dev/null
+        killall "${APP}" &>/dev/null
     done
     echo "Done. Note that some of these changes require a logout/restart to take effect."
 }
 
 install_brew() {
-    if ! which brew > /dev/null; then
+    if ! which brew >/dev/null; then
         bash -c $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)
         print_step "brew installed"
     else
@@ -325,9 +325,9 @@ while true; do
     sudo -n true
     sleep 60
     kill -0 "$$" || exit
-done 2> /dev/null &
+done 2>/dev/null &
 print_step "configuring ${HOSTNAME}"
-#configuration
+configuration
 install_brew
 install_programs
 print_step "configured ${HOSTNAME}"

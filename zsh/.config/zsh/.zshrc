@@ -1,14 +1,14 @@
 # vim: ft=zsh
 #--- basic
 export CURL_SSL_BACKEND=secure-transport
-export LANG=en_US.UTF-8 # set language locale
+export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 export OHMYZSH="$XDG_DATA_HOME"/ohmyzsh
 export PATH="$HOME/.local/bin:$PATH"
 
 export HOMEBREW_FORCE_BREWED_CURL=1
 export HOMEBREW_BUNDLE_FILE="$XDG_DATA_HOME"/homebrew/Brewfile
 
-if [[ "$TERM" =~ "kitty" ]] && [[ "$OSTYPE" == "darwin" ]]; then
+if [[ $TERM =~ "kitty" ]] && [[ $OSTYPE == "darwin" ]]; then
 	kitty + complete setup zsh | source /dev/stdin
 fi
 #--- HISTORY

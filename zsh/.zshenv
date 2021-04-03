@@ -7,7 +7,6 @@ export ZDOTDIR="$HOME"/.config/zsh
 export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_CACHE_HOME="$HOME"/.cache
 export XDG_DATA_HOME="$HOME"/.local/share
-export XDG_RUNTIME_DIR="$HOME"/.xdg
 
 if [[ "$OSTYPE" == darwin* ]]; then
   export XDG_DESKTOP_DIR="$HOME"/Desktop
@@ -22,13 +21,10 @@ export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
 export GIT_CONFIG="$XDG_CONFIG_HOME"/git
 export HG_CONFIG="$XDG_CONFIG_HOME"/hg
 export PIP_CONFIG="$XDG_CONFIG_HOME"/pip
-export TMUX_CONFIG="$XDG_CONFIG_HOME"/tmux
+export TMUX_CONFIG="$XDG_CONFIG_HOME"/tmux/tmux.conf
 export TRANSMISSION_CONFIG="$XDG_CONFIG_HOME"/transmission
 export GOPATH="$XDG_DATA_HOME"/go
-export TERMINFO="$XDG_DATA_HOME"/terminfo
 
-export SHELL_SESSIONS_DISABLE=1
-#
 # [[ -d "$HOME"/.config/dotfiles ]] && export DOTFILES="$HOME"/.config/dotfiles
 #
 #
