@@ -1,0 +1,32 @@
+[user]
+	email = mvdoster@gmail.com
+	name = Vladislav Doster
+[core]
+	editor = nvim
+	pager = less
+	commentChar = ~
+	ignorecase = true
+	fileMode = false
+[color]
+	ui = true
+[push]
+	default = current
+	followTags = true
+[pull]
+	ff = only
+	rebase = true
+[status]
+	showUntrackedFiles = all
+[difftool]
+	prompt = false
+[diff]
+	tool = vimdiff
+[mergetool]
+	prompt = false
+[merge]
+	tool = vimdiff
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	clean = git-lfs clean -- %f
+	required = true

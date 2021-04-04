@@ -1,0 +1,116 @@
+tap "git-chglog/git-chglog"
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/core"
+# Automatic configure script builder
+brew "autoconf"
+# Bourne-Again SHell, a UNIX command interpreter
+brew "bash"
+# GNU binary tools for native development
+brew "binutils"
+# Parser generator
+brew "bison"
+# Color-highlighted diff(1) output
+brew "colordiff"
+# GNU File, Shell, and Text utilities
+brew "coreutils"
+# File comparison utilities
+brew "diffutils"
+# Classic UNIX line editor
+brew "ed"
+# GNU Emacs text editor
+brew "emacs"
+# Play, record, convert, and stream audio and video
+brew "ffmpeg"
+# Utility to determine file types
+brew "file-formula"
+# Collection of GNU find, xargs, and locate
+brew "findutils"
+# Fast Lexical Analyzer, generates Scanners (tokenizers)
+brew "flex"
+# Command-line fuzzy finder written in Go
+brew "fzf"
+# GNU awk utility
+brew "gawk"
+# GNU compiler collection
+brew "gcc"
+# GNU debugger
+brew "gdb"
+# Distributed revision control system
+brew "git"
+# Easy semantic versioning for projects using Git
+brew "gitversion"
+# C code prettifier
+brew "gnu-indent"
+# GNU implementation of the famous stream editor
+brew "gnu-sed"
+# GNU version of the tar archiving utility
+brew "gnu-tar"
+# GNU implementation of which utility
+brew "gnu-which"
+# Open source programming language to build simple/reliable/efficient software
+brew "go"
+# Apply a diff file to an original
+brew "gpatch"
+# GNU grep, egrep and fgrep
+brew "grep"
+# Popular GNU data compression program
+brew "gzip"
+# Pager program similar to more
+brew "less"
+# Version of the SSL/TLS protocol forked from OpenSSL
+brew "libressl"
+# Macro processing language
+brew "m4"
+# Utility for directing compilation
+brew "make"
+# Platform built on V8 to build network applications
+brew "node"
+# CLI for Node.js style checker and lint tool for Markdown files
+brew "markdownlint-cli"
+# Free (GNU) replacement for the Pico text editor
+brew "nano"
+# Ambitious Vim-fork focused on extensibility and agility
+brew "neovim"
+# Highly capable, feature-rich programming language
+brew "perl"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
+# Utility that provides fast incremental file transfer
+brew "rsync"
+# Terminal multiplexer with VT100/ANSI terminal emulation
+brew "screen"
+# Autoformat shell script source code
+brew "shfmt"
+# Organize software neatly under a single directory tree (e.g. /usr/local)
+brew "stow"
+# Terminal multiplexer
+brew "tmux"
+# Extraction utility for .zip compressed archives
+brew "unzip"
+# Vi 'workalike' with many additional features
+brew "vim"
+# Executes a program periodically, showing output fullscreen
+brew "watch"
+# Display word differences between text files
+brew "wdiff"
+# Internet file retriever
+brew "wget"
+# Fake keyboard/mouse input and window management for X
+brew "xdotool"
+# In terminal graphical metrics for your *nix system
+brew "zenith"
+# UNIX shell (command interpreter)
+brew "zsh"
+# CHANGELOG generator implemented in Go (Golang).
+brew "git-chglog/git-chglog/git-chglog"
+# Automatic tiling window manager similar to xmonad
+cask "amethyst"
+# Web browser
+cask "google-chrome"
+# GPU-based terminal emulator
+cask "kitty"
+# Music streaming service
+cask "spotify"
+# Multimedia player
+cask "vlc"
