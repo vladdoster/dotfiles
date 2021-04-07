@@ -5,7 +5,7 @@
 # fd - cd to selected directory
 fd() {
   local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
+  dir=$(find "${1:-.}" -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
   cd "$dir"
 }
@@ -13,13 +13,13 @@ fd() {
 # fh - repeat history
 #---------------------
 fh() {
-	eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
+	eval "$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')"
 }
 #-------------------------------
 # fhe - repeat history and edit
 #-------------------------------
 fhe() {
-	print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
+	print -z "$( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')"
 }
 #-----------------------------------------------------
 # fkill - kill processes you have permissions to kill
@@ -27,13 +27,13 @@ fhe() {
 fkill() {
 	local pid
 	if [ "$UID" != "0" ]; then
-		pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
+		pid=$(ps -f -u "$UID" | sed 1d | fzf -m | awk '{print $2}')
 	else
 		pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
 	fi
 
 	if [ "x$pid" != "x" ]; then
-		echo $pid | xargs kill -${1:-9}
+		echo "$pid" | xargs kill -"${1:-9}"
 	fi
 }
 #-----------------------------------------
@@ -58,18 +58,18 @@ fssh() {
 	local host
 	host=$(grep '^host .*' ~/.ssh/config | cut -d ' ' -f 2 | fzf)
 
-	[ -z $host ] && return
+	[ -z "$host" ] && return
 
-	echo "Connecting to ${host}"
-	[ -n $command ] && echo "Command: ${command}"
+	echo "Connecting to $host"
+	[ -n "$command" ] && echo "Command: $command"
 
-	ssh -t $host $command
+	ssh -t "$host" "$command"
 }
 
 # Interactive search.
 # Usage: `ff` or `ff <folder>`.
 ff(){
-[[ -n $1 ]] && cd $1 # go to provided folder or noop
+[[ -n $1 ]] && cd "$1" # go to provided folder or noop
 RG_DEFAULT_COMMAND="rg -i -l --hidden --no-ignore-vcs"
 
 selected=$(
@@ -85,5 +85,5 @@ FZF_DEFAULT_COMMAND="rg --files" fzf \
   --preview "rg -i --pretty --context 2 {q} {}" | cut -d":" -f1,2
 )
 
-[[ -n $selected ]] && subl $selected # open multiple files in editor
+[[ -n $selected ]] && subl "$selected" # open multiple files in editor
 }

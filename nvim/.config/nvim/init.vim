@@ -114,7 +114,7 @@ endfunction
 noremap <silent> <C-E> :call ToggleNetrw()<CR>
 "--- UNDOTREE
 if has("persistent_undo")
-    set undodir=$XDG_CONFIG_HOME/nvim/undodir
+    set undodir=$XDG_CACHE_HOME/nvim/undodir
     set undofile
 endif
 "--- FUNCTIONS
