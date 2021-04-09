@@ -41,6 +41,9 @@ alias e-fzf-commands="vim $ZDOTDIR/.zshrc.d/fzf-commands"
 alias e-tmux="vim $ZDOTDIR/.zshrc.d/fzf-commands"
 alias e-vimrc="vim $XDG_CONFIG_HOME/nvim/init.vim"
 alias e-zshrc="vim $ZDOTDIR/.zshrc"
+alias ez-black="find . -type f -name '*.py' -print -exec python3 -m black --line-length=120 --target-version py38 {} \;"
+alias ez-shellharden="find . -type f -name '*.sh' -print -exec shellharden --replace {} \;"
+alias ez-shfmt="find . -type f -name '*.sh' -print -exec shfmt -i 4 -s -ln bash -sr -bn -ci -w {} \;"
 # git aliases are in ~/.gitconfig.
 alias g='git'
 # misc.
@@ -60,7 +63,4 @@ alias ping='ping -c 10'                # ping 10 times
 alias get-open-ports='netstat -tulanp' # list open ports
 alias get-site-headers='curl -I'     # get web server headers
 alias headerc='curl -I --compress'     # does remote server supports gzip / mod_deflate
-alias get-kubes-token=$(kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}")
-alias ez-shfmt="find . -type f -name "*.sh" -print -exec shfmt -i 4 -s -ln bash -sr -bn -ci -w {} \;"
-alias ez-shellharden="find . -type f -name "*.sh" -print -exec shellharden --replace {} \;"
-alias ez-black="find . -type f -name "*.py" -print -exec python3 -m black --line-length=120 --target-version py38 {} \;"
+#alias get-kubes-token="kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath='{.secrets[0].name}') -o go-template='{{.data.token | base64decode}}'"
