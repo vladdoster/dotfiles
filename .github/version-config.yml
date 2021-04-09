@@ -4,8 +4,8 @@ major-version-bump-message: '(\(breaking|major\))'
 minor-version-bump-message: '(\(docs|feature|minor\))'
 patch-version-bump-message: '(\(chore|fix|maint|patch\))'
 no-bump-message: '\+semver:\s?(none|skip)'
-legacy-semver-padding: 2
-build-metadata-padding: 2
+legacy-semver-padding: 3
+build-metadata-padding: 3
 commits-since-version-source-padding: 3
 tag-pre-release-weight: 60000
 commit-message-incrementing: Enabled
