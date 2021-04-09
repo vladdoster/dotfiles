@@ -30,3 +30,5 @@
 	process = git-lfs filter-process
 	clean = git-lfs clean -- %f
 	required = true
+[remote "origin"]
+	gh-resolved = base
