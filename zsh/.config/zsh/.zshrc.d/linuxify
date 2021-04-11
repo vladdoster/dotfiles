@@ -1,0 +1,60 @@
+# most programs
+export PATH="/usr/local/bin:$PATH"
+export MANPATH="/usr/local/share/man:$MANPATH"
+export INFOPATH="/usr/local/share/info:$INFOPATH"
+
+# coreutils
+export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+
+# make
+export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
+export MANPATH="/usr/local/opt/make/libexec/gnuman:$MANPATH"
+
+# m4
+export PATH="/usr/local/opt/m4/bin:$PATH"
+
+# file-formula
+export PATH="/usr/local/opt/file-formula/bin:$PATH"
+
+# unzip
+export PATH="/usr/local/opt/unzip/bin:$PATH"
+
+# python
+export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+
+# flex
+export PATH="/usr/local/opt/flex/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/flex/lib"
+export CPPFLAGS="-I/usr/local/opt/flex/include"
+
+# bison
+export PATH="/usr/local/opt/bison/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/bison/lib"
+
+# libressl
+export PATH="/usr/local/opt/libressl/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/libressl/lib"
+export CPPFLAGS="-I/usr/local/opt/libressl/include"
+export PKG_CONFIG_PATH="/usr/local/opt/libressl/lib/pkgconfig"
+
+# ed
+export PATH="/usr/local/opt/ed/libexec/gnubin:$PATH"
+
+# findutils
+export PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
+
+# gnu-indent
+export PATH="/usr/local/opt/gnu-indent/libexec/gnubin:$PATH"
+
+# gnu-sed
+export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+
+# gnu-tar
+export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
+
+# gnu-which
+export PATH="/usr/local/opt/gnu-which/libexec/gnubin:$PATH"
+
+# grep
+export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"

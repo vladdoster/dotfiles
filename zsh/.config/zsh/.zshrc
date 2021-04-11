@@ -28,7 +28,6 @@ plugins=(brew \
          kubectl \
          pip \
          python \
-         tmux \
          vi-mode)
 source "$OHMYZSH/oh-my-zsh.sh"
 #--- SOURCES

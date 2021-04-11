@@ -6,14 +6,12 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
 endif
 "--- PLUGINS
 call plug#begin('~/.config/nvim/autoload/plugged')
-  Plug 'godlygeek/tabular'
   Plug 'gruvbox-community/gruvbox'
-  Plug 'preservim/vimux'
-  Plug 'mbbill/undotree'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim'
-  Plug 'stsewd/fzf-checkout.vim'
+  Plug 'mbbill/undotree'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'preservim/vimux'
+  Plug 'tpope/vim-commentary'
 call plug#end()
 "--- GENERAL
 set relativenumber

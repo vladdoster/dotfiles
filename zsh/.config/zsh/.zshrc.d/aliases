@@ -16,8 +16,6 @@ else
     alias get-public-ssh-key="clip $HOME/.ssh/id_rsa.pub && echo 'Copied SSH key to clipboard.'"
 fi
 
-echo "$(git rev-parse --show-toplevel "$(readlink -f "$PWD")")"
-
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
@@ -28,22 +26,30 @@ alias lt="du -sh * | sort -h"
 alias mkdir="mkdir -pv"
 alias tailf="less +F -R"
 # editor
-alias get-scratchpad="vim $(mktemp -t scratch.XXX.md)"
-alias v.="nvim ."
-alias v="nvim"
-alias vi="nvim"
-alias vim="nvim"
+if ! command -v nvim &> /dev/null; then
+   export EDITOR="vim" 
+else 
+   export EDITOR="nvim" 
+fi
+alias get-scratchpad="$EDITOR $(mktemp -t scratch.XXX.md)"
+alias v.="$EDITOR ."
+alias v="$EDITOR"
+alias vi="$EDITOR"
+alias vim="$EDITOR"
 # config shortcuts
 alias e-aliases="vim $ZDOTDIR/.zshrc.d/aliases"
 alias e-cli-commands="vim $ZDOTDIR/.zshrc.d/cli-commands"
-alias e-dfiles="cd $XDG_CONFIG_HOME/dotfiles && ls"
 alias e-fzf-commands="vim $ZDOTDIR/.zshrc.d/fzf-commands"
-alias e-tmux="vim $ZDOTDIR/.zshrc.d/fzf-commands"
+alias e-tmux="vim $XDG_CONFIG_HOME/tmux/tmux.conf"
 alias e-vimrc="vim $XDG_CONFIG_HOME/nvim/init.vim"
 alias e-zshrc="vim $ZDOTDIR/.zshrc"
-alias ez-black="find . -type f -name '*.py' -print -exec python3 -m black --line-length=120 --target-version py38 {} \;"
-alias ez-shellharden="find . -type f -name '*.sh' -print -exec shellharden --replace {} \;"
-alias ez-shfmt="find . -type f -name '*.sh' -print -exec shfmt -i 4 -s -ln bash -sr -bn -ci -w {} \;"
+alias g-desktop="cd $HOME/Desktop && ls"
+alias g-dfiles="cd $XDG_CONFIG_HOME/dotfiles && ls"
+alias g-downloads="cd $HOME/Downloads && ls"
+alias r-black="find . -maxdepth 1 -type f -name  '*.py' -print -exec python3 -m black --line-length=120 --target-version py38 {} \;"
+alias r-shellharden="find . -maxdepth 1 -type f -name '*.sh' -print -exec shellharden --replace {} \;"
+alias r-shfix="r-shellharden && r-shfmt"
+alias r-shfmt="find . -type f -name '*.sh' -print -exec shfmt -i 4 -s -ln bash -sr -bn -ci -w {} \;"
 # git aliases are in ~/.gitconfig.
 alias g='git'
 # misc.
@@ -63,4 +69,3 @@ alias ping='ping -c 10'                # ping 10 times
 alias get-open-ports='netstat -tulanp' # list open ports
 alias get-site-headers='curl -I'     # get web server headers
 alias headerc='curl -I --compress'     # does remote server supports gzip / mod_deflate
-#alias get-kubes-token="kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath='{.secrets[0].name}') -o go-template='{{.data.token | base64decode}}'"
