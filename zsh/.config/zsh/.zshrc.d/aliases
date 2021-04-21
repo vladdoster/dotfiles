@@ -62,8 +62,8 @@ elif [[ "$SHELL" =~ "bash" ]]; then
 fi
 # python
 alias start-http_server="python -m SimpleHTTPServer"
-alias venv-activate="source ./venv/bin/activate"
-alias venv-create="python3 -m venv ./venv"
+alias venv-activate="source ./.venv/bin/activate"
+alias venv-create="python3 -m venv ./.venv"
 # webserver debugging
 alias ping='ping -c 10'                # ping 10 times
 alias get-open-ports='netstat -tulanp' # list open ports
