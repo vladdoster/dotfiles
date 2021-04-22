@@ -16,7 +16,13 @@ make dotfiles
 #### Setup a new system
 
 ```bash
-make setup
+make dotfiles
+```
+
+#### Remove dotfiles
+
+```bash
+make dotfiles
 ```
 
 #### List possible targets
