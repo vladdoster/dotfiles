@@ -1,4 +1,3 @@
-#!/usr/bin/env zsh
 #--- GENERAL
 export CURL_SSL_BACKEND=secure-transport
 export EDITOR=nvim
