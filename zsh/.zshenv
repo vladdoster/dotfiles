@@ -40,3 +40,6 @@ export GOPATH="$XDG_DATA_HOME"/go
 export OHMYZSH="$XDG_DATA_HOME"/ohmyzsh
 export HOMEBREW_BUNDLE_FILE="$XDG_DATA_HOME"/homebrew/Brewfile
 # vim: ft=zsh
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+export PATH="/usr/local/opt/curl/bin:$PATH"

@@ -24,6 +24,7 @@ CASE_SENSITIVE="false"
 ZSH_THEME="ys"
 plugins=(brew \
          docker \
+         docker-compose \
          git \
          kubectl \
          pip \
