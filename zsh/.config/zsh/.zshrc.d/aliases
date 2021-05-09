@@ -69,3 +69,5 @@ alias ping='ping -c 10'                # ping 10 times
 alias get-open-ports='netstat -tulanp' # list open ports
 alias get-site-headers='curl -I'     # get web server headers
 alias headerc='curl -I --compress'     # does remote server supports gzip / mod_deflate
+alias dcd='docker-compose -f local.yml down --remove-orphans --rmi all --volumes'
+alias dcu='docker-compose -f local.yml up'
