@@ -1,33 +1,55 @@
 [user]
 	email = mvdoster@gmail.com
 	name = Vladislav Doster
-[core]
-	editor = nvim
-	pager = less
-	commentChar = ~
-	ignorecase = true
-	fileMode = false
-	autocrlf = false
 [color]
-	ui = true
-[push]
-	default = current
-	followTags = true
-[pull]
-	ff = only
-	rebase = true
-[status]
-	showUntrackedFiles = all
-[difftool]
-	prompt = false
+	ui = auto
+[alias]
+	amend = commit --amend --no-edit
+	ammend = amend
+	cherrypick = cherry-pick
+	co = checkout
+	cob = "!f() { git checkout master; git pull; git checkout -b $1; }; f"
+	comit = commit
+	copr = "!f() { git fetch $1 pull/$2/head:pr-$2 && git checkout pr-$2; }; f"
+	dc = diff --cached
+	dif = diff
+	find = log --pretty=\"format:%Cgreen%H\n%s\n\n%b\" --name-status --grep
+	fixup = "!f() { TARGET=$(git rev-parse "$1"); git commit --fixup=$TARGET ${@:2} && EDITOR=true git rebase -i --autostash --autosquash $TARGET^; }; f"
+	grep-open = "!f() { git grep $1 | cut -d: -f1 | xargs $EDITOR; }; f"
+	l = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue) -%an%Creset' --abbrev-commit
+	pullr = pull --rebase
+	rebase-i = rebase -i --autostash
+	remotes = remote
+	s = status --short --branch --ignore-submodules=untracked
+	sha = rev-parse --short
+	stage-head = git reset --soft HEAD~
+	unadd = reset HEAD
+	unstage = restore --staged
+[core]
+	excludesfile = ~/.gitignore
+	safecrlf = true
+	trustctime = false
 [diff]
-	tool = vimdiff
-[mergetool]
-	prompt = false
+	compactionHeuristic = true
+	mnemonicprefix = true
 [merge]
 	tool = vimdiff
-[filter "lfs"]
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	clean = git-lfs clean -- %f
-	required = true
+[mergetool]
+	prompt = true
+[mergetool "vimdiff"]
+	cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[push]
+	default = simple
+[github]
+	user = vladdoster
+[rerere]
+	enabled = true
+[pull]
+	ff = only
+[rebase]
+	autoStash = true
+[init]
+	defaultBranch = main
+
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
