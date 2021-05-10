@@ -1,217 +1,207 @@
-"--- AUTO-INSTALL PLUGGED
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall | source $MYVIMRC
-endif
-"--- PLUGINS
-call plug#begin('~/.config/nvim/autoload/plugged')
-  Plug 'gruvbox-community/gruvbox'
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'mbbill/undotree'
-  Plug 'preservim/vimux'
-  Plug 'tpope/vim-commentary'
-  " collection of common configurations for the nvim lsp client
-  Plug 'neovim/nvim-lspconfig'
-  " extensions to built-in lsp, for example, providing type inlay hints
-  Plug 'nvim-lua/lsp_extensions.nvim'
-  " autocompletion framework for built-in lsp
-  Plug 'nvim-lua/completion-nvim' 
-  " telescope
-  Plug 'nvim-lua/popup.nvim'
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-telescope/telescope.nvim'
-call plug#end()
-"--- GENERAL
-set relativenumber
-set nohlsearch
-set noerrorbells
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
-set expandtab
-set smartindent
-set nu
-set nowrap
-set smartcase
-set noswapfile
-set incsearch
-set termguicolors
-set scrolloff=10
-set noshowmode
-set colorcolumn=80
-highlight ColorColumn ctermbg=0 guibg=lightgrey
-"--- REMAPS
-let mapleader = " "
-" easily resize split windows with Ctrl+hjkl
-nnoremap <C-j> <C-w>+
-nnoremap <C-k> <C-w>-
-nnoremap <C-h> <C-w><
-nnoremap <C-l> <C-w>>
-" reselect visual block after indent/outdent
-vnoremap < <gv
-vnoremap > >gv
-" move by screen lines instead of file line
-nnoremap j gj
-nnoremap k gk
-" join lines from below too. See :help J
-map K kJ
-" make Y behave like other capitals
-map Y y$
-" select another file from the directory of the current one
-nnoremap <leader>F :execute 'edit' expand("%:p:h")<cr>
-nnoremap <leader>gm /\v^\<\<\<\<\<\<\< \|\=\=\=\=\=\=\=$\|\>\>\>\>\>\>\> /<cr>
-"--- COLORSCHEME
-colorscheme gruvbox
-let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_invert_selection='0'
-set background=dark
-"--- TELESCOPE
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-"--- NETRW
-let g:NetrwIsOpen=0
-let g:netrw_banner = 0
-let g:netrw_winsize = 15
-let g:netrw_browse_split = 2
-let g:netrw_winsize = 20
-let g:netrw_localrmdir='rm -r'
-let g:netrw_dirhistmax = 0
-function! ToggleNetrw()
-    if g:NetrwIsOpen
-        let i = bufnr("$")
-        while (i >= 1)
-            if (getbufvar(i, "&filetype") == "netrw")
-                silent exe "bwipeout " . i
-            endif
-            let i-=1
-        endwhile
-        let g:NetrwIsOpen=0
-    else
-        let g:NetrwIsOpen=1
-        silent Lexplore
-    endif
-endfunction
-noremap <silent> <C-E> :call ToggleNetrw()<CR>
-"--- UNDOTREE
-if has("persistent_undo")
-    set undodir=$XDG_CACHE_HOME/nvim/undodir
-    set undofile
-endif
-"--- FUNCTIONS
-function! TrimWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
-endfun
-"--- VIMUX
-map <Leader>vp :VimuxPromptCommand<CR>
-map <Leader>vm :VimuxPromptCommand("make ")<CR>
-map <Leader>vl :VimuxRunLastCommand<CR>
-map <Leader>vq :VimuxCloseRunner<CR>
-map <Leader>vs :VimuxInterruptRunner<CR>
-map <Leader>v<C-l> :VimuxClearTerminalScreen<CR>
-"--- CODE COMPLETION
-syntax enable
-filetype plugin indent on
-set completeopt=menuone,noinsert,noselect
-" Avoid showing extra messages when using completion
-set shortmess+=c
+-- leader
+vim.g.mapleader = ','
 
-lua << EOF
-local nvim_lsp = require('lspconfig')
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+-- mapping functions
+local nmap =        function(lhs, rhs) vim.api.nvim_set_keymap('n', lhs, rhs, {}) end
+local vmap =        function(lhs, rhs) vim.api.nvim_set_keymap('v', lhs, rhs, {}) end
+local snmap =       function(lhs, rhs) vim.api.nvim_set_keymap('n', lhs, rhs, { silent = true}) end
+local nnoremap =    function(lhs, rhs) vim.api.nvim_set_keymap('n', lhs, rhs, { noremap = true }) end
+local inoremap =    function(lhs, rhs) vim.api.nvim_set_keymap('i', lhs, rhs, { noremap = true }) end
+local bufsnoremap = function(lhs, rhs) vim.api.nvim_buf_set_keymap(0, 'n', lhs, rhs, { noremap = true, silent = true }) end
+local lspremap =    function(keymap, fn_name) bufsnoremap(keymap, '<cmd>lua vim.lsp.' .. fn_name .. '()<CR>') end
 
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+-- exclusions for polyglot
+vim.g.polyglot_disabled = {'cue'}
 
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-
-  -- Set some keybinds conditional on server capabilities
-  if client.resolved_capabilities.document_formatting then
-    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  end
-  if client.resolved_capabilities.document_range_formatting then
-    buf_set_keymap("v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-  end
-
-  -- Set autocommands conditional on server_capabilities
-  if client.resolved_capabilities.document_highlight then
-    vim.api.nvim_exec([[
-      hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-      hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-      hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]], false)
+-- Define autocommands in lua
+-- https://github.com/neovim/neovim/pull/12378
+-- https://github.com/norcalli/nvim_utils/blob/71919c2f05920ed2f9718b4c2e30f8dd5f167194/lua/nvim_utils.lua#L554-L567
+function nvim_create_augroups(definitions)
+  for group_name, definition in pairs(definitions) do
+    vim.api.nvim_command('augroup ' .. group_name)
+    vim.api.nvim_command('autocmd!')
+    for _, def in ipairs(definition) do
+      local command = table.concat(vim.tbl_flatten{'autocmd', def}, ' ')
+      vim.api.nvim_command(command)
+    end
+    vim.api.nvim_command('augroup END')
   end
 end
 
--- Use a loop to conveniently both setup defined servers 
--- and map buffer local keybindings when the language server attaches
-local servers = { "pyright" }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup { on_attach = on_attach }
+-- bootstrap packer
+local packer_exists = pcall(vim.cmd, [[packadd packer.nvim]])
+if not packer_exists then
+  local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim'
+  vim.fn.system('git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+  vim.cmd [[packadd packer.nvim]]
 end
--- enable diagnostics
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = true,
-    signs = true,
-    update_in_insert = true,
-  }
-)
-EOF
 
-" Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+-- packer
+local packer = require('packer').startup {
+  function(use)
+    use { 'bogado/file-line' }
+    use { 'ervandew/supertab' }
+    use { 'fatih/vim-go' }
+    use { 'jjo/vim-cue' }
+    use { 'jzelinskie/monokai-soda.vim', requires = 'tjdevries/colorbuddy.vim' }
+    use { 'majutsushi/tagbar' }
+    use { 'milkypostman/vim-togglelist' }
+    use { 'neovim/nvim-lspconfig' }
+    use { 'norcalli/nvim-colorizer.lua' }
+    use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}}
+    use { 'sheerun/vim-polyglot' }
+    use { 'tpope/vim-commentary' }
+    use { 'tpope/vim-repeat' }
+    use { 'tpope/vim-surround' }
+    use { 'tpope/vim-unimpaired' }
+    use { 'vim-airline/vim-airline' }
+    use { 'vim-airline/vim-airline-themes' }
+    use { 'vim-scripts/a.vim' }
+    use { 'wbthomason/packer.nvim', opt = true }
+  end,
+}
+if not packer_exists then packer.install() end -- install plugins during initial bootstrap
 
-" use <Tab> as trigger keys
-imap <Tab> <Plug>(completion_smart_tab)
-imap <S-Tab> <Plug>(completion_smart_s_tab)
+-- misc global opts
+settings = {
+  'set colorcolumn=80,100',
+  'set cursorline',
+  'set completeopt-=preview',
+  'set cpoptions=ces$',
+  'set ffs=unix,dos',
+  'set fillchars=vert:·',
+  'set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo',
+  'set guioptions-=T',
+  'set guioptions-=m',
+  'set hidden',
+  'set hlsearch',
+  'set ignorecase',
+  'set lazyredraw',
+  'set list listchars=tab:·\\ ,eol:¬',
+  'set nobackup',
+  'set noerrorbells',
+  'set noshowmode',
+  'set noswapfile',
+  'set number',
+  'set shellslash',
+  'set showfulltag',
+  'set showmatch',
+  'set showmode',
+  'set smartcase',
+  'set synmaxcol=2048',
+  'set t_Co=256',
+  'set title',
+  'set ts=2 sts=2 sw=2 et ci',
+  'set ttyfast',
+  'set vb',
+  'set virtualedit=all',
+  'set visualbell',
+  'set wrapscan',
+  'set termguicolors',
+  'set cpoptions+=_',
+  'colorscheme monokai-soda',
+}
+for _, setting in ipairs(settings) do
+  vim.cmd(setting)
+end
 
-" code action
-nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
+-- setup colorizer
+require('colorizer').setup()
 
-" Set updatetime for CursorHold
-" 300ms of no cursor movement to trigger CursorHold
-set updatetime=300
-" Show diagnostic popup on cursor hold
-autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+-- language server
+local lspcfg = {
+  gopls =         { binary = 'gopls',                    format_on_save = '*.go'       },
+  golangcilsp =   { binary = 'golangci-lint-langserver', format_on_save = nil          },
+  pyls =          { binary = 'pyls',                     format_on_save = '*.py'       },
+  pyright =       { binary = 'pyright',                  format_on_save = nil          },
+  rust_analyzer = { binary = 'rust-analyzer',            format_on_save = '*.rs'       },
+  yamlls =        { binary = 'yamlls',                   format_on_save = nil          },
+  bashls =        { binary = 'bash-language-server',     format_on_save = nil          },
+  dockerls =      { binary = 'docker-langserver',        format_on_save = 'Dockerfile' },
+}
+local lsp = require('lspconfig')
+local custom_lsp_attach = function(client)
+  local opts = lspcfg[client.name]
 
-" Goto previous/next diagnostic warning/error
-nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+  -- autocommplete
+  vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-" have a fixed column for the diagnostics to appear in
-" this removes the jitter when warnings/errors flow in
-set signcolumn=yes
+  -- format on save
+  if opts['format_on_save'] ~= nil then
+    nvim_create_augroups({[client.name] = {{'BufWritePre', opts['format_on_save'], ':lua vim.lsp.buf.formatting_sync(nil, 1000)'}}})
+  end
 
-" Enable type inlay hints
-autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
-\ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+  -- keymaps
+  lspremap('gd',    'buf.declaration')
+  lspremap('<c-]>', 'buf.definition')
+  lspremap('K',     'buf.hover')
+  lspremap('gD',    'buf.implementation')
+  lspremap('<c-k>', 'buf.signature_help')
+  lspremap('1gD',   'buf.type_definition')
+  lspremap('gr',    'buf.references')
+  lspremap('g0',    'buf.document_symbol')
+  lspremap('gW',    'buf.workspace_symbol')
+  lspremap('gl',    'diagnostic.show_line_diagnostics')
+end
 
+-- golangci-lint lsp
+local lspconfigs = require('lspconfig/configs')
+lspconfigs.golangcilsp = {
+  default_config = {
+    cmd = {'golangci-lint-langserver'};
+    filetypes = {'go', 'gomod'};
+    root_dir = lsp.util.root_pattern('.git', 'go.mod');
+    init_options = {
+      command = { 'golangci-lint', 'run', '--out-format', 'json' };
+    }
+  };
+}
+
+-- only setup lsp clients for binaries that exist
+for srv, opts in pairs(lspcfg) do
+  if vim.fn.executable(opts['binary']) then lsp[srv].setup { on_attach = custom_lsp_attach } end
+end
+
+-- productive arrow keys
+nmap('<Up>',    '[e')
+vmap('<Up>',    '[egv')
+nmap('<Down>',  ']e')
+vmap('<Down>',  ']egv')
+nmap('<Left>',  '<<')
+nmap('<Right>', '>>')
+vmap('<Left>',  '<gv')
+vmap('<Right>', '>gv')
+
+-- clear hlsearch on redraw
+nnoremap('<C-L>', ':nohlsearch<CR><C-L>')
+
+-- telescope
+nnoremap('<c-p>', "<cmd>lua require('telescope.builtin').find_files()<cr>")
+nnoremap('<c-b>', "<cmd>lua require('telescope.builtin').buffers()<cr>")
+nnoremap('<leader>ff', "<cmd>lua require('telescope.builtin').find_files()<cr>")
+nnoremap('<leader>fg', "<cmd>lua require('telescope.builtin').live_grep()<cr>")
+nnoremap('<leader>fb', "<cmd>lua require('telescope.builtin').buffers()<cr>")
+nnoremap('<leader>fh', "<cmd>lua require('telescope.builtin').help_tags()<cr>")
+
+-- supertab
+vim.g.SuperTabDefaultCompletionType = "<c-x><c-o>"
+inoremap('<S-Tab>', '<C-v><Tab>')
+
+-- clipboard
+if vim.fn.has('unnamedplus') then vim.o.clipboard = 'unnamedplus' else vim.o.clipboard = 'unnamed' end
+
+-- airline
+vim.g.airline_theme = 'monochrome'
+vim.g.airline_powerline_fonts = '0'
+vim.cmd('let g:airline#extensions#tabline#enabled = 1')
+vim.cmd('let g:airline#extensions#tabline#buffer_nr_show = 1')
+
+-- tags
+snmap('<leader>o', ':TagbarToggle<CR>')
+
+-- toggle paste and wrap
+snmap('<leader>p', ':set invpaste<CR>:set paste?<CR>')
+snmap('<leader>w', ':set invwrap<CR>:set wrap?<CR>')
+
+-- strip trailing whitespace
+nnoremap('<leader>sws', ':%s/\\s\\+$//e<CR>')
