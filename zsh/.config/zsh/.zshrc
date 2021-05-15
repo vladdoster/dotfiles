@@ -27,6 +27,7 @@ plugins=(brew \
          docker-compose \
          git \
          kubectl \
+         npm \
          pip \
          python \
          vi-mode)

@@ -29,6 +29,8 @@
 	excludesfile = ~/.gitignore
 	safecrlf = true
 	trustctime = false
+	eol = lf
+	autocrlf = false
 [diff]
 	compactionHeuristic = true
 	mnemonicprefix = true
@@ -50,6 +52,11 @@
 	autoStash = true
 [init]
 	defaultBranch = main
-
-[url "ssh://git@github.com/"]
-	insteadOf = https://github.com/
+[fsck]
+	zeroPaddedFilemode = ignore
+[fetch "fsck"]
+	zeroPaddedFilemode = ignore
+[receive "fsck"]
+	zeroPaddedFilemode = ignore
+[oh-my-zsh]
+	lastVersion = 63a7422d8dd5eb93c849df0ab9e679e6f333818a

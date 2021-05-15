@@ -7,7 +7,6 @@
 *.pyc
 *.so
 .*.sw?
-.DS_Store
 .DS_Store?
 .Spotlight-V100
 .Trashes
@@ -19,4 +18,3 @@ Icon?
 Thumbs.db
 ehthumbs.db
 id_rsa
-id_ed25519

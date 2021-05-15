@@ -10,9 +10,6 @@ local inoremap =    function(lhs, rhs) vim.api.nvim_set_keymap('i', lhs, rhs, { 
 local bufsnoremap = function(lhs, rhs) vim.api.nvim_buf_set_keymap(0, 'n', lhs, rhs, { noremap = true, silent = true }) end
 local lspremap =    function(keymap, fn_name) bufsnoremap(keymap, '<cmd>lua vim.lsp.' .. fn_name .. '()<CR>') end
 
--- exclusions for polyglot
-vim.g.polyglot_disabled = {'cue'}
-
 -- Define autocommands in lua
 -- https://github.com/neovim/neovim/pull/12378
 -- https://github.com/norcalli/nvim_utils/blob/71919c2f05920ed2f9718b4c2e30f8dd5f167194/lua/nvim_utils.lua#L554-L567
@@ -39,24 +36,29 @@ end
 -- packer
 local packer = require('packer').startup {
   function(use)
-    use { 'bogado/file-line' }
     use { 'ervandew/supertab' }
     use { 'fatih/vim-go' }
-    use { 'jjo/vim-cue' }
-    use { 'jzelinskie/monokai-soda.vim', requires = 'tjdevries/colorbuddy.vim' }
-    use { 'majutsushi/tagbar' }
-    use { 'milkypostman/vim-togglelist' }
-    use { 'neovim/nvim-lspconfig' }
+
     use { 'norcalli/nvim-colorizer.lua' }
+    use { 'gruvbox-community/gruvbox' }
+
+    use { 'majutsushi/tagbar' }
+    use { 'kyazdani42/nvim-tree.lua' }
+    use { 'neovim/nvim-lspconfig' }
     use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}}
     use { 'sheerun/vim-polyglot' }
+
     use { 'tpope/vim-commentary' }
+    use { 'tpope/vim-fugitive', requires = {{ 'junegunn/gv.vim' }}}
     use { 'tpope/vim-repeat' }
     use { 'tpope/vim-surround' }
     use { 'tpope/vim-unimpaired' }
+    use { 'tpope/vim-vinegar' }
+    use { 'tpope/vim-eunuch' }
+
     use { 'vim-airline/vim-airline' }
     use { 'vim-airline/vim-airline-themes' }
-    use { 'vim-scripts/a.vim' }
+
     use { 'wbthomason/packer.nvim', opt = true }
   end,
 }
@@ -99,7 +101,7 @@ settings = {
   'set wrapscan',
   'set termguicolors',
   'set cpoptions+=_',
-  'colorscheme monokai-soda',
+  'colorscheme gruvbox',
 }
 for _, setting in ipairs(settings) do
   vim.cmd(setting)
@@ -114,7 +116,6 @@ local lspcfg = {
   golangcilsp =   { binary = 'golangci-lint-langserver', format_on_save = nil          },
   pyls =          { binary = 'pyls',                     format_on_save = '*.py'       },
   pyright =       { binary = 'pyright',                  format_on_save = nil          },
-  rust_analyzer = { binary = 'rust-analyzer',            format_on_save = '*.rs'       },
   yamlls =        { binary = 'yamlls',                   format_on_save = nil          },
   bashls =        { binary = 'bash-language-server',     format_on_save = nil          },
   dockerls =      { binary = 'docker-langserver',        format_on_save = 'Dockerfile' },
@@ -176,9 +177,9 @@ vmap('<Right>', '>gv')
 nnoremap('<C-L>', ':nohlsearch<CR><C-L>')
 
 -- telescope
+nnoremap('<leader>ff', "<cmd>lua require('telescope.builtin').find_files()<cr>")
 nnoremap('<c-p>', "<cmd>lua require('telescope.builtin').find_files()<cr>")
 nnoremap('<c-b>', "<cmd>lua require('telescope.builtin').buffers()<cr>")
-nnoremap('<leader>ff', "<cmd>lua require('telescope.builtin').find_files()<cr>")
 nnoremap('<leader>fg', "<cmd>lua require('telescope.builtin').live_grep()<cr>")
 nnoremap('<leader>fb', "<cmd>lua require('telescope.builtin').buffers()<cr>")
 nnoremap('<leader>fh', "<cmd>lua require('telescope.builtin').help_tags()<cr>")
