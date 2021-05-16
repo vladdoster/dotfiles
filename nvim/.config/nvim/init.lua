@@ -155,6 +155,7 @@ local custom_lsp_attach = function(client)
   if opts['format_on_save'] ~= nil then
     nvim_create_augroups({[client.name] = {{'BufWritePre', opts['format_on_save'], ':lua vim.lsp.buf.formatting_sync(nil, 1000)'}}})
   end
+end
 
 -- golangci-lint lsp
 local lspconfigs = require('lspconfig/configs')
