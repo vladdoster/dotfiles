@@ -47,6 +47,7 @@ local packer = require('packer').startup {
     use { 'neovim/nvim-lspconfig' }
     use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}}
     use { 'sheerun/vim-polyglot' }
+    use { 'hrsh7th/nvim-compe' }
 
     use { 'tpope/vim-commentary' }
     use { 'tpope/vim-fugitive', requires = {{ 'junegunn/gv.vim' }}}
@@ -111,6 +112,32 @@ end
 require('colorizer').setup()
 
 -- language server
+
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'enable';
+  throttle_time = 80;
+  source_timeout = 200;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = true;
+
+  source = {
+    path = true;
+    buffer = true;
+    calc = true;
+    nvim_lsp = true;
+    nvim_lua = true;
+    vsnip = true;
+    ultisnips = true;
+  };
+}
+
 local lspcfg = {
   gopls =         { binary = 'gopls',                    format_on_save = '*.go'       },
   golangcilsp =   { binary = 'golangci-lint-langserver', format_on_save = nil          },
@@ -124,26 +151,10 @@ local lsp = require('lspconfig')
 local custom_lsp_attach = function(client)
   local opts = lspcfg[client.name]
 
-  -- autocommplete
-  vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
   -- format on save
   if opts['format_on_save'] ~= nil then
     nvim_create_augroups({[client.name] = {{'BufWritePre', opts['format_on_save'], ':lua vim.lsp.buf.formatting_sync(nil, 1000)'}}})
   end
-
-  -- keymaps
-  lspremap('gd',    'buf.declaration')
-  lspremap('<c-]>', 'buf.definition')
-  lspremap('K',     'buf.hover')
-  lspremap('gD',    'buf.implementation')
-  lspremap('<c-k>', 'buf.signature_help')
-  lspremap('1gD',   'buf.type_definition')
-  lspremap('gr',    'buf.references')
-  lspremap('g0',    'buf.document_symbol')
-  lspremap('gW',    'buf.workspace_symbol')
-  lspremap('gl',    'diagnostic.show_line_diagnostics')
-end
 
 -- golangci-lint lsp
 local lspconfigs = require('lspconfig/configs')
@@ -183,10 +194,6 @@ nnoremap('<c-b>', "<cmd>lua require('telescope.builtin').buffers()<cr>")
 nnoremap('<leader>fg', "<cmd>lua require('telescope.builtin').live_grep()<cr>")
 nnoremap('<leader>fb', "<cmd>lua require('telescope.builtin').buffers()<cr>")
 nnoremap('<leader>fh', "<cmd>lua require('telescope.builtin').help_tags()<cr>")
-
--- supertab
-vim.g.SuperTabDefaultCompletionType = "<c-x><c-o>"
-inoremap('<S-Tab>', '<C-v><Tab>')
 
 -- clipboard
 if vim.fn.has('unnamedplus') then vim.o.clipboard = 'unnamedplus' else vim.o.clipboard = 'unnamed' end
