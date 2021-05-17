@@ -16,8 +16,7 @@ find * -name "*.list" | while read fn; do
     substep_info "Creating $folder folder..."
     mkdir -p "$REPO_PATH/$folder"
     while read repo; do
-        if [[ $repo == $COMMENT ]];
-        then continue; else
+        if [[ $repo == $COMMENT ]]; then continue; else
             pushd "$REPO_PATH/$folder" &> /dev/null
             git clone $repo &> /dev/null
             if [[ $? -eq 128 ]]; then
