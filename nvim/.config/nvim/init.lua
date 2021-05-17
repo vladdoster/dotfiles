@@ -1,120 +1,281 @@
--- leader
-vim.g.mapleader = ','
+-- Install packer
+local execute = vim.api.nvim_command
+local install_path = vim.fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
 
--- mapping functions
-local nmap =        function(lhs, rhs) vim.api.nvim_set_keymap('n', lhs, rhs, {}) end
-local vmap =        function(lhs, rhs) vim.api.nvim_set_keymap('v', lhs, rhs, {}) end
-local snmap =       function(lhs, rhs) vim.api.nvim_set_keymap('n', lhs, rhs, { silent = true}) end
-local nnoremap =    function(lhs, rhs) vim.api.nvim_set_keymap('n', lhs, rhs, { noremap = true }) end
-local inoremap =    function(lhs, rhs) vim.api.nvim_set_keymap('i', lhs, rhs, { noremap = true }) end
-local bufsnoremap = function(lhs, rhs) vim.api.nvim_buf_set_keymap(0, 'n', lhs, rhs, { noremap = true, silent = true }) end
-local lspremap =    function(keymap, fn_name) bufsnoremap(keymap, '<cmd>lua vim.lsp.' .. fn_name .. '()<CR>') end
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
+end
 
--- Define autocommands in lua
--- https://github.com/neovim/neovim/pull/12378
--- https://github.com/norcalli/nvim_utils/blob/71919c2f05920ed2f9718b4c2e30f8dd5f167194/lua/nvim_utils.lua#L554-L567
-function nvim_create_augroups(definitions)
-  for group_name, definition in pairs(definitions) do
-    vim.api.nvim_command('augroup ' .. group_name)
-    vim.api.nvim_command('autocmd!')
-    for _, def in ipairs(definition) do
-      local command = table.concat(vim.tbl_flatten{'autocmd', def}, ' ')
-      vim.api.nvim_command(command)
-    end
-    vim.api.nvim_command('augroup END')
+vim.cmd [[packadd packer.nvim]]
+vim.api.nvim_exec([[
+  augroup Packer
+    autocmd!
+    autocmd BufWritePost plugins.lua PackerCompile
+  augroup end
+]], false)
+
+local use = require('packer').use
+require('packer').startup(function()
+  use {'wbthomason/packer.nvim', opt = true}
+  use 'hrsh7th/nvim-compe'
+  use 'lewis6991/gitsigns.nvim'
+  use 'morhetz/gruvbox'
+  use 'neovim/nvim-lspconfig'
+  use 'sheerun/im-polyglot'
+  use 'tpope/vim-commentary'
+  use 'tpope/vim-fugitive'
+  use 'tpope/vim-repeat'
+  use 'tpope/vim-surround'
+  use 'tpope/vim-vinegar'
+  use {'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}} }
+end)
+
+--Incremental live completion
+vim.o.inccommand = "nosplit"
+
+-- mapping and settings helpers
+local utils = {}
+
+function utils.map(type, key, value, opts) -- the other functions are just for more vim-feel usage
+  local options = opts or {}
+  vim.api.nvim_set_keymap(type, key, value, options)
+end
+function utils.noremap(type, key, value, opts)
+  local options = {noremap = true}
+  if opts then
+    options = vim.tbl_extend('force', options, opts)
+  end
+  vim.api.nvim_set_keymap(type,key,value, options)
+end
+function utils.nnoremap(key, value, opts)
+  utils.noremap('n', key, value, opts)
+end
+function utils.inoremap(key, value, opts)
+  utils.noremap('i', key, value, opts)
+end
+function utils.vnoremap(key, value, opts)
+  utils.noremap('v', key, value, opts)
+end
+function utils.xnoremap(key, value, opts)
+  utils.noremap('x', key, value, opts)
+end
+function utils.tnoremap(key, value, opts)
+  utils.noremap('t', key, value, opts)
+end
+function utils.cnoremap(key, value, opts)
+  utils.noremap('c', key, value, opts)
+end
+function utils.nmap(key, value, opts)
+  utils.map('n', key, value, opts)
+end
+function utils.imap(key, value, opts)
+  utils.map('i', key, value, opts)
+end
+function utils.vmap(key, value, opts)
+  utils.map('v', key, value, opts)
+end
+function utils.tmap(key, value, opts)
+  utils.map('t', key, value, opts)
+end
+
+P = function(stuff) return print(vim.inspect(stuff)) end
+
+-- SET OPTS --> EG --> opt('b', 'expandtab', true)
+local scopes = {o = vim.o, b = vim.bo, w = vim.wo, g = vim.g}
+function utils.opt(scope, key, value)
+  scopes[scope][key] = value
+  if scope ~= 'o' then scopes['o'][key] = value end
+end
+
+-- ===== real config starts here =====
+local g = vim.g
+local o = vim.o
+
+g.mapleader = ' '
+g.tex_flavor = "latex"
+
+utils.opt('w', 'number', true)
+utils.opt('w', 'relativenumber', true)
+-- faster macros
+utils.opt('o', 'lazyredraw', true)
+-- matching parenthesis
+utils.opt('o', 'showmatch', true)
+-- switch buffer without saving them
+utils.opt('o', 'hidden', true)
+-- better searching
+utils.opt('o', 'ignorecase', true)
+utils.opt('o', 'smartcase', true)
+utils.opt('o', 'hlsearch', false)
+-- show lines bellow cursor
+utils.opt('o', 'scrolloff', 5)
+utils.opt('o', 'sidescrolloff', 5)
+-- tab config
+utils.opt('b', 'expandtab', true)
+utils.opt('b', 'shiftwidth', 2)
+utils.opt('b', 'tabstop', 2)
+utils.opt('b', 'softtabstop', 2)
+-- split in reasonable positions
+utils.opt('o', 'splitright', true)
+utils.opt('o', 'splitbelow', true)
+--folds
+utils.opt('w', 'foldmethod', 'expr')
+utils.opt('w', 'foldexpr', 'nvim_treesitter#foldexpr()')
+utils.opt('o', 'foldlevelstart', 99)
+o.formatoptions = o.formatoptions:gsub("r", ""):gsub("o", "")
+
+-- ===== plugins =====
+vim.cmd [[packadd packer.nvim]]
+require('packer').startup(function(use)
+  use {'dylanaraps/wal.vim'}
+  use {'hrsh7th/nvim-compe'}
+  use {'morhetz/gruvbox'}
+  use {'neovim/nvim-lspconfig'}
+  use {'norcalli/nvim-colorizer.lua', config = [[require"colorizer".setup()]]}
+  use {'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}}
+  use {'tpope/vim-fugitive'}
+  use {'wbthomason/packer.nvim', opt = true}
+end)
+-- update plugins
+vim.cmd([[autocmd BufWritePost plugins.lua PackerCompile]])
+
+-- ===== colorsheme settings =====
+vim.cmd('syntax on')
+vim.o.termguicolors = true
+vim.g.gruvbox_contrast_dark="hard"
+vim.cmd("colorscheme gruvbox")
+
+-- remove trailing whitespaces
+vim.cmd([[autocmd BufWritePre * %s/\s\+$//e]])
+-- remove trailing newline
+vim.cmd([[autocmd BufWritePre * %s/\n\+\%$//e]])
+-- Run xrdb whenever Xdefaults or Xresources are updated.
+vim.cmd([[autocmd BufWritePost *xresources !xrdb %]])
+-- Update binds when sxhkdrc is updated.
+vim.cmd([[autocmd BufWritePost *sxhkdrc !pkill -USR1 sxhkd]])
+
+-- ===== mappings =====
+-- split resize
+utils.nnoremap("<leader>-", "<cmd>vertical resize -10<CR>")
+utils.nnoremap("<leader>+", "<cmd>vertical resize +10<CR>")
+utils.nnoremap("<leader>_", "<cmd>resize -10<CR>")
+utils.nnoremap("<leader>*", "<cmd>resize +10<CR>")
+-- split navigation
+utils.map("", "<C-h>", "<C-w>h")
+utils.map("", "<C-j>", "<C-w>j")
+utils.map("", "<C-k>", "<C-w>k")
+utils.map("", "<C-l>", "<C-w>l")
+-- run command in current line and paste stout into current buffer
+utils.nnoremap("Q", "!!$SHELL<CR>")
+-- move lines up and down in visual mode
+utils.xnoremap("K", ":move '<-2<CR>gv-gv")
+utils.xnoremap("J", ":move '>+1<CR>gv-gv")
+-- useful bindings
+utils.inoremap("kj", "<Esc>")
+utils.noremap("", "<Space>", ":")
+utils.nnoremap("<leader>ev", "<cmd>vs $MYVIMRC<CR>")
+utils.nnoremap("<leader>sv", "<cmd>source $MYVIMRC<CR>")
+-- quote quickly
+utils.inoremap('<leader>"', '<Esc>viw<Esc>a"<Esc>bi"<Esc>leli')
+utils.vnoremap('<leader>"', '<Esc>`<i"<Esc>`>ea"<Esc>')
+-- substitute shortcut
+utils.nnoremap("S", ":%s//g<Left><Left>")
+utils.vnoremap("S", ":s//g<Left><Left>")
+-- quickfix navigation
+utils.nnoremap("<leader>q", "<cmd>cnext<cr>")
+utils.nnoremap("<leader>Q", "<cmd>cprev<cr>")
+-- spellcheck
+utils.nnoremap("<leader>sp", ":setlocal spell spelllang=en")
+-- more reachable line start/end
+utils.nnoremap("H", "^")
+utils.nnoremap("L", "$")
+-- write to ----READONLY---- files
+utils.cnoremap("w!!",  "execute 'silent! write !sudo tee % >/dev/null' <bar> edit!")
+-- nvim-commenter
+utils.vnoremap("<leader>x", "<cmd>MultiCommenterToggle<cr>")
+utils.nnoremap("<leader>x", "<cmd>SingleCommenterToggle<cr>")
+-- terminal mappings
+utils.tnoremap("<Esc>", "<C-\\><C-n>")
+utils.nnoremap("<leader>t", "<cmd>sp | term<cr>")
+-- termdebugger
+utils.nnoremap("<leader>dd", ":TermdebugCommand")
+
+-- ===== find project root for quick cd =====
+local api = vim.api
+function find_project_root()
+  local id = [[.git]]
+  local file = api.nvim_buf_get_name(0)
+  local root = vim.fn.finddir(id, file .. ';')
+  if root ~= "" then
+    root = root:gsub(id, '')
+    print(root)
+    vim.api.nvim_set_current_dir(root)
+  else
+    print("No repo found.")
   end
 end
+-- smart cwd
+utils.nnoremap("cf", "<cmd>cd %:p:h | pwd<cr>")
+utils.nnoremap("cr", "<cmd>lua find_project_root()<cr>")
+-- tab for completion menu
+utils.inoremap("<Tab>", 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {expr = true})
+utils.inoremap("<S-Tab>", 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', {expr = true})
 
--- bootstrap packer
-local packer_exists = pcall(vim.cmd, [[packadd packer.nvim]])
-if not packer_exists then
-  local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim'
-  vim.fn.system('git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
-  vim.cmd [[packadd packer.nvim]]
+-- ===== statusline =====
+local stl = {' %M', ' %y', ' %r', ' %{pathshorten(expand("%:p"))}', ' %{FugitiveStatusline()}',
+  '%=', ' %c:%l/%L'
+}
+vim.o.statusline = table.concat(stl)
+
+-- ===== telescope setup =====
+require('telescope').setup{
+  --defaults excluded to reduce lines :P
+}
+utils.nnoremap('<leader>b', '<cmd>Telescope buffers<cr>')
+utils.nnoremap('<leader>o', '<cmd>Telescope find_files<cr>')
+utils.nnoremap('<leader>h', '<cmd>Telescope oldfiles<cr>')
+utils.nnoremap('<leader>c', '<cmd>Telescope commands<cr>')
+utils.nnoremap('<leader>ch', '<cmd>Telescope command_history<cr>')
+utils.nnoremap('<leader>f', '<cmd>Telescope live_grep<cr>')
+utils.nnoremap('<leader>z', '<cmd>Telescope spell_suggest<cr>')
+utils.noremap('','<F1>', '<cmd>Telescope help_tags<cr>')
+
+-- ===== lsp setup =====
+local nvim_lsp = require('lspconfig')
+local on_attach = function(_client, bufnr)
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  local opts = { noremap=true, silent=true }
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 end
 
--- packer
-local packer = require('packer').startup {
-  function(use)
-    use { 'ervandew/supertab' }
-    use { 'fatih/vim-go' }
+local servers = { 'pyright' }
 
-    use { 'norcalli/nvim-colorizer.lua' }
-    use { 'gruvbox-community/gruvbox' }
-
-    use { 'majutsushi/tagbar' }
-    use { 'kyazdani42/nvim-tree.lua' }
-    use { 'neovim/nvim-lspconfig' }
-    use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}}
-    use { 'sheerun/vim-polyglot' }
-    use { 'hrsh7th/nvim-compe' }
-
-    use { 'tpope/vim-commentary' }
-    use { 'tpope/vim-fugitive', requires = {{ 'junegunn/gv.vim' }}}
-    use { 'tpope/vim-repeat' }
-    use { 'tpope/vim-surround' }
-    use { 'tpope/vim-unimpaired' }
-    use { 'tpope/vim-vinegar' }
-    use { 'tpope/vim-eunuch' }
-
-    use { 'vim-airline/vim-airline' }
-    use { 'vim-airline/vim-airline-themes' }
-
-    use { 'wbthomason/packer.nvim', opt = true }
-  end,
-}
-if not packer_exists then packer.install() end -- install plugins during initial bootstrap
-
--- misc global opts
-settings = {
-  'set colorcolumn=80,100',
-  'set cursorline',
-  'set completeopt-=preview',
-  'set cpoptions=ces$',
-  'set ffs=unix,dos',
-  'set fillchars=vert:·',
-  'set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo',
-  'set guioptions-=T',
-  'set guioptions-=m',
-  'set hidden',
-  'set hlsearch',
-  'set ignorecase',
-  'set lazyredraw',
-  'set list listchars=tab:·\\ ,eol:¬',
-  'set nobackup',
-  'set noerrorbells',
-  'set noshowmode',
-  'set noswapfile',
-  'set number',
-  'set shellslash',
-  'set showfulltag',
-  'set showmatch',
-  'set showmode',
-  'set smartcase',
-  'set synmaxcol=2048',
-  'set t_Co=256',
-  'set title',
-  'set ts=2 sts=2 sw=2 et ci',
-  'set ttyfast',
-  'set vb',
-  'set virtualedit=all',
-  'set visualbell',
-  'set wrapscan',
-  'set termguicolors',
-  'set cpoptions+=_',
-  'colorscheme gruvbox',
-}
-for _, setting in ipairs(settings) do
-  vim.cmd(setting)
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup { on_attach = on_attach }
 end
 
--- setup colorizer
-require('colorizer').setup()
+-- Map :Format to vim.lsp.buf.formatting()
+vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
 
--- language server
+-- Set completeopt to have a better completion experience
+vim.o.completeopt="menuone,noinsert,noselect"
 
-vim.o.completeopt = "menuone,noselect"
-
+-- Compe setup
 require'compe'.setup {
   enabled = true;
   autocomplete = true;
@@ -127,18 +288,18 @@ require'compe'.setup {
   max_abbr_width = 100;
   max_kind_width = 100;
   max_menu_width = 100;
-  documentation = false;
+  documentation = true;
 
   source = {
     path = true;
-    buffer = true;
+    buffer = false;
     calc = true;
-    vsnip = true;
+    vsnip = false;
     nvim_lsp = true;
     nvim_lua = true;
     spell = true;
     tags = true;
-    snippets_nvim = true;
+    snippets_nvim = false;
     treesitter = true;
   };
 }
@@ -146,94 +307,37 @@ require'compe'.setup {
 local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
+
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        return true
+    else
+        return false
+    end
+end
+
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-n>"
+  elseif check_back_space() then
+    return t "<Tab>"
+  else
+    return vim.fn['compe#complete']()
+  end
+end
 _G.s_tab_complete = function()
   if vim.fn.pumvisible() == 1 then
     return t "<C-p>"
-  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-    return t "<Plug>(vsnip-jump-prev)"
   else
     return t "<S-Tab>"
   end
 end
 
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-
-local lspcfg = {
-  gopls =         { binary = 'gopls',                    format_on_save = '*.go'       },
-  golangcilsp =   { binary = 'golangci-lint-langserver', format_on_save = nil          },
-  pyls =          { binary = 'pyls',                     format_on_save = '*.py'       },
-  pyright =       { binary = 'pyright',                  format_on_save = nil          },
-  yamlls =        { binary = 'yamlls',                   format_on_save = nil          },
-  bashls =        { binary = 'bash-language-server',     format_on_save = nil          },
-  dockerls =      { binary = 'docker-langserver',        format_on_save = 'Dockerfile' },
-}
-
-local lsp = require('lspconfig')
-local custom_lsp_attach = function(client)
-  local opts = lspcfg[client.name]
-
-  -- format on save
-  if opts['format_on_save'] ~= nil then
-    nvim_create_augroups({[client.name] = {{'BufWritePre', opts['format_on_save'], ':lua vim.lsp.buf.formatting_sync(nil, 1000)'}}})
-  end
-end
-
--- golangci-lint lsp
-local lspconfigs = require('lspconfig/configs')
-lspconfigs.golangcilsp = {
-  default_config = {
-    cmd = {'golangci-lint-langserver'};
-    filetypes = {'go', 'gomod'};
-    root_dir = lsp.util.root_pattern('.git', 'go.mod');
-    init_options = {
-      command = { 'golangci-lint', 'run', '--out-format', 'json' };
-    }
-  };
-}
-
--- only setup lsp clients for binaries that exist
-for srv, opts in pairs(lspcfg) do
-  if vim.fn.executable(opts['binary']) then lsp[srv].setup { on_attach = custom_lsp_attach } end
-end
-
--- productive arrow keys
-nmap('<Up>',    '[e')
-vmap('<Up>',    '[egv')
-nmap('<Down>',  ']e')
-vmap('<Down>',  ']egv')
-nmap('<Left>',  '<<')
-nmap('<Right>', '>>')
-vmap('<Left>',  '<gv')
-vmap('<Right>', '>gv')
-
--- clear hlsearch on redraw
-nnoremap('<C-L>', ':nohlsearch<CR><C-L>')
-
--- telescope
-nnoremap('<leader>ff', "<cmd>lua require('telescope.builtin').find_files()<cr>")
-nnoremap('<c-p>', "<cmd>lua require('telescope.builtin').find_files()<cr>")
-nnoremap('<c-b>', "<cmd>lua require('telescope.builtin').buffers()<cr>")
-nnoremap('<leader>fg', "<cmd>lua require('telescope.builtin').live_grep()<cr>")
-nnoremap('<leader>fb', "<cmd>lua require('telescope.builtin').buffers()<cr>")
-nnoremap('<leader>fh', "<cmd>lua require('telescope.builtin').help_tags()<cr>")
-
--- clipboard
-if vim.fn.has('unnamedplus') then vim.o.clipboard = 'unnamedplus' else vim.o.clipboard = 'unnamed' end
-
--- airline
-vim.g.airline_theme = 'monochrome'
-vim.g.airline_powerline_fonts = '0'
-vim.cmd('let g:airline#extensions#tabline#enabled = 1')
-vim.cmd('let g:airline#extensions#tabline#buffer_nr_show = 1')
-
--- tags
-snmap('<leader>o', ':TagbarToggle<CR>')
-
--- toggle paste and wrap
-snmap('<leader>p', ':set invpaste<CR>:set paste?<CR>')
-snmap('<leader>w', ':set invwrap<CR>:set wrap?<CR>')
-
--- strip trailing whitespace
-nnoremap('<leader>sws', ':%s/\\s\\+$//e<CR>')
