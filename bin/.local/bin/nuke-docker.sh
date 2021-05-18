@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-docker rm -f -v $(docker ps -aq) > /dev/null || echo "--- Nothing to remove"
-docker rmi -f $(docker images -q) > /dev/null || echo "--- No images to remove"
-docker volume rm $(docker volume ls -q) > /dev/null || echo "--- No volumes to remove"
-docker network rm $(docker network ls -q) > /dev/null || echo "--- No networks to remove"
-docker system prune --all --force > /dev/null || echo "--- System pruning failed"
+echo "--- Cleaning docker-compose resources"
+if [[ $# -gt 0 ]]; then
+    docker-compose --file "$1" down --remove-orphans --rmi all --volumes 2> /dev/null
+else
+    docker-compose down --remove-orphans --rmi all --volumes 2> /dev/null
+fi
+echo "--- Pruning system Docker resources"
+docker system prune --all --force --volumes 2> /dev/null
