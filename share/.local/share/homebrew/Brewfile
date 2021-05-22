@@ -1,11 +1,8 @@
-tap "git-chglog/git-chglog"
 tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/core"
 # Automatic configure script builder
 brew "autoconf"
-# Bourne-Again SHell, a UNIX command interpreter
-brew "bash"
 # GNU binary tools for native development
 brew "binutils"
 # Parser generator
@@ -18,8 +15,6 @@ brew "coreutils"
 brew "diffutils"
 # Classic UNIX line editor
 brew "ed"
-# GNU Emacs text editor
-brew "emacs"
 # Play, record, convert, and stream audio and video
 brew "ffmpeg"
 # Utility to determine file types
@@ -68,8 +63,6 @@ brew "make"
 brew "node"
 # CLI for Node.js style checker and lint tool for Markdown files
 brew "markdownlint-cli"
-# Free (GNU) replacement for the Pico text editor
-brew "nano"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
 # Highly capable, feature-rich programming language
@@ -102,15 +95,9 @@ brew "xdotool"
 brew "zenith"
 # UNIX shell (command interpreter)
 brew "zsh"
-# CHANGELOG generator implemented in Go (Golang).
-brew "git-chglog/git-chglog/git-chglog"
-# Automatic tiling window manager similar to xmonad
-cask "amethyst"
 # Web browser
 cask "google-chrome"
 # GPU-based terminal emulator
 cask "kitty"
 # Music streaming service
 cask "spotify"
-# Multimedia player
-cask "vlc"
