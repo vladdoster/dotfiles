@@ -1,7 +1,7 @@
 -- Hammerspoon configuration, heavily influenced by sdegutis default configuration
 
 --require "bar"
-require "homebrew"
+--require "homebrew"
 
 -- init grid
 hs.grid.MARGINX 	= 0
@@ -29,7 +29,7 @@ local appCuts = {
 local function display_help()
   local t = {}
   str = "Keyboard shortcuts\n"
-  table.insert(t str)
+  table.insert(t, str)
   str = "--------------------\n"
   table.insert(t, str)
   for key, app in pairs(appCuts) do

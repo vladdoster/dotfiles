@@ -11,9 +11,12 @@ endef
 list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
-dotfiles:
+install:
 	$(run-stow)
 	echo "--installed dotfiles"
+
+clean : --delete
+	find * -type d -not -path '*/\.*' -exec stow --target="$$HOME" --verbose 1 --delete {} \;	
 
 update : --restow
 	$(run-stow)
@@ -23,5 +26,4 @@ test : --simulate
 	$(run-stow)
 	echo "--simulated dotfiles install"
 
-clean : --delete
-	find * -type d -not -path '*/\.*' -exec stow --target="$$HOME" --verbose 1 --delete {} \;	
+

@@ -122,3 +122,6 @@
   prereleaseSuffix = .beta
   prereleaseSuffix = -rc
   prereleaseSuffix = .rc
+[submodule "clair"]
+	url = https://github.com/quay/clair.git
+	active = true
