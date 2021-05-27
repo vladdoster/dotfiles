@@ -1,71 +1,108 @@
--- neovim config
+-- Install packer
+local execute = vim.api.nvim_command
 
--------------------- HELPERS -------------------------------
-local api, cmd, fn, g = vim.api, vim.cmd, vim.fn, vim.g
-local scopes = {o = vim.o, b = vim.bo, w = vim.wo}
-local fmt = string.format
+local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 
-local function map(mode, lhs, rhs, opts)
-  local options = {noremap = true}
-  if opts then options = vim.tbl_extend('force', options, opts) end
-  api.nvim_set_keymap(mode, lhs, rhs, options)
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  execute('!git clone https://github.com/wbthomason/packer.nvim '.. install_path)
 end
 
-local function opt(scope, key, value)
-  scopes[scope][key] = value
-  if scope ~= 'o' then scopes['o'][key] = value end
-end
+vim.api.nvim_exec([[
+  augroup Packer
+    autocmd!
+    autocmd BufWritePost init.lua PackerCompile
+  augroup end
+]], false)
 
--------------------- PLUGINS -------------------------------
-cmd 'packadd paq-nvim'
-local paq = require('paq-nvim').paq
-paq {'airblade/vim-gitgutter'}
-paq {'airblade/vim-rooter'}
-paq {'hrsh7th/nvim-compe'}
-paq {'joshdick/onedark.vim'}
-paq {'ludovicchabant/vim-gutentags'} -- Automatic tags management
-paq {'machakann/vim-sandwich'}
-paq {'neovim/nvim-lspconfig'}
-paq {'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}}
-paq {'nvim-treesitter/nvim-treesitter'}
-paq {'savq/paq-nvim', opt = true}
-paq {'tpope/vim-commentary'}
-paq {'tpope/vim-fugitive'}
-paq {'tpope/vim-unimpaired'}
+local use = require('packer').use
+require('packer').startup(function()
+  use 'wbthomason/packer.nvim'       -- Package manager
+  use 'tpope/vim-fugitive'           -- Git commands in nvim
+  use 'tpope/vim-rhubarb'            -- Fugitive-companion to interact with github
+  use 'tpope/vim-commentary'         -- "gc" to comment visual regions/lines
+  use 'ludovicchabant/vim-gutentags' -- Automatic tags management
+  -- UI to select things (files, grep results, open buffers...)
+  use {'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}} }
+  use 'joshdick/onedark.vim'         -- Theme inspired by Atom
+  use 'itchyny/lightline.vim'        -- Fancier statusline
+  -- Add indentation guides even on blank lines
+  use { 'lukas-reineke/indent-blankline.nvim', branch="lua" }
+  -- Add git related info in the signs columns and popups
+  use {'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'} }
+  use 'neovim/nvim-lspconfig'        -- Collection of configurations for built-in LSP client
+  use 'hrsh7th/nvim-compe'           -- Autocompletion plugin
+  use 'glepnir/lspsaga.nvim'
 
--------------------- PLUGIN SETUP --------------------------
--- fugitive and git
-local log = [[\%C(yellow)\%h\%Cred\%d \%Creset\%s \%Cgreen(\%ar) \%Cblue\%an\%Creset]]
-map('n', '<leader>g<space>', ':Git ')
-map('n', '<leader>gd', '<cmd>Gvdiffsplit<CR>')
-map('n', '<leader>gg', '<cmd>Git<CR>')
-map('n', '<leader>gl', fmt('<cmd>term git log --graph --all --format="%s"<CR><cmd>start<CR>', log))
+end)
 
--- nvim-compe
-require'compe'.setup {
-  autocomplete = true;
-  debug = false;
-  documentation = true;
-  enabled = true;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  min_length = 1;
-  preselect = 'enable';
-  source_timeout = 200;
-  throttle_time = 80;
-
-  source = {
-    buffer = true;
-    calc = false;
-    nvim_lsp = true;
-    nvim_lua = true;
-    path = true;
-    ultisnips = false;
-    vsnip = false;
-  };
+vim.o.inccommand = "nosplit" 	--Incremental live completion
+vim.o.hlsearch = false 		--Set highlight on search
+vim.o.incsearch = true
+vim.wo.number = true  --Make line numbers default
+vim.o.hidden = true
+vim.o.sidescrolloff = 10
+vim.o.mouse = "a" --Enable mouse mode
+vim.o.breakindent = true --Enable break indent
+vim.cmd[[set undofile]] --Save undo history
+vim.o.ignorecase = true --Case insensitive searching UNLESS /C or capital in search
+vim.o.smartcase = true
+vim.o.updatetime = 100 --Decrease update time
+vim.wo.signcolumn="yes"
+-- colorscheme
+vim.o.termguicolors = true
+vim.g.onedark_terminal_italics = 2
+vim.cmd[[colorscheme onedark]]
+--Set statusbar
+vim.g.lightline = { colorscheme = 'onedark';
+      active = { left = { { 'mode', 'paste' }, { 'gitbranch', 'readonly', 'filename', 'modified' } } };
+      component_function = { gitbranch = 'fugitive#head', };
 }
+
+--Remap space as leader key
+vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent=true})
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+--Remap for dealing with word wrap
+vim.api.nvim_set_keymap('n', 'k', "v:count == 0 ? 'gk' : 'k'", { noremap=true, expr = true, silent = true})
+vim.api.nvim_set_keymap('n', 'j', "v:count == 0 ? 'gj' : 'j'", {noremap= true, expr = true, silent = true})
+
+--Remap escape to leave terminal mode
+vim.api.nvim_exec([[
+  augroup Terminal
+    autocmd!
+    au TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>
+    au TermOpen * set nonu
+  augroup end
+]], false)
+
+--Add map to enter paste mode
+vim.o.pastetoggle="<F3>"
+
+--Map blankline
+vim.g.indent_blankline_char = "┊"
+vim.g.indent_blankline_filetype_exclude = { 'help', 'packer' }
+vim.g.indent_blankline_buftype_exclude = { 'terminal', 'nofile'}
+vim.g.indent_blankline_char_highlight = 'LineNr'
+
+-- Toggle to disable mouse mode and indentlines for easier paste
+ToggleMouse = function()
+  if vim.o.mouse == 'a' then
+    vim.cmd[[IndentBlanklineDisable]]
+    vim.wo.signcolumn='no'
+    vim.o.mouse = 'v'
+    vim.wo.number = false
+    print("Mouse disabled")
+  else
+    vim.cmd[[IndentBlanklineEnable]]
+    vim.wo.signcolumn='yes'
+    vim.o.mouse = 'a'
+    vim.wo.number = true
+    print("Mouse enabled")
+  end
+end
+
+vim.api.nvim_set_keymap('n', '<F10>', '<cmd>lua ToggleMouse()<cr>', { noremap = true })
 
 -- Telescope
 require('telescope').setup {
@@ -94,113 +131,152 @@ vim.api.nvim_set_keymap('n', '<leader>gb', [[<cmd>lua require('telescope.builtin
 vim.api.nvim_set_keymap('n', '<leader>gs', [[<cmd>lua require('telescope.builtin').git_status()<cr>]], { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>gp', [[<cmd>lua require('telescope.builtin').git_bcommits()<cr>]], { noremap = true, silent = true})
 
--------------------- OPTIONS -------------------------------
-local indent, width = 2, 80
-cmd 'colorscheme onedark'
-opt('b', 'expandtab', true)               -- Use spaces instead of tabs
-opt('b', 'formatoptions', 'crqnj')        -- Automatic formatting options
-opt('b', 'shiftwidth', indent)            -- Size of an indent
-opt('b', 'smartindent', true)             -- Insert indents automatically
-opt('b', 'tabstop', indent)               -- Number of spaces tabs count for
-opt('b', 'textwidth', width)              -- Maximum width of text
-opt('o', 'completeopt', 'menuone,noinsert,noselect')  -- Completion options
-opt('o', 'hidden', true)                  -- Enable background buffers
-opt('o', 'ignorecase', true)              -- Ignore case
-opt('o', 'joinspaces', false)             -- No double spaces with join
-opt('o', 'pastetoggle', '<F2>')           -- Paste mode
-opt('o', 'scrolloff', 10 )                -- Lines of context
-opt('o', 'shiftround', true)              -- Round indent
-opt('o', 'sidescrolloff', 8 )             -- Columns of context
-opt('o', 'smartcase', true)               -- Don't ignore case with capitals
-opt('o', 'splitbelow', true)              -- Put new windows below current
-opt('o', 'splitright', true)              -- Put new windows right of current
-opt('o', 'termguicolors', true)           -- True color support
-opt('o', 'updatetime', 100)               -- Delay before swap file is saved
-opt('o', 'wildmode', 'list:longest')      -- Command-line completion mode
-opt('w', 'colorcolumn', tostring(width))  -- Line length marker
-opt('w', 'cursorline', true)              -- Highlight cursor line
-opt('w', 'list', true)                    -- Show some invisible characters
-opt('w', 'number', true)                  -- Show line numbers
-opt('w', 'relativenumber', true)          -- Relative line numbers
-opt('w', 'signcolumn', 'yes')             -- Show sign column
-opt('w', 'wrap', false)                   -- Disable line wrap
+-- Change preview window location
+vim.g.splitbelow = true
 
--------------------- MAPPINGS ------------------------------
-map('', '<leader>c', '"+y')
-map('i', '<C-u>', '<C-g>u<C-u>')
-map('i', '<C-w>', '<C-g>u<C-w>')
-map('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', {expr = true})
-map('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {expr = true})
-map('i', 'jj', '<ESC>')
-map('n', '<C-l>', '<cmd>nohlsearch<CR>')
-map('n', '<C-w>T', '<cmd>tabclose<CR>')
-map('n', '<C-w>t', '<cmd>tabnew<CR>')
-map('n', '<F3>', '<cmd>lua toggle_wrap()<CR>')
-map('n', '<F4>', '<cmd>set scrollbind!<CR>')
-map('n', '<F5>', '<cmd>checktime<CR>')
-map('n', '<S-Down>', '<C-w>2<')
-map('n', '<S-Left>', '<C-w>2-')
-map('n', '<S-Right>', '<C-w>2+')
-map('n', '<S-Up>', '<C-w>2>')
-map('n', '<leader>s', ':%s//gcI<Left><Left><Left><Left>')
-map('n', '<leader>t', '<cmd>terminal<CR>')
-map('n', '<leader>u', '<cmd>update<CR>')
-map('n', '<leader>x', '<cmd>conf qa<CR>')
-map('n', 'Q', '<cmd>lua warn_caps()<CR>')
-map('n', 'U', '<cmd>lua warn_caps()<CR>')
-map('t', '<ESC>', '&filetype == "fzf" ? "\\<ESC>" : "\\<C-\\>\\<C-n>"' , {expr = true})
-map('t', 'jj', '<ESC>', {noremap = false})
-map('v', '<leader>s', ':s//gcI<Left><Left><Left><Left>')
+-- Highlight on yank
+vim.api.nvim_exec([[
+  augroup YankHighlight
+    autocmd!
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank()
+  augroup end
+]], false)
 
--------------------- TEXT OBJECTS --------------------------
-for _, ch in ipairs({
-  '<space>', '!', '#', '$', '%', '&', '*', '+', ',', '-', '.',
-  '/', ':', ';', '=', '?', '@', '<bslash>', '^', '_', '~', '<bar>',
-}) do
-  map('x', fmt('i%s', ch), fmt(':<C-u>normal! T%svt%s<CR>', ch, ch), {silent = true})
-  map('o', fmt('i%s', ch), fmt(':<C-u>normal vi%s<CR>', ch), {silent = true})
-  map('x', fmt('a%s', ch), fmt(':<C-u>normal! F%svf%s<CR>', ch, ch), {silent = true})
-  map('o', fmt('a%s', ch), fmt(':<C-u>normal va%s<CR>', ch), {silent = true})
+-- Y yank until the end of line
+vim.api.nvim_set_keymap('n', 'Y', 'y$', { noremap = true})
+--
+-- LSP settings
+local nvim_lsp = require('lspconfig')
+local on_attach = function(_client, bufnr)
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  local opts = { noremap=true, silent=true }
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 end
 
--------------------- LSP -----------------------------------
-local lsp = require('lspconfig')
-for ls, cfg in pairs({
-  bashls = {},
-  pyright = {},
-}) do lsp[ls].setup(cfg) end
-map('n', 'G,', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-map('n', 'G;', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-map('n', 'Gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
-map('n', 'Gf', '<cmd>lua vim.lsp.buf.formatting()<CR>')
-map('n', 'Gh', '<cmd>lua vim.lsp.buf.hover()<CR>')
-map('n', 'Gm', '<cmd>lua vim.lsp.buf.rename()<CR>')
-map('n', 'Gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-map('n', 'Gs', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
+-- Enable the following language servers
+local servers = { 'bashls', 'pyls_ms', 'dockerls' }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup { on_attach = on_attach }
+end
 
--------------------- TREE-SITTER ---------------------------
-local ts = require 'nvim-treesitter.configs'
-ts.setup {
-  ensure_installed = 'maintained',
-  highlight = {enable = true},
-  indent = {enable = true},
+-- Lua LSP
+local system_name
+if vim.fn.has("mac") == 1 then
+  system_name = "macOS"
+elseif vim.fn.has("unix") == 1 then
+  system_name = "Linux"
+else
+  print("Unsupported system for sumneko")
+end
+
+-- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
+local sumneko_root_path = vim.fn.stdpath('cache')..'/lspconfig/sumneko_lua/lua-language-server'
+local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
+
+require'lspconfig'.sumneko_lua.setup {
+  cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+  settings = {
+    Lua = {
+      runtime = {
+        version = 'LuaJIT', 
+	path = vim.split(package.path, ';'),
+      },
+      diagnostics = { globals = {'vim'} },
+      workspace = { -- Make the server aware of Neovim runtime files
+		library = {
+		  [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+		  [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+		},
+	    },
+      telemetry = { enable = false },
+    },
+  },
+} 
+
+-- Map :Format to vim.lsp.buf.formatting()
+vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
+-- Set completeopt to have a better completion experience
+vim.o.completeopt="menuone,noinsert,noselect"
+
+-- Compe setup
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'enable';
+  throttle_time = 80;
+  source_timeout = 200;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = true;
+
+  source = {
+    buffer = true;
+    calc = false;
+    nvim_lsp = true;
+    nvim_lua = true;
+    path = true;
+    ultisnips = false;
+    vsnip = false;
+  };
 }
 
--------------------- COMMANDS ------------------------------
-function init_term()
-  cmd 'setlocal nonumber norelativenumber'
-  cmd 'setlocal nospell'
-  cmd 'setlocal signcolumn=auto'
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
-function toggle_wrap()
-  opt('w', 'breakindent', not vim.wo.breakindent)
-  opt('w', 'linebreak', not vim.wo.linebreak)
-  opt('w', 'wrap', not vim.wo.wrap)
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        return true
+    else
+        return false
+    end
 end
 
-function warn_caps()
-  cmd 'echohl WarningMsg'
-  cmd 'echo "Caps Lock may be on"'
-  cmd 'echohl None'
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-n>"
+  elseif check_back_space() then
+    return t "<Tab>"
+  else
+    return vim.fn['compe#complete']()
+  end
 end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-p>"
+  else
+    return t "<S-Tab>"
+  end
+end
+
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+
+-- lspsaga
+local saga = require 'lspsaga'
