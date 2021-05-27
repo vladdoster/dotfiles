@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 #--- SYSTEM SPECIFIC
-if [[ "$OSTYPE" =~ "darwin" ]]; then
+if [[ $OSTYPE =~ "darwin" ]]; then
     alias ll="gls"
     alias ls='gls -AlhF --color=auto'
     alias readlink="greadlink"
@@ -16,16 +16,16 @@ alias ....="cd ../../.."
 alias ...="cd ../.."
 alias ..="cd .."
 alias h="cd $HOME && ls"
-#--- FILE LOCATIONS 
+#--- FILE LOCATIONS
 alias cpv="rsync -ah --info=progress2"
 alias lt="du -sh * | sort -h"
 alias mkdir="mkdir -pv"
 alias tailf="less +F -R"
 # EDITOR
 if ! command -v nvim &> /dev/null; then
-   export EDITOR="vim" 
-else 
-   export EDITOR="nvim" 
+    export EDITOR="vim"
+else
+    export EDITOR="nvim"
 fi
 alias v.="$EDITOR ."
 alias v="$EDITOR"
@@ -38,7 +38,7 @@ alias e-tmux="$EDITOR $XDG_CONFIG_HOME/tmux/tmux.conf"
 alias e-vimrc="$EDITOR $XDG_CONFIG_HOME/nvim/init.lua"
 alias e-zshrc="$EDITOR $ZDOTDIR/.zshrc"
 CODE_DIR="${HOME:-~}"/code
-if [[ ! -e $CODE_DIR ]] || [[ ! -d "$CODE_DIR" ]]; then
+if [[ ! -e $CODE_DIR ]] || [[ ! -d $CODE_DIR ]]; then
     mkdir "$CODE_DIR"
 fi
 alias c="cd $CODE_DIR && ls"
@@ -62,7 +62,7 @@ alias venv-activate="source ./.venv/bin/activate"
 alias venv-create="python3 -m venv ./.venv"
 # WEBSERVER DEBUGGING
 alias get-open-ports='netstat -tulanp' # list open ports
-alias get-site-headers='curl -I'     # get web server headers
+alias get-site-headers='curl -I'       # get web server headers
 alias headerc='curl -I --compress'     # does remote server supports gzip / mod_deflate
 alias ping='ping -c 10'                # ping 10 times
 # DISPLAYS
