@@ -23,8 +23,10 @@ paq {'airblade/vim-gitgutter'}
 paq {'airblade/vim-rooter'}
 paq {'hrsh7th/nvim-compe'}
 paq {'joshdick/onedark.vim'}
+paq {'ludovicchabant/vim-gutentags'} -- Automatic tags management
 paq {'machakann/vim-sandwich'}
 paq {'neovim/nvim-lspconfig'}
+paq {'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}}
 paq {'nvim-treesitter/nvim-treesitter'}
 paq {'savq/paq-nvim', opt = true}
 paq {'tpope/vim-commentary'}
@@ -65,6 +67,33 @@ require'compe'.setup {
   };
 }
 
+-- Telescope
+require('telescope').setup {
+  defaults = {
+    mappings = {
+      i = {
+        ["<C-u>"] = false,
+        ["<C-d>"] = false,
+      },
+    },
+    generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
+    file_sorter =  require'telescope.sorters'.get_fzy_sorter,
+  }
+}
+--Add leader shortcuts
+vim.api.nvim_set_keymap('n', '<leader>f', [[<cmd>lua require('telescope.builtin').find_files()<cr>]], { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader><space>', [[<cmd>lua require('telescope.builtin').buffers()<cr>]], { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>l', [[<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>]], { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>t', [[<cmd>lua require('telescope.builtin').tags()<cr>]], { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>?', [[<cmd>lua require('telescope.builtin').oldfiles()<cr>]], { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>sd', [[<cmd>lua require('telescope.builtin').grep_string()<cr>]], { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>sp', [[<cmd>lua require('telescope.builtin').live_grep()<cr>]], { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>o', [[<cmd>lua require('telescope.builtin').tags{ only_current_buffer = true }<cr>]], { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>gc', [[<cmd>lua require('telescope.builtin').git_commits()<cr>]], { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>gb', [[<cmd>lua require('telescope.builtin').git_branches()<cr>]], { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>gs', [[<cmd>lua require('telescope.builtin').git_status()<cr>]], { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>gp', [[<cmd>lua require('telescope.builtin').git_bcommits()<cr>]], { noremap = true, silent = true})
+
 -------------------- OPTIONS -------------------------------
 local indent, width = 2, 80
 cmd 'colorscheme onedark'
@@ -79,7 +108,7 @@ opt('o', 'hidden', true)                  -- Enable background buffers
 opt('o', 'ignorecase', true)              -- Ignore case
 opt('o', 'joinspaces', false)             -- No double spaces with join
 opt('o', 'pastetoggle', '<F2>')           -- Paste mode
-opt('o', 'scrolloff', 4 )                 -- Lines of context
+opt('o', 'scrolloff', 10 )                -- Lines of context
 opt('o', 'shiftround', true)              -- Round indent
 opt('o', 'sidescrolloff', 8 )             -- Columns of context
 opt('o', 'smartcase', true)               -- Don't ignore case with capitals
