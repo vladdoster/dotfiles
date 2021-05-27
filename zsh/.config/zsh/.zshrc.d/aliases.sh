@@ -1,73 +1,73 @@
 #!/usr/bin/env zsh
-CODE_DIR="${HOME:-~}"/code
-if [[ ! -e $CODE_DIR ]] || [[ ! -d "$CODE_DIR" ]]; then
-    mkdir "$CODE_DIR"
-fi
-alias c="cd $CODE_DIR"
-# system specific
+#--- SYSTEM SPECIFIC
 if [[ "$OSTYPE" =~ "darwin" ]]; then
     alias ll="gls"
     alias ls='gls -AlhF --color=auto'
     alias readlink="greadlink"
-    alias get-public-ssh-key="cat $HOME/.ssh/id_rsa.pub | pbcopy -pboard general && echo 'Copied SSH key to clipboard.'"
+    alias get-public-ssh-key="cat ${HOME}/.ssh/id_rsa.pub | pbcopy -pboard general && echo 'Copied SSH key to clipboard.'"
 else
     alias ll="ls"
     alias ls="ls -AlhF --color=auto"
     alias get-public-ssh-key="clip $HOME/.ssh/id_rsa.pub && echo 'Copied SSH key to clipboard.'"
 fi
-
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
+#--- NAVIGATION
 alias .....="cd ../../../.."
-# file locations 
+alias ....="cd ../../.."
+alias ...="cd ../.."
+alias ..="cd .."
+alias h="cd $HOME && ls"
+#--- FILE LOCATIONS 
 alias cpv="rsync -ah --info=progress2"
 alias lt="du -sh * | sort -h"
 alias mkdir="mkdir -pv"
 alias tailf="less +F -R"
-# editor
+# EDITOR
 if ! command -v nvim &> /dev/null; then
    export EDITOR="vim" 
 else 
    export EDITOR="nvim" 
 fi
-alias get-scratchpad="$EDITOR $(mktemp -t scratch.XXX.md)"
 alias v.="$EDITOR ."
 alias v="$EDITOR"
 alias vi="$EDITOR"
 alias vim="$EDITOR"
-# config shortcuts
-alias e-aliases="vim $ZDOTDIR/.zshrc.d/aliases"
-alias e-cli-commands="vim $ZDOTDIR/.zshrc.d/cli-commands"
-alias e-fzf-commands="vim $ZDOTDIR/.zshrc.d/fzf-commands"
-alias e-tmux="vim $XDG_CONFIG_HOME/tmux/tmux.conf"
-alias e-vimrc="vim $XDG_CONFIG_HOME/nvim/init.vim"
-alias e-zshrc="vim $ZDOTDIR/.zshrc"
-alias g-desktop="cd $HOME/Desktop && ls"
-alias g-dfiles="cd $XDG_CONFIG_HOME/dotfiles && ls"
-alias g-downloads="cd $HOME/Downloads && ls"
+# CONFIG SHORTCUTS
+alias e-aliases="$EDITOR $ZDOTDIR/zshrc.d/aliases.sh"
+alias e-cli-commands="$EDITOR $ZDOTDIR/zshrc.d/cli-commands.sh"
+alias e-tmux="$EDITOR $XDG_CONFIG_HOME/tmux/tmux.conf"
+alias e-vimrc="$EDITOR $XDG_CONFIG_HOME/nvim/init.lua"
+alias e-zshrc="$EDITOR $ZDOTDIR/.zshrc"
+CODE_DIR="${HOME:-~}"/code
+if [[ ! -e $CODE_DIR ]] || [[ ! -d "$CODE_DIR" ]]; then
+    mkdir "$CODE_DIR"
+fi
+alias c="cd $CODE_DIR && ls"
+alias dfiles="cd $XDG_CONFIG_HOME/dotfiles && ls"
+alias downloads="cd $HOME/Downloads && ls"
 alias r-black="find . -maxdepth 1 -type f -name  '*.py' -print -exec python3 -m black --line-length=120 --target-version py38 {} \;"
 alias r-shellharden="find . -maxdepth 1 -type f -name '*.sh' -print -exec shellharden --replace {} \;"
 alias r-shfix="r-shellharden && r-shfmt"
 alias r-shfmt="find . -type f -name '*.sh' -print -exec shfmt -i 4 -s -ln bash -sr -bn -ci -w {} \;"
-# git aliases are in ~/.gitconfig.
+# GIT ALIASES ARE IN ~/.GITCONFIG.
 alias g='git'
-# misc.
+alias rr='cd "$(git rev-parse --show-toplevel)" && ls'
+# MISC.
+alias scratchpad="$EDITOR $(mktemp -t scratch.XXX.md)"
 alias generate-passwd="openssl rand -base64 24"
 alias get-my-ip="curl ifconfig.co"
-if [[ "$SHELL" =~ "zsh" ]]; then
-	alias s-zsh="source $HOME/.zshenv && source $ZDOTDIR/.zshrc"
-elif [[ "$SHELL" =~ "bash" ]]; then
-	alias s-bash="source $HOME/.bashrc"
-fi
-# python
+alias reload-sh="exec $SHELL"
+# PYTHON
 alias start-http_server="python -m SimpleHTTPServer"
 alias venv-activate="source ./.venv/bin/activate"
 alias venv-create="python3 -m venv ./.venv"
-# webserver debugging
-alias ping='ping -c 10'                # ping 10 times
+# WEBSERVER DEBUGGING
 alias get-open-ports='netstat -tulanp' # list open ports
 alias get-site-headers='curl -I'     # get web server headers
 alias headerc='curl -I --compress'     # does remote server supports gzip / mod_deflate
+alias ping='ping -c 10'                # ping 10 times
+# DISPLAYS
+alias fix-dual-displays="display-fixer 'id:A49C2C45-F295-3FAE-B81F-247EB03CA52B res:2560x1440 hz:75 color_depth:8 scaling:off origin:(0,0) degree:0' 'id:D614B2F2-B098-8A35-508D-7CEA39295FC9 res:2560x1440 hz:75 color_depth:8 scaling:off origin:(2560,0) degree:0'"
+alias ssh="kitty +kitten ssh"
+# DOCKER
 alias dcd='docker-compose -f local.yml down --remove-orphans --rmi all --volumes'
 alias dcu='docker-compose -f local.yml up'
