@@ -44,5 +44,3 @@ while getopts ":h:m:n:" Option; do
     esac
 done
 shift $((OPTIND - 1)) # Move argument pointer to next.
-
-
