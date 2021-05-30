@@ -4,7 +4,7 @@ local reloadHS          = require('ext.system').reloadHS
 local module = {}
 
 module.init = function()
-  -- console global functions
+  -- some global functions for console
   inspect = hs.inspect
   reload  = reloadHS
 
@@ -54,7 +54,7 @@ module.init = function()
   hs.console.consoleResultColor(grayColor)
   hs.console.consolePrintColor(grayColor)
 
-  -- disable toolbar
+  -- no toolbar
   hs.console.toolbar(nil)
 end
 
