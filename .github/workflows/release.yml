@@ -48,7 +48,7 @@ jobs:
 
       - name: Install dotfiles
         run: |
-          make dotfiles
+          make install
 
   pre-release:
     name: Pre-Release
