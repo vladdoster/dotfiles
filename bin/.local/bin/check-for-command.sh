@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-command -v foo > /dev/null 2>&1 || {
-    echo >&2 "I require foo but it's not installed.  Aborting."
+command -v $1 > /dev/null 2>&1 || {
+    echo >&2 "--- ERROR: $1 is required, but it's not callable. Exiting."
     exit 1
 }

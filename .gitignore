@@ -1,5 +1,12 @@
+**/tmux/plugins/**
+**/nvim/plugin/**
+.zcompdump*
+zsh_history
+tags
 **/Spoons/**
 **/node_modules/**
+**/share/nvim/**
+**/nvim/pack*/**
 *.class
 *.dll
 *.exe
@@ -8,7 +15,7 @@
 *.pyc
 *.so
 .*.sw?
-.DS_Store?
+.DS_Store
 .Spotlight-V100
 .Trashes
 ._*

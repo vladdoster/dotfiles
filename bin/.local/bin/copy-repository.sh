@@ -1,18 +1,48 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
 
-echo "---Cloning old repo"
-git clone "${1}" "old-repository"
-echo "---Working directory\n$(ls)"
+set -eo pipefail # Let pipe command return possible e.g., stalled network.
 
-cd "old-repository" \
-    && [[ -d ".git" ]] && rm -rf ".git/" || exit 1 \
-    && echo "---Current directory: $(PWD)\n$(ls)" \
-    && git init \
-    && git add . && git commit -m "Initial commit" \
-    && git branch -M master \
-    && git remote add origin "https://github.com/vladdoster/${2}.git" \
-    && git push -u origin master \
-    && echo "---Repository name: $repo_name"
+NO_ARGS=0
+E_OPTERROR=85
+TMP=${TMPDIR:-/tmp}/${0##*/}.$$ # Store refined download list.
+printf -- "\n--- create tmp dir %s" "$TMP"
 
-rm -rf old-repository.git
+trap "{
+rm -f $TMP 2>/dev/null
+}" EXIT # Clear temporary file on exit.
+
+mirror() {
+    printf -- "--- Cloning %s" "$OPTARG"
+    git clone --bare "$OPTARG" "$TMP"
+    printf -- "\n--- Cloned repo into %s" "$OPTARG"
+    pushd "$TMP"
+
+    REPO_NAME=$(basename "$(git remote get-url origin)")
+    REPO_URL="https://github.com/vladdoster/$REPO_NAME"
+
+    printf -- "\n--- Cloned %s " $REPO_NAME
+    git push --mirror https://github.com/vladdoster/"$REPO_NAME"
+    printf -- "\n--- Pushed new to: %s" $REPO_URL
+}
+
+if [[ $# -eq $NO_ARGS ]]; then # Script invoked with no command-line args?
+    echo "Usage: $(basename $0) options (-hmn)"
+    exit $E_OPTERROR # Exit and explain usage.
+fi
+while getopts ":h:m:n:" Option; do
+    case $Option in
+        h)
+            usage
+            ;;
+        m) # mirror repository
+            printf -- "\n--- mirroring %s" "$OPTARG"
+            mirror
+            ;;
+        n) # new repository (no history)
+            printf -- "\n--- creating new repository from %s" "$OPTARG"
+            ;;
+    esac
+done
+shift $((OPTIND - 1)) # Move argument pointer to next.
+
+
