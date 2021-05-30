@@ -1,16 +1,15 @@
+local axuiWindowElement = require('hs._asm.axuielement').windowElement
+
 local module = {}
 local log    = hs.logger.new('overrides', 'debug');
 
-local axuiWindowElement = require('hs._asm.axuielement').windowElement
-log.d('--- Loaded _asm module') 
-
--- detect if window is resizable (not ideal, but it works)
+-- detects if window can be resized
+-- this is not ideal, but works for me
 local isResizable = function(win)
   return axuiWindowElement(win):isAttributeSettable('AXSize')
 end
 
 module.init = function()
-  log.d('--- Attempting to patch Space')
   local gridMargin = (hhtwm and hhtwm.margin) or 12
 
   -- hs.grid.setGrid('16x10', '1680x1050') -- cell: 105 x 105
@@ -76,7 +75,7 @@ module.init = function()
     if not isWinResizable then
       local widthDiv = math.floor(winFrame.w / cellW)
 
-      -- need window to take up divisible-by-two cell number
+      -- we always want window to take up divisible-by-two cell number
       if widthDiv % 2 == 1 then widthDiv = widthDiv + 1 end
 
       local frameWidth = widthDiv * cellW
@@ -84,7 +83,9 @@ module.init = function()
       frame.w          = winFrame.w
     end
 
-    -- calculate proper margins (fixes doubled margins between windows)
+    -- calculate proper margins
+    -- this fixes doubled margins betweeen windows
+
     if cell.h < screenGrid.h and cell.h % 1 == 0 then
       if cell.y ~= 0 then
         frame.h = frame.h + margins.h / 2
@@ -111,7 +112,8 @@ module.init = function()
       end
     end
 
-    -- snap to edges or add margins if exist
+    -- snap to edges
+    -- or add margins if exist
     local maxMargin = gridMargin * 2
 
     if cell.x ~= 0 and frame.x - screenRect.x + frame.w > screenRect.w - maxMargin then
@@ -124,7 +126,8 @@ module.init = function()
       frame.y = screenRect.y + screenRect.h - margins.h - frame.h
     end
 
-    -- don't set frame if nothing has changed (fixes issues with autogrid & infinite updates)
+    -- don't set frame if nothing has changed!
+    -- fixes issues with autogrid and infinite updates
     if not winFrame:equals(frame) then
       win:setFrame(frame)
     end
@@ -132,7 +135,7 @@ module.init = function()
     return hs.grid
   end
 
-  log.d('--- Successfully applied Spaces patches')
+  log.d('inited!')
 end
 
 return module
