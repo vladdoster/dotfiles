@@ -2,15 +2,14 @@
 
 -- DEPENDENCIES
 --------------------------------------------------------------------------------
-require('console').init()
-require('overrides').init()
-
 -- global variables
 bindings                    = require('bindings')
-controlplane                = require('utils.controlplane')
 watchables                  = require('utils.watchables')
 watchers                    = require('utils.watchers')
 wm                          = require('utils.wm')
+
+require('console').init()
+require('overrides').init()
 
 -- CONFIGURATION
 --------------------------------------------------------------------------------
@@ -27,20 +26,18 @@ config = {
   network = { home = 'moon' },
   wm = {
     defaultDisplayLayouts = {
-      ['Color LCD']  = 'monocle',
-      ['LG QHD (1)'] = 'monocle',
-      ['LG QHD (2)'] = 'monocle',
+      ['Color LCD']  = 'main-right',
+      ['LG QHD'] = 'main-right',
     },
     displayLayouts = {
-      ['Color LCD']  = { 'monocle', 'main-right', 'side-by-side' },
-      ['LG QHD (1)'] = { 'monocle', 'main-right', 'side-by-side' },
-      ['LG QHD (2)'] = { 'monocle', 'main-right', 'side-by-side' },
+      ['Color LCD']  = { 'main-right', 'side-by-side' },
+      ['LG QHD'] = { 'main-right', 'side-by-side' },
     }
   },
   window = {
-    highlightBorder = false,
+    highlightBorder = true,
     highlightMouse  = true,
-    historyLimit    = 0
+    historyLimit    = 10
   },
 }
 
@@ -48,11 +45,8 @@ config = {
 hs.window.animationDuration = 0.0
 
 -- bindings
-bindings.enabled            = { 'ask-before-quit', 'block-hide', 'ctrl-esc', 'f-keys', 'focus', 'global', 'tiling', 'term-ctrl-i', 'viscosity' }
+bindings.enabled            = { 'ask-before-quit', 'block-hide', 'ctrl-esc', 'f-keys', 'focus', 'global', 'tiling', 'term-ctrl-i' }
 bindings.askBeforeQuitApps  = config.apps.browsers
-
--- controlplane
-controlplane.enabled        = { 'autohome', 'automount' }
 
 -- hammerspoon hints
 hs.hints.fontName           = 'Helvetica-Bold'
@@ -66,7 +60,7 @@ watchers.enabled            = { 'urlevent' }
 watchers.urlPreference      = config.apps.browsers
 
 -- {start,stop} modules
-local modules               = { bindings, controlplane, watchables, watchers, wm }
+local modules               = { bindings, watchables, watchers, wm }
 
 hs.fnutils.each(modules, function(module)
   if module then module.start() end
@@ -78,5 +72,3 @@ hs.shutdownCallback = function()
     if module then module.stop() end
   end)
 end
-
-init()
