@@ -22,7 +22,7 @@ end
 local updateScreen = function()
   status.connectedScreens        = #hs.screen.allScreens()
   status.connectedScreenIds      = hs.fnutils.map(hs.screen.allScreens(), function(screen) return screen:id() end)
-  status.isThunderboltConnected  = hs.screen.findByName('Thunderbolt Display') ~= nil
+  status.isThunderboltConnected  = hs.screen.findByName('LG QHD') ~= nil
   status.isLaptopScreenConnected = hs.screen.findByName('Color LCD') ~= nil
 
   log.d('updated screens:', hs.inspect(status.connectedScreenIds))
@@ -49,10 +49,9 @@ end
 
 local updateUSB = function()
   status.isErgodoxAttached = hs.fnutils.find(hs.usb.attachedDevices(), function(device)
+    log.d('updated ergodox:', status.isErgodoxAttached)
     return device.productName == 'ErgoDox EZ'
   end) ~= nil
-
-  log.d('updated ergodox:', status.isErgodoxAttached)
 end
 
 module.start = function()
@@ -61,7 +60,7 @@ module.start = function()
 
   -- start watchers
   cache.watchers = {
-    battery = hs.battery.watcher.new(updateBattery):start(),
+    -- battery = hs.battery.watcher.new(updateBattery):start(),
     screen  = hs.screen.watcher.new(updateScreen):start(),
     sleep   = hs.caffeinate.watcher.new(updateSleep):start(),
     usb     = hs.usb.watcher.new(updateUSB):start(),
@@ -70,7 +69,7 @@ module.start = function()
   }
 
   -- setup on start
-  updateBattery()
+  -- updateBattery()
   updateScreen()
   updateSleep()
   updateUSB()
