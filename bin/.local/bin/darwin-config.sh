@@ -215,6 +215,19 @@ printf "⚙️ %s...\n" "Various configuration"
 defaults write com.apple.gamed Disabled -bool true
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
+
+# Create Projects directory
+printf "⚙️ %s...\n" "Create Projects directory"
+mkdir "$HOME"/code
+chmod 755 "$HOME"/code
+
+# Cleanup
+printf "⚙️ %s...\n" "Cleanup and final touches"
+brew update \
+    && brew upgrade \
+    && brew cleanup --prune=2 \
+    && brew doctor
+
 ###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
@@ -236,18 +249,5 @@ for app in "Activity Monitor" \
     killall "$app" &> /dev/null
 done
 echo "Done. Note that some of these changes require a logout/restart to take effect."
-
-# Create Projects directory
-printf "⚙️ %s...\n" "Create Projects directory"
-mkdir "$HOME"/code
-chmod 755 "$HOME"/code
-
-# Cleanup
-printf "⚙️ %s...\n" "Cleanup and final touches"
-brew update \
-    && brew upgrade \
-    && brew cleanup --prune=2 \
-    && brew doctor
-
 # Exit script
 exit

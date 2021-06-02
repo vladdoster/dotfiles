@@ -10,6 +10,12 @@ if [[ "$OSTYPE" == darwin* ]]; then
   export XDG_MUSIC_DIR="$HOME"/Music
   export XDG_PICTURES_DIR="$HOME"/Pictures
   export XDG_VIDEOS_DIR="$HOME"/Videos
+
+  # Attempt to add Homebrew to $PATH
+  if ! command -v brew &> /dev/null; then
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
+
 fi
 #--- cache
 export XDG_CACHE_HOME="$HOME"/.cache
@@ -93,3 +99,4 @@ export PATH="/usr/local/opt/python/libexec/bin:$PATH" # PYTHON
 #--- unzip
 export PATH="/usr/local/opt/unzip/bin:$PATH" # unzip
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
