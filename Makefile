@@ -5,7 +5,13 @@ MAKEFLAGS += --no-builtin-rules
 .PHONY : --restow --simulate --delete list
 
 define run-stow
-find * -not -path '*/\.*' -type d -exec stow --verbose 1 {} --override=#\*\# --target="$$HOME" \;
+	find * -not -path '*/\.*' -type d -exec stow --verbose 1 {} --override=#\*\# --target="$$HOME" \;
+endef
+
+define remove-git-submodules
+	echo "--- Removing initialized Git submodules"
+	(git submodule deinit --all --force || git submodule deinit --force .) \
+		|| (echo "--- ERROR: Unable to remove Git submodules" && exit 1)
 endef
 
 list:
@@ -21,19 +27,28 @@ install: clean
 clean : --delete
 	echo "--- Removing pre-exisiting dotfile softlinks"
 	find * -type d -not -path '*/\.*' -exec stow --target="$$HOME" --verbose 1 --delete {} \;	
-	echo "--- Removing initialized Git submodules"
-	git submodule deinit --all --force || (echo "--- ERROR: Unable to remove Git submodules" && exit 1)
+	$(remove-git-submodules)
 	echo "--- Removed dotfiles soft links and Git submodules"
-
-update : --restow
-	echo "--- Updating dotfile soft links"
-	$(run-stow)
-	echo "--- Updating Git submodules"
-	git submodule deinit --all --force || (echo "--- ERROR: Unable to update Git submodules" && exit 1)
-	echo "--- Updated dotfile soft links and Git submodules"
 
 test : --simulate
 	echo "--- DRYRUN: No changes will be made to current environment"
 	$(run-stow)
 
+dirs:
+	mkdir -p ~/git
+	mkdir -p ~/build
+
+pyenv:
+	rm -rf ~/.pyenv
+	curl https://pyenv.run | bash
+
+nvim_pyenv: pyenv
+	pyenv install 3.7.9
+	pyenv virtualenv 3.7.9 neovim
+	pyenv activate; pip install pynvim; pyenv deactivate;
+
+nvim: dirs nvim_pyenv
+	if [ -d ~/git/neovim ]; then echo "[nvim]: git/neovim Already found"; else git clone https://github.com/neovim/neovim ~/git/neovim; fi
+	if [ -d ~/build/neovim ]; then cd ~/build/neovim && git pull; else git clone https://github.com/neovim/neovim ~/build/neovim; fi
+	cd ~/build/neovim/ && make -j2 -s --no-print-directory && sudo make install -s
 

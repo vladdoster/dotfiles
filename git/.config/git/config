@@ -1,7 +1,6 @@
 [user]
 	email = mvdoster@gmail.com
 	name = Vladislav Doster
-
 [color]
   # Enable colors in color-supporting terminals
   ui = auto
