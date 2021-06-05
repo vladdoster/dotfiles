@@ -10,7 +10,7 @@
 To Install and set everything up, run:
 
 ```shell
-bash <(curl -s https://raw.githubusercontent.com/vladdoster/vladdoster/mac-os/bin/.local/bin/install.sh)
+bash <(curl -s https://raw.githubusercontent.com/vladdoster/dotfiles/mac-os/bin/.local/bin/install.sh)
 ```
 
 ## Usage
