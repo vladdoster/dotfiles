@@ -5,6 +5,14 @@
 
 > [!NOTE] sudo access is required or errors will occur.
 
+## Install
+
+To Install and set everything up, run:
+
+```shell
+bash <(curl -s https://raw.githubusercontent.com/vladdoster/vladdoster/mac-os/bin/.local/bin/install.sh)
+```
+
 ## Usage
 
 #### Install dotfiles
