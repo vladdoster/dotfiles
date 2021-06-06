@@ -24,6 +24,18 @@ sudo scutil --set ComputerName "$_HOSTNAME"
 sudo scutil --set HostName "$_HOSTNAME"
 sudo scutil --set LocalHostName "$_HOSTNAME"
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$_HOSTNAME"
+
+echo "--- Upgrading pip version"
+python3 -m pip install --user --upgrade --quiet pip
+echo "--- Upgraded pip to $(python3 -m pip --version)"
+echo "--- Installing nvim dependencies"
+python3 -m pip install --user \
+	ranger-fm \
+	ueberzug \
+	pynvim \
+        neovim-remote
+
+echo "--- Installed nvim dependencies"
 ###############################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
 ###############################################################################

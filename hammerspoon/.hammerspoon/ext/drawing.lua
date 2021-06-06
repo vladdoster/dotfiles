@@ -35,10 +35,10 @@ module.drawBorder = function()
     return
   end
 
-  local alpha       = 0.6
+  local alpha       = 1.0
   local borderWidth = 10
-  local distance    = 6
-  local roundRadius = 12
+  local distance    = 10
+  local roundRadius = 10
 
   local isFullScreen = focusedWindow:isFullScreen()
   local frame        = focusedWindow:frame()
@@ -83,7 +83,7 @@ module.highlightWindow = function(win)
 
     local frameCenter = hs.geometry.getcenter(focusedWindow:frame())
 
-    hs.mouse.absolutePosition(frameCenter)
+    hs.mouse.setAbsolutePosition(frameCenter)
   end
 end
 
