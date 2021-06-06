@@ -30,10 +30,10 @@ python3 -m pip install --user --upgrade --quiet pip
 echo "--- Upgraded pip to $(python3 -m pip --version)"
 echo "--- Installing nvim dependencies"
 python3 -m pip install --user \
-	ranger-fm \
-	ueberzug \
-	pynvim \
-        neovim-remote
+    ranger-fm \
+    ueberzug \
+    pynvim \
+    neovim-remote
 
 echo "--- Installed nvim dependencies"
 ###############################################################################
