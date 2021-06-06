@@ -32,6 +32,7 @@ alias v="$EDITOR"
 alias vi="$EDITOR"
 alias vim="$EDITOR"
 # CONFIG SHORTCUTS
+alias cfg="cd ${XDG_CONFIG_HOME:-~/.config} && ls -al"
 alias e-aliases="$EDITOR $ZDOTDIR/zshrc.d/aliases.sh"
 alias e-cli-commands="$EDITOR $ZDOTDIR/zshrc.d/cli-commands.sh"
 alias e-hspoon="$EDITOR $HOME/.hammerspoon/init.lua"
