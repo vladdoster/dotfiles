@@ -44,6 +44,7 @@ if [[ ! -e $CODE_DIR ]] || [[ ! -d $CODE_DIR ]]; then
     mkdir "$CODE_DIR"
 fi
 alias c="cd $CODE_DIR && ls"
+alias h="cd $HOME && ls"
 alias dfiles="cd $XDG_CONFIG_HOME/dotfiles && ls"
 alias downloads="cd $HOME/Downloads && ls"
 alias r-black="find . -maxdepth 1 -type f -name  '*.py' -print -exec python3 -m black --line-length=120 --target-version py38 {} \;"
