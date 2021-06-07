@@ -7,3 +7,6 @@
 [submodule "share/.local/share/linuxify"]
 	path = share/.local/share/linuxify
 	url = https://github.com/vladdoster/linuxify
+[submodule "share/.local/share/macOS-setup"]
+	path = share/.local/share/macOS-setup
+	url = https://github.com/vladdoster/macOS-setup.git
