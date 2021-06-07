@@ -33,7 +33,7 @@ export INFOPATH="/usr/local/share/info:$INFOPATH"
 export MANPATH="/usr/local/share/man:$MANPATH"
 export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
-export PATH="$USER/.local/bin:$PATH"
+export PATH="~/.local/bin:$PATH"
 #- GNU -----------------------------------------------
 export PATH="/usr/local/opt/ed/libexec/gnubin:$PATH"         # ED
 export PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"  # FINDUTILS

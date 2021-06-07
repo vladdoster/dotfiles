@@ -1,16 +1,13 @@
 #!/usr/bin/env zsh
-#--- GENERAL
-#-----------------------------------
+#- GENERAL ------------------------------------------
 if [[ ! -d $XDG_DATA_HOME/ohmyzsh ]] && [[ ! -e $XDG_DATA_HOME/ohmyzsh ]]; then
     git clone https://github.com/vladdoster/ohmyzsh "$XDG_DATA_HOME"
 fi
-#--- KITTY 
-#-----------------------------------
+#- KITTY ---------------------------------------------
 if [[ $TERM =~ "kitty" ]] && [[ $OSTYPE == "darwin" ]]; then
 	kitty + complete setup zsh | source /dev/stdin
 fi
-#--- HISTORY
-#-----------------------------------
+#- HISTORY --------------------------------------------
 HISTFILE="$ZDOTDIR"/zsh_history
 HISTSIZE=10000
 SAVEHIST="$HISTSIZE"
@@ -22,8 +19,7 @@ setopt hist_reduce_blanks     # remove superfluous blanks from history items
 setopt hist_verify            # show substituted history command before executing
 setopt inc_append_history     # add to history after every command
 setopt share_history          # share history between zsh instances
-#--- OH-MY-ZSH
-#-----------------------------------
+#- OH-MY-ZSH -------------------------------------------
 CASE_SENSITIVE="false"
 ZSH_THEME="ys"
 plugins=( \
@@ -37,6 +33,5 @@ plugins=( \
          vi-mode \
  )
 source "$OHMYZSH/oh-my-zsh.sh"
-#--- EXTRAS
-#-----------------------------------
+#- EXTRAS -----------------------------------------------
 source <(find "$ZDOTDIR"/zshrc.d/* -maxdepth 1 -type f -exec cat {} \;)

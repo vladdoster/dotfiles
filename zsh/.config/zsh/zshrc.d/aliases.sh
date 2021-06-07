@@ -32,19 +32,24 @@ alias v="$EDITOR"
 alias vi="$EDITOR"
 alias vim="$EDITOR"
 # CONFIG SHORTCUTS
-alias cfg="cd ${XDG_CONFIG_HOME:-~/.config} && ls -al"
+
 alias e-aliases="$EDITOR $ZDOTDIR/zshrc.d/aliases.sh"
 alias e-cli-commands="$EDITOR $ZDOTDIR/zshrc.d/cli-commands.sh"
 alias e-hspoon="$EDITOR $HOME/.hammerspoon/init.lua"
+alias e-kitty="$EDITOR $XDG_CONFIG_HOME/kitty/kitty.conf"
 alias e-tmux="$EDITOR $XDG_CONFIG_HOME/tmux/tmux.conf"
 alias e-vimrc="$EDITOR $XDG_CONFIG_HOME/nvim/init.lua"
 alias e-zshrc="$EDITOR $ZDOTDIR/.zshrc"
+alias e-zshenv="$EDITOR $HOME/.zshenv"
+
 CODE_DIR="${HOME:-~}"/code
 if [[ ! -e $CODE_DIR ]] || [[ ! -d $CODE_DIR ]]; then
     mkdir "$CODE_DIR"
 fi
 alias c="cd $CODE_DIR && ls"
 alias h="cd $HOME && ls"
+alias cfg="cd ${XDG_CONFIG_HOME:-~/.config} && ls -al"
+alias s="cd $HOME/.local/bin && ls"
 alias dfiles="cd $XDG_CONFIG_HOME/dotfiles && ls"
 alias downloads="cd $HOME/Downloads && ls"
 alias r-black="find . -maxdepth 1 -type f -name  '*.py' -print -exec python3 -m black --line-length=120 --target-version py38 {} \;"
