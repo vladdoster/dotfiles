@@ -1,11 +1,13 @@
 # Dotfiles
 
-| System     | Repository Branch | CI build                   | Install command                                                                                            |
-|------------|-------------------|----------------------------|------------------------------------------------------------------------------------------------------------|
-| arch linux | [arch-linux]      | ![build][arch-linux build] | `bash <(curl -s https://raw.githubusercontent.com/vladdoster/dotfiles/arch-linux/bin/.local/bin/install.sh)`     |
-| macOS      | [mac-os]          | ![build][mac-os build]     | `bash <(curl -s https://raw.githubusercontent.com/vladdoster/dotfiles/mac-os/bin/.local/bin/install.sh)` |
++------------+-----------------+----------------------------------------------------------------------------------------------------------------------+
+| Mac OS     | ![build][mac-os build]    | bash <(curl -s https://raw.githubusercontent.com/vladdoster/dotfiles/arch-linux/bin/.local/bin/install.sh) |
++------------+-----------------+-----------------------------------------------------+----------------------------------------------------------------+
+| Arch Linux |![build][arch-linux build] | bash <(curl -s https://raw.githubusercontent.com/vladdoster/dotfiles/arch-linux/bin/.local/bin/install.sh) |                                      |
++------------+-----------------+-----------------------------------------------------+----------------------------------------------------------------+
 
 ## Problem & Solution
+
 
 | Problem                  | Solution         |
 |--------------------------|------------------|
