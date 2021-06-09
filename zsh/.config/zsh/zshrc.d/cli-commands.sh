@@ -2,16 +2,6 @@
 get-container-shell() {
     docker-compose exec -it "$1" /bin/bash
 }
-ssh() {
-    echo "$#"
-    if [[ $# -eq 0 ]]; then
-        ssh "$@"
-    elif [[ $TERM =~ "kitty" ]]; then
-        kitty +kitten ssh "$@"
-    else
-        ssh "$@"
-    fi
-}
 parse_ssh_hosts() {
     shopt -s nocasematch
     for word in "$(grep -i "^Host" ~/.ssh/config | paste -s -)"; do

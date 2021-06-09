@@ -1,4 +1,4 @@
-\.DS_Store
+*.DS_Store
 \.\#.+       # CVS conflict files / emacs lock files
 \.cvsignore
 \.svn

@@ -10,7 +10,7 @@ endef
 
 define remove-git-submodules
 	echo "--- Removing initialized Git submodules"
-	(git submodule deinit --all --force || git submodule deinit --force .) \
+	(git submodule deinit --all --force || git submodule deinit --force .) 2>/dev/null \
 		|| (echo "--- ERROR: Unable to remove Git submodules" && exit 1)
 endef
 
@@ -23,32 +23,20 @@ install: clean
 	echo "--- Cloning Git submodules"
 	git submodule update --init --recursive || (echo "--- Unable to initialize Git submodules" && exit 1)
 	echo "--- Installed dotfiles and Git submodules"
+	echo "--- Installing Neovim plugins"
+	nvim +PackerInstall
 
 clean : --delete
 	echo "--- Removing pre-exisiting dotfile softlinks"
+	find "$$PWD" -type f -name "*.DS_Store" -ls -delete
 	find * -type d -not -path '*/\.*' -exec stow --target="$$HOME" --verbose 1 --delete {} \;	
 	$(remove-git-submodules)
+	echo "--- Removed dotfiles soft links and Git submodules"
+	rm -rf "$$HOME"/.local/share/nvim
 	echo "--- Removed dotfiles soft links and Git submodules"
 
 test : --simulate
 	echo "--- DRYRUN: No changes will be made to current environment"
 	$(run-stow)
 
-dirs:
-	mkdir -p ~/git
-	mkdir -p ~/build
-
-pyenv:
-	rm -rf ~/.pyenv
-	curl https://pyenv.run | bash
-
-nvim_pyenv: pyenv
-	pyenv install 3.7.9
-	pyenv virtualenv 3.7.9 neovim
-	pyenv activate; pip install pynvim; pyenv deactivate;
-
-nvim: dirs nvim_pyenv
-	if [ -d ~/git/neovim ]; then echo "[nvim]: git/neovim Already found"; else git clone https://github.com/neovim/neovim ~/git/neovim; fi
-	if [ -d ~/build/neovim ]; then cd ~/build/neovim && git pull; else git clone https://github.com/neovim/neovim ~/build/neovim; fi
-	cd ~/build/neovim/ && make -j2 -s --no-print-directory && sudo make install -s
 

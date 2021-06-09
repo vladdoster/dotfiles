@@ -24,6 +24,7 @@ return require("packer").startup(
         use "glepnir/galaxyline.nvim"
         use "windwp/nvim-autopairs"
         use "alvan/vim-closetag"
+        use "dhruvasagar/vim-table-mode"
 
         -- snippet support
         use "hrsh7th/vim-vsnip"

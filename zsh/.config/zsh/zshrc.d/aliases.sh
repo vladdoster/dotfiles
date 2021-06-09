@@ -6,6 +6,7 @@ if [[ $OSTYPE =~ "darwin" ]]; then
         alias ls='gls -AlhF --color=auto'
         alias readlink="greadlink"
     fi
+    alias get-public-ssh-key="( cat $HOME/.ssh/id_rsa.pub | pbcopy -pboard general ) && echo 'Copied SSH key to clipboard.'"
 else
     alias ll="ls"
     alias ls="ls -AlhF --color=auto"
@@ -57,9 +58,19 @@ alias s="cd $HOME/.local/bin && ls"
 alias dfiles="cd $XDG_CONFIG_HOME/dotfiles && ls"
 alias downloads="cd $HOME/Downloads && ls"
 alias setup-macos="cd $HOME/.local/share/macOS-setup && ls"
+<<<<<<< Updated upstream
 #- COMMAND SHORTCUTS -------------------------------------------------
 alias g='git' # GIT ALIASES ARE IN ~/.GITCONFIG.
 alias rr='cd "$(git rev-parse --show-toplevel)" && ls'
+alias r-black="find . -maxdepth 1 -type f -name  '*.py' -print -exec python3 -m black --line-length=120 --target-version py38 {} \;"
+alias r-shellharden="find . -maxdepth 1 -type f -name '*.sh' -print -exec shellharden --replace {} \;"
+alias r-shfix="r-shellharden && r-shfmt"
+alias r-shfmt="shfmt -i 4 -s -ln bash -sr -bn -ci -w"
+#- COMMAND SHORTCUTS -------------------------------------------------
+alias g='git' # GIT ALIASES ARE IN ~/.GITCONFIG.
+alias rr='cd "$(git rev-parse --show-toplevel)" && ls'
+# infocmp xterm-kitty | ssh myserver tic -x -o \~/.terminfo /dev/stdin
+>>>>>>> Stashed changes
 #--- MISC.
 alias scratchpad="$EDITOR $(mktemp -t scratch.XXX.md)"
 alias generate-passwd="openssl rand -base64 24"
@@ -69,6 +80,11 @@ alias reload-sh="exec $SHELL"
 alias start-http_server="python2 -m SimpleHTTPServer"
 alias venv-activate="source ./.venv/bin/activate"
 alias venv-create="python3 -m venv ./.venv"
+<<<<<<< Updated upstream
+=======
+alias pip-safe="pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org"
+alias pip-requirements="pip-safe -r requirements.txt"
+>>>>>>> Stashed changes
 #--- WEBSERVER DEBUGGING
 alias get-open-ports='netstat -tulanp' # list open ports
 alias get-site-headers='curl -I'       # get web server headers

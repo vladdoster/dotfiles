@@ -33,5 +33,4 @@ plugins=( \
          vi-mode \
  )
 source "$OHMYZSH/oh-my-zsh.sh"
-#- EXTRAS -----------------------------------------------
 source <(find "$ZDOTDIR"/zshrc.d/* -maxdepth 1 -type f -exec cat {} \;)
