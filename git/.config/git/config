@@ -53,8 +53,7 @@
 	plus-empty-line-marker-style = normal normal
 	line-numbers-right-format = "{np:^4}│ "
 [github]
-	user = pksunkara
-	token = token
+	user = vladdoster
 [gitflow "prefix"]
 	versiontag = v
 [sequence]
