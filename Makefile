@@ -27,13 +27,15 @@ install: clean
 	nvim +PackerInstall
 
 clean : --delete
-	echo "--- Removing pre-exisiting dotfile softlinks"
 	find "$$PWD" -type f -name "*.DS_Store" -ls -delete
-	find * -type d -not -path '*/\.*' -exec stow --target="$$HOME" --verbose 1 --delete {} \;	
-	$(remove-git-submodules)
-	echo "--- Removed dotfiles soft links and Git submodules"
+	echo "--- Removed .DS_Store files"
 	rm -rf "$$HOME"/.local/share/nvim
-	echo "--- Removed dotfiles soft links and Git submodules"
+	echo "--- Cleaned neovim plugins"
+	find * -type d -not -path '*/\.*' -exec stow --target="$$HOME" --verbose 1 --delete {} \;	
+	echo "--- Removed dotfile softlinks"
+	$(remove-git-submodules)
+	echo "--- Removed Git submodules"
+
 
 test : --simulate
 	echo "--- DRYRUN: No changes will be made to current environment"
