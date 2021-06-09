@@ -23,7 +23,9 @@ if [[ "$OSTYPE" == darwin* ]]; then
   export XDG_VIDEOS_DIR="$HOME"/Videos
   # homebrew
   if ! command -v brew &> /dev/null; then
-      eval "$(/opt/homebrew/bin/brew shellenv)"
+      if [[ -e /opt/homebrew/bin/brew ]]; then
+          eval "$(/opt/homebrew/bin/brew shellenv)"
+      fi
       export HOMEBREW_FORCE_BREWED_CURL=1
       export HOMEBREW_BUNDLE_FILE="$XDG_DATA_HOME"/homebrew/Brewfile
   fi
