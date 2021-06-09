@@ -2,9 +2,9 @@
 #- SYSTEM SPECIFIC ---------------------------------------------=
 if [[ $OSTYPE =~ "darwin" ]]; then
     if command -v gls &> /dev/null; then
-      alias ll="gls"
-      alias ls='gls -AlhF --color=auto'
-      alias readlink="greadlink"
+        alias ll="gls"
+        alias ls='gls -AlhF --color=auto'
+        alias readlink="greadlink"
     fi
 else
     alias ll="ls"
