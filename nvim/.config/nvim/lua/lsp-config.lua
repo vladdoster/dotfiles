@@ -42,6 +42,13 @@ local function setup_servers()
     local lspconf = require("lspconfig")
     local servers = require "lspinstall".installed_servers()
 
+    table.insert(servers, "bashls")
+    table.insert(servers, "diagnosticls")
+    table.insert(servers, "dockerls")
+    table.insert(servers, "jsonls")
+    table.insert(servers, "pyright")
+    table.insert(servers, "yamlls")
+
     for _, lang in pairs(servers) do
         if lang ~= "lua" then
             lspconf[lang].setup {

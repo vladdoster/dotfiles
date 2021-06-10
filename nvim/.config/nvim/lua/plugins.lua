@@ -26,6 +26,7 @@ return require("packer").startup(
         -- LSP
         use "hrsh7th/nvim-compe"
         use "kabouzeid/nvim-lspinstall"
+        use "alexaandru/nvim-lspupdate"
         use "neovim/nvim-lspconfig"
         use "nvim-treesitter/nvim-treesitter"
         use "onsails/lspkind-nvim"
