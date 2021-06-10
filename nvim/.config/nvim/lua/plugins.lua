@@ -8,11 +8,12 @@ return require("packer").startup(
         -- COLOR-SCHEME
         use "norcalli/nvim-colorizer.lua"
         use {"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
-        use "kyazdani42/nvim-web-devicons"
         -- UI
-        use "akinsho/nvim-bufferline.lua"
+        use {
+            'hoob3rt/lualine.nvim',
+            requires = {'kyazdani42/nvim-web-devicons', opt = true}
+        }
         use "alvan/vim-closetag"
-        use "glepnir/galaxyline.nvim"
         use "lewis6991/gitsigns.nvim"
         use "windwp/nvim-autopairs"
         -- FILE FINDER
