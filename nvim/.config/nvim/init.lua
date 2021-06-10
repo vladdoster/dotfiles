@@ -14,15 +14,13 @@ if fn.empty(fn.glob(install_path)) > 0 then
   fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
   execute 'packadd packer.nvim'
 end
-
-
-
 -- load all plugins
 require "plugins"
 require "misc-utils"
 require "user-interface"
 -- lsp stuff
 require "file-finder"
+require "icons"
 
 require "lsp-config"
 require "lsp-completion"
