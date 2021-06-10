@@ -14,10 +14,7 @@ set_zsh_as_default_sh() {
     echo "Set zsh as default sh"
 }
 remove_ds() {
-    find "$PWD" \
-        -type f \
-        -name "*.DS_Store" \
-        -ls -delete
+    find "$PWD" -type f -name "*.DS_Store" -print -delete
 }
 add_ssh_host() {
     if [ $# -gt 0 ]; then
