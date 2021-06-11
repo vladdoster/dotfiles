@@ -24,7 +24,8 @@ install: clean
 	git submodule update --init --recursive || (echo "--- Unable to initialize Git submodules" && exit 1)
 	echo "--- Installed dotfiles and Git submodules"
 	echo "--- Installing Neovim plugins"
-	nvim +PackerInstall
+	nvim -c PackerInstall
+	nvim -c LspUpdate
 
 clean : --delete
 	find "$$PWD" -type f -name "*.DS_Store" -ls -delete
