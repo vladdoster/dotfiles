@@ -3,10 +3,10 @@
 # Collection of aliases to reduce key presses for common tasks
 #
 # UTIL FUNCTIONS -------------------------------------------
-_go_to(){
+_go_to() {
     cd "$1" && ls -al
 }
-_edit(){
+_edit() {
     "$EDITOR" "$1"
 }
 #- SYSTEM SPECIFIC -----------------------------------------
