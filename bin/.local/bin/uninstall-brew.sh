@@ -127,11 +127,11 @@ chomp() {
 }
 
 ohai() {
-    printf "${tty_blue}==>${tty_bold} %s${tty_reset}\n" "$(shell_join "$@")"
+    printf "$tty_blue==>$tty_bold %s$tty_reset\n" "$(shell_join "$@")"
 }
 
 warn() {
-    printf "${tty_red}Warning${tty_reset}: %s\n" "$(chomp "$1")"
+    printf "${tty_red}Warning$tty_reset: %s\n" "$(chomp "$1")"
 }
 
 execute() {
@@ -328,10 +328,10 @@ fi
 
 for file in "${homebrew_files[@]}"; do
     if [[ -n $opt_dry_run ]]; then
-        echo "Would delete ${file}"
+        echo "Would delete $file"
     else
-        if ! err=$(rm -fr "$file" 2>&1); then
-            warn "Failed to delete ${file}"
+        if ! err="$(rm -fr "$file" 2>&1)"; then
+            warn "Failed to delete $file"
             echo "$err"
         fi
     fi

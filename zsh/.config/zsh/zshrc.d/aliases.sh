@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 #
 # Collection of aliases to reduce key presses for common tasks
 #
@@ -16,7 +16,7 @@ if [[ $OSTYPE =~ "darwin" ]]; then
         alias ls='gls -AlhF --color=auto'
         alias readlink="greadlink"
     fi
-    alias get-public-ssh-key=$(pbcopy -pboard general < "$HOME"/.ssh/id_rsa.pub && printf '--- Copied SSH key to clipboard')
+    alias get-public-ssh-key="$(pbcopy -pboard general < "$HOME"/.ssh/id_rsa.pub && printf '--- Copied SSH key to clipboard')"
 else
     alias ll="ls"
     alias ls="ls -AlhF --color=auto"
@@ -100,6 +100,6 @@ if command -v docker &> /dev/null; then
     alias dcdown="docker compose down"
     alias dcstop="docker compose stop"
     alias dclogs="docker compose logs --follow"
-    alias dckill="docker container kill --signal=KILL '$(docker container ls --all --quiet)'"
+    alias dckill="docker container kill --signal=KILL $(docker container ls --all --quiet)"
     alias dclean="docker system prune --all --force --volumes"
 fi

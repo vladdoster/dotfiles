@@ -20,14 +20,14 @@ mirror() {
     REPO_NAME=$(basename "$(git remote get-url origin)")
     REPO_URL="https://github.com/vladdoster/$REPO_NAME"
 
-    printf -- "\n--- Cloned %s " $REPO_NAME
+    printf -- "\n--- Cloned %s " "$REPO_NAME"
     git push --mirror https://github.com/vladdoster/"$REPO_NAME"
-    printf -- "\n--- Pushed new to: %s" $REPO_URL
+    printf -- "\n--- Pushed new to: %s" "$REPO_URL"
 }
 
 if [[ $# -eq $NO_ARGS ]]; then # Script invoked with no command-line args?
-    echo "Usage: $(basename $0) options (-hmn)"
-    exit $E_OPTERROR # Exit and explain usage.
+    echo "Usage: $(basename "$0") options (-hmn)"
+    exit "$E_OPTERROR" # Exit and explain usage.
 fi
 while getopts ":h:m:n:" Option; do
     case $Option in

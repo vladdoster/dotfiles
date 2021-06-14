@@ -6,9 +6,9 @@ get_platform() {
         Darwin*) platform=Mac ;;
         CYGWIN*) platform=Cygwin ;;
         MINGW*) platform=MinGw ;;
-        *) platform="UNKNOWN:${unameOut}" ;;
+        *) platform="UNKNOWN:$unameOut" ;;
     esac
-    echo $platform
+    echo "$platform"
 }
 
 echo "installing packer"
