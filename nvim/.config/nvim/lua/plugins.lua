@@ -21,16 +21,14 @@ return require("packer").startup(
         -- PKG MANAGER
         use "wbthomason/packer.nvim"
         -- COLOR-SCHEME
-        use "norcalli/nvim-colorizer.lua"
         use {"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
         -- UI
         use {
             'hoob3rt/lualine.nvim',
             requires = {'kyazdani42/nvim-web-devicons', opt = true}
         }
-        use "alvan/vim-closetag"
-        use "lewis6991/gitsigns.nvim"
-        use "windwp/nvim-autopairs"
+        use 'romgrk/barbar.nvim'
+        use "lukas-reineke/indent-blankline.nvim"
         -- FILE FINDER
         use "kyazdani42/nvim-tree.lua"
         use {
@@ -44,14 +42,17 @@ return require("packer").startup(
         use "alexaandru/nvim-lspupdate"
         use "neovim/nvim-lspconfig"
         use "nvim-treesitter/nvim-treesitter"
-        use "onsails/lspkind-nvim"
-        use "sbdchd/neoformat"
+        use "windwp/nvim-autopairs"
+        -- TPOPE 
+        use "tpope/vim-fugitive"
+        use "tpope/vim-commentary"
+        use "tpope/vim-rhubarb"
+        use "tpope/vim-sensible"
+        use "tpope/vim-repeat"
         -- SNIPPETS
         use "hrsh7th/vim-vsnip"
         use "rafamadriz/friendly-snippets"
-        -- MISC.
-        use "907th/vim-auto-save"
-        use "folke/which-key.nvim"
-        use {"lukas-reineke/indent-blankline.nvim", branch = "lua"}
+        -- TERMINAL
+        use "numToStr/FTerm.nvim"
     end
 )

@@ -11,20 +11,12 @@ require "settings"
 require "plugins"
 require "misc-utils"
 require "user-interface"
--- lsp stuff
 require "file-finder"
 require "icons"
-
+require "terminal"
+-- lsp stuff
 require "lsp-config"
 require "lsp-completion"
 require "telescope-config"
 require "treesitter-config"
--- colorscheme related stuff
-cmd "syntax on"
 require "mappings"
--- hide line numbers in terminal windows
-vim.api.nvim_exec([[
-   au BufEnter term://* setlocal nonumber
-]], false)
--- setup for TrueZen.nvim
-require "whichkey"
