@@ -6,6 +6,7 @@
 	editor = vim
 	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	pager = delta
+	autocrlf = false
 [web]
 	browser = google-chrome
 [instaweb]
@@ -263,3 +264,9 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+[remote "origin"]
+	url = https://github.com/Homebrew/linuxbrew-core
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[homebrew]
+	analyticsmessage = true
+	caskanalyticsmessage = true

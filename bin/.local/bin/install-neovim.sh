@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-PROGRAM="tmux"
-URL="https://github.com/tmux/tmux.git"
+PROGRAM="nvim"
+URL="https://github.com/neovim/neovim"
 
 temp_dir() {
     temp_prefix=$(basename "$0")
@@ -23,34 +23,30 @@ catch() {
 
 echo "--- Cloning $PROGRAM repository"
 git clone "${URL}" "${INSTALL_DIR}"
-pushd $INSTALL_DIR
+pushd "$INSTALL_DIR"
 echo -e "--- Configuring $PROGRAM install"
 if [[ -e autogen.sh ]]; then
   echo "--- Found an autogen.sh file"
-  sh autogen.sh
-  if [[ -e configure ]]; then 
-  echo "--- Found a ./configure file"
-  ./configure
-  fi
+    sh autogen.sh
 elif [[ -e configure ]]; then 
   echo "--- Found a ./configure file"
   ./configure
 else
   echo "--- No configuration files found"
 fi
-echo -e "--- Configured $PROGRAM install"
+echo -e "\n--- Configured $PROGRAM install"
 PS3="Select an install type: "
 select opt in "global" "user"; do
     case $REPLY in
         1)
             echo "--- Updating $opt $PROGRAM install"
-            make
-            sudo make install 
+            make CMAKE_BUILD_TYPE=Release
+            sudo make install
             break
             ;;
         2)
             echo "--- Updating $opt $PROGRAM install"
-            sudo make
+            make CMAKE_BUILD_TYPE=Release
             make install
             break
             ;;

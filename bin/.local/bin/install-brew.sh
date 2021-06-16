@@ -1,30 +1,31 @@
-#!/bin/bash
-# Installs latest Homebrew version
-set -e
+#!/usr/bin/env bash
 
-# error handling
-traperr() {
-    echo "ERROR: ${BASH_SOURCE[1]} at about ${BASH_LINENO[0]}"
-    make clean
-    _cleanup
-    exit 1
+PROGRAM="brew"
+URL="https://github.com/homebrew/brew"
+
+temp_dir() {
+    temp_prefix=$(basename "$0")
+    mktemp -d /tmp/${temp_prefix}.${PROGRAM}.XXXXXX
 }
 
-set -o errtrace
-trap traperr ERR
+INSTALL_DIR=$(temp_dir)
 
-_main() {
-    _install_brew
-    _cleanup
+trap 'catch' ERR
+catch() {
+  echo "--- ERROR: An error has occurred while running $0"
 }
 
-_install_brew() {
-    echo "--- Running Brew install script"
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+trap 'catch' EXIT
+catch() {
+  rm -rf "$temp_dir"
+  echo "--- Removed tmp files"
 }
 
-_cleanup() {
-    echo "--- Cleaned up tmp resources"
-}
+if [[ $OSTYPE =~ "linux" ]] && [[ -e /home/linuxbrew ]]; then
+  echo "--- Attempting to remove previous Linuxbrew installations"
+  sudo rm -rf /home/linuxbrew
+fi
 
-_main "${@}"
+echo "--- Installing brew on $OSTYPE"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo "--- Successfully installed brew"
