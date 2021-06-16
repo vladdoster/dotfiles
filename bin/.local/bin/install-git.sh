@@ -21,8 +21,21 @@ catch() {
   echo "--- Removed tmp files"
 }
 
+echo "--- Removing git installed via a package manager"
+sudo yum remove -y git || echo "--- Removed previous git installations"
+echo "--- Installing dependencies"
+sudo yum install -y dh-autoreconf \
+                    curl-devel \
+                    expat-devel \
+                    gettext-devel \
+                    openssl-devel \
+                    perl-devel \
+                    zlib-devel
+  || echo "--- yum is not available, skipping"
 echo "--- Cloning $PROGRAM repository"
-git clone "${URL}" "${INSTALL_DIR}"
+# git clone "${URL}" "${INSTALL_DIR}"
+# wget --output-document https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.9.5.tar.gz
+# tar -xvf
 pushd "$INSTALL_DIR"
 echo -e "--- Configuring $PROGRAM install"
 if [[ -e autogen.sh ]]; then
@@ -30,37 +43,34 @@ if [[ -e autogen.sh ]]; then
     sh autogen.sh
 elif [[ -e configure ]]; then 
   echo "--- Found a ./configure file"
-  ./configure --prefix=/usr/local
+  ./configure
 else
   echo "--- No configuration files found"
 fi
 echo -e "\n--- Configured $PROGRAM install"
+make
 PS3="Select an install type: "
 select opt in "global" "user"; do
     case $REPLY in
         1)
             echo "--- Updating $opt $PROGRAM install"
-            make --prefix=/usr
-            sudo make --prefix=/usr install 
+            sudo make install
             break
             ;;
         2)
             echo "--- Updating $opt $PROGRAM install"
-            make --prefix=/usr/local
-            make --prefix=/usr/local install 
+            make install 
             break
             ;;
-          *)
-            echo "--- Invalid selection"
-            exit 1
-            ;;
+        *)
+          echo "--- Invalid selection"
+          exit 1
+          ;;
     esac
 done
 pushd
-#source "$SHELL"
 if ! command -v "$PROGRAM" &> /dev/null; then
-  echo "--- Install completed but $PROGRAM isn't on $USER's path"
+  echo "--- Install completed but $PROGRAM isn't on $USER path"
   exit 1
 fi
 echo "--- Successfully installed $PROGRAM"
-

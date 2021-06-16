@@ -264,9 +264,3 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
-[remote "origin"]
-	url = https://github.com/Homebrew/linuxbrew-core
-	fetch = +refs/heads/*:refs/remotes/origin/*
-[homebrew]
-	analyticsmessage = true
-	caskanalyticsmessage = true

@@ -21,15 +21,25 @@ if [[ "$OSTYPE" == darwin* ]]; then
   export XDG_MUSIC_DIR="$HOME"/Music
   export XDG_PICTURES_DIR="$HOME"/Pictures
   export XDG_VIDEOS_DIR="$HOME"/Videos
-  # homebrew
-  if ! command -v brew &> /dev/null; then
-      if [[ -e /opt/homebrew/bin/brew ]]; then
-          eval "$(/opt/homebrew/bin/brew shellenv)"
-      fi
-      export HOMEBREW_FORCE_BREWED_CURL=1
-      export HOMEBREW_BUNDLE_FILE="$XDG_DATA_HOME"/homebrew/Brewfile
+
+
+fi
+# HOMEBREW
+if ! command -v brew &> /dev/null; then
+  if [[ -e /opt/homebrew/bin/brew ]]; then
+      eval "$(/opt/homebrew/bin/brew shellenv)" || echo "--- Homebrew unavailable"
+  elif [[ $OSTYPE =~ "linux" ]] && [[ -e /home/linuxbrew/.linuxbrew ]]; then
+    (
+      eval "$(export HOMEBREW_PREFIX='/home/e109082/.linuxbrew')"
+      export HOMEBREW_CELLAR="/home/e109082/.linuxbrew/Cellar";
+      export HOMEBREW_REPOSITORY="/home/e109082/.linuxbrew/Homebrew";
+      export PATH="/home/e109082/.linuxbrew/bin:/home/e109082/.linuxbrew/sbin${PATH+:$PATH}";
+      export MANPATH="/home/e109082/.linuxbrew/share/man${MANPATH+:$MANPATH}:";
+      export INFOPATH="/home/e109082/.linuxbrew/share/info:${INFOPATH:-}";
+    ) || echo "--- Homebrew unavailable"
   fi
 fi
+
 #- PROGRAMS ------------------------------------------
 export INFOPATH="/usr/local/share/info:$INFOPATH"
 export MANPATH="/usr/local/share/man:$MANPATH"
@@ -81,3 +91,4 @@ export PATH="/usr/local/opt/libressl/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/libressl/lib"
 export CPPFLAGS="-I/usr/local/opt/libressl/include"
 export PKG_CONFIG_PATH="/usr/local/opt/libressl/lib/pkgconfig"
+
