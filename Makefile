@@ -18,14 +18,17 @@ list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
 install: clean
-	echo "--- Installing dotfiles via GNU Stow"
+	echo "--- Installing dotfiles"
 	$(run-stow)
-	echo "--- Cloning Git submodules"
+	echo "--- Installed dotfiles"
+	echo "--- Cloning git submodules"
 	git submodule update --init --recursive || (echo "--- Unable to initialize Git submodules" && exit 1)
-	echo "--- Installed dotfiles and Git submodules"
-	echo "--- Installing Neovim plugins"
+	echo "--- Cloned git submodules"
+	echo "--- Installing neovim dependencies and LSPs"
 	nvim -c PackerInstall
 	nvim -c LspUpdate
+	echo "--- Installed neovim dependencies and LSPs"
+	echo "--- Successfully installed dotfiles on $$HOSTNAME" 
 
 clean : --delete
 	find "$$PWD" -type f -name "*.DS_Store" -ls -delete
@@ -36,7 +39,10 @@ clean : --delete
 	echo "--- Removed dotfile softlinks"
 	$(remove-git-submodules)
 	echo "--- Removed Git submodules"
+	echo "--- Successfully cleaned previous dotfiles installations on $$HOSTNAME" 
 
+update-git:
+	
 
 test : --simulate
 	echo "--- DRYRUN: No changes will be made to current environment"
