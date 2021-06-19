@@ -26,7 +26,7 @@ endef
 list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
-install: clean
+install: clean deps
 	echo "--- Installing dotfiles"
 	$(run-stow)
 	echo "--- Installed dotfiles"
@@ -58,4 +58,6 @@ test : --simulate
 	echo "--- DRYRUN: No changes will be made to current environment"
 	$(run-stow)
 
-
+deps:
+	echo "--- Installing python3 pkgs"
+	pip3 install ranger-fm pynvim
