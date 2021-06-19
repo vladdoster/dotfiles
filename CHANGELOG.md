@@ -1,3 +1,5 @@
+## [0.2.66](https://github.com/vladdoster/dotfiles/compare/v0.2.65...v0.2.66) (2021-06-19)
+
 ## [0.2.65](https://github.com/vladdoster/dotfiles/compare/v0.2.64...v0.2.65) (2021-06-19)
 
 # Changelog
