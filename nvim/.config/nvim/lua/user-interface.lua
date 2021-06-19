@@ -2,12 +2,10 @@
 vim.o.background = 'dark' -- or "light" for light mode
 vim.cmd([[colorscheme gruvbox]])
 -- TOP BUFFER LINE
+require('buftabline').setup{}
 -- require'barbar'.setup()
--- vim.api.nvim_set_keymap('n', '<TAB>', ':BufferNext<CR>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<S-TAB>', ':BufferPrevious<CR>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<S-x>', ':BufferClose<CR>', { noremap = true, silent = true })
 -- BOTTOM STATUS LINE
-require'lualine'.setup {
+require('lualine').setup {
     options = {
         icons_enabled = false,
         theme = 'gruvbox',

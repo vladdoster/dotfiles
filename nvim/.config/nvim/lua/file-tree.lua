@@ -10,8 +10,8 @@ vim.api.nvim_set_keymap('n', '<C-n>', ':NvimTreeToggle<CR>', {noremap = true, si
 -- settings
 vim.g.nvim_ree_hijack_netrw = 1
 vim.g.nvim_tree_auto_close = 1
-vim.g.nvim_tree_disable_netrw = 1 
-vim.g.nvim_tree_follow = 1 
+vim.g.nvim_tree_disable_netrw = 1
+vim.g.nvim_tree_follow = 1
 vim.g.nvim_tree_hide_dotfiles = 0
 vim.g.nvim_tree_indent_markers = 1
 vim.g.nvim_tree_show_icons = {git = 1, folders = 1, files = 1}
@@ -47,7 +47,6 @@ vim.g.nvim_tree_bindings = {
     ['r'] = tree_cb('rename'),
     ['s'] = tree_cb('split'),
     ['v'] = tree_cb('vsplit'),
-    ['x'] = tree_cb('cut'),
+    ['x'] = tree_cb('cut')
 }
-
 

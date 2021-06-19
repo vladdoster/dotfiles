@@ -31,18 +31,12 @@ return require('packer').startup(
       use {'npxbr/gruvbox.nvim', requires = {'rktjmp/lush.nvim'}}
       use 'kyazdani42/nvim-web-devicons'
       use 'hoob3rt/lualine.nvim'
-      use {
-          'jose-elias-alvarez/buftabline.nvim',
-          requires = {'kyazdani42/nvim-web-devicons'}, -- optional
-          config = function()
-              require('buftabline').setup {}
-          end
-      }
-      use 'lukas-reineke/indent-blankline.nvim'
+      use 'jose-elias-alvarez/buftabline.nvim'
+
       -- FILE TREE
       use 'kyazdani42/nvim-tree.lua'
       use 'kevinhwang91/rnvimr'
-
+      -- TELESCOPE
       use {
           'nvim-telescope/telescope.nvim',
           requires = {
@@ -52,11 +46,17 @@ return require('packer').startup(
           }
       }
       -- LSP
-      use 'alexaandru/nvim-lspupdate'
-      use 'hrsh7th/nvim-compe'
-      use 'kabouzeid/nvim-lspinstall'
-      use 'neovim/nvim-lspconfig'
-      use 'nvim-treesitter/nvim-treesitter'
+      use {
+          'neovim/nvim-lspconfig',
+          requires = {
+              {'alexaandru/nvim-lspupdate'},
+              {'folke/lua-dev.nvim'},
+              {'hrsh7th/nvim-compe'},
+              {'kabouzeid/nvim-lspinstall'},
+              {'nvim-treesitter/nvim-treesitter'},
+              {'ray-x/lsp_signature.nvim'}
+          }
+      }
       -- TPOPE 
       use 'tpope/vim-fugitive'
       use 'tpope/vim-commentary'
@@ -69,6 +69,8 @@ return require('packer').startup(
       -- TERMINAL
       use 'numToStr/FTerm.nvim'
       -- MISC.
+      use 'dhruvasagar/vim-table-mode'
+      use 'lukas-reineke/indent-blankline.nvim'
       use 'windwp/nvim-autopairs'
   end
        )
