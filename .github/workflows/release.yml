@@ -77,7 +77,8 @@ jobs:
         run: |
           npm install -D release-it \
                          @release-it/bumper \
-                         auto-changelog
+                         auto-changelog \
+                         @release-it/conventional-changelog
                 
       - name: Create release
         uses: TheRealWaldo/release-it@v0.2.6
