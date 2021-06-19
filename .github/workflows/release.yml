@@ -73,7 +73,7 @@ jobs:
       - run: ls -al
       - run: echo "${PWD}"
       - run: npm install
-      - run: npm run release --config ./.github/.release-it.json
+      - run: npm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             
