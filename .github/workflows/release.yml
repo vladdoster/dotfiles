@@ -6,6 +6,16 @@ on:
 
 jobs:
 
+  del_runs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete workflow runs
+        uses: GitRML/delete-workflow-runs@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          retain_days: 1
+          
   linting:
     name: Lint code base
     runs-on: ubuntu-latest
