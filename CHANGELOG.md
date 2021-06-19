@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.2.71](https://github.com/vladdoster/dotfiles/compare/v0.2.70...v0.2.71) (2021-06-19)
+
+- (maint) nvim && kitty cfgs [`ca01bc2`](https://github.com/vladdoster/dotfiles/commit/ca01bc258434582cec185b70be69f301088b7b89)
+- chore: release v0.2.71 [`afd7f31`](https://github.com/vladdoster/dotfiles/commit/afd7f31b6e6bf3a39129daff317a622c579ce7ca)
+
 ## [v0.2.70](https://github.com/vladdoster/dotfiles/compare/v0.2.69...v0.2.70) (2021-06-19)
 
 - (maint) add deps Makefile target [`8166e83`](https://github.com/vladdoster/dotfiles/commit/8166e83667b8ace599fc4629f3c57c9fac13a86f)
