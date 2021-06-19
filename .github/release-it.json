@@ -27,7 +27,7 @@
     "releaseNotes": null,
     "preRelease": false,
     "draft": false,
-    "tokenRef": "${GITHUB_TOKEN}",
+    "tokenRef": ${{ secrets.GITHUB_TOKEN }},
     "assets": null,
     "host": null,
     "skipChecks": false
