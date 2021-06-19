@@ -2,42 +2,58 @@
 	name = Vladislav Doster
 	email = mvdoster@gmail.com
 	username = vladdoster
+
+[github]
+	user = vladdoster
+
 [core]
 	editor = vim
 	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	pager = delta
-[web]
-	browser = google-chrome
-[instaweb]
-	httpd = apache2 -f
+
 [rerere]
 	enabled = 1
 	autoupdate = 1
+
 [push]
-	default = matching
+	default = current
+	followTags = true
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+
 [color]
 	ui = auto
+
 [color "branch"]
 	current = yellow bold
 	local = green bold
 	remote = cyan bold
+
 [color "diff"]
 	meta = yellow bold
 	frag = magenta bold
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+
 [color "status"]
 	added = green bold
 	changed = yellow bold
 	untracked = red bold
+
 [diff]
 	tool = vimdiff
+
 [difftool]
 	prompt = false
+
 [delta]
 	features = line-numbers decorations
 	line-numbers = true
+
 [delta "decorations"]
 	minus-style = red bold normal
 	plus-style = green bold normal
@@ -52,12 +68,13 @@
 	minus-empty-line-marker-style = normal normal
 	plus-empty-line-marker-style = normal normal
 	line-numbers-right-format = "{np:^4}│ "
-[github]
-	user = vladdoster
+
 [gitflow "prefix"]
 	versiontag = v
+
 [sequence]
 	editor = nvim
+
 [alias]
 	a = add --all
 	ai = add -i
@@ -259,7 +276,3 @@
 	theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
 	subrepo = !sh -c 'git filter-branch --prune-empty --subdirectory-filter $1 master' -
 	human = name-rev --name-only --refs=refs/heads/*
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
