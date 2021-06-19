@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.2.73](https://github.com/vladdoster/dotfiles/compare/v0.2.72...v0.2.73) (2021-06-19)
+
+- chore: release v0.2.73 [`147d484`](https://github.com/vladdoster/dotfiles/commit/147d484b858effb01622a02b0b280fd318e2adcf)
+- (maint) change permissions of License, README.md, and Makefile 644 [`5c72f2b`](https://github.com/vladdoster/dotfiles/commit/5c72f2b57566af100db9ae15a097428b0c5f2720)
+
 ## [v0.2.72](https://github.com/vladdoster/dotfiles/compare/v0.2.71...v0.2.72) (2021-06-19)
 
 - (bugfix) use ' in aliases that shouldnt expand unless called & kitty cfg opts from float to int [`c76bdaf`](https://github.com/vladdoster/dotfiles/commit/c76bdaffa13212f7c5e1490f108e0ccfff7855e8)
