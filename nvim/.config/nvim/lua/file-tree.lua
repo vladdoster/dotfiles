@@ -1,54 +1,53 @@
---[[ " 
---let g:nvim_tree_auto_ignore_ft = 'startify' "empty by default, don't auto open tree on specific filetypes.
-let g:nvim_tree_hide_dotfiles = 1 "0 by default, this option hides files and folders starting with a dot `.`
-let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
-" let g:nvim_tree_tab_open = 1 "0 by default, will open the tree when entering a new tab and the tree was previously open
-" let g:nvim_tree_width_allow_resize  = 1 "0 by default, will not resize the tree when opening a file
-let g:nvim_tree_show_icons = {
-    \ 'git': 1,
-    \ 'folders': 1,
-    \ 'files': 1,
-    \ }
-"If 0, do not show the icons for one of 'git' 'folder' and 'files'
-"1 by default, notice that if 'files' is 1, it will only display
-"if nvim-web-devicons is installed and on your runtimepath ]] -- vim.g.nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ] "empty by default
--- vim.g.nvim_tree_disable_netrw = 0 -- moved to lv-globals
--- vim.g.nvim_ree_hijack_netrw = 0 --"1 by default, prevents netrw from automatically opening when opening directories (but lets you keep its other utilities)
-vim.g.nvim_tree_hide_dotfiles = 1 -- 0 by default, this option hides files and folders starting with a dot `.`
-vim.g.nvim_tree_indent_markers = 1 -- "0 by default, this option shows indent markers when folders are open
-vim.g.nvim_tree_follow = 1 -- "0 by default, this option allows the cursor to be updated when entering a buffer
-vim.g.nvim_tree_auto_close = 1 -- 0 by default, closes the tree when it's the last window
+-- RANGER FM -------------------------------------
+vim.api.nvim_set_keymap('n', '-', ':RnvimrToggle<CR>', {noremap = true, silent = true})
+-- settings
+vim.g.rnvimr_ex_enable = 1
+vim.g.rnvimr_draw_border = 1
+vim.g.rnvimr_pick_enable = 1
+vim.g.rnvimr_bw_enable = 1
+-- NVIM TREE -------------------------------------
+vim.api.nvim_set_keymap('n', '<C-n>', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
+-- settings
+vim.g.nvim_ree_hijack_netrw = 1
+vim.g.nvim_tree_auto_close = 1
+vim.g.nvim_tree_disable_netrw = 1 
+vim.g.nvim_tree_follow = 1 
+vim.g.nvim_tree_hide_dotfiles = 0
+vim.g.nvim_tree_indent_markers = 1
+vim.g.nvim_tree_show_icons = {git = 1, folders = 1, files = 1}
+-- bindings
 local tree_cb = require'nvim-tree.config'.nvim_tree_callback
 vim.g.nvim_tree_bindings = {
     -- default mappings
-    ['<CR>'] = tree_cb('edit'),
-    ['o'] = tree_cb('edit'),
-    ['l'] = tree_cb('edit'),
+    ['-'] = tree_cb('dir_up'),
+    ['<'] = tree_cb('prev_sibling'),
     ['<2-LeftMouse>'] = tree_cb('edit'),
     ['<2-RightMouse>'] = tree_cb('cd'),
-    ['<C-]>'] = tree_cb('cd'),
-    ['v'] = tree_cb('vsplit'),
-    ['s'] = tree_cb('split'),
-    ['<C-t>'] = tree_cb('tabnew'),
-    ['<'] = tree_cb('prev_sibling'),
-    ['>'] = tree_cb('next_sibling'),
     ['<BS>'] = tree_cb('close_node'),
-    ['h'] = tree_cb('close_node'),
+    ['<C-]>'] = tree_cb('cd'),
+    ['<C-r>'] = tree_cb('full_rename'),
+    ['<C-t>'] = tree_cb('tabnew'),
+    ['<CR>'] = tree_cb('edit'),
     ['<S-CR>'] = tree_cb('close_node'),
     ['<Tab>'] = tree_cb('preview'),
-    ['I'] = tree_cb('toggle_ignored'),
+    ['>'] = tree_cb('next_sibling'),
     ['H'] = tree_cb('toggle_dotfiles'),
+    ['I'] = tree_cb('toggle_ignored'),
     ['R'] = tree_cb('refresh'),
-    ['a'] = tree_cb('create'),
-    ['d'] = tree_cb('remove'),
-    ['r'] = tree_cb('rename'),
-    ['<C-r>'] = tree_cb('full_rename'),
-    ['x'] = tree_cb('cut'),
-    ['c'] = tree_cb('copy'),
-    ['p'] = tree_cb('paste'),
     ['[c'] = tree_cb('prev_git_item'),
     [']c'] = tree_cb('next_git_item'),
-    ['-'] = tree_cb('dir_up'),
-    ['q'] = tree_cb('close')
+    ['a'] = tree_cb('create'),
+    ['c'] = tree_cb('copy'),
+    ['d'] = tree_cb('remove'),
+    ['h'] = tree_cb('close_node'),
+    ['l'] = tree_cb('edit'),
+    ['o'] = tree_cb('edit'),
+    ['p'] = tree_cb('paste'),
+    ['q'] = tree_cb('close'),
+    ['r'] = tree_cb('rename'),
+    ['s'] = tree_cb('split'),
+    ['v'] = tree_cb('vsplit'),
+    ['x'] = tree_cb('cut'),
 }
-vim.g.nvim_tree_show_icons = {git = 1, folders = 1, files = 1}
+
+
