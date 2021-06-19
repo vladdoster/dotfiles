@@ -9,7 +9,7 @@ while getopts ":a:r:b:p:h" o; do case "${o}" in
     p) user_programs_file=${OPTARG} ;;
     a) aur_helper=${OPTARG} ;;
     *) printf 'Invalid option: -%s\n' "$OPTARG" && exit ;;
-esac; done
+esac done
 
 [ -z "$dotfiles_repo" ] && dotfiles_repo="https://github.com/vladdoster/linux-dotfiles.git"
 [ -z "$user_programs_file" ] && user_programs_file="https://raw.githubusercontent.com/vladdoster/dotfiles-installer/master/old-programs.csv"
