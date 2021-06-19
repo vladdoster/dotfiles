@@ -72,11 +72,12 @@ jobs:
         run: |
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-      
+
       - name: Get dependencies
         run: |
           npm install -D release-it \
-                         @release-it/bumper
+                         @release-it/bumper \
+                         auto-changelog
                 
       - name: Create release
         uses: TheRealWaldo/release-it@v0.2.6
