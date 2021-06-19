@@ -16,11 +16,11 @@ if [[ $OSTYPE =~ "darwin" ]]; then
         alias ls='gls -AlhF --color=auto'
         alias readlink="greadlink"
     fi
-    alias get-public-ssh-key="$(pbcopy -pboard general < "$HOME"/.ssh/id_rsa.pub && printf '--- Copied SSH key to clipboard')"
+    alias get-public-ssh-key="pbcopy -pboard general < '$HOME'/.ssh/id_rsa.pub && printf '--- Copied SSH key to clipboard'"
 else
     alias ll="ls"
     alias ls="ls -AlhF --color=auto"
-    alias get-public-ssh-key="clip $HOME/.ssh/id_rsa.pub && echo 'Copied SSH key to clipboard.'"
+    alias get-public-ssh-key=$(clip $HOME/.ssh/id_rsa.pub && echo 'Copied SSH key to clipboard.')
 fi
 #- FILE LOCATIONS --------------------------------
 alias cpv="rsync -ah --info=progress2"
@@ -71,7 +71,7 @@ alias tmux-cfg="_go_to $XDG_CONFIG_HOME/tmux"
 #- COMMAND SHORTCUTS -----------------------------
 alias g="git" # GIT ALIASES ARE IN ~/.GITCONFIG.
 alias r-shfmt="shfmt -i 4 -s -ln bash -sr -bn -ci -w"
-alias rr="_go_to $(git rev-parse --show-toplevel)"
+alias rr='_go_to $(git rev-parse --show-toplevel)'
 alias rm-ds_store="find $PWD -type f -name *.DS_Store -print -delete"
 #- MISC. -----------------------------------------
 alias scratchpad="$EDITOR $(mktemp -t scratch.XXX.md)"
