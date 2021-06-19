@@ -1,9 +1,9 @@
-# Mac OS (darwin)
+# macOS
 
 - Install CLI/GUI programs via HomeBrew
-- Systemwide config via Applescript
+- Configures system via Applescript
 
-> [!NOTE] sudo access is required or errors will occur.
+> [!NOTE] Requires `sudo`
 
 ## Install
 
