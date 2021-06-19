@@ -72,7 +72,7 @@ jobs:
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
       - run: ls -al
       - run: echo "${PWD}"
-      - run: npm install --global release-it
+      - run: npm install release-it
       - run: release-it
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
