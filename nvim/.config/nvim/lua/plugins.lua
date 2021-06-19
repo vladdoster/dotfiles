@@ -7,28 +7,17 @@ if fn.empty(fn.glob(install_path)) > 0 then
     execute 'packadd packer.nvim'
 end
 
-local function require_plugin(plugin)
-    local plugin_prefix = fn.stdpath('data') .. '/site/pack/packer/opt/'
-    local plugin_path = plugin_prefix .. plugin .. '/'
-    local ok, err, code = os.rename(plugin_path, plugin_path)
-    if not ok then
-        if code == 13 then
-            return true
-        end
-    end
-    if ok then
-        vim.cmd('packadd ' .. plugin)
-    end
-    return ok, err, code
-end
-vim.cmd 'autocmd BufWritePost plugins.lua PackerCompile'
+local packer = require('packer')
+local use = packer.use
 
-return require('packer').startup(
+-- using { } for using different branch , loading plugin with certain commands etc
+return packer.startup(
          function(use)
       -- Packer can manage itself as an optional plugin
       use 'wbthomason/packer.nvim'
       -- USER INTERFACE
-      use {'npxbr/gruvbox.nvim', requires = {'rktjmp/lush.nvim'}}
+      use 'rktjmp/lush.nvim'
+      use 'npxbr/gruvbox.nvim'
       use 'kyazdani42/nvim-web-devicons'
       use 'hoob3rt/lualine.nvim'
       use 'jose-elias-alvarez/buftabline.nvim'
@@ -37,26 +26,19 @@ return require('packer').startup(
       use 'kyazdani42/nvim-tree.lua'
       use 'kevinhwang91/rnvimr'
       -- TELESCOPE
-      use {
-          'nvim-telescope/telescope.nvim',
-          requires = {
-              {'nvim-lua/popup.nvim'},
-              {'nvim-telescope/telescope-media-files.nvim'},
-              {'nvim-lua/plenary.nvim'}
-          }
-      }
+      use 'nvim-lua/popup.nvim'
+      use 'nvim-telescope/telescope-media-files.nvim'
+      use 'nvim-lua/plenary.nvim'
+      use 'nvim-telescope/telescope.nvim'
       -- LSP
-      use {
-          'neovim/nvim-lspconfig',
-          requires = {
-              {'alexaandru/nvim-lspupdate'},
-              {'folke/lua-dev.nvim'},
-              {'hrsh7th/nvim-compe'},
-              {'kabouzeid/nvim-lspinstall'},
-              {'nvim-treesitter/nvim-treesitter'},
-              {'ray-x/lsp_signature.nvim'}
-          }
-      }
+      use 'neovim/nvim-lspconfig'
+      use 'alexaandru/nvim-lspupdate'
+      use 'folke/lua-dev.nvim'
+      use 'hrsh7th/nvim-compe'
+      use 'kabouzeid/nvim-lspinstall'
+      use 'nvim-treesitter/nvim-treesitter'
+      use 'ray-x/lsp_signature.nvim'
+
       -- TPOPE 
       use 'tpope/vim-fugitive'
       use 'tpope/vim-commentary'
@@ -72,5 +54,11 @@ return require('packer').startup(
       use 'dhruvasagar/vim-table-mode'
       use 'lukas-reineke/indent-blankline.nvim'
       use 'windwp/nvim-autopairs'
-  end
+  end, {
+      display = {
+          open_fn = function()
+              return require('packer.util').float({border = 'single'})
+          end
+      }
+  }
        )

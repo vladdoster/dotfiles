@@ -7,36 +7,31 @@ local function opt(scope, key, value)
     end
 end
 
+opt('o', 'cmdheight', 2)
 opt('o', 'hidden', true)
 opt('o', 'ignorecase', true)
+opt('o', 'numberwidth', 2)
 opt('o', 'splitbelow', true)
 opt('o', 'splitright', true)
 opt('o', 'termguicolors', true)
-opt('w', 'number', true)
-opt('o', 'numberwidth', 2)
-opt('w', 'cul', true)
-
-opt('o', 'mouse', 'a')
-
-opt('w', 'signcolumn', 'yes')
-opt('o', 'cmdheight', 1)
-
-opt('o', 'updatetime', 250) -- update interval for gitsigns
-opt('o', 'clipboard', 'unnamedplus')
 opt('o', 'timeoutlen', 500)
+opt('o', 'updatetime', 250) -- update interval for gitsigns
+opt('w', 'cul', true)
+opt('w', 'number', true)
+opt('w', 'signcolumn', 'yes')
+opt('w', 'wrap', false)
 
--- for indenline
+-- for indentline
 opt('b', 'expandtab', true)
 opt('b', 'shiftwidth', 2)
 
 local M = {}
 
 function M.is_buffer_empty()
-    -- Check whether the current buffer is empty
     return vim.fn.empty(vim.fn.expand('%:t')) == 1
 end
 
-function M.has_width_gt(cols)
+function M.window_width_gt(cols)
     -- Check if the windows width is greater than a given number of columns
     return vim.fn.winwidth(0) / 2 > cols
 end

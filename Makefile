@@ -17,8 +17,7 @@ endef
 define install-packer
 	if [ ! -d ~/.local/share/nvim/site/pack/packer ]; then
 	  echo "--- Installing packer"
-	  git clone https://github.com/wbthomason/packer.nvim \
-	    ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+	  git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 	  echo "--- Installed packer"
 	fi
 endef
@@ -34,16 +33,14 @@ install: clean deps
 	git submodule update --init --recursive || (echo "--- Unable to initialize Git submodules" && exit 1)
 	echo "--- Cloned git submodules"
 	echo "--- Installing neovim dependencies and LSPs"
-	$(install=packer)
-	nvim -c PackerInstall
-	nvim -c LspUpdate
+	nvim -u ~/.config/nvim/init.lua +PackerInstall
 	echo "--- Installed neovim dependencies and LSPs"
 	echo "--- Successfully installed dotfiles on $$HOSTNAME" 
 
 clean : --delete
 	find "$$PWD" -type f -name "*.DS_Store" -ls -delete
 	echo "--- Removed .DS_Store files"
-	rm -rf "$$HOME"/.local/share/nvim
+	rm -rf "$$HOME"/.local/share/nvim "$$HOME/.config/nvim/plugin"
 	echo "--- Cleaned neovim plugins"
 	find * -type d -not -path '*/\.*' -exec stow --target="$$HOME" --verbose 1 --delete {} \;	
 	echo "--- Removed dotfile softlinks"
