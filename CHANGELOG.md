@@ -1,8 +1,21 @@
-## [0.2.66](https://github.com/vladdoster/dotfiles/compare/v0.2.65...v0.2.66) (2021-06-19)
-
-## [0.2.65](https://github.com/vladdoster/dotfiles/compare/v0.2.64...v0.2.65) (2021-06-19)
+## [0.2.67](https://github.com/vladdoster/dotfiles/compare/v0.2.66...v0.2.67) (2021-06-19)
 
 # Changelog
+
+## [v0.2.66](https://github.com/vladdoster/dotfiles/compare/v0.2.65...v0.2.66) (2021-06-19)
+
+- (maint) remove comma breaking `release-it.json` cfg [`41f9595`](https://github.com/vladdoster/dotfiles/commit/41f9595e258733d625fdab6875fc59d2016e720c)
+- Update release.yml [`d92d6ed`](https://github.com/vladdoster/dotfiles/commit/d92d6ed4eaf4365cc98a9cb63f5f2e9800a3bd79)
+- (maint) remove redundant change-log solutions [`4bd3730`](https://github.com/vladdoster/dotfiles/commit/4bd37307e17b584fec3cdd3ace8249d78b8010d6)
+- chore: release v0.2.66 [`138b98c`](https://github.com/vladdoster/dotfiles/commit/138b98c1cce5751135a9bd2080aa4db658364157)
+
+## [v0.2.65](https://github.com/vladdoster/dotfiles/compare/v0.2.64...v0.2.65) (2021-06-19)
+
+- chore: release v0.2.65 [`2c2038e`](https://github.com/vladdoster/dotfiles/commit/2c2038e32bbc389d716e345d2da0f420d6795b66)
+- Update .release-it.json [`8a7b7ec`](https://github.com/vladdoster/dotfiles/commit/8a7b7eca103c9fe63eea4afdf68b39e7f36dd3c4)
+- Update release.yml [`2b5ced6`](https://github.com/vladdoster/dotfiles/commit/2b5ced63d468ed73c5e55d29d22c8045c3743272)
+- (bugfix) add missing closing bracket [`e5d29e7`](https://github.com/vladdoster/dotfiles/commit/e5d29e7bedb25a54ced1efa1ba1102f50a5883b1)
+- Create CHANGELOG.md [`8b9bd44`](https://github.com/vladdoster/dotfiles/commit/8b9bd44bffff3c5e6458e87a3f21535a4d074093)
 
 ## [v0.2.64](https://github.com/vladdoster/dotfiles/compare/v0.2.63...v0.2.64) (2021-06-19)
 
