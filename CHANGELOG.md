@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.2.72](https://github.com/vladdoster/dotfiles/compare/v0.2.71...v0.2.72) (2021-06-19)
+
+- (bugfix) use ' in aliases that shouldnt expand unless called & kitty cfg opts from float to int [`c76bdaf`](https://github.com/vladdoster/dotfiles/commit/c76bdaffa13212f7c5e1490f108e0ccfff7855e8)
+- chore: release v0.2.72 [`53c753f`](https://github.com/vladdoster/dotfiles/commit/53c753f0c7945cc6561a26b526a8f49b8f88fb46)
+
 ## [v0.2.71](https://github.com/vladdoster/dotfiles/compare/v0.2.70...v0.2.71) (2021-06-19)
 
 - (maint) nvim && kitty cfgs [`ca01bc2`](https://github.com/vladdoster/dotfiles/commit/ca01bc258434582cec185b70be69f301088b7b89)
