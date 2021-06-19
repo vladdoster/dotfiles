@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.2.70](https://github.com/vladdoster/dotfiles/compare/v0.2.69...v0.2.70) (2021-06-19)
+
+- (maint) add deps Makefile target [`8166e83`](https://github.com/vladdoster/dotfiles/commit/8166e83667b8ace599fc4629f3c57c9fac13a86f)
+- chore: release v0.2.70 [`5cee06e`](https://github.com/vladdoster/dotfiles/commit/5cee06e15ef10b4891d7b0ba3407acc636ce31df)
+
 ## [v0.2.69](https://github.com/vladdoster/dotfiles/compare/v0.2.68...v0.2.69) (2021-06-19)
 
 - chore: release v0.2.69 [`8fa1539`](https://github.com/vladdoster/dotfiles/commit/8fa153962d1eff5fc3c6be63617298b5952c6ec4)
