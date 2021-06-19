@@ -6,17 +6,15 @@ local g = vim.g
 g.auto_save = 0
 g.mapleader = " "
 
--- load all plugins
+-- load plugins
 require "settings"
 require "plugins"
-require "misc-utils"
-require "user-interface"
-require "file-finder"
-require "icons"
-require "terminal"
--- lsp stuff
-require "lsp-config"
+require "file-tree"
+require "key-bindings"
 require "lsp-completion"
+require "lsp-config"
+require "misc-utils"
 require "telescope-config"
+require "terminal"
 require "treesitter-config"
-require "mappings"
+require "user-interface"

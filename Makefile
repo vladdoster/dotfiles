@@ -14,6 +14,15 @@ define remove-git-submodules
 		|| (echo "--- ERROR: Unable to remove Git submodules" && exit 1)
 endef
 
+define install-packer
+	if [ ! -d ~/.local/share/nvim/site/pack/packer ]; then
+	  echo "--- Installing packer"
+	  git clone https://github.com/wbthomason/packer.nvim \
+	    ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+	  echo "--- Installed packer"
+	fi
+endef
+
 list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
@@ -25,6 +34,7 @@ install: clean
 	git submodule update --init --recursive || (echo "--- Unable to initialize Git submodules" && exit 1)
 	echo "--- Cloned git submodules"
 	echo "--- Installing neovim dependencies and LSPs"
+	$(install=packer)
 	nvim -c PackerInstall
 	nvim -c LspUpdate
 	echo "--- Installed neovim dependencies and LSPs"

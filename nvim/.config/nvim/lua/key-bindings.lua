@@ -8,20 +8,26 @@ end
 
 local opt = {}
 
+-- toggle ranger file manager
+vim.api.nvim_set_keymap('n', '-', ':RnvimrToggle<CR>', {noremap = true, silent = true})
+
+-- better window movement
+vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>h', {silent = true})
+vim.api.nvim_set_keymap('n', '<C-j>', '<C-w>j', {silent = true})
+vim.api.nvim_set_keymap('n', '<C-k>', '<C-w>k', {silent = true})
+vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>l', {silent = true})
+
 -- OPEN TERMINALS --
 map("n", "<C-l>", [[<Cmd>vnew term://bash <CR>]], opt) -- term over right
 map("n", "<C-x>", [[<Cmd> split term://bash | resize 10 <CR>]], opt) --  term bottom
 map("n", "<C-t>t", [[<Cmd> tabnew | term <CR>]], opt) -- term newtab
+
+-- Tab switch buffer
+vim.api.nvim_set_keymap('n', '<TAB>', ':bnext<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<S-TAB>', ':bprevious<CR>', {noremap = true, silent = true})
 
 -- COPY EVERYTHING --
 map("n", "<C-a>", [[ <Cmd> %y+<CR>]], opt)
 
 -- toggle numbers ---
 map("n", "<leader>n", [[ <Cmd> set nu!<CR>]], opt)
-
--- toggle truezen.nvim's ataraxis and minimalist mode
-map("n", "<leader>z", [[ <Cmd> TZAtaraxis<CR>]], opt)
-map("n", "<leader>m", [[ <Cmd> TZMinimalist<CR>]], opt)
-
-map("n", "<C-s>", [[ <Cmd> w <CR>]], opt)
--- vim.cmd("inoremap jh <Esc>")
