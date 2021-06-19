@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.2.68](https://github.com/vladdoster/dotfiles/compare/v0.2.67...v0.2.68) (2021-06-19)
+
+- chore: release v0.2.68 [`bf3665d`](https://github.com/vladdoster/dotfiles/commit/bf3665d6186c5b3fb140108b50e2b8f802cb98e7)
+- (maint) remove release-it plugin [`43cd76b`](https://github.com/vladdoster/dotfiles/commit/43cd76b96673cf3a9dd3346918b0490f07bde305)
+- Update .release-it.json [`983f2e5`](https://github.com/vladdoster/dotfiles/commit/983f2e522fc425dda2ddab122a6168f9f6a85c45)
+
 ## [v0.2.67](https://github.com/vladdoster/dotfiles/compare/v0.2.66...v0.2.67) (2021-06-19)
 
 - chore: release v0.2.67 [`e8b5f93`](https://github.com/vladdoster/dotfiles/commit/e8b5f93a5bd753bda9f611949b70dc20fabac05a)
