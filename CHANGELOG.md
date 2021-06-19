@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.2.69](https://github.com/vladdoster/dotfiles/compare/v0.2.68...v0.2.69) (2021-06-19)
+
+- chore: release v0.2.69 [`8fa1539`](https://github.com/vladdoster/dotfiles/commit/8fa153962d1eff5fc3c6be63617298b5952c6ec4)
+- (docs) update `README.md` [`62c9619`](https://github.com/vladdoster/dotfiles/commit/62c9619a795afc4b786865b5533e61395a3c9f06)
+
 ## [v0.2.68](https://github.com/vladdoster/dotfiles/compare/v0.2.67...v0.2.68) (2021-06-19)
 
 - chore: release v0.2.68 [`bf3665d`](https://github.com/vladdoster/dotfiles/commit/bf3665d6186c5b3fb140108b50e2b8f802cb98e7)
