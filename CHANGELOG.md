@@ -1,6 +1,9 @@
-## [0.2.67](https://github.com/vladdoster/dotfiles/compare/v0.2.66...v0.2.67) (2021-06-19)
-
 # Changelog
+
+## [v0.2.67](https://github.com/vladdoster/dotfiles/compare/v0.2.66...v0.2.67) (2021-06-19)
+
+- chore: release v0.2.67 [`e8b5f93`](https://github.com/vladdoster/dotfiles/commit/e8b5f93a5bd753bda9f611949b70dc20fabac05a)
+- (maint) triaging `CHANGELOG.md` bug [`c23207e`](https://github.com/vladdoster/dotfiles/commit/c23207e0360f35fce0d893c07705db6a4c462cb8)
 
 ## [v0.2.66](https://github.com/vladdoster/dotfiles/compare/v0.2.65...v0.2.66) (2021-06-19)
 
