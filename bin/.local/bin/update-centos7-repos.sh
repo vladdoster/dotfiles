@@ -2,9 +2,9 @@
 
 trap 'error' ERR
 
-error (){
-  echo "ERROR: Failed to update CentOS7 repositories"
-  exit 1
+error() {
+    echo "ERROR: Failed to update CentOS7 repositories"
+    exit 1
 }
 
 echo "--- Installing EPEL repository"
@@ -16,4 +16,3 @@ sudo yum update curl
 echo "--- Refreshing CentOS7 repositories"
 sudo yum update && sudo yum upgrade
 echo "--- Updated CentOS7 repositories"
-

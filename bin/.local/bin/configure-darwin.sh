@@ -24,12 +24,16 @@
 
 # Warn that some commands will not be run if the script is not run as root.
 if [[ $EUID -ne 0 ]]; then
-  RUN_AS_ROOT=false
-  printf "Certain commands will not be run without sudo privileges. To run as root, run the same command prepended with 'sudo', for example: $ sudo $0\n\n" | fold -s -w 80
+    RUN_AS_ROOT=false
+    printf "Certain commands will not be run without sudo privileges. To run as root, run the same command prepended with 'sudo', for example: $ sudo $0\n\n" | fold -s -w 80
 else
-  RUN_AS_ROOT=true
-  # Update existing `sudo` timestamp until `.osx` has finished
-  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+    RUN_AS_ROOT=true
+    # Update existing `sudo` timestamp until `.osx` has finished
+    while true; do
+        sudo -n true
+        sleep 60
+        kill -0 "$$" || exit
+    done 2> /dev/null &
 fi
 
 ###############################################################################
@@ -49,8 +53,8 @@ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 
 # Restart automatically if the computer freezes
-if [[ "$RUN_AS_ROOT" = true ]]; then
-  systemsetup -setrestartfreeze on
+if [[ $RUN_AS_ROOT == true ]]; then
+    systemsetup -setrestartfreeze on
 fi
 
 # Disable smart quotes as they’re annoying when typing code
@@ -222,14 +226,14 @@ defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
 # Spotlight                                                                   #
 ###############################################################################
 
-if [[ "$RUN_AS_ROOT" = true ]]; then
-  # Disable Spotlight indexing for any volume that gets mounted and has not yet
-  # been indexed before.
-  # Use `sudo mdutil -i off "/Volumes/foo"` to stop indexing any volume.
-  sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes"
+if [[ $RUN_AS_ROOT == true ]]; then
+    # Disable Spotlight indexing for any volume that gets mounted and has not yet
+    # been indexed before.
+    # Use `sudo mdutil -i off "/Volumes/foo"` to stop indexing any volume.
+    sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes"
 
-  # Restart spotlight
-  killall mds > /dev/null 2>&1
+    # Restart spotlight
+    killall mds > /dev/null 2>&1
 fi
 
 ###############################################################################
@@ -258,9 +262,9 @@ defaults write com.apple.messageshelper.MessageController SOInputLineSettings -d
 
 # Restart affected applications if `--no-restart` flag is not present.
 if [[ ! ($* == *--no-restart*) ]]; then
-  for app in "cfprefsd" "Dock" "Finder" "Mail" "SystemUIServer" "Terminal"; do
-    killall "${app}" > /dev/null 2>&1
-  done
+    for app in "cfprefsd" "Dock" "Finder" "Mail" "SystemUIServer" "Terminal"; do
+        killall "${app}" > /dev/null 2>&1
+    done
 fi
 
 printf "Please log out and log back in to make all settings take effect.\n"
