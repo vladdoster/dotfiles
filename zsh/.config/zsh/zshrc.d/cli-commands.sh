@@ -36,3 +36,8 @@ add_ssh_host() {
       Port ${PORT}
 END
 }
+docker-cleanup() {
+        docker rm $(docker ps -qa --no-trunc --filter "status=exited")
+        docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+        docker volume rm $(docker volume ls -qf dangling=true)  # careful!
+}
