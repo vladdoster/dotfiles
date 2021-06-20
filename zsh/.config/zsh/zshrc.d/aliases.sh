@@ -112,3 +112,8 @@ alias mkmd='{ F_NAME="$(cat -).md"; touch "$F_NAME"; echo "--- Created: $F_NAME"
 alias mktxt='{ F_NAME="$(cat -).txt"; touch "$F_NAME"; echo "--- Created: $F_NAME"; }<<<'
 alias mksh='{ F_NAME="$(cat -).sh"; touch "$F_NAME" && chmod +x "$F_NAME"; echo "--- Created: $F_NAME"; }<<<'
 alias mkpy='{ F_NAME="$(cat -).py"; touch "$F_NAME" && chmod +x "$F_NAME"; echo "--- Created: $F_NAME"; }<<<'
+#- FILE FORMATTING -------------------------------
+alias fmt-lua="find . -name '*.lua' -print0 | xargs -0 lua-format --config=$HOME/.config/dotfiles/.lua-format"
+alias fmt-md="find . -name '*.md' -print0 | xargs -0 mdformat"
+alias fmt-py="find . -name '*.sh' -print0 | xargs -0 black"
+alias fmt-sh="find . -name '*.sh' -print0 | xargs -0 shfmt -bn -ci -i 4 -ln=bash -s -sr -w"
