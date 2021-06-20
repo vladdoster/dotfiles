@@ -52,7 +52,7 @@ jobs:
       - name: lua
         run: >
           find . -name '*.lua' -print0
-          | xargs -0 lua-format --config=.lua-format
+          | xargs -0 lua-format --config=.lua-format -i
           
       - name: python
         run: >
