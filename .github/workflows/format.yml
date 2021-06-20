@@ -13,20 +13,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-          
       - name: Resolve dependencies
         run: |
-          sudo apt-get upgrade
-          sudo apt install -y luarocks
+          # golang
           sudo snap install go --classic
+          # luarocks
+          git clone https://github.com/luarocks/luarocks
+          cd luarocks
+          ./configure && make && sudo make install
+          luarocks --version
+
+      - name: Install formatters
+        run: |
           sudo luarocks install --server=https://luarocks.org/dev luaformatter
           GO111MODULE=on go get mvdan.cc/sh/v3/cmd/shfmt
           python3 -m pip install --user black mdformat
 
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+        
       - name: shell
         run: |
            find . -name '*.sh' -print0 \
