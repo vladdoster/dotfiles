@@ -3,7 +3,7 @@
 - Install CLI/GUI programs via HomeBrew
 - Configures system via Applescript
 
-> [!NOTE] Requires `sudo`
+> \[!NOTE\] Requires `sudo`
 
 ## Install
 
