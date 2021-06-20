@@ -20,7 +20,8 @@ jobs:
           
       - name: Resolve dependencies
         run: |
-          sudo apt install -y luarocks go
+          sudo apt install -y luarocks
+          sudo snap install go
           luarocks install --server=https://luarocks.org/dev luaformatter
           GO111MODULE=on go get mvdan.cc/sh/v3/cmd/shfmt
           python3 -m pip install black mdformat
