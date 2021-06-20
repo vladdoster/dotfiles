@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.2.74](https://github.com/vladdoster/dotfiles/compare/v0.2.73...v0.2.74) (2021-06-19)
+
+- (maint) messing with nvim lsp auto-install [`b264628`](https://github.com/vladdoster/dotfiles/commit/b26462823c3ab52983d313bd792611018050b83b)
+- chore: release v0.2.74 [`6e7392e`](https://github.com/vladdoster/dotfiles/commit/6e7392ee1bfc133ede56853988a59def8888efe8)
+
 ## [v0.2.73](https://github.com/vladdoster/dotfiles/compare/v0.2.72...v0.2.73) (2021-06-19)
 
 - chore: release v0.2.73 [`147d484`](https://github.com/vladdoster/dotfiles/commit/147d484b858effb01622a02b0b280fd318e2adcf)
