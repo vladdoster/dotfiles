@@ -18,7 +18,7 @@ jobs:
           # golang 
           sudo snap install go --classic
           # luarocks
-          sudo apt install lua5.3 liblua5.3-dev -y
+          sudo apt install lua5.3 liblua5.3-dev docker -y
           git clone https://github.com/luarocks/luarocks
           cd luarocks
           ./configure && make && sudo make install
@@ -39,8 +39,10 @@ jobs:
         
       - name: shell
         run: >
-           find . -name '*.sh' -print0
-           | xargs -0 shfmt -bn -ci -i 4 -ln=bash -s -sr -w
+           #find . -name '*.sh' -print0
+           #| xargs -0 shfmt -bn -ci -i 4 -ln=bash -s -sr -w
+           docker run --rm -v $PWD:/mnt -w /mnt my:tag -bn -ci -i 4 -ln=bash -s -sr -w
+
                      
       - name: markdown
         run: >
