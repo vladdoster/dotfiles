@@ -18,7 +18,7 @@ jobs:
           # golang 
           sudo snap install go --classic
           # luarocks
-          sudo apt install lua5.3
+          sudo apt install lua5.3 lua5.3-dev -y
           git clone https://github.com/luarocks/luarocks
           cd luarocks
           ./configure && make && sudo make install
