@@ -33,7 +33,8 @@ install: clean deps
 	git submodule update --init --recursive || (echo "--- Unable to initialize Git submodules" && exit 1)
 	echo "--- Cloned git submodules"
 	echo "--- Installing neovim dependencies and LSPs"
-	nvim -u ~/.config/nvim/init.lua +PackerInstall
+	$(install-packer)
+	nvim -c +PackerInstall
 	echo "--- Installed neovim dependencies and LSPs"
 	echo "--- Successfully installed dotfiles on $$HOSTNAME" 
 

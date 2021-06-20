@@ -35,7 +35,7 @@ export INFOPATH="/usr/local/share/info:$INFOPATH"
 export MANPATH="/usr/local/share/man:$MANPATH"
 export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
-export PATH="~/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 #- GNU -----------------------------------------------
 export PATH="/usr/local/opt/ed/libexec/gnubin:$PATH"         # ED
 export PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"  # FINDUTILS
@@ -76,8 +76,8 @@ export LESS_TERMCAP_se="$(printf '%b' '[0m')"
 export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"
 export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
 export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
-# libre SSL
-export PATH="/usr/local/opt/libressl/bin:$PATH"
-export LDFLAGS="-L/usr/local/opt/libressl/lib"
-export CPPFLAGS="-I/usr/local/opt/libressl/include"
-export PKG_CONFIG_PATH="/usr/local/opt/libressl/lib/pkgconfig"
+# # libre SSL
+# export PATH="/usr/local/opt/libressl/bin:$PATH"
+# export LDFLAGS="-L/usr/local/opt/libressl/lib"
+# export CPPFLAGS="-I/usr/local/opt/libressl/include"
+# export PKG_CONFIG_PATH="/usr/local/opt/libressl/lib/pkgconfig"

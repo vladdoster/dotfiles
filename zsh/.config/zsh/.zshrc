@@ -4,7 +4,7 @@ if [[ ! -d $XDG_DATA_HOME/ohmyzsh ]] && [[ ! -e $XDG_DATA_HOME/ohmyzsh ]]; then
     git clone https://github.com/vladdoster/ohmyzsh "$XDG_DATA_HOME"
 fi
 #- KITTY ---------------------------------------------
-if [[ $TERM =~ "kitty" ]] && [[ $OSTYPE == "darwin" ]]; then
+if [[ $TERM =~ "kitty" ]] && [[ $OSTYPE =~ "darwin" ]]; then
 	kitty + complete setup zsh | source /dev/stdin
 fi
 #- HISTORY --------------------------------------------
@@ -20,17 +20,44 @@ setopt hist_verify            # show substituted history command before executin
 setopt inc_append_history     # add to history after every command
 setopt share_history          # share history between zsh instances
 #- OH-MY-ZSH -------------------------------------------
-CASE_SENSITIVE="false"
+CASE_SENSITIVE="true"
 ZSH_THEME="ys"
 plugins=( \
-	 brew \
-         docker \
-         docker-compose \
-         git \
-         npm \
-         pip \
-         python \
-         vi-mode \
- )
+  brew \
+  docker \
+  git \
+  pip \
+  python \
+  vi-mode
+)
 source "$OHMYZSH/oh-my-zsh.sh"
 source <(find "$ZDOTDIR"/zshrc.d/* -maxdepth 1 -type f -exec cat {} \;)
+
+#- AUTO-START GPG --------------------------------------
+# on OS X with GPGTools, comment out the next line:
+# eval $(gpg-agent --daemon)
+GPG_TTY=$(tty)
+export GPG_TTY
+if [ -f "${HOME}/.gpg-agent-info" ]; then
+    . "${HOME}/.gpg-agent-info"
+    export GPG_AGENT_INFO
+    export SSH_AUTH_SOCK
+fi
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent
+
+#- AUTO-START TMUX -------------------------------------
+[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session;}
+
+# if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+#   tmux a -t default || exec tmux new -s default && exit;
+# fi
+
+# if [[ -z "$TMUX" ]]; then
+#     if tmux has-session 2>/dev/null; then
+#         exec tmux attach
+#     else
+#         exec tmux
+#     fi
+# fi
