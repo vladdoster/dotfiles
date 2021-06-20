@@ -15,7 +15,7 @@ if [[ $OSTYPE =~ "darwin" ]]; then
         alias ll="gls"
         alias ls='gls -AlhF --color=auto'
         alias readlink="greadlink"
-  fi
+    fi
     alias get-public-ssh-key='pbcopy -pboard general < $HOME/.ssh/id_rsa.pub \
                            && echo "--- Copied SSH key to clipboard"'
 else
@@ -96,16 +96,16 @@ alias fix-dual-displays="display-fixer \
 				'id:D614B2F2-B098-8A35-508D-7CEA39295FC9 res:2560x1440 hz:75 color_depth:8 scaling:off origin:(2560,0) degree:0'"
 #- DOCKER ----------------------------------------
 if command -v docker &> /dev/null; then
-  alias dc='docker compose'
-  alias dcb='dc build'
-  alias dcl='dc logs'
-  alias dclf='dc logs -f'
-  alias dcps='dc ps'
-  alias dcre='dc restart'
-  alias dcreh='dc stop && dc up'
-  alias dcu='dc up'
-  alias dcud='dc up -d'
-  alias dstats='docker stats $(docker ps --format={{.Names}})'
+    alias dc='docker compose'
+    alias dcb='dc build'
+    alias dcl='dc logs'
+    alias dclf='dc logs -f'
+    alias dcps='dc ps'
+    alias dcre='dc restart'
+    alias dcreh='dc stop && dc up'
+    alias dcu='dc up'
+    alias dcud='dc up -d'
+    alias dstats='docker stats $(docker ps --format={{.Names}})'
 fi
 #- FILE CREATION ---------------------------------
 alias mkmd='{ F_NAME="$(cat -).md"; touch "$F_NAME"; echo "--- Created: $F_NAME"; }<<<'
