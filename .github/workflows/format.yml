@@ -22,9 +22,9 @@ jobs:
         run: |
           sudo apt install -y luarocks
           sudo snap install go --classic
-          luarocks install --server=https://luarocks.org/dev luaformatter
+          sudo luarocks install --server=https://luarocks.org/dev luaformatter
           GO111MODULE=on go get mvdan.cc/sh/v3/cmd/shfmt
-          python3 -m pip install black mdformat
+          python3 -m pip install --user black mdformat
 
       - name: shell
         run: |
