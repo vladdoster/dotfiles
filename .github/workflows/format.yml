@@ -36,23 +36,23 @@ jobs:
           ref: ${{ github.head_ref }}
         
       - name: shell
-        run: |
-           find . -name '*.sh' -print0 \
+        run: >
+           find . -name '*.sh' -print0 
            | xargs -0 shfmt -bn -ci -i 4 -ln=bash -s -sr -w
                      
       - name: markdown
-        run: |
-          find . -name '*.md' -print0 \
+        run: >
+          find . -name '*.md' -print0
           | xargs -0 mdformat
       
       - name: lua
-        run: |
-          find . -name '*.lua' -print0 \
+        run: >
+          find . -name '*.lua' -print0
           | xargs -0 lua-format --config=.lua-format
           
       - name: python
-        run: |
-          find . -name '*.py' -print0 \
+        run: >
+          find . -name '*.py' -print0
           | xargs -0 black
 
       - name: Commit changes
