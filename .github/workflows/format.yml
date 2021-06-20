@@ -20,6 +20,7 @@ jobs:
           
       - name: Resolve dependencies
         run: |
+          sudo apt-get upgrade
           sudo apt install -y luarocks
           sudo snap install go --classic
           sudo luarocks install --server=https://luarocks.org/dev luaformatter
