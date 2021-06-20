@@ -1,0 +1,36 @@
+name: "release"
+on:
+  workflow_run:
+    workflows: ["format"]
+    branches: [mac-os]
+    types: 
+      - completed
+      - requested
+
+jobs:
+
+  on-success:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Resolve dependencies
+        run: |
+          npm install -D release-it \
+                         @release-it/bumper \
+                         @release-it/conventional-changelog
+                
+      - name: Publish release
+        uses: TheRealWaldo/release-it@v0.2.6
+  
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - name: Skip release
+        run: |
+          echo "Skipping release due to formatting workflow failure"
