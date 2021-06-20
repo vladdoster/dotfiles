@@ -28,7 +28,9 @@ jobs:
         run: |
           sudo luarocks install --server=https://luarocks.org/dev luaformatter
           GO111MODULE=on go get mvdan.cc/sh/v3/cmd/shfmt
+          sudo GO111MODULE=on go get mvdan.cc/sh/v3/cmd/shfmt
           python3 -m pip install --user black mdformat
+          exec $SHELL
 
       - name: Checkout code
         uses: actions/checkout@v2
@@ -37,7 +39,7 @@ jobs:
         
       - name: shell
         run: >
-           find . -name '*.sh' -print0 
+           find . -name '*.sh' -print0
            | xargs -0 shfmt -bn -ci -i 4 -ln=bash -s -sr -w
                      
       - name: markdown
