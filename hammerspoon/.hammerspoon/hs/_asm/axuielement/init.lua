@@ -37,55 +37,90 @@
 ---    * See [hs.axuielement:parameterizedAttributeValue](#parameterizedAttributeValue) for a description of the return values and [hs.axuielement:parameterizedAttributeNames](#parameterizedAttributeNames) to get a list of parameterized values that the element supports
 ---
 ---    * The specific value required for a each parameterized attribute is different and is often application specific thus requiring some experimentation. Notes regarding identified parameter types and thoughts on some still being investigated will be provided in the Hammerspoon Wiki, hopefully shortly after this module becomes part of a Hammerspoon release.
-local USERDATA_TAG = "hs.axuielement"
+local USERDATA_TAG = 'hs.axuielement'
 
 if not hs.accessibilityState(true) then
-    hs.luaSkinLog.ef("%s - module requires accessibility to be enabled; fix in SystemPreferences -> Privacy & Security", USERDATA_TAG)
+    hs.luaSkinLog.ef(
+        '%s - module requires accessibility to be enabled; fix in SystemPreferences -> Privacy & Security',
+        USERDATA_TAG)
 end
 
-local module       = require(USERDATA_TAG..".internal")
+local module = require(
+                   USERDATA_TAG
+                       .. '.internal')
 
-local basePath = package.searchpath(USERDATA_TAG, package.path)
+local basePath = package.searchpath(
+                     USERDATA_TAG,
+                     package.path)
 if basePath then
-    basePath = basePath:match("^(.+)/init.lua$")
-    if require"hs.fs".attributes(basePath .. "/docs.json") then
-        require"hs.doc".registerJSONFile(basePath .. "/docs.json")
+    basePath = basePath:match(
+                   '^(.+)/init.lua$')
+    if require'hs.fs'.attributes(
+        basePath .. '/docs.json') then
+        require'hs.doc'.registerJSONFile(
+            basePath .. '/docs.json')
     end
 end
 
-local log  = require("hs.logger").new(USERDATA_TAG, require"hs.settings".get(USERDATA_TAG .. ".logLevel") or "warning")
+local log = require('hs.logger').new(
+                USERDATA_TAG,
+                require'hs.settings'.get(
+                    USERDATA_TAG
+                        .. '.logLevel')
+                    or 'warning')
 module.log = log
 
-local fnutils     = require("hs.fnutils")
-local application = require("hs.application")
-local window      = require("hs.window")
+local fnutils = require('hs.fnutils')
+local application = require(
+                        'hs.application')
+local window = require('hs.window')
 
 -- included for their lua<->NSObject helpers
-require("hs.styledtext")
-require("hs.drawing.color")
-require("hs.image")
-require("hs.sharing")
+require('hs.styledtext')
+require('hs.drawing.color')
+require('hs.image')
+require('hs.sharing')
 
-local objectMT = hs.getObjectMetatable(USERDATA_TAG)
+local objectMT = hs.getObjectMetatable(
+                     USERDATA_TAG)
 
-local parentLabels = { module.attributes.parent, module.attributes.topLevelUIElement }
+local parentLabels = {
+    module.attributes.parent,
+    module.attributes.topLevelUIElement
+}
 
 -- private variables and methods -----------------------------------------
 
 -- Public interface ------------------------------------------------------
 
-module.parameterizedAttributes = ls.makeConstantsTable(module.parameterizedAttributes)
-module.actions                 = ls.makeConstantsTable(module.actions)
-module.attributes              = ls.makeConstantsTable(module.attributes)
+module.parameterizedAttributes =
+    ls.makeConstantsTable(
+        module.parameterizedAttributes)
+module.actions = ls.makeConstantsTable(
+                     module.actions)
+module.attributes =
+    ls.makeConstantsTable(
+        module.attributes)
 
-module.roles                   = ls.makeConstantsTable(module.roles)
-module.subroles                = ls.makeConstantsTable(module.subroles)
-module.sortDirections          = ls.makeConstantsTable(module.sortDirections)
-module.orientations            = ls.makeConstantsTable(module.orientations)
-module.rulerMarkers            = ls.makeConstantsTable(module.rulerMarkers)
-module.units                   = ls.makeConstantsTable(module.units)
+module.roles = ls.makeConstantsTable(
+                   module.roles)
+module.subroles = ls.makeConstantsTable(
+                      module.subroles)
+module.sortDirections =
+    ls.makeConstantsTable(
+        module.sortDirections)
+module.orientations =
+    ls.makeConstantsTable(
+        module.orientations)
+module.rulerMarkers =
+    ls.makeConstantsTable(
+        module.rulerMarkers)
+module.units = ls.makeConstantsTable(
+                   module.units)
 
-module.observer.notifications  = ls.makeConstantsTable(module.observer.notifications)
+module.observer.notifications =
+    ls.makeConstantsTable(
+        module.observer.notifications)
 
 --- hs.axuielement.systemElementAtPosition(x, y | pointTable) -> axuielementObject
 --- Constructor
@@ -102,26 +137,35 @@ module.observer.notifications  = ls.makeConstantsTable(module.observer.notificat
 ---  * See also [hs.axuielement:elementAtPosition](#elementAtPosition) -- this function is a shortcut for `hs.axuielement.systemWideElement():elementAtPosition(...)`.
 ---
 ---  * This function does hit-testing based on window z-order (that is, layering). If one window is on top of another window, the returned accessibility object comes from whichever window is topmost at the specified location.
-module.systemElementAtPosition = function(...)
-    return module.systemWideElement():elementAtPosition(...)
-end
+module.systemElementAtPosition =
+    function(...)
+        return
+            module.systemWideElement():elementAtPosition(
+                ...)
+    end
 
 -- build up the "correct" object metatable methods
 
 objectMT.__index = function(self, key)
-    if type(key) == "string" then
+    if type(key) == 'string' then
         -- take care of the internally defined items first so we can get out of here quickly if its one of them
-        if objectMT[key] then return objectMT[key] end
+        if objectMT[key] then
+            return objectMT[key]
+        end
 
         -- Now for the dynamically generated stuff...
 
-        local doer, parameterized = false, false
+        local doer, parameterized =
+            false, false
 
-        local AXName = key:match("^do(%u[%w_]*)$")
+        local AXName =
+            key:match('^do(%u[%w_]*)$')
         if AXName then
             doer = true
         else
-            AXName = key:match("^([%w_]+)WithParameter$")
+            AXName =
+                key:match(
+                    '^([%w_]+)WithParameter$')
             if AXName then
                 parameterized = true
             else
@@ -130,50 +174,82 @@ objectMT.__index = function(self, key)
         end
 
         if doer then
-            for _, v in ipairs(objectMT.actionNames(self) or {}) do
+            for _, v in ipairs(
+                            objectMT.actionNames(
+                                self)
+                                or {}) do
                 if v == AXName then
-                    return function(self2, ...) return objectMT.performAction(self2, v, ...) end
+                    return function(
+                        self2, ...)
+                        return
+                            objectMT.performAction(
+                                self2,
+                                v, ...)
+                    end
                 end
             end
         elseif parameterized then
-            for _, v in ipairs(objectMT.parameterizedAttributeNames(self) or {}) do
+            for _, v in ipairs(
+                            objectMT.parameterizedAttributeNames(
+                                self)
+                                or {}) do
                 if v == AXName then
-                    return function(self2, ...) return objectMT.parameterizedAttributeValue(self2, v, ...) end
+                    return function(
+                        self2, ...)
+                        return
+                            objectMT.parameterizedAttributeValue(
+                                self2,
+                                v, ...)
+                    end
                 end
             end
         else
-            for _, v in ipairs(objectMT.attributeNames(self) or {}) do
+            for _, v in ipairs(
+                            objectMT.attributeNames(
+                                self)
+                                or {}) do
                 if v == AXName then
-                    return objectMT.attributeValue(self, v)
+                    return
+                        objectMT.attributeValue(
+                            self, v)
                 end
             end
         end
 
         -- guess it doesn't exist
         return nil
-    elseif type(key) == "number" then
-        local children = objectMT.attributeValue(self, "AXChildren") or {}
+    elseif type(key) == 'number' then
+        local children =
+            objectMT.attributeValue(
+                self, 'AXChildren') or {}
         return children[key]
     else
         return nil
     end
 end
 
-objectMT.__newindex = function(self, key, value)
-    for _, v in ipairs(objectMT.attributeNames(self) or {}) do
-        if v == key then
-            local ok, err = self:setAttributeValue(v, value) -- luacheck: ignore
--- undecided if this should generate an error when an accessibility error occurs. it's more "table" like if it
--- doesn't; otoh table assignment never fail unless you try with a key of `nil` and then it *does* throw an
--- error... the docs above do say that you should use setAttributeValue if you care about accssibility errors,
--- so unless/until someone complains I guess I'll leave the next line commented out
---             if not ok then error(err, 2) end
-            return
+objectMT.__newindex =
+    function(self, key, value)
+        for _, v in ipairs(
+                        objectMT.attributeNames(
+                            self) or {}) do
+            if v == key then
+                local ok, err =
+                    self:setAttributeValue(
+                        v, value) -- luacheck: ignore
+                -- undecided if this should generate an error when an accessibility error occurs. it's more "table" like if it
+                -- doesn't; otoh table assignment never fail unless you try with a key of `nil` and then it *does* throw an
+                -- error... the docs above do say that you should use setAttributeValue if you care about accssibility errors,
+                -- so unless/until someone complains I guess I'll leave the next line commented out
+                --             if not ok then error(err, 2) end
+                return
+            end
         end
+        -- in this case it's not an attribute they're trying to set, so an error does make sense
+        error('attempt to index a '
+                  .. USERDATA_TAG
+                  .. ' value', 2)
     end
--- in this case it's not an attribute they're trying to set, so an error does make sense
-    error("attempt to index a " .. USERDATA_TAG .. " value", 2)
-end
 
 -- too many optional ways to access things was becoming confusing even for me, so commenting this out
 -- it would allow you to use object("AXSomething") for properties, object("doAXSomething") for actions
@@ -197,18 +273,27 @@ objectMT.__pairs = function(self)
     -- rather than capture all attribute values at outset, we just capture key names so
     -- the generator function can get the latest values in case something changes during
     -- iteration
-    for _,v in ipairs(objectMT.attributeNames(self)) do keys[v] = true end
+    for _, v in ipairs(
+                    objectMT.attributeNames(
+                        self)) do
+        keys[v] = true
+    end
 
-     return function(_, k)
-            local v
-            k, v = next(keys, k)
-            if k then v = self:attributeValue(k) end
-            return k, v
-        end, self, nil
+    return function(_, k)
+        local v
+        k, v = next(keys, k)
+        if k then
+            v = self:attributeValue(k)
+        end
+        return k, v
+    end, self, nil
 end
 
 objectMT.__len = function(self)
-    local children = objectMT.attributeValue(self, "AXChildren") or {}
+    local children =
+        objectMT.attributeValue(self,
+                                'AXChildren')
+            or {}
     return #children
 end
 
@@ -227,8 +312,10 @@ end
 ---
 ---  * an axuielement object representing an application or the system wide object is its own rootmost object and will return a table containing only itself (i.e. `#table` will equal 1)
 objectMT.path = function(self)
-    local results, current = { self }, self
-    while current:attributeValue("AXParent") do
+    local results, current = { self },
+                             self
+    while current:attributeValue(
+        'AXParent') do
         current = current.AXParent
         table.insert(results, 1, current)
     end
@@ -237,35 +324,50 @@ end
 
 local tableCopyNoMT
 tableCopyNoMT = function(t, seen)
-    if type(t) ~= "table" then return t end
+    if type(t) ~= 'table' then
+        return t
+    end
     seen = seen or {}
     local copy = {}
     seen[t] = copy
-    for k,v in pairs(t) do
-        copy[k] = (type(v) == "table") and (seen[v] or tableCopyNoMT(v, seen)) or v
+    for k, v in pairs(t) do
+        copy[k] = (type(v) == 'table')
+                      and (seen[v]
+                          or tableCopyNoMT(
+                              v, seen))
+                      or v
     end
     return copy
 end
 
-local compareStrings = function(a, b, pattern)
-    if pattern then
-        return a:match(b) and true or false
-    else
-        return a == b
+local compareStrings =
+    function(a, b, pattern)
+        if pattern then
+            return a:match(b) and true
+                       or false
+        else
+            return a == b
+        end
     end
-end
 
-local compareNumbers = function(a, b, comparisonOp)
-    local ans = false
-    if     comparisonOp == "==" then ans = a == b
-    elseif comparisonOp == "~=" then ans = a ~= b
-    elseif comparisonOp == "<"  then ans = a <  b
-    elseif comparisonOp == ">"  then ans = a >  b
-    elseif comparisonOp == "<=" then ans = a <= b
-    elseif comparisonOp == ">=" then ans = a >= b
+local compareNumbers =
+    function(a, b, comparisonOp)
+        local ans = false
+        if comparisonOp == '==' then
+            ans = a == b
+        elseif comparisonOp == '~=' then
+            ans = a ~= b
+        elseif comparisonOp == '<' then
+            ans = a < b
+        elseif comparisonOp == '>' then
+            ans = a > b
+        elseif comparisonOp == '<=' then
+            ans = a <= b
+        elseif comparisonOp == '>=' then
+            ans = a >= b
+        end
+        return ans
     end
-    return ans
-end
 
 --- hs.axuielement:matchesCriteria(criteria) -> boolean
 --- Method
@@ -309,97 +411,150 @@ end
 ---    * an array table of one or more key-value tables as described immediately above; the element must be a positive match for all of the individual criteria tables specified (logical AND).
 ---
 ---  * This method is used by [hs.axuielement.searchCriteriaFunction](#searchCriteriaFunction) to create criteria functions compatible with [hs.axuielement:elementSearch](#elementSearch).
-objectMT.matchesCriteria = function(self, criteria)
-    if type(criteria) == "string" then
-        criteria = { attribute = "AXRole", value = criteria }
-    elseif type(criteria) == "table" and #criteria > 0 then
+objectMT.matchesCriteria = function(
+    self, criteria)
+    if type(criteria) == 'string' then
+        criteria = {
+            attribute = 'AXRole',
+            value = criteria
+        }
+    elseif type(criteria) == 'table'
+        and #criteria > 0 then
         local allStrings = true
-        for _,v in ipairs(criteria) do
-            if type(v) ~= "string" then
+        for _, v in ipairs(criteria) do
+            if type(v) ~= 'string' then
                 allStrings = false
                 break
             end
         end
         if allStrings then
-            criteria = { attribute = "AXRole", value = criteria }
+            criteria = {
+                attribute = 'AXRole',
+                value = criteria
+            }
         end
     end
 
-    assert(type(criteria) == "table", "expected table defining criteria")
+    assert(type(criteria) == 'table',
+           'expected table defining criteria')
 
-    if #criteria == 0 then criteria = { criteria } end
+    if #criteria == 0 then
+        criteria = { criteria }
+    end
     -- prior to this we've made no changes to a table that's been passed to us
     criteria = tableCopyNoMT(criteria)
     -- "clean" criteria tables to simplify actual evaluation
     local criteriaKeys = {
-        attribute              = true,
-        action                 = true,
+        attribute = true,
+        action = true,
         parameterizedAttribute = true,
-        value                  = true,
-        nilValue               = true,
-        pattern                = true,
-        invert                 = true,
-        comparison             = true,
+        value = true,
+        nilValue = true,
+        pattern = true,
+        invert = true,
+        comparison = true
     }
-    local numericComparison = "=="
+    local numericComparison = '=='
 
-    for idx,thisCriteria in ipairs(criteria) do
-        assert(
-            type(thisCriteria) == "table",
-            "expected table of tables defining criteria; found " .. type(thisCriteria) .. " at index " .. tostring(idx)
-        )
-        for k,_ in pairs(thisCriteria) do
-            assert(criteriaKeys[k], tostring(k) .. " is not a recognized criteria key")
+    for idx, thisCriteria in ipairs(
+                                 criteria) do
+        assert(type(thisCriteria)
+                   == 'table',
+               'expected table of tables defining criteria; found '
+                   .. type(thisCriteria)
+                   .. ' at index '
+                   .. tostring(idx))
+        for k, _ in pairs(thisCriteria) do
+            assert(criteriaKeys[k],
+                   tostring(k)
+                       .. ' is not a recognized criteria key')
         end
 
         if thisCriteria.attribute then
-            if type(thisCriteria.attribute) ~= "table" then thisCriteria.attribute = { thisCriteria.attribute } end
+            if type(
+                thisCriteria.attribute)
+                ~= 'table' then
+                thisCriteria.attribute =
+                    {
+                        thisCriteria.attribute
+                    }
+            end
         end
         if thisCriteria.action then
-            if type(thisCriteria.action) ~= "table" then thisCriteria.action = { thisCriteria.action } end
+            if type(thisCriteria.action)
+                ~= 'table' then
+                thisCriteria.action = {
+                    thisCriteria.action
+                }
+            end
         end
         if thisCriteria.parameterizedAttribute then
-            if type(thisCriteria.parameterizedAttribute) ~= "table" then thisCriteria.parameterizedAttribute = { thisCriteria.parameterizedAttribute } end
+            if type(
+                thisCriteria.parameterizedAttribute)
+                ~= 'table' then
+                thisCriteria.parameterizedAttribute =
+                    {
+                        thisCriteria.parameterizedAttribute
+                    }
+            end
         end
         if thisCriteria.value then
-            if type(thisCriteria.value) ~= "table" then thisCriteria.value = { thisCriteria.value } end
+            if type(thisCriteria.value)
+                ~= 'table' then
+                thisCriteria.value = {
+                    thisCriteria.value
+                }
+            end
         end
         if thisCriteria.comparison then
-            assert(
-                fnutils.contains({ "==", "~=", "<", ">", "<=", ">=" }, thisCriteria.comparison),
-                "numericComparison must be ==, ~=, <, >, <=, or >="
-            )
-            numericComparison = thisCriteria.comparison
+            assert(fnutils.contains({
+                '==', '~=', '<', '>',
+                '<=', '>='
+            }, thisCriteria.comparison),
+                   'numericComparison must be ==, ~=, <, >, <=, or >=')
+            numericComparison =
+                thisCriteria.comparison
         end
     end
 
     -- now on to the actual evaluation
     local finalResult = true
-    local aav = self:allAttributeValues(true)      or {}
-    local apa = self:parameterizedAttributeNames() or {}
-    local aan = self:actionNames()                 or {}
+    local aav = self:allAttributeValues(
+                    true) or {}
+    local apa =
+        self:parameterizedAttributeNames()
+            or {}
+    local aan = self:actionNames() or {}
 
-    for _,thisCriteria in ipairs(criteria) do
+    for _, thisCriteria in ipairs(
+                               criteria) do
         local thisResult = true
         if thisCriteria.attribute then
-            for _,v in ipairs(thisCriteria.attribute) do
-                if type(aav[v]) == "nil" then
+            for _, v in ipairs(
+                            thisCriteria.attribute) do
+                if type(aav[v]) == 'nil' then
                     thisResult = false
                     break
                 end
             end
         end
-        if thisResult and thisCriteria.action then
-            for _,v in ipairs(thisCriteria.action) do
-                if not fnutils.contains(aan, v) then
+        if thisResult
+            and thisCriteria.action then
+            for _, v in ipairs(
+                            thisCriteria.action) do
+                if not fnutils.contains(
+                    aan, v) then
                     thisResult = false
                     break
                 end
             end
         end
-        if thisResult and thisCriteria.parameterizedAttribute then
-            for _,v in ipairs(thisCriteria.parameterizedAttribute) do
-                if not fnutils.contains(apa, v) then
+        if thisResult
+            and thisCriteria.parameterizedAttribute then
+            for _, v in ipairs(
+                            thisCriteria.parameterizedAttribute) do
+                if not fnutils.contains(
+                    apa, v) then
                     thisResult = false
                     break
                 end
@@ -408,65 +563,157 @@ objectMT.matchesCriteria = function(self, criteria)
 
         if thisResult then
             if thisCriteria.value then
-                for _,v in ipairs(thisCriteria.attribute) do
-                    local ans, found = aav[v], false
-                    for _, v2 in ipairs(thisCriteria.value) do
-                        if type(v2) == type(ans) then
-                            if type(v2) == "string" then
-                                found = compareStrings(ans, v2, thisCriteria.pattern)
-                            elseif type(v2) == "number" then
-                                found = compareNumbers(ans, v2, numericComparison)
-                            elseif type(v2) == "table" then
-                                if #v2 > 0 then
-                                    for _, v2v in ipairs(v2) do
-                                        for _, ansV in ipairs(ans) do
-                                            if type(v2v) == type(ansV) then
-                                                if type(v2v) == "string" then
-                                                    found = compareStrings(ansV, v2v, thisCriteria.pattern)
-                                                elseif type(v2v) == "number" then
-                                                    found = compareNumbers(ansV, v2v, numericComparison)
+                for _, v in ipairs(
+                                thisCriteria.attribute) do
+                    local ans, found =
+                        aav[v], false
+                    for _, v2 in ipairs(
+                                     thisCriteria.value) do
+                        if type(v2)
+                            == type(ans) then
+                            if type(v2)
+                                == 'string' then
+                                found =
+                                    compareStrings(
+                                        ans,
+                                        v2,
+                                        thisCriteria.pattern)
+                            elseif type(
+                                v2)
+                                == 'number' then
+                                found =
+                                    compareNumbers(
+                                        ans,
+                                        v2,
+                                        numericComparison)
+                            elseif type(
+                                v2)
+                                == 'table' then
+                                if #v2
+                                    > 0 then
+                                    for 
+                                        _,
+                                        v2v in
+                                        ipairs(
+                                            v2) do
+                                        for 
+                                            _,
+                                            ansV in
+                                            ipairs(
+                                                ans) do
+                                            if type(
+                                                v2v)
+                                                == type(
+                                                    ansV) then
+                                                if type(
+                                                    v2v)
+                                                    == 'string' then
+                                                    found =
+                                                        compareStrings(
+                                                            ansV,
+                                                            v2v,
+                                                            thisCriteria.pattern)
+                                                elseif type(
+                                                    v2v)
+                                                    == 'number' then
+                                                    found =
+                                                        compareNumbers(
+                                                            ansV,
+                                                            v2v,
+                                                            numericComparison)
                                                 else
-                                                    found = ansV == v2v
+                                                    found =
+                                                        ansV
+                                                            == v2v
                                                 end
                                             end
-                                            if found then break end
-                                        end
-                                        if not found then break end
-                                    end
-                                else
-                                    for v2k, v2v in pairs(v2) do
-                                        if type(v2v) == type(ans[v2k]) then
-                                            if type(v2v) == "string" then
-                                                found = compareStrings(ans[v2k], v2v, thisCriteria.pattern)
-                                            elseif type(v2v) == "number" then
-                                                found = compareNumbers(ans[v2k], v2v, numericComparison)
-                                            else
-                                                found = ans[v2k] == v2v
+                                            if found then
+                                                break
                                             end
                                         end
-                                        if not found then break end
+                                        if not found then
+                                            break
+                                        end
+                                    end
+                                else
+                                    for 
+                                        v2k,
+                                        v2v in
+                                        pairs(
+                                            v2) do
+                                        if type(
+                                            v2v)
+                                            == type(
+                                                ans[v2k]) then
+                                            if type(
+                                                v2v)
+                                                == 'string' then
+                                                found =
+                                                    compareStrings(
+                                                        ans[v2k],
+                                                        v2v,
+                                                        thisCriteria.pattern)
+                                            elseif type(
+                                                v2v)
+                                                == 'number' then
+                                                found =
+                                                    compareNumbers(
+                                                        ans[v2k],
+                                                        v2v,
+                                                        numericComparison)
+                                            else
+                                                found =
+                                                    ans[v2k]
+                                                        == v2v
+                                            end
+                                        end
+                                        if not found then
+                                            break
+                                        end
                                     end
                                 end
                             else
-                                found = ans == v2
+                                found =
+                                    ans
+                                        == v2
                             end
                         end
-                        if found then break end
+                        if found then
+                            break
+                        end
                     end
                     thisResult = found
-                    if not thisResult then break end
+                    if not thisResult then
+                        break
+                    end
                 end
-            elseif type(thisCriteria.nilValue) ~= "nil" then
-                for _,v in ipairs(thisCriteria.attribute) do
-                    thisResult = thisCriteria.nilValue == ((type(aav[v]) == "table") and (aav[v]._code == -25212))
-                    if not thisResult then break end
+            elseif type(
+                thisCriteria.nilValue)
+                ~= 'nil' then
+                for _, v in ipairs(
+                                thisCriteria.attribute) do
+                    thisResult =
+                        thisCriteria.nilValue
+                            == ((type(
+                                aav[v])
+                                == 'table')
+                                and (aav[v]
+                                    ._code
+                                    == -25212))
+                    if not thisResult then
+                        break
+                    end
                 end
             end
         end
 
-        if thisCriteria.invert then thisResult = not thisResult end
+        if thisCriteria.invert then
+            thisResult = not thisResult
+        end
         finalResult = thisResult -- and finalResult, but logically it's the same without the additional code
-        if not finalResult then break end
+        if not finalResult then
+            break
+        end
     end
     return finalResult
 end
@@ -480,10 +727,14 @@ end
 ---
 --- Returns:
 ---  * a function which can be used as the `criteriaFunction` for [hs.axuielement:elementSearch](#elementSearch).
-module.searchCriteriaFunction = function(...)
-    local args = table.pack(...)
-    return function(e) return e:matchesCriteria(table.unpack(args)) end
-end
+module.searchCriteriaFunction =
+    function(...)
+        local args = table.pack(...)
+        return function(e)
+            return e:matchesCriteria(
+                       table.unpack(args))
+        end
+    end
 
 --- hs.axuielement:buildTree(callback, [depth], [withParents]) -> elementSearchObject
 --- Method
@@ -501,14 +752,20 @@ end
 --- * The format of the `results` table passed to the callback for this method is primarily for debugging and exploratory purposes and may not be arranged for easy programatic evaluation.
 ---
 ---  * This method is syntactic sugar for `hs.axuielement:elementSearch(callback, { objectOnly = false, asTree = true, [depth = depth], [includeParents = withParents] })`. Please refer to [hs.axuielement:elementSearch](#elementSearch) for details about the returned object and callback arguments.
-objectMT.buildTree = function(self, callback, depth, withParents)
-    return self:elementSearch(callback, nil, {
-        objectOnly     = false,
-        asTree         = true,
-        depth          = depth or math.huge,
-        includeParents = withParents and true or false,
-    })
-end
+objectMT.buildTree =
+    function(self, callback, depth,
+             withParents)
+        return
+            self:elementSearch(callback,
+                               nil, {
+                objectOnly = false,
+                asTree = true,
+                depth = depth
+                    or math.huge,
+                includeParents = withParents
+                    and true or false
+            })
+    end
 
 --- hs.axuielement:allDescendantElements(callback, [withParents]) -> elementSearchObject
 --- Method
@@ -523,253 +780,410 @@ end
 ---
 --- Notes:
 ---  * This method is syntactic sugar for `hs.axuielement:elementSearch(callback, { [includeParents = withParents] })`. Please refer to [hs.axuielement:elementSearch](#elementSearch) for details about the returned object and callback arguments.
-objectMT.allDescendantElements = function(self, callback, withParents)
-    return self:elementSearch(callback, nil, { includeParents = withParents and true or false })
-end
-
+objectMT.allDescendantElements =
+    function(self, callback, withParents)
+        return
+            self:elementSearch(callback,
+                               nil, {
+                includeParents = withParents
+                    and true or false
+            })
+    end
 
 -- used for metamethods on hs.axuielement:elementSearch results
-local elementFilterHamster = function(self, elementFilterObject)
-    local efoMT = getmetatable(elementFilterObject)
+local elementFilterHamster = function(
+    self, elementFilterObject)
+    local efoMT = getmetatable(
+                      elementFilterObject)
     local state = efoMT._state
 
-    local criteria    = state.criteria
-    local objectsOnly = state.objectsOnly
+    local criteria = state.criteria
+    local objectsOnly =
+        state.objectsOnly
 
-    local results     = elementFilterObject
+    local results = elementFilterObject
 
     local criteriaEmpty = not criteria
 
-    for _,v in ipairs(self) do
-        if state.cancel then break end
-        if state.callback and coroutine.isyieldable() then coroutine.applicationYield() end -- luacheck: ignore
+    for _, v in ipairs(self) do
+        if state.cancel then
+            break
+        end
+        if state.callback
+            and coroutine.isyieldable() then
+            coroutine.applicationYield()
+        end -- luacheck: ignore
 
-        state.visited = state.visited + 1
-        local addThis = criteriaEmpty or criteria(objectsOnly and v or v._element)
+        state.visited =
+            state.visited + 1
+        local addThis =
+            criteriaEmpty
+                or criteria(
+                    objectsOnly and v
+                        or v._element)
         if addThis then
-            state.matched = state.matched + 1
+            state.matched =
+                state.matched + 1
             table.insert(results, v)
         end
     end
-    if not state.cancel then state.msg = "completed" end
+    if not state.cancel then
+        state.msg = 'completed'
+    end
 
     return results
 end
 
 local elementSearchResultsFilter
-elementSearchResultsFilter = function(self, criteria, callback)
-    assert(
-        type(criteria) == "function" or (getmetatable(criteria) or {}).__call, "expected function for criteria"
-    )
+elementSearchResultsFilter = function(
+    self, criteria, callback)
+    assert(type(criteria) == 'function'
+               or (getmetatable(criteria)
+                   or {}).__call,
+           'expected function for criteria')
 
     if callback then
-        assert(
-            type(callback) == "function" or (getmetatable(callback) or {}).__call, "expected function for filter callback"
-        )
+        assert(type(callback)
+                   == 'function'
+                   or (getmetatable(
+                       callback) or {}).__call,
+               'expected function for filter callback')
     end
 
     local state = {
-        cancel      = false,
-        callback    = callback,
-        criteria    = criteria,
-        objectsOnly = self[1] and (getmetatable(self[1]) == objectMT),
-        matched     = 0,
-        visited     = 0,
-        started     = os.time(),
-        finished    = nil,
+        cancel = false,
+        callback = callback,
+        criteria = criteria,
+        objectsOnly = self[1]
+            and (getmetatable(self[1])
+                == objectMT),
+        matched = 0,
+        visited = 0,
+        started = os.time(),
+        finished = nil
     }
 
-    local elementFilterObject = setmetatable({}, {
-        _state = state,
-        __index = {
-            cancel = function(_, msg)
-                state.cancel = true
-                if msg then
-                    state.msg = "** " .. tostring(msg)
-                else
-                    state.msg = "** cancelled"
+    local elementFilterObject =
+        setmetatable({}, {
+            _state = state,
+            __index = {
+                cancel = function(_, msg)
+                    state.cancel = true
+                    if msg then
+                        state.msg =
+                            '** '
+                                .. tostring(
+                                    msg)
+                    else
+                        state.msg =
+                            '** cancelled'
+                    end
+                end,
+                isRunning = function(_)
+                    return not state.msg
+                end,
+                matched = function(_)
+                    return state.matched
+                end,
+                visited = function(_)
+                    return state.visited
+                end,
+                runTime = function(_)
+                    return
+                        state.finished
+                            or (os.time()
+                                - state.started)
+                end,
+                filter = function(_, ...)
+                    local efoMT =
+                        getmetatable(_)
+                    if not callback
+                        or efoMT._state
+                            .finished then
+                        return
+                            elementSearchResultsFilter(
+                                _, ...)
+                    else
+                        error(
+                            'new filter cannot be applied while search or filter currently in progress',
+                            2)
+                    end
                 end
-            end,
-            isRunning = function(_)
-                return not state.msg
-            end,
-            matched = function(_)
-                return state.matched
-            end,
-            visited = function(_)
-                return state.visited
-            end,
-            runTime = function(_)
-                return state.finished or (os.time() - state.started)
-            end,
-            filter = function(_, ...)
-                local efoMT = getmetatable(_)
-                if not callback or efoMT._state.finished then
-                    return elementSearchResultsFilter(_, ...)
-                else
-                    error("new filter cannot be applied while search or filter currently in progress", 2)
-                end
-            end,
-        },
-        __tostring = function(_)
-            return USERDATA_TAG .. ".filterObject " .. tostring(self):match("%(.+%)$")
-        end,
--- For now, not requiring that they capture this value to prevent collection.
---         __gc = function(_)
---             if not state.finished then
---                 _:cancel("gc on elementSearchObject object")
---             end
---         end,
-    })
-
+            },
+            __tostring = function(_)
+                return
+                    USERDATA_TAG
+                        .. '.filterObject '
+                        .. tostring(self):match(
+                            '%(.+%)$')
+            end
+            -- For now, not requiring that they capture this value to prevent collection.
+            --         __gc = function(_)
+            --             if not state.finished then
+            --                 _:cancel("gc on elementSearchObject object")
+            --             end
+            --         end,
+        })
 
     if callback then
         local filterCoroutine
-        filterCoroutine = coroutine.wrap(function()
-            local results = elementFilterHamster(self, elementFilterObject)
-            state.finished = os.time() - state.started
-            callback(state.msg or "completed", results)
-            filterCoroutine = nil -- ensure garbage collection doesn't happen until after we're done
-        end)
+        filterCoroutine =
+            coroutine.wrap(
+                function()
+                    local results =
+                        elementFilterHamster(
+                            self,
+                            elementFilterObject)
+                    state.finished =
+                        os.time()
+                            - state.started
+                    callback(
+                        state.msg
+                            or 'completed',
+                        results)
+                    filterCoroutine =
+                        nil -- ensure garbage collection doesn't happen until after we're done
+                end)
         filterCoroutine()
 
         return elementFilterObject
     else
-        return elementFilterHamster(self, elementFilterObject)
+        return elementFilterHamster(
+                   self,
+                   elementFilterObject)
     end
 end
 
 -- used by hs.axuielement:elementSearch to do the heavy lifting. The search performed is a breadth first search.
-local elementSearchHamsterBF = function(elementSearchObject)
-    local esoMT = getmetatable(elementSearchObject)
-    local self, state = esoMT._self, esoMT._state
+local elementSearchHamsterBF = function(
+    elementSearchObject)
+    local esoMT = getmetatable(
+                      elementSearchObject)
+    local self, state = esoMT._self,
+                        esoMT._state
 
-    local queue   = esoMT._queue or { self }
-    local depth   = esoMT._depth or 0
+    local queue = esoMT._queue
+                      or { self }
+    local depth = esoMT._depth or 0
     -- allows use of userdata as key in hash table even though different userdata can refer to same object
-    local seen    = esoMT._seen or setmetatable({ [self] = {} }, { -- capture initial self
-                                      __index = function(_self, key)
-                                          for k,v in pairs(_self) do
-                                              if k == key then
-                                                  -- speed up future searches. only works reliably if v is
-                                                  -- table and future updates are to the table and not a
-                                                  -- replacement of the table. pairs() will return each
-                                                  -- copy, though, so its a trade off depending upon needs
-                                                  rawset(_self, key, v)
-                                                  return v
-                                              end
-                                          end
-                                          return nil
-                                      end,
-                                      __newindex = function(_self, key, value)
-                                          for k,_ in pairs(_self) do
-                                              if k == key then
-                                                  rawset(_self, k, value)
-                                                  return
-                                              end
-                                          end
-                                          rawset(_self, key, value)
-                                      end
-                                  })
+    local seen = esoMT._seen
+                     or setmetatable(
+                         { [self] = {} },
+                         { -- capture initial self
+                __index = function(
+                    _self, key)
+                    for k, v in
+                        pairs(_self) do
+                        if k == key then
+                            -- speed up future searches. only works reliably if v is
+                            -- table and future updates are to the table and not a
+                            -- replacement of the table. pairs() will return each
+                            -- copy, though, so its a trade off depending upon needs
+                            rawset(
+                                _self,
+                                key, v)
+                            return v
+                        end
+                    end
+                    return nil
+                end,
+                __newindex = function(
+                    _self, key, value)
+                    for k, _ in
+                        pairs(_self) do
+                        if k == key then
+                            rawset(
+                                _self,
+                                k, value)
+                            return
+                        end
+                    end
+                    rawset(_self, key,
+                           value)
+                end
+            })
 
     local results = elementSearchObject
 
-    local criteria       = state.criteria
-    local includeParents = state.namedMods.includeParents
-    local maxDepth       = state.namedMods.depth
-    local objectOnly     = state.namedMods.objectOnly
-    local asTree         = state.namedMods.asTree
+    local criteria = state.criteria
+    local includeParents =
+        state.namedMods.includeParents
+    local maxDepth =
+        state.namedMods.depth
+    local objectOnly =
+        state.namedMods.objectOnly
+    local asTree = state.namedMods
+                       .asTree
 
     local criteriaEmpty = not criteria
 
-    local count, maxCount = 0, state.namedMods.count
+    local count, maxCount = 0,
+                            state.namedMods
+                                .count
 
     while #queue > 0 do
-        if state.cancel or maxDepth < depth or count == maxCount then break end
+        if state.cancel or maxDepth
+            < depth or count == maxCount then
+            break
+        end
 
-        if state.callback and coroutine.isyieldable() then coroutine.applicationYield() end -- luacheck: ignore
+        if state.callback
+            and coroutine.isyieldable() then
+            coroutine.applicationYield()
+        end -- luacheck: ignore
 
-        local element = table.remove(queue, 1)
-        if getmetatable(element) == objectMT then
-            local aav = element:allAttributeValues(true) or {}
-            state.visited = state.visited + 1
-            if criteriaEmpty or criteria(element) then
-                state.matched = state.matched + 1
-                local keeping = objectOnly and element or seen[element]
+        local element =
+            table.remove(queue, 1)
+        if getmetatable(element)
+            == objectMT then
+            local aav =
+                element:allAttributeValues(
+                    true) or {}
+            state.visited =
+                state.visited + 1
+            if criteriaEmpty
+                or criteria(element) then
+                state.matched =
+                    state.matched + 1
+                local keeping =
+                    objectOnly
+                        and element
+                        or seen[element]
                 if not objectOnly then
                     -- store the table of details so we can replace the axuielement objects in the final results for attributes and children with their details
-                    for k,v in pairs(aav) do keeping[k] = v end
-                    keeping._element                 = element
-                    keeping._actions                 = element:actionNames()
-                    keeping._attributes              = element:attributeNames()
-                    keeping._parameterizedAttributes = element:parameterizedAttributeNames()
+                    for k, v in pairs(
+                                    aav) do
+                        keeping[k] = v
+                    end
+                    keeping._element =
+                        element
+                    keeping._actions =
+                        element:actionNames()
+                    keeping._attributes =
+                        element:attributeNames()
+                    keeping._parameterizedAttributes =
+                        element:parameterizedAttributeNames()
                 end
-                table.insert(results, keeping)
+                table.insert(results,
+                             keeping)
                 count = count + 1
             end
-            if type(queue[#queue]) ~= "table" then table.insert(queue, {}) end
-            local nxtLvlQueue = queue[#queue]
+            if type(queue[#queue])
+                ~= 'table' then
+                table.insert(queue, {})
+            end
+            local nxtLvlQueue =
+                queue[#queue]
 
             -- most are in AXChildren, but a handful aren't, and a few are even nested in subtables (e.g. AXSections)
             local newChildren = {}
-            for k,v in pairs(aav) do
-                if includeParents or not fnutils.contains(parentLabels, k) then
-                    if not (type(v) == "table" and v._code and v.error) then -- skip error tables
-                        table.insert(newChildren, v)
+            for k, v in pairs(aav) do
+                if includeParents
+                    or not fnutils.contains(
+                        parentLabels, k) then
+                    if not (type(v)
+                        == 'table'
+                        and v._code
+                        and v.error) then -- skip error tables
+                        table.insert(
+                            newChildren,
+                            v)
                     end
                 end
             end
             while #newChildren > 0 do
-                if state.callback and coroutine.isyieldable() then coroutine.applicationYield() end -- luacheck: ignore
-                local potential = table.remove(newChildren, 1)
-                if getmetatable(potential) == objectMT then
+                if state.callback
+                    and coroutine.isyieldable() then
+                    coroutine.applicationYield()
+                end -- luacheck: ignore
+                local potential =
+                    table.remove(
+                        newChildren, 1)
+                if getmetatable(
+                    potential)
+                    == objectMT then
                     if not seen[potential] then
-                        seen[potential] = {}
-                        table.insert(nxtLvlQueue, potential)
+                        seen[potential] =
+                            {}
+                        table.insert(
+                            nxtLvlQueue,
+                            potential)
                     end
-                elseif type(potential) == "table" then
-                    for _,v in pairs(potential) do table.insert(newChildren, v) end
+                elseif type(potential)
+                    == 'table' then
+                    for _, v in pairs(
+                                    potential) do
+                        table.insert(
+                            newChildren,
+                            v)
+                    end
                 end
             end
 
-        elseif type(element) == "table" then
+        elseif type(element) == 'table' then
             queue = element
             depth = depth + 1
         end
     end
 
     if not state.cancel then
-        state.msg = ((#queue == 0) or (maxDepth < depth)) and "completed" or "countReached"
+        state.msg = ((#queue == 0)
+                        or (maxDepth
+                            < depth))
+                        and 'completed'
+                        or 'countReached'
     end
 
     esoMT._depth = depth
     esoMT._queue = queue
-    esoMT._seen  = seen
+    esoMT._seen = seen
 
     if not objectOnly then -- convert values that are axuielements to their table stored in `seen`
         local deTableValue
-        deTableValue = function(val)
-            if getmetatable(val) == objectMT then
-                return next(seen[val] or {}) and seen[val] or val
-            elseif type(val) == "table" then
-                for k, v in pairs(val) do val[k] = deTableValue(v) end
+        deTableValue =
+            function(val)
+                if getmetatable(val)
+                    == objectMT then
+                    return
+                        next(seen[val]
+                                 or {})
+                            and seen[val]
+                            or val
+                elseif type(val)
+                    == 'table' then
+                    for k, v in
+                        pairs(val) do
+                        val[k] =
+                            deTableValue(
+                                v)
+                    end
+                end
+                return val
             end
-            return val
-        end
 
-        for _, element in ipairs(results) do
-            for key, value in pairs(element) do
-                if state.callback and coroutine.isyieldable() then coroutine.applicationYield() end -- luacheck: ignore
+        for _, element in
+            ipairs(results) do
+            for key, value in pairs(
+                                  element) do
+                if state.callback
+                    and coroutine.isyieldable() then
+                    coroutine.applicationYield()
+                end -- luacheck: ignore
 
-                if not key:match("^_") then -- skip our collections of actions, etc. and the element itself
-                    element[key] = deTableValue(value)
+                if not key:match('^_') then -- skip our collections of actions, etc. and the element itself
+                    element[key] =
+                        deTableValue(
+                            value)
                 end
             end
         end
     end
 
     -- asTree is only valid (and in fact only works) if we captured all elements from the starting node and recorded their details
-    if asTree and criteriaEmpty and not objectOnly then results = results[1] end
+    if asTree and criteriaEmpty
+        and not objectOnly then
+        results = results[1]
+    end
 
     return results, count
 end
@@ -818,172 +1232,266 @@ end
 ---
 ---  * [hs.axuielement:allDescendantElements](#allDescendantElements) is syntactic sugar for `hs.axuielement:elementSearch(callback, { [includeParents = withParents] })`
 ---  * [hs.axuielement:buildTree](#buildTree) is syntactic sugar for `hs.axuielement:elementSearch(callback, { objectOnly = false, asTree = true, [depth = depth], [includeParents = withParents] })`
-objectMT.elementSearch = function(self, callback, criteria, namedModifiers)
-    local namedModifierDefaults = {
-        includeParents = false,
-        depth          = math.huge,
-        objectOnly     = true,
-        asTree         = false,
-        noCallback     = false,
-        count          = math.huge,
-    }
+objectMT.elementSearch =
+    function(self, callback, criteria,
+             namedModifiers)
+        local namedModifierDefaults = {
+            includeParents = false,
+            depth = math.huge,
+            objectOnly = true,
+            asTree = false,
+            noCallback = false,
+            count = math.huge
+        }
 
-    -- check to see if criteria left off and second arg is actually the namedModifiers table
-    if type(namedModifiers) == "nil" and type(criteria) == "table" and not (getmetatable(criteria) or {}).__call then
-        -- verify criteria "table" is actually namedMods and not a mistake on the users part (esp since we used to take a table
-        -- for criteria)
-        local isGoodForNM = true
-        for k,_ in pairs(criteria) do
-            if type(namedModifierDefaults[k]) == "nil" then
-                isGoodForNM = false
-                break
+        -- check to see if criteria left off and second arg is actually the namedModifiers table
+        if type(namedModifiers) == 'nil'
+            and type(criteria) == 'table'
+            and not (getmetatable(
+                criteria) or {}).__call then
+            -- verify criteria "table" is actually namedMods and not a mistake on the users part (esp since we used to take a table
+            -- for criteria)
+            local isGoodForNM = true
+            for k, _ in pairs(criteria) do
+                if type(
+                    namedModifierDefaults[k])
+                    == 'nil' then
+                    isGoodForNM = false
+                    break
+                end
+            end
+            if isGoodForNM then
+                criteria, namedModifiers =
+                    nil, criteria
+            end -- else let error out for bad criteria below
+        end
+
+        namedModifiers =
+            namedModifiers or {}
+        -- set defaults in namedModifiers for keys not provided
+        if namedModifiers.count then
+            namedModifiers.asTree =
+                false
+        end
+        for k, v in pairs(
+                        namedModifierDefaults) do
+            if type(namedModifiers[k])
+                == 'nil' then
+                namedModifiers[k] = v
             end
         end
-        if isGoodForNM then
-            criteria, namedModifiers = nil, criteria
-        end -- else let error out for bad criteria below
-    end
 
-    namedModifiers = namedModifiers or {}
-    -- set defaults in namedModifiers for keys not provided
-    if namedModifiers.count then namedModifiers.asTree = false end
-    for k,v in pairs(namedModifierDefaults) do
-        if type(namedModifiers[k]) == "nil" then
-            namedModifiers[k] = v
+        if not (namedModifiers.noCallback
+            and callback == nil) then
+            assert(type(callback)
+                       == 'function'
+                       or (getmetatable(
+                           callback)
+                           or {}).__call,
+                   'elementSearch requires a callback function')
         end
-    end
 
-    if not (namedModifiers.noCallback and callback == nil) then
-        assert(
-            type(callback) == "function" or (getmetatable(callback) or {}).__call,
-            "elementSearch requires a callback function"
-        )
-    end
+        if criteria then
+            assert(type(criteria)
+                       == 'function'
+                       or (getmetatable(
+                           criteria)
+                           or {}).__call,
+                   'criteria must be a function, if specified')
+        end
 
-    if criteria then
-        assert(
-            type(criteria) == "function" or (getmetatable(criteria) or {}).__call,
-            "criteria must be a function, if specified"
-        )
-    end
+        local state = {
+            cancel = false,
+            callback = callback,
+            criteria = criteria,
+            namedMods = namedModifiers,
+            matched = 0,
+            visited = 0,
+            started = os.time(),
+            finished = nil
+        }
+        local elementSearchObject =
+            setmetatable({}, {
+                _state = state,
+                _self = self,
 
-    local state = {
-        cancel    = false,
-        callback  = callback,
-        criteria  = criteria,
-        namedMods = namedModifiers,
-        matched   = 0,
-        visited   = 0,
-        started   = os.time(),
-        finished  = nil,
-    }
-    local elementSearchObject = setmetatable({}, {
-        _state  = state,
-        _self   = self,
-
-        __index = {
-            cancel = function(_, msg)
-                state.cancel = true
-                if msg then
-                    state.msg = "** " .. tostring(msg)
-                else
-                    state.msg = "** cancelled"
-                end
-            end,
-            isRunning = function(_)
-                return not state.msg
-            end,
-            matched = function(_)
-                return state.matched
-            end,
-            visited = function(_)
-                return state.visited
-            end,
-            runTime = function(_)
-                return state.finished or (os.time() - state.started)
-            end,
-        },
-        __tostring = function(_)
-            return USERDATA_TAG .. ".elementSearchObject " .. tostring(self):match("%(.+%)$")
-        end,
--- For now, not requiring that they capture this value to prevent collection.
---         __gc = function(_)
---             if not state.finished then
---                 _:cancel("gc on elementSearchObject object")
---             end
---         end,
-    })
-
-    local esoMT = getmetatable(elementSearchObject)
-    if not namedModifiers.asTree then
-        esoMT.__index.filter = elementSearchResultsFilter -- make sure to document that results table is *new* with only filter method carrying over
-        esoMT.__index.next = function(_)
-            local nxtState = getmetatable(_)._state
-            if not callback or nxtState.finished then
-                if nxtState.msg ~= "completed" then
-                    nxtState.started  = os.time() - nxtState.finished
-                    nxtState.finished = nil
-                    nxtState.cancel   = nil
-                    nxtState.msg      = nil
-                    if callback then
-                        local searchCoroutine
-                        searchCoroutine = coroutine.wrap(function()
-                            local results, countAdded = elementSearchHamsterBF(_)
-                            nxtState.finished = os.time() - nxtState.started
-                            callback(nxtState.msg, results, countAdded)
-                            searchCoroutine = nil -- ensure garbage collection doesn't happen until after we're done
-                        end)
-                        searchCoroutine()
-
-                        return _
-                    else
-                        return elementSearchHamsterBF(_)
+                __index = {
+                    cancel = function(_,
+                                      msg)
+                        state.cancel =
+                            true
+                        if msg then
+                            state.msg =
+                                '** '
+                                    .. tostring(
+                                        msg)
+                        else
+                            state.msg =
+                                '** cancelled'
+                        end
+                    end,
+                    isRunning = function(
+                        _)
+                        return
+                            not state.msg
+                    end,
+                    matched = function(_)
+                        return
+                            state.matched
+                    end,
+                    visited = function(_)
+                        return
+                            state.visited
+                    end,
+                    runTime = function(_)
+                        return
+                            state.finished
+                                or (os.time()
+                                    - state.started)
                     end
-                else
-                    return nil
+                },
+                __tostring = function(_)
+                    return
+                        USERDATA_TAG
+                            .. '.elementSearchObject '
+                            .. tostring(
+                                self):match(
+                                '%(.+%)$')
                 end
-            else
-                error("next only available when search not in progress", 2)
-            end
+                -- For now, not requiring that they capture this value to prevent collection.
+                --         __gc = function(_)
+                --             if not state.finished then
+                --                 _:cancel("gc on elementSearchObject object")
+                --             end
+                --         end,
+            })
+
+        local esoMT =
+            getmetatable(
+                elementSearchObject)
+        if not namedModifiers.asTree then
+            esoMT.__index.filter =
+                elementSearchResultsFilter -- make sure to document that results table is *new* with only filter method carrying over
+            esoMT.__index.next =
+                function(_)
+                    local nxtState =
+                        getmetatable(_)._state
+                    if not callback
+                        or nxtState.finished then
+                        if nxtState.msg
+                            ~= 'completed' then
+                            nxtState.started =
+                                os.time()
+                                    - nxtState.finished
+                            nxtState.finished =
+                                nil
+                            nxtState.cancel =
+                                nil
+                            nxtState.msg =
+                                nil
+                            if callback then
+                                local 
+                                    searchCoroutine
+                                searchCoroutine =
+                                    coroutine.wrap(
+                                        function()
+                                            local 
+                                                results,
+                                                countAdded =
+                                                elementSearchHamsterBF(
+                                                    _)
+                                            nxtState.finished =
+                                                os.time()
+                                                    - nxtState.started
+                                            callback(
+                                                nxtState.msg,
+                                                results,
+                                                countAdded)
+                                            searchCoroutine =
+                                                nil -- ensure garbage collection doesn't happen until after we're done
+                                        end)
+                                searchCoroutine()
+
+                                return _
+                            else
+                                return
+                                    elementSearchHamsterBF(
+                                        _)
+                            end
+                        else
+                            return nil
+                        end
+                    else
+                        error(
+                            'next only available when search not in progress',
+                            2)
+                    end
+                end
+        end
+
+        if callback then
+            local searchCoroutine
+            searchCoroutine =
+                coroutine.wrap(
+                    function()
+                        local results,
+                              countAdded =
+                            elementSearchHamsterBF(
+                                elementSearchObject)
+                        state.finished =
+                            os.time()
+                                - state.started
+                        callback(
+                            state.msg,
+                            results,
+                            countAdded)
+                        searchCoroutine =
+                            nil -- ensure garbage collection doesn't happen until after we're done
+                    end)
+            searchCoroutine()
+
+            return elementSearchObject
+        else
+            return
+                elementSearchHamsterBF(
+                    elementSearchObject)
         end
     end
 
-    if callback then
-        local searchCoroutine
-        searchCoroutine = coroutine.wrap(function()
-            local results, countAdded = elementSearchHamsterBF(elementSearchObject)
-            state.finished = os.time() - state.started
-            callback(state.msg, results, countAdded)
-            searchCoroutine = nil -- ensure garbage collection doesn't happen until after we're done
-        end)
-        searchCoroutine()
-
-        return elementSearchObject
-    else
-        return elementSearchHamsterBF(elementSearchObject)
-    end
-end
-
-local _applicationElement = module.applicationElement
-module.applicationElement = function(obj)
-    if type(obj) == "string" or type(obj) == "number" then
-        for _,v in ipairs(table.pack(application.find(obj))) do
-            if getmetatable(v) == hs.getObjectMetatable("hs.application") then
-                return _applicationElement(v)
+local _applicationElement =
+    module.applicationElement
+module.applicationElement =
+    function(obj)
+        if type(obj) == 'string'
+            or type(obj) == 'number' then
+            for _, v in ipairs(
+                            table.pack(
+                                application.find(
+                                    obj))) do
+                if getmetatable(v)
+                    == hs.getObjectMetatable(
+                        'hs.application') then
+                    return
+                        _applicationElement(
+                            v)
+                end
             end
         end
+        return _applicationElement(obj)
     end
-    return _applicationElement(obj)
-end
 
-local _windowElement = module.windowElement
-module.windowElement = function(obj)
-    if type(obj) == "string" or type(obj) == "number" then
-        return _windowElement(window.find(obj))
-    else
-        return _windowElement(obj)
+local _windowElement =
+    module.windowElement
+module.windowElement =
+    function(obj)
+        if type(obj) == 'string'
+            or type(obj) == 'number' then
+            return _windowElement(
+                       window.find(obj))
+        else
+            return _windowElement(obj)
+        end
     end
-end
 
 --- hs.axuielement:childrenWithRole(role) -> table
 --- Method
@@ -997,13 +1505,17 @@ end
 ---
 --- Notes:
 ---  * only the immediate children of the object are searched.
-objectMT.childrenWithRole = function(self, role)
-    assert(type(role) == "string", "expected string for role value")
+objectMT.childrenWithRole = function(
+    self, role)
+    assert(type(role) == 'string',
+           'expected string for role value')
 
     local ans = {}
     if self.AXChildren then
-        for _,v in ipairs(self) do
-            if v.AXRole == role then table.insert(ans, v) end
+        for _, v in ipairs(self) do
+            if v.AXRole == role then
+                table.insert(ans, v)
+            end
         end
     end
     return ans

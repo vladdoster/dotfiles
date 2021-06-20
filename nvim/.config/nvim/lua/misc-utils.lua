@@ -1,4 +1,8 @@
-local scopes = {o = vim.o, b = vim.bo, w = vim.wo}
+local scopes = {
+    o = vim.o,
+    b = vim.bo,
+    w = vim.wo
+}
 
 local function opt(scope, key, value)
     scopes[scope][key] = value
@@ -28,7 +32,8 @@ opt('b', 'shiftwidth', 2)
 local M = {}
 
 function M.is_buffer_empty()
-    return vim.fn.empty(vim.fn.expand('%:t')) == 1
+    return vim.fn.empty(
+               vim.fn.expand('%:t')) == 1
 end
 
 function M.window_width_gt(cols)
@@ -36,5 +41,6 @@ function M.window_width_gt(cols)
     return vim.fn.winwidth(0) / 2 > cols
 end
 -- file extension specific tabbing
-vim.cmd([[autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
+vim.cmd(
+    [[autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
 return M

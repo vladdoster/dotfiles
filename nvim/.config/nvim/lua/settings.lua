@@ -4,7 +4,8 @@ vim.cmd('set inccommand=split') -- Make substitution work in realtime
 
 vim.o.title = true
 TERMINAL = vim.fn.expand('$TERMINAL')
-vim.cmd('let &titleold="' .. TERMINAL .. '"')
+vim.cmd('let &titleold="' .. TERMINAL
+            .. '"')
 vim.o.titlestring = '%<%F%=%l/%L - nvim'
 
 -- vim.o.guifont = "JetBrains\\ Mono\\ Regular\\ Nerd\\ Font\\ Complete"
@@ -22,7 +23,8 @@ vim.o.clipboard = 'unnamedplus' -- Copy paste between vim and everything else
 vim.o.cmdheight = 2 -- More space for displaying messages
 vim.o.conceallevel = 0 -- So that I can see `` in markdown files
 vim.o.fileencoding = 'utf-8' -- The encoding written to file
-vim.o.guifont = 'JetBrainsMono\\ Nerd\\ Font\\ Mono:h18'
+vim.o.guifont =
+    'JetBrainsMono\\ Nerd\\ Font\\ Mono:h18'
 vim.o.mouse = 'a' -- Enable your mouse
 vim.o.pumheight = 10 -- Makes popup menu smaller
 vim.o.showmode = false -- We don't need to see things like -- INSERT -- anymore
