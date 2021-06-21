@@ -50,7 +50,7 @@ config = {
     },
 
     window = {
-        highlightBorder = true,
+       highlightBorder = true,
         highlightMouse = true,
         historyLimit = 0
     }
@@ -132,4 +132,3 @@ Install:andUse('Seal', {
     start = true
 })
 hs.alert('Welcome to Hammerspoon')
-
