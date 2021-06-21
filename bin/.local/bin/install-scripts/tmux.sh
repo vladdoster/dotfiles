@@ -1,28 +1,49 @@
 #!/bin/bash
 #
-#Install tmux from source
+# Install tmux from source
 
-GIT_URL="https://github.com/tmux/tmux.git"
-PKG_PATH="$(echo "$GIT_URL" | grep / | cut -d/ -f2-)"
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "---Installing ${PKG_PATH##*/}"
+# the temp directory used, within $DIR
+# omit the -p parameter to create a temporal directory in the default location
+WORK_DIR=$(mktemp -d)
 
-if [[ -d ${PKG_PATH##*/} ]]; then
-    rm -rf "${PKG_PATH##*/}"
+# check if tmp dir was created
+if [[ ! $WORK_DIR || ! -d $WORK_DIR ]]; then
+    echo "--- Failed to create temp dir"
+    exit 1
 fi
 
-git clone "$GIT_URL" "${PKG_PATH##*/}" && cd "${PKG_PATH##*/}" || exit 1
+# deletes the temp directory
+function cleanup {
+    sudo rm -rf "$WORK_DIR"
+    echo "--- Deleted temp working directory $WORK_DIR"
+}
 
+# register the cleanup function to be called on the EXIT signal
+trap cleanup EXIT
+
+# implementation of script starts here
+# --------------------------------------------
+PROGRAM="tmux"
+GIT_URL="https://github.com/tmux/tmux.git"
+
+pushd "$WORK_DIR"
+echo "--- Entered tmp work dir $PWD"
+echo "--- Cloning $PROGRAM"
+git clone "$GIT_URL" "$PROGRAM"
+cd "$PROGRAM"
 if [[ -e autogen.sh ]]; then
+    echo "--- Found autogen.sh, executing "
     sh autogen.sh
 fi
-
-if ./configure "$@"; then
-    if make; then
-        if sudo make install; then
-            echo "---Installed tmux"
-        else
-            echo "ERROR: tmux install failed"
-        fi
-    fi
+if [[ -e ./configure ]]; then
+    echo "--- Found configure, executing "
+    ./configure
 fi
+echo "--- Compiling $PROGRAM"
+make -j8
+echo "--- Installing $PROGRAM"
+sudo make install
+popd
+echo "--- Installed $PROGRAM"
