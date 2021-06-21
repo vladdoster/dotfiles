@@ -50,7 +50,7 @@ config = {
     },
 
     window = {
-       highlightBorder = true,
+        highlightBorder = true,
         highlightMouse = true,
         historyLimit = 0
     }
