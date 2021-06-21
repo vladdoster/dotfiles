@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.2.77](https://github.com/vladdoster/dotfiles/compare/v0.2.76...v0.2.77) (2021-06-20)
+
+- (linting) formatting [`6aa128e`](https://github.com/vladdoster/dotfiles/commit/6aa128e1759c9df43692c50f2e7bd5fddc381067)
+- chore: release v0.2.77 [`f7cc3f6`](https://github.com/vladdoster/dotfiles/commit/f7cc3f682a1ae1cf51d719bbf088e7e915361b7b)
+- (maint) format lua files in place with `-i` [`ce6afc3`](https://github.com/vladdoster/dotfiles/commit/ce6afc37b14f334adde32f0ffe91612fdcbba0cc)
+
 ## [v0.2.76](https://github.com/vladdoster/dotfiles/compare/v0.2.75...v0.2.76) (2021-06-20)
 
 - Update and rename release.yml to format.yml [`a3f8e41`](https://github.com/vladdoster/dotfiles/commit/a3f8e41b8856fe00a126f62cfc45e86e08144446)
