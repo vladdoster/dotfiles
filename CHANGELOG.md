@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.2.82](https://github.com/vladdoster/dotfiles/compare/v0.2.81...v0.2.82) (2021-06-23)
+
+- (maint) only start tmux  if in SSH [`7efa0cf`](https://github.com/vladdoster/dotfiles/commit/7efa0cf2b22ef9680eb329cdd688435676f42f88)
+- chore: release v0.2.82 [`482914c`](https://github.com/vladdoster/dotfiles/commit/482914c0f2fb105e8d28bd504b29770616278a5f)
+- (linting) formatting [`b332d93`](https://github.com/vladdoster/dotfiles/commit/b332d93995c6e79c229d4dba143cd93fec966fe1)
+
 ## [v0.2.81](https://github.com/vladdoster/dotfiles/compare/v0.2.80...v0.2.81) (2021-06-23)
 
 - (maint) Update zshenv logic [`e3aa411`](https://github.com/vladdoster/dotfiles/commit/e3aa4113aafc4e5e8d39dda2bf6e47a07a9b77e4)
