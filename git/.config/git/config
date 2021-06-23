@@ -6,17 +6,28 @@
 [github]
 	user = vladdoster
 
+[http]
+	sslVerify = false
+
+[https]
+	sslVerify = false
+
 [core]
-	editor = vim
+	editor = nvim
 	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	pager = delta
 	excludesfile = ~/.config/git/ignore
+
 [rerere]
 	enabled = 1
 	autoupdate = 1
+
 [push]
 	default = current
 	followTags = true
+
+[pull]
+    rebase = true
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f

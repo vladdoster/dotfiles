@@ -48,7 +48,7 @@ source <(find "$ZDOTDIR"/zshrc.d/* -maxdepth 1 -type f -exec cat {} \;)
 # gpgconf --launch gpg-agent
 
 #- AUTO-START TMUX -------------------------------------
-[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session;}
+#[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session;}
 
 # if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
 #   tmux a -t default || exec tmux new -s default && exit;

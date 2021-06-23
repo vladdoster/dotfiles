@@ -58,4 +58,4 @@ test : --simulate
 
 deps:
 	echo "--- Installing python3 pkgs"
-	pip3 install ranger-fm pynvim
+	pip3 install --trusted-host pypi.org --trusted-host files.pythonhosted.org ranger-fm pynvim
