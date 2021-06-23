@@ -1,15 +1,17 @@
-# Mac OS (darwin)
+# macOS
 
-- Install CLI/GUI programs via HomeBrew
-- Systemwide config via Applescript
+## Features
 
-> [!NOTE] sudo access is required or errors will occur.
+- Tiling window management via Hammerspoon
+- System configuration via Ansible
+- Dotfiles managed by GNU Stow
+- Install all required programs via Brew or from source
 
 ## Install
 
 To Install and set everything up, run:
 
-```shell
+```bash
 bash <(curl -s https://raw.githubusercontent.com/vladdoster/dotfiles/mac-os/bin/.local/bin/install.sh)
 ```
 
@@ -18,7 +20,7 @@ bash <(curl -s https://raw.githubusercontent.com/vladdoster/dotfiles/mac-os/bin/
 #### Install dotfiles
 
 ```bash
-make dotfiles
+make install
 ```
 
 #### Setup a new system
@@ -30,7 +32,7 @@ make dotfiles
 #### Remove dotfiles
 
 ```bash
-make dotfiles
+make clean
 ```
 
 #### List possible targets
@@ -42,5 +44,5 @@ make
 #### Change shell
 
 ```bash
-sudo usermod --shell /bin/zsh
+sudo dscl . -create /Users/$USER UserShell "$(which zsh)"
 ```

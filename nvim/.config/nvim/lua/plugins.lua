@@ -1,58 +1,71 @@
--- Helper aliases
-local cmd = vim.cmd
 local execute = vim.api.nvim_command
 local fn = vim.fn
-local g = vim.g
+local install_path =
+    fn.stdpath('data')
+        .. '/site/pack/packer/start/packer.nvim'
 
--- Bootstrap Packer if absent
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-  fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
-  execute 'packadd packer.nvim'
+    execute(
+        '!git clone https://github.com/wbthomason/packer.nvim '
+            .. install_path)
+    execute 'packadd packer.nvim'
 end
 
--- Load Packer
-local packer = require("packer")
+local packer = require('packer')
 local use = packer.use
 
--- Load plugins
-return require("packer").startup(
-    function()
-        -- PKG MANAGER
-        use "wbthomason/packer.nvim"
-        -- COLOR-SCHEME
-        use {"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
-        -- UI
-        use {
-            'hoob3rt/lualine.nvim',
-            requires = {'kyazdani42/nvim-web-devicons', opt = true}
-        }
-        use 'romgrk/barbar.nvim'
-        use "lukas-reineke/indent-blankline.nvim"
-        -- FILE FINDER
-        use "kyazdani42/nvim-tree.lua"
-        use {
-            'nvim-telescope/telescope.nvim',
-            requires = {{'nvim-lua/popup.nvim'}, {"nvim-telescope/telescope-media-files.nvim"},
- {'nvim-lua/plenary.nvim'}}
-        }
+-- using { } for using different branch , loading plugin with certain commands etc
+return packer.startup(
+           function(use)
+        -- Packer can manage itself as an optional plugin
+        use 'wbthomason/packer.nvim'
+        -- USER INTERFACE
+        use 'rktjmp/lush.nvim'
+        use 'npxbr/gruvbox.nvim'
+        use 'kyazdani42/nvim-web-devicons'
+        use 'hoob3rt/lualine.nvim'
+        use 'jose-elias-alvarez/buftabline.nvim'
+
+        -- FILE TREE
+        use 'kyazdani42/nvim-tree.lua'
+        use 'kevinhwang91/rnvimr'
+        -- TELESCOPE
+        use 'nvim-lua/popup.nvim'
+        use 'nvim-telescope/telescope-media-files.nvim'
+        use 'nvim-lua/plenary.nvim'
+        use 'nvim-telescope/telescope.nvim'
         -- LSP
-        use "hrsh7th/nvim-compe"
-        use "kabouzeid/nvim-lspinstall"
-        use "alexaandru/nvim-lspupdate"
-        use "neovim/nvim-lspconfig"
-        use "nvim-treesitter/nvim-treesitter"
-        use "windwp/nvim-autopairs"
+        use 'neovim/nvim-lspconfig'
+        use 'alexaandru/nvim-lspupdate'
+        use 'folke/lua-dev.nvim'
+        use 'hrsh7th/nvim-compe'
+        use 'kabouzeid/nvim-lspinstall'
+        use 'nvim-treesitter/nvim-treesitter'
+        use 'ray-x/lsp_signature.nvim'
+
         -- TPOPE 
-        use "tpope/vim-fugitive"
-        use "tpope/vim-commentary"
-        use "tpope/vim-rhubarb"
-        use "tpope/vim-sensible"
-        use "tpope/vim-repeat"
+        use 'tpope/vim-fugitive'
+        use 'tpope/vim-commentary'
+        use 'tpope/vim-rhubarb'
+        use 'tpope/vim-sensible'
+        use 'tpope/vim-repeat'
         -- SNIPPETS
-        use "hrsh7th/vim-vsnip"
-        use "rafamadriz/friendly-snippets"
+        use 'hrsh7th/vim-vsnip'
+        use 'rafamadriz/friendly-snippets'
         -- TERMINAL
-        use "numToStr/FTerm.nvim"
-    end
-)
+        use 'numToStr/FTerm.nvim'
+        -- MISC.
+        use 'dhruvasagar/vim-table-mode'
+        use 'lukas-reineke/indent-blankline.nvim'
+        use 'windwp/nvim-autopairs'
+    end, {
+        display = {
+            open_fn = function()
+                return require(
+                           'packer.util').float(
+                           {
+                        border = 'single'
+                    })
+            end
+        }
+    })

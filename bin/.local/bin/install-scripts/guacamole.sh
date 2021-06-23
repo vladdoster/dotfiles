@@ -2,8 +2,8 @@
 
 trap 'catch' ERR
 catch() {
-  echo "--- ERROR: An error has occurred while running $0"
-  exit 1
+    echo "--- ERROR: An error has occurred while running $0"
+    exit 1
 }
 
 echo "--- Installing guacamole dependencies"
@@ -23,11 +23,10 @@ select opt in "on boot" "create alias"; do
             echo "--- Use 'start-guacamole' to start guacamole"
             break
             ;;
-          *)
+        *)
             echo "--- Use 'service tomcat start' to  start guacamole"
             break
             ;;
     esac
 done
 echo "--- Successfully installed guacamole."
-

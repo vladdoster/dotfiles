@@ -78,17 +78,14 @@ fi
 if ! command -v brew &> /dev/null; then
   if [[ -e /opt/homebrew/bin/brew ]]; then
       eval "$(/opt/homebrew/bin/brew shellenv)" || echo "--- Homebrew unavailable"
-  elif [[ $OSTYPE =~ "linux" ]] && [[ -e /home/e109082/.linuxbrew ]]; then
+  elif [[ $OSTYPE =~ "linux" ]] && [[ -e /home/$USER/.linuxbrew ]]; then
     (
-      eval "$(export HOMEBREW_PREFIX='/home/e109082/.linuxbrew')"
-      export HOMEBREW_CELLAR="/home/e109082/.linuxbrew/Cellar";
-      export HOMEBREW_REPOSITORY="/home/e109082/.linuxbrew/Homebrew";
-      export PATH="/home/e109082/.linuxbrew/bin:/home/e109082/.linuxbrew/sbin${PATH+:$PATH}";
-      export MANPATH="/home/e109082/.linuxbrew/share/man${MANPATH+:$MANPATH}:";
-      export INFOPATH="/home/e109082/.linuxbrew/share/info:${INFOPATH:-}";
+      eval "$(export HOMEBREW_PREFIX='/home/$USER/.linuxbrew')"
+      export HOMEBREW_CELLAR="/home/$USER/.linuxbrew/Cellar";
+      export HOMEBREW_REPOSITORY="/home/$USER/.linuxbrew/Homebrew";
+      export PATH="/home/$USER/.linuxbrew/bin:/home/$USER/.linuxbrew/sbin${PATH+:$PATH}";
+      export MANPATH="/home/$USER/.linuxbrew/share/man${MANPATH+:$MANPATH}:";
+      export INFOPATH="/home/$USER/.linuxbrew/share/info:${INFOPATH:-}";
     ) || echo "--- Homebrew unavailable"
   fi
 fi
-
-
-

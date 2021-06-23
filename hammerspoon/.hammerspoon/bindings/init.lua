@@ -1,4 +1,4 @@
-local cache  = {}
+local cache = {}
 local module = { cache = cache }
 
 -- modifiers in use:
@@ -7,16 +7,20 @@ local module = { cache = cache }
 -- * ultra: custom/global bindings
 
 module.start = function()
-  hs.fnutils.each(bindings.enabled, function(binding)
-    cache[binding] = require('bindings.' .. binding)
-    cache[binding].start()
-  end)
+    hs.fnutils.each(bindings.enabled,
+                    function(binding)
+        cache[binding] = require(
+                             'bindings.'
+                                 .. binding)
+        cache[binding].start()
+    end)
 end
 
 module.stop = function()
-  hs.fnutils.each(cache, function(binding)
-    binding.stop()
-  end)
+    hs.fnutils.each(cache,
+                    function(binding)
+        binding.stop()
+    end)
 end
 
 return module

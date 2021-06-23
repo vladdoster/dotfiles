@@ -1,0 +1,67 @@
+name: "format"
+
+on:
+  push:
+    branches: [mac-os]
+  pull_request:
+    branches: [mac-os]
+
+jobs:
+
+  linting:
+    name: Format files
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Resolve dependencies
+        run: |
+          # golang 
+          sudo snap install go --classic
+          # luarocks
+          sudo apt install lua5.3 liblua5.3-dev docker -y
+          git clone https://github.com/luarocks/luarocks
+          cd luarocks
+          ./configure && make && sudo make install
+          luarocks --version
+
+      - name: Install formatters
+        run: |
+          sudo luarocks install --server=https://luarocks.org/dev luaformatter
+          GO111MODULE=on go get mvdan.cc/sh/v3/cmd/shfmt
+          sudo GO111MODULE=on go get mvdan.cc/sh/v3/cmd/shfmt
+          python3 -m pip install --user black mdformat
+          exec $SHELL
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+        
+      - name: shell
+        run: >
+           #find . -name '*.sh' -print0
+           #| xargs -0 shfmt -bn -ci -i 4 -ln=bash -s -sr -w
+           docker run --rm -v $PWD:/mnt -w /mnt my:tag -bn -ci -i 4 -ln=bash -s -sr -w
+
+                     
+      - name: markdown
+        run: >
+          find . -name '*.md' -print0
+          | xargs -0 mdformat
+      
+      - name: lua
+        run: >
+          find . -name '*.lua' -print0
+          | xargs -0 lua-format --config=.lua-format -i
+          
+      - name: python
+        run: >
+          find . -name '*.py' -print0
+          | xargs -0 black
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: (linting) formatting
+          commit_options: "--cleanup=default --no-verify --signoff"
+          skip_dirty_check: false
