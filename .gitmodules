@@ -7,9 +7,9 @@
 [submodule "share/.local/share/ohmyzsh"]
 	path = share/.local/share/ohmyzsh
 	url = https://github.com/vladdoster/ohmyzsh
-[submodule "share/.local/share/osx-setup"]
-	path = share/.local/share/osx-setup
-	url = https://github.com/vladdoster/osx-setup.git
 [submodule "share/.local/share/vim-wiki"]
 	path = share/.local/share/vim-wiki
 	url = https://github.com/vladdoster/vim-wiki.git
+[submodule "osx-setup"]
+	path = share/.local/share/osx-setup
+	url = https://github.com/vladdoster/osx-setup.git

@@ -25,10 +25,11 @@ ZSH_THEME="ys"
 plugins=( \
   brew \
   docker \
-  git \
-  pip \
-  python \
-  vi-mode
+  git gnu-utils \
+  pip profiles python \
+  sudo \
+  vi-mode \
+  zsh_reload
 )
 source "$OHMYZSH/oh-my-zsh.sh"
 source <(find "$ZDOTDIR"/zshrc.d/* -maxdepth 1 -type f -exec cat {} \;)
@@ -48,15 +49,15 @@ source <(find "$ZDOTDIR"/zshrc.d/* -maxdepth 1 -type f -exec cat {} \;)
 # gpgconf --launch gpg-agent
 
 #- AUTO-START TMUX -------------------------------------
-_ssh_tmux(){
-        echo "--- SSH detected, starting TMUX"        
-        [ -z "$TMUX"  ] && { tmux attach || tmux new-session;}
+ssh_tmux(){
+    echo "--- SSH detected, starting TMUX"        
+    [ -z "$TMUX"  ] && { tmux attach || tmux new-session;}
 }
 
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-  _ssh_tmux
+  ssh_tmux
 else
   case $(ps -o comm= -p $PPID) in
-    sshd|*/sshd) _ssh_tmux;;
+    sshd|*/sshd) ssh_tmux;;
   esac
 fi
