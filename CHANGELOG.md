@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.2.86](https://github.com/vladdoster/dotfiles/compare/v0.2.85...v0.2.86) (2021-06-23)
+
+- sdasd [`ce21ca9`](https://github.com/vladdoster/dotfiles/commit/ce21ca99b6d41188a5bee99060f6191629a87222)
+- (linting) formatting [`3a28321`](https://github.com/vladdoster/dotfiles/commit/3a283213fa1847052831406b102b2155d5547365)
+- (maint) remove macOS-set submodule [`3f294cb`](https://github.com/vladdoster/dotfiles/commit/3f294cb3b87226ee007be397330706b53036605a)
+- chore: release v0.2.86 [`80b7c4b`](https://github.com/vladdoster/dotfiles/commit/80b7c4b6ef3eee72b702c86c5f27ce10eecd0ad0)
+- (maint) add osx-setup submodule [`bc80aa9`](https://github.com/vladdoster/dotfiles/commit/bc80aa90d3220538a74115dfcb97998ae73f2148)
+
 ## [v0.2.85](https://github.com/vladdoster/dotfiles/compare/v0.2.84...v0.2.85) (2021-06-23)
 
 - (maint) add undocumented hammerspoon spoons to git submodules [`a4a4b5b`](https://github.com/vladdoster/dotfiles/commit/a4a4b5b669d2882ebb520fda41bad060dd7fc97f)
