@@ -89,3 +89,4 @@ if ! command -v brew &> /dev/null; then
     ) || echo "--- Homebrew unavailable"
   fi
 fi
+. "$HOME/.cargo/env"

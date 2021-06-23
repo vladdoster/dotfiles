@@ -50,7 +50,7 @@ source <(find "$ZDOTDIR"/zshrc.d/* -maxdepth 1 -type f -exec cat {} \;)
 #- AUTO-START TMUX -------------------------------------
 _ssh_tmux(){
         echo "--- SSH detected, starting TMUX"        
-        [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session;}
+        [ -z "$TMUX"  ] && { tmux attach || tmux new-session;}
 }
 
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then

@@ -10,7 +10,9 @@ error() {
 echo "--- Installing EPEL repository"
 sudo yum install epel-release -y
 echo "--- Installing city-fan repository"
-sudo rpm -Uvh http://www.city-fan.org/ftp/contrib/yum-repo/rhel6/x86_64/city-fan.org-release-1-13.rhel6.noarch.rpm
+sudo rpm -Uvh http://www.city-fan.org/ftp/contrib/yum-repo/city-fan.org-release-2-1.rhel7.noarch.rpm || true
+sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm || true
+sudo yum -y --enablerepo=city-fan.org install curl
 echo "--- Updating cURL"
 sudo yum update curl
 echo "--- Refreshing CentOS7 repositories"
