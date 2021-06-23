@@ -48,16 +48,15 @@ source <(find "$ZDOTDIR"/zshrc.d/* -maxdepth 1 -type f -exec cat {} \;)
 # gpgconf --launch gpg-agent
 
 #- AUTO-START TMUX -------------------------------------
-[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session;}
+_ssh_tmux(){
+        echo "--- SSH detected, starting TMUX"        
+        [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session;}
+}
 
-# if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-#   tmux a -t default || exec tmux new -s default && exit;
-# fi
-
-# if [[ -z "$TMUX" ]]; then
-#     if tmux has-session 2>/dev/null; then
-#         exec tmux attach
-#     else
-#         exec tmux
-#     fi
-# fi
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+  _ssh_tmux
+else
+  case $(ps -o comm= -p $PPID) in
+    sshd|*/sshd) _ssh_tmux;;
+  esac
+fi
