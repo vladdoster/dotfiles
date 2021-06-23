@@ -1,12 +1,15 @@
-[submodule "share/.local/share/ohmyzsh"]
-	path = share/.local/share/ohmyzsh
-	url = https://github.com/vladdoster/ohmyzsh
-[submodule "share/.local/share/vim-wiki"]
-	path = share/.local/share/vim-wiki
-	url = https://github.com/vladdoster/vim-wiki.git
+[submodule "share/.local/share/hammerspoon_asm.undocumented"]
+	path = share/.local/share/hammerspoon_asm.undocumented
+	url = https://github.com/vladdoster/hammerspoon_asm.undocumented.git
 [submodule "share/.local/share/linuxify"]
 	path = share/.local/share/linuxify
 	url = https://github.com/vladdoster/linuxify
-[submodule "share/.local/share/macOS-setup"]
-	path = share/.local/share/macOS-setup
-	url = https://github.com/vladdoster/macOS-setup.git
+[submodule "share/.local/share/ohmyzsh"]
+	path = share/.local/share/ohmyzsh
+	url = https://github.com/vladdoster/ohmyzsh
+[submodule "share/.local/share/osx-setup"]
+	path = share/.local/share/osx-setup
+	url = https://github.com/vladdoster/osx-setup.git
+[submodule "share/.local/share/vim-wiki"]
+	path = share/.local/share/vim-wiki
+	url = https://github.com/vladdoster/vim-wiki.git
