@@ -1,8 +1,15 @@
-.SILENT:
-SHELL := bash
 .ONESHELL:
+.PHONY : --restow --simulate --delete list run build
+.SILENT:
+
 MAKEFLAGS += --no-builtin-rules
-.PHONY : --restow --simulate --delete list
+SHELL := bash
+
+current_dir=$(shell pwd)
+PERSISTENT_PATH=$(current_dir)/persistent
+PERSISTENT_DIR=persistent
+SSH_DIR=~/.ssh
+USERNAME=$(shell whoami)
 
 define run-stow
 	find * -not -path '*/\.*' -type d -exec stow --verbose 1 {} --override=#\*\# --target="$$HOME" \;
@@ -49,9 +56,6 @@ clean : --delete
 	echo "--- Removed Git submodules"
 	echo "--- Successfully cleaned previous dotfiles installations on $$HOSTNAME" 
 
-update-git:
-	
-
 test : --simulate
 	echo "--- DRYRUN: No changes will be made to current environment"
 	$(run-stow)
@@ -59,3 +63,9 @@ test : --simulate
 deps:
 	echo "--- Installing python3 pkgs"
 	pip3 install --trusted-host pypi.org --trusted-host files.pythonhosted.org ranger-fm pynvim
+
+run:
+	docker run --rm -it -v $(SSH_DIR):/home/$(USERNAME)/.ssh -v $(PERSISTENT_PATH):/home/$(USERNAME)/$(PERSISTENT_DIR)/ cloud-dev:latest
+
+build:
+	docker build . -t cloud-dev:latest --build-arg username=$(USERNAME)
