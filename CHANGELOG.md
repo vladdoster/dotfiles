@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.2.87](https://github.com/vladdoster/dotfiles/compare/v0.2.86...v0.2.87) (2021-06-23)
+
+- chore: release v0.2.87 [`bfd30bf`](https://github.com/vladdoster/dotfiles/commit/bfd30bfe6744fba0eedfc0463b3c4a3375d95a83)
+
 ## [v0.2.86](https://github.com/vladdoster/dotfiles/compare/v0.2.85...v0.2.86) (2021-06-23)
 
 - sdasd [`ce21ca9`](https://github.com/vladdoster/dotfiles/commit/ce21ca99b6d41188a5bee99060f6191629a87222)
@@ -538,8 +542,8 @@
 - Update aliases.zsh [`d2261b9`](https://github.com/vladdoster/dotfiles/commit/d2261b926e7a509dcdfa22a90151d57168e64d6d)
 - (update) add shortcut files used in arch [`7ead014`](https://github.com/vladdoster/dotfiles/commit/7ead014ed0720593d11a5f85b461e5c31d762b19)
 - Update .zprofile [`97307f7`](https://github.com/vladdoster/dotfiles/commit/97307f7299d74160778d23cdf0982951f4eb2dc9)
-- Delete .\_functionrc [`d414979`](https://github.com/vladdoster/dotfiles/commit/d4149795deb7bb0d9b244b7af8f1d04194b1ace0)
-- Delete .\_fzfrc [`229359f`](https://github.com/vladdoster/dotfiles/commit/229359f7edc151bae99f56b3bf84c51872ea563b)
+- Delete ._functionrc [`d414979`](https://github.com/vladdoster/dotfiles/commit/d4149795deb7bb0d9b244b7af8f1d04194b1ace0)
+- Delete ._fzfrc [`229359f`](https://github.com/vladdoster/dotfiles/commit/229359f7edc151bae99f56b3bf84c51872ea563b)
 - (fix) broken zsh init [`95ce2d1`](https://github.com/vladdoster/dotfiles/commit/95ce2d157f21e18e666b01e0bca2f2b1f79b3c4c)
 - (update) start merge of arch linux dotfiles [`77a6a64`](https://github.com/vladdoster/dotfiles/commit/77a6a6424db49d122ea5f6d1570b4bdf41b45a84)
 - (feature) update Arch linux release workflow [`b0330f8`](https://github.com/vladdoster/dotfiles/commit/b0330f89371b9265eea3c223b8761a198eb23762)
@@ -549,7 +553,7 @@
 - (feature) add basic smoke test github action [`43df417`](https://github.com/vladdoster/dotfiles/commit/43df417ddc6ce857830a9289e0a4b1710d93e2ae)
 - (debug) deubgging [`639db8c`](https://github.com/vladdoster/dotfiles/commit/639db8c5659c733aacfa5f50a6e6c27c45e609a5)
 - (debug) wat a hak [`a5e9276`](https://github.com/vladdoster/dotfiles/commit/a5e92768b23a2b6072d5cb000acc2b169259fcf4)
-- Delete .\_aliasrc [`f9ad588`](https://github.com/vladdoster/dotfiles/commit/f9ad58877e99cce97d14b6ab45fe6b044a14a7a5)
+- Delete ._aliasrc [`f9ad588`](https://github.com/vladdoster/dotfiles/commit/f9ad58877e99cce97d14b6ab45fe6b044a14a7a5)
 - (fix) install yay [`1e1a3b8`](https://github.com/vladdoster/dotfiles/commit/1e1a3b8ce3967f6c570b9a7d7292f9e23473c946)
 - (maint) rename gh actions yaml [`5f42e21`](https://github.com/vladdoster/dotfiles/commit/5f42e215b99dab8a0e092d8c5a7d51db980cfe65)
 - (debug) yay installed, now rest of pipeline [`70b8aa4`](https://github.com/vladdoster/dotfiles/commit/70b8aa46ae0754f1e1b9f11b496ef0992354c13b)
