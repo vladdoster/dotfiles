@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 #- GENERAL -------------------------------------------
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
@@ -80,7 +81,7 @@ fi
 if ! command -v brew &> /dev/null; then
   if [[ -e /opt/homebrew/bin/brew ]]; then
       eval "$(/opt/homebrew/bin/brew shellenv)" || echo "--- Homebrew unavailable"
-  elif [[ $OSTYPE =~ "linux" ]] && [[ -e /home/$USER/.linuxbrew ]]; then
+  elif [[ -e $HOMW/.linuxbrew ]]; then
     (
       eval "$(export HOMEBREW_PREFIX='/home/$USER/.linuxbrew')"
       export HOMEBREW_CELLAR="/home/$USER/.linuxbrew/Cellar";
