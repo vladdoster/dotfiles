@@ -1,63 +1,50 @@
-FROM debian:stretch-slim
+FROM archlinux:latest
 
 MAINTAINER Vlad Doster <me@$username.com>
 
 ARG username
 
-# System setup
-
+#- DEPENDENCIES ----------------------------------
 RUN \
-  apt-get update && \
-  apt-get -y upgrade && \
-  apt-get clean && \
-  apt-get -y install curl
+  pacman -Syyu --noconfirm && \
+  pacman --needed --noconfirm --sync \
+    base-devel \
+    git \
+    zsh
 
-RUN \
-  apt-get -y install tmux && \
-  apt-get -y install git && \
-  apt-get -y install neovim && \
-  apt-get -y install locales && \
-  apt-get -y install zsh && \
-  apt-get -y install stow && \
-  apt-get -y install make
-
-# locale
-
+#- LOCALE -----------------------------------------
 RUN \
   echo "LC_ALL=en_US.UTF-8" >> /etc/environment && \
   echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
   echo "LANG=en_US.UTF-8" > /etc/locale.conf && \
   locale-gen en_US.UTF-8
 
-# Create the user and copy over files
+# USER RELATED -----------------------------------
+USER root
+WORKDIR /home/$username
 
-RUN useradd -ms /bin/zsh $username
-RUN chown -R $username:$username /home/$username
-
-# SSH keys, credentials, persistent directory TBD at container run time
+RUN useradd --create-home --user-group $username && \
+    usermod -aG wheel $username && \
+    chsh --shell /usr/bin/zsh $username && \
+    echo "%wheel ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    newgrp wheel
 
 VOLUME /home/$username/.ssh
 VOLUME /home/$username/.credentials/
 VOLUME /home/$username/persistent/
 
-COPY . /home/$username/dotfiles/
+COPY . /home/$username/.config/dotfiles
 
-# Install oh-my-zsh and vim plug
-
-USER $username
-WORKDIR /home/$username/dotfiles
-
-# Override the .zshrc that oh-my-zsh gives us in favor of our own
-# make stow will link everthing in dotfiles/
-
-RUN make stow
-
-# Change the shell to zsh
-
-USER root
-RUN chsh -s /usr/bin/zsh $username
+WORKDIR /home/$username/.config/dotfiles
+RUN chown --recursive $username:$username /home/$username
 
 USER $username
 WORKDIR /home/$username
+RUN \
+  cd /tmp && \
+  git clone https://aur.archlinux.org/yay-git.git && \
+  cd yay-git && \
+  yes | makepkg -si && \
+  yay
 
 CMD ["zsh"]
