@@ -76,6 +76,7 @@ alias scratchpad='$EDITOR $(mktemp -t scratch.XXX.md)'
 alias generate-passwd="openssl rand -base64 24"
 alias get-my-ip="curl ifconfig.co"
 alias reload-sh='exec $SHELL'
+alias ssh="kitty +kitten ssh"
 #- PYTHON ----------------------------------------
 alias start-http_server="python2 -m SimpleHTTPServer"
 alias venv-activate="source ./.venv/bin/activate"

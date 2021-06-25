@@ -62,10 +62,10 @@ test : --simulate
 
 deps:
 	echo "--- Installing python3 pkgs"
-	pip3 install --trusted-host pypi.org --trusted-host files.pythonhosted.org ranger-fm pynvim
+	pip3 install --user --trusted-host pypi.org --trusted-host files.pythonhosted.org ranger-fm pynvim
 
 run:
-	docker run --rm -it -v $(SSH_DIR):/home/$(USERNAME)/.ssh -v $(PERSISTENT_PATH):/home/$(USERNAME)/$(PERSISTENT_DIR)/ cloud-dev:latest
+	sudo docker run --rm -it -v $(SSH_DIR):/home/$(USERNAME)/.ssh -v $(PERSISTENT_PATH):/home/$(USERNAME)/$(PERSISTENT_DIR)/ cloud-dev:latest
 
 build:
 	docker build . -t cloud-dev:latest --build-arg username=$(USERNAME)

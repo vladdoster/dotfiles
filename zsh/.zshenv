@@ -1,5 +1,7 @@
 #- GENERAL -------------------------------------------
-export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+export LC_NUMERIC="en_US.UTF-8"
 #- XDG DIRS ------------------------------------------
 export XDG_DESKTOP_DIR="$HOME"/Desktop
 export XDG_DOCUMENTS_DIR="$HOME"/Documents
@@ -89,4 +91,3 @@ if ! command -v brew &> /dev/null; then
     ) || echo "--- Homebrew unavailable"
   fi
 fi
-. "$HOME/.cargo/env"
