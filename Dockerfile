@@ -7,10 +7,9 @@ ARG username
 #- DEPENDENCIES ----------------------------------
 RUN \
   pacman -Syyu --noconfirm && \
-  pacman --needed --noconfirm --sync \
+  pacman -S --needed --noconfirm \
     base-devel \
-    git \
-    zsh
+    git
 
 #- LOCALE -----------------------------------------
 RUN \
@@ -25,7 +24,6 @@ WORKDIR /home/$username
 
 RUN useradd --create-home --user-group $username && \
     usermod -aG wheel $username && \
-    chsh --shell /usr/bin/zsh $username && \
     echo "%wheel ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
     newgrp wheel
 
@@ -40,11 +38,23 @@ RUN chown --recursive $username:$username /home/$username
 
 USER $username
 WORKDIR /home/$username
+
 RUN \
-  cd /tmp && \
-  git clone https://aur.archlinux.org/yay-git.git && \
-  cd yay-git && \
-  yes | makepkg -si && \
-  yay
+  git clone https://aur.archlinux.org/yay-git.git /tmp/yay-git && \
+  cd /tmp/yay-git && \
+  yes 'Y' | makepkg -si
+
+RUN \
+  yes 'Y' | yay && \
+  yes 'Y' | yay -S --noconfirm \
+    neovim-git \
+    pod2man \
+    python \
+    python-pip \
+    stow-git \
+    tmux-git \
+    topgrade \
+    zsh-git && \
+    chsh --shell /usr/bin/zsh $username
 
 CMD ["zsh"]
