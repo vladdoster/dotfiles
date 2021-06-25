@@ -33,6 +33,9 @@ plugins=( \
 )
 source "$OHMYZSH/oh-my-zsh.sh"
 source <(find "$ZDOTDIR"/zshrc.d/* -maxdepth 1 -type f -exec cat {} \;)
+if source $HOME/.cargo/env; then
+  echo "--- Rust env activated"
+fi
 
 #- AUTO-START GPG --------------------------------------
 # on OS X with GPGTools, comment out the next line:
