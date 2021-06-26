@@ -11,22 +11,18 @@ PERSISTENT_DIR=persistent
 SSH_DIR=~/.ssh
 USERNAME=$(shell whoami)
 
-define run-stow
-	find * -not -path '*/\.*' -type d -exec stow --verbose 1 {} --override=#\*\# --target="$$HOME" \;
-endef
-
-define remove-git-submodules
-	echo "--- Removing initialized Git submodules"
-	(git submodule deinit --all --force || git submodule deinit --force .) 2>/dev/null \
-		|| (echo "--- ERROR: Unable to remove Git submodules" && exit 1)
-endef
-
 define install-packer
 	if [ ! -d ~/.local/share/nvim/site/pack/packer ]; then
-	  echo "--- Installing packer"
+	  echo "--- Cleaning Packer directory"
+	  rm -rf ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+	  echo "--- Installing Packer"
 	  git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-	  echo "--- Installed packer"
+	  echo "--- Installed Packer"
 	fi
+endef
+
+define run-stow
+	find * -not -path '*/\.*' -type d -exec stow --verbose 1 {} --override=#\*\# --target="$$HOME" \;
 endef
 
 list:
@@ -39,13 +35,9 @@ install: clean deps
 	echo "--- Cloning git submodules"
 	git submodule update --init --recursive || (echo "--- Unable to initialize Git submodules" && exit 1)
 	echo "--- Cloned git submodules"
-	echo "--- Installing neovim dependencies and LSPs"
-	$(install-packer)
-	nvim -c +PackerInstall
-	echo "--- Installed neovim dependencies and LSPs"
-	echo "--- Successfully installed dotfiles on $$HOSTNAME" 
+	echo "--- Success: dotfiles installed on $$HOSTNAME" 
 
-clean : --delete
+clean: --delete
 	find "$$PWD" -type f -name "*.DS_Store" -ls -delete
 	echo "--- Removed .DS_Store files"
 	rm -rf "$$HOME"/.local/share/nvim "$$HOME/.config/nvim/plugin"
@@ -53,10 +45,11 @@ clean : --delete
 	find * -type d -not -path '*/\.*' -exec stow --target="$$HOME" --verbose 1 --delete {} \;	
 	echo "--- Removed dotfile softlinks"
 	$(remove-git-submodules)
+	(git submodule deinit --all --force) 2>/dev/null || (echo "--- ERROR: Unable to remove Git submodules" && exit 1)
 	echo "--- Removed Git submodules"
 	echo "--- Successfully cleaned previous dotfiles installations on $$HOSTNAME" 
 
-test : --simulate
+test: --simulate
 	echo "--- DRYRUN: No changes will be made to current environment"
 	$(run-stow)
 

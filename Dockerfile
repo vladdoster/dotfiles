@@ -1,60 +1,48 @@
-FROM archlinux:latest
+FROM ubuntu:20.04
 
 MAINTAINER Vlad Doster <me@$username.com>
 
+ARG DEBIAN_FRONTEND=noninteractive
 ARG username
 
 #- DEPENDENCIES ----------------------------------
-RUN \
-  pacman -Syyu --noconfirm && \
-  pacman -S --needed --noconfirm \
-    base-devel \
-    git
+RUN apt-get update -y && \
+    apt-get install --no-install-recommends -y \
+      cmake \
+      git \
+      make \
+      python3 python3-dev python3-pip \
+      stow \
+      sudo \
+      tmux \
+      zsh
 
 #- LOCALE -----------------------------------------
-RUN \
-  echo "LC_ALL=en_US.UTF-8" >> /etc/environment && \
-  echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
-  echo "LANG=en_US.UTF-8" > /etc/locale.conf && \
-  locale-gen en_US.UTF-8
+RUN apt-get install -y locales && \
+    rm -rf /var/lib/apt/lists/* && \
+    localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
-# USER RELATED -----------------------------------
+ENV LANG en_US.utf8
+
+# USER ENV ----------------------------------------
 USER root
-WORKDIR /home/$username
 
-RUN useradd --create-home --user-group $username && \
-    usermod -aG wheel $username && \
-    echo "%wheel ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
-    newgrp wheel
+RUN useradd --create-home --shell /bin/zsh $username
+RUN usermod -aG sudo $username
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN chown --recursive $username:$username /home/$username
 
 VOLUME /home/$username/.ssh
-VOLUME /home/$username/.credentials/
-VOLUME /home/$username/persistent/
+VOLUME /home/$username/.credentials
+VOLUME /home/$username/persistent
 
-COPY . /home/$username/.config/dotfiles
-
-WORKDIR /home/$username/.config/dotfiles
-RUN chown --recursive $username:$username /home/$username
+RUN chsh --shell /usr/bin/zsh $username \
+ && chown --recursive $username:$username /home/$username
 
 USER $username
 WORKDIR /home/$username
 
-RUN \
-  git clone https://aur.archlinux.org/yay-git.git /tmp/yay-git && \
-  cd /tmp/yay-git && \
-  yes 'Y' | makepkg -si
-
-RUN \
-  yes 'Y' | yay && \
-  yes 'Y' | yay -S --noconfirm \
-    neovim-git \
-    pod2man \
-    python \
-    python-pip \
-    stow-git \
-    tmux-git \
-    topgrade \
-    zsh-git && \
-    chsh --shell /usr/bin/zsh $username
+RUN git config --global http.sslverify "false" \
+ && git clone https://github.com/vladdoster/dotfiles.git .dotfiles 
 
 CMD ["zsh"]
