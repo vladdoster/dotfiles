@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.2.97](https://github.com/vladdoster/dotfiles/compare/v0.2.96...v0.2.97) (2021-06-26)
+
+- (feat) Docker env and Makefile [`d66d351`](https://github.com/vladdoster/dotfiles/commit/d66d351b0a29fb07f27e7538ef5f5bf9d183eb55)
+- (maint) update hammerspoon [`0dec815`](https://github.com/vladdoster/dotfiles/commit/0dec8151481d5836e2c4e1d1d7a31efb69735ab2)
+- chore: release v0.2.97 [`472f0ac`](https://github.com/vladdoster/dotfiles/commit/472f0ac972cd7c0c5e36bfed7fda426f426a3ab5)
+- (linting) formatting [`9da808e`](https://github.com/vladdoster/dotfiles/commit/9da808e3d0111bc9d6fb4e3161c88d18d7a44ade)
+
 ## [v0.2.96](https://github.com/vladdoster/dotfiles/compare/v0.2.95...v0.2.96) (2021-06-26)
 
 - chore: release v0.2.96 [`f3567ab`](https://github.com/vladdoster/dotfiles/commit/f3567ab29fa73368ddaa744464d4732fa668b7fd)
