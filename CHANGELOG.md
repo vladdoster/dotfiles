@@ -1,5 +1,113 @@
 # Changelog
 
+## [v0.2.94](https://github.com/vladdoster/dotfiles/compare/v0.2.93...v0.2.94) (2021-06-25)
+
+- chore: release v0.2.94 [`b184549`](https://github.com/vladdoster/dotfiles/commit/b184549038258a886a6870ff3f27f7fec10c11d9)
+- (linting) formatting [`6a004a9`](https://github.com/vladdoster/dotfiles/commit/6a004a99af5e8df112ff5edb33aba967287d3bae)
+- (maint) add lua 5.4.1 install script [`c5a2b82`](https://github.com/vladdoster/dotfiles/commit/c5a2b820369600645202a2b071843a27aa54c02c)
+- (maint) remove additional logic [`29dbf50`](https://github.com/vladdoster/dotfiles/commit/29dbf50439303c8a4e10a9c124fd22361efd9c6d)
+
+## [v0.2.93](https://github.com/vladdoster/dotfiles/compare/v0.2.92...v0.2.93) (2021-06-25)
+
+- (maint) Docker env updates [`5e4ce97`](https://github.com/vladdoster/dotfiles/commit/5e4ce97bcceee4a6d10277c127730441623d76e8)
+- chore: release v0.2.93 [`a7c4b6c`](https://github.com/vladdoster/dotfiles/commit/a7c4b6c5996ab72a2a6f11da15dce4281051c33f)
+- (linting) formatting [`7cb2d09`](https://github.com/vladdoster/dotfiles/commit/7cb2d096b37fe8bdbeec29714990bb8f32ed5c0b)
+
+## [v0.2.92](https://github.com/vladdoster/dotfiles/compare/v0.2.91...v0.2.92) (2021-06-25)
+
+- chore: release v0.2.92 [`1b13fab`](https://github.com/vladdoster/dotfiles/commit/1b13fab1aea219df0940071e369f24774f09d343)
+- (linting) formatting [`800f9bb`](https://github.com/vladdoster/dotfiles/commit/800f9bb92d7c9cfb8421972130bd6f23edc02d00)
+- (maint) Add mc-utils.sh alias [`6f4dc66`](https://github.com/vladdoster/dotfiles/commit/6f4dc66f247d0f272d5b94bbe39690cad46c9e8e)
+
+## [v0.2.91](https://github.com/vladdoster/dotfiles/compare/v0.2.90...v0.2.91) (2021-06-25)
+
+- (feat) Plethora of new install scripts [`c8bcd12`](https://github.com/vladdoster/dotfiles/commit/c8bcd128df3d65f397cc0a78436b2d1585d21b43)
+- chore: release v0.2.91 [`562b41d`](https://github.com/vladdoster/dotfiles/commit/562b41d5f17bd3d37dff14a4576b907d8fc161ac)
+- (linting) formatting [`0a16e62`](https://github.com/vladdoster/dotfiles/commit/0a16e620f50afa244ef0fe83f94d300aa6a5653e)
+
+## [v0.2.90](https://github.com/vladdoster/dotfiles/compare/v0.2.89...v0.2.90) (2021-06-25)
+
+- chore: release v0.2.90 [`f21dc87`](https://github.com/vladdoster/dotfiles/commit/f21dc87c4d4f22b161d5ecad6414ab12e0f64999)
+- (maint) update config for remote ssh sessions [`0f218a7`](https://github.com/vladdoster/dotfiles/commit/0f218a7ee909fc947120a221f160d842b8661826)
+- (linting) formatting [`d545eb9`](https://github.com/vladdoster/dotfiles/commit/d545eb95fe740d01ec3faf89a2c4612fdd35417d)
+
+## [v0.2.89](https://github.com/vladdoster/dotfiles/compare/v0.2.88...v0.2.89) (2021-06-25)
+
+- (Maint) add ability to run within docker container [`27f6023`](https://github.com/vladdoster/dotfiles/commit/27f60238a38423e0411c2782c97e95542eb0d0a0)
+- chore: release v0.2.89 [`9642c32`](https://github.com/vladdoster/dotfiles/commit/9642c3286547a661ec459289cf7bd1c9197d19e6)
+- (linting) formatting [`ff30e06`](https://github.com/vladdoster/dotfiles/commit/ff30e0636493057f2624f50ec5cbff8f316ca646)
+
+## [v0.2.88](https://github.com/vladdoster/dotfiles/compare/v0.2.87...v0.2.88) (2021-06-24)
+
+- (maint) multi-threaded make compilation [`1b1cef9`](https://github.com/vladdoster/dotfiles/commit/1b1cef97b724b1eae587709caed9fb43eee41670)
+- chore: release v0.2.88 [`f8b6755`](https://github.com/vladdoster/dotfiles/commit/f8b6755e771e56091fb488b0a036e8bf2e88a8aa)
+- (linting) formatting [`2ba9c64`](https://github.com/vladdoster/dotfiles/commit/2ba9c6481b809a466c01f6b16a2059043b22e4c6)
+
+## [v0.2.87](https://github.com/vladdoster/dotfiles/compare/v0.2.86...v0.2.87) (2021-06-23)
+
+- chore: release v0.2.87 [`bfd30bf`](https://github.com/vladdoster/dotfiles/commit/bfd30bfe6744fba0eedfc0463b3c4a3375d95a83)
+
+## [v0.2.86](https://github.com/vladdoster/dotfiles/compare/v0.2.85...v0.2.86) (2021-06-23)
+
+- sdasd [`ce21ca9`](https://github.com/vladdoster/dotfiles/commit/ce21ca99b6d41188a5bee99060f6191629a87222)
+- (linting) formatting [`3a28321`](https://github.com/vladdoster/dotfiles/commit/3a283213fa1847052831406b102b2155d5547365)
+- (maint) remove macOS-set submodule [`3f294cb`](https://github.com/vladdoster/dotfiles/commit/3f294cb3b87226ee007be397330706b53036605a)
+- chore: release v0.2.86 [`80b7c4b`](https://github.com/vladdoster/dotfiles/commit/80b7c4b6ef3eee72b702c86c5f27ce10eecd0ad0)
+- (maint) add osx-setup submodule [`bc80aa9`](https://github.com/vladdoster/dotfiles/commit/bc80aa90d3220538a74115dfcb97998ae73f2148)
+
+## [v0.2.85](https://github.com/vladdoster/dotfiles/compare/v0.2.84...v0.2.85) (2021-06-23)
+
+- (maint) add undocumented hammerspoon spoons to git submodules [`a4a4b5b`](https://github.com/vladdoster/dotfiles/commit/a4a4b5b669d2882ebb520fda41bad060dd7fc97f)
+- chore: release v0.2.85 [`833016a`](https://github.com/vladdoster/dotfiles/commit/833016a0721ce9fabc9a26ac3e7d7c5ff491c973)
+- (linting) formatting [`49bf344`](https://github.com/vladdoster/dotfiles/commit/49bf344aa75859d4623a61467532a127ff767fa4)
+
+## [v0.2.84](https://github.com/vladdoster/dotfiles/compare/v0.2.83...v0.2.84) (2021-06-23)
+
+- (maint) add GNU auto-tools install scripts [`9d333af`](https://github.com/vladdoster/dotfiles/commit/9d333afda3ac1c65b9a85dbd48e564b256c816f7)
+- chore: release v0.2.84 [`fd6b8ba`](https://github.com/vladdoster/dotfiles/commit/fd6b8bab2f015480da7ed43222c4d2441a3f3774)
+- (linting) formatting [`d4d1bca`](https://github.com/vladdoster/dotfiles/commit/d4d1bca794b78b9b9705c689cb65c3736c98bce2)
+- (maint) add .zprofile [`28c6ff6`](https://github.com/vladdoster/dotfiles/commit/28c6ff6d4abaafffde886da5916c9ee38d8d4ef6)
+
+## [v0.2.83](https://github.com/vladdoster/dotfiles/compare/v0.2.82...v0.2.83) (2021-06-23)
+
+- chore: release v0.2.83 [`75bf1c3`](https://github.com/vladdoster/dotfiles/commit/75bf1c30090c026b0cd31384f17b24f2b697aa2d)
+- (linting) formatting [`692dcec`](https://github.com/vladdoster/dotfiles/commit/692dcec8633f93b9eb510ec32c02371f4dbec81b)
+- (maint) make tmux use $SHELL env var [`f7b4a09`](https://github.com/vladdoster/dotfiles/commit/f7b4a09c06cad3a2dd8c8fea161ebcf1e37e4743)
+
+## [v0.2.82](https://github.com/vladdoster/dotfiles/compare/v0.2.81...v0.2.82) (2021-06-23)
+
+- (maint) only start tmux  if in SSH [`7efa0cf`](https://github.com/vladdoster/dotfiles/commit/7efa0cf2b22ef9680eb329cdd688435676f42f88)
+- chore: release v0.2.82 [`482914c`](https://github.com/vladdoster/dotfiles/commit/482914c0f2fb105e8d28bd504b29770616278a5f)
+- (linting) formatting [`b332d93`](https://github.com/vladdoster/dotfiles/commit/b332d93995c6e79c229d4dba143cd93fec966fe1)
+
+## [v0.2.81](https://github.com/vladdoster/dotfiles/compare/v0.2.80...v0.2.81) (2021-06-23)
+
+- (maint) Update zshenv logic [`e3aa411`](https://github.com/vladdoster/dotfiles/commit/e3aa4113aafc4e5e8d39dda2bf6e47a07a9b77e4)
+- (maint) add install scripts for git, neovim, brew, and tmux [`8b2f285`](https://github.com/vladdoster/dotfiles/commit/8b2f2850648678055a7aa6b2c72879ae837ae0da)
+- (maint) clean up zshenv logic [`1809549`](https://github.com/vladdoster/dotfiles/commit/180954940cf21d93b1e0897a5102e7ab49a6d79d)
+- (maint) install linuxbrew && install latest git (2.95.0) [`0fca5a6`](https://github.com/vladdoster/dotfiles/commit/0fca5a6999407f1f8127a8a563a217cd5ad09c61)
+- chore: release v0.2.81 [`4a96bba`](https://github.com/vladdoster/dotfiles/commit/4a96bba68e4fe50b133b1cd5aea623faa82753e1)
+- (linting) formatting [`878cf6e`](https://github.com/vladdoster/dotfiles/commit/878cf6ec991ac40fc86e906cd4cdd00c32f4919e)
+
+## [v0.2.80](https://github.com/vladdoster/dotfiles/compare/v0.2.79...v0.2.80) (2021-06-22)
+
+- Update README.md [`cacd709`](https://github.com/vladdoster/dotfiles/commit/cacd709cfc2e0acd63f56d2a400f7451962a149a)
+- chore: release v0.2.80 [`4537d81`](https://github.com/vladdoster/dotfiles/commit/4537d81d6d95ad34e8a81332874b152cf19307dd)
+- (linting) formatting [`b7af030`](https://github.com/vladdoster/dotfiles/commit/b7af030f52345d88f30ab6f83dd58f00ca97c35a)
+
+## [v0.2.79](https://github.com/vladdoster/dotfiles/compare/v0.2.78...v0.2.79) (2021-06-21)
+
+- (maint) installer script updates [`ae728d0`](https://github.com/vladdoster/dotfiles/commit/ae728d0ab8c99bd5bc3767b9454b641cd693a142)
+- chore: release v0.2.79 [`b4abac3`](https://github.com/vladdoster/dotfiles/commit/b4abac30bac9b22a762249423860b673a12acd2b)
+- (linting) formatting [`4bf9dea`](https://github.com/vladdoster/dotfiles/commit/4bf9dea3f67b34b3b2e96bf69352f08dc841293a)
+- (maint) remove var quoting in apple-silicon-m1-rosetta.sh [`86faec2`](https://github.com/vladdoster/dotfiles/commit/86faec24f7859289b9c65776708987945ebaa2b5)
+
+## [v0.2.78](https://github.com/vladdoster/dotfiles/compare/v0.2.77...v0.2.78) (2021-06-21)
+
+- (maint) resolve merge conflicts [`dc525dc`](https://github.com/vladdoster/dotfiles/commit/dc525dc962c84473906c5f40c570610e82d62fd1)
+- chore: release v0.2.78 [`e9cb9e0`](https://github.com/vladdoster/dotfiles/commit/e9cb9e02af266aa2a0ac9afee53607687fdd31e1)
+- (linting) formatting [`fa9b9c2`](https://github.com/vladdoster/dotfiles/commit/fa9b9c26e289cf611dc81f6d2e716bca93a64fb9)
+
 ## [v0.2.77](https://github.com/vladdoster/dotfiles/compare/v0.2.76...v0.2.77) (2021-06-20)
 
 - (linting) formatting [`6aa128e`](https://github.com/vladdoster/dotfiles/commit/6aa128e1759c9df43692c50f2e7bd5fddc381067)

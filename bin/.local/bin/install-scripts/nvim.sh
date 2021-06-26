@@ -1,7 +1,6 @@
-#!/bin/bash
-#
-# Install neovim from source
+#!/usr/bin/env bash
 
+# the directory of the script
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # the temp directory used, within $DIR
@@ -10,40 +9,28 @@ WORK_DIR=$(mktemp -d)
 
 # check if tmp dir was created
 if [[ ! $WORK_DIR || ! -d $WORK_DIR ]]; then
-    echo "--- Failed to create temp dir"
+    echo "Could not create temp dir"
     exit 1
 fi
 
 # deletes the temp directory
 function cleanup {
-    sudo rm -rf "$WORK_DIR"
-    echo "--- Deleted temp working directory $WORK_DIR"
+    rm -rf "$WORK_DIR"
+    echo "Deleted temp working directory $WORK_DIR"
 }
 
 # register the cleanup function to be called on the EXIT signal
 trap cleanup EXIT
 
 # implementation of script starts here
-# --------------------------------------------
-PROGRAM="nvim"
-GIT_URL="https://github.com/neovim/neovim.git"
 
 pushd "$WORK_DIR"
-echo "--- Entered tmp work dir $PWD"
-echo "--- Cloning $PROGRAM"
-git clone "$GIT_URL" "$PROGRAM"
-cd "$PROGRAM"
-if [[ -e autogen.sh ]]; then
-    echo "--- Found autogen.sh, executing "
-    sh autogen.sh
-fi
-if [[ -e ./configure ]]; then
-    echo "--- Found configure, executing "
-    ./configure
-fi
-echo "--- Compiling $PROGRAM"
+echo "--- entered work dir $PWD"
+echo "--- cloning neovim"
+git clone https://github.com/neovim/neovim
+cd neovim
+echo "--- compiling neovim"
 make -j8 CMAKE_BUILD_TYPE=Release
-echo "--- Installing $PROGRAM"
+echo "--- installing neovim"
 sudo make install
 popd
-echo "--- Installed $PROGRAM"

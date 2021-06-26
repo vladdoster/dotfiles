@@ -2,27 +2,29 @@
 #
 # Collection of aliases to reduce key presses for common tasks
 #
-#- UTIL FUNCTIONS --------------------------------
-_go_to() {
-    cd "$1" && ls -al
-}
-_edit() {
-    "$EDITOR" "$1"
-}
 #- SYSTEM SPECIFIC -------------------------------
 if [[ $OSTYPE =~ "darwin" ]]; then
-    if command -v gls &> /dev/null; then
-        alias ll="gls"
-        alias ls='gls -AlhF --color=auto'
-        alias readlink="greadlink"
-    fi
+    alias readlink="greadlink"
     alias get-public-ssh-key='pbcopy -pboard general < $HOME/.ssh/id_rsa.pub \
                            && echo "--- Copied SSH key to clipboard"'
 else
-    alias ll="ls"
-    alias ls="ls -AlhF --color=auto"
     alias get-public-ssh-key='clip $HOME/.ssh/id_rsa.pub \
                            && echo "Copied SSH key to clipboard"'
+fi
+#- NAVIGATION ------------------------------------
+alias .....="_go_to ../../../.."
+alias ....="_go_to ../../.."
+alias ...="_go_to ../.."
+alias ..="_go_to .."
+if command -v exa &> /dev/null; then
+  alias ls="exa \
+    --colour-scale \
+    --group-directories-first \
+    --header \
+    --long \
+    --no-permissions \
+    --octal-permissions \
+    --time-style iso"
 fi
 #- FILE LOCATIONS --------------------------------
 alias cpv="rsync -ah --info=progress2"
@@ -38,17 +40,13 @@ alias v.='$EDITOR .'
 alias v='$EDITOR'
 alias vi='$EDITOR'
 alias vim='$EDITOR'
-#- NAVIGATION ------------------------------------
-alias .....="_go_to ../../../.."
-alias ....="_go_to ../../.."
-alias ...="_go_to ../.."
-alias ..="_go_to .."
 #- CONFIG SHORTCUTS ------------------------------
 alias e-aliases='_edit $ZDOTDIR/zshrc.d/aliases.sh'
 alias e-cli-commands='_edit $ZDOTDIR/zshrc.d/cli-commands.sh'
 alias e-git='_edit $XDG_CONFIG_HOME/git/config'
 alias e-hspoon='_edit $HOME/.hammerspoon/init.lua'
 alias e-hspoon='_edit $HOME/.hammerspoon/init.lua'
+alias e-mc-utils='_edit $ZDOTDIR/zshrc.d/mc-utils.sh'
 alias e-kitty='_edit $XDG_CONFIG_HOME/kitty/kitty.conf'
 alias e-tmux='_edit $XDG_CONFIG_HOME/tmux/tmux.conf'
 alias e-vimrc='_edit $XDG_CONFIG_HOME/nvim/init.lua'
@@ -79,6 +77,7 @@ alias scratchpad='$EDITOR $(mktemp -t scratch.XXX.md)'
 alias generate-passwd="openssl rand -base64 24"
 alias get-my-ip="curl ifconfig.co"
 alias reload-sh='exec $SHELL'
+alias ssh="kitty +kitten ssh"
 #- PYTHON ----------------------------------------
 alias start-http_server="python2 -m SimpleHTTPServer"
 alias venv-activate="source ./.venv/bin/activate"
@@ -117,3 +116,15 @@ alias fmt-lua="find . -name '*.lua' -print0 | xargs -0 lua-format --config=$HOME
 alias fmt-md="find . -name '*.md' -print0 | xargs -0 mdformat"
 alias fmt-py="find . -name '*.sh' -print0 | xargs -0 black"
 alias fmt-sh="find . -name '*.sh' -print0 | xargs -0 shfmt -bn -ci -i 4 -ln=bash -s -sr -w"
+#- SYS -------------------------------------------
+alias apt-sysupdate="sudo apt update && sudo apt upgrade -y"
+alias brew-sysupdate="brew update && brew upgrade"
+alias yum-sysupdate="sudo yum update && sudo yum upgrade -y"
+#- UTIL FUNCTIONS --------------------------------
+_go_to() {
+    cd "$1" && ls -al
+}
+_edit() {
+    "$EDITOR" "$1"
+}
+
