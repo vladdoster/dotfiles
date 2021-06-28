@@ -20,8 +20,7 @@ return packer.startup(
         -- Packer can manage itself as an optional plugin
         use 'wbthomason/packer.nvim'
         -- USER INTERFACE
-        use 'rktjmp/lush.nvim'
-        use 'npxbr/gruvbox.nvim'
+        use {"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
         use 'kyazdani42/nvim-web-devicons'
         use 'hoob3rt/lualine.nvim'
         use 'jose-elias-alvarez/buftabline.nvim'
