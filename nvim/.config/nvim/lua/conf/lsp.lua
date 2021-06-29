@@ -291,33 +291,26 @@ function M.config()
         vim.api.nvim_echo({ { 'LSP attached.' } }, false, {})
     end
 
-    -- define language servers
-    -- PYTHON
-    -- https://github.com/palantir/python-language-server
-    -- lspconfig.pyls.setup {
-    --     on_attach = on_attach,
-    --     cmd = {"pyls", "--log-file", "/tmp/pyls.log", "--verbose"},
-    --     settings = {
-    --         pyls = {
-    --             configurationSources = {"pycodestyle", "flake8"},
-    --             plugins = {
-    --                 yapf = {enabled = false},
-    --                 pylint = {enabled = false},
-    --                 pycodestyle = {enabled = false},
-    --                 pyflakes = {enabled = false},
-    --                 pydocstyle = {enabled = false},
-    --                 flake8 = {enabled = true},
-    --                 pyls_mypy = {enabled = true}
-    --             }
-    --         }
-    --     }
-    -- }
+    https://github.com/palantir/python-language-server
+    lspconfig.pyls.setup {
+        on_attach = on_attach,
+        cmd = {"pyls", "--log-file", "/tmp/pyls.log", "--verbose"},
+        settings = {
+            pyls = {
+                configurationSources = {"pycodestyle", "flake8"},
+                plugins = {
+                    yapf = {enabled = false},
+                    pylint = {enabled = false},
+                    pycodestyle = {enabled = false},
+                    pyflakes = {enabled = false},
+                    pydocstyle = {enabled = false},
+                    flake8 = {enabled = true},
+                    pyls_mypy = {enabled = true}
+                }
+            }
+        }
+    }
 
-    -- lspconfig.pyright.setup {
-    --     on_attach = on_attach,
-    --     capabilities = capabilities,
-    --     flags = {debounce_text_changes = 150}
-    -- }
 
     vim.cmd [[packadd pylance.nvim]]
     require 'pylance'

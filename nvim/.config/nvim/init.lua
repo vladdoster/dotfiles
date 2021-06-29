@@ -21,7 +21,6 @@ local use = packer.use
 
 packer.startup(function()
     use { 'wbthomason/packer.nvim', opt = true }
-    -- use 'jooize/vim-colemak' -- mapping for the colemak keyboard layout
     use {
         'disrupted/one-nvim', -- personal tweaked colorscheme
         config = function()
@@ -49,17 +48,6 @@ packer.startup(function()
             {
                 'nvim-treesitter/nvim-treesitter-textobjects',
                 after = 'nvim-treesitter',
-            },
-            {
-                'lewis6991/spellsitter.nvim',
-                after = 'nvim-treesitter',
-                config = function()
-                    require('spellsitter').setup {
-                        hl = 'SpellBad',
-                        captures = {},
-                    }
-                end,
-                disable = true, -- not working for now
             },
         },
         run = ':TSUpdate',
@@ -187,11 +175,6 @@ packer.startup(function()
         setup = require('conf.neogit').setup,
         config = require('conf.neogit').config,
     }
-    -- use {
-    --     'windwp/nvim-autopairs',
-    --     event = {'BufRead'},
-    --     config = function() require'nvim-autopairs'.setup() end
-    -- }
     use {
         'steelsojka/pears.nvim',
         event = { 'BufRead' },
@@ -227,13 +210,6 @@ packer.startup(function()
         event = { 'BufRead' },
         config = require('conf.indentline').config,
     }
-    use {
-        'disrupted/pylance.nvim',
-        run = 'bash ./install.sh',
-        opt = true,
-    }
-    use { 'simrat39/rust-tools.nvim', opt = true }
-    use { 'mfussenegger/nvim-jdtls', opt = true }
     use { 'zsugabubus/crazy8.nvim', event = { 'BufRead' } } -- detect indentation automatically
     use {
         'folke/trouble.nvim',
@@ -276,13 +252,6 @@ packer.startup(function()
     use { 'tversteeg/registers.nvim', opt = true }
     use { 'soywod/himalaya', opt = true, cmd = 'Himalaya' }
     use {
-        'folke/todo-comments.nvim',
-        cmd = { 'TodoQuickFix', 'TodoTrouble', 'TodoTelescope' },
-        config = function()
-            require('todo-comments').setup {}
-        end,
-    }
-    use {
         'famiu/bufdelete.nvim',
         cmd = { 'Bdelete', 'Bwipeout' },
         setup = require('conf.bufdelete').setup,
@@ -300,6 +269,7 @@ packer.startup(function()
         setup = require('conf.harpoon').setup,
         config = require('conf.harpoon').config,
     }
+    use { "terrortylor/nvim-comment" }
 end)
 
 local executable = function(e)
@@ -634,8 +604,8 @@ map('x', 'J', ':move \'>+1<CR>gv-gv')
 map('n', '<C-a>', '<esc>ggVG<CR>')
 
 -- sensible defaults
-map('', 'Y', 'y$') -- yank to end of line (for consistency)
-map('', 'Q', '') -- disable
+map('', 'Y', 'y$')   -- yank to end of line (for consistency)
+map('', 'Q', '')     -- disable
 map('n', 'x', '"_x') -- delete char without yank
 map('x', 'x', '"_x') -- delete visual selection without yank
 
