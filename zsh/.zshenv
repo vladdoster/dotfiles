@@ -24,13 +24,15 @@ export AZURE_CONFIG_DIR="$XDG_DATA_HOME"/azure
 export GOPATH="$XDG_DATA_HOME"/go
 export OHMYZSH="$XDG_DATA_HOME"/ohmyzsh
 
+# LOCAL SCRIPTS
+export PATH="$HOME/.local/bin:$PATH"
+
 if [[ "$OSTYPE" == darwin* ]]; then
   #- PROGRAMS ------------------------------------------
   export INFOPATH="/usr/local/share/info:$INFOPATH"
   export MANPATH="/usr/local/share/man:$MANPATH"
   export PATH="/usr/local/bin:$PATH"
   export PATH="/usr/local/sbin:$PATH"
-  export PATH="~/.local/bin:$PATH"
   #- GNU -----------------------------------------------
   export PATH="/usr/local/opt/ed/libexec/gnubin:$PATH"         # ED
   export PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"  # FINDUTILS
@@ -76,6 +78,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
   export LDFLAGS="-L/usr/local/opt/libressl/lib"
   export CPPFLAGS="-I/usr/local/opt/libressl/include"
   export PKG_CONFIG_PATH="/usr/local/opt/libressl/lib/pkgconfig"
+  [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 fi
 #- HOMEBREW --------------------------------------
 if ! command -v brew &> /dev/null; then

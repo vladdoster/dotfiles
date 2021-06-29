@@ -1,42 +1,28 @@
-.ONESHELL:
-.PHONY : --restow --simulate --delete list run build
-.SILENT:
-
-MAKEFLAGS += --no-builtin-rules
-SHELL := bash
-
 current_dir=$(shell pwd)
-PERSISTENT_PATH=$(current_dir)/persistent
-PERSISTENT_DIR=persistent
-SSH_DIR=~/.ssh
-USERNAME=$(shell whoami)
 
-define install-packer
-	if [ ! -d ~/.local/share/nvim/site/pack/packer ]; then
-	  echo "--- Cleaning Packer directory"
-	  rm -rf ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-	  echo "--- Installing Packer"
-	  git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-	  echo "--- Installed Packer"
-	fi
-endef
+PERSISTENT_DIR=docker-env
+PERSISTENT_PATH=$$HOME/$(PERSISTENT_DIR)/
+
+USERNAME=$(shell whoami)
 
 define run-stow
 	find * -not -path '*/\.*' -type d -exec stow --verbose 1 {} --override=#\*\# --target="$$HOME" \;
 endef
 
+.PHONY: list
 list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
+.PHONY: install 
 install: clean deps
 	echo "--- Installing dotfiles"
 	$(run-stow)
 	echo "--- Installed dotfiles"
-	echo "--- Cloning git submodules"
 	git submodule update --init --recursive || (echo "--- Unable to initialize Git submodules" && exit 1)
 	echo "--- Cloned git submodules"
 	echo "--- Success: dotfiles installed on $$HOSTNAME" 
 
+.PHONY: clean --delete
 clean: --delete
 	find "$$PWD" -type f -name "*.DS_Store" -ls -delete
 	echo "--- Removed .DS_Store files"
@@ -49,16 +35,32 @@ clean: --delete
 	echo "--- Removed Git submodules"
 	echo "--- Successfully cleaned previous dotfiles installations on $$HOSTNAME" 
 
+.PHONY: test --simulate
 test: --simulate
 	echo "--- DRYRUN: No changes will be made to current environment"
 	$(run-stow)
 
+.PHONY: deps
 deps:
 	echo "--- Installing python3 pkgs"
 	python3 -m pip install --user --trusted-host pypi.org --trusted-host files.pythonhosted.org ranger-fm pynvim
 
+.PHONY: run
 run:
-	docker run --rm -it -v $(SSH_DIR):/home/$(USERNAME)/.ssh -v $(PERSISTENT_PATH):/home/$(USERNAME)/$(PERSISTENT_DIR)/ cloud-dev:latest
+	#docker run \
+	#	-it \
+	#	--name development \
+	#	--volume $$HOME/docker:/home/$$USER \
+	#	--volume /var/run/docker.sock:/var/run/docker.sock \
+	#	cloud-dev:latest
 
+	docker run \
+		-it \
+		--rm \
+		--name development \
+		--volume /var/run/docker.sock:/var/run/docker.sock \
+		cloud-dev:latest
+
+.PHONY: build
 build:
-	docker build . -t cloud-dev:latest --build-arg username=$(USERNAME)
+	docker build . --no-cache --tag cloud-dev:latest --build-arg username=$$USER

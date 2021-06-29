@@ -31,9 +31,10 @@ plugins=( \
   vi-mode \
   zsh_reload
 )
-source "$OHMYZSH/oh-my-zsh.sh"
+source "$OHMYZSH"/oh-my-zsh.sh
 source <(find "$ZDOTDIR"/zshrc.d/* -maxdepth 1 -type f -exec cat {} \;)
-if source $HOME/.cargo/env; then
+if [[ -e $HOME/.cargo/env ]]; then
+  source "$HOME"/.cargo/env
   echo "--- Rust env activated"
 fi
 
