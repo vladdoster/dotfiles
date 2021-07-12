@@ -1,23 +1,7 @@
 #!/usr/bin/env bash
 #
 # Collection of aliases to reduce key presses for common tasks
-#- UTIL FUNCTIONS --------------------------------
-_edit() {
-    "$EDITOR" "$1"
-}
-_fmt() {
-    echo "--- Formatting ${1} files via ${2}"
-    find . -maxdepth 1 -name "*.${1}" -print -exec bash -c "$2 {}" \;
-}
-_go_to() {
-    cd "${1}" && ls -al
-}
-_mkfile() {
-    F_NAME="${3}.${1}"
-    echo "/usr/bin/env ${2}" > "${F_NAME}"
-    chmod +x "$F_NAME"
-    echo "--- Created ${F_NAME}"
-}
+
 #- SYSTEM SPECIFIC -------------------------------
 if [[ $OSTYPE =~ "darwin" ]]; then
     alias readlink="greadlink"
@@ -28,10 +12,6 @@ else
                            && echo "Copied SSH key to clipboard"'
 fi
 #- NAVIGATION ------------------------------------
-alias .....='_go_to ../../../..'
-alias ....='_go_to ../../..'
-alias ...='_go_to ../..'
-alias ..='_go_to ..'
 if command -v exa &> /dev/null; then
     alias ls='exa \
     --colour-scale \
@@ -42,6 +22,10 @@ if command -v exa &> /dev/null; then
     --octal-permissions \
     --time-style iso'
 fi
+alias .....='_go_to ../../../..'
+alias ....='_go_to ../../..'
+alias ...='_go_to ../..'
+alias ..='_go_to ..'
 #- FILE LOCATIONS --------------------------------
 alias cpv="rsync -ah --info=progress2"
 alias lt="du -sh * | sort -h"
@@ -148,3 +132,20 @@ alias fmt-sh='_fmt sh "shfmt -bn -ci -i 4 -ln=bash -s -sr -w"'
 alias apt-sysupdate="sudo apt update && sudo apt upgrade -y"
 alias brew-sysupdate="brew update && brew upgrade"
 alias yum-sysupdate="sudo yum update && sudo yum upgrade -y"
+#- UTIL FUNCTIONS --------------------------------
+_edit() {
+    "$EDITOR" "$1"
+}
+_fmt() {
+    echo "--- Formatting ${1} files via ${2}"
+    find . -maxdepth 1 -name "*.${1}" -print -exec bash -c "$2 {}" \;
+}
+_go_to() {
+    cd "${1}" && ls 
+}
+_mkfile() {
+    F_NAME="${3}.${1}"
+    echo "/usr/bin/env ${2}" > "${F_NAME}"
+    chmod +x "$F_NAME"
+    echo "--- Created ${F_NAME}"
+}
