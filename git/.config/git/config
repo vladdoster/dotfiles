@@ -295,3 +295,6 @@
 [submodule "neovim-configuration"]
 	url = https://github.com/vladdoster/neovim-configuration.git
 	active = true
+[submodule "hammerspoon-asm.axuielement"]
+	url = https://github.com/asmagill/hs._asm.axuielement
+	active = true

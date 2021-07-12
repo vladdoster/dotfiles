@@ -14,3 +14,7 @@
 	path = nvim/.config/nvim
 	url = https://github.com/vladdoster/neovim-configuration
     branch = master
+[submodule "hammerspoon-asm.axuielement"]
+	path = share/.local/share/hammerspoon-axuielement
+	url = https://github.com/asmagill/hs._asm.axuielement
+	branch = master
