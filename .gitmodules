@@ -1,0 +1,12 @@
+[submodule "hammerspoon-undocumented-spoons"]
+    path = share/.local/share/hammerspoon-undocumented-spoons
+    url = https://github.com/vladdoster/hammerspoon_asm.undocumented.git
+[submodule "osx-setup"]
+    path = share/.local/share/osx-setup
+    url = https://github.com/vladdoster/osx-setup.git
+[submodule "oh-my-zsh"]
+    path = share/.local/share/ohmyzsh
+    url = https://github.com/vladdoster/oh-my-zsh.git
+[submodule "neovim-configuration"]
+	path = nvim/.config/nvim
+	url = https://github.com/vladdoster/neovim-configuration
