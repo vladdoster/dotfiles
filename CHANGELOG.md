@@ -1,7 +1,12 @@
 # Changelog
 
-## [v1.0.3](https://github.com/vladdoster/dotfiles/compare/v1.0.2...v1.0.3)
+## [v1.0.4](https://github.com/vladdoster/dotfiles/compare/v1.0.3...v1.0.4)
 
+- (maint): add hammerspoon-axuielement as a submodule [`308008e`](https://github.com/vladdoster/dotfiles/commit/308008e5b40009c6de3484d1885fb7ebd3bd8a2b)
+
+## [v1.0.3](https://github.com/vladdoster/dotfiles/compare/v1.0.2...v1.0.3) (2021-07-12)
+
+- (release): v1.0.3 [`0835d51`](https://github.com/vladdoster/dotfiles/commit/0835d51041ef3f3aa5fc015e344b20a282f00606)
 - (maint): all gitmodules now track `master` branch [`f91fef6`](https://github.com/vladdoster/dotfiles/commit/f91fef6da582ea75c66a889705ff7046d9d67142)
 
 ## [v1.0.2](https://github.com/vladdoster/dotfiles/compare/v1.0.1...v1.0.2) (2021-07-12)
