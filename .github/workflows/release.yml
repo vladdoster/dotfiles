@@ -33,7 +33,7 @@ jobs:
           github-username: vladdoster
           git-user-name: vladdoster
           git-user-email: mvdoster@gmail.com
-          no-increment: true
+          no-increment: false
 
   on-failure:
     runs-on: ubuntu-latest
