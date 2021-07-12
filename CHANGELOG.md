@@ -1,8 +1,13 @@
 # Changelog
 
-## [v1.0.2](https://github.com/vladdoster/dotfiles/compare/v1.0.1...v1.0.2)
+## [v1.0.3](https://github.com/vladdoster/dotfiles/compare/v1.0.2...v1.0.3)
+
+- (maint): all gitmodules now track `master` branch [`f91fef6`](https://github.com/vladdoster/dotfiles/commit/f91fef6da582ea75c66a889705ff7046d9d67142)
+
+## [v1.0.2](https://github.com/vladdoster/dotfiles/compare/v1.0.1...v1.0.2) (2021-07-12)
 
 - (maint): update osx git submodule & aliases [`18f5522`](https://github.com/vladdoster/dotfiles/commit/18f5522a1c5b4f65885c4de7c9fe3cb012a31a32)
+- (release): v1.0.2 [`64e6aac`](https://github.com/vladdoster/dotfiles/commit/64e6aacda8a30760261c07099384b983f485b5a1)
 
 ## [v1.0.1](https://github.com/vladdoster/dotfiles/compare/v1.0.0...v1.0.1) (2021-07-12)
 
