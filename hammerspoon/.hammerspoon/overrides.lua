@@ -1,4 +1,4 @@
-local axuiWindowElement = require('hs._asm.axuielement').windowElement
+local axuiWindowElement = require('hs.axuielement').windowElement
 
 local module = {}
 local log = hs.logger.new('overrides', 'debug');

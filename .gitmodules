@@ -1,7 +1,3 @@
-[submodule "hammerspoon-undocumented-spoons"]
-    path = share/.local/share/hammerspoon-undocumented-spoons
-    url = https://github.com/vladdoster/hammerspoon_asm.undocumented.git
-    branch = master
 [submodule "osx-setup"]
     path = share/.local/share/osx-setup
     url = https://github.com/vladdoster/osx-setup.git
@@ -11,8 +7,12 @@
     url = https://github.com/vladdoster/oh-my-zsh.git
     branch = master
 [submodule "neovim-configuration"]
-	path = nvim/.config/nvim
-	url = https://github.com/vladdoster/neovim-configuration
+    path = nvim/.config/nvim
+    url = https://github.com/vladdoster/neovim-configuration
+    branch = master
+[submodule "hammerspoon-asm"]
+    path = share/.local/share/hammerspoon-asm
+    url = https://github.com/vladdoster/hammerspoon_asm
     branch = master
 [submodule "hammerspoon-asm.axuielement"]
 	path = share/.local/share/hammerspoon-axuielement
