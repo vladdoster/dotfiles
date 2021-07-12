@@ -1,0 +1,35 @@
+{
+  "git": {
+    "changelog": "git log --pretty=format:\"* %s (%h)\" ${from}...${to}",
+    "commitMessage": "(release): v${version}\n${changelog}",
+    "requireCleanWorkingDir": true,
+    "tag": true,
+    "tagAnnotation": "(release): v${version}",
+    "tagName": "v${version}"
+  },
+  "github": {
+    "draft": false,
+    "release": true,
+    "preRelease": false,
+    "releaseName": "(release): v${version}",
+    "tokenRef": "GH_ACTIONS_TOKEN"
+  },
+  "hooks": {
+    "before:init": "git fetch --prune --prune-tags origin",
+    "after:bump": "npx auto-changelog  --latest-version '${version}' --commit-limit false --template https://raw.githubusercontent.com/release-it/release-it/master/templates/keepachangelog.hbs",
+    "after:release": "echo Successfully bumped release to v${version} for ${repo.repository}."
+  },
+  "npm": false,
+  "plugins": {
+    "@release-it/bumper": {
+      "in": {
+        "file": "VERSION",
+        "type": "text/plain"
+      },
+      "out": {
+        "file": "VERSION",
+        "type": "text/plain"
+      }
+    }
+  }
+}

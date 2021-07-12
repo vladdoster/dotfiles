@@ -1,0 +1,3 @@
+docker run --rm -v "$(pwd)":/dotfiles shfmt:latest shfmt -bn -ci -i 4 -s -sr -w /dotfiles
+find . -name '*.md' -exec mdformat {} \;
+find . -name '*.py' -exec black {} \;

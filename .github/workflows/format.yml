@@ -1,0 +1,51 @@
+name: "format"
+
+on:
+  push:
+    branches: [mac-os]
+  pull_request:
+    branches: [mac-os]
+
+jobs:
+
+  linting:
+    name: Format files
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: checkout latest changes
+        uses: actions/checkout@v2.3.1
+        with:
+          token: ${{ secrets.GH_ACTIONS_TOKEN }}
+          fetch-depth: 2
+          persist-credentials: true
+
+      - name: install dependencies
+        run: parallel --jobs 2 < "$(pwd)"/.github/install-dependencies
+      
+      - name: install formatters
+        run: parallel --jobs 2 < "$(pwd)"/.github/install-formatters
+
+      - name: format lua
+        uses: JohnnyMorganz/stylua-action@1.0.0
+        with:
+          token: ${{ secrets.GH_ACTIONS_TOKEN }}
+          args: -g *.lua -- .
+      
+      - name: run formatters in parallel
+        run: parallel --jobs 1 < "$(pwd)"/.github/format-commands
+
+      - name: Get last commit message
+        id: last-commit-message
+        run: |
+          echo "::set-output name=msg::$(git log -1 --pretty=%s)"
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: ${{ steps.last-commit-message.outputs.msg }}
+          commit_options: '--amend --no-edit --signoff --allow-empty'
+          add_options: '-u'
+          commit_user_email: mvdoster@gmail.com
+          commit_user_name: vladdoster
+          push_options: '--force'
+          skip_fetch: true

@@ -1,0 +1,11 @@
+*.DS_Store
+\.\#.+       # CVS conflict files / emacs lock files
+\.cvsignore
+\.svn
+_darcs
+\.hg
+\.git
+\.gitignore
+^/README.*
+^/LICENSE.*
+^/COPYING

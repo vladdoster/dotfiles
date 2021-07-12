@@ -1,0 +1,2 @@
+docker build -t shfmt:latest https://github.com/PeterDaveHello/docker-shfmt.git
+python3 -m pip install --user black mdformat
