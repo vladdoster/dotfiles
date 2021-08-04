@@ -90,7 +90,7 @@ CODE_DIR="${HOME:-~}"/code
 if [[ ! -e $CODE_DIR ]] || [[ ! -d $CODE_DIR ]]; then
     mkdir "$CODE_DIR"
 fi
-# alias nvim-plugins='_go_to $XDG_CONFIG_HOME/nvim/lua/configs'
+
 alias .f='_go_to $XDG_CONFIG_HOME/dotfiles'
 alias c='_go_to $CODE_DIR'
 alias cfg='_go_to $XDG_CONFIG_HOME'
@@ -99,15 +99,17 @@ alias downloads='_go_to $HOME/Downloads'
 alias git-cfg='_go_to $XDG_CONFIG_HOME/git/config'
 alias h='_go_to $HOME'
 alias hammerspoon-cfg='_go_to $HOME/.hammerspoon'
+
 alias l-bin='_go_to $HOME/.local/bin'
 alias l-installers='_go_to $HOME/.local/bin/installers'
+alias l-share='_go_to $HOME/.local/share/'
 alias nvim-cfg='_go_to $XDG_CONFIG_HOME/nvim'
+alias nvim-plugins='_go_to $XDG_CONFIG_HOME/nvim/lua/configs'
 alias tmux-cfg='_go_to $XDG_CONFIG_HOME/tmux'
 alias zsh-cfg='_go_to $ZDOTDIR'
 #- GIT -------------------------------------------
 alias g="git" # GIT ALIASES ARE IN ~/.GITCONFIG.
 alias git-submodule-update='git submodule update --merge --remote'
-alias git-submodules='_go_to $HOME/.local/share'
 #- COMMAND SHORTCUTS -----------------------------
 alias r-shfmt="shfmt -i 4 -s -ln bash -sr -bn -ci -w"
 alias rr='_go_to $(git rev-parse --show-toplevel)'
