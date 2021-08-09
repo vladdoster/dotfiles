@@ -1,7 +1,12 @@
 # Changelog
 
-## [v0.2.2](https://github.com/vladdoster/dotfiles/compare/v0.2.1...v0.2.2)
+## [v0.2.3](https://github.com/vladdoster/dotfiles/compare/v0.2.2...v0.2.3)
 
+- Delete bin/.local/bin/install-scripts directory [`030a76d`](https://github.com/vladdoster/dotfiles/commit/030a76d86cd0a9785620f722c5c7d5903855ca24)
+
+## [v0.2.2](https://github.com/vladdoster/dotfiles/compare/v0.2.1...v0.2.2) (2021-08-09)
+
+- (release): v0.2.2 [`1bb7b41`](https://github.com/vladdoster/dotfiles/commit/1bb7b41b78e390910eab3db71d93fe00775f651b)
 - (cleanup): remove Dockerfile [`02307e9`](https://github.com/vladdoster/dotfiles/commit/02307e974762a97f94f6726540676077b3380d12)
 
 ## [v0.2.1](https://github.com/vladdoster/dotfiles/compare/v0.2.0...v0.2.1) (2021-08-09)
