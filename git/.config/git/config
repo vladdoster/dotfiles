@@ -22,6 +22,20 @@
 [commit]
     template = ~/.config/git/commit-template
 
+[url "https://globalrespository.mclocal.int/"]
+	insteadOf = https://fusion.mastercard.int/
+
+[url "https://fusion.mastercard.int/"]
+	insteadOf = https://globalrepository.mclocal.int/
+
+#[remote "origin"]
+#    url = https://github.com/Homebrew/homebrew-core
+#    fetch = +refs/heads/*:refs/remotes/origin/*
+
+[homebrew]
+    analyticsmessage = false
+    caskanalyticsmessage = false
+
 [rerere]
 	enabled = 1
 	autoupdate = 1
@@ -290,11 +304,3 @@
 	theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
 	subrepo = !sh -c 'git filter-branch --prune-empty --subdirectory-filter $1 master' -
 	human = name-rev --name-only --refs=refs/heads/*
-#[remote "origin"]
-    #; ; url = https://github.com/Homebrew/homebrew-core
-    #; ; fetch = +refs/heads/*:refs/remotes/origin/*
-#; [homebrew]
-    #; analyticsmessage = false
-    #; caskanalyticsmessage = false
-#; [remote "origin"]
-#; 	gh-resolved = base

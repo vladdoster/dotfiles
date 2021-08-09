@@ -81,10 +81,8 @@ brew "yarn"
 brew "youtube-dl"
 brew "zsh"
 cask "1password", args: { appdir: "/Applications" }
-cask "docker", args: { appdir: "/Applications" }
 cask "font-jetbrains-mono"
 cask "kitty"
 cask "logitech-options"
 cask "logitech-unifying"
-cask "visual-studio-code"
 cask "vivaldi"
