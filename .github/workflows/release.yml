@@ -36,7 +36,8 @@ jobs:
                 
       - name: Publish release
         run: |
-          release-it minor \
+          release-it patch \
+                     --github.release=true \
                      --config=.github/release-it.json \
                      --ci
 
