@@ -40,6 +40,7 @@ jobs:
         run: |
           release-it --preRelease \
                      --github.preRelease=true \
+                     --git.tag=false \
                      --config=.github/release-it.json \
                      --ci
 
