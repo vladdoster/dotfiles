@@ -21,10 +21,10 @@ jobs:
           persist-credentials: true
 
       - name: install dependencies
-        run: parallel --jobs 2 < "$(pwd)"/.github/install-dependencies
+        run: parallel -k --jobs 2 < "$(pwd)"/.github/install-dependencies
       
       - name: install formatters
-        run: parallel --jobs 2 < "$(pwd)"/.github/install-formatters
+        run: parallel -k --jobs 2 < "$(pwd)"/.github/install-formatters
 
       - name: format lua
         uses: JohnnyMorganz/stylua-action@1.0.0
@@ -33,7 +33,7 @@ jobs:
           args: -g *.lua -- .
       
       - name: run formatters in parallel
-        run: parallel --jobs 1 < "$(pwd)"/.github/format-commands
+        run: parallel -k --jobs 2 < "$(pwd)"/.github/format-commands
 
       - name: Get last commit message
         id: last-commit-message
