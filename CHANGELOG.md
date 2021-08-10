@@ -1,7 +1,12 @@
 # Changelog
 
-## [v0.2.5](https://github.com/vladdoster/dotfiles/compare/v0.2.4...v0.2.5)
+## [v0.2.6](https://github.com/vladdoster/dotfiles/compare/v0.2.5...v0.2.6)
 
+- (maint): add git commit template [`3a78afe`](https://github.com/vladdoster/dotfiles/commit/3a78afee43c419fd201e97e4fe568070a0a39ce1)
+
+## [v0.2.5](https://github.com/vladdoster/dotfiles/compare/v0.2.4...v0.2.5) (2021-08-10)
+
+- (release): v0.2.5 [`5a145a8`](https://github.com/vladdoster/dotfiles/commit/5a145a8a63d06e6805ba2880d1294c7eb047bb90)
 - (maint): use `ubuntu-latest` for clean-workflows GH action [`fb04da1`](https://github.com/vladdoster/dotfiles/commit/fb04da1dd1ed7323eb6f8569e0aac830931a51b3)
 
 ## [v0.2.4](https://github.com/vladdoster/dotfiles/compare/v0.2.3...v0.2.4) (2021-08-10)
