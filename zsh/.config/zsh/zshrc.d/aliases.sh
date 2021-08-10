@@ -133,10 +133,12 @@ _restart_brew_service() {
         echo "--- ERROR: ${1} not installed"
     fi
 }
-alias reload-sh='exec ${SHELL}'
-alias reload-skhd='_restart_brew_service skhd'
-alias reload-wm='reload-yabai && reload-skhd'
-alias reload-yabai='_restart_brew_service yabai'
+alias .bash='exec $(which bash)'
+alias .sh='exec $SHELL'
+alias .zsh='exec $(which zsh)'
+alias r-skhd='_restart_brew_service skhd'
+alias r-wm='reload-yabai && reload-skhd'
+alias r-yabai='_restart_brew_service yabai'
 #- PYTHON ----------------------------------------
 alias start-http_server='python2 -m SimpleHTTPServer'
 alias pip-requirements='pip-safe -r requirements.txt || echo "--- No requirements.txt found"'

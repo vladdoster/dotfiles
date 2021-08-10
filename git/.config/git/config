@@ -296,5 +296,5 @@
 #; [homebrew]
     #; analyticsmessage = false
     #; caskanalyticsmessage = false
-[remote "origin"]
-	gh-resolved = base
+#; [remote "origin"]
+#; 	gh-resolved = base
