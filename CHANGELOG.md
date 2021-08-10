@@ -1,7 +1,15 @@
 # Changelog
 
-## [v0.2.6](https://github.com/vladdoster/dotfiles/compare/v0.2.5...v0.2.6)
+## [v0.2.7](https://github.com/vladdoster/dotfiles/compare/v0.2.6...v0.2.7)
 
+- (maint): update aliases and release-it & git configs [`b814d38`](https://github.com/vladdoster/dotfiles/commit/b814d38239aea30e7771eedb16ba832a9f29ca22)
+- (maint): revert to `auto-changelog` to generate release notes [`58b2e26`](https://github.com/vladdoster/dotfiles/commit/58b2e26f4b2d6f085d53673433b97c4af1c526d6)
+- (bugfix): remove string escaping in `github.releaseNotes` section [`7fd1a94`](https://github.com/vladdoster/dotfiles/commit/7fd1a947c818be16d37385ea09a36dadaa5e8b84)
+- (maint): remove JSON breaking extraneous k with no value [`d9fc887`](https://github.com/vladdoster/dotfiles/commit/d9fc887e6db2b011bb4c2d3793ce462d924ca99a)
+
+## [v0.2.6](https://github.com/vladdoster/dotfiles/compare/v0.2.5...v0.2.6) (2021-08-10)
+
+- (release): v0.2.6 [`4c4601b`](https://github.com/vladdoster/dotfiles/commit/4c4601b3986db93233dc5760d1b33c2d07a33ebb)
 - (maint): add git commit template [`3a78afe`](https://github.com/vladdoster/dotfiles/commit/3a78afee43c419fd201e97e4fe568070a0a39ce1)
 
 ## [v0.2.5](https://github.com/vladdoster/dotfiles/compare/v0.2.4...v0.2.5) (2021-08-10)
