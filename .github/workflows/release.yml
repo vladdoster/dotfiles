@@ -29,16 +29,16 @@ jobs:
 
       - name: Set git configuration
         run: |
+          git config --global github.user "vladdoster"
+          git config --global user.email mvdoster@gmail.com
           git config --global user.name "Vladislav Doster"
           git config --global user.username "vladdoster"
-          git config --global user.email mvdoster@gmail.com
-          git config --global github.user "vladdoster"
                 
       - name: Publish release
         run: |
           release-it patch \
-                     --github.release=true \
                      --config=.github/release-it.json \
+                     --github.release=true \
                      --ci
 
   on-failure:
