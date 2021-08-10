@@ -1,8 +1,13 @@
 # Changelog
 
-## [v0.2.4](https://github.com/vladdoster/dotfiles/compare/v0.2.3...v0.2.4)
+## [v0.2.5](https://github.com/vladdoster/dotfiles/compare/v0.2.4...v0.2.5)
+
+- (maint): use `ubuntu-latest` for clean-workflows GH action [`fb04da1`](https://github.com/vladdoster/dotfiles/commit/fb04da1dd1ed7323eb6f8569e0aac830931a51b3)
+
+## [v0.2.4](https://github.com/vladdoster/dotfiles/compare/v0.2.3...v0.2.4) (2021-08-10)
 
 - (maint): tuning kitty config & cleanup `release.yml` [`a9a81f7`](https://github.com/vladdoster/dotfiles/commit/a9a81f7caaa03b791c4266a89e1d02f14d6789cf)
+- (release): v0.2.4 [`fdbba0a`](https://github.com/vladdoster/dotfiles/commit/fdbba0a62636d9fc51df64e09e89eed999ff6246)
 - (maint): reload shell after installing dotfiles [`cdceabb`](https://github.com/vladdoster/dotfiles/commit/cdceabb692ac22f95142086506322a23f4a3682c)
 
 ## [v0.2.3](https://github.com/vladdoster/dotfiles/compare/v0.2.2...v0.2.3) (2021-08-09)
