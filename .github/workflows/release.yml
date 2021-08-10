@@ -35,6 +35,8 @@ jobs:
           git config --global user.username "vladdoster"
                 
       - name: Publish release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
         run: |
           release-it patch \
                      --config=.github/release-it.json \
