@@ -1,6 +1,13 @@
 # Changelog
 
-## [v0.2.10](https://github.com/vladdoster/dotfiles/compare/v0.2.9...v0.2.10)
+## [v0.2.11](https://github.com/vladdoster/dotfiles/compare/v0.2.10...v0.2.11)
+
+- (maint): remove illegal trailing comma [`8f00a5a`](https://github.com/vladdoster/dotfiles/commit/8f00a5ab9aa74d311763896ebc73cb7f971ae2b6)
+- (maint): remove `github.tokenRef` as it is handled in `release.yml` [`010a915`](https://github.com/vladdoster/dotfiles/commit/010a915b9c2fd54cef24ceafe693362b7ba2bfa9)
+
+## [v0.2.10](https://github.com/vladdoster/dotfiles/compare/v0.2.9...v0.2.10) (2021-08-10)
+
+- (release): v0.2.10 [`25640f0`](https://github.com/vladdoster/dotfiles/commit/25640f06c51ad02b570b452ba1aaed8e4b9d7a8b)
 
 ## [v0.2.9](https://github.com/vladdoster/dotfiles/compare/v0.2.8...v0.2.9) (2021-08-10)
 
