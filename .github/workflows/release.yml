@@ -38,7 +38,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
         run: |
-          release-it patch \
+          release-it minor --preRelease=beta \
+                     --github.preRelease=true \
                      --config=.github/release-it.json \
                      --ci
 
