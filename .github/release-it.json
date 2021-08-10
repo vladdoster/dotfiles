@@ -6,11 +6,12 @@
     "tag": false,
     "tagAnnotation": "v${version}",
     "tagName": "v${version}",
-    "push": false,
+    "push": true,
     "skipChecks": true
   },
   "github": {
     "release": false,
+    "preRelease": false,
     "releaseName": "v${version}",
     "releaseNotes": "npx auto-changelog  --latest-version '${to}' --commit-limit false --template https://raw.githubusercontent.com/release-it/release-it/master/templates/keepachangelog.hbs"
   },
