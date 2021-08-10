@@ -11,7 +11,7 @@
   },
   "github": {
     "release": true,
-    "releaseName": "(release): v${version}",
+    "releaseName": "(release): v${version}"
   },
   "hooks": {
     "after:bump": "npx auto-changelog  --latest-version '${version}' --commit-limit false --template https://raw.githubusercontent.com/release-it/release-it/master/templates/keepachangelog.hbs",
