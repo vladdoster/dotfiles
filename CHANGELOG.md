@@ -1,8 +1,13 @@
 # Changelog
 
-## [v0.2.7](https://github.com/vladdoster/dotfiles/compare/v0.2.6...v0.2.7)
+## [v0.2.8](https://github.com/vladdoster/dotfiles/compare/v0.2.7...v0.2.8)
+
+- (bugfix): remove `github.release` flag in `release.yml` [`f665654`](https://github.com/vladdoster/dotfiles/commit/f66565429727aff6b1e0c0112f18fb7ac22a4463)
+
+## [v0.2.7](https://github.com/vladdoster/dotfiles/compare/v0.2.6...v0.2.7) (2021-08-10)
 
 - (maint): update aliases and release-it & git configs [`b814d38`](https://github.com/vladdoster/dotfiles/commit/b814d38239aea30e7771eedb16ba832a9f29ca22)
+- (release): v0.2.7 [`6f8de26`](https://github.com/vladdoster/dotfiles/commit/6f8de26c94046fd0edf3c939e34b1b1cafbd7511)
 - (maint): revert to `auto-changelog` to generate release notes [`58b2e26`](https://github.com/vladdoster/dotfiles/commit/58b2e26f4b2d6f085d53673433b97c4af1c526d6)
 - (bugfix): remove string escaping in `github.releaseNotes` section [`7fd1a94`](https://github.com/vladdoster/dotfiles/commit/7fd1a947c818be16d37385ea09a36dadaa5e8b84)
 - (maint): remove JSON breaking extraneous k with no value [`d9fc887`](https://github.com/vladdoster/dotfiles/commit/d9fc887e6db2b011bb4c2d3793ce462d924ca99a)
