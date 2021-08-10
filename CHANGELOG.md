@@ -1,8 +1,14 @@
 # Changelog
 
-## [v0.2.3](https://github.com/vladdoster/dotfiles/compare/v0.2.2...v0.2.3)
+## [v0.2.4](https://github.com/vladdoster/dotfiles/compare/v0.2.3...v0.2.4)
+
+- (maint): tuning kitty config & cleanup `release.yml` [`a9a81f7`](https://github.com/vladdoster/dotfiles/commit/a9a81f7caaa03b791c4266a89e1d02f14d6789cf)
+- (maint): reload shell after installing dotfiles [`cdceabb`](https://github.com/vladdoster/dotfiles/commit/cdceabb692ac22f95142086506322a23f4a3682c)
+
+## [v0.2.3](https://github.com/vladdoster/dotfiles/compare/v0.2.2...v0.2.3) (2021-08-09)
 
 - Delete bin/.local/bin/install-scripts directory [`030a76d`](https://github.com/vladdoster/dotfiles/commit/030a76d86cd0a9785620f722c5c7d5903855ca24)
+- (release): v0.2.3 [`f50fa1b`](https://github.com/vladdoster/dotfiles/commit/f50fa1b58b550e2011307662de49f334c40060dd)
 
 ## [v0.2.2](https://github.com/vladdoster/dotfiles/compare/v0.2.1...v0.2.2) (2021-08-09)
 
