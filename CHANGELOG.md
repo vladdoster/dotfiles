@@ -1,8 +1,13 @@
 # Changelog
 
-## [v0.2.12](https://github.com/vladdoster/dotfiles/compare/v0.2.11...v0.2.12)
+## [v0.2.13](https://github.com/vladdoster/dotfiles/compare/v0.2.12...v0.2.13)
+
+- (maint): remove redundant words in release tags and release name [`a3857f8`](https://github.com/vladdoster/dotfiles/commit/a3857f8ad95419a019a350d963e478249d3441e0)
+
+## [v0.2.12](https://github.com/vladdoster/dotfiles/compare/v0.2.11...v0.2.12) (2021-08-10)
 
 - (feat): only run formatter if diff has respective file extension [`ac74ff8`](https://github.com/vladdoster/dotfiles/commit/ac74ff8907a91d2e9db4dff91e559a6031eae999)
+- (release): v0.2.12 [`1b2c126`](https://github.com/vladdoster/dotfiles/commit/1b2c126bdfd7a2638df24f4542a370f9ad7e2b07)
 
 ## [v0.2.11](https://github.com/vladdoster/dotfiles/compare/v0.2.10...v0.2.11) (2021-08-10)
 
