@@ -14,7 +14,7 @@
     "releaseName": "v${version}"
   },
   "hooks": {
-    "after:bump": "npx auto-changelog  --latest-version '${version}' --commit-limit false --template https://raw.githubusercontent.com/release-it/release-it/master/templates/keepachangelog.hbs",
+    "after:bump": "npx auto-changelog  --latest-version '${latestVersion}' --commit-limit false --template https://raw.githubusercontent.com/release-it/release-it/master/templates/keepachangelog.hbs",
     "after:release": "echo Successfully bumped release to v${version} for ${repo.repository}.",
     "before:init": "git fetch --prune --prune-tags origin"
   },
