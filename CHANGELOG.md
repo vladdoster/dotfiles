@@ -1,7 +1,12 @@
 # Changelog
 
-## [v0.2.11](https://github.com/vladdoster/dotfiles/compare/v0.2.10...v0.2.11)
+## [v0.2.12](https://github.com/vladdoster/dotfiles/compare/v0.2.11...v0.2.12)
 
+- (feat): only run formatter if diff has respective file extension [`ac74ff8`](https://github.com/vladdoster/dotfiles/commit/ac74ff8907a91d2e9db4dff91e559a6031eae999)
+
+## [v0.2.11](https://github.com/vladdoster/dotfiles/compare/v0.2.10...v0.2.11) (2021-08-10)
+
+- (release): v0.2.11 [`0915677`](https://github.com/vladdoster/dotfiles/commit/091567798c926ff571d9e1a5db3fb75ef73bd7e7)
 - (maint): remove illegal trailing comma [`8f00a5a`](https://github.com/vladdoster/dotfiles/commit/8f00a5ab9aa74d311763896ebc73cb7f971ae2b6)
 - (maint): remove `github.tokenRef` as it is handled in `release.yml` [`010a915`](https://github.com/vladdoster/dotfiles/commit/010a915b9c2fd54cef24ceafe693362b7ba2bfa9)
 
