@@ -4,14 +4,14 @@
     "commitMessage": "(release): v${version}\n${changelog}",
     "requireCleanWorkingDir": true,
     "tag": true,
-    "tagAnnotation": "(release): v${version}",
+    "tagAnnotation": "v${version}",
     "tagName": "v${version}",
     "push": true,
     "skipChecks": true
   },
   "github": {
     "release": true,
-    "releaseName": "(release): v${version}"
+    "releaseName": "v${version}"
   },
   "hooks": {
     "after:bump": "npx auto-changelog  --latest-version '${version}' --commit-limit false --template https://raw.githubusercontent.com/release-it/release-it/master/templates/keepachangelog.hbs",
