@@ -13,7 +13,6 @@
     "release": true,
     "releaseName": "(release): v${version}",
     "releaseNotes": "git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:'%s (%h)' ${from}...${to} -i -E --grep='^((maint)|(feat):|(bugfix)|(docs)):*'",
-    "after:release":,
     "tokenRef": "GH_ACTIONS_TOKEN"
   },
   "hooks": {
