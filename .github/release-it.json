@@ -10,10 +10,9 @@
     "skipChecks": true
   },
   "github": {
-    "release": true,
-    "releaseName": "v${version}"
-    "releaseNotes": "npx auto-changelog  --latest-version '${to}' --commit-limit false --template https://raw.githubusercontent.com/release-it/release-it/master/templates/keepachangelog.hbs",
-
+    "release": false,
+    "releaseName": "v${version}",
+    "releaseNotes": "npx auto-changelog  --latest-version '${to}' --commit-limit false --template https://raw.githubusercontent.com/release-it/release-it/master/templates/keepachangelog.hbs"
   },
   "hooks": {
     "after:bump": "npx auto-changelog  --latest-version '${version}' --commit-limit false --template https://raw.githubusercontent.com/release-it/release-it/master/templates/keepachangelog.hbs",
