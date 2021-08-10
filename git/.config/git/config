@@ -19,6 +19,9 @@
 	autocrlf = false
 	excludesfile = ~/.config/git/ignore
 
+[commit]
+    template = ~/.config/git/commit-template
+
 [rerere]
 	enabled = 1
 	autoupdate = 1
