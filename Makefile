@@ -26,6 +26,8 @@ init: deps ## Initial deploy dotfiles
 	@echo "--- Installed dotfiles"
 	@$(get-nvim-config)
 	@echo "--- Success: dotfiles installed on $$HOSTNAME"
+	@echo "--- Reloading shell"
+	@exec $$SHELL
 
 .PHONY: clean --delete
 clean: --delete ## Remove deployed dotfiles
