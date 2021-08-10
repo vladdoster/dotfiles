@@ -1,8 +1,14 @@
 # Changelog
 
-## [v0.2.16](https://github.com/vladdoster/dotfiles/compare/v0.2.15...v0.2.16)
+## [v0.3.0-beta.0](https://github.com/vladdoster/dotfiles/compare/v0.2.15...v0.3.0-beta.0)
 
+- Create weekly-release.yml [`94cff0d`](https://github.com/vladdoster/dotfiles/commit/94cff0d16240749ef986b1e1176402247e71e9db)
+- (release): v0.2.16 [`33a57a4`](https://github.com/vladdoster/dotfiles/commit/33a57a4812b585b8753d7d5a546ff7504e7f10ac)
 - Update release-it.json [`e2a9d89`](https://github.com/vladdoster/dotfiles/commit/e2a9d89f904e31e6d93fb482df66ff518173f34d)
+- Update release-it.json [`0043022`](https://github.com/vladdoster/dotfiles/commit/004302249fb262ee3256b0d60ab6fab117dafc5e)
+- Update release-it.json [`d9cd050`](https://github.com/vladdoster/dotfiles/commit/d9cd0504e0f90164da4d046e7584f7a64b115f24)
+- (maint): commits are now preRelease versions [`a05d95a`](https://github.com/vladdoster/dotfiles/commit/a05d95a98b9d8115fc0e9f4a003f9d9d156f8aac)
+- Update VERSION [`f098149`](https://github.com/vladdoster/dotfiles/commit/f098149fc405644a46158fdb14f05255d3ebfb85)
 - Update release-it.json [`63c45a8`](https://github.com/vladdoster/dotfiles/commit/63c45a8c1454aefacfb35dbb0ad6c3351338af13)
 
 ## [v0.2.15](https://github.com/vladdoster/dotfiles/compare/v0.2.14...v0.2.15) (2021-08-10)
