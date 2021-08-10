@@ -1,7 +1,10 @@
 # Changelog
 
-## [v0.2.9](https://github.com/vladdoster/dotfiles/compare/v0.2.8...v0.2.9)
+## [v0.2.10](https://github.com/vladdoster/dotfiles/compare/v0.2.9...v0.2.10)
 
+## [v0.2.9](https://github.com/vladdoster/dotfiles/compare/v0.2.8...v0.2.9) (2021-08-10)
+
+- (release): v0.2.9 [`652a939`](https://github.com/vladdoster/dotfiles/commit/652a93913343fa9536d55f689a157c7c5e42878e)
 - Update release-it.json [`05fb6da`](https://github.com/vladdoster/dotfiles/commit/05fb6da868757ca3a3729ecb6889785d2d36a8af)
 - Update release.yml [`78ffe5d`](https://github.com/vladdoster/dotfiles/commit/78ffe5d10d8925241100d58025d014ca6165c626)
 
