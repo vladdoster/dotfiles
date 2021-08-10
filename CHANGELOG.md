@@ -1,7 +1,12 @@
 # Changelog
 
-## [v0.2.13](https://github.com/vladdoster/dotfiles/compare/v0.2.12...v0.2.13)
+## [v0.2.13](https://github.com/vladdoster/dotfiles/compare/v0.2.13...v0.2.13)
 
+- (maint): use `latestVersion` [`bb0728f`](https://github.com/vladdoster/dotfiles/commit/bb0728f713b5f504d0a69122f4cd82a74ce63f7b)
+
+## [v0.2.13](https://github.com/vladdoster/dotfiles/compare/v0.2.12...v0.2.13) (2021-08-10)
+
+- (release): v0.2.13 [`30f74d8`](https://github.com/vladdoster/dotfiles/commit/30f74d8eb310d3d86fdfcab87b5b6a174342bf20)
 - (maint): remove redundant words in release tags and release name [`a3857f8`](https://github.com/vladdoster/dotfiles/commit/a3857f8ad95419a019a350d963e478249d3441e0)
 
 ## [v0.2.12](https://github.com/vladdoster/dotfiles/compare/v0.2.11...v0.2.12) (2021-08-10)
