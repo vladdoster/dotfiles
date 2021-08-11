@@ -1,7 +1,15 @@
 # Changelog
 
-## [v0.5.0-4](https://github.com/vladdoster/dotfiles/compare/v0.5.0-3...v0.5.0-4)
+## [v0.5.0-5](https://github.com/vladdoster/dotfiles/compare/v0.5.0-4...v0.5.0-5)
 
+- (feat): overhaul of Makefile [`dafdd9f`](https://github.com/vladdoster/dotfiles/commit/dafdd9f5847bf58df102d08d36b06c890f0b0f4a)
+- (maint): update kitty configuration [`b59bc0f`](https://github.com/vladdoster/dotfiles/commit/b59bc0fbc84a7f1ce182931608d9fd0c35052a88)
+- (maint): add aliases [`89c1264`](https://github.com/vladdoster/dotfiles/commit/89c12644fcf73b190d4093a69351eaba11712172)
+- (maint): add `--stdout` to `github.releaseNotes` var [`dd4d5a9`](https://github.com/vladdoster/dotfiles/commit/dd4d5a978f68f821c4ce7e69e1575b52e6a714c0)
+
+## [v0.5.0-4](https://github.com/vladdoster/dotfiles/compare/v0.5.0-3...v0.5.0-4) (2021-08-10)
+
+- (release): v0.5.0-4 [`76c31b5`](https://github.com/vladdoster/dotfiles/commit/76c31b5a7f9776ecab37bebfa4ade5868c46c77b)
 - Update weekly-release.yml [`8ea8b25`](https://github.com/vladdoster/dotfiles/commit/8ea8b258843254a3dec8ed669ec4e939cfcbe3b9)
 
 ## [v0.5.0-3](https://github.com/vladdoster/dotfiles/compare/v0.5.0-2...v0.5.0-3) (2021-08-10)
