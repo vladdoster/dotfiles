@@ -135,9 +135,7 @@ _restart_brew_service() {
         echo "--- ERROR: ${1} not installed"
     fi
 }
-alias .bash='exec $(which bash)'
 alias .sh='exec $SHELL'
-alias .zsh='exec $(which zsh)'
 alias r-skhd='_restart_brew_service skhd'
 alias r-wm='reload-yabai && reload-skhd'
 alias r-yabai='_restart_brew_service yabai'

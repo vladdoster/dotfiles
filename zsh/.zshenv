@@ -1,16 +1,9 @@
-#!/usr/bin/env zsh
-if [[ -e /opt/homebrew ]]; then
-	eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [[ -e /home/linuxbrew ]]; then
-	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-else
-   echo "--- No homebrew available"
-fi
+#!/usr/bin/env bash
+
 #- GENERAL -------------------------------------------
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 export LC_NUMERIC="en_US.UTF-8"
-export TMUX_AUTOSTART="FALSE"
 export SHELL=$(which zsh)
 #- XDG DIRS ------------------------------------------
 export XDG_DESKTOP_DIR="$HOME"/Desktop
@@ -35,10 +28,6 @@ export OHMYZSH="$XDG_DATA_HOME"/ohmyzsh
 
 # LOCAL SCRIPTS
 export PATH="$HOME/.local/bin:$PATH"
-
-if [[ -e $XDG_CONFIG_HOME/.zprofile ]]; then
-        source $XDG_CONFIG_HOME/.zprofile
-fi
 
 if [[ $OSTYPE == darwin* ]]; then
         #- PROGRAMS ------------------------------------------
@@ -92,9 +81,12 @@ if [[ $OSTYPE == darwin* ]]; then
         export LDFLAGS="-L$local_opt/libressl/lib"
         export CPPFLAGS="-I$local_opt/libressl/include"
         export PKG_CONFIG_PATH="$local_opt/libressl/lib/pkgconfig"
-fi
-#- RUST -----------------------------------------------
-if [[ -e $HOME/.cargo/bin ]]; then
-        export PATH="$HOME/.cargo/bin:$PATH"
-        echo "--- rust env activated"
+else
+	if [[ -e /opt/homebrew ]]; then
+		eval "$(/opt/homebrew/bin/brew shellenv)"
+	elif [[ -e /home/linuxbrew ]]; then
+		eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+	else
+	   echo "--- No homebrew available"
+	fi
 fi

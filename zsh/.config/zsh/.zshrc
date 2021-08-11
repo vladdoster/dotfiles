@@ -48,9 +48,9 @@ else
     echo "--- kitty unavailable"
 fi
 #- RUST -----------------------------------------------
-if [[ -e $HOME/.cargo/env ]]; then
-  source "$HOME"/.cargo/env
-  echo "--- rust env activated"
+if [[ -e $HOME/.cargo/bin ]]; then
+        export PATH="$HOME/.cargo/bin:$PATH"
+        echo "--- rust env activated"
 fi
 
 for file in "$(find $ZDOTDIR/zshrc.d -maxdepth 1 -name '*.sh' -print -quit)"; do
@@ -69,4 +69,3 @@ done
 # 	  esac
 # 	fi
 # fi
-

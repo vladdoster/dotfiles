@@ -22,15 +22,15 @@
 [commit]
     template = ~/.config/git/commit-template
 
-[url "https://globalrespository.mclocal.int/"]
-	insteadOf = https://fusion.mastercard.int/
+; [url "https://globalrespository.mclocal.int/"]
+; 	insteadOf = https://fusion.mastercard.int/
 
 [url "https://fusion.mastercard.int/"]
 	insteadOf = https://globalrepository.mclocal.int/
 
 #[remote "origin"]
-#    url = https://github.com/Homebrew/homebrew-core
-#    fetch = +refs/heads/*:refs/remotes/origin/*
+	#url = https://github.com/Homebrew/brew
+	#fetch = +refs/heads/*:refs/remotes/origin/*
 
 [homebrew]
     analyticsmessage = false
@@ -40,12 +40,15 @@
 	enabled = 1
 	autoupdate = 1
 
+[pull]
+    rebase = true
+
 [push]
 	default = current
 	followTags = true
 
-[pull]
-    rebase = true
+;[pull]
+;    rebase = true
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f

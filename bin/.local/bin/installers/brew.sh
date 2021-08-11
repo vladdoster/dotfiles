@@ -20,7 +20,7 @@ _main() {
 
 _install_brew() {
     echo "--- Running Brew install script"
-    /bin/bash -c "$(curl -fskSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 }
 
 _cleanup() {

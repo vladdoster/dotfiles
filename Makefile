@@ -10,9 +10,6 @@ define run-stow
 	find * -not -path '*/\.*' -type d -exec stow --verbose 1 {} --override=#\*\# --target="$$HOME" \;
 endef
 
-# ${HOME}/.local:
-#	mkdir -p $<
-
 .DEFAULT_GOAL := help
 
 help: ## Display this message
@@ -20,8 +17,7 @@ help: ## Display this message
 	| sort \
 	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-.PHONY: install
-init: deps ## Initial deploy dotfiles
+init: py-deps ## Deploy dotfiles via GNU stow
 	@$(run-stow)
 	@echo "--- Installed dotfiles"
 	@$(get-nvim-config)
@@ -29,7 +25,7 @@ init: deps ## Initial deploy dotfiles
 	@echo "--- Reloading shell"
 	@exec $$SHELL
 
-.PHONY: clean --delete
+.PHONY: --delete
 clean: --delete ## Remove deployed dotfiles
 	@find "$$PWD" -type f -name "*.DS_Store" -ls -delete
 	@echo "--- Cleaned .DS_Store files"
@@ -40,13 +36,19 @@ clean: --delete ## Remove deployed dotfiles
 	@rm -rf $$HOME/.{config/nvim/plugin,local/share/nvim}
 	@echo "--- Successfully cleaned previous dotfiles installations on $$HOSTNAME"
 
-.PHONY: test --simulate
-test: --simulate ## Simulate an installation
-	echo "--- DRYRUN: No changes will be made to current environment"
-	$(run-stow)
+brew-install: ## Install Homebrew pkg manager
+	@echo "--- Installing Homebrew"
+	@/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-.PHONY: deps
-deps: ## Install neovim python dependencies
+brew-uninstall: ## Uninstall Homebrew pkg manager
+	@echo "--- Uninstalling Homebrew"
+	@/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+
+brew-bundle: ## Install programs defined in $HOME/.config/dotfiles/Brewfile
+	@echo "--- Installing user programs"
+	@brew bundle install --file $$(pwd)/Brewfile
+
+py-deps: ## Install neovim python dependencies
 	@( \
 		python3 -m pip --quiet install --user --trusted-host pypi.org --trusted-host files.pythonhosted.org \
 			black \
@@ -56,18 +58,10 @@ deps: ## Install neovim python dependencies
 		&& echo "--- Installed Python 3 packages" \
 	) 2>/dev/null
 
-.PHONY: run
-run: ## Run dockerized devel env
-	docker run \
-		-it \
-		--rm \
-		--name development \
-		--volume /var/run/docker.sock:/var/run/docker.sock \
-		cloud-dev:latest
+pip-update: ## Update Python packages
+	@pip3 list --user | cut -d" " -f 1 | tail -n +3 \
+	| xargs pip3 install --user --upgrade --trusted-host pypi.org --trusted-host files.pythonhosted.org
 
-.PHONY: build
-build: ## Build dockerized devel env
-	docker build . --no-cache --tag cloud-dev:latest --build-arg username=$$USER
-
-pip-update: ## Update python packages
-	pip3 list --user | cut -d" " -f 1 | tail -n +3 | xargs pip install -U --user
+dry-run: --simulate ## Simulate an dotfiles deployment
+	@echo "--- DRYRUN: No changes will be made to current environment"
+	$(run-stow)
