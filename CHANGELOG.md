@@ -1,9 +1,14 @@
 # Changelog
 
-## [v0.5.0-6](https://github.com/vladdoster/dotfiles/compare/v0.5.0-5...v0.5.0-6)
+## [v0.5.0-7](https://github.com/vladdoster/dotfiles/compare/v0.5.0-6...v0.5.0-7)
+
+- (maint): clean up redundant scripts [`9b808a8`](https://github.com/vladdoster/dotfiles/commit/9b808a847d031f33f4b2ac676246825288bcc125)
+
+## [v0.5.0-6](https://github.com/vladdoster/dotfiles/compare/v0.5.0-5...v0.5.0-6) (2021-08-12)
 
 - (maint): Clean up git config formatting [`70c519d`](https://github.com/vladdoster/dotfiles/commit/70c519df683a81aa1ae9415bfd38cdcd898d6f2e)
 - (maint): remove zshenv output breaking rsync [`69f6a25`](https://github.com/vladdoster/dotfiles/commit/69f6a2519c0d75e0aefb85b8405da5055b4e4c35)
+- (release): v0.5.0-6 [`46a8a21`](https://github.com/vladdoster/dotfiles/commit/46a8a21d8e2507c9b98ab957ce35fadb686ded9d)
 
 ## [v0.5.0-5](https://github.com/vladdoster/dotfiles/compare/v0.5.0-4...v0.5.0-5) (2021-08-11)
 
