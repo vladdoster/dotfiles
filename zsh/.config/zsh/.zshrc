@@ -40,13 +40,21 @@ bindkey "^P" history-search-backward
 bindkey "^R" history-incremental-search-backward
 bindkey '^e' edit-command-line # edit command in vim
 bindkey -s '^f' 'cd "$(dirname "$(fzf)")"\n'
-
+#- HOMEBREW -----------------------------------------
+if [[ -e /opt/homebrew ]]; then
+	eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -e /home/linuxbrew ]]; then
+	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+else
+   echo "--- No homebrew available"
+fi
 #- KITTY ----------------------------------------------
 if [[ $TERM =~ "kitty" ]] && [[ $OSTYPE =~ "darwin" ]]; then
 	kitty + complete setup zsh | source /dev/stdin
 else
     echo "--- kitty unavailable"
 fi
+
 #- RUST -----------------------------------------------
 if [[ -e $HOME/.cargo/bin ]]; then
         export PATH="$HOME/.cargo/bin:$PATH"

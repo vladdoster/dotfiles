@@ -81,12 +81,4 @@ if [[ $OSTYPE == darwin* ]]; then
         export LDFLAGS="-L$local_opt/libressl/lib"
         export CPPFLAGS="-I$local_opt/libressl/include"
         export PKG_CONFIG_PATH="$local_opt/libressl/lib/pkgconfig"
-else
-	if [[ -e /opt/homebrew ]]; then
-		eval "$(/opt/homebrew/bin/brew shellenv)"
-	elif [[ -e /home/linuxbrew ]]; then
-		eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-	else
-	   echo "--- No homebrew available"
-	fi
 fi
