@@ -1,6 +1,6 @@
 [user]
-	name = Vladislav Doster
-	email = mvdoster@gmail.com
+	name     = Vladislav Doster
+	email    = mvdoster@gmail.com
 	username = vladdoster
 
 [github]
@@ -13,10 +13,10 @@
 	sslVerify = false
 
 [core]
-	editor = nvim
-	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
-	pager = less
-	autocrlf = false
+	editor       = nvim
+	whitespace   = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+	pager        = less
+	autocrlf     = false
 	excludesfile = ~/.config/git/ignore
 
 [commit]
@@ -28,13 +28,17 @@
 [url "https://fusion.mastercard.int/"]
 	insteadOf = https://globalrepository.mclocal.int/
 
-#[remote "origin"]
-	#url = https://github.com/Homebrew/brew
-	#fetch = +refs/heads/*:refs/remotes/origin/*
-
 [homebrew]
-    analyticsmessage = false
+    analyticsmessage     = false
     caskanalyticsmessage = false
+
+#[remote "origin"]
+#   url = https://github.com/Homebrew/brew
+#   fetch = +refs/heads/*:refs/remotes/origin/*
+
+# [remote "origin"]
+# 	url = https://github.com/Homebrew/linuxbrew-core
+# 	fetch = +refs/heads/*:refs/remotes/origin/*
 
 [rerere]
 	enabled = 1
@@ -51,8 +55,8 @@
 ;    rebase = true
 
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
+	clean   = git-lfs clean -- %f
+	smudge  = git-lfs smudge -- %f
 	process = git-lfs filter-process
 
 [color]
@@ -60,8 +64,8 @@
 
 [color "branch"]
 	current = yellow bold
-	local = green bold
-	remote = cyan bold
+	local   = green bold
+	remote  = cyan bold
 
 [color "diff"]
 	meta = yellow bold
@@ -86,19 +90,19 @@
 	line-numbers = true
 
 [delta "decorations"]
-	minus-style = red bold normal
-	plus-style = green bold normal
-	minus-emph-style = white bold red
-	minus-non-emph-style = red bold normal
-	plus-emph-style = white bold green
-	plus-non-emph-style = green bold normal
-	file-style = yellow bold none
-	file-decoration-style = yellow box
-	hunk-header-style = magenta bold
-	hunk-header-decoration-style = magenta box
+	file-decoration-style         = yellow box
+	file-style                    = yellow bold none
+	hunk-header-decoration-style  = magenta box
+	hunk-header-style             = magenta bold
+	line-numbers-right-format     = "{np:^4}│ "
+	minus-emph-style              = white bold red
 	minus-empty-line-marker-style = normal normal
-	plus-empty-line-marker-style = normal normal
-	line-numbers-right-format = "{np:^4}│ "
+	minus-non-emph-style          = red bold normal
+	minus-style                   = red bold normal
+	plus-emph-style               = white bold green
+	plus-empty-line-marker-style  = normal normal
+	plus-non-emph-style           = green bold normal
+	plus-style                    = green bold normal
 
 [gitflow "prefix"]
 	versiontag = v
@@ -119,27 +123,27 @@
 	amr = am --resolved
 	ams = am --skip
 	#############
-	b = branch
-	ba = branch -a
-	bd = branch -d
+	b   = branch
+	ba  = branch -a
+	bd  = branch -d
 	bdd = branch -D
-	br = branch -r
-	bc = rev-parse --abbrev-ref HEAD
-	bu = !git rev-parse --abbrev-ref --symbolic-full-name "@{u}"
-	bs = !git-branch-status
+	br  = branch -r
+	bc  = rev-parse --abbrev-ref HEAD
+	bu  = !git rev-parse --abbrev-ref --symbolic-full-name "@{u}"
+	bs  = !git-branch-status
 	#############
-	c = commit --signoff
-	ca = commit -a
-	cm = commit -m
+	c   = commit --signoff
+	ca  = commit -a
+	cm  = commit -m
 	cam = commit -am
 	cem = commit --allow-empty -m
-	cd = commit --amend
+	cd  = commit --amend
 	cad = commit -a --amend
 	ced = commit --allow-empty --amend
 	#############
-	cl = clone
-	cld = clone --depth 1
-	clg = !sh -c 'git clone git://github.com/$1 $(basename $1)' -
+	cl   = clone
+	cld  = clone --depth 1
+	clg  = !sh -c 'git clone git://github.com/$1 $(basename $1)' -
 	clgp = !sh -c 'git clone git@github.com:$1 $(basename $1)' -
 	clgu = !sh -c 'git clone git@github.com:$(git config --get user.username)/$1 $1' -
 	#############
@@ -147,14 +151,14 @@
 	cpa = cherry-pick --abort
 	cpc = cherry-pick --continue
 	#############
-	d = diff
-	dp = diff --patience
-	dc = diff --cached
-	dk = diff --check
+	d   = diff
+	dp  = diff --patience
+	dc  = diff --cached
+	dk  = diff --check
 	dck = diff --cached --check
-	dt = difftool
+	dt  = difftool
 	dct = difftool --cached
-	ds = diff --staged
+	ds  = diff --staged
 	#############
 	f = fetch
 	fo = fetch origin
@@ -189,32 +193,32 @@
 	psu = push -u
 	pst = push --tags
 	#############
-	pso = push origin
 	psao = push --all origin
 	psfo = push -f origin
+	pso  = push origin
 	psuo = push -u origin
 	#############
-	psom = push origin master
+	psom  = push origin master
 	psaom = push --all origin master
 	psfom = push -f origin master
 	psuom = push -u origin master
-	psoc = !git push origin $(git bc)
+	psoc  = !git push origin $(git bc)
 	psaoc = !git push --all origin $(git bc)
 	psfoc = !git push -f origin $(git bc)
 	psuoc = !git push -u origin $(git bc)
-	psdc = !git push origin :$(git bc)
+	psdc  = !git push origin :$(git bc)
 	#############
 	pl = pull
 	pb = pull --rebase
 	#############
-	plo = pull origin
-	pbo = pull --rebase origin
+	plo  = pull origin
+	pbo  = pull --rebase origin
 	plom = pull origin master
 	ploc = !git pull origin $(git bc)
 	pbom = pull --rebase origin master
 	pboc = !git pull --rebase origin $(git bc)
 	#############
-	plu = pull upstream
+	plu  = pull upstream
 	plum = pull upstream master
 	pluc = !git pull upstream $(git bc)
 	pbum = pull --rebase upstream master
@@ -279,31 +283,32 @@
 	svnd = svn dcommit
 	svnl = svn log --oneline --show-commit
 	#############
-	subadd = !sh -c 'git submodule add git://github.com/$1 $2/$(basename $1)' -
-	subrm = !sh -c 'git submodule deinit -f -- $1 && rm -rf .git/modules/$1 && git rm -f $1' -
-	subup = submodule update --init --recursive
+	subadd  = !sh -c 'git submodule add git://github.com/$1 $2/$(basename $1)' -
 	subpull = !git submodule foreach git pull --tags origin master
+	subrm   = !sh -c 'git submodule deinit -f -- $1 && rm -rf .git/modules/$1 && git rm -f $1' -
+	subup   = submodule update --init --recursive
 	#############
-	assume = update-index --assume-unchanged
-	unassume = update-index --no-assume-unchanged
-	assumed = !git ls -v | grep ^h | cut -c 3-
+	assume      = update-index --assume-unchanged
+	assumeall   = !git status -s | awk {'print $2'} | xargs git assume
+	assumed     = !git ls -v | grep ^h | cut -c 3-
+	unassume    = update-index --no-assume-unchanged
 	unassumeall = !git assumed | xargs git unassume
-	assumeall = !git status -s | awk {'print $2'} | xargs git assume
 	#############
-	bump = !sh -c 'git commit -am \"Version bump v$1\" && git psuoc && git release $1' -
-	release = !sh -c 'git tag v$1 && git pst' -
+	aliases   = !git config -l | grep alias | cut -c 7-
+	bare      = !sh -c 'git symbolic-ref HEAD refs/heads/$1 && git rm --cached -r . && git clean -xfd' -
+	bump      = !sh -c 'git commit -am \"Version bump v$1\" && git psuoc && git release $1' -
+	merged    = !sh -c 'git o master && git plom && git bd $1 && git rpo' -
+	release   = !sh -c 'git tag v$1 && git pst' -
+	serve     = daemon --reuseaddr --verbose --base-path = . --export-all ./.git
+	snap      = !git stash save 'snapshot: $(date)' && git stash apply 'stash@{0}'
 	unrelease = !sh -c 'git tag -d v$1 && git pso :v$1' -
-	merged = !sh -c 'git o master && git plom && git bd $1 && git rpo' -
-	aliases = !git config -l | grep alias | cut -c 7-
-	snap = !git stash save 'snapshot: $(date)' && git stash apply 'stash@{0}'
-	bare = !sh -c 'git symbolic-ref HEAD refs/heads/$1 && git rm --cached -r . && git clean -xfd' -
-	whois = !sh -c 'git log -i -1 --author=\"$1\" --pretty=\"format:%an <%ae>\"' -
-	serve = daemon --reuseaddr --verbose --base-path=. --export-all ./.git
+	whois     = !sh -c 'git log -i -1 --author           = \"$1\" --pretty = \"format:%an <%ae>\"' -
 	#############
 	behind = !git rev-list --left-only --count $(git bu)...HEAD
 	ahead = !git rev-list --right-only --count $(git bu)...HEAD
 	#############
-	ours = "!f() { git checkout --ours $@ && git add $@; }; f"
-	theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
+	human   = name-rev --name-only --refs = refs/heads/*
+	ours    = "!f() { git checkout --ours $@ && git add $@; }; f"
 	subrepo = !sh -c 'git filter-branch --prune-empty --subdirectory-filter $1 master' -
-	human = name-rev --name-only --refs=refs/heads/*
+	theirs  = "!f() { git checkout --theirs $@ && git add $@; }; f"
+
