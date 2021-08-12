@@ -1,9 +1,15 @@
 # Changelog
 
-## [v0.5.0-5](https://github.com/vladdoster/dotfiles/compare/v0.5.0-4...v0.5.0-5)
+## [v0.5.0-6](https://github.com/vladdoster/dotfiles/compare/v0.5.0-5...v0.5.0-6)
+
+- (maint): Clean up git config formatting [`70c519d`](https://github.com/vladdoster/dotfiles/commit/70c519df683a81aa1ae9415bfd38cdcd898d6f2e)
+- (maint): remove zshenv output breaking rsync [`69f6a25`](https://github.com/vladdoster/dotfiles/commit/69f6a2519c0d75e0aefb85b8405da5055b4e4c35)
+
+## [v0.5.0-5](https://github.com/vladdoster/dotfiles/compare/v0.5.0-4...v0.5.0-5) (2021-08-11)
 
 - (feat): overhaul of Makefile [`dafdd9f`](https://github.com/vladdoster/dotfiles/commit/dafdd9f5847bf58df102d08d36b06c890f0b0f4a)
 - (maint): update kitty configuration [`b59bc0f`](https://github.com/vladdoster/dotfiles/commit/b59bc0fbc84a7f1ce182931608d9fd0c35052a88)
+- (release): v0.5.0-5 [`2108a69`](https://github.com/vladdoster/dotfiles/commit/2108a69c67cb76bc86a32f9567335339e5a2da53)
 - (maint): add aliases [`89c1264`](https://github.com/vladdoster/dotfiles/commit/89c12644fcf73b190d4093a69351eaba11712172)
 - (maint): add `--stdout` to `github.releaseNotes` var [`dd4d5a9`](https://github.com/vladdoster/dotfiles/commit/dd4d5a978f68f821c4ce7e69e1575b52e6a714c0)
 
