@@ -71,7 +71,6 @@ alias e-cli-commands='_edit $ZDOTDIR/zshrc.d/cli-commands.sh'
 alias e-git='_edit $XDG_CONFIG_HOME/git/config'
 alias e-gitignore='_edit $XDG_CONFIG_HOME/git/ignore'
 alias e-kitty='_edit $XDG_CONFIG_HOME/kitty/kitty.conf'
-alias e-lsd='_edit $XDG_CONFIG_HOME/lsd/config.yaml'
 alias e-makefile='_edit $XDG_CONFIG_HOME/dotfiles/Makefile'
 alias e-mc-utils='_edit $ZDOTDIR/zshrc.d/mc-utils.sh'
 alias e-nvim='_edit $XDG_CONFIG_HOME/nvim/init.lua'
@@ -137,8 +136,8 @@ _restart_brew_service() {
 }
 alias .sh='exec $SHELL'
 alias r-skhd='_restart_brew_service skhd'
-alias r-wm='reload-yabai && reload-skhd'
 alias r-yabai='_restart_brew_service yabai'
+alias r-wm='r-yabai && r-skhd'
 #- PYTHON ----------------------------------------
 alias start-http_server='python2 -m SimpleHTTPServer'
 alias pip-requirements='pip-safe -r requirements.txt || echo "--- No requirements.txt found"'

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-if ! command -V yabai; then
+if command -V yabai; then
     echo "--- Installing yabai"
     brew install koekeishiya/formulae/yabai
     echo "Add the following to sudoers:"
-    echo "<user> ALL = (root) NOPASSWD: /usr/local/bin/yabai --load-sa"
+    echo "$USER ALL = (root) NOPASSWD: /usr/local/bin/yabai --load-sa"
 
     read -s -n 1 key
     if [[ $key == "" ]]; then
@@ -13,7 +13,7 @@ if ! command -V yabai; then
         sudo yabai --load-sa
         brew services start yabai
         sudo defaults write com.apple.finder DisableAllAnimations -bool true
-        echo "Start yabai on boot? [y/N]:"
+        echo "Press enter to start yabai on boot: "
         read -s -n 1 key
         if [[ $key == "" ]]; then
             brew services start koekeishiya/formulae/yabai
@@ -39,7 +39,7 @@ if ! command -V skhd; then
     brew install koekeishiya/formulae/skhd
     brew services start skhd
 
-    echo "Start skhd on boot? [y/N]:"
+    echo "Press enter to start skhd on boot: "
     read -s -n 1 key
     if [[ $key == "" ]]; then
         brew services start koekeishiya/formulae/skhd

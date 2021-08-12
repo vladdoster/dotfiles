@@ -19,9 +19,8 @@ help: ## Display this message
 
 init: py-deps ## Deploy dotfiles via GNU stow
 	@$(run-stow)
-	@echo "--- Installed dotfiles"
 	@$(get-nvim-config)
-	@echo "--- Success: dotfiles installed on $$HOSTNAME"
+	@echo "--- Dotfiles installed on $$HOSTNAME"
 	@echo "--- Reloading shell"
 	@exec $$SHELL
 
@@ -33,12 +32,18 @@ clean: --delete ## Remove deployed dotfiles
 	@echo "--- Cleaned neovim plugins"
 	@find * -type d -not -path '*/\.*' -exec stow --target="$$HOME" --verbose 1 --delete {} \;
 	@echo "--- Removed dotfile softlinks"
-	@rm -rf $$HOME/.{config/nvim/plugin,local/share/nvim}
-	@echo "--- Successfully cleaned previous dotfiles installations on $$HOSTNAME"
+	@echo "--- Cleaned previous dotfiles installations on $$HOSTNAME"
 
 brew-install: ## Install Homebrew pkg manager
 	@echo "--- Installing Homebrew"
 	@/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+linuxbrew-install: ## Install Linuxbrew pkg manager
+	@echo "--- Installing Linuxbrew"
+	@git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
+	@mkdir ~/.linuxbrew/bin
+	@ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
+	@eval "$(~/.linuxbrew/bin/brew shellenv)"
 
 brew-uninstall: ## Uninstall Homebrew pkg manager
 	@echo "--- Uninstalling Homebrew"
@@ -46,17 +51,15 @@ brew-uninstall: ## Uninstall Homebrew pkg manager
 
 brew-bundle: ## Install programs defined in $HOME/.config/dotfiles/Brewfile
 	@echo "--- Installing user programs"
-	@brew bundle install --file $$(pwd)/Brewfile
+	@brew bundle install --file "$(pwd)"/Brewfile
 
-py-deps: ## Install neovim python dependencies
-	@( \
-		python3 -m pip --quiet install --user --trusted-host pypi.org --trusted-host files.pythonhosted.org \
-			black \
-			isort \
-			mdformat \
-			pynvim \
-		&& echo "--- Installed Python 3 packages" \
-	) 2>/dev/null
+py-deps: ## Install Python dependencies
+	@pip3 install --quiet --user --trusted-host pypi.org --trusted-host files.pythonhosted.org \
+		black isort \
+		pynvim \
+		mdformat mdformat-toc mdformat-gfm mdformat-tables \
+		mdformat-shfmt mdformat-config
+	@echo "--- Installed Python 3 packages"
 
 pip-update: ## Update Python packages
 	@pip3 list --user | cut -d" " -f 1 | tail -n +3 \

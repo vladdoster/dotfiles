@@ -61,9 +61,12 @@ if [[ -e $HOME/.cargo/bin ]]; then
         echo "--- rust env activated"
 fi
 
-for file in "$(find $ZDOTDIR/zshrc.d -maxdepth 1 -name '*.sh' -print -quit)"; do
+sourced=()
+for file in $(find $ZDOTDIR/zshrc.d -maxdepth 1 -name '*.sh'); do
     . "$file"
+    sourced+="$(basename $file)"
 done
+echo "--- sourced: ${sourced}"
 #- AUTO-START TMUX IN SSH -----------------------------
 # ssh_tmux(){
 #     echo "--- ssh detected, starting tmux"
