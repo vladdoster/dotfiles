@@ -39,6 +39,7 @@ alias ...='_go_to ../..'
 alias ..='_go_to ..'
 #- FILE LOCATIONS --------------------------------
 alias cpv="rsync -ah --info=progress2"
+alias cp-dotfiles="rsync -avz --info=progress2 ~/.config/dotfiles devcloud:/home/dc-user/"
 alias mkdir="mkdir -pv"
 alias tailf="less +F -R"
 alias rmr="rm -rf"
