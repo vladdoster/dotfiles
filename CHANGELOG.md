@@ -1,8 +1,13 @@
 # Changelog
 
-## [v0.5.0-7](https://github.com/vladdoster/dotfiles/compare/v0.5.0-6...v0.5.0-7)
+## [v0.5.0-8](https://github.com/vladdoster/dotfiles/compare/v0.5.0-7...v0.5.0-8)
+
+- (maint): add cp-dotfiles alias [`378d954`](https://github.com/vladdoster/dotfiles/commit/378d9542aa4adb3d6e00e06ef284cf82d35a67b7)
+
+## [v0.5.0-7](https://github.com/vladdoster/dotfiles/compare/v0.5.0-6...v0.5.0-7) (2021-08-12)
 
 - (maint): clean up redundant scripts [`9b808a8`](https://github.com/vladdoster/dotfiles/commit/9b808a847d031f33f4b2ac676246825288bcc125)
+- (release): v0.5.0-7 [`dd1f62d`](https://github.com/vladdoster/dotfiles/commit/dd1f62dcf5e2c05ca874342d3e37e5f91086564b)
 
 ## [v0.5.0-6](https://github.com/vladdoster/dotfiles/compare/v0.5.0-5...v0.5.0-6) (2021-08-12)
 
