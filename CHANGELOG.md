@@ -1,7 +1,12 @@
 # Changelog
 
-## [v0.5.0-8](https://github.com/vladdoster/dotfiles/compare/v0.5.0-7...v0.5.0-8)
+## [v0.5.0-9](https://github.com/vladdoster/dotfiles/compare/v0.5.0-8...v0.5.0-9)
 
+- (maint): format & update kitty.conf keymaps [`9d49c35`](https://github.com/vladdoster/dotfiles/commit/9d49c35cc35657576ba06adaf98c354f1cc13f0f)
+
+## [v0.5.0-8](https://github.com/vladdoster/dotfiles/compare/v0.5.0-7...v0.5.0-8) (2021-08-12)
+
+- (release): v0.5.0-8 [`be06d29`](https://github.com/vladdoster/dotfiles/commit/be06d29389d2ee49077d8bd4bd420accd9ba809b)
 - (maint): add cp-dotfiles alias [`378d954`](https://github.com/vladdoster/dotfiles/commit/378d9542aa4adb3d6e00e06ef284cf82d35a67b7)
 
 ## [v0.5.0-7](https://github.com/vladdoster/dotfiles/compare/v0.5.0-6...v0.5.0-7) (2021-08-12)
