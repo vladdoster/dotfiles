@@ -1,8 +1,13 @@
 # Changelog
 
-## [v0.5.0-9](https://github.com/vladdoster/dotfiles/compare/v0.5.0-8...v0.5.0-9)
+## [v0.5.0-10](https://github.com/vladdoster/dotfiles/compare/v0.5.0-9...v0.5.0-10)
+
+- (maint): make weekly release manual [`feb36f5`](https://github.com/vladdoster/dotfiles/commit/feb36f5a140cee608fa9e670f1364f1c655856d4)
+
+## [v0.5.0-9](https://github.com/vladdoster/dotfiles/compare/v0.5.0-8...v0.5.0-9) (2021-08-13)
 
 - (maint): format & update kitty.conf keymaps [`9d49c35`](https://github.com/vladdoster/dotfiles/commit/9d49c35cc35657576ba06adaf98c354f1cc13f0f)
+- (release): v0.5.0-9 [`b62bbea`](https://github.com/vladdoster/dotfiles/commit/b62bbea38e06cab1738328b264a46c956235f4a5)
 
 ## [v0.5.0-8](https://github.com/vladdoster/dotfiles/compare/v0.5.0-7...v0.5.0-8) (2021-08-12)
 
