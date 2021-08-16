@@ -1,8 +1,11 @@
 # Changelog
 
-## [v0.5.0-14](https://github.com/vladdoster/dotfiles/compare/v0.5.0-13...v0.5.0-14)
+## [v0.5.0-15](https://github.com/vladdoster/dotfiles/compare/v0.5.0-14...v0.5.0-15)
+
+## [v0.5.0-14](https://github.com/vladdoster/dotfiles/compare/v0.5.0-13...v0.5.0-14) (2021-08-16)
 
 - (maint): remove py-deps step from dotfiles install [`eb74419`](https://github.com/vladdoster/dotfiles/commit/eb7441909dd50b5f9e04e077a73da5b91b5e516b)
+- (release): v0.5.0-14 [`0e1385d`](https://github.com/vladdoster/dotfiles/commit/0e1385dd2ad3ecc85440ed538503f3158b531861)
 
 ## [v0.5.0-13](https://github.com/vladdoster/dotfiles/compare/v0.5.0-12...v0.5.0-13) (2021-08-16)
 
