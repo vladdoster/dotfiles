@@ -1,6 +1,12 @@
 # Changelog
 
-## [v0.5.0-15](https://github.com/vladdoster/dotfiles/compare/v0.5.0-14...v0.5.0-15)
+## [v0.5.0-16](https://github.com/vladdoster/dotfiles/compare/v0.5.0-15...v0.5.0-16)
+
+- (maint): add installers template [`2e49649`](https://github.com/vladdoster/dotfiles/commit/2e496499c4e6e323afc6e8197f321dd0f6127c0b)
+
+## [v0.5.0-15](https://github.com/vladdoster/dotfiles/compare/v0.5.0-14...v0.5.0-15) (2021-08-16)
+
+- (release): v0.5.0-15 [`afaf910`](https://github.com/vladdoster/dotfiles/commit/afaf910e2b6c92f7a9dbe3d338695809aee6cf05)
 
 ## [v0.5.0-14](https://github.com/vladdoster/dotfiles/compare/v0.5.0-13...v0.5.0-14) (2021-08-16)
 
