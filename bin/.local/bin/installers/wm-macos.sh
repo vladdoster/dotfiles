@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if command -V yabai; then
+if ! command -V yabai; then
     echo "--- Installing yabai"
     brew install koekeishiya/formulae/yabai
     echo "Add the following to sudoers:"

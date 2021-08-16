@@ -36,7 +36,7 @@ clean: --delete ## Remove deployed dotfiles
 
 brew-install: ## Install Homebrew pkg manager
 	@echo "--- Installing Homebrew"
-	@/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	/bin/bash -c $$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
 
 linuxbrew-install: ## Install Linuxbrew pkg manager
 	@echo "--- Installing Linuxbrew"
@@ -47,11 +47,11 @@ linuxbrew-install: ## Install Linuxbrew pkg manager
 
 brew-uninstall: ## Uninstall Homebrew pkg manager
 	@echo "--- Uninstalling Homebrew"
-	@/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
 
 brew-bundle: ## Install programs defined in $HOME/.config/dotfiles/Brewfile
 	@echo "--- Installing user programs"
-	@brew bundle install --file "$(pwd)"/Brewfile
+	brew bundle install --file "$$(pwd)"/Brewfile
 
 py-deps: ## Install Python dependencies
 	@pip3 install --quiet --user --trusted-host pypi.org --trusted-host files.pythonhosted.org \

@@ -1,60 +1,9 @@
+# options are alphabetically sorted except for aliases, which are last and
+# user which is first because it is frequently modified.
 [user]
 	name     = Vladislav Doster
 	email    = mvdoster@gmail.com
 	username = vladdoster
-
-[github]
-	user = vladdoster
-
-[http]
-	sslVerify = false
-
-[https]
-	sslVerify = false
-
-[core]
-	editor       = nvim
-	whitespace   = fix,-indent-with-non-tab,trailing-space,cr-at-eol
-	pager        = less
-	autocrlf     = false
-	excludesfile = ~/.config/git/ignore
-
-[commit]
-    template = ~/.config/git/commit-template
-
-; [url "https://globalrespository.mclocal.int/"]
-; 	insteadOf = https://fusion.mastercard.int/
-
-[url "https://fusion.mastercard.int/"]
-	insteadOf = https://globalrepository.mclocal.int/
-
-[homebrew]
-    analyticsmessage     = false
-    caskanalyticsmessage = false
-
-#[remote "origin"]
-#   url = https://github.com/Homebrew/brew
-#   fetch = +refs/heads/*:refs/remotes/origin/*
-
-# [remote "origin"]
-# 	url = https://github.com/Homebrew/linuxbrew-core
-# 	fetch = +refs/heads/*:refs/remotes/origin/*
-
-[rerere]
-	enabled = 1
-	autoupdate = 1
-
-[pull]
-    rebase = true
-
-[push]
-	default = current
-	followTags = true
-
-[filter "lfs"]
-	clean   = git-lfs clean -- %f
-	smudge  = git-lfs smudge -- %f
-	process = git-lfs filter-process
 
 [color]
 	ui = auto
@@ -71,10 +20,15 @@
 	new = green bold
 	whitespace = red reverse
 
-[color "status"]
-	added = green bold
-	changed = yellow bold
-	untracked = red bold
+[commit]
+    template = ~/.config/git/commit-template
+
+[core]
+	editor       = nvim
+	whitespace   = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+	pager        = less
+	autocrlf     = false
+	excludesfile = ~/.config/git/ignore
 
 [diff]
 	tool = vimdiff
@@ -86,26 +40,54 @@
 	features = line-numbers decorations
 	line-numbers = true
 
-[delta "decorations"]
-	file-decoration-style         = yellow box
-	file-style                    = yellow bold none
-	hunk-header-decoration-style  = magenta box
-	hunk-header-style             = magenta bold
-	line-numbers-right-format     = "{np:^4}│ "
-	minus-emph-style              = white bold red
-	minus-empty-line-marker-style = normal normal
-	minus-non-emph-style          = red bold normal
-	minus-style                   = red bold normal
-	plus-emph-style               = white bold green
-	plus-empty-line-marker-style  = normal normal
-	plus-non-emph-style           = green bold normal
-	plus-style                    = green bold normal
+[filter "lfs"]
+	clean   = git-lfs clean -- %f
+	smudge  = git-lfs smudge -- %f
+	process = git-lfs filter-process
+
+[homebrew]
+    analyticsmessage     = false
+    caskanalyticsmessage = false
+
+[http]
+	sslVerify = false
+
+[https]
+	sslVerify = false
+
+[github]
+	user = vladdoster
 
 [gitflow "prefix"]
 	versiontag = v
 
+[pull]
+    rebase = true
+
+[push]
+	default = current
+	followTags = true
+
+[url "https://globalrespository.mclocal.int/"]
+	insteadOf = https://fusion.mastercard.int/
+
+#[remote "origin"]
+#   url = https://github.com/Homebrew/brew
+#   fetch = +refs/heads/*:refs/remotes/origin/*
+
+# [remote "origin"]
+# 	url = https://github.com/Homebrew/linuxbrew-core
+# 	fetch = +refs/heads/*:refs/remotes/origin/*
+
+[rerere]
+	enabled = 1
+	autoupdate = 1
+
 [sequence]
 	editor = nvim
+
+[url "https://fusion.mastercard.int/"]
+	insteadOf = https://globalrepository.mclocal.int/
 
 [alias]
 	a = add --all
@@ -308,4 +290,3 @@
 	ours    = "!f() { git checkout --ours $@ && git add $@; }; f"
 	subrepo = !sh -c 'git filter-branch --prune-empty --subdirectory-filter $1 master' -
 	theirs  = "!f() { git checkout --theirs $@ && git add $@; }; f"
-
