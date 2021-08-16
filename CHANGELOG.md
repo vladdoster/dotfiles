@@ -1,7 +1,12 @@
 # Changelog
 
-## [v0.5.0-12](https://github.com/vladdoster/dotfiles/compare/v0.5.0-11...v0.5.0-12)
+## [v0.5.0-13](https://github.com/vladdoster/dotfiles/compare/v0.5.0-12...v0.5.0-13)
 
+- (bugfixes): Makefile, wm & git configs [`7fb3915`](https://github.com/vladdoster/dotfiles/commit/7fb3915bd6859cac792c67f30891f6c98edc08cb)
+
+## [v0.5.0-12](https://github.com/vladdoster/dotfiles/compare/v0.5.0-11...v0.5.0-12) (2021-08-14)
+
+- (release): v0.5.0-12 [`9ada5f2`](https://github.com/vladdoster/dotfiles/commit/9ada5f22ed7a697fde809e3ce5c9e97dd643864a)
 - Update release-it.json [`93c0d4f`](https://github.com/vladdoster/dotfiles/commit/93c0d4ff624aa4f8d426b584b5ef98621c029f1d)
 
 ## [v0.5.0-11](https://github.com/vladdoster/dotfiles/compare/v0.5.0-10...v0.5.0-11) (2021-08-14)
