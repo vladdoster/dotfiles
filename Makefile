@@ -17,7 +17,7 @@ help: ## Display this message
 	| sort \
 	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-init: py-deps ## Deploy dotfiles via GNU stow
+init: ## Deploy dotfiles via GNU stow
 	@$(run-stow)
 	@$(get-nvim-config)
 	@echo "--- Dotfiles installed on $$HOSTNAME"
@@ -54,11 +54,10 @@ brew-bundle: ## Install programs defined in $HOME/.config/dotfiles/Brewfile
 	brew bundle install --file "$$(pwd)"/Brewfile
 
 py-deps: ## Install Python dependencies
-	@pip3 install --quiet --user --trusted-host pypi.org --trusted-host files.pythonhosted.org \
+	@python3 -m pip install --quiet --user --trusted-host pypi.org --trusted-host files.pythonhosted.org \
 		black isort \
 		pynvim \
-		mdformat mdformat-toc mdformat-gfm mdformat-tables \
-		mdformat-shfmt mdformat-config
+		mdformat mdformat-toc mdformat-gfm mdformat-tables mdformat-shfmt mdformat-config
 	@echo "--- Installed Python 3 packages"
 
 pip-update: ## Update Python packages
