@@ -1,8 +1,13 @@
 # Changelog
 
-## [v0.5.0-13](https://github.com/vladdoster/dotfiles/compare/v0.5.0-12...v0.5.0-13)
+## [v0.5.0-14](https://github.com/vladdoster/dotfiles/compare/v0.5.0-13...v0.5.0-14)
+
+- (maint): remove py-deps step from dotfiles install [`eb74419`](https://github.com/vladdoster/dotfiles/commit/eb7441909dd50b5f9e04e077a73da5b91b5e516b)
+
+## [v0.5.0-13](https://github.com/vladdoster/dotfiles/compare/v0.5.0-12...v0.5.0-13) (2021-08-16)
 
 - (bugfixes): Makefile, wm & git configs [`7fb3915`](https://github.com/vladdoster/dotfiles/commit/7fb3915bd6859cac792c67f30891f6c98edc08cb)
+- (release): v0.5.0-13 [`226dee3`](https://github.com/vladdoster/dotfiles/commit/226dee347c763bc621c11b9232833f866e6d2f0b)
 
 ## [v0.5.0-12](https://github.com/vladdoster/dotfiles/compare/v0.5.0-11...v0.5.0-12) (2021-08-14)
 
