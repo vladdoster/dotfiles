@@ -3,7 +3,7 @@
 brew-remove() { # Delete (one or multiple) selected application(s)
     local uninst=$(brew leaves | fzf -m)
 
-    if [[ $uninst ]]; then
+    if [ $uninst ]; then
         for prog in $(echo $uninst); do
             brew uninstall $prog
         done
@@ -13,7 +13,7 @@ brew-remove() { # Delete (one or multiple) selected application(s)
 brew-install() { # Install (one or multiple) selected application(s)
     local inst=$(brew search $1 | fzf)
 
-    if [[ $inst ]]; then
+    if [ $inst ]; then
         for prog in $(echo $inst); do
             echo "--- Installing $prog"
             brew install $prog
