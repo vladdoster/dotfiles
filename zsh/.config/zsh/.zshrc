@@ -47,14 +47,15 @@ else
     # echo "--- homebrew is unavailable"
 fi
 #- KITTY ----------------------------------------------
-if [[ $TERM =~ "kitty" ]]; then
+if [ -x "$(command -v kitty)" ] && [[ $TERM =~ "kitty" ]]; then
     kitty + complete setup zsh | source /dev/stdin
     alias ssh='kitty +kitten ssh'
+    echo "--- kitty terminal configured"
 fi
 #- RUST -----------------------------------------------
 if [[ -e $HOME/.cargo/bin ]]; then
     export PATH="$HOME/.cargo/bin:$PATH"
-    echo "--- rust env activated"
+    echo "--- rust env configured"
 fi
 #- PERSONAL SCRIPTS -----------------------------------
 sourced=()
@@ -63,16 +64,3 @@ for file in $(find $ZDOTDIR/zshrc.d -maxdepth 1 -name '*.sh'); do
     sourced+="$(basename $file)"
 done
 echo "--- sourced: ${sourced}"
-#- AUTO-START TMUX IN SSH -----------------------------
-# ssh_tmux(){
-#     echo "--- ssh detected, starting tmux"
-#     [ -z "$TMUX"  ] && { tmux attach || tmux new-session;}
-# }
-# 	if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
-# 	  ssh_tmux
-# 	else
-# 	  case $(ps -o comm= -p $PPID) in
-# 	    sshd|*/sshd) ssh_tmux;;
-# 	  esac
-# 	fi
-# fi

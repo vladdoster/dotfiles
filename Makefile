@@ -22,7 +22,7 @@ init: ## Deploy dotfiles via GNU stow
 	@$(get-nvim-config)
 	@echo "--- Dotfiles installed on $$HOSTNAME"
 	@echo "--- Reloading shell"
-	@exec $$SHELL
+	@exec "$$SHELL"
 
 .PHONY: --delete
 clean: --delete ## Remove deployed dotfiles
@@ -36,14 +36,7 @@ clean: --delete ## Remove deployed dotfiles
 
 brew-install: ## Install Homebrew pkg manager
 	@echo "--- Installing Homebrew"
-	/bin/bash -c $$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
-
-linuxbrew-install: ## Install Linuxbrew pkg manager
-	@echo "--- Installing Linuxbrew"
-	@git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
-	@mkdir ~/.linuxbrew/bin
-	@ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
-	@eval "$(~/.linuxbrew/bin/brew shellenv)"
+	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 brew-uninstall: ## Uninstall Homebrew pkg manager
 	@echo "--- Uninstalling Homebrew"
@@ -53,16 +46,23 @@ brew-bundle: ## Install programs defined in $HOME/.config/dotfiles/Brewfile
 	@echo "--- Installing user programs"
 	brew bundle install --file "$$(pwd)"/Brewfile
 
+linuxbrew-install: ## Install Linuxbrew pkg manager
+	@echo "--- Installing Linuxbrew"
+	@git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
+	@mkdir ~/.linuxbrew/bin
+	@ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
+	@eval "$(~/.linuxbrew/bin/brew shellenv)"
+
+pip-update: ## Update Python packages
+	@pip3 list --user | cut -d" " -f 1 | tail -n +3 \
+	| xargs pip3 install --user --upgrade --trusted-host pypi.org --trusted-host files.pythonhosted.org
+
 py-deps: ## Install Python dependencies
 	@python3 -m pip install --quiet --user --trusted-host pypi.org --trusted-host files.pythonhosted.org \
 		black isort \
 		pynvim \
 		mdformat mdformat-toc mdformat-gfm mdformat-tables mdformat-shfmt mdformat-config
 	@echo "--- Installed Python 3 packages"
-
-pip-update: ## Update Python packages
-	@pip3 list --user | cut -d" " -f 1 | tail -n +3 \
-	| xargs pip3 install --user --upgrade --trusted-host pypi.org --trusted-host files.pythonhosted.org
 
 dry-run: --simulate ## Simulate an dotfiles deployment
 	@echo "--- DRYRUN: No changes will be made to current environment"
