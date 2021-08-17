@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-brew-remove() { # Delete (one or multiple) selected application(s)
+brew-remove() { # delete (one or multiple) selected application(s)
     local uninst=$(brew leaves | fzf -m)
 
     if [ $uninst ]; then
@@ -10,7 +10,7 @@ brew-remove() { # Delete (one or multiple) selected application(s)
     fi
 }
 
-brew-install() { # Install (one or multiple) selected application(s)
+brew-install() { # install (one or multiple) selected application(s)
     local inst=$(brew search $1 | fzf)
 
     if [ $inst ]; then
@@ -22,7 +22,7 @@ brew-install() { # Install (one or multiple) selected application(s)
 }
 
 # SSH -------------------------------------------
-add-ssh-host() { # Adds entry to ~/.ssh/config
+add-ssh-host() { # adds entry to ~/.ssh/config
     echo -n "Enter host nickname: " && read HOST
     echo -n "Enter hostname: " && read HOSTNAME
     echo -n "Enter user: " && read USER
@@ -43,26 +43,38 @@ parse-ssh-hosts() {
 }
 
 # DOCKER -----------------------------------------
-docker-cleanup() { # Delete all Docker volumes, images, and containers
+docker-cleanup() { # delete all docker volumes, images, and containers
     docker rm $(docker ps -qa --no-trunc --filter "status=exited")
     docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
     docker volume rm $(docker volume ls -qf dangling=true)
 }
 
-docker-container-shell() { # Get interactive shell to a container
+docker-shell() { # get interactive shell to a container
     docker-compose exec -it "$1" /bin/bash
 }
 
-# GIT --------------------------------------------
+docker-stop() { # stop containers via fzf
+    local cid
+    cid=$(docker ps | sed 1d | fzf -q "$1" | awk '{print $1}')
+
+    [ -n "$cid" ] && docker stop "$cid"
+}
+
+docker-rm() { # remove containers via fzf multi-selection
+    docker ps -a | sed 1d | fzf -q "$1" --no-sort -m --tac | awk '{ print $1 }' | xargs -r docker rm
+}
 # MISC. ------------------------------------------
 fd() { # cd to a child directory via FZF
     local dir
-    dir=$(find ${1:-.} -path '*/\.*' -prune \
-        -o -type d -print 2> /dev/null | fzf +m) \
+    dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m) \
         && cd "$dir"
 }
 
-set-zsh-as-default-sh() { # Attempts to set ZSH as default shell
+get-passwd() { # search 1password cli via fzf
+    lpass show -c --password $(lpass ls | fzf | awk '{print $(NF)}' | sed 's/\]//g')
+}
+
+set-zsh-as-default-sh() { # attempts to set zsh as default shell
     sudo sh --command "echo $(which zsh) >> /etc/shells"
     chsh -s "$(which zsh)"
     echo "--- Set zsh as default shell"
