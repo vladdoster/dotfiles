@@ -1,8 +1,13 @@
 # Changelog
 
-## [v0.5.0-17](https://github.com/vladdoster/dotfiles/compare/v0.5.0-16...v0.5.0-17)
+## [v0.5.0-18](https://github.com/vladdoster/dotfiles/compare/v0.5.0-17...v0.5.0-18)
+
+- (maint): `motion` installer, fzf cmds, and clean up git config [`6632b69`](https://github.com/vladdoster/dotfiles/commit/6632b6983575b900fce876bb8bdd3ae894f749b0)
+
+## [v0.5.0-17](https://github.com/vladdoster/dotfiles/compare/v0.5.0-16...v0.5.0-17) (2021-08-17)
 
 - (maint): update shell scripts [`b4645ae`](https://github.com/vladdoster/dotfiles/commit/b4645aeb0722a97070b2f69b3f7d1cf7b8dbf12a)
+- (release): v0.5.0-17 [`5a96944`](https://github.com/vladdoster/dotfiles/commit/5a96944e0135aaf25c542d9cd37155a1dfda0b35)
 
 ## [v0.5.0-16](https://github.com/vladdoster/dotfiles/compare/v0.5.0-15...v0.5.0-16) (2021-08-16)
 
