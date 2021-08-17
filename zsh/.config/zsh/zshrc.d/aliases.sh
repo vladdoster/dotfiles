@@ -3,10 +3,11 @@
 # Collection of aliases to reduce key presses for common tasks
 _cmd_exists() {
     if command -v "${1}" &> /dev/null; then
-        return
+        return true
+    else
+        echo "--- ${1} is unavailable"
+        return false
     fi
-    echo "--- ${1} is unavailable"
-    false
 }
 #- SYSTEM SPECIFIC -------------------------------
 if [[ $OSTYPE =~ "darwin" ]]; then
@@ -118,10 +119,6 @@ alias rm-ds-store='find "$PWD" -type f -name "*.DS[_-]Store" -print -delete'
 alias scratchpad='$EDITOR $(mktemp -t scratch.XXX.md)'
 alias generate-passwd='openssl rand -base64 24'
 alias get-my-ip='curl ifconfig.co'
-
-if _cmd_exists kitty; then
-    alias ssh='kitty +kitten ssh'
-fi
 #- RELOAD COMMANDS -------------------------------
 _restart_brew_service() {
     if _cmd_exists "${1}"; then
@@ -171,7 +168,7 @@ fi
 #- FILE CREATION ---------------------------------
 _mkfile() {
     F_NAME="${3}.${1}"
-    echo "/usr/bin/env ${2}" > "${F_NAME}"
+    echo "#!/usr/bin/env ${2}" > "${F_NAME}"
     chmod +x "${F_NAME}"
     echo "--- Created ${F_NAME}"
 }
