@@ -1,6 +1,12 @@
 # Changelog
 
-## [v0.5.0-19](https://github.com/vladdoster/dotfiles/compare/v0.5.0-18...v0.5.0-19)
+## [v0.5.0-20](https://github.com/vladdoster/dotfiles/compare/v0.5.0-19...v0.5.0-20)
+
+- (maint): polish rough edges for a new system [`69d0c8d`](https://github.com/vladdoster/dotfiles/commit/69d0c8d064bb94f0c1ff807a277bd60f991137c3)
+
+## [v0.5.0-19](https://github.com/vladdoster/dotfiles/compare/v0.5.0-18...v0.5.0-19) (2021-08-17)
+
+- (release): v0.5.0-19 [`24ce970`](https://github.com/vladdoster/dotfiles/commit/24ce97066ad5efa8a7a04b8a59017cbb0f2e9cf0)
 
 ## [v0.5.0-18](https://github.com/vladdoster/dotfiles/compare/v0.5.0-17...v0.5.0-18) (2021-08-17)
 
