@@ -1,8 +1,13 @@
 # Changelog
 
-## [v0.5.0-16](https://github.com/vladdoster/dotfiles/compare/v0.5.0-15...v0.5.0-16)
+## [v0.5.0-17](https://github.com/vladdoster/dotfiles/compare/v0.5.0-16...v0.5.0-17)
+
+- (maint): update shell scripts [`b4645ae`](https://github.com/vladdoster/dotfiles/commit/b4645aeb0722a97070b2f69b3f7d1cf7b8dbf12a)
+
+## [v0.5.0-16](https://github.com/vladdoster/dotfiles/compare/v0.5.0-15...v0.5.0-16) (2021-08-16)
 
 - (maint): add installers template [`2e49649`](https://github.com/vladdoster/dotfiles/commit/2e496499c4e6e323afc6e8197f321dd0f6127c0b)
+- (release): v0.5.0-16 [`272e266`](https://github.com/vladdoster/dotfiles/commit/272e2664198656bf940cd93e43d7317ce2332f0c)
 
 ## [v0.5.0-15](https://github.com/vladdoster/dotfiles/compare/v0.5.0-14...v0.5.0-15) (2021-08-16)
 
