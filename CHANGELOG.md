@@ -1,8 +1,13 @@
 # Changelog
 
-## [v0.5.0-20](https://github.com/vladdoster/dotfiles/compare/v0.5.0-19...v0.5.0-20)
+## [v0.5.0-21](https://github.com/vladdoster/dotfiles/compare/v0.5.0-20...v0.5.0-21)
+
+- (bugfix): fix typo in global repository url [`fd11072`](https://github.com/vladdoster/dotfiles/commit/fd11072cd713ba88fe15ceda16f67ab5a3e6804d)
+
+## [v0.5.0-20](https://github.com/vladdoster/dotfiles/compare/v0.5.0-19...v0.5.0-20) (2021-08-17)
 
 - (maint): polish rough edges for a new system [`69d0c8d`](https://github.com/vladdoster/dotfiles/commit/69d0c8d064bb94f0c1ff807a277bd60f991137c3)
+- (release): v0.5.0-20 [`7d5ed02`](https://github.com/vladdoster/dotfiles/commit/7d5ed02dfa114295aa230b6fcfa701fad3b36142)
 
 ## [v0.5.0-19](https://github.com/vladdoster/dotfiles/compare/v0.5.0-18...v0.5.0-19) (2021-08-17)
 
