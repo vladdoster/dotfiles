@@ -81,6 +81,6 @@ brew "zsh"
 cask "1password", args: { appdir: "/Applications" }
 cask "font-jetbrains-mono"
 cask "kitty", args: { appdir: "/Applications" }
-cask "logitech-options"
-cask "logitech-unifying"
-cask "vivaldi"
+cask "logitech-options", args: { appdir: "/Applications" }
+cask "logitech-unifying", args: { appdir: "/Applications" }
+cask "vivaldi", args: { appdir: "/Applications" }
