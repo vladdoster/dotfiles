@@ -1,7 +1,12 @@
 # Changelog
 
-## [v0.5.0-21](https://github.com/vladdoster/dotfiles/compare/v0.5.0-20...v0.5.0-21)
+## [v0.5.0-22](https://github.com/vladdoster/dotfiles/compare/v0.5.0-21...v0.5.0-22)
 
+- (maint): use `Source Code Pro` font [`4fa127a`](https://github.com/vladdoster/dotfiles/commit/4fa127a0d56daf36dc11a43082eb50195955a334)
+
+## [v0.5.0-21](https://github.com/vladdoster/dotfiles/compare/v0.5.0-20...v0.5.0-21) (2021-08-19)
+
+- (release): v0.5.0-21 [`c71119b`](https://github.com/vladdoster/dotfiles/commit/c71119b3d9b97296d9b2730933b2b17d81136f3f)
 - (bugfix): fix typo in global repository url [`fd11072`](https://github.com/vladdoster/dotfiles/commit/fd11072cd713ba88fe15ceda16f67ab5a3e6804d)
 
 ## [v0.5.0-20](https://github.com/vladdoster/dotfiles/compare/v0.5.0-19...v0.5.0-20) (2021-08-17)
