@@ -1,8 +1,13 @@
 # Changelog
 
-## [v0.5.0-22](https://github.com/vladdoster/dotfiles/compare/v0.5.0-21...v0.5.0-22)
+## [v0.5.0-23](https://github.com/vladdoster/dotfiles/compare/v0.5.0-22...v0.5.0-23)
+
+- (maint): clean up user scripts & Brewfile updates [`da8cb93`](https://github.com/vladdoster/dotfiles/commit/da8cb9384579d7cd904a8546599c9756ef73f7fc)
+
+## [v0.5.0-22](https://github.com/vladdoster/dotfiles/compare/v0.5.0-21...v0.5.0-22) (2021-08-22)
 
 - (maint): use `Source Code Pro` font [`4fa127a`](https://github.com/vladdoster/dotfiles/commit/4fa127a0d56daf36dc11a43082eb50195955a334)
+- (release): v0.5.0-22 [`4ecb6c7`](https://github.com/vladdoster/dotfiles/commit/4ecb6c7d1a7e9ed032bb65d2f728272c112c1894)
 
 ## [v0.5.0-21](https://github.com/vladdoster/dotfiles/compare/v0.5.0-20...v0.5.0-21) (2021-08-19)
 
