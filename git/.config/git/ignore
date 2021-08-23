@@ -1,43 +1,23 @@
-###############################################
-# LINUX
-###############################################
+#-- LINUX ----------------------------------------
 *~
-
-# temporary files which can be created if a process still has a handle open of a deleted file
-.fuse_hidden*
-
-# KDE directory preferences
-.directory
-
-# Linux trash folder which might appear on any partition or disk
-.Trash-*
-
-# .nfs files are created when an open file is removed but is still being accessed
-.nfs*
-
-# Ignore tags created by etags, ctags, gtags (GNU global) and cscope
+.fuse_hidden* # temporary files which can be created if a process still has a handle open of a deleted file
+.directory    # KDE directory preferences
+.Trash-*      # Linux trash folder which might appear on any partition or disk
+.nfs*         # .nfs files are created when an open file is removed but is still being accessed
+# tags created by etags, ctags, gtags (gnu global) and cscope
 TAGS
 .TAGS
 !TAGS/
 tags
 .tags
 !tags/
-
-###############################################
-# MAC_OS
-###############################################
-# General
+#-- MAC_OS ---------------------------------------
 .DS_Store
 .AppleDouble
 .LSOverride
-
-# Icon must end with two \r
-Icon
-
-# Thumbnails
-._*
-
-# Files that might appear in the root of a volume
+Icon # icon must end with two \r
+._*  # Thumbnails
+# files that might appear in the root of a volume
 .DocumentRevisions-V100
 .fseventsd
 .Spotlight-V100
@@ -45,49 +25,31 @@ Icon
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
-
-# Directories potentially created on remote AFP share
+# directories potentially created on remote afp share
 .AppleDB
 .AppleDesktop
 Network Trash Folder
 Temporary Items
 .apdisk
-
-###############################################
-# VIM
-###############################################
-# Swap
-[._]*.s[a-v][a-z]
-!*.svg  # comment out if you don't need vector files
+#-- VIM ------------------------------------------
+[._]*.s[a-v][a-z] # swap
+!*.svg            # comment out if you don't need vector files
 [._]*.sw[a-p]
 [._]s[a-rt-v][a-z]
 [._]ss[a-gi-z]
 [._]sw[a-p]
-
-# Session
-Session.vim
-Sessionx.vim
-
-# Temporary
-.netrwhist
+Session.vim       # Session
+Sessionx.vim      # Session
+.netrwhist        # Temporary
 *~
-# Auto-generated tag files
-tags
-# Persistent undo
-[._]*.un~
-
-###############################################
-# PYTHON 
-###############################################
-# Byte-compiled / optimized / DLL files
+[._]*.un~         # Persistent undo
+#-- PYTHON ---------------------------------------
+# byte-compiled / optimized / dll files
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
-*.so
-
-# Distribution / packaging
+*.so               # C extensions
+# distribution / packaging
 .Python
 build/
 develop-eggs/
@@ -106,18 +68,13 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+# pyinstaller
 *.manifest
 *.spec
-
-# Installer logs
+# installer logs
 pip-log.txt
 pip-delete-this-directory.txt
-
-# Unit test / coverage reports
+# unit test / coverage reports
 htmlcov/
 .tox/
 .nox/
@@ -131,61 +88,29 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
-
-# Translations
+# translations
 *.mo
 *.pot
-
-# Django stuff:
+# django
 *.log
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-
-# Flask stuff:
+# flask
 instance/
 .webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
+.scrapy            # scrapy
+docs/_build/       # sphinx documentation
+# pybuilder
 .pybuilder/
 target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
+.ipynb_checkpoints # jupyter notebook
+# ipython
 profile_default/
 ipython_config.py
-
-# pyenv
-#   For a library or package, you might want to ignore these files since the code is
-#   intended to run in multiple environments; otherwise, check them in:
-# .python-version
-
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
+celerybeat*        # celery
+# environments
 .env
 .venv
 env/
@@ -193,27 +118,11 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
 # mypy
 .mypy_cache/
 .dmypy.json
 dmypy.json
-
-# Pyre type checker
-.pyre/
-
-# pytype static type analyzer
-.pytype/
-
-# Cython debug symbols
-cython_debug/
+/site         # mkdocs documentation
+.pyre/        # pyre type checker
+.pytype/      # pytype static type analyzer
+cython_debug/ # cython debug symbols
