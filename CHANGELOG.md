@@ -1,8 +1,13 @@
 # Changelog
 
-## [v0.5.0-23](https://github.com/vladdoster/dotfiles/compare/v0.5.0-22...v0.5.0-23)
+## [v0.5.0-24](https://github.com/vladdoster/dotfiles/compare/v0.5.0-23...v0.5.0-24)
+
+- (maint): format git ignore file [`ec178bb`](https://github.com/vladdoster/dotfiles/commit/ec178bb880610ddd93c6077692095dcccdd4830e)
+
+## [v0.5.0-23](https://github.com/vladdoster/dotfiles/compare/v0.5.0-22...v0.5.0-23) (2021-08-22)
 
 - (maint): clean up user scripts & Brewfile updates [`da8cb93`](https://github.com/vladdoster/dotfiles/commit/da8cb9384579d7cd904a8546599c9756ef73f7fc)
+- (release): v0.5.0-23 [`4146c82`](https://github.com/vladdoster/dotfiles/commit/4146c821183948c6cf3ed797f5d012c3d0fd73c1)
 
 ## [v0.5.0-22](https://github.com/vladdoster/dotfiles/compare/v0.5.0-21...v0.5.0-22) (2021-08-22)
 
