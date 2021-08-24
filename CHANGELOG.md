@@ -1,8 +1,13 @@
 # Changelog
 
-## [v0.5.0-30](https://github.com/vladdoster/dotfiles/compare/v0.5.0-29...v0.5.0-30)
+## [v0.5.0-31](https://github.com/vladdoster/dotfiles/compare/v0.5.0-30...v0.5.0-31)
+
+- (maint): configure mega-linter to commit fixes [`981c9c1`](https://github.com/vladdoster/dotfiles/commit/981c9c1f55659af884557e098e686d99d24a61ee)
+
+## [v0.5.0-30](https://github.com/vladdoster/dotfiles/compare/v0.5.0-29...v0.5.0-30) (2021-08-24)
 
 - (maint): disable shellcheck & python bandit [`f269f04`](https://github.com/vladdoster/dotfiles/commit/f269f0447ff89aa9248bb95dcd53f752dca586f7)
+- (release): v0.5.0-30 [`ba2178d`](https://github.com/vladdoster/dotfiles/commit/ba2178dac5a098f73b7ce118c0802b717ee88469)
 
 ## [v0.5.0-29](https://github.com/vladdoster/dotfiles/compare/v0.5.0-28...v0.5.0-29) (2021-08-24)
 
