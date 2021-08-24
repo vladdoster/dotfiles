@@ -1,8 +1,13 @@
 # Changelog
 
-## [v0.5.0-25](https://github.com/vladdoster/dotfiles/compare/v0.5.0-24...v0.5.0-25)
+## [v0.5.0-26](https://github.com/vladdoster/dotfiles/compare/v0.5.0-25...v0.5.0-26)
+
+- Update mega-linter.yml [`ebef521`](https://github.com/vladdoster/dotfiles/commit/ebef521d8231a33a759dc029870ebb0539c72383)
+
+## [v0.5.0-25](https://github.com/vladdoster/dotfiles/compare/v0.5.0-24...v0.5.0-25) (2021-08-24)
 
 - (feat): use mega-linter & git config formatting [`40f8a07`](https://github.com/vladdoster/dotfiles/commit/40f8a075f39ac04c3e6c080f76d11de160c9ce3e)
+- (release): v0.5.0-25 [`e433134`](https://github.com/vladdoster/dotfiles/commit/e433134a5f7c47a3e2348bded79e07788f6bc216)
 
 ## [v0.5.0-24](https://github.com/vladdoster/dotfiles/compare/v0.5.0-23...v0.5.0-24) (2021-08-23)
 
