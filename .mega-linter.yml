@@ -1,11 +1,10 @@
-# Configuration file for Mega-Linter
-# See all available variables at https://nvuillam.github.io/mega-linter/configuration/ and in linters documentation
-
-APPLY_FIXES: all # all, none, or list of linter keys
-DEFAULT_BRANCH: mac-os # Usually master or main
+APPLY_FIXES: all 
+APPLY_FIXES_EVENT: all
+APPLY_FIXES_MODE: commit
+DEFAULT_BRANCH: mac-os
 DISABLE:
-  - COPYPASTE # Comment to disable checks of abusive copy-pastes
-  - SPELL # Comment to disable checks of spelling mistakes
+  - COPYPASTE
+  - SPELL
 DISABLE_LINTERS:
   - BASH_SHELLCHECK
   - PYTHON_BANDIT
