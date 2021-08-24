@@ -1,8 +1,17 @@
 # Changelog
 
-## [v0.5.0-31](https://github.com/vladdoster/dotfiles/compare/v0.5.0-30...v0.5.0-31)
+## [v0.5.0-32](https://github.com/vladdoster/dotfiles/compare/v0.5.0-31...v0.5.0-32)
+
+- Update mega-linter.yml [`4eff795`](https://github.com/vladdoster/dotfiles/commit/4eff7956af88b2c78faa4fb502f087d48666c2b4)
+- Update mega-linter.yml [`a138d21`](https://github.com/vladdoster/dotfiles/commit/a138d217e36e17e96460ce900d0adc270ce19c98)
+- (bugfix): remove comment breaking build [`e3d8c9f`](https://github.com/vladdoster/dotfiles/commit/e3d8c9f359279dcddceebb0542cd59ef1bba8115)
+- (maint): correct mega-linter config [`6228db8`](https://github.com/vladdoster/dotfiles/commit/6228db8174df8ec689df1b77d9d06142c54f4c5c)
+- Update mega-linter.yml [`8100322`](https://github.com/vladdoster/dotfiles/commit/81003225ff11331fd83a7a21e4d4338112e00ad3)
+
+## [v0.5.0-31](https://github.com/vladdoster/dotfiles/compare/v0.5.0-30...v0.5.0-31) (2021-08-24)
 
 - (maint): configure mega-linter to commit fixes [`981c9c1`](https://github.com/vladdoster/dotfiles/commit/981c9c1f55659af884557e098e686d99d24a61ee)
+- (release): v0.5.0-31 [`b6b4bae`](https://github.com/vladdoster/dotfiles/commit/b6b4bae254b94cfc38c871ea6c582641eafffe5d)
 
 ## [v0.5.0-30](https://github.com/vladdoster/dotfiles/compare/v0.5.0-29...v0.5.0-30) (2021-08-24)
 
