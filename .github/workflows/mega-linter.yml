@@ -37,15 +37,12 @@ jobs:
         id: ml
         uses: nvuillam/mega-linter@v4
         env:
-          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/mac-os' }} # Valida
+          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/mac-os' }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: prepare commit
-        if: steps.ml.outputs.has_updated_sources == 1 && (env.APPLY_FIXES_EVENT == 'all' || env.APPLY_FIXES_EVENT == github.event_name) && env.APPLY_FIXES_MODE == 'commit' && github.ref != 'refs/heads/mac-os' && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository) && !contains(github.event.head_commit.message, 'skip fix')
-        run: |
-          sudo chown -Rc $UID .git/ 
-          ls -al
-          sudo rm -rf *report* 
+        if: steps.ml.outputs.has_updated_sources == 1 
+        run: sudo chown -Rc $UID .git/ && ls -al && sudo rm -rf *report* 
 
       - name: commit & push linter fixes
         uses: stefanzweifel/git-auto-commit-action@v4
