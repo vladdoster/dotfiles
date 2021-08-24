@@ -1,7 +1,13 @@
 # Changelog
 
-## [v0.5.0-28](https://github.com/vladdoster/dotfiles/compare/v0.5.0-27...v0.5.0-28)
+## [v0.5.0-29](https://github.com/vladdoster/dotfiles/compare/v0.5.0-28...v0.5.0-29)
 
+- (maint): remove hammerspoon config [`95d7d0a`](https://github.com/vladdoster/dotfiles/commit/95d7d0a6b0037504bbdd865273503e32a78d1fd3)
+- (maint): apply various cleanup operations [`894c443`](https://github.com/vladdoster/dotfiles/commit/894c443f6e9af3a349a2ddbcff07723c2fd6bc09)
+
+## [v0.5.0-28](https://github.com/vladdoster/dotfiles/compare/v0.5.0-27...v0.5.0-28) (2021-08-24)
+
+- (release): v0.5.0-28 [`01faf3f`](https://github.com/vladdoster/dotfiles/commit/01faf3f165ca969a8a15addbc0c46277db1d9461)
 - Update mega-linter.yml [`cc25376`](https://github.com/vladdoster/dotfiles/commit/cc25376e7514b5d0047ba9d1b2dcba9fd9d6285c)
 
 ## [v0.5.0-27](https://github.com/vladdoster/dotfiles/compare/v0.5.0-26...v0.5.0-27) (2021-08-24)
