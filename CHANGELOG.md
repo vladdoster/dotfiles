@@ -1,7 +1,12 @@
 # Changelog
 
-## [v0.5.0-27](https://github.com/vladdoster/dotfiles/compare/v0.5.0-26...v0.5.0-27)
+## [v0.5.0-28](https://github.com/vladdoster/dotfiles/compare/v0.5.0-27...v0.5.0-28)
 
+- Update mega-linter.yml [`cc25376`](https://github.com/vladdoster/dotfiles/commit/cc25376e7514b5d0047ba9d1b2dcba9fd9d6285c)
+
+## [v0.5.0-27](https://github.com/vladdoster/dotfiles/compare/v0.5.0-26...v0.5.0-27) (2021-08-24)
+
+- (release): v0.5.0-27 [`63e26ce`](https://github.com/vladdoster/dotfiles/commit/63e26ce59d17190b85c31c2c3bb73024b26e6023)
 - Update mega-linter.yml [`b723d40`](https://github.com/vladdoster/dotfiles/commit/b723d40ab74a41d5cc8ef140a6f3c13a06ffbb25)
 
 ## [v0.5.0-26](https://github.com/vladdoster/dotfiles/compare/v0.5.0-25...v0.5.0-26) (2021-08-24)
