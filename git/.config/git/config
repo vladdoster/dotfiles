@@ -3,9 +3,9 @@
 [user]
 	name       = Vladislav Doster
 	; email    = Vladislav.doster@mastercard.com
-    ; email    = mvdoster@gmail.com
+    email    = mvdoster@gmail.com
 	; username = e109082
-	; username = vladdoster
+	username = vladdoster
 
 [color]
 	ui = auto
