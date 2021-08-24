@@ -30,8 +30,7 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
+          fetch-depth: 2
 
       - name: run linter
         id: ml
@@ -52,7 +51,7 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "(format): apply linter fixes"
-          commit_options: '--amend --no-edit --signoff --allow-empty'
+          commit_options: '--amend --no-edit --no-verify --signoff --allow-empty'
           add_options: '-u'
           commit_user_email: mvdoster@gmail.com
           commit_user_name: vladdoster
