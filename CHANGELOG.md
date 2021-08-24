@@ -1,9 +1,14 @@
 # Changelog
 
-## [v0.5.0-29](https://github.com/vladdoster/dotfiles/compare/v0.5.0-28...v0.5.0-29)
+## [v0.5.0-30](https://github.com/vladdoster/dotfiles/compare/v0.5.0-29...v0.5.0-30)
+
+- (maint): disable shellcheck & python bandit [`f269f04`](https://github.com/vladdoster/dotfiles/commit/f269f0447ff89aa9248bb95dcd53f752dca586f7)
+
+## [v0.5.0-29](https://github.com/vladdoster/dotfiles/compare/v0.5.0-28...v0.5.0-29) (2021-08-24)
 
 - (maint): remove hammerspoon config [`95d7d0a`](https://github.com/vladdoster/dotfiles/commit/95d7d0a6b0037504bbdd865273503e32a78d1fd3)
 - (maint): apply various cleanup operations [`894c443`](https://github.com/vladdoster/dotfiles/commit/894c443f6e9af3a349a2ddbcff07723c2fd6bc09)
+- (release): v0.5.0-29 [`18e2c1c`](https://github.com/vladdoster/dotfiles/commit/18e2c1c2c0ecfbab26e71af289f0bbf3620b4e48)
 
 ## [v0.5.0-28](https://github.com/vladdoster/dotfiles/compare/v0.5.0-27...v0.5.0-28) (2021-08-24)
 
