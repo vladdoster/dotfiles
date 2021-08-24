@@ -3,7 +3,6 @@ name: Mega-Linter
 
 on:
   push:
-  pull_request:
     branches: [mac-os]
 
 env: 
@@ -22,37 +21,34 @@ jobs:
           github_token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
 
   build:
+
     name: Mega-Linter
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Code
+
+      - name: checkout code
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
-      - name: Mega-Linter
+      - name: run linter
         id: ml
         uses: nvuillam/mega-linter@v4
         env:
           VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/mac-os' }} # Valida
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Archive production artifacts
-        if: ${{ success() }} || ${{ failure() }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: Mega-Linter reports
-          path: |
-            report
-            mega-linter.log
+      - name: prepare commit
+        if: steps.ml.outputs.has_updated_sources == 1 && (env.APPLY_FIXES_EVENT == 'all' || env.APPLY_FIXES_EVENT == github.event_name) && env.APPLY_FIXES_MODE == 'commit' && github.ref != 'refs/heads/mac-os' && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository) && !contains(github.event.head_commit.message, 'skip fix')
+        run: |
+          sudo chown -Rc $UID .git/ 
+          ls -al
+          sudo rm -rf *report* 
 
-      - name: Prepare commit
-        if: steps.ml.outputs.has_updated_sources == 1 && (env.APPLY_FIXES_EVENT == 'all' || env.APPLY_FIXES_EVENT == github.event_name) && env.APPLY_FIXES_MODE == 'commit' && github.ref != 'refs/heads/mac-os' && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository) && !contains(github.event.head_commit.message, 'skip fix')
-        run: sudo chown -Rc $UID .git/
-      - name: Commit and push applied linter fixes
-        if: steps.ml.outputs.has_updated_sources == 1 && (env.APPLY_FIXES_EVENT == 'all' || env.APPLY_FIXES_EVENT == github.event_name) && env.APPLY_FIXES_MODE == 'commit' && github.ref != 'refs/heads/mac-os' && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository) && !contains(github.event.head_commit.message, 'skip fix')
+      - name: commit & push linter fixes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: ${{ github.event.pull_request.head.ref || github.head_ref || github.ref }}
-          commit_message: "(format): apply linters fixes"
+          commit_message: "(format): apply linter fixes"
