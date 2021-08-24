@@ -43,9 +43,18 @@ jobs:
       - name: prepare commit
         if: steps.ml.outputs.has_updated_sources == 1 
         run: sudo chown -Rc $UID .git/ && ls -al && sudo rm -rf *report* 
+          
+      - name: Get last commit message
+        id: last-commit-message
+        run: |
+          echo "::set-output name=msg::$(git log -1 --pretty=%s)"
 
-      - name: commit & push linter fixes
-        uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          branch: ${{ github.event.pull_request.head.ref || github.head_ref || github.ref }}
           commit_message: "(format): apply linter fixes"
+          commit_options: '--amend --no-edit --signoff --allow-empty'
+          add_options: '-u'
+          commit_user_email: mvdoster@gmail.com
+          commit_user_name: vladdoster
+          push_options: '--force'
+          skip_fetch: true
