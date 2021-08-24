@@ -1,9 +1,11 @@
 # options are alphabetically sorted except for aliases, which are last and
 # user which is first because it is frequently modified.
 [user]
-	name     = Vladislav Doster
-	email    = mvdoster@gmail.com
-	username = vladdoster
+	name       = Vladislav Doster
+	; email    = Vladislav.doster@mastercard.com
+    ; email    = mvdoster@gmail.com
+	; username = e109082
+	; username = vladdoster
 
 [color]
 	ui = auto
@@ -14,10 +16,10 @@
 	remote  = cyan bold
 
 [color "diff"]
-	meta = yellow bold
-	frag = magenta bold
-	old = red bold
-	new = green bold
+	meta       = yellow bold
+	frag       = magenta bold
+	old        = red bold
+	new        = green bold
 	whitespace = red reverse
 
 [commit]
@@ -69,7 +71,7 @@
 	followTags = true
 
 # [url "https://fusion.mastercard.int/"]
-# 	insteadOf = https://globalrespository.mclocal.int/
+# 	insteadOf = https://globalrepository.mclocal.int/
 
 [url "https://globalrepository.mclocal.int/"]
  	insteadOf = https://fusion.mastercard.int/
@@ -83,23 +85,20 @@
 # 	fetch = +refs/heads/*:refs/remotes/origin/*
 
 [rerere]
-	enabled = 1
+	enabled    = 1
 	autoupdate = 1
 
 [sequence]
 	editor = nvim
 
-# [url "https://fusion.mastercard.int/"]
-# 	insteadOf = https://globalrepository.mclocal.int/
-
 [alias]
-	a = add --all
+	a  = add --all
 	ai = add -i
 	au = add -u
 	#############
+	ac = apply --check
 	ap = apply
 	as = apply --stat
-	ac = apply --check
 	#############
 	ama = am --abort
 	amr = am --resolved
@@ -107,12 +106,12 @@
 	#############
 	b   = branch
 	ba  = branch -a
+	bc  = rev-parse --abbrev-ref HEAD
 	bd  = branch -d
 	bdd = branch -D
 	br  = branch -r
-	bc  = rev-parse --abbrev-ref HEAD
-	bu  = !git rev-parse --abbrev-ref --symbolic-full-name "@{u}"
 	bs  = !git-branch-status
+	bu  = !git rev-parse --abbrev-ref --symbolic-full-name "@{u}"
 	#############
 	c   = commit --signoff
 	ca  = commit -a
@@ -152,25 +151,25 @@
 	#############
 	g = grep -p
 	#############
-	l = log --oneline
+	l  = log --oneline
 	lg = log --oneline --graph --decorate
 	#############
-	ls = ls-files
+	ls  = ls-files
 	lsf = !git ls-files | grep -i
 	#############
-	m = merge
+	m  = merge
 	ma = merge --abort
 	mc = merge --continue
 	ms = merge --skip
 	#############
-	o = checkout
-	om = checkout master
-	ob = checkout -b
+	o   = checkout
+	om  = checkout master
+	ob  = checkout -b
 	opr = !sh -c 'git fo pull/$1/head:pr-$1 && git o pr-$1'
 	#############
 	pr = prune -v
 	#############
-	ps = push
+	ps  = push
 	psf = push -f
 	psu = push -u
 	pst = push --tags
@@ -206,29 +205,29 @@
 	pbum = pull --rebase upstream master
 	pbuc = !git pull --rebase upstream $(git bc)
 	#############
-	rb = rebase
+	rb  = rebase
 	rba = rebase --abort
 	rbc = rebase --continue
 	rbi = rebase --interactive
 	rbs = rebase --skip
 	#############
-	re = reset
-	rh = reset HEAD
-	reh = reset --hard
-	rem = reset --mixed
-	res = reset --soft
-	rehh = reset --hard HEAD
-	remh = reset --mixed HEAD
-	resh = reset --soft HEAD
+	re    = reset
+	rh    = reset HEAD
+	reh   = reset --hard
+	rem   = reset --mixed
+	res   = reset --soft
+	rehh  = reset --hard HEAD
+	remh  = reset --mixed HEAD
+	resh  = reset --soft HEAD
 	rehom = reset --hard origin/master
 	#############
-	r = remote
-	ra = remote add
-	rr = remote rm
-	rv = remote -v
-	rn = remote rename
-	rp = remote prune
-	rs = remote show
+	r   = remote
+	ra  = remote add
+	rr  = remote rm
+	rv  = remote -v
+	rn  = remote rename
+	rp  = remote prune
+	rs  = remote show
 	rao = remote add origin
 	rau = remote add upstream
 	rro = remote remove origin
@@ -238,26 +237,26 @@
 	rpo = remote prune origin
 	rpu = remote prune upstream
 	#############
-	rmf = rm -f
+	rmf  = rm -f
 	rmrf = rm -r -f
 	#############
-	s = status
+	s  = status
 	sb = status -s -b
 	#############
-	sa = stash apply
-	sc = stash clear
-	sd = stash drop
-	sl = stash list
-	sp = stash pop
-	ss = stash save
+	sa  = stash apply
+	sc  = stash clear
+	sd  = stash drop
+	sl  = stash list
+	sp  = stash pop
+	ss  = stash save
 	ssk = stash save -k
-	sw = stash show
-	st = !git stash list | wc -l 2>/dev/null | grep -oEi '[0-9][0-9]*'
+	sw  = stash show
+	st  = !git stash list | wc -l 2>/dev/null | grep -oEi '[0-9][0-9]*'
 	#############
 	t = tag
 	td = tag -d
 	#############
-	w = show
+	w  = show
 	wp = show -p
 	wr = show -p --no-color
 	#############
@@ -287,7 +286,7 @@
 	whois     = !sh -c 'git log -i -1 --author           = \"$1\" --pretty = \"format:%an <%ae>\"' -
 	#############
 	behind = !git rev-list --left-only --count $(git bu)...HEAD
-	ahead = !git rev-list --right-only --count $(git bu)...HEAD
+	ahead  = !git rev-list --right-only --count $(git bu)...HEAD
 	#############
 	human   = name-rev --name-only --refs = refs/heads/*
 	ours    = "!f() { git checkout --ours $@ && git add $@; }; f"
