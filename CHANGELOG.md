@@ -1,8 +1,13 @@
 # Changelog
 
-## [v0.5.0-24](https://github.com/vladdoster/dotfiles/compare/v0.5.0-23...v0.5.0-24)
+## [v0.5.0-25](https://github.com/vladdoster/dotfiles/compare/v0.5.0-24...v0.5.0-25)
+
+- (feat): use mega-linter & git config formatting [`40f8a07`](https://github.com/vladdoster/dotfiles/commit/40f8a075f39ac04c3e6c080f76d11de160c9ce3e)
+
+## [v0.5.0-24](https://github.com/vladdoster/dotfiles/compare/v0.5.0-23...v0.5.0-24) (2021-08-23)
 
 - (maint): format git ignore file [`ec178bb`](https://github.com/vladdoster/dotfiles/commit/ec178bb880610ddd93c6077692095dcccdd4830e)
+- (release): v0.5.0-24 [`f8bf8f5`](https://github.com/vladdoster/dotfiles/commit/f8bf8f555a65cd773e4c6991ccc27e4e19526488)
 
 ## [v0.5.0-23](https://github.com/vladdoster/dotfiles/compare/v0.5.0-22...v0.5.0-23) (2021-08-22)
 
