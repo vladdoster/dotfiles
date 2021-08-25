@@ -42,10 +42,10 @@ if [[ -e autogen.sh ]]; then
 fi
 if [[ -e ./configure ]]; then
     echo "--- Found configure, executing "
-    ./configure --without-ssl
+    ./configure --with-ssl
 fi
 echo "--- Compiling $PROGRAM"
-make -j8 CMAKE_BUILD_TYPE=Release
+make -j8
 echo "--- Installing $PROGRAM"
 sudo make install
 popd

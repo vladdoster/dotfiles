@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PROGRAM="automake"
-SRC_URL="https://github.com/autotools-mirror/${PROGRAM}.git"
+PROGRAM="cmake"
+SRC_URL="https://github.com/Kitware/CMake"
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORK_DIR=$(mktemp -d)
@@ -33,9 +33,13 @@ if [[ -e autogen.sh ]]; then
     echo "--- found autogen.sh, executing "
     sh autogen.sh
 fi
-if [[ -e ./configure ]]; then
-    echo "--- found configure, executing "
-    ./configure
+#if [[ -e ./configure ]]; then
+#    echo "--- found configure, executing "
+#    ./configure
+#fi
+if [[ -e ./bootstrap ]]; then
+    echo "--- found bootstrap script, executing "
+    ./bootstrap --parallel=8 --prefix=/usr
 fi
 echo "--- compiling $PROGRAM"
 make -j8

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PROGRAM="automake"
-SRC_URL="https://github.com/autotools-mirror/${PROGRAM}.git"
+PROGRAM="gcc"
+SRC_URL="https://github.com/gcc-mirror/${PROGRAM}.git"
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORK_DIR=$(mktemp -d)
@@ -35,7 +35,8 @@ if [[ -e autogen.sh ]]; then
 fi
 if [[ -e ./configure ]]; then
     echo "--- found configure, executing "
-    ./configure
+    # ./configure --disable-multilib --prefix=/usr
+    ./configure --prefix=/usr
 fi
 echo "--- compiling $PROGRAM"
 make -j8
