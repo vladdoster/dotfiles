@@ -65,6 +65,8 @@ if [[ $OSTYPE == darwin* ]]; then
         export PATH="$local_opt/flex/bin:$PATH"
         export LDFLAGS="-L$local_opt/flex/lib"
         export CPPFLAGS="-I$local_opt/flex/include"
+        # golang
+        export PATH="$(go env GOPATH)/bin:$PATH"
         # less
         export LESS=-R
         export LESSHISTFILE="-"
