@@ -18,9 +18,12 @@ plugins=(
     brew
     docker
     git
+    gh
+    golang
     pip
     python
     vi-mode
+    yum
 )
 #- OH-MY-ZSH ------------------------------------------
 OHMYZSH="$HOME"/.local/share/ohmyzsh

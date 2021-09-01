@@ -14,7 +14,7 @@ sudo rpm -Uvh http://www.city-fan.org/ftp/contrib/yum-repo/city-fan.org-release-
 sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm || true
 sudo yum -y --enablerepo=city-fan.org install curl
 echo "--- Updating cURL"
-sudo yum update curl git
+sudo yum update curl git docker
 echo "--- Refreshing CentOS7 repositories"
 sudo yum update && sudo yum upgrade
 echo "--- Updated CentOS7 repositories"

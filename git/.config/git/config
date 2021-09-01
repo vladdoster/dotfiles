@@ -2,10 +2,10 @@
 # user which is first because it is frequently modified.
 [user]
 	name       = Vladislav Doster
-	; email    = Vladislav.doster@mastercard.com
-    email    = mvdoster@gmail.com
-	; username = e109082
-	username = vladdoster
+	email    = Vladislav.doster@mastercard.com
+    ; email    = mvdoster@gmail.com
+	username = e109082
+	; username = vladdoster
 
 [color]
 	ui = auto
@@ -29,8 +29,9 @@
 	editor       = nvim
 	whitespace   = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	pager        = less
-	autocrlf     = false
+	autocrlf = false
 	excludesfile = ~/.config/git/ignore
+	eol = lf
 
 [diff]
 	tool = vimdiff
@@ -292,3 +293,9 @@
 	ours    = "!f() { git checkout --ours $@ && git add $@; }; f"
 	subrepo = !sh -c 'git filter-branch --prune-empty --subdirectory-filter $1 master' -
 	theirs  = "!f() { git checkout --theirs $@ && git add $@; }; f"
+[fsck]
+	zeroPaddedFilemode = ignore
+[fetch "fsck"]
+	zeroPaddedFilemode = ignore
+[receive "fsck"]
+	zeroPaddedFilemode = ignore
