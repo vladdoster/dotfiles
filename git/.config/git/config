@@ -1,11 +1,19 @@
 # options are alphabetically sorted except for aliases, which are last and
 # user which is first because it is frequently modified.
+
+; Personal GitHub
+; [user]
+;         username = vladdoster
+;         email    = mvdoster@gmail.com
+
+; Work
 [user]
-	name       = Vladislav Doster
-	email    = Vladislav.doster@mastercard.com
-    ; email    = mvdoster@gmail.com
+	email    = Vladislav.doster@Mastercard.com
+	name     = Vladislav Doster
 	username = e109082
-	; username = vladdoster
+
+[credential]
+	helper = cache --timeout=86400
 
 [color]
 	ui = auto
@@ -23,7 +31,7 @@
 	whitespace = red reverse
 
 [commit]
-    template = ~/.config/git/commit-template
+        template = ~/.config/git/commit-template
 
 [core]
 	editor       = nvim
@@ -49,8 +57,8 @@
 	process = git-lfs filter-process
 
 [homebrew]
-    analyticsmessage     = false
-    caskanalyticsmessage = false
+        analyticsmessage     = false
+        caskanalyticsmessage = false
 
 [http]
 	sslVerify = false
@@ -65,25 +73,25 @@
 	versiontag = v
 
 [pull]
-    rebase = true
+        rebase = true
 
 [push]
 	default = current
 	followTags = true
 
-# [url "https://fusion.mastercard.int/"]
-# 	insteadOf = https://globalrepository.mclocal.int/
+; [url "https://fusion.mastercard.int/"]
+; 	insteadOf = https://globalrepository.mclocal.int/
 
 [url "https://globalrepository.mclocal.int/"]
- 	insteadOf = https://fusion.mastercard.int/
+        insteadOf = https://fusion.mastercard.int/
 
-#[remote "origin"]
-#   url = https://github.com/Homebrew/brew
-#   fetch = +refs/heads/*:refs/remotes/origin/*
-
-# [remote "origin"]
-# 	url = https://github.com/Homebrew/linuxbrew-core
-# 	fetch = +refs/heads/*:refs/remotes/origin/*
+; [remote "origin"]
+;         url = https://github.com/Homebrew/brew
+;         fetch = +refs/heads/*:refs/remotes/origin/*
+; 
+; [remote "origin"]
+;         url = https://github.com/Homebrew/linuxbrew-core
+;         fetch = +refs/heads/*:refs/remotes/origin/*
 
 [rerere]
 	enabled    = 1
@@ -293,9 +301,3 @@
 	ours    = "!f() { git checkout --ours $@ && git add $@; }; f"
 	subrepo = !sh -c 'git filter-branch --prune-empty --subdirectory-filter $1 master' -
 	theirs  = "!f() { git checkout --theirs $@ && git add $@; }; f"
-[fsck]
-	zeroPaddedFilemode = ignore
-[fetch "fsck"]
-	zeroPaddedFilemode = ignore
-[receive "fsck"]
-	zeroPaddedFilemode = ignore
