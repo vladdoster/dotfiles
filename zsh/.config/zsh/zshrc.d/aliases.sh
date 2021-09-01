@@ -91,16 +91,12 @@ CODE_DIR="${HOME:-~}"/code
 if [[ ! -e $CODE_DIR ]] || [[ ! -d $CODE_DIR ]]; then
     mkdir "$CODE_DIR"
 fi
-
-alias .f='_go_to $XDG_CONFIG_HOME/dotfiles'
 alias c='_go_to $CODE_DIR'
 alias cfg='_go_to $XDG_CONFIG_HOME'
 alias df='_go_to $XDG_CONFIG_HOME/dotfiles'
-alias downloads='_go_to $HOME/Downloads'
+alias dl='_go_to $HOME/Downloads'
 alias git-cfg='_go_to $XDG_CONFIG_HOME/git/config'
 alias h='_go_to $HOME'
-alias hammerspoon-cfg='_go_to $HOME/.hammerspoon'
-
 alias l-bin='_go_to $HOME/.local/bin'
 alias l-installers='_go_to $HOME/.local/bin/installers'
 alias l-share='_go_to $HOME/.local/share/'
