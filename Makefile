@@ -1,6 +1,6 @@
 define get-nvim-config
 	( \
-		git clone https://github.com/vladdoster/neovim-configuration.git $$HOME/.config/nvim \
+		git clone --branch devel https://github.com/vladdoster/NvChad.git $$HOME/.config/nvim \
 		&& echo "--- Cloned neovim configuration" \
 	) 2>/dev/null \
 	|| echo "--- neovim config already exists" 
