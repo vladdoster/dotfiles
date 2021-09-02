@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PROGRAM="cmake"
-SRC_URL="https://github.com/Kitware/CMake"
+PROGRAM="autobuild"
+SRC_URL="https://git.savannah.gnu.org/git/autobuild.git"
 BRANCH="master"
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

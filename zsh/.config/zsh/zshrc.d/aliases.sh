@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 #
-# Collection of aliases to reduce key presses for common tasks
+# Collection of aliases for common tasks
 _cmd_exists() {
     if command -v "${1}" &> /dev/null; then
         return true
@@ -50,7 +50,6 @@ if _cmd_exists bat; then
     alias cat='bat --pager=never'
     alias less='bat --pager=less'
 fi
-
 #- EDITOR ----------------------------------------
 if _cmd_exists nvim; then
     export EDITOR="nvim"
@@ -189,3 +188,5 @@ _sys_update() {
 alias apt-sysupdate="_sys_update 'sudo apt --yes'"
 alias brew-sysupdate="_sys_update brew"
 alias yum-sysupdate="_sys_update 'sudo yum -y'"
+#- MEME -------------------------------------------
+alias shrug="¯\_(ツ)_/¯" # only alias that matters

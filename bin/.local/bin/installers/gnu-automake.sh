@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PROGRAM="cmake"
-SRC_URL="https://github.com/Kitware/CMake"
+PROGRAM="automake"
+SRC_URL="https://git.savannah.gnu.org/git/automake.git"
 BRANCH="master"
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -30,7 +30,7 @@ pushd "$PROGRAM"
 if autoreconf -iv; then
     echo "--- autoreconf successfully, continuing"
 fi
-if ./autogen.sh; then
+if bash autogen.sh; then
     echo "--- autogen.sh successful, continuing"
 fi
 if ./configure; then

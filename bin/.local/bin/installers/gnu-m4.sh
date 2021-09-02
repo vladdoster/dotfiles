@@ -1,8 +1,8 @@
 #!/bin/bash
 
-PROGRAM="cmake"
-SRC_URL="https://github.com/Kitware/CMake"
-BRANCH="master"
+PROGRAM="m4"
+SRC_URL="https://git.savannah.gnu.org/git/m4.git"
+BRANCH="release-1.4.9b"
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORK_DIR=$(mktemp -d)
@@ -27,10 +27,13 @@ if git clone --branch=$BRANCH "$SRC_URL" "$PROGRAM"; then
     echo "--- cloned $PROGRAM, continuing"
 fi
 pushd "$PROGRAM"
+if ./bootstrap; then
+    echo "--- autoreconf successfully, continuing"
+fi
 if autoreconf -iv; then
     echo "--- autoreconf successfully, continuing"
 fi
-if ./autogen.sh; then
+if sh autogen.sh; then
     echo "--- autogen.sh successful, continuing"
 fi
 if ./configure; then

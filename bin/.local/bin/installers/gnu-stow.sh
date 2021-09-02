@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PROGRAM="cmake"
-SRC_URL="https://github.com/Kitware/CMake"
+PROGRAM="stow"
+SRC_URL="https://git.savannah.gnu.org/git/stow.git"
 BRANCH="master"
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
