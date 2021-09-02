@@ -1,10 +1,5 @@
-define get-nvim-config
-	( \
-		git clone https://github.com/vladdoster/NvChad.git $$HOME/.config/nvim \
-		&& echo "--- Cloned neovim configuration" \
-	) 2>/dev/null \
-	|| echo "--- neovim config already exists" 
-endef
+NVIM-CONFIG-REPO=https://github.com/vladdoster/NvChad.git 
+NVIM-CONFIG-DIR=$$HOME/.config/nvim
 
 define run-stow
 	find * -not -path '*/\.*' -type d -exec stow --verbose 1 {} --override=#\*\# --target="$$HOME" \;
@@ -17,41 +12,48 @@ help: ## Display this message
 	| sort \
 	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-init: ## Deploy dotfiles via GNU stow
+init: nvim-cfg ## Deploy dotfiles via GNU stow
 	@$(run-stow)
-	@$(get-nvim-config)
-	@echo "--- Dotfiles installed on $$HOSTNAME"
-	@echo "--- Reloading shell"
+	@echo "--- dotfiles installed on $$HOSTNAME"
 	@exec "$$SHELL"
 
 .PHONY: --delete
 clean: --delete ## Remove deployed dotfiles
 	@find "$$PWD" -type f -name "*.DS_Store" -ls -delete
-	@echo "--- Cleaned .DS_Store files"
-	@rm -rf "$$HOME"/.local/share/nvim "$$HOME/.config/nvim/plugin"
-	@echo "--- Cleaned neovim plugins"
+	@echo "--- cleaned .DS_Store files"
+	@rm -rf "$$HOME"/.local/share/nvim
+	@echo "--- cleaned neovim plugins"
 	@find * -type d -not -path '*/\.*' -exec stow --target="$$HOME" --verbose 1 --delete {} \;
-	@echo "--- Removed dotfile softlinks"
-	@echo "--- Cleaned previous dotfiles installations on $$HOSTNAME"
+	@echo "--- removed dotfile softlinks"
+	@echo "--- cleaned previous dotfiles installations on $$HOSTNAME"
 
 brew-install: ## Install Homebrew pkg manager
-	@echo "--- Installing Homebrew"
+	@echo "--- installing homebrew"
 	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 brew-uninstall: ## Uninstall Homebrew pkg manager
-	@echo "--- Uninstalling Homebrew"
+	@echo "--- uninstalling homebrew"
 	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
 
 brew-bundle: ## Install programs defined in $HOME/.config/dotfiles/Brewfile
-	@echo "--- Installing user programs"
+	@echo "--- installing user programs"
 	brew bundle install --file "$$(pwd)"/Brewfile
 
 linuxbrew-install: ## Install Linuxbrew pkg manager
-	@echo "--- Installing Linuxbrew"
+	@echo "--- installing linuxbrew"
 	@git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
 	@mkdir ~/.linuxbrew/bin
 	@ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
 	@eval "$(~/.linuxbrew/bin/brew shellenv)"
+
+nvim-cfg: ## Clone Neovim config $HOME/.config/nvim
+	@if [ ! -d $(NVIM-CONFIG-DIR) ] ;\
+	then \
+	  echo "--- nvim config does not exist, fetching"; \
+	  git clone --quiet --progress $(NVIM-CONFIG-REPO) $(NVIM-CONFIG-DIR); \
+	else \
+	  echo "--- nvim config present, continuing"; \
+	fi
 
 pip-update: ## Update Python packages
 	@pip3 list --user | cut -d" " -f 1 | tail -n +3 \
@@ -62,7 +64,7 @@ py-deps: ## Install Python dependencies
 		black isort \
 		pynvim \
 		mdformat mdformat-toc mdformat-gfm mdformat-tables mdformat-shfmt mdformat-config
-	@echo "--- Installed Python 3 packages"
+	@echo "--- installed python 3 packages"
 
 dry-run: --simulate ## Simulate an dotfiles deployment
 	@echo "--- DRYRUN: No changes will be made to current environment"
