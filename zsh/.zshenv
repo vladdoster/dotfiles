@@ -26,6 +26,10 @@ export AZURE_CONFIG_DIR="$XDG_DATA_HOME"/azure
 export GOPATH="$XDG_DATA_HOME"/go
 export OHMYZSH="$XDG_DATA_HOME"/ohmyzsh
 
+# enabling buildkit backend in docker and docker-compose
+export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
+
 # LOCAL SCRIPTS
 export PATH="$HOME/.local/bin:$PATH"
 

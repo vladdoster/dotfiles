@@ -139,9 +139,16 @@ alias venv-activate='source ./.venv/bin/activate'
 alias venv-create='python3 -m venv ./.venv'
 alias venv-setup='venv-create && venv-activate && pip-requirements'
 #- NETWORK INFO ----------------------------------
+ip-internal() {
+    echo "Wireless :: IP => $(ip -4 -o a show wlo1 | awk '{ print $4 }')"
+}
+ip-external() {
+    echo "External :: IP => $(curl --silent https://ifconfig.me)"
+}
+ip-info() {
+    ip-internal && ip-external
+}
 alias get-open-ports='netstat -tulanp' # list open ports
-alias get-site-headers='curl -I'       # get web server headers
-alias headerc='curl -I --compress'     # does remote server supports gzip / mod_deflate
 alias ping='ping -c 10'                # ping 10 times
 #- DISPLAYS --------------------------------------
 alias fix-dual-displays='display-fixer \

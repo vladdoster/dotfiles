@@ -64,7 +64,7 @@
 	sslVerify = false
 
 [https]
-	sslVerify = false
+	sslVerify = true
 
 [github]
 	user = vladdoster
