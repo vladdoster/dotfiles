@@ -94,13 +94,12 @@ alias c='_go_to $CODE_DIR'
 alias cfg='_go_to $XDG_CONFIG_HOME'
 alias df='_go_to $XDG_CONFIG_HOME/dotfiles'
 alias dl='_go_to $HOME/Downloads'
-alias git-cfg='_go_to $XDG_CONFIG_HOME/git/config'
+alias g-cfg='_go_to $XDG_CONFIG_HOME/git/config'
 alias h='_go_to $HOME'
 alias l-bin='_go_to $HOME/.local/bin'
 alias l-installers='_go_to $HOME/.local/bin/installers'
 alias l-share='_go_to $HOME/.local/share/'
-alias nvim-cfg='_go_to $XDG_CONFIG_HOME/nvim'
-alias nvim-plugins='_go_to $XDG_CONFIG_HOME/nvim/lua/configs'
+alias v-cfg='_go_to $XDG_CONFIG_HOME/nvim'
 alias tmux-cfg='_go_to $XDG_CONFIG_HOME/tmux'
 alias zsh-cfg='_go_to $ZDOTDIR'
 #- GIT -------------------------------------------
@@ -133,7 +132,7 @@ alias r-yabai='_restart_brew_service yabai'
 alias r-wm='r-yabai && r-skhd'
 #- PYTHON ----------------------------------------
 alias start-http_server='python2 -m SimpleHTTPServer'
-alias pip-requirements='pip-safe -r requirements.txt || echo "--- No requirements.txt found"'
+alias pip-requirements='pip-safe -r requirements.txt || echo "--- no requirements.txt found"'
 alias pip-safe='python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org'
 alias venv-activate='source ./.venv/bin/activate'
 alias venv-create='python3 -m venv ./.venv'
@@ -193,7 +192,9 @@ _sys_update() {
     "$1" upgrade
 }
 alias apt-sysupdate="_sys_update 'sudo apt --yes'"
-alias brew-sysupdate="_sys_update brew"
+alias brew-clean="brew cleanup --prune=all"
+alias brew-reset="brew update-reset"
+alias brew-sysupdate="brew upgrade --greedy --force"
 alias yum-sysupdate="_sys_update 'sudo yum -y'"
 #- MEME -------------------------------------------
-alias shrug="¯\_(ツ)_/¯" # only alias that matters
+alias shrug='¯\_(ツ)_/¯' # only alias that matters
