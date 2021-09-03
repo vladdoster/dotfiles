@@ -32,6 +32,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 .vivaldi_reporting_data
+bin/.local/share
 #-- VIM ------------------------------------------
 [._]*.s[a-v][a-z] # swap
 !*.svg            # comment out if you don't need vector files
