@@ -1,9 +1,34 @@
 # Changelog
 
-## [v0.5.0-32](https://github.com/vladdoster/dotfiles/compare/v0.5.0-31...v0.5.0-32)
+## [v0.5.0](https://github.com/vladdoster/dotfiles/compare/v0.5.0-33...v0.5.0)
+
+- (maint): add gnu software compilation scripts [`3eefe80`](https://github.com/vladdoster/dotfiles/commit/3eefe803f609ece8577fde45e1756294feb8a5d5)
+- (maint): update installer scripts [`970aae8`](https://github.com/vladdoster/dotfiles/commit/970aae804227ab3ebbf92d0b6ec039422817dd1e)
+- (feat): new `nuke-docker.sh` logic [`138ce00`](https://github.com/vladdoster/dotfiles/commit/138ce000a572ba4412251c93ceba73f27a59e89c)
+- (maint): remove mega-linter [`668d8a3`](https://github.com/vladdoster/dotfiles/commit/668d8a30a9a56e69932a0b90d31ef4a95958890b)
+- (maint): add fzf and update kitty && yabai [`c0b03cc`](https://github.com/vladdoster/dotfiles/commit/c0b03cc508e251a182e4987c931dacd52028f2e1)
+- (maint): add credential timeout to gitconfig [`0f7ebfd`](https://github.com/vladdoster/dotfiles/commit/0f7ebfd6fd46a322f8a6340937a53d7dfb390d9e)
+- (maint): move nvim cfg clone to `nvim-cfg` target [`069ba47`](https://github.com/vladdoster/dotfiles/commit/069ba471bc7415d370b0e9b71b178d9efecd2f98)
+- (maint): add ohmyzsh plugins & add fzf `ff` cli cmd [`159c6d5`](https://github.com/vladdoster/dotfiles/commit/159c6d54e059fb961e2d33ceaa7c6b054afcad45)
+- (maint): shorten config aliases [`35d1397`](https://github.com/vladdoster/dotfiles/commit/35d1397877ac9d1d63c00f7cb92014ffe759e168)
+- (maint): update aliases [`d5af51b`](https://github.com/vladdoster/dotfiles/commit/d5af51b65cbf2425611c676dbf8647bb8a33a6bb)
+- (maint): update nvim configuration URL [`c666ea8`](https://github.com/vladdoster/dotfiles/commit/c666ea8c84174cad8a792e0d92226197e17cfb90)
+- (maint): use master branch until bug is fixed on devel [`23ad17d`](https://github.com/vladdoster/dotfiles/commit/23ad17dd5ed4978047b90bc01fed6d6ef95b8f37)
+- (maint): update nvim config URL [`f92be11`](https://github.com/vladdoster/dotfiles/commit/f92be11f7f1b9562c8405b1c0264ce6c20fd05e1)
+- (maint): add $GOBIN to path [`778b485`](https://github.com/vladdoster/dotfiles/commit/778b4854588ca0dbe6fed1f49a24c2a2f46ae381)
+- (maint): banish vivaldi big brother creeping to `gitignore` [`9436e72`](https://github.com/vladdoster/dotfiles/commit/9436e72c488f274248bbce6a19b24dbdc5a8eb70)
+- (maint): banish vivaldi big brother creeping to `gitignore` [`5689734`](https://github.com/vladdoster/dotfiles/commit/5689734c04e989085ebfc3eaf668c9c196ff15f1)
+
+## [v0.5.0-33](https://github.com/vladdoster/dotfiles/compare/v0.5.0-32...v0.5.0-33) (2021-08-24)
+
+- Delete mega-linter.yml [`fc79e1d`](https://github.com/vladdoster/dotfiles/commit/fc79e1d350c892248039e1171301613be3bbec60)
+- (release): v0.5.0-33 [`a260e81`](https://github.com/vladdoster/dotfiles/commit/a260e81d5d7e5403857ee991a7e4e2cba25a6deb)
+
+## [v0.5.0-32](https://github.com/vladdoster/dotfiles/compare/v0.5.0-31...v0.5.0-32) (2021-08-24)
 
 - Update mega-linter.yml [`4eff795`](https://github.com/vladdoster/dotfiles/commit/4eff7956af88b2c78faa4fb502f087d48666c2b4)
 - Update mega-linter.yml [`a138d21`](https://github.com/vladdoster/dotfiles/commit/a138d217e36e17e96460ce900d0adc270ce19c98)
+- (release): v0.5.0-32 [`1160bbb`](https://github.com/vladdoster/dotfiles/commit/1160bbbff809b9b37d182b3fb9271dca5772422b)
 - (bugfix): remove comment breaking build [`e3d8c9f`](https://github.com/vladdoster/dotfiles/commit/e3d8c9f359279dcddceebb0542cd59ef1bba8115)
 - (maint): correct mega-linter config [`6228db8`](https://github.com/vladdoster/dotfiles/commit/6228db8174df8ec689df1b77d9d06142c54f4c5c)
 - Update mega-linter.yml [`8100322`](https://github.com/vladdoster/dotfiles/commit/81003225ff11331fd83a7a21e4d4338112e00ad3)
