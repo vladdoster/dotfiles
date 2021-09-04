@@ -43,16 +43,6 @@ parse-ssh-hosts() {
 }
 
 # DOCKER -----------------------------------------
-docker-cleanup() { # delete all docker volumes, images, and containers
-    docker rm $(docker ps -qa --no-trunc --filter "status=exited")
-    docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
-    docker volume rm $(docker volume ls -qf dangling=true)
-}
-
-docker-shell() { # get interactive shell to a container
-    docker-compose exec -it "$1" /bin/bash
-}
-
 docker-stop() { # stop containers via fzf
     local cid
     cid=$(docker ps | sed 1d | fzf -q "$1" | awk '{print $1}')
