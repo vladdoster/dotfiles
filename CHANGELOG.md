@@ -1,6 +1,10 @@
 # Changelog
 
-## [v0.5.0](https://github.com/vladdoster/dotfiles/compare/v0.5.0-33...v0.5.0)
+## [v0.5.1](https://github.com/vladdoster/dotfiles/compare/v0.5.0...v0.5.1)
+
+- (feat): new `nuke-docker.sh` logic [`8f89fb7`](https://github.com/vladdoster/dotfiles/commit/8f89fb7b9cdf559a4b19a5f922dc3f1bfdd56869)
+
+## [v0.5.0](https://github.com/vladdoster/dotfiles/compare/v0.5.0-33...v0.5.0) (2021-09-04)
 
 - (maint): add gnu software compilation scripts [`3eefe80`](https://github.com/vladdoster/dotfiles/commit/3eefe803f609ece8577fde45e1756294feb8a5d5)
 - (maint): update installer scripts [`970aae8`](https://github.com/vladdoster/dotfiles/commit/970aae804227ab3ebbf92d0b6ec039422817dd1e)
@@ -10,6 +14,7 @@
 - (maint): add credential timeout to gitconfig [`0f7ebfd`](https://github.com/vladdoster/dotfiles/commit/0f7ebfd6fd46a322f8a6340937a53d7dfb390d9e)
 - (maint): move nvim cfg clone to `nvim-cfg` target [`069ba47`](https://github.com/vladdoster/dotfiles/commit/069ba471bc7415d370b0e9b71b178d9efecd2f98)
 - (maint): add ohmyzsh plugins & add fzf `ff` cli cmd [`159c6d5`](https://github.com/vladdoster/dotfiles/commit/159c6d54e059fb961e2d33ceaa7c6b054afcad45)
+- (release): v0.5.0 [`0aca882`](https://github.com/vladdoster/dotfiles/commit/0aca882b4e9cb94890ce876d0369779402df65f7)
 - (maint): shorten config aliases [`35d1397`](https://github.com/vladdoster/dotfiles/commit/35d1397877ac9d1d63c00f7cb92014ffe759e168)
 - (maint): update aliases [`d5af51b`](https://github.com/vladdoster/dotfiles/commit/d5af51b65cbf2425611c676dbf8647bb8a33a6bb)
 - (maint): update nvim configuration URL [`c666ea8`](https://github.com/vladdoster/dotfiles/commit/c666ea8c84174cad8a792e0d92226197e17cfb90)
