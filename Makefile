@@ -6,6 +6,7 @@ define run-stow
 endef
 
 .DEFAULT_GOAL := help
+.ONESHELL:
 
 help: ## Display this message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
@@ -21,7 +22,7 @@ init: nvim-cfg ## Deploy dotfiles via GNU stow
 clean: --delete ## Remove deployed dotfiles
 	@find "$$PWD" -type f -name "*.DS_Store" -ls -delete
 	@echo "--- cleaned .DS_Store files"
-	@rm -rf "$$HOME"/.local/share/nvim
+	rm -rf "$$HOME"/{.local/share,.config}/nvim
 	@echo "--- cleaned neovim plugins"
 	@find * -type d -not -path '*/\.*' -exec stow --target="$$HOME" --verbose 1 --delete {} \;
 	@echo "--- removed dotfile softlinks"
@@ -50,7 +51,7 @@ nvim-cfg: ## Clone Neovim config $HOME/.config/nvim
 	@if [ ! -d $(NVIM-CONFIG-DIR) ] ;\
 	then \
 	  echo "--- nvim config does not exist, fetching"; \
-	  git clone --quiet --progress $(NVIM-CONFIG-REPO) $(NVIM-CONFIG-DIR); \
+	  git clone --progress --quiet $(NVIM-CONFIG-REPO) $(NVIM-CONFIG-DIR); \
 	else \
 	  echo "--- nvim config present, continuing"; \
 	fi
