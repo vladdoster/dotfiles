@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PROGRAM="automake"
-SRC_URL="https://git.savannah.gnu.org/git/automake.git"
+PROGRAM="gnulib"
+SRC_URL="https://git.savannah.gnu.org/git/gnulib.git"
 BRANCH="master"
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -23,26 +23,25 @@ trap cleanup EXIT
 #-- CONFIGURE, BUILD, INSTALL
 echo "--- entering build dir $PWD"
 pushd "$WORK_DIR"
-if git clone --branch=$BRANCH "$SRC_URL" "$PROGRAM"; then
+if git clone "$SRC_URL" "$PROGRAM"; then
     echo "--- cloned $PROGRAM, continuing"
 fi
 pushd "$PROGRAM"
-if autoreconf -iv; then
-    echo "--- autoreconf successfully, continuing"
-fi
-if bash autogen.sh; then
+#if autoreconf -iv; then
+#    echo "--- autoreconf successfully, continuing"
+#fi
+if ./bootstrap; then
     echo "--- autogen.sh successful, continuing"
 fi
-if ./configure; then
+if bash ./autogen.sh; then
+    echo "--- autogen.sh successful, continuing"
+fi
+if bash ./configure; then
     echo "--- configure successful, continuing"
 fi
 echo "--- compiling $PROGRAM"
 make -j
 echo "--- installing $PROGRAM"
-<<<<<<< HEAD
-sudo make install
-=======
 sudo make install 
->>>>>>> 69564c6 ((maint): fmt aliases & rename gnu installers)
 echo "--- installed $PROGRAM"
 exit 0

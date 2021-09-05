@@ -24,6 +24,7 @@ plugins=(
     python
     vi-mode
     yum
+    gnu-utils
 )
 #- OH-MY-ZSH ------------------------------------------
 OHMYZSH="$HOME"/.local/share/ohmyzsh

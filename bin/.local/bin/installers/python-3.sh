@@ -1,14 +1,13 @@
 #!/bin/bash
 
-PROGRAM="automake"
-SRC_URL="https://git.savannah.gnu.org/git/automake.git"
-BRANCH="master"
+PROGRAM="python"
+SRC_URL="https://github.com/${PROGRAM}/cpython.git"
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORK_DIR=$(mktemp -d)
 
 if [[ ! $WORK_DIR || ! -d $WORK_DIR ]]; then
-    echo "--- failed creating temp build dir"
+    echo "--- failed creating temp dir"
     exit 1
 fi
 
@@ -21,19 +20,19 @@ function cleanup {
 trap cleanup EXIT
 
 #-- CONFIGURE, BUILD, INSTALL
-echo "--- entering build dir $PWD"
+echo "--- entering tmp work dir $PWD"
 pushd "$WORK_DIR"
-if git clone --branch=$BRANCH "$SRC_URL" "$PROGRAM"; then
+if git clone --depth 1 "$SRC_URL" "$PROGRAM"; then
     echo "--- cloned $PROGRAM, continuing"
 fi
 pushd "$PROGRAM"
 if autoreconf -iv; then
     echo "--- autoreconf successfully, continuing"
 fi
-if bash autogen.sh; then
+if sh autogen.sh; then
     echo "--- autogen.sh successful, continuing"
 fi
-if ./configure; then
+if ./configure --enable-optimizations --with-lto; then
     echo "--- configure successful, continuing"
 fi
 echo "--- compiling $PROGRAM"

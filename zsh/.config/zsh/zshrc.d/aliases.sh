@@ -39,12 +39,11 @@ alias ....='_go_to ../../..'
 alias ...='_go_to ../..'
 alias ..='_go_to ..'
 #- FILE LOCATIONS --------------------------------
-alias cpv="rsync -ah --info=progress2"
-alias cp-dotfiles="rsync -avz --info=progress2 ~/.config/dotfiles devcloud:/home/dc-user/"
-alias mkdir="mkdir -pv"
-alias tailf="less +F -R"
-alias rmr="rm -rf"
 alias b="cd -"
+alias cpv="rsync -ah --info=progress2"
+alias mkdir="mkdir -pv"
+alias rmr="rm -rf"
+alias tailf="less +F -R"
 if _cmd_exists bat; then
     alias bat='bat --theme=ansi'
     alias cat='bat --pager=never'
@@ -56,16 +55,14 @@ if _cmd_exists nvim; then
 else
     export EDITOR="vim"
 fi
-alias v.='$EDITOR .'
 alias v='$EDITOR'
+alias v.='$EDITOR .'
 alias vi='$EDITOR'
 alias vim='$EDITOR'
 #- CONFIG SHORTCUTS ------------------------------
 _edit() {
     $EDITOR $1
 }
-# alias e-hspoon='_edit $HOME/.hammerspoon/init.lua'
-# alias e-profile='_edit $HOME/.profile'
 alias e-aliases='_edit $ZDOTDIR/zshrc.d/aliases.sh'
 alias e-bashrc='_edit $HOME/.bashrc'
 alias e-cli-commands='_edit $ZDOTDIR/zshrc.d/cli-commands.sh'
@@ -198,3 +195,6 @@ alias brew-sysupdate="brew upgrade --greedy --force"
 alias yum-sysupdate="_sys_update 'sudo yum -y'"
 #- MEME -------------------------------------------
 alias shrug='¯\_(ツ)_/¯' # only alias that matters
+#- RANDOM -----------------------------------------
+alias cp-dotfiles='rsync -azP ~/.config/dotfiles/ devcloud:~/dotfiles'
+alias cp-dotfiles-2='rsync -azP --info=progress2 ~/.config/dotfiles devcloud:~/dotfiles'

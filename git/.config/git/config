@@ -1,12 +1,10 @@
 # options are alphabetically sorted except for aliases, which are last and
 # user which is first because it is frequently modified.
 
-; Personal GitHub
 ; [user]
 ;         username = vladdoster
 ;         email    = mvdoster@gmail.com
 
-; Work
 [user]
 	email    = Vladislav.doster@Mastercard.com
 	name     = Vladislav Doster
@@ -64,7 +62,7 @@
 	sslVerify = false
 
 [https]
-	sslVerify = true
+	sslVerify = false
 
 [github]
 	user = vladdoster

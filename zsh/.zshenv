@@ -5,6 +5,7 @@ export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 export LC_NUMERIC="en_US.UTF-8"
 export SHELL=$(which zsh)
+export FZF_DEFAULT_OPTS="--height=40% --layout=reverse --info=inline --border --margin=1 --padding=1"
 #- XDG DIRS ------------------------------------------
 export XDG_DESKTOP_DIR="$HOME"/Desktop
 export XDG_DOCUMENTS_DIR="$HOME"/Documents
