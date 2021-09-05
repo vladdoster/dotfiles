@@ -39,10 +39,6 @@ fi
 echo "--- compiling $PROGRAM"
 make -j
 echo "--- installing $PROGRAM"
-<<<<<<< HEAD
 sudo make install
-=======
-sudo make install 
->>>>>>> 69564c6 ((maint): fmt aliases & rename gnu installers)
 echo "--- installed $PROGRAM"
 exit 0
