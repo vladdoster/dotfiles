@@ -1,7 +1,14 @@
 # Changelog
 
-## [v0.5.1](https://github.com/vladdoster/dotfiles/compare/v0.5.0...v0.5.1)
+## [v0.5.2](https://github.com/vladdoster/dotfiles/compare/v0.5.1...v0.5.2)
 
+- (maint): fmt aliases & rename gnu installers [`7fff509`](https://github.com/vladdoster/dotfiles/commit/7fff50999906b120cd429bfaca84f3148dfab779)
+- (maint): remove git cruft [`e5a946f`](https://github.com/vladdoster/dotfiles/commit/e5a946f91066feab0278a29c0a729d7e80a2e7a2)
+- (bugfix): rename broken nvim config repo URL [`1e6259b`](https://github.com/vladdoster/dotfiles/commit/1e6259ba91e394f4110c0e9515e5cdb9fbd9d399)
+
+## [v0.5.1](https://github.com/vladdoster/dotfiles/compare/v0.5.0...v0.5.1) (2021-09-04)
+
+- (release): v0.5.1 [`9f31c1f`](https://github.com/vladdoster/dotfiles/commit/9f31c1fa05009257744fb098d0b5d5a6a011586d)
 - (feat): new `nuke-docker.sh` logic [`8f89fb7`](https://github.com/vladdoster/dotfiles/commit/8f89fb7b9cdf559a4b19a5f922dc3f1bfdd56869)
 
 ## [v0.5.0](https://github.com/vladdoster/dotfiles/compare/v0.5.0-33...v0.5.0) (2021-09-04)
