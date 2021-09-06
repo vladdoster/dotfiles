@@ -1,7 +1,12 @@
 # Changelog
 
-## [v0.5.4](https://github.com/vladdoster/dotfiles/compare/v0.5.3...v0.5.4)
+## [v0.5.5](https://github.com/vladdoster/dotfiles/compare/v0.5.4...v0.5.5)
 
+- Update release-it.json [`08a22f8`](https://github.com/vladdoster/dotfiles/commit/08a22f8bbcd5a92b1a2313df5ef46f44613a2a14)
+
+## [v0.5.4](https://github.com/vladdoster/dotfiles/compare/v0.5.3...v0.5.4) (2021-09-06)
+
+- (release): v0.5.4 [`5db0d4b`](https://github.com/vladdoster/dotfiles/commit/5db0d4b7a233e708f17f00778108aa5b0e4d8414)
 - (bugfix): specify beta pre-release [`5bb31d9`](https://github.com/vladdoster/dotfiles/commit/5bb31d9f5670991450d06df0c5edc55ecb5ec726)
 
 ## [v0.5.3](https://github.com/vladdoster/dotfiles/compare/v0.5.2...v0.5.3) (2021-09-06)
