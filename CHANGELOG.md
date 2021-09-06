@@ -1,8 +1,13 @@
 # Changelog
 
-## [v0.6.0-beta.0](https://github.com/vladdoster/dotfiles/compare/v0.5.6...v0.6.0-beta.0)
+## [v0.6.0-beta.1](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.0...v0.6.0-beta.1)
+
+- (feat): test consecutive beta commits [`4d99dab`](https://github.com/vladdoster/dotfiles/commit/4d99dabeadf469b53ce59b287894e27ee0603e28)
+
+## [v0.6.0-beta.0](https://github.com/vladdoster/dotfiles/compare/v0.5.6...v0.6.0-beta.0) (2021-09-06)
 
 - (maint): make weekly commits a beta version [`0589228`](https://github.com/vladdoster/dotfiles/commit/0589228b838cff34adc8756c464d25d892a89802)
+- (release): v0.6.0-beta.0 [`9ff4221`](https://github.com/vladdoster/dotfiles/commit/9ff4221e30a02876cad7e12584321b0e8433ccef)
 
 ## [v0.5.6](https://github.com/vladdoster/dotfiles/compare/v0.5.5...v0.5.6) (2021-09-06)
 
