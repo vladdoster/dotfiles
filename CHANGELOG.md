@@ -1,8 +1,13 @@
 # Changelog
 
-## [v0.5.6](https://github.com/vladdoster/dotfiles/compare/v0.5.5...v0.5.6)
+## [v0.6.0-beta.0](https://github.com/vladdoster/dotfiles/compare/v0.5.6...v0.6.0-beta.0)
+
+- (maint): make weekly commits a beta version [`0589228`](https://github.com/vladdoster/dotfiles/commit/0589228b838cff34adc8756c464d25d892a89802)
+
+## [v0.5.6](https://github.com/vladdoster/dotfiles/compare/v0.5.5...v0.5.6) (2021-09-06)
 
 - (maint): remove techdebt / cruft & update Brewfile [`3d26906`](https://github.com/vladdoster/dotfiles/commit/3d26906e7051562d8e98e82e750b07ec081336ca)
+- (release): v0.5.6 [`6beba5c`](https://github.com/vladdoster/dotfiles/commit/6beba5cadaa12c89de5b15672053683ce9f75b40)
 
 ## [v0.5.5](https://github.com/vladdoster/dotfiles/compare/v0.5.4...v0.5.5) (2021-09-06)
 
