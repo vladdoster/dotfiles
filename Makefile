@@ -1,4 +1,4 @@
-NVIM-CONFIG-REPO=https://github.com/vladdoster/nvim-configuration.git 
+NVIM-CONFIG-REPO=https://github.com/vladdoster/neovim-configuration.git 
 NVIM-CONFIG-DIR=$$HOME/.config/nvim
 
 define run-stow
