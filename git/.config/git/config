@@ -86,7 +86,7 @@
 ; [remote "origin"]
 ;         url = https://github.com/Homebrew/brew
 ;         fetch = +refs/heads/*:refs/remotes/origin/*
-; 
+ 
 ; [remote "origin"]
 ;         url = https://github.com/Homebrew/linuxbrew-core
 ;         fetch = +refs/heads/*:refs/remotes/origin/*

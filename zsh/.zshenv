@@ -24,7 +24,7 @@ export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
 # data
 export XDG_DATA_HOME="$HOME"/.local/share
 export AZURE_CONFIG_DIR="$XDG_DATA_HOME"/azure
-export GOPATH="$XDG_DATA_HOME"/go
+
 export OHMYZSH="$XDG_DATA_HOME"/ohmyzsh
 
 # enabling buildkit backend in docker and docker-compose
@@ -34,12 +34,32 @@ export COMPOSE_DOCKER_CLI_BUILD=1
 # LOCAL SCRIPTS
 export PATH="$HOME/.local/bin:$PATH"
 
+#- RUST -----------------------------------------------
+if [[ -e $HOME/.cargo/bin ]]; then
+    export PATH="$HOME/.cargo/bin:$PATH"
+    echo "--- rust configured"
+fi
+#- GO -----------------------------------------------
+if [ -x $(command -v go) ]; then
+    export GOPATH=$XDG_DATA_HOME/go
+    export GOROOT=/usr/local/opt/go/libexec
+    export PATH=$PATH:$GOPATH/bin
+    export PATH=$PATH:$GOROOT/bin
+    echo "--- go configured"
+fi
+
+if [[ -e /usr/local/Homebrew ]]; then
+    export HOMEBREW_PREFIX="/usr/local";
+    export HOMEBREW_CELLAR="/usr/local/Cellar";
+    export HOMEBREW_REPOSITORY="/usr/local/Homebrew";
+    export HOMEBREW_SHELLENV_PREFIX="/usr/local";
+    export PATH="/usr/local/bin:/usr/local/sbin${PATH+:$PATH}";
+    export MANPATH="/usr/local/share/man${MANPATH+:$MANPATH}:";
+    export INFOPATH="/usr/local/share/info:${INFOPATH:-}";
+    echo "--- homebrew configured"
+fi
+
 if [[ $OSTYPE == darwin* ]]; then
-        #- PROGRAMS ------------------------------------------
-        export INFOPATH="/usr/local/share/info:$INFOPATH"
-        export MANPATH="/usr/local/share/man:$MANPATH"
-        export PATH="/usr/local/bin:$PATH"
-        export PATH="/usr/local/sbin:$PATH"
         #- GNU -----------------------------------------------
         local_opt="$local_opt"
         export PATH="$local_opt/ed/libexec/gnubin:$PATH"         # ED
@@ -70,22 +90,10 @@ if [[ $OSTYPE == darwin* ]]; then
         export PATH="$local_opt/flex/bin:$PATH"
         export LDFLAGS="-L$local_opt/flex/lib"
         export CPPFLAGS="-I$local_opt/flex/include"
-        # golang
-        export PATH="$(go env GOPATH)/bin:$PATH"
-        # less
-        export LESS=-R
-        export LESSHISTFILE="-"
-        export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
-        export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
-        export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
-        export LESS_TERMCAP_me="$(printf '%b' '[0m')"
-        export LESS_TERMCAP_se="$(printf '%b' '[0m')"
-        export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"
-        export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
-        export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
         # libre SSL
         export PATH="$local_opt/libressl/bin:$PATH"
         export LDFLAGS="-L$local_opt/libressl/lib"
         export CPPFLAGS="-I$local_opt/libressl/include"
         export PKG_CONFIG_PATH="$local_opt/libressl/lib/pkgconfig"
 fi
+

@@ -17,22 +17,20 @@ ZSH_THEME="ys"
 plugins=(
     brew
     docker
-    git
     gh
-    golang
+    git
+    gnu-utils
     pip
     python
     vi-mode
     yum
-    gnu-utils
 )
 #- OH-MY-ZSH ------------------------------------------
 OHMYZSH="$HOME"/.local/share/ohmyzsh
 if [[ ! -d $OHMYZSH ]] && [[ ! -e $OHMYZSH ]]; then
     git clone https://github.com/vladdoster/ohmyzsh $OHMYZSH
-    echo "--- installed oh-my-zsh"
-fi
-if [[ -e "$OHMYZSH"/oh-my-zsh.sh ]]; then
+    echo "--- oh-my-zsh installed"
+elif [[ -e "$OHMYZSH"/oh-my-zsh.sh ]]; then
     source "$OHMYZSH"/oh-my-zsh.sh
 else
     echo "--- oh-my-zsh is unavailable"
@@ -42,24 +40,11 @@ bindkey "^P" history-search-backward
 bindkey "^R" history-incremental-search-backward
 bindkey '^e' edit-command-line # edit command in vim
 bindkey -s '^f' 'cd "$(dirname "$(fzf)")"\n'
-#- HOMEBREW -----------------------------------------
-if [[ -e /opt/homebrew ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [[ -e /home/linuxbrew ]]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-else
-    # echo "--- homebrew is unavailable"
-fi
 #- KITTY ----------------------------------------------
 if [ -x "$(command -v kitty)" ] && [[ $TERM =~ "kitty" ]]; then
     kitty + complete setup zsh | source /dev/stdin
     alias ssh='kitty +kitten ssh'
     echo "--- kitty terminal configured"
-fi
-#- RUST -----------------------------------------------
-if [[ -e $HOME/.cargo/bin ]]; then
-    export PATH="$HOME/.cargo/bin:$PATH"
-    echo "--- rust env configured"
 fi
 #- PERSONAL SCRIPTS -----------------------------------
 sourced=()
