@@ -1,7 +1,12 @@
 # Changelog
 
-## [v0.6.0-beta.1](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.0...v0.6.0-beta.1)
+## [v0.6.0-beta.2](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.1...v0.6.0-beta.2)
 
+- (maint): change nvim cfg & fmt gitconfig [`e53689d`](https://github.com/vladdoster/dotfiles/commit/e53689d9826f5c127f28d7eab72d2252ebbdb049)
+
+## [v0.6.0-beta.1](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.0...v0.6.0-beta.1) (2021-09-06)
+
+- (release): v0.6.0-beta.1 [`f5234b7`](https://github.com/vladdoster/dotfiles/commit/f5234b77901462982efc794317d6a0b6b84442c5)
 - (feat): test consecutive beta commits [`4d99dab`](https://github.com/vladdoster/dotfiles/commit/4d99dabeadf469b53ce59b287894e27ee0603e28)
 
 ## [v0.6.0-beta.0](https://github.com/vladdoster/dotfiles/compare/v0.5.6...v0.6.0-beta.0) (2021-09-06)
