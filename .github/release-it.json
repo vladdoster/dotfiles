@@ -3,7 +3,7 @@
     "changelog": "npx auto-changelog --stdout --commit-limit false --starting-version '${to}' --template https://raw.githubusercontent.com/release-it/release-it/master/templates/keepachangelog.hbs",
     "commitMessage": "(release): v${version}\n${changelog}",
     "requireCleanWorkingDir": true,
-    "tag": false,
+    "tag": true,
     "tagAnnotation": "v${version}",
     "tagName": "v${version}",
     "push": true,
