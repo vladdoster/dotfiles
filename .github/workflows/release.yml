@@ -38,12 +38,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
         run: |
-          release-it minor \
+          release-it \
                      --ci \
                      --config=.github/release-it.json \
                      --git.tag=true \
                      --github.preRelease \
-                     --preRelease beta
+                     --preRelease
 
   on-failure:
     runs-on: self-hosted
