@@ -1,9 +1,14 @@
 # Changelog
 
-## [v0.5.2](https://github.com/vladdoster/dotfiles/compare/v0.5.1...v0.5.2)
+## [v0.5.3](https://github.com/vladdoster/dotfiles/compare/v0.5.2...v0.5.3)
+
+- (bugfix): remove 'true' from from preRelease flag [`52d7778`](https://github.com/vladdoster/dotfiles/commit/52d77784566ab297d814faea726347fc1e335d63)
+
+## [v0.5.2](https://github.com/vladdoster/dotfiles/compare/v0.5.1...v0.5.2) (2021-09-05)
 
 - (maint): fmt aliases & rename gnu installers [`7fff509`](https://github.com/vladdoster/dotfiles/commit/7fff50999906b120cd429bfaca84f3148dfab779)
 - (maint): remove git cruft [`e5a946f`](https://github.com/vladdoster/dotfiles/commit/e5a946f91066feab0278a29c0a729d7e80a2e7a2)
+- (release): v0.5.2 [`4a1310e`](https://github.com/vladdoster/dotfiles/commit/4a1310ebdeda53f3748b1fac532737f498083936)
 - (bugfix): rename broken nvim config repo URL [`1e6259b`](https://github.com/vladdoster/dotfiles/commit/1e6259ba91e394f4110c0e9515e5cdb9fbd9d399)
 
 ## [v0.5.1](https://github.com/vladdoster/dotfiles/compare/v0.5.0...v0.5.1) (2021-09-04)
