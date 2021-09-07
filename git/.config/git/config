@@ -82,8 +82,8 @@
 ; [url "https://fusion.mastercard.int/"]
 ; 	insteadOf = https://globalrepository.mclocal.int/
 
-[url "https://globalrepository.mclocal.int/"]
-    insteadOf = https://fusion.mastercard.int/
+;[url "https://globalrepository.mclocal.int/"]
+;    insteadOf = https://fusion.mastercard.int/
 
 ;[remote "origin"]
 ;         url = https://github.com/Homebrew/brew

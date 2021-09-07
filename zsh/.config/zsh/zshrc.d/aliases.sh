@@ -1,23 +1,14 @@
 #!/usr/bin/env zsh
 #
 # Collection of aliases for common tasks
-_cmd_exists() {
-    if command -v "${1}" &> /dev/null; then
-        return true
-    else
-        echo "--- ${1} is unavailable"
-        return false
-    fi
-}
+
 #- SYSTEM SPECIFIC -------------------------------
-if [[ $OSTYPE =~ "darwin" ]]; then
+if [[ $OSTYPE =~ darwin* ]]; then
     _copy_cmd='pbcopy -pboard general'
     alias readlink="greadlink"
     alias copy="$_copy_cmd <"
 fi
-alias get-public-ssh-key= \
-    '$_copy_cmd < "$HOME"/.ssh/id_rsa.pub \
-	&& echo "--- Copied SSH key to clipboard"'
+# alias get-public-ssh-key='$_copy_cmd < "$HOME"/.ssh/id_rsa.pub && _info "Copied SSH key to clipboard"'
 #- NAVIGATION ------------------------------------
 if _cmd_exists exa; then
     alias ls='exa \
@@ -28,12 +19,12 @@ if _cmd_exists exa; then
                 --no-permissions \
                 --octal-permissions \
                 --time-style iso'
-elif _cmd_exists gls; then
-    alias ls='gls'
+else
+    alias l='ls --color=auto -1tA'
+    alias ls='ls --color=auto --group-directories-first'
+    alias ll='ls -lthN --color=auto --group-directories-first'
+    alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
 fi
-alias l='ls'
-alias la='ls -all'
-alias lt='ls --tree'
 alias .....='_go_to ../../../..'
 alias ....='_go_to ../../..'
 alias ...='_go_to ../..'
@@ -81,7 +72,11 @@ alias e-zshenv='_edit $HOME/.zshenv'
 alias e-zshrc='_edit $ZDOTDIR/.zshrc'
 #- DIRECTORY SHORTCUTS ---------------------------
 _go_to() {
-    cd "${1}" && ls
+    if [ -e $1 ]; then
+        cd $1 && ls
+    else
+        _error "$1 doesn't exist"
+    fi
 }
 
 CODE_DIR="${HOME:-~}"/code
@@ -114,12 +109,12 @@ alias get-my-ip='curl ifconfig.co'
 #- RELOAD COMMANDS -------------------------------
 _restart_brew_service() {
     if _cmd_exists "${1}"; then
-        echo "--- Reloading ${1}" \
+        _info "Reloading ${1}" \
             && (
                 brew services restart "${1}"
-                echo "--- Restarted ${1}"
+                _info "Restarted ${1}"
             ) \
-            || echo "--- Failed to restart ${1}"
+            || _error "Failed to restart ${1}"
     else
         echo "--- ERROR: ${1} not installed"
     fi
@@ -129,8 +124,12 @@ alias r-skhd='_restart_brew_service skhd'
 alias r-yabai='_restart_brew_service yabai'
 alias r-wm='r-yabai && r-skhd'
 #- PYTHON ----------------------------------------
-alias start-http_server='python2 -m SimpleHTTPServer'
-alias pip-requirements='pip-safe -r requirements.txt || echo "--- no requirements.txt found"'
+if _cmd_exists python3; then
+    alias http-serve='python3 -m http.server'
+else
+    alias http-serve='python -m SimpleHTTPServer'
+fi
+alias pip-requirements='pip-safe -r requirements.txt || _error "no requirements.txt found"'
 alias pip-safe='python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org'
 alias venv-activate='source ./.venv/bin/activate'
 alias venv-create='python3 -m venv ./.venv'
@@ -171,14 +170,18 @@ _mkfile() {
     chmod +x "${F_NAME}"
     echo "--- Created ${F_NAME}"
 }
-alias mkmd='{ F_NAME="$(cat -).md"; touch "$F_NAME"; echo "--- Created: $F_NAME"; }<<<'
-alias mktxt='{ F_NAME="$(cat -).txt"; touch "$F_NAME"; echo "--- Created: $F_NAME"; }<<<'
+alias mkmd='{ F_NAME="$(cat -).md"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
+alias mktxt='{ F_NAME="$(cat -).txt"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
 alias mksh='_mkfile sh "bash"'
 alias mkpy='_mkfile py "python3"'
 #- FILE FORMATTING -------------------------------
 _fmt() {
-    echo "--- Formatting ${1} files via ${2}"
-    find . -name "*.${1}" -print -exec bash -c "${2} {}" \;
+    if _cmd exists $2; then
+        _info "formatting ${1} files via ${2}"
+        find . -name "*.${1}" -print -exec bash -c "${2} {}" \;
+    else
+        _error "$2 not installed"
+    fi
 }
 alias fmt-lua='_fmt lua "stylua -i"'
 alias fmt-md="_fmt md mdformat"

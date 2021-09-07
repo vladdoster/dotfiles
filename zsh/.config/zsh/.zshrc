@@ -1,4 +1,17 @@
 #!/usr/bin/env zsh
+
+_cmd_exists() {
+    if command -v $1 &> /dev/null; then
+        return 0
+    fi
+    _error "$1 not installed"
+    return 1
+}
+
+_error() { echo "--- ERROR: $1" }
+
+_info() { echo "--- INFO: $1" }
+
 #- HISTORY --------------------------------------------
 HISTFILE="$ZDOTDIR"/zsh_history
 HISTSIZE=10000
@@ -28,11 +41,11 @@ plugins=(
 OHMYZSH="$HOME"/.local/share/ohmyzsh
 if [[ ! -d $OHMYZSH ]] && [[ ! -e $OHMYZSH ]]; then
     git clone https://github.com/vladdoster/ohmyzsh $OHMYZSH
-    echo "--- oh-my-zsh installed"
+    _info "oh-my-zsh installed"
 elif [[ -e "$OHMYZSH"/oh-my-zsh.sh ]]; then
     source "$OHMYZSH"/oh-my-zsh.sh
 else
-    echo "--- oh-my-zsh is unavailable"
+    _error "oh-my-zsh not installed"
 fi
 setopt mark_dirs # denote direectories with a trailing '/'
 bindkey "^P" history-search-backward
@@ -40,10 +53,10 @@ bindkey "^R" history-incremental-search-backward
 bindkey '^e' edit-command-line # edit command in vim
 bindkey -s '^f' 'cd "$(dirname "$(fzf)")"\n'
 #- KITTY ----------------------------------------------
-if [ -x "$(command -v kitty)" ] && [[ $TERM =~ "kitty" ]]; then
+if _cmd_exists kitty && [[ $TERM =~ "kitty" ]]; then
     kitty + complete setup zsh | source /dev/stdin
     alias ssh='kitty +kitten ssh'
-    echo "--- kitty terminal configured"
+    _info "kitty terminal configured"
 fi
 #- PERSONAL SCRIPTS -----------------------------------
 sourced=()
@@ -51,4 +64,5 @@ for file in $(find $ZDOTDIR/zshrc.d -maxdepth 1 -name '*.sh'); do
     . "$file"
     sourced+="$(basename $file)"
 done
-echo "--- sourced: ${sourced}"
+
+_info "sourced: $sourced"
