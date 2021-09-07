@@ -24,7 +24,7 @@ trap cleanup EXIT
 echo "--- entering tmp work dir $PWD"
 pushd "$WORK_DIR"
 echo "--- cloning $PROGRAM"
-git clone "$SRC_URL" "$PROGRAM"
+git clone --branch=release-0.5 "$SRC_URL" "$PROGRAM"
 cd "$PROGRAM"
 if autoreconf -iv; then
     echo "--- ran autoreconf successfully, continuing"

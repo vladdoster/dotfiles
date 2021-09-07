@@ -1,8 +1,7 @@
 #!/bin/bash
 
 PROGRAM="texinfo"
-SRC_URL="https://git.savannah.gnu.org/git/${PROGRAM}.git"
-BRANCH="master"
+SRC_URL="https://git.savannah.gnu.org/git/texinfo.git"
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORK_DIR=$(mktemp -d)
@@ -23,7 +22,7 @@ trap cleanup EXIT
 #-- CONFIGURE, BUILD, INSTALL
 echo "--- entering build dir $PWD"
 pushd "$WORK_DIR"
-if git clone --branch=$BRANCH "$SRC_URL" "$PROGRAM"; then
+if git clone --depth=1 "$SRC_URL" "$PROGRAM"; then
     echo "--- cloned $PROGRAM, continuing"
 fi
 pushd "$PROGRAM"

@@ -37,7 +37,7 @@
     editor       = nvim
     whitespace   = fix,-indent-with-non-tab,trailing-space,cr-at-eol
     pager        = less
-    autocrlf = false
+	autocrlf = false
     excludesfile = ~/.config/git/ignore
     eol = lf
 
@@ -57,8 +57,8 @@
     process = git-lfs filter-process
 
 [homebrew]
-    analyticsmessage     = false
-    caskanalyticsmessage = false
+	analyticsmessage = true
+	caskanalyticsmessage = true
 
 [http]
     sslVerify = false
@@ -82,16 +82,16 @@
 ; [url "https://fusion.mastercard.int/"]
 ; 	insteadOf = https://globalrepository.mclocal.int/
 
-[url "https://globalrepository.mclocal.int/"]
-    insteadOf = https://fusion.mastercard.int/
+;[url "https://globalrepository.mclocal.int/"]
+;    insteadOf = https://fusion.mastercard.int/
 
-; [remote "origin"]
-    ;         url = https://github.com/Homebrew/brew
-    ;         fetch = +refs/heads/*:refs/remotes/origin/*
+;[remote "origin"]
+;         url = https://github.com/Homebrew/brew
+;         fetch = +refs/heads/*:refs/remotes/origin/*
 
-; [remote "origin"]
-    ;         url = https://github.com/Homebrew/linuxbrew-core
-    ;         fetch = +refs/heads/*:refs/remotes/origin/*
+;[remote "origin"]
+;         url = https://github.com/Homebrew/linuxbrew-core
+;         fetch = +refs/heads/*:refs/remotes/origin/*
 
 [rerere]
     enabled    = 1
