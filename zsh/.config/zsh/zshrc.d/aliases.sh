@@ -123,7 +123,7 @@ _restart_brew_service() {
         echo "--- ERROR: ${1} not installed"
     fi
 }
-alias .sh='exec $SHELL'
+alias .sh='source $HOME/.zshenv $ZDOTDIR/.zshrc'
 alias r-skhd='_restart_brew_service skhd'
 alias r-yabai='_restart_brew_service yabai'
 alias r-wm='r-yabai && r-skhd'
