@@ -1,8 +1,15 @@
 # Changelog
 
-## [v0.6.0-beta.2](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.1...v0.6.0-beta.2)
+## [v0.6.0-beta.3](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.2...v0.6.0-beta.3)
+
+- (feat): add tarball script to install GNU software [`29b1d91`](https://github.com/vladdoster/dotfiles/commit/29b1d91b795e7815583c56bbb656d0bd00fc5550)
+- (feat): add clang-llvm installer [`dd6a9b1`](https://github.com/vladdoster/dotfiles/commit/dd6a9b14ea07cdcdce0386207ee9a6ba4466e48b)
+- (feat): add Makefile to install tarballs from a URL [`87f3f3f`](https://github.com/vladdoster/dotfiles/commit/87f3f3fe6c3dd4e2260222ff1d09bacf812bce69)
+
+## [v0.6.0-beta.2](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.1...v0.6.0-beta.2) (2021-09-06)
 
 - (maint): change nvim cfg & fmt gitconfig [`e53689d`](https://github.com/vladdoster/dotfiles/commit/e53689d9826f5c127f28d7eab72d2252ebbdb049)
+- (release): v0.6.0-beta.2 [`6778f2e`](https://github.com/vladdoster/dotfiles/commit/6778f2e64b93318262da90a02fbaaa5c55b8cd6c)
 
 ## [v0.6.0-beta.1](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.0...v0.6.0-beta.1) (2021-09-06)
 
