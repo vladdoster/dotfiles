@@ -67,6 +67,14 @@ py-deps: ## Install Python dependencies
 		mdformat mdformat-toc mdformat-gfm mdformat-tables mdformat-shfmt mdformat-config
 	@echo "--- installed python 3 packages"
 
+rust-install:
+	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	@echo "--- installed rust"
+
+rust-uninstall:
+	@rustup self uninstall
+	@echo "--- uninstalled rust"
+
 dry-run: --simulate ## Simulate an dotfiles deployment
 	@echo "--- DRYRUN: No changes will be made to current environment"
 	$(run-stow)

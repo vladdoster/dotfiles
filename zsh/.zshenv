@@ -97,3 +97,4 @@ if [[ $OSTYPE == darwin* ]]; then
         export PKG_CONFIG_PATH="$local_opt/libressl/lib/pkgconfig"
 fi
 
+. "$HOME/.cargo/env"
