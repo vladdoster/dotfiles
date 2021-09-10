@@ -65,6 +65,7 @@ _edit() {
 }
 alias e-aliases='_edit $ZDOTDIR/zshrc.d/aliases.sh'
 alias e-bashrc='_edit $HOME/.bashrc'
+alias e-fzf='_edit $ZDOTDIR/zshrc.d/fzf.sh'
 alias e-cli-commands='_edit $ZDOTDIR/zshrc.d/cli-commands.sh'
 alias e-git='_edit $XDG_CONFIG_HOME/git/config'
 alias e-gitignore='_edit $XDG_CONFIG_HOME/git/ignore'

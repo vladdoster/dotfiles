@@ -28,7 +28,7 @@ pushd "$WORK_DIR"
 if wget "$SRC_URL"; then
     echo "--- downloaded $PROGRAM_TARBALL tarball, continuing"
     if tar -xvf "$PROGRAM_TARBALL"; then
-	echo "--- unpacked $PROGRAM_SRC tarball, continuing"
+        echo "--- unpacked $PROGRAM_SRC tarball, continuing"
     fi
 fi
 pushd "$PROGRAM_SRC"

@@ -11,7 +11,7 @@ if [[ ! $WORK_DIR || ! -d $WORK_DIR ]]; then
     exit 1
 fi
 
-function cleanup { # delete the temp directory
+function cleanup() { # delete the temp directory
     sudo rm -rf "$WORK_DIR"
     echo "--- deleted temp working directory $WORK_DIR"
 }

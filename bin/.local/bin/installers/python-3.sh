@@ -11,7 +11,7 @@ if [[ ! $WORK_DIR || ! -d $WORK_DIR ]]; then
     exit 1
 fi
 
-function cleanup {
+function cleanup() {
     sudo rm -rf "$WORK_DIR"
     echo "--- cleaned up tmp build dir"
 }
@@ -36,12 +36,8 @@ if ./configure --enable-optimizations --with-lto; then
     echo "--- configure successful, continuing"
 fi
 echo "--- compiling $PROGRAM"
-make -j
+make -j8
 echo "--- installing $PROGRAM"
-<<<<<<< HEAD
 sudo make install
-=======
-sudo make install 
->>>>>>> 69564c6 ((maint): fmt aliases & rename gnu installers)
 echo "--- installed $PROGRAM"
 exit 0
