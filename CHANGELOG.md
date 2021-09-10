@@ -1,6 +1,12 @@
 # Changelog
 
-## [v0.6.0](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.6...v0.6.0)
+## [v0.6.1](https://github.com/vladdoster/dotfiles/compare/v0.6.0...v0.6.1)
+
+- (maint): remove unused fonts [`a9be0de`](https://github.com/vladdoster/dotfiles/commit/a9be0dee57b5076899df154779c9c5b3c98017a7)
+
+## [v0.6.0](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.6...v0.6.0) (2021-09-10)
+
+- (release): v0.6.0 [`30f9a72`](https://github.com/vladdoster/dotfiles/commit/30f9a721f2b3d95892e821c0f3d06bcf50b536f8)
 
 ## [v0.6.0-beta.6](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.5...v0.6.0-beta.6) (2021-09-10)
 
