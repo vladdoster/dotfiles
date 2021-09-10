@@ -89,10 +89,7 @@ brew "zsh"
 brew "koekeishiya/formulae/skhd"
 brew "koekeishiya/formulae/yabai"
 cask "1password", args: { appdir: "/Applications" }
-cask "font-jetbrains-mono"
 cask "font-sauce-code-pro-nerd-font"
-cask "font-source-code-pro"
-cask "font-source-code-pro-for-powerline"
 cask "kitty", args: { appdir: "/Applications" }
 cask "logitech-options"
 cask "visual-studio-code-insiders"
