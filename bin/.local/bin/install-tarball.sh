@@ -1,8 +1,10 @@
 #!/bin/bash
 
-PROGRAM="coreutils"
-SRC_URL="https://git.savannah.gnu.org/git/${PROGRAM}.git"
-BRANCH="master"
+SRC_URL=$1
+PROGRAM_TARBALL="$(basename $1)"
+PROGRAM_SRC=$(basename $PROGRAM_TARBALL .tar.gz)
+
+echo "--- installing $PROGRAM from $SRC_URL"
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORK_DIR=$(mktemp -d)
@@ -23,21 +25,18 @@ trap cleanup EXIT
 #-- CONFIGURE, BUILD, INSTALL
 echo "--- entering build dir $PWD"
 pushd "$WORK_DIR"
-if git clone --branch=$BRANCH "$SRC_URL" "$PROGRAM"; then
-    echo "--- cloned $PROGRAM, continuing"
+if wget "$SRC_URL"; then
+    echo "--- downloaded $PROGRAM_TARBALL tarball, continuing"
+    if tar -xvf "$PROGRAM_TARBALL"; then
+	echo "--- unpacked $PROGRAM_SRC tarball, continuing"
+    fi
 fi
-pushd "$PROGRAM"
-if autoreconf -iv; then
-    echo "--- autoreconf successfully, continuing"
-fi
-if ./autogen.sh; then
-    echo "--- autogen.sh successful, continuing"
-fi
+pushd "$PROGRAM_SRC"
 if ./configure; then
     echo "--- configure successful, continuing"
 fi
 echo "--- compiling $PROGRAM"
-make -j
+make
 echo "--- installing $PROGRAM"
 sudo make install
 echo "--- installed $PROGRAM"

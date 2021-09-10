@@ -6,8 +6,8 @@
     name  = "Vladislav Doster"
 
 ; [user]
-    ; 	email    = Vladislav.doster@Mastercard.com
-    ; 	name     = Vladislav Doster
+;     email    = Vladislav.doster@Mastercard.com
+;     name     = Vladislav Doster
 
 [credential]
     helper = cache --timeout=86400
@@ -82,8 +82,8 @@
 ; [url "https://fusion.mastercard.int/"]
 ; 	insteadOf = https://globalrepository.mclocal.int/
 
-;[url "https://globalrepository.mclocal.int/"]
-;    insteadOf = https://fusion.mastercard.int/
+[url "https://globalrepository.mclocal.int/"]
+    insteadOf = https://fusion.mastercard.int/
 
 ;[remote "origin"]
 ;         url = https://github.com/Homebrew/brew

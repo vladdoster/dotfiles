@@ -1,8 +1,7 @@
 #!/bin/bash
 
-PROGRAM="gettext"
-SRC_URL="https://git.savannah.gnu.org/git/gettext.git"
-BRANCH="master"
+PROGRAM="ninja"
+SRC_URL="https://github.com/ninja-build/${PROGRAM}.git"
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORK_DIR=$(mktemp -d)
@@ -23,7 +22,7 @@ trap cleanup EXIT
 #-- CONFIGURE, BUILD, INSTALL
 echo "--- entering build dir $PWD"
 pushd "$WORK_DIR"
-if git clone --branch=$BRANCH "$SRC_URL" "$PROGRAM"; then
+if git clone "$SRC_URL" "$PROGRAM"; then
     echo "--- cloned $PROGRAM, continuing"
 fi
 pushd "$PROGRAM"
