@@ -1,6 +1,10 @@
 # Changelog
 
-## [v0.6.0-beta.6](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.5...v0.6.0-beta.6)
+## [v0.6.0](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.6...v0.6.0)
+
+## [v0.6.0-beta.6](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.5...v0.6.0-beta.6) (2021-09-10)
+
+- (release): v0.6.0-beta.6 [`592f485`](https://github.com/vladdoster/dotfiles/commit/592f485ba530910a0c325ff4daa02fc1f1b4be18)
 
 ## [v0.6.0-beta.5](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.4...v0.6.0-beta.5) (2021-09-10)
 
