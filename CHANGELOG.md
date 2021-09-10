@@ -1,9 +1,12 @@
 # Changelog
 
-## [v0.6.0-beta.5](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.4...v0.6.0-beta.5)
+## [v0.6.0-beta.6](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.5...v0.6.0-beta.6)
+
+## [v0.6.0-beta.5](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.4...v0.6.0-beta.5) (2021-09-10)
 
 - (feat): Add make target to condense install tarballs [`0395fd5`](https://github.com/vladdoster/dotfiles/commit/0395fd5c40a7247067373ca519f43c4322f45d65)
 - (maint): run shformat and fix python3 install script [`6b6f3c7`](https://github.com/vladdoster/dotfiles/commit/6b6f3c7bcb3ca744ad81f1e6f49e5d4cd03dc1c9)
+- (release): v0.6.0-beta.5 [`abf9efa`](https://github.com/vladdoster/dotfiles/commit/abf9efa3b67925998ad326f8eb42075ee02ef014)
 - (maint): fix zsh reload which was creating a new shell [`9e71cce`](https://github.com/vladdoster/dotfiles/commit/9e71cceada0b6fc6994ad3ed57785a06368c8747)
 
 ## [v0.6.0-beta.4](https://github.com/vladdoster/dotfiles/compare/v0.6.0-beta.3...v0.6.0-beta.4) (2021-09-09)
