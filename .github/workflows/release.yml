@@ -43,7 +43,7 @@ jobs:
                      --config=.github/release-it.json \
                      --git.tag=true \
                      --github.preRelease \
-                     --preRelease
+                     --preRelease=beta
 
   on-failure:
     runs-on: self-hosted

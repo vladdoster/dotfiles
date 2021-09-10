@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-
 #- HISTORY --------------------------------------------
 HISTFILE="$ZDOTDIR"/zsh_history
 HISTSIZE=10000
