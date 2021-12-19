@@ -21,7 +21,9 @@ module.toggleGrid = function()
                         {x=frame.x + x * frame.w / grid.w, y=frame.y},
                         {x=frame.x + x * frame.w / grid.w, y=frame.y + frame.h}
                     },
-                    action='stroke', strokeColor={white=0.9}, strokeWidth=1.0
+                    action='stroke',
+                    strokeColor={white=0.9},
+                    strokeWidth=1.0
                 },
                 {
                     type='segments',
@@ -29,7 +31,9 @@ module.toggleGrid = function()
                         {x=frame.x + x * frame.w / grid.w, y=frame.y},
                         {x=frame.x + x * frame.w / grid.w, y=frame.y + frame.h}
                     },
-                    action='stroke', strokeColor={white=0.1}, strokeWidth=0.5
+                    action='stroke',
+                    strokeColor={white=0.1},
+                    strokeWidth=0.5
                 }
             })
         end
@@ -41,7 +45,9 @@ module.toggleGrid = function()
                         {x=frame.x, y=frame.y + y * frame.h / grid.h},
                         {x=frame.x + frame.w, y=frame.y + y * frame.h / grid.h}
                     },
-                    action='stroke', strokeColor={white=0.9}, strokeWidth=1.0
+                    action='stroke',
+                    strokeColor={white=0.9},
+                    strokeWidth=1.0
                 },
                 {
                     type='segments',
@@ -49,7 +55,9 @@ module.toggleGrid = function()
                         {x=frame.x, y=frame.y + y * frame.h / grid.h},
                         {x=frame.x + frame.w, y=frame.y + y * frame.h / grid.h}
                     },
-                    action='stroke', strokeColor={white=0.1}, strokeWidth=0.5
+                    action='stroke',
+                    strokeColor={white=0.1},
+                    strokeWidth=0.5
                 }
             })
         end

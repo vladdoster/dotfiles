@@ -589,8 +589,7 @@ module.start = function()
     -- load window/floating status from saved state
     loadSettings()
     -- retile automatically when windows change
-    cache.filter:subscribe({hs.window.filter.windowsChanged, hs.window.filter.windowMoved
-}, module.tile)
+    cache.filter:subscribe({hs.window.filter.windowsChanged, hs.window.filter.windowMoved}, module.tile)
     -- update on screens change
     cache.screenWatcher = hs.screen.watcher.new(module.tile):start()
     -- tile on start
