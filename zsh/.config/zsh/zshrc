@@ -1,0 +1,27 @@
+#!/usr/bin/env zsh
+#
+# Author: Vladislav D.
+# GitHub: vladdoster
+#   Repo: https://dotfiles.vdoster.com
+#
+# Open an issue in https://github.com/vladdoster/dotfiles if
+# you find a bug, have a feature request, or a question.
+#
+# sources various parts of zsh configuration
+#
+#=== HISTORY =============================================
+[ -z "$HISTFILE" ] && HISTFILE="$HOME/zsh_history"
+[ "$HISTSIZE" -lt 50000 ] && HISTSIZE=50000
+[ "$SAVEHIST" -lt 10000 ] && SAVEHIST=10000
+setopt extended_history            # record timestamp of command in HISTFILE
+setopt hist_expire_dups_first      # delete duplicates first when HISTFILE size exceeds HISTSIZE
+setopt hist_ignore_dups            # ignore duplicated commands history list
+setopt hist_ignore_space           # ignore commands that start with space
+setopt hist_verify                 # show command with history expansion to user before running it
+setopt share_history               # share command history data
+zstyle ':completion:*' rehash true # persistent rehash
+#=== HISTORY =============================================
+zsh_config=(aliases zinit)
+for FILE in ${zsh_config[@]}; do
+    . "${ZDOTDIR:-$HOME/.config/zsh}/${FILE}.zsh"
+done

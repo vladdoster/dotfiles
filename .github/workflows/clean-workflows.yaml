@@ -1,0 +1,20 @@
+name: prune old workflow runs
+
+on:
+  schedule:
+    - cron: '0 1 * * *'
+
+jobs:
+
+  prune-old-runs:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: prune workflow runs
+        uses: GitRML/delete-workflow-runs@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          retain_days: 1

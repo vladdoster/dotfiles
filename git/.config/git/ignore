@@ -1,0 +1,135 @@
+#-- LINUX ----------------------------------------
+azure.sh
+*~
+.fuse_hidden* # temporary files which can be created if a process still has a handle open of a deleted file
+.directory    # KDE directory preferences
+.Trash-*      # Linux trash folder which might appear on any partition or disk
+.nfs*         # .nfs files are created when an open file is removed but is still being accessed
+# tags created by etags, ctags, gtags (gnu global) and cscope
+TAGS
+.TAGS
+!TAGS/
+tags
+.tags
+!tags/
+cmd-history
+.zsh_history
+#-- MAC_OS ---------------------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon # icon must end with two \r
+._*  # Thumbnails
+# files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+# directories potentially created on remote afp share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+.vivaldi_reporting_data
+bin/.local/share
+.zsh_sessions
+*.zwc
+#-- VIM ------------------------------------------
+[._]*.s[a-v][a-z] # swap
+!*.svg            # comment out if you don't need vector files
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+Session.vim       # Session
+Sessionx.vim      # Session
+.netrwhist        # Temporary
+*~
+[._]*.un~         # Persistent undo
+#-- PYTHON ---------------------------------------
+# byte-compiled / optimized / dll files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so               # C extensions
+# distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+# pyinstaller
+*.manifest
+*.spec
+# installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+# unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+# translations
+*.mo
+*.pot
+# django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+# flask
+instance/
+.webassets-cache
+.scrapy            # scrapy
+docs/_build/       # sphinx documentation
+# pybuilder
+.pybuilder/
+target/
+.ipynb_checkpoints # jupyter notebook
+# ipython
+profile_default/
+ipython_config.py
+__pypackages__/
+celerybeat*        # celery
+# environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+/site         # mkdocs documentation
+.pyre/        # pyre type checker
+.pytype/      # pytype static type analyzer
+cython_debug/ # cython debug symbols

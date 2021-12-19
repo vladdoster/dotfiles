@@ -1,0 +1,2 @@
+sudo snap install go --classic
+sudo snap install rustup --classic
