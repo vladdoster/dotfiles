@@ -27,6 +27,7 @@ if [[ ! -f "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}/zinit.zsh" ]]; then
   && info 'installed zinit' \
   || error 'git not found' >&2
 fi
+autoload -U +X bashcompinit && bashcompinit
 source "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}/zinit.zsh" \
   && autoload -Uz _zinit \
   && (( ${+_comps} )) \
@@ -40,7 +41,8 @@ zi light-mode for \
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure \
     zdharma-continuum/zinit-annex-submods \
-    zdharma-continuum/zinit-annex-patch-dl
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-readurl
 #=== GIT ===============================================
 zi ice svn; zi snippet OMZ::plugins/git
 zi snippet OMZ::plugins/git/git.plugin.zsh
@@ -66,6 +68,15 @@ zturbo 0a light-mode for \
   pack dircolors-material  \
   pack'binary+keys'  fzf
 #=== BINARIES ==========================================
+zinit id-as'git' \
+    dlink"/git/git/archive/refs/tags/v%VERSION%.zip" \
+    as'readurl|command' \
+    atclone'ziextract --move --auto' \
+    atpull'%atclone' \
+    make"USE_LIBPCRE2=1 -j$[$(nproc) + 1] prefix=$ZPFX all doc install-doc" \
+    pick'git' \
+    for https://github.com/git/git/tags/
+
 zturbo 0b as"program" from"gh-r" for \
   bpick"${bpick}" pick'shfmt' @mvdan/sh \
   pick'git-sizer'    @github/git-sizer   \
