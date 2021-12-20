@@ -28,9 +28,8 @@ _edit() {
 }
 _export() {
     if [[ -d $1 ]]; then
-      echo "hello"
-        #  export PATH="${1}${PATH+:$PATH}"
-        #  return $?
+        export PATH="${1}${PATH+:$PATH}"
+        return $?
     fi
 }
 _fmt() {
@@ -70,18 +69,18 @@ _archive() {
             ;;
     esac
 }
-#  #- SYSTEM SPECIFIC -------------------------------
+#= SYSTEM SPECIFIC ===============================
 if [[ $OSTYPE =~ darwin* ]]; then
     _copy_cmd='pbcopy -pboard general'
     alias readlink="greadlink"
     alias copy="$_copy_cmd <"
 fi
-#  #- NAVIGATION ------------------------------------
+#= NAVIGATION ====================================
 alias .....='_goto ../../../..'
 alias ....='_goto ../../..'
 alias ...='_goto ../..'
 alias ..='_goto ..'
-#- FILE LOCATIONS --------------------------------
+#= FILE LOCATIONS ================================
 alias b="cd -"
 alias cpv="rsync -ah --info=progress2"
 alias d='dirs -v'
@@ -96,23 +95,23 @@ elif has vim; then
 elif has vi; then
     export EDITOR='vi'
 fi
-#  #- CONFIG SHORTCUTS ------------------------------
+#= CONFIG SHORTCUTS ==============================
 alias ealiases="_edit $ZDOTDIR/aliases.zsh"
 alias emcutils="_edit $ZDOTDIR/lib/azure.sh"
 alias gitignore="_edit $XDG_CONFIG_HOME/git/ignore"
 alias gitrc="_edit $XDG_CONFIG_HOME/git/config"
 alias hs="_goto $HOME/.hammerspoon/"
 alias kittyrc="_edit $XDG_CONFIG_HOME/kitty/kitty.conf"
-alias nvcln="rm -dv $HOME/.{config/nvim/plugin,local/share/nvim,config/nvim/lua/packer_compiled}"
+alias nvcln="rm -fr $HOME/.{local/share/nvim,config/nvim/lua/packer_compiled}"
 alias nvopt="_edit $XDG_CONFIG_HOME/nvim/lua/core/options.lua"
 alias nvplg="_edit $XDG_CONFIG_HOME/nvim/lua/plugins/init.lua"
 alias sshrc="_edit $HOME/.ssh/config"
 alias tmuxrc="_edit $XDG_CONFIG_HOME/tmux/tmux.conf"
-alias zcln="rm -rf ${HOME}/{.local/share/zinit,.cache,.config/zinit} $ZDOTDIR/.{zcompdump,zsh_sessions}"
+alias zcln="rm -fr ${HOME}/{.local/share/zinit,.cache,.config/zinit} $ZDOTDIR/.{zcompdump,zsh_sessions}"
 alias zenv="_edit $HOME/.zshenv"
 alias zrc="_edit $ZDOTDIR/zinit.zsh"
 alias zrld="exec zsh"
-#- DIRECTORY SHORTCUTS ---------------------------
+#= DIRECTORY SHORTCUTS ===========================
 CODE_DIR="${HOME:-~}"/code
 mkdir -p $CODE_DIR || true
 alias bin="_goto $HOME/.local/bin"
@@ -127,47 +126,47 @@ alias share="_goto $HOME/.local/share"
 alias vd="_goto $XDG_CONFIG_HOME/nvim"
 alias zd="_goto $ZDOTDIR"
 alias zl="_goto $ZDOTDIR/lib"
-#- RELOAD COMMANDS -------------------------------
+#= RELOAD COMMANDS ===============================
 alias .sh='source $ZDOTDIR/.zshrc'
-#- GIT -------------------------------------------
+#= GIT ===========================================
 alias g-submodule-update='git submodule update --merge --remote'
 alias g="git" # GIT ALIASES ARE IN ~/.GITCONFIG.
-#- COMMAND SHORTCUTS -----------------------------
+#= COMMAND SHORTCUTS =============================
 alias rshfmt="shfmt -i 4 -s -ln bash -sr -bn -ci -w"
 alias rm-ds-store='find "$PWD" -type f -name "*.DS[_-]Store" -print -delete'
 alias zc='zinit compile'
 alias zp='zinit times'
 alias zt='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
-#- MISC. -----------------------------------------
+#= MISC. =========================================
 alias genpasswd='openssl rand -base64 24'
 alias get-my-ip='curl ifconfig.co'
 alias scratch='$EDITOR $(mktemp -t scratch.XXX.md)'
-#  #- PYTHON ----------------------------------------
+#= PYTHON ========================================
 alias http-serve='python3 -m http.server'
 alias pip-safe='python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org'
 alias pip-requirements='pip-safe -r requirements.txt || _error "no requirements.txt found"'
 alias venv-activate='source ./.venv/bin/activate'
 alias venv-create='python3 -m venv ./.venv'
 alias venv-setup='venv-create && venv-activate && pip-requirements'
-#  #- NETWORK INFO ----------------------------------
+#= NETWORK INFO ==================================
 alias get-open-ports='sudo lsof -i -n -P | grep TCP'
 alias ping='ping -c 10'
-#  #- FILE CREATION ---------------------------------
+#= FILE CREATION =================================
 alias mkmd='{ F_NAME="$(cat -).md"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
 alias mkpy='_mkfile py "python3"'
 alias mksh='_mkfile sh "bash"'
 alias mktxt='{ F_NAME="$(cat -).txt"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
-#- FILE FORMATTING -------------------------------
+#= FILE FORMATTING ===============================
 alias fmt-lua='_fmt lua "stylua -i"'
 alias fmt-md="_fmt md mdformat"
 alias fmt-py="_fmt py python3 -m black"
 alias fmt-sh='_fmt sh "shfmt -bn -ci -i 4 -ln=bash -s -sr -w"'
-#- SYS -------------------------------------------
+#= SYS ===========================================
 alias apt-sysupdate="_sys_update 'sudo apt --yes'"
 alias brew-clean="brew cleanup --prune=all"
 alias brew-reset="brew update-reset"
 alias brew-sysupdate="brew upgrade --greedy --force"
 alias yum-sysupdate="_sys_update 'sudo yum -y'"
-#- REMOTE -----------------------------------------
+#= REMOTE =========================================
 alias cp-dotfiles="rsync -azP $XDG_CONFIG_HOME/dotfiles/ devcloud:~/dotfiles"
 alias cp-nvim="rsync -azP $XDG_CONFIG_HOME/nvim/ devcloud:~/nvim"

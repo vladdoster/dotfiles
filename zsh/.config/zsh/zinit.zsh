@@ -62,7 +62,6 @@ zturbo light-mode for \
       bindkey "^[[B" history-substring-search-down' \
     zsh-users/zsh-history-substring-search
 #=== FZF ==============================================
-  #  pack'default'      ls_colors           \
 zturbo 0a light-mode for \
   pack dircolors-material  \
   pack'binary+keys'  fzf
