@@ -41,8 +41,7 @@ zi light-mode for \
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure \
     zdharma-continuum/zinit-annex-submods \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-readurl
+    zdharma-continuum/zinit-annex-patch-dl
 #=== GIT ===============================================
 zi ice svn; zi snippet OMZ::plugins/git
 zi snippet OMZ::plugins/git/git.plugin.zsh
@@ -50,7 +49,7 @@ zi snippet OMZ::plugins/git/git.plugin.zsh
 zi snippet OMZP::pip
 zi ice as'completion'; zi snippet OMZP::pip/_pip
 #=== MISC. =============================================
-zturbo light-mode for \
+zturbo 0a light-mode for \
   ver'develop' atload'_zsh_autosuggest_start' \
     zsh-users/zsh-autosuggestions \
   is-snippet atload'zstyle ":completion:*" special-dirs false' \
@@ -64,38 +63,27 @@ zturbo light-mode for \
       bindkey "^[[B" history-substring-search-down' \
     zsh-users/zsh-history-substring-search
 #=== FZF ==============================================
-zturbo 0a light-mode for \
+zturbo 0b light-mode for \
   pack dircolors-material  \
   pack'binary+keys'  fzf
-#=== GIT ==============================================
-zi id-as'git' \
-    dlink"/git/git/archive/refs/tags/v%VERSION%.zip" \
-    as'readurl|command' \
-    atclone'ziextract --move --auto' \
-    atpull'%atclone' \
-    make"USE_LIBPCRE2=1 -j$[$(nproc) + 1] prefix=$ZPFX all doc install-doc" \
-    pick'git' \
-    for https://github.com/git/git/tags/
 #=== BINARIES ==========================================
-zturbo 0b as"program" from"gh-r" for \
-  bpick"${bpick}" pick'shfmt' @mvdan/sh \
-  pick'git-sizer'    @github/git-sizer   \
-  pick'grex'         pemistahl/grex      \
-  pick'd*/delta'     dandavison/delta    \
-  pick'f*/fd'        @sharkdp/fd         \
-  pick'grex'         pemistahl/grex      \
-  pick'h*/hyperfine' @sharkdp/hyperfine  \
-  pick'ripgrep*/rg*' @BurntSushi/ripgrep \
+zturbo 0c from"gh-r" as'program' for \
+  mv"ripgrep* -> ripgrep"         pick"ripgrep/rg"   @BurntSushi/ripgrep     \
+  mv"tree-sitter* -> tree-sitter" pick"tree-sitter"  tree-sitter/tree-sitter \
+  pick"delta*/delta"              dandavison/delta   \
+  pick'fd*/fd'                    @sharkdp/fd        \
+  pick'git-sizer'                 @github/git-sizer  \
+  pick'grex'                      pemistahl/grex     \
+  pick'hyperfine* /hyperfine'     @sharkdp/hyperfine \
+  pick'shfmt'                     bpick"${bpick}"    @mvdan/sh               \
   atload"
       alias ls='exa --git --group-directories-first'
       alias l='ls -blF'
       alias la='ls -abghilmu'
       alias ll='ls -al'
       alias tree='exa --tree'" \
-  pick'bin/exa' \
+  mv'bin/exa* -> exa' \
     ogham/exa \
-  atload"
-      alias v='nvim'
-      export EDITOR='nvim'" \
-  bpick"${bpick}" pick'nvim/bin/nvim' ver'nightly' \
+  atload" alias v='nvim' export EDITOR='nvim'" bpick"${bpick}" \
+  mv'nvim* -> nvim' pick'nvim/bin/nvim' ver'nightly' \
     neovim/neovim
