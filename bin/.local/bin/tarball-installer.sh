@@ -18,12 +18,12 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORK_DIR=$(mktemp -d)
 
 if [[ ! $WORK_DIR || ! -d $WORK_DIR ]]; then
-    _err "failed creating temp build dir"
+    _err "failed creating temp build directory"
 fi
 
 function cleanup {
     sudo rm -rf "$WORK_DIR"
-    _log "cleaned up tmp build dir"
+    _log "cleaned up tmp build directory"
 }
 
 trap cleanup EXIT # cleanup build artifacts on EXIT signals
@@ -60,16 +60,21 @@ elif cmake .; then
 else
     _log "failed $PROGRAM_SRC configuration"
 fi
+if [[ -f configure.ac ]]; then
+    if automake; then
+        _log "configure.ac file present, executing automake"
+    fi
+fi
 if ./configure; then
-    _log "configure file present, executing "
+    _log "configure file present, executing"
 elif ./Configure; then
-    _log "Configure file present, executing "
+    _log "Configure file present, executing"
 else
     _log "failed $PROGRAM_SRC configuration"
 fi
-if make -j "$3"; then
-    _log "make sucessful, continuing"
-    if sudo make -j install; then
+if make --jobs 8; then
+    _log "make successful, continuing"
+    if sudo make --jobs 8 install; then
         _log "$PROGRAM_SRC installed"
         exit 0
     fi
