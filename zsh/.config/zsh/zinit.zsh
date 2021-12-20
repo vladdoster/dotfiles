@@ -50,13 +50,13 @@ zi snippet OMZP::pip
 zi ice as'completion'; zi snippet OMZP::pip/_pip
 #=== MISC. =============================================
 zturbo 0a light-mode for \
-  ver'develop' atload'_zsh_autosuggest_start' \
+  ver'develop' atinit'ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20' atload'_zsh_autosuggest_start' \
     zsh-users/zsh-autosuggestions \
   is-snippet atload'zstyle ":completion:*" special-dirs false' \
     PZTM::completion \
   atload"zicompinit; zicdreplay" blockf \
     zsh-users/zsh-completions \
-  atinit"zicompinit; zicdreplay" \
+  blockf atpull'zinit creinstall -q .' \
     zdharma-continuum/fast-syntax-highlighting \
   atload'
       bindkey "^[[A" history-substring-search-up
@@ -84,6 +84,6 @@ zturbo 0c from"gh-r" as'program' for \
       alias tree='exa --tree'" \
   mv'bin/exa* -> exa' \
     ogham/exa \
-  atload" alias v='nvim' export EDITOR='nvim'" bpick"${bpick}" \
+  atload"alias v='nvim'; export EDITOR='nvim'" bpick"${bpick}" \
   mv'nvim* -> nvim' pick'nvim/bin/nvim' ver'nightly' \
     neovim/neovim
