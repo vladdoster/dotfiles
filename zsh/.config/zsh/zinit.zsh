@@ -53,11 +53,11 @@ zi ice as'completion'; zi snippet OMZP::pip/_pip
 zturbo light-mode for \
   ver'develop' atload'_zsh_autosuggest_start' \
     zsh-users/zsh-autosuggestions \
-  atload'zstyle ":completion:*" special-dirs false' \
+  is-snippet atload'zstyle ":completion:*" special-dirs false' \
     PZTM::completion \
-  as'completion' atpull'zinit cclear' blockf \
+  atload"zicompinit; zicdreplay" blockf \
     zsh-users/zsh-completions \
-  blockf atinit'ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay' \
+  atinit"zicompinit; zicdreplay" \
     zdharma-continuum/fast-syntax-highlighting \
   atload'
       bindkey "^[[A" history-substring-search-up
@@ -67,8 +67,8 @@ zturbo light-mode for \
 zturbo 0a light-mode for \
   pack dircolors-material  \
   pack'binary+keys'  fzf
-#=== BINARIES ==========================================
-zinit id-as'git' \
+#=== GIT ==============================================
+zi id-as'git' \
     dlink"/git/git/archive/refs/tags/v%VERSION%.zip" \
     as'readurl|command' \
     atclone'ziextract --move --auto' \
@@ -76,7 +76,7 @@ zinit id-as'git' \
     make"USE_LIBPCRE2=1 -j$[$(nproc) + 1] prefix=$ZPFX all doc install-doc" \
     pick'git' \
     for https://github.com/git/git/tags/
-
+#=== BINARIES ==========================================
 zturbo 0b as"program" from"gh-r" for \
   bpick"${bpick}" pick'shfmt' @mvdan/sh \
   pick'git-sizer'    @github/git-sizer   \
