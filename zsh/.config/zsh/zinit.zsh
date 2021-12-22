@@ -19,11 +19,12 @@ esac
 #=== ZINIT =============================================
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME:-~/.local/share}}/zinit"
 ZINIT_BIN_DIR_NAME="${ZINIT_BIN_DIR_NAME:-bin}"
+ZINIT_REPO="zdharma-continuum"
 if [[ ! -f "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}/zinit.zsh" ]]; then
   info 'installing zinit' \
     && command mkdir -p "${ZINIT_HOME}" \
     && command chmod g-rwX "${ZINIT_HOME}" \
-    && command git clone --depth 1 --branch main https://github.com/vladdoster/zinit-1 "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}" \
+    && command git clone --depth 1 --branch main https://github.com/${ZINIT_REPO}/zinit "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}" \
   && info 'installed zinit' \
   || error 'git not found' >&2
 fi
@@ -40,8 +41,9 @@ zi light-mode for \
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure \
-    zdharma-continuum/zinit-annex-submods \
-    zdharma-continuum/zinit-annex-patch-dl
+    ${ZINIT_REPO}/zinit-annex-submods \
+    ${ZINIT_REPO}/zinit-annex-patch-dl \
+    ${ZINIT_REPO}/zinit-annex-bin-gem-node
 #=== GIT ===============================================
 zi ice svn; zi snippet OMZ::plugins/git
 zi snippet OMZ::plugins/git/git.plugin.zsh
@@ -75,15 +77,22 @@ zturbo 0c from"gh-r" as'program' for \
   pick'git-sizer'                 @github/git-sizer  \
   pick'grex'                      pemistahl/grex     \
   pick'hyperfine* /hyperfine'     @sharkdp/hyperfine \
-  pick'shfmt'                     bpick"${bpick}"    @mvdan/sh               \
+  pick'shfmt'                     bpick"${bpick}"    @mvdan/sh
+
+zinit wait lucid from'gh-r' as"command" for \
+  mv'fd* fd' sbin'**/fd(.exe|) -> fd' \
+    @sharkdp/fd \
+  mv'bat* bat' sbin'**/bat(.exe|) -> bat' \
+    @sharkdp/bat \
+  sbin'**/exa -> exa' atclone'cp -vf completions/exa.zsh _exa' \
   atload"
       alias ls='exa --git --group-directories-first'
       alias l='ls -blF'
       alias la='ls -abghilmu'
       alias ll='ls -al'
       alias tree='exa --tree'" \
-  mv'bin/exa* -> exa' \
     ogham/exa \
-  atload"alias v='nvim'; export EDITOR='nvim'" bpick"${bpick}" \
-  mv'nvim* -> nvim' pick'nvim/bin/nvim' ver'nightly' \
-    neovim/neovim
+  mv'rip* ripgrep' sbin'**/rg(.exe|) -> rg' \
+    BurntSushi/ripgrep \
+  sbin"**/bin/nvim -> nvim" \
+    neovim/neovim \
