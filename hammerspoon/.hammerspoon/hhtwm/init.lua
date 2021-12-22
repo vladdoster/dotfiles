@@ -6,14 +6,10 @@ local module = {cache=cache}
 local layouts = createLayouts(module)
 local log = hs.logger.new('hhtwm', 'debug')
 local SWAP_BETWEEN_SCREENS = false
-local getDefaultLayoutOptions = function() return {mainPaneRatio=0.5} end
+local getDefaultLayoutOptions = function() return {mainPaneRatio=1.0} end
 local capitalize = function(str) return str:gsub('^%l', string.upper) end
 local ternary = function(cond, ifTrue, ifFalse)
-    if cond then
-        return ifTrue
-    else
-        return ifFalse
-    end
+    if cond then return ifTrue else return ifFalse end
 end
 local ensureCacheSpaces =
     function(spaceId) if spaceId and not cache.spaces[spaceId] then cache.spaces[spaceId] = {} end end
@@ -544,7 +540,7 @@ local loadSettings = function()
             if win then table.insert(cache.floating, win) end
         end)
     end
-    log.d('read from hs.settings')
+    log.d('--- read from hs.settings')
     log.d('cache.spaces', hs.inspect(cache.spaces))
     log.d('cache.floating', hs.inspect(cache.floating))
 end

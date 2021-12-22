@@ -22,6 +22,8 @@ Install:andUse('TextClipboardHistory', {
     hotkeys={toggle_clipboard={{'cmd', 'shift'}, 'v'}},
     start=true
 })
+hs.brightness.set(100)
+print(hs.brightness.get())
 -- GLOBAL CONFIGURATION
 config = {
     apps={terms={'kitty'}, browsers={'Vivaldi'}},
@@ -45,3 +47,4 @@ hs.fnutils.each(modules, function(module) if module then module.start() end end)
 hs.shutdownCallback = function() hs.fnutils.each(modules, function(module) if module then module.stop() end end) end
 -- ALERT USER THAT HS SUCCESSFULLY STARTED
 hs.notify.show('Hammerspoon', 'Reload Notification', 'Hammerspoon configuration reloaded.')
+hs.dialog.blockAlert("Message", "Informative Text", "Button One", "Button Two", "NSCriticalAlertStyle")

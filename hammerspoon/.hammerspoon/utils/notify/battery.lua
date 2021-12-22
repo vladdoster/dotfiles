@@ -25,7 +25,7 @@ local function watchFunc()
         isCharged = true
     end
     local threshold = 5 -- 5% of battery
-    if newPercentage <= threshold then
+    if (newPercentage <= threshold and newPowerSource == "Battery Power") then
         local timeRemaining = hs.battery.timeRemaining()
         batteryNotify('Low Battery', 'Time Remaining:', 'is ' .. timeRemaining .. ' minutes')
     end
