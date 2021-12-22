@@ -29,15 +29,12 @@ local function watchFunc()
         local timeRemaining = hs.battery.timeRemaining()
         batteryNotify('Low Battery', 'Time Remaining:', 'is ' .. timeRemaining .. ' minutes')
     end
-    if newPowerSource ~= powerSource then
+    if newPowerSource ~= powerSource and newPowerSource == "Battery Power" then
         batteryNotify('Power Source Change', 'Current :', newPowerSource)
         powerSource = newPowerSource
     end
 end
-function m.start()
-    m.watcher = hs.battery.watcher.new(watchFunc):start()
-    -- m.watcher:start()
-end
+function m.start() m.watcher = hs.battery.watcher.new(watchFunc):start() end
 function m.stop()
     m.watcher:stop()
     m.watcher = nil
