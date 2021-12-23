@@ -94,5 +94,5 @@ zinit wait lucid from'gh-r' as"command" for \
     ogham/exa \
   mv'rip* ripgrep' sbin'**/rg(.exe|) -> rg' \
     BurntSushi/ripgrep \
-  sbin"**/bin/nvim -> nvim" \
+  bpick"${bpick}" atload'export EDITOR="nvim"; alias v="${EDITOR}"' sbin"**/bin/nvim -> nvim" \
     neovim/neovim \
