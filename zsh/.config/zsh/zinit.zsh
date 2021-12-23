@@ -73,26 +73,23 @@ zturbo 0c from"gh-r" as'program' for \
   mv"ripgrep* -> ripgrep"         pick"ripgrep/rg"   @BurntSushi/ripgrep     \
   mv"tree-sitter* -> tree-sitter" pick"tree-sitter"  tree-sitter/tree-sitter \
   pick"delta*/delta"              dandavison/delta   \
-  pick'fd*/fd'                    @sharkdp/fd        \
   pick'git-sizer'                 @github/git-sizer  \
   pick'grex'                      pemistahl/grex     \
-  pick'hyperfine* /hyperfine'     @sharkdp/hyperfine \
   pick'shfmt'                     bpick"${bpick}"    @mvdan/sh
 
-zinit wait lucid from'gh-r' as"command" for \
-  mv'fd* fd' sbin'**/fd(.exe|) -> fd' \
-    @sharkdp/fd \
-  mv'bat* bat' sbin'**/bat(.exe|) -> bat' \
-    @sharkdp/bat \
-  sbin'**/exa -> exa' atclone'cp -vf completions/exa.zsh _exa' \
-  atload"
-      alias ls='exa --git --group-directories-first'
-      alias l='ls -blF'
-      alias la='ls -abghilmu'
-      alias ll='ls -al'
-      alias tree='exa --tree'" \
-    ogham/exa \
-  mv'rip* ripgrep' sbin'**/rg(.exe|) -> rg' \
-    BurntSushi/ripgrep \
-  bpick"${bpick}" atload'export EDITOR="nvim"; alias v="${EDITOR}"' sbin"**/bin/nvim -> nvim" \
+zturbo 1a from'gh-r' as"command" for \
+  mv'bat* bat'             sbin'**/bat -> bat'             @sharkdp/bat       \
+  mv'fd* fd'               sbin'**/fd -> fd'               @sharkdp/fd        \
+  mv'hyperfine* hyperfine' sbin'**/hyperfine -> hyperfine' @sharkdp/hyperfine \
+  mv'rip* ripgrep'         sbin'**/rg -> rg'               BurntSushi/ripgrep \
+  bpick"${bpick}"          sbin"**/bin/nvim -> nvim"       \
+  atload'export EDITOR="neovim
+         alias v="${EDITOR}"' \
     neovim/neovim \
+  sbin'**/exa -> exa'      atclone'cp -vf completions/exa.zsh _exa' \
+  atload"alias ls='exa --git --group-directories-first'
+         alias l='ls -blF'
+         alias la='ls -abghilmu'
+         alias ll='ls -al'
+         alias tree='exa --tree'" \
+    ogham/exa \
