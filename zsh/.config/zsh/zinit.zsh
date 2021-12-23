@@ -69,21 +69,20 @@ zturbo 0b light-mode for \
   pack dircolors-material  \
   pack'binary+keys'  fzf
 #=== BINARIES ==========================================
-zturbo 0c from"gh-r" as'program' for \
-  mv"ripgrep* -> ripgrep"         pick"ripgrep/rg"   @BurntSushi/ripgrep     \
-  mv"tree-sitter* -> tree-sitter" pick"tree-sitter"  tree-sitter/tree-sitter \
-  pick"delta*/delta"              dandavison/delta   \
-  pick'git-sizer'                 @github/git-sizer  \
-  pick'grex'                      pemistahl/grex     \
-  pick'shfmt'                     bpick"${bpick}"    @mvdan/sh
+zturbo 1a from"gh-r" as'program' for \
+  pick"delta*/delta"             dandavison/delta        \
+  pick'git-sizer'                @github/git-sizer       \
+  pick'grex'                     pemistahl/grex          \
+  pick'shfmt'  bpick"${bpick}"   @mvdan/sh               \
+  pick"tree-sitter*/tree-sitter" tree-sitter/tree-sitter
 
-zturbo 1a from'gh-r' as"command" for \
+zturbo 1b from'gh-r' as"command" for \
   mv'bat* bat'             sbin'**/bat -> bat'             @sharkdp/bat       \
   mv'fd* fd'               sbin'**/fd -> fd'               @sharkdp/fd        \
   mv'hyperfine* hyperfine' sbin'**/hyperfine -> hyperfine' @sharkdp/hyperfine \
   mv'rip* ripgrep'         sbin'**/rg -> rg'               BurntSushi/ripgrep \
-  bpick"${bpick}"          sbin"**/bin/nvim -> nvim"       \
-  atload'export EDITOR="neovim
+  mv'nvim* nvim'           sbin"**/bin/nvim -> nvim"       bpick"${bpick}"    \
+  atload'export EDITOR="nvim"
          alias v="${EDITOR}"' \
     neovim/neovim \
   sbin'**/exa -> exa'      atclone'cp -vf completions/exa.zsh _exa' \
