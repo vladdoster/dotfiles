@@ -19,12 +19,11 @@ esac
 #=== ZINIT =============================================
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME:-~/.local/share}}/zinit"
 ZINIT_BIN_DIR_NAME="${ZINIT_BIN_DIR_NAME:-bin}"
-ZINIT_REPO="zdharma-continuum"
 if [[ ! -f "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}/zinit.zsh" ]]; then
   info 'installing zinit' \
     && command mkdir -p "${ZINIT_HOME}" \
     && command chmod g-rwX "${ZINIT_HOME}" \
-    && command git clone --depth 1 --branch main https://github.com/${ZINIT_REPO}/zinit "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}" \
+    && command git clone --depth 1 --branch main https://github.com/${ZINIT_REPO:-vladdoster}/zinit-1 "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}" \
   && info 'installed zinit' \
   || error 'git not found' >&2
 fi
@@ -34,6 +33,7 @@ source "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}/zinit.zsh" \
   && (( ${+_comps} )) \
   && _comps[zinit]=_zinit
 zturbo(){ zinit depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
+ZINIT_REPO="zdharma-continuum"
 #=== PROMPT & THEME ====================================
 zi light-mode for \
   compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
