@@ -98,4 +98,4 @@ zturbo 1b from'gh-r' as"command" for \
          alias la='ls -abghilmu'
          alias ll='ls -al'
          alias tree='exa --tree'" \
-    ogham/exa \
+    ogham/exa
