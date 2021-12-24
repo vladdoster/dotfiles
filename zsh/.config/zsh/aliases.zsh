@@ -107,9 +107,10 @@ alias nvopt="_edit $XDG_CONFIG_HOME/nvim/lua/core/options.lua"
 alias nvplg="_edit $XDG_CONFIG_HOME/nvim/lua/plugins/init.lua"
 alias sshrc="_edit $HOME/.ssh/config"
 alias tmuxrc="_edit $XDG_CONFIG_HOME/tmux/tmux.conf"
-alias zcln="rm -fr ${HOME}/{.local/share/zinit,.cache,.config/zinit} $ZDOTDIR/.{zcompdump,zsh_sessions}"
+alias zcln="rm -frv ${HOME}/{.local/share/zinit,.cache,.config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
 alias zenv="_edit $HOME/.zshenv"
 alias zrc="_edit $ZDOTDIR/zinit.zsh"
+alias zreset="zcln && zrld"
 alias zrld="exec zsh"
 #= DIRECTORY SHORTCUTS ===========================
 CODE_DIR="${HOME:-~}"/code
@@ -143,8 +144,8 @@ alias get-my-ip='curl ifconfig.co'
 alias scratch='$EDITOR $(mktemp -t scratch.XXX.md)'
 #= PYTHON ========================================
 alias http-serve='python3 -m http.server'
-alias pip-safe='python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org'
-alias pip-requirements='pip-safe -r requirements.txt || _error "no requirements.txt found"'
+#  alias pip-safe='python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org'
+#  alias pip-requirements='pip-safe -r requirements.txt || _error "no requirements.txt found"'
 alias venv-activate='source ./.venv/bin/activate'
 alias venv-create='python3 -m venv ./.venv'
 alias venv-setup='venv-create && venv-activate && pip-requirements'

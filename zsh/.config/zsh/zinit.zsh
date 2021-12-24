@@ -47,11 +47,17 @@ zi light-mode for \
 #=== GIT ===============================================
 zi ice svn; zi snippet OMZ::plugins/git
 zi snippet OMZ::plugins/git/git.plugin.zsh
+#=== OSX ===============================================
+zi ice if'[[ $OSTYPE = darwin* ]]' svn; zi snippet PZTM::gnu-utility
 #=== PIP ===============================================
 zi snippet OMZP::pip
 zi ice as'completion'; zi snippet OMZP::pip/_pip
 #=== MISC. =============================================
 zturbo 0a light-mode for \
+  atload'
+      bindkey "^[[A" history-substring-search-up
+      bindkey "^[[B" history-substring-search-down' \
+    zsh-users/zsh-history-substring-search \
   ver'develop' atinit'ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20' atload'_zsh_autosuggest_start' \
     zsh-users/zsh-autosuggestions \
   is-snippet atload'zstyle ":completion:*" special-dirs false' \
@@ -59,15 +65,16 @@ zturbo 0a light-mode for \
   atload"zicompinit; zicdreplay" blockf \
     zsh-users/zsh-completions \
   blockf atpull'zinit creinstall -q .' \
-    zdharma-continuum/fast-syntax-highlighting \
-  atload'
-      bindkey "^[[A" history-substring-search-up
-      bindkey "^[[B" history-substring-search-down' \
-    zsh-users/zsh-history-substring-search
+    zdharma-continuum/fast-syntax-highlighting
 #=== FZF ==============================================
-zturbo 0b light-mode for \
-  pack dircolors-material  \
-  pack'binary+keys'  fzf
+zi wait'0b' lucid from"gh-r" as"program" for \
+    @junegunn/fzf
+zi ice wait'0a' lucid; zi snippet https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh
+zi ice wait'1a' lucid; zi snippet https://github.com/junegunn/fzf/blob/master/shell/completion.zsh
+zi wait'1a' lucid pick"fzf-extras.zsh"        light-mode for \
+    @atweiden/fzf-extras
+zi wait'0c' lucid pick"fzf-finder.plugin.zsh" light-mode for \
+    @leophys/zsh-plugin-fzf-finder
 #=== BINARIES ==========================================
 zturbo 1a from"gh-r" as'program' for \
   pick"delta*/delta"             dandavison/delta        \
