@@ -53,28 +53,48 @@ zi ice if'[[ $OSTYPE = darwin* ]]' svn; zi snippet PZTM::gnu-utility
 zi snippet OMZP::pip
 zi ice as'completion'; zi snippet OMZP::pip/_pip
 #=== MISC. =============================================
-zturbo 0a light-mode for \
+zturbo is-snippet svn for \
+  submods'zsh-users/zsh-autosuggestions -> external' \
+    PZTM::autosuggestions \
+  submods'zsh-users/zsh-completions -> external' \
+    PZTM::completion
+
+zturbo for light-mode \
+    zdharma-continuum/fast-syntax-highlighting \
   atload'
       bindkey "^[[A" history-substring-search-up
       bindkey "^[[B" history-substring-search-down' \
-    zsh-users/zsh-history-substring-search \
-  ver'develop' atinit'ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20' atload'_zsh_autosuggest_start' \
-    zsh-users/zsh-autosuggestions \
-  is-snippet atload'zstyle ":completion:*" special-dirs false' \
-    PZTM::completion \
-  atload"zicompinit; zicdreplay" blockf \
-    zsh-users/zsh-completions \
-  blockf atpull'zinit creinstall -q .' \
-    zdharma-continuum/fast-syntax-highlighting
+    zsh-users/zsh-history-substring-search
 #=== FZF ==============================================
-zi wait'0b' lucid from"gh-r" as"program" for \
-    @junegunn/fzf
-zi ice wait'0a' lucid; zi snippet https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh
-zi ice wait'1a' lucid; zi snippet https://github.com/junegunn/fzf/blob/master/shell/completion.zsh
-zi wait'1a' lucid pick"fzf-extras.zsh"        light-mode for \
-    @atweiden/fzf-extras
-zi wait'0c' lucid pick"fzf-finder.plugin.zsh" light-mode for \
-    @leophys/zsh-plugin-fzf-finder
+zturbo for \
+  id-as"fzf-bin" as"program" wait lucid from"gh-r" sbin"**/fzf" \
+    junegunn/fzf \
+  as"null" atpull'%atclone' multisrc'shell/(key-bindings|completion).zsh' \
+  cp"man/man.1/fzf* -> $ZPFX/share/man/man1" sbin"bin/fzf-tmux" depth"1"  \
+    junegunn/fzf \
+  light-mode \
+    Aloxaf/fzf-tab
+
+zstyle ':fzf-tab:*' switch-group ',' '.'
+zstyle ':fzf-tab:complete:(cd|ls|exa|bat|cat|v):*' fzf-preview 'exa -1 --color=always ${realpath}'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview '
+        [[ $group == "[process ID]" ]] &&
+          if [[ $OSTYPE == darwin* ]]; then
+            ps -p $word -o comm="" -w -w
+          elif [[ $OSTYPE == linux* ]]; then
+            ps --pid=$word -o cmd --no-headers -w -w
+          fi'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags '--preview-window=down:3:wrap'
+
+export FZF_DEFAULT_COMMAND="
+        fd --type f --hidden --follow --exclude .git \
+          || git ls-tree -r --name-only HEAD \
+          || rg --files --hidden --follow --glob '!.git' \
+          || find ."
+export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
+export FZF_CTRL_T_OPTS="--preview '(kitty icat --transfer-mode file {} || bat --style=numbers --color=always {} || cat {} || tree -NC {}) 2> /dev/null | head -200'"
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview' --exact"
+export FZF_ALT_C_OPTS="--preview 'tree -NC {} | head -200'"
 #=== BINARIES ==========================================
 zturbo 1a from"gh-r" as'program' for \
   pick"delta*/delta"             dandavison/delta        \

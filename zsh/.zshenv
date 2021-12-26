@@ -14,59 +14,11 @@ case $OSTYPE in
     darwin*)
         case $CPUTYPE in
             arm64*) eval "$(/opt/homebrew/bin/brew shellenv)" ;;
-            x86_64*)
-                eval "$(/usr/local/bin/brew shellenv)"
-                BREW_HOME=$(brew --prefix)
-                #  export CPPFLAGS="-I${BREW_HOME}/opt/libressl/include"
-                #  export LDFLAGS="-L${BREW_HOME}/opt/libressl/lib"
-                #  export PATH="${BREW_HOME}/opt/libressl/bin:$PATH"
-                #  export PKG_CONFIG_PATH="${BREW_HOME}/opt/libressl/lib/pkgconfig"
-                #  export PATH="/usr/local/opt/libressl/bin:$PATH"
-                #  export PKG_CONFIG_PATH="${BREW_HOME}/opt/libressl/lib/pkgconfig"
-                #  export PKG_CONFIG_PATH="/usr/local/opt/libressl/lib/pkgconfig"
-                export CPPFLAGS="-I${BREW_HOME}/opt/flex/include"
-                export INFOPATH="${BREW_HOME}/share/info:$INFOPATH"
-                export LDFLAGS="-L${BREW_HOME}/opt/bison/lib"
-                export LDFLAGS="-L${BREW_HOME}/opt/flex/lib"
-                export MANPATH="${BREW_HOME}/opt/coreutils/libexec/gnuman:$MANPATH"
-                export MANPATH="${BREW_HOME}/opt/make/libexec/gnuman:$MANPATH"
-                export MANPATH="${BREW_HOME}/share/man:$MANPATH"
-                export PATH="${BREW_HOME}/bin:$PATH"
-                export PATH="${BREW_HOME}/opt/bison/bin:$PATH"
-                export PATH="${BREW_HOME}/opt/coreutils/libexec/gnubin:$PATH"
-                export PATH="${BREW_HOME}/opt/ed/libexec/gnubin:$PATH"
-                export PATH="${BREW_HOME}/opt/file-formula/bin:$PATH"
-                export PATH="${BREW_HOME}/opt/findutils/libexec/gnubin:$PATH"
-                export PATH="${BREW_HOME}/opt/flex/bin:$PATH"
-                export PATH="${BREW_HOME}/opt/gnu-indent/libexec/gnubin:$PATH"
-                export PATH="${BREW_HOME}/opt/gnu-sed/libexec/gnubin:$PATH"
-                export PATH="${BREW_HOME}/opt/gnu-tar/libexec/gnubin:$PATH"
-                export PATH="${BREW_HOME}/opt/gnu-which/libexec/gnubin:$PATH"
-                export PATH="${BREW_HOME}/opt/grep/libexec/gnubin:$PATH"
-                export PATH="${BREW_HOME}/opt/m4/bin:$PATH"
-                export PATH="${BREW_HOME}/opt/make/libexec/gnubin:$PATH"
-                export PATH="${BREW_HOME}/opt/man-db/libexec/bin:$PATH"
-                export PATH="${BREW_HOME}/opt/python/libexec/bin:$PATH"
-                export PATH="${BREW_HOME}/opt/unzip/bin:$PATH"
-                export PATH="/usr/local/opt/krb5/bin:$PATH"
-                export PATH="/usr/local/opt/krb5/sbin:$PATH"
-                export PKG_CONFIG_PATH="/usr/local/opt/krb5/lib/pkgconfig"
-                export PKG_CONFIG_PATH="/usr/local/opt/zlib/lib/pkgconfig"
-                unset BREW_HOME
-                ;;
+            x86_64*) eval "$(/usr/local/bin/brew shellenv)" ;;
         esac
         ;;
-    linux*)
-        export CPPFLAGS="-I/home/linuxbrew/.linuxbrew/opt/openjdk@8/include"
-        export PATH="/home/linuxbrew/.linuxbrew/opt/openjdk@8/bin:$PATH"
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-        export PATH="/home/linuxbrew/.linuxbrew/opt/go@1.13/bin:$PATH"
-        export PATH="/home/linuxbrew/.linuxbrew/opt/terraform@0.12/bin:$PATH"
-        ;;
-    *)
-        echo --- ERROR: "$OSTYPE" is unsupported
-        exit 1a
-        ;;
+    linux*) echo --- INFO: "$OSTYPE" supported ;;
+    *) echo --- ERROR: "$OSTYPE" is unsupported && exit 1a ;;
 esac
 #=== OS SPECIFIC =============================================
 export PATH=$HOME/.local/bin:/usr/local/sbin:$PATH
