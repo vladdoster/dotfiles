@@ -53,30 +53,29 @@ zi ice if'[[ $OSTYPE = darwin* ]]' svn; zi snippet PZTM::gnu-utility
 zi snippet OMZP::pip
 zi ice as'completion'; zi snippet OMZP::pip/_pip
 #=== MISC. =============================================
-zturbo is-snippet svn for \
-  submods'zsh-users/zsh-autosuggestions -> external' \
+zturbo 0a for \
+  is-snippet svn submods'zsh-users/zsh-autosuggestions -> external' \
     PZTM::autosuggestions \
-  submods'zsh-users/zsh-completions -> external' \
-    PZTM::completion
-
-zturbo for light-mode \
+  is-snippet svn submods'zsh-users/zsh-completions -> external' \
+    PZTM::completion \
+  light-mode \
     zdharma-continuum/fast-syntax-highlighting \
-  atload'
+  is-snippet svn atload'
       bindkey "^[[A" history-substring-search-up
       bindkey "^[[B" history-substring-search-down' \
-    zsh-users/zsh-history-substring-search
+  submods'zsh-users/zsh-history-substring-search -> external' \
+    OMZP::history-substring-search \
+    OMZP::vi-mode
 #=== FZF ==============================================
-zturbo for \
-  id-as"fzf-bin" as"program" wait lucid from"gh-r" sbin"**/fzf" \
-    junegunn/fzf \
-  as"null" atpull'%atclone' multisrc'shell/(key-bindings|completion).zsh' \
-  cp"man/man.1/fzf* -> $ZPFX/share/man/man1" sbin"bin/fzf-tmux" depth"1"  \
-    junegunn/fzf \
+zturbo 1a for \
+  pack'binary+keys' \
+    fzf \
+    OMZP::fzf \
   light-mode \
     Aloxaf/fzf-tab
-
 zstyle ':fzf-tab:*' switch-group ',' '.'
 zstyle ':fzf-tab:complete:(cd|ls|exa|bat|cat|v):*' fzf-preview 'exa -1 --color=always ${realpath}'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags '--preview-window=down:3:wrap'
 zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview '
         [[ $group == "[process ID]" ]] &&
           if [[ $OSTYPE == darwin* ]]; then
@@ -84,8 +83,6 @@ zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview '
           elif [[ $OSTYPE == linux* ]]; then
             ps --pid=$word -o cmd --no-headers -w -w
           fi'
-zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags '--preview-window=down:3:wrap'
-
 export FZF_DEFAULT_COMMAND="
         fd --type f --hidden --follow --exclude .git \
           || git ls-tree -r --name-only HEAD \
@@ -96,14 +93,13 @@ export FZF_CTRL_T_OPTS="--preview '(kitty icat --transfer-mode file {} || bat --
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview' --exact"
 export FZF_ALT_C_OPTS="--preview 'tree -NC {} | head -200'"
 #=== BINARIES ==========================================
-zturbo 1a from"gh-r" as'program' for \
+zturbo 1b from"gh-r" as'program' for \
   pick"delta*/delta"             dandavison/delta        \
   pick'git-sizer'                @github/git-sizer       \
   pick'grex'                     pemistahl/grex          \
   pick'shfmt'  bpick"${bpick}"   @mvdan/sh               \
   pick"tree-sitter*/tree-sitter" tree-sitter/tree-sitter
-
-zturbo 1b from'gh-r' as"command" for \
+zturbo 1c from'gh-r' as"command" for \
   mv'bat* bat'             sbin'**/bat -> bat'             @sharkdp/bat       \
   mv'fd* fd'               sbin'**/fd -> fd'               @sharkdp/fd        \
   mv'hyperfine* hyperfine' sbin'**/hyperfine -> hyperfine' @sharkdp/hyperfine \
