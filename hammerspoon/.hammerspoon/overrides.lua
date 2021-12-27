@@ -75,8 +75,8 @@ module.init = function()
                 if isWinResizable then frame.w = frame.w + margins.w / 2 end
             end
         end
-        -- snap to edges
-        -- or add margins if exist
+        log.d('calculated proper margins')
+        -- snap to edges or add margins if exist
         local maxMargin = gridMargin * 2
         if cell.x ~= 0 and frame.x - screenRect.x + frame.w > screenRect.w - maxMargin then
             frame.x = screenRect.x + screenRect.w - margins.w - frame.w
@@ -86,11 +86,11 @@ module.init = function()
         if cell.y ~= 0 and (frame.y - screenRect.y + frame.h > screenRect.h - maxMargin) then
             frame.y = screenRect.y + screenRect.h - margins.h - frame.h
         end
-        -- don't set frame if nothing has changed!
-        -- fixes issues with autogrid and infinite updates
+        log.d('determined whether to snap to edges or add margins proper margins')
+        -- don't set frame if no changes && fix autogrid & infinite update bugs
         if not winFrame:equals(frame) then win:setFrame(frame) end
         return hs.grid
     end
-    log.d('inited!')
+    log.d('overrides started')
 end
 return module

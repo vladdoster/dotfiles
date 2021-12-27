@@ -9,8 +9,8 @@
 #
 # A zinit-continuum configuration for macOS and Linux.
 #
-function info() { echo '[INFO] '; }
-function error() { echo '[ERROR] '; }
+function info() { print -P "%F{34}[INFO]%f%b $1"; }
+function error() { print -P "%F{160}[ERROR]%f%b $1"; }
 case "$OSTYPE" in
   linux-gnu) bpick='*((#s)|/)*(linux|musl)*((#e)|/)*' ;;
     darwin*) bpick='*(macos|darwin)*' ;;
@@ -27,91 +27,100 @@ if [[ ! -f "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}/zinit.zsh" ]]; then
   && info 'installed zinit' \
   || error 'git not found' >&2
 fi
-autoload -U +X bashcompinit && bashcompinit
 source "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}/zinit.zsh" \
   && autoload -Uz _zinit \
   && (( ${+_comps} )) \
   && _comps[zinit]=_zinit
 zturbo(){ zinit depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
 ZINIT_REPO="zdharma-continuum"
+#=== HELPER ====================================
+FZF_URL='https://raw.githubusercontent.com/junegunn/fzf/master'
+ZINIT_REPO="zdharma-continuum"
+zurbo(){ zi depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
 #=== PROMPT & THEME ====================================
-zi light-mode for \
-  compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
+zinit light-mode for \
+  id-as'pure' compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
       PURE_GIT_UP_ARROW='↑'; PURE_GIT_DOWN_ARROW='↓'; PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ';
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure \
-    ${ZINIT_REPO}/zinit-annex-submods \
-    ${ZINIT_REPO}/zinit-annex-patch-dl \
-    ${ZINIT_REPO}/zinit-annex-bin-gem-node
+  "${ZINIT_REPO}"/zinit-annex-bin-gem-node \
+  "${ZINIT_REPO}"/zinit-annex-patch-dl \
+  "${ZINIT_REPO}"/zinit-annex-submods
 #=== GIT ===============================================
 zi ice svn; zi snippet OMZ::plugins/git
 zi snippet OMZ::plugins/git/git.plugin.zsh
 #=== OSX ===============================================
-zi ice if'[[ $OSTYPE = darwin* ]]' svn; zi snippet PZTM::gnu-utility
+zi ice if'[[ $OSTYPE = darwin* ]]' svn
+zi snippet PZTM::gnu-utility
 #=== PIP ===============================================
-zi snippet OMZP::pip
+zi ice; zi snippet OMZP::pip
 zi ice as'completion'; zi snippet OMZP::pip/_pip
 #=== MISC. =============================================
-zturbo 0a for \
-  is-snippet svn submods'zsh-users/zsh-autosuggestions -> external' \
-    PZTM::autosuggestions \
-  is-snippet svn submods'zsh-users/zsh-completions -> external' \
-    PZTM::completion \
-  light-mode \
-    zdharma-continuum/fast-syntax-highlighting \
-  is-snippet svn atload'
-      bindkey "^[[A" history-substring-search-up
-      bindkey "^[[B" history-substring-search-down' \
-  submods'zsh-users/zsh-history-substring-search -> external' \
-    OMZP::history-substring-search \
-    OMZP::vi-mode
+zurbo for \
+    is-snippet atinit'ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20' \
+    git submods'zsh-users/zsh-autosuggestions -> external' \
+      PZTM::autosuggestions \
+    is-snippet git submods'zsh-users/zsh-completions -> external' \
+      PZTM::completion \
+    light-mode atinit'
+        typeset -gA FAST_HIGHLIGHT; FAST_HIGHLIGHT[git-cmsg-len]=100; \
+        zpcompinit; zpcdreplay' \
+      zdharma-continuum/fast-syntax-highlighting \
+    is-snippet atload'
+        bindkey "^[[A" history-substring-search-up
+        bindkey "^[[B" history-substring-search-down' \
+    svn submods'zsh-users/zsh-history-substring-search -> external' \
+      OMZP::history-substring-search \
+      OMZP::vi-mode
 #=== FZF ==============================================
-zturbo 1a for \
-  pack'binary+keys' \
-    fzf \
-    OMZP::fzf \
-  light-mode \
-    Aloxaf/fzf-tab
-zstyle ':fzf-tab:*' switch-group ',' '.'
-zstyle ':fzf-tab:complete:(cd|ls|exa|bat|cat|v):*' fzf-preview 'exa -1 --color=always ${realpath}'
-zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags '--preview-window=down:3:wrap'
-zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview '
-        [[ $group == "[process ID]" ]] &&
-          if [[ $OSTYPE == darwin* ]]; then
-            ps -p $word -o comm="" -w -w
-          elif [[ $OSTYPE == linux* ]]; then
-            ps --pid=$word -o cmd --no-headers -w -w
-          fi'
-export FZF_DEFAULT_COMMAND="
-        fd --type f --hidden --follow --exclude .git \
-          || git ls-tree -r --name-only HEAD \
-          || rg --files --hidden --follow --glob '!.git' \
-          || find ."
-export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
-export FZF_CTRL_T_OPTS="--preview '(kitty icat --transfer-mode file {} || bat --style=numbers --color=always {} || cat {} || tree -NC {}) 2> /dev/null | head -200'"
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview' --exact"
-export FZF_ALT_C_OPTS="--preview 'tree -NC {} | head -200'"
+zurbo 1a for \
+    id-as'fzf' from'gh-r' as'command' pick"${ZPFX}/bin/fzf" src'key-bindings.zsh' \
+    nocompile atclone"mkdir -p ${ZPFX}/bin && cp -vf fzf ${ZPFX}/bin" atpull'%atclone' \
+    dl"${FZF_URL}/man/man1/fzf-tmux.1    -> ${ZPFX}/man/man1/fzf-tmux.1;
+       ${FZF_URL}/man/man1/fzf.1         -> ${ZPFX}/man/man1/fzf.1;
+       ${FZF_URL}/shell/key-bindings.zsh -> key-bindings.zsh;
+       ${FZF_URL}/shell/completion.zsh   -> _fzf_completion" \
+    junegunn/fzf \
+    id-as'fzf-tab' \
+      Aloxaf/fzf-tab
+#  zstyle ':fzf-tab:*' switch-group ',' '.'
+#  zstyle ':fzf-tab:complete:(cd|ls|exa|bat|cat|v):*' fzf-preview 'exa -1 --color=always ${realpath}'
+#  zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags '--preview-window=down:3:wrap'
+#  zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview '
+        #  [[ $group == "[process ID]" ]] &&
+        #  if [[ $OSTYPE == darwin* ]]; then
+          #  ps -p $word -o comm="" -w -w
+        #  elif [[ $OSTYPE == linux* ]]; then
+          #  ps --pid=$word -o cmd --no-headers -w -w
+        #  fi'
+#  export FZF_DEFAULT_COMMAND="
+        #  fd --type f --hidden --follow --exclude .git \
+        #  || git ls-tree -r --name-only HEAD \
+        #  || rg --files --hidden --follow --glob '!.git' \
+        #  || find . -type f"
+#  export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
+#  export FZF_CTRL_T_OPTS="--preview '(kitty icat --transfer-mode file {} || bat --style=numbers --color=always {} || cat {} || tree -NC {}) 2> /dev/null | head -200'"
+#  export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview' --exact"
+#  export FZF_ALT_C_OPTS=" --preview 'tree -NC {} | head -200'"
 #=== BINARIES ==========================================
-zturbo 1b from"gh-r" as'program' for \
-  pick"delta*/delta"             dandavison/delta        \
-  pick'git-sizer'                @github/git-sizer       \
-  pick'grex'                     pemistahl/grex          \
-  pick'shfmt'  bpick"${bpick}"   @mvdan/sh               \
-  pick"tree-sitter*/tree-sitter" tree-sitter/tree-sitter
-zturbo 1c from'gh-r' as"command" for \
-  mv'bat* bat'             sbin'**/bat -> bat'             @sharkdp/bat       \
-  mv'fd* fd'               sbin'**/fd -> fd'               @sharkdp/fd        \
-  mv'hyperfine* hyperfine' sbin'**/hyperfine -> hyperfine' @sharkdp/hyperfine \
-  mv'rip* ripgrep'         sbin'**/rg -> rg'               BurntSushi/ripgrep \
-  mv'nvim* nvim'           sbin"**/bin/nvim -> nvim"       bpick"${bpick}"    \
-  atload'export EDITOR="nvim"
-         alias v="${EDITOR}"' \
-    neovim/neovim \
-  sbin'**/exa -> exa'      atclone'cp -vf completions/exa.zsh _exa' \
-  atload"alias ls='exa --git --group-directories-first'
-         alias l='ls -blF'
-         alias la='ls -abghilmu'
-         alias ll='ls -al'
-         alias tree='exa --tree'" \
-    ogham/exa
+zurbo 1b from"gh-r" as'program' for \
+    id-as'delta'     pick"delta*/delta" dandavison/delta  \
+    id-as'git-sizer' pick'git-sizer'    @github/git-sizer \
+    id-as'grex'      pick'grex'         pemistahl/grex    \
+    id-as'shfmt'     pick'shfmt'        bpick"${bpick}"   @mvdan/sh
+zurbo 1c from'gh-r' as"command" for \
+    id-as'sharkdp/bat'       mv'bat* bat'             sbin'**/bat -> bat'             @sharkdp/bat       \
+    id-as'sharkdp/fd'        mv'fd* fd'               sbin'**/fd -> fd'               @sharkdp/fd        \
+    id-as'sharkdp/hyperfine' mv'hyperfine* hyperfine' sbin'**/hyperfine -> hyperfine' @sharkdp/hyperfine \
+    id-as'BurntSushi/rg'     mv'rip* ripgrep'         sbin'**/rg -> rg'               BurntSushi/ripgrep \
+    id-as'neovim/neovim'     mv'nvim* nvim'           sbin"**/bin/nvim -> nvim"       bpick"${bpick}"    \
+    atload'
+        export EDITOR="nvim" && alias v="${EDITOR}"' \
+      neovim/neovim \
+    id-as'exa' sbin'**/exa -> exa' atclone'cp -vf completions/exa.zsh _exa' \
+    atload"
+        alias ls='exa --git --group-directories-first'
+        alias l='ls -blF' && alias la='ls -abghilmu'
+        alias ll='ls -al' && alias tree='exa --tree'" \
+      ogham/exa

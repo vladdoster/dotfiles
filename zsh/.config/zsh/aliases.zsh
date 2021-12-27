@@ -103,6 +103,7 @@ alias gitrc="_edit $XDG_CONFIG_HOME/git/config"
 alias hs="_goto $HOME/.hammerspoon/"
 alias kittyrc="_edit $XDG_CONFIG_HOME/kitty/kitty.conf"
 alias nvcln="rm -fr $HOME/.{local/share/nvim,config/nvim/lua/packer_compiled}"
+alias nvfmt="_edit $XDG_CONFIG_HOME/nvim/lua/plugins/format.lua"
 alias nvopt="_edit $XDG_CONFIG_HOME/nvim/lua/core/options.lua"
 alias nvplg="_edit $XDG_CONFIG_HOME/nvim/lua/plugins/init.lua"
 alias sshrc="_edit $HOME/.ssh/config"
@@ -131,10 +132,10 @@ alias zl="_goto $ZDOTDIR/lib"
 alias .sh='source $ZDOTDIR/.zshrc'
 #= GIT ===========================================
 alias g-submodule-update='git submodule update --merge --remote'
-alias g="git" # GIT ALIASES ARE IN ~/.GITCONFIG.
+alias g="git" # GIT ALIASES DEFINED IN $HOME/.config/git/config
 #= COMMAND SHORTCUTS =============================
-alias rshfmt="shfmt -i 4 -s -ln bash -sr -bn -ci -w"
 alias rm-ds-store='find "$PWD" -type f -name "*.DS[_-]Store" -print -delete'
+alias rshfmt="shfmt -i 4 -s -ln bash -sr -bn -ci -w"
 alias zc='zinit compile'
 alias zp='zinit times'
 alias zt='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
@@ -142,10 +143,11 @@ alias zt='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
 alias genpasswd='openssl rand -base64 24'
 alias get-my-ip='curl ifconfig.co'
 alias scratch='$EDITOR $(mktemp -t scratch.XXX.md)'
+alias ps-grep="ps aux | grep -v grep | grep -i -e VSZ -e"
 #= PYTHON ========================================
 alias http-serve='python3 -m http.server'
-#  alias pip-safe='python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org'
-#  alias pip-requirements='pip-safe -r requirements.txt || _error "no requirements.txt found"'
+alias pip-requirements='pip-safe -r requirements.txt || _error "no requirements.txt found"'
+alias pip-safe='python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org'
 alias venv-activate='source ./.venv/bin/activate'
 alias venv-create='python3 -m venv ./.venv'
 alias venv-setup='venv-create && venv-activate && pip-requirements'
@@ -153,21 +155,23 @@ alias venv-setup='venv-create && venv-activate && pip-requirements'
 alias get-open-ports='sudo lsof -i -n -P | grep TCP'
 alias ping='ping -c 10'
 #= FILE CREATION =================================
-alias mkmd='{ F_NAME="$(cat -).md"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
-alias mkpy='_mkfile py "python3"'
-alias mksh='_mkfile sh "bash"'
-alias mktxt='{ F_NAME="$(cat -).txt"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
+alias mk-md='{ F_NAME="$(cat -).md"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
+alias mk-py='_mkfile py "python3"'
+alias mk-sh='_mkfile sh "bash"'
+alias mk-txt='{ F_NAME="$(cat -).txt"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
 #= FILE FORMATTING ===============================
 alias fmt-lua='_fmt lua "stylua -i"'
 alias fmt-md="_fmt md mdformat"
 alias fmt-py="_fmt py python3 -m black"
 alias fmt-sh='_fmt sh "shfmt -bn -ci -i 4 -ln=bash -s -sr -w"'
 #= SYS ===========================================
-alias apt-sysupdate="_sys_update 'sudo apt --yes'"
+alias apt-sys-update="_sys_update 'sudo apt --yes'"
 alias brew-clean="brew cleanup --prune=all"
 alias brew-reset="brew update-reset"
-alias brew-sysupdate="brew upgrade --greedy --force"
-alias yum-sysupdate="_sys_update 'sudo yum -y'"
+alias brew-sys-update="brew upgrade --greedy --force"
+alias yum-sys-update="_sys_update 'sudo yum -y'"
 #= REMOTE =========================================
+cp-to-devcloud(){ rsync -a -z -P $(readlink "$1") devcloud:~/$(basename "$1"); }
 alias cp-dotfiles="rsync -azP $XDG_CONFIG_HOME/dotfiles/ devcloud:~/dotfiles"
 alias cp-nvim="rsync -azP $XDG_CONFIG_HOME/nvim/ devcloud:~/nvim"
+alias cp-devcloud="cp-to-devcloud"
