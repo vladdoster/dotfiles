@@ -68,10 +68,9 @@ zturbo for \
     OMZP::vi-mode
     #  PZTM::history-substring-search \
 #=== FZF ==============================================
-zturbo 1a for \
+zturbo for \
   from"gh-r" bpick"${bpick}" as"null" sbin"fzf" \
     junegunn/fzf-bin \
-  light-mode \
     Aloxaf/fzf-tab
 zstyle ':fzf-tab:*' switch-group ',' '.'
 zstyle ':fzf-tab:complete:(cd|ls|exa|bat|cat|v):*' fzf-preview 'exa -1 --color=always ${realpath}'
