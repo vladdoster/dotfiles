@@ -66,6 +66,7 @@ zturbo for \
   submods'zsh-users/zsh-history-substring-search -> external' \
     OMZP::history-substring-search \
     OMZP::vi-mode
+    #  PZTM::history-substring-search \
 #=== FZF ==============================================
 zturbo 1a for \
   from"gh-r" bpick"${bpick}" as"null" sbin"fzf" \
