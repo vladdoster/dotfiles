@@ -5,7 +5,6 @@ tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
 tap "homebrew/core"
 tap "homebrew/services"
-tap "koekeishiya/formulae"
 brew "m4"
 brew "autoconf"
 brew "autojump"
@@ -82,9 +81,4 @@ brew "wget"
 brew "yamllint"
 brew "yarn"
 brew "zsh"
-cask "1password", args: { appdir: "/Applications" }
 cask "IBM-Plex-mono-font", args: { appdir: "/Applications" }
-cask "kitty", args: { appdir: "/Applications" }
-cask "logitech-options" , args: { appdir: "/Applications" }
-cask "visual-studio-code-insiders", args: { appdir: "/Applications" }
-cask "vivaldi" , args: { appdir: "/Applications" }
