@@ -24,3 +24,4 @@ LIGHT_GRAY="\[\e[0;37m\]"
 NO_COLOUR="\[\e[0m\]"
 
 PS1="[$WHITE\u@\h\[\e[m\] $LIGH_YELLOW\t] $LIGHT_BLUE\w $LIGHT_GREEN\$(parse_git_branch) $RED\$(git_stashes_count)$LIGHT_RED\$ \[\e[m\]$LIGHT_GRAY"
+export PATH=/Applications/kitty.app/Contents/MacOS:/usr/bin:/bin:/usr/sbin:/sbin:/application/jdk-11.0.1/bin/

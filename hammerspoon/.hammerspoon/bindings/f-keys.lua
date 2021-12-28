@@ -1,11 +1,8 @@
 local module = {}
-
 -- map ultra 1-0 to F1-F10, useful for my Ergodox config,
 -- and probably will be useful for touchbar macbook
-
 module.start = function()
     local ultra = {'ctrl', 'alt', 'cmd'}
-
     hs.fnutils.each({
         {'1', 'F1'},
         {'2', 'F2'},
@@ -24,7 +21,5 @@ module.start = function()
         end)
     end)
 end
-
 module.stop = function() end
-
 return module

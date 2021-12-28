@@ -16,34 +16,24 @@ Install:andUse('TextClipboardHistory', {
     hotkeys = {toggle_clipboard = {{'cmd', 'shift'}, 'v'}},
     start = true
 })
-hs.tabs.enableForApp("Vivaldi")
 hs.brightness.set(100)
-print(hs.brightness.get())
 -- GLOBAL CONFIGURATION
 config = {
     apps = {terms = {'kitty'}, browsers = {'Vivaldi'}},
     wm = {
-        defaultDisplayLayouts = {['Built-in Retina Display'] = {'main-right'}},
-        displayLayouts = { ['Built-in Retina Display'] = {'main-right', 'monocle'} }
+        defaultDisplayLayouts = {['Built-in Retina Display'] = {'main-center'}},
+        displayLayouts = { ['Built-in Retina Display'] = {'main-center','main-right', 'monocle'} }
     },
     window = {highlightBorder = true, highlightMouse = true, historyLimit = 0}
 }
 -- SETTINGS -----------------------------
-local usb = require('hs.usb')
-local usbWatcher = require('hs.usb.watcher')
-
-print(usb.attachedDevices())
-
 hs.window.animationDuration = 0.0
 wm= require('utils.wm')
-
 notify = require('utils.notify')
 notify.enabled = {'battery'}
-
 watchables = require('utils.watchables')
 watchers = require('utils.watchers')
 watchers.enabled = {'autoborder', 'reload'}
-
 bindings = require('bindings')
 bindings.askBeforeQuitApps = config.apps.browsers
 bindings.enabled = {

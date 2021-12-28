@@ -27,7 +27,7 @@ if [[ ! -f "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}/zinit.zsh" ]]; then
   && info 'installed zinit' \
   || error 'git not found' >&2
 fi
-autoload -U +X bashcompinit && bashcompinit
+#  autoload -U +X bashcompinit && bashcompinit
 source "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}/zinit.zsh" \
   && autoload -Uz _zinit \
   && (( ${+_comps} )) \
@@ -69,19 +69,44 @@ zturbo for \
     #  PZTM::history-substring-search \
 #=== FZF ==============================================
 zturbo for \
+  as'program' pick"$ZPFX/bin/(fzf|fzf-tmux)" make"PREFIX=$ZPFX install" \
+  atclone'cp shell/completion.zsh _fzf_completion; cp bin/(fzf|fzf-tmux) $ZPFX/bin' \
+    junegunn/fzf \
   from"gh-r" bpick"${bpick}" as"null" sbin"fzf" \
     junegunn/fzf-bin \
     Aloxaf/fzf-tab
+zstyle -d ':completion:*' format
+zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':fzf-tab:*' switch-group ',' '.'
 zstyle ':fzf-tab:complete:(cd|ls|exa|bat|cat|v):*' fzf-preview 'exa -1 --color=always ${realpath}'
-zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags '--preview-window=down:3:wrap'
-zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview '
-        [[ $group == "[process ID]" ]] &&
-          if [[ $OSTYPE == darwin* ]]; then
-            ps -p $word -o comm="" -w -w
-          elif [[ $OSTYPE == linux* ]]; then
-            ps --pid=$word -o cmd --no-headers -w -w
-          fi'
+zstyle ':fzf-tab:complete:(cd|ls|exa|bat|cat|v):*' popup-pad 30 0
+
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
+  '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
+
+zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview \
+	'git diff $word | delta'|
+zstyle ':fzf-tab:complete:git-log:*' fzf-preview \
+	'git log --color=always $word'
+zstyle ':fzf-tab:complete:git-help:*' fzf-preview \
+	'git help $word | bat -plman --color=always'
+zstyle ':fzf-tab:complete:git-show:*' fzf-preview \
+	'case "$group" in
+	"commit tag") git show --color=always $word ;;
+	*) git show --color=always $word | delta ;;
+	esac'
+zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
+	'case "$group" in
+	"modified file") git diff $word | delta ;;
+	"recent commit object name") git show --color=always $word | delta ;;
+	*) git log --color=always $word ;;
+	esac'
+
+zstyle ':fzf-tab:*' fzf-bindings 'space:accept'
+zstyle ':fzf-tab:*' accept-line enter
+
 export FZF_DEFAULT_COMMAND="
         fd --type f --hidden --follow --exclude .git \
           || git ls-tree -r --name-only HEAD \

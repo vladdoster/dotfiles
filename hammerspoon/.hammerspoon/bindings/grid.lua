@@ -1,8 +1,7 @@
 local window = require('ext.window')
 local highlightWindow = require('ext.drawing').highlightWindow
 local module = {}
--- apply function to a window with optional params, saving it's position for restore
-local doWin = function(fn)
+local doWin = function(fn) -- apply function to a window with optional params, saving it's position for restore
     return function()
         local win = hs.window.frontmostWindow()
         if win and not win:isFullScreen() then
@@ -28,8 +27,6 @@ module.start = function()
         {key='z', fn=hs.grid.maximizeWindow},
         {key='c', fn=hs.grid.center}
     }, function(object) bind(object.key, doWin(object.fn)) end)
-    bind('u', function() window.persistPosition(hs.window.frontmostWindow(), 'undo') end)
-    bind('r', function() window.persistPosition(hs.window.frontmostWindow(), 'redo') end)
 end
 module.stop = function() end
 return module
