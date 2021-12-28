@@ -1,4 +1,3 @@
-#!/usr/bin/env zsh
 #
 # Author: Vladislav D.
 # GitHub: vladdoster
@@ -12,7 +11,7 @@
 function info() { print -P "%F{34}[INFO]%f%b $1"; }
 function error() { print -P "%F{160}[ERROR]%f%b $1"; }
 case "$OSTYPE" in
-  linux-gnu) bpick='*((#s)|/)*(linux|musl)*((#e)|/)*' ;;
+  linux*) bpick='*((#s)|/)*(linux|musl)*((#e)|/)*' ;;
     darwin*) bpick='*(macos|darwin)*' ;;
     *) error 'unsupported system -- some cli programs might not work' ;;
 esac
@@ -27,13 +26,14 @@ if [[ ! -f "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}/zinit.zsh" ]]; then
   && info 'installed zinit' \
   || error 'git not found' >&2
 fi
-#  autoload -U +X bashcompinit && bashcompinit
+autoload -U +X bashcompinit && bashcompinit
 source "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}/zinit.zsh" \
   && autoload -Uz _zinit \
   && (( ${+_comps} )) \
   && _comps[zinit]=_zinit
 zturbo(){ zinit depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
 ZINIT_REPO="zdharma-continuum"
+FZF_REPO="https://raw.githubusercontent.com/junegunn/fzf/master"
 #=== PROMPT & THEME ====================================
 zi light-mode for \
   compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
@@ -44,6 +44,40 @@ zi light-mode for \
     ${ZINIT_REPO}/zinit-annex-submods \
     ${ZINIT_REPO}/zinit-annex-patch-dl \
     ${ZINIT_REPO}/zinit-annex-bin-gem-node
+#=== ZSH-STATIC =======================================
+zinit for \
+  lucid as"null" depth"1" atclone"./install -e yes -d /usr/local" \
+  atpull"%atclone" nocompile nocompletions \
+    @romkatv/zsh-bin
+#  zinit for \
+  #  as'null' atclone'./install -e no -d ~/.local' atpull'%atclone' \
+  #  depth'1' git id-as'romkatv/zsh-bin' lucid nocompile nocompletions \
+    #  @romkatv/zsh-bin
+#=== FZF ==============================================
+zturbo 0a for \
+  as'command' atclone'mkdir -p $ZPFX/bin; cp -vf fzf $ZPFX/bin' atpull'%atclone' \
+  from'gh-r' id-as'junegunn/fzf' lucid nocompile pick'$ZPFX/bin/fzf' src'key-bindings.zsh' \
+  dl'
+      https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh -> _fzf_completion;
+      https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh;
+      https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf-tmux.1 -> $ZPFX/man/man1/fzf-tmux.1;
+      https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1 -> $ZPFX/man/man1/fzf.1' \
+    @junegunn/fzf \
+  light-mode \
+    @Aloxaf/fzf-tab
+zstyle -d ':completion:*' format
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':fzf-tab:*' switch-group ',' '.'
+zstyle ':fzf-tab:complete:(cd|ls|exa|bat|cat|v):*' fzf-preview 'exa -1 --color=always ${realpath}'
+zstyle ':fzf-tab:complete:(cd|ls|exa|bat|cat|v):*' popup-pad 30 0
+zstyle ':fzf-tab:*' fzf-bindings 'space:accept'
+zstyle ':fzf-tab:*' accept-line enter
+export FZF_DEFAULT_COMMAND="
+        fd --type f --hidden --follow --exclude .git \
+          || git ls-tree -r --name-only HEAD \
+          || rg --files --hidden --follow --glob '!.git' \
+          || find ."
+export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
 #=== GIT ===============================================
 zi ice svn; zi snippet OMZ::plugins/git
 zi snippet OMZ::plugins/git/git.plugin.zsh
@@ -53,9 +87,19 @@ zi ice if'[[ $OSTYPE = darwin* ]]' svn; zi snippet PZTM::gnu-utility
 zi snippet OMZP::pip
 zi ice as'completion'; zi snippet OMZP::pip/_pip
 #=== MISC. =============================================
-zturbo for \
-  is-snippet svn submods'zsh-users/zsh-autosuggestions -> external' \
-    PZTM::autosuggestions \
+zinit ice svn submods'zsh-users/zsh-autosuggestions -> external'
+zinit snippet PZT::modules/autosuggestions
+  #  is-snippet svn submods'zsh-users/zsh-autosuggestions -> external' \
+    #  PZTM::autosuggestions \
+zturbo 1a for \
+  atload'zstyle '\'':completion:*:default'\'' list-colors "${(s.:.)LS_COLORS}";' \
+  atpull'%atclone' git id-as'trapd00r/LS_COLORS' lucid nocompile'!' pick'clrs.zsh' \
+  reset atclone'
+     [[ -z ${commands[dircolors]} ]] \
+      && local P=${${(M)OSTYPE##darwin}:+g};
+      ${P}sed -i '\''/DIR/c\DIR 38;5;63;1'\'' LS_COLORS;
+      ${P}dircolors -b LS_COLORS >! clrs.zsh' \
+    @trapd00r/LS_COLORS \
   is-snippet svn submods'zsh-users/zsh-completions -> external' \
     PZTM::completion \
   light-mode \
@@ -64,69 +108,19 @@ zturbo for \
       bindkey "^[[A" history-substring-search-up
       bindkey "^[[B" history-substring-search-down' \
   submods'zsh-users/zsh-history-substring-search -> external' \
-    OMZP::history-substring-search \
+    PZTM::history-substring-search \
     OMZP::vi-mode
-    #  PZTM::history-substring-search \
-#=== FZF ==============================================
-zturbo for \
-  as'program' pick"$ZPFX/bin/(fzf|fzf-tmux)" make"PREFIX=$ZPFX install" \
-  atclone'cp shell/completion.zsh _fzf_completion; cp bin/(fzf|fzf-tmux) $ZPFX/bin' \
-    junegunn/fzf \
-  from"gh-r" bpick"${bpick}" as"null" sbin"fzf" \
-    junegunn/fzf-bin \
-    Aloxaf/fzf-tab
-zstyle -d ':completion:*' format
-zstyle ':completion:*:descriptions' format '[%d]'
-zstyle ':fzf-tab:*' switch-group ',' '.'
-zstyle ':fzf-tab:complete:(cd|ls|exa|bat|cat|v):*' fzf-preview 'exa -1 --color=always ${realpath}'
-zstyle ':fzf-tab:complete:(cd|ls|exa|bat|cat|v):*' popup-pad 30 0
-
-zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
-zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
-  '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
-zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
-
-zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview \
-	'git diff $word | delta'|
-zstyle ':fzf-tab:complete:git-log:*' fzf-preview \
-	'git log --color=always $word'
-zstyle ':fzf-tab:complete:git-help:*' fzf-preview \
-	'git help $word | bat -plman --color=always'
-zstyle ':fzf-tab:complete:git-show:*' fzf-preview \
-	'case "$group" in
-	"commit tag") git show --color=always $word ;;
-	*) git show --color=always $word | delta ;;
-	esac'
-zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
-	'case "$group" in
-	"modified file") git diff $word | delta ;;
-	"recent commit object name") git show --color=always $word | delta ;;
-	*) git log --color=always $word ;;
-	esac'
-
-zstyle ':fzf-tab:*' fzf-bindings 'space:accept'
-zstyle ':fzf-tab:*' accept-line enter
-
-export FZF_DEFAULT_COMMAND="
-        fd --type f --hidden --follow --exclude .git \
-          || git ls-tree -r --name-only HEAD \
-          || rg --files --hidden --follow --glob '!.git' \
-          || find ."
-export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
-export FZF_CTRL_T_OPTS="--preview '(kitty icat --transfer-mode file {} || bat --style=numbers --color=always {} || cat {} || tree -NC {}) 2> /dev/null | head -200'"
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview' --exact"
-export FZF_ALT_C_OPTS="--preview 'tree -NC {} | head -200'"
 #=== BINARIES ==========================================
-zturbo 1b from"gh-r" as'program' for \
-    pick"delta*/delta" dandavison/delta \
+zturbo 2a from"gh-r" as'program' for \
     pick'git-sizer'    bpick"${bpick}"  @github/git-sizer \
-    pick'grex'         pemistahl/grex   \
-    pick'shfmt'        bpick"${bpick}"  @mvdan/sh
-zturbo 1c from'gh-r' as"command" for \
+    pick'grex'         pemistahl/grex
+zturbo 3a from'gh-r' as"command" for \
     mv'bat* bat'             sbin'**/bat -> bat'             @sharkdp/bat       \
+    mv"delta* delta"         sbin'**/delta -> delta'         dandavison/delta   \
     mv'fd* fd'               sbin'**/fd -> fd'               @sharkdp/fd        \
     mv'hyperfine* hyperfine' sbin'**/hyperfine -> hyperfine' @sharkdp/hyperfine \
     mv'rip* ripgrep'         sbin'**/rg -> rg'               BurntSushi/ripgrep \
+    mv'shfmt* shfmt'         sbin'**/shfmt -> shfmt'         bpick"${bpick}"    @mvdan/sh \
     mv'nvim* nvim'           sbin"**/bin/nvim -> nvim"       bpick"${bpick}"    \
     atload'
         export EDITOR="nvim" && alias v="${EDITOR}"' \

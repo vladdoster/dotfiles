@@ -1,4 +1,4 @@
-#  #!/usr/bin/env zsh
+#!/usr/bin/env zsh
 if echo "$-" | grep i > /dev/null; then
     export IS_TTY="${IS_TTY:=false}"
 fi

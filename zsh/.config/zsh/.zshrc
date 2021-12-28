@@ -1,4 +1,3 @@
-#!/usr/bin/env zsh
 #
 # sources various parts of zsh configuration
 #

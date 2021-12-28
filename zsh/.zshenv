@@ -1,4 +1,3 @@
-#!/usr/bin/env zsh
 #
 # Author: Vladislav D.
 # GitHub: vladdoster
@@ -33,6 +32,7 @@ case $OSTYPE in
         esac
     ;;
     linux*)
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" || true
         echo "--- INFO: $OSTYPE supported"
     ;;
     *)
