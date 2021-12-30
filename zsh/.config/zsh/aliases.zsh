@@ -147,7 +147,7 @@ alias ps-grep="ps aux | grep -v grep | grep -i -e VSZ -e"
 #= PYTHON ========================================
 alias http-serve='python3 -m http.server'
 alias pip-requirements='pip3 install -r requirements.txt || _error "no requirements.txt found"'
-alias pip3='pip3 --trusted-host pypi.org --trusted-host files.pythonhosted.org'
+alias spip='--trusted-host pypi.org --trusted-host files.pythonhosted.org'
 alias venv-activate='source ./.venv/bin/activate'
 alias venv-create='python3 -m venv ./.venv'
 alias venv-setup='venv-create && venv-activate && pip-requirements'
