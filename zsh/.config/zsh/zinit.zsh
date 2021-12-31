@@ -31,9 +31,8 @@ source "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}/zinit.zsh" \
   && autoload -Uz _zinit \
   && (( ${+_comps} )) \
   && _comps[zinit]=_zinit
-autoload -U +X bashcompinit && bashcompinit
+#  autoload -U +X bashcompinit && bashcompinit
 zturbo(){ zinit depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
-FZF_REPO="https://raw.githubusercontent.com/junegunn/fzf/master"
 #=== PROMPT & THEME ====================================
 zi light-mode for \
   compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
@@ -43,64 +42,49 @@ zi light-mode for \
     sindresorhus/pure \
     zdharma-continuum/zinit-annex-{submods,patch-dl,bin-gem-node}
 #=== ZSH-STATIC =======================================
-# root
-zinit as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e yes -d /usr/local' for \
+zturbo light-mode as'null' nocompile nocompletions atpull'%atclone' atclone'./install -e yes -d /usr/local' for \
     @romkatv/zsh-bin
-# root-less
 #  zinit as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' for \
     #  @romkatv/zsh-bin
-#=== FZF ==============================================
-zi as'command' atclone'mkdir -p $ZPFX/bin; cp -vf fzf $ZPFX/bin' atpull'%atclone' \
-  from'gh-r' id-as'junegunn/fzf' nocompile pick"$ZPFX/bin/fzf" src'key-bindings.zsh' \
-  dl"$FZF_REPO/shell/"{"completion.zsh -> _fzf_completion","key-bindings.zsh -> key-bindings.zsh"} \
-  dl"$FZF_REPO/man/man1/"{"fzf-tmux.1 -> $ZPFX/man/man1/fzf-tmux.1","fzf.1 -> $ZPFX/man/man1/fzf.1"} for \
-    @junegunn/fzf
-export FZF_DEFAULT_COMMAND="
-      fd --type f --hidden --follow --exclude .git \
-      || git ls-tree -r --name-only HEAD || rg --files --hidden --follow --glob '!.git'  || find ."
-export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
 #=== OH-MY-ZSH ===============================================
-zi {'is-snippet svn','is-snippet'} for OMZ::plugins/{'git','/git/git.plugin.zsh'}
-zi snippet OMZP::pip
-zi ice as'completion'; zi snippet OMZP::pip/_pip
-
-zi wait lucid for \
-	OMZL::{'clipboard','completion','grep'}.zsh \
-  OMZP::{'vi-mode','brew','fzf'}
-#  zi loafor OMZP::brew
+#  zi {'is-snippet svn','is-snippet'} for OMZ::plugins/{'git','/git/git.plugin.zsh'}
+zturbo is-snippet for \
+  svn \
+    OMZ::plugins/git \
+    OMZ::plugins/git/git.plugin.zsh \
+    OMZP::pip \
+  as'completion' \
+    OMZP::pip/_pip \
+  svn \
+    OMZ::plugins/terraform \
+  as'completion' atload'export RPROMPT=$(tf_prompt_info)' \
+    OMZP::terraform/_terraform
 #=== BINARIES ==========================================
 zturbo for \
-  bindmap='!" " -> magic-space; !"^ " -> globalias' nocompletions pick'plugins/globalias/globalias.plugin.zsh' \
-    ohmyzsh/ohmyzsh \
-  atload'zstyle '"':completion:*:default'"' list-colors "${(s.:.)LS_COLORS}"' atpull'%atclone' atclone'
-      [[ -z ${commands[dircolors]} ]] && local P=${${(M)OSTYPE##darwin}:+g};
-      ${P}sed -i '"'/DIR/c\DIR 38;5;63;1'"' LS_COLORS; ${P}dircolors -b LS_COLORS >! clrs.zsh' \
-  pick'clrs.zsh' reset nocompile'!' \
-    @trapd00r/LS_COLORS \
-  light-mode \
-    zdharma-continuum/fast-syntax-highlighting \
-  light-mode trackbinds bindmap'^R -> ^Z' atinit"
-      zstyle :history-search-multi-word page-size 10
-      zstyle :history-search-multi-word highlight-color fg=red,bold
-      zstyle :plugin:history-search-multi-word reset-prompt-protect 1" \
-    zdharma-continuum/history-search-multi-word \
-  is-snippet svn submods'zsh-users/zsh-history-substring-search -> external' trackbinds \
+  sbin"fzf" from'gh-r' as'command' \
+    junegunn/fzf-bin \
+    OMZL::{'clipboard','completion','grep'}.zsh \
+    OMZP::{'vi-mode','brew','fzf'} \
+  is-snippet svn submods'zsh-users/zsh-autosuggestions -> external' \
+      PZT::modules/autosuggestions \
+  is-snippet svn submods'zsh-users/zsh-completions -> external' \
+      PZT::modules/completion \
+  is-snippet svn submods'zsh-users/zsh-history-substring-search -> external' \
   bindmap'^[[A -> history-substring-search-up' bindmap'^[[B -> history-substring-search-down' \
-    PZTM::history-substring-search
+      PZTM::history-substring-search \
+  light-mode \
+      zdharma-continuum/fast-syntax-highlighting
 #=== MISC. =============================================
-zturbo svn is-snippet for \
-  submods'zsh-users/zsh-autosuggestions -> external' PZT::modules/autosuggestions \
-  submods'zsh-users/zsh-completions -> external'     PZT::modules/completion
 zturbo from'gh-r' as"command" for \
-  sbin'**/bat   -> bat'           @sharkdp/bat       \
-  sbin'**/delta -> delta'         dandavison/delta   \
-  sbin'**/fd    -> fd'            @sharkdp/fd        \
-  sbin'**/grex  -> grex'          pemistahl/grex     \
-  sbin'**/rg    -> rg'            BurntSushi/ripgrep \
+  sbin'grex'              pemistahl/grex   \
+  sbin'git-sizer'         bpick"${bpick}" @github/git-sizer \
+  sbin'**/bat   -> bat'   @sharkdp/bat     \
+  sbin'**/delta -> delta' dandavison/delta \
+  sbin'**/fd    -> fd'    @sharkdp/fd      \
+  sbin'**/rg    -> rg'    BurntSushi/ripgrep \
   sbin'**/hyperfine -> hyperfine' @sharkdp/hyperfine \
-  sbin'shfmt*       -> shfmt'     bpick"${bpick}" @mvdan/sh         \
-  sbin'**/git-sizer -> git-sizer' bpick"${bpick}" @github/git-sizer \
-  sbin"**/bin/nvim  -> nvim"      bpick"${bpick}" \
+  sbin'shfmt*      -> shfmt'      bpick"${bpick}"    @mvdan/sh         \
+  sbin"**/bin/nvim -> nvim"  bpick"${bpick}" \
   atload"export EDITOR='nvim' && alias v=$EDITOR" neovim/neovim \
   sbin'**/exa -> exa' atclone'cp -vf completions/exa.zsh _exa'  \
   atload"
