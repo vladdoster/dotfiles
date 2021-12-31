@@ -41,33 +41,32 @@ zi light-mode for \
     sindresorhus/pure \
     zdharma-continuum/zinit-annex-{submods,patch-dl,bin-gem-node}
 #=== ZSH-STATIC =======================================
-zturbo light-mode as'null' nocompile nocompletions atpull'%atclone' atclone'./install -e yes -d /usr/local' for \
-    @romkatv/zsh-bin
-#  zinit as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' for \
+#  zturbo light-mode as'null' nocompile nocompletions atpull'%atclone' atclone'./install -e yes -d /usr/local' for \
     #  @romkatv/zsh-bin
+zinit as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' for \
+    @romkatv/zsh-bin
 #=== OH-MY-ZSH ===============================================
 zturbo for \
-  OMZL::{'clipboard','completion','grep'}.zsh \
-  OMZP::{'brew','vi-mode'}
+    vladdoster/gitfast-zsh-plugin \
+    PZTM::{'homebrew','rsync'} \
+  atload"zstyle ':prezto:module:editor' key-bindings 'vi'" \
+    PZTM::editor
 zturbo is-snippet for \
-  svn OMZ::plugins/git OMZ::plugins/git/git.plugin.zsh \
-  svn blockf pick"_git" OMZP::gitfast \
-  OMZP::golang    as'completion' OMZP::golang/_golang \
-  OMZP::pip       as'completion' OMZP::pip/_pip \
-  OMZP::terraform as'completion' OMZP::terraform/_terraform \
+    OMZP::golang    as'completion' OMZP::golang/_golang       \
+    OMZP::pip       as'completion' OMZP::pip/_pip             \
+    OMZP::terraform as'completion' OMZP::terraform/_terraform \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
     PZTM::history-substring-search \
   svn submods'zsh-users/zsh-autosuggestions -> external' \
     PZT::modules/autosuggestions \
   svn submods'zsh-users/zsh-completions -> external' \
-    PZT::modules/completion \
-  light-mode \
+    PZT::modules/completion
+zturbo light-mode for atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
     zdharma-continuum/fast-syntax-highlighting
 #=== FZF ==========================================
 zturbo for \
   sbin"fzf" from'gh-r' as'command' \
     junegunn/fzf-bin \
-  is-snippet \
     OMZP::fzf
 #=== BINARIES ==========================================
 zturbo from'gh-r' as"command" for \
