@@ -1,7 +1,7 @@
 -- FIXME: this usually works for a while, but then getBrightness() stops returning updated values
 -- and screens get stuck with some brightness value
-local cache = {modules={}}
-local module = {cache=cache}
+local cache = {modules = {}}
+local module = {cache = cache}
 local KEYCODE_BRIGHTNESS_UP, KEYCODE_BRIGHTNESS_DOWN = 113, 107
 local SLEEP_TIME = 0.1
 module.start = function()
