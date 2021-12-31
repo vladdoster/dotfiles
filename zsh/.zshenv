@@ -6,30 +6,30 @@
 # Open an issue in https://github.com/vladdoster/dotfiles if
 # you find a bug, have a feature request, or a question.
 #
-#  case $OSTYPE in
-    #  darwin*)
-        #  case $CPUTYPE in
-            #  arm64*) eval "$(/opt/homebrew/bin/brew shellenv)" ;;
-            #  x86_64*)
-                #  eval "$(/usr/local/bin/brew shellenv)"
-                #  export CPPFLAGS="-I/usr/local/opt/curl/include:$CPPFLAGS"
-                #  export CPPFLAGS="-I/usr/local/opt/expat/include:$CPPFLAGS"
-                #  export LDFLAGS="-L/usr/local/opt/curl/lib:$LDFLAGS"
-                #  export LDFLAGS="-L/usr/local/opt/expat/lib:$LDFLAGS"
-                #  export PATH="/usr/local/opt/curl/bin:$PATH"
-                #  export PATH="/usr/local/opt/expat/bin:$PATH"
-                #  export PATH="/usr/local/opt/libtool/libexec/gnubin:$PATH"
-                #  export PATH="/usr/local/opt/sphinx-doc/bin:$PATH"
-                #  export PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
-                #  export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig:$PKG_CONFIG_PATH"
-                #  export PKG_CONFIG_PATH="/usr/local/opt/expat/lib/pkgconfig:$PKG_CONFIG_PATH"
-            #  ;;
-        #  esac
-    #  ;;
-    #  linux*) eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" ;;
-    #  *) echo "--- ERROR: $OSTYPE is unsupported" && exit 1 ;;
-#  esac
-#  export KEYTIMEOUT=1
+case $OSTYPE in
+    darwin*)
+        case $CPUTYPE in
+            arm64*) eval "$(/opt/homebrew/bin/brew shellenv)" ;;
+            x86_64*)
+                eval "$(/usr/local/bin/brew shellenv)"
+                export CPPFLAGS="-I/usr/local/opt/curl/include:$CPPFLAGS"
+                export CPPFLAGS="-I/usr/local/opt/expat/include:$CPPFLAGS"
+                export LDFLAGS="-L/usr/local/opt/curl/lib:$LDFLAGS"
+                export LDFLAGS="-L/usr/local/opt/expat/lib:$LDFLAGS"
+                export PATH="/usr/local/opt/curl/bin:$PATH"
+                export PATH="/usr/local/opt/expat/bin:$PATH"
+                export PATH="/usr/local/opt/libtool/libexec/gnubin:$PATH"
+                export PATH="/usr/local/opt/sphinx-doc/bin:$PATH"
+                export PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
+                export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig:$PKG_CONFIG_PATH"
+                export PKG_CONFIG_PATH="/usr/local/opt/expat/lib/pkgconfig:$PKG_CONFIG_PATH"
+            ;;
+        esac
+    ;;
+    linux*) eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" ;;
+    *) echo "--- ERROR: $OSTYPE is unsupported" && exit 1 ;;
+esac
+export KEYTIMEOUT=1
 #  ## -- Reserved Variables -------------------------------------------------------
 (( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="$HOME/.config"
 (( ${+XDG_CACHE_HOME}  )) || export XDG_CACHE_HOME="$HOME/.cache"

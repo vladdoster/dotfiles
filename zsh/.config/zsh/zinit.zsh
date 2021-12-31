@@ -8,7 +8,6 @@
 #
 # A zinit-continuum configuration for macOS and Linux.
 #
-FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 function info() { print -P "%F{34}[INFO]%f%b $1"; }
 function error() { print -P "%F{160}[ERROR]%f%b $1"; }
 case "$OSTYPE" in
@@ -47,48 +46,41 @@ zturbo light-mode as'null' nocompile nocompletions atpull'%atclone' atclone'./in
 #  zinit as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' for \
     #  @romkatv/zsh-bin
 #=== OH-MY-ZSH ===============================================
-#  zi {'is-snippet svn','is-snippet'} for OMZ::plugins/{'git','/git/git.plugin.zsh'}
+zturbo for \
+  OMZL::{'clipboard','completion','grep'}.zsh \
+  OMZP::{'brew','vi-mode'}
 zturbo is-snippet for \
-  svn \
-    OMZ::plugins/git \
-    OMZ::plugins/git/git.plugin.zsh \
-    OMZP::pip \
-  as'completion' \
-    OMZP::pip/_pip \
-  svn \
-    OMZ::plugins/terraform \
-  as'completion' atload'export RPROMPT=$(tf_prompt_info)' \
-    OMZP::terraform/_terraform
-#=== BINARIES ==========================================
+  svn OMZ::plugins/git OMZ::plugins/git/git.plugin.zsh \
+  svn blockf pick"_git" OMZP::gitfast \
+  OMZP::golang    as'completion' OMZP::golang/_golang \
+  OMZP::pip       as'completion' OMZP::pip/_pip \
+  OMZP::terraform as'completion' OMZP::terraform/_terraform \
+  svn submods'zsh-users/zsh-history-substring-search -> external' \
+    PZTM::history-substring-search \
+  svn submods'zsh-users/zsh-autosuggestions -> external' \
+    PZT::modules/autosuggestions \
+  svn submods'zsh-users/zsh-completions -> external' \
+    PZT::modules/completion \
+  light-mode \
+    zdharma-continuum/fast-syntax-highlighting
+#=== FZF ==========================================
 zturbo for \
   sbin"fzf" from'gh-r' as'command' \
     junegunn/fzf-bin \
-    OMZL::{'clipboard','completion','grep'}.zsh \
-    OMZP::{'vi-mode','brew','fzf'} \
-  is-snippet svn submods'zsh-users/zsh-autosuggestions -> external' \
-      PZT::modules/autosuggestions \
-  is-snippet svn submods'zsh-users/zsh-completions -> external' \
-      PZT::modules/completion \
-  is-snippet svn submods'zsh-users/zsh-history-substring-search -> external' \
-  bindmap'^[[A -> history-substring-search-up' bindmap'^[[B -> history-substring-search-down' \
-      PZTM::history-substring-search \
-  light-mode \
-      zdharma-continuum/fast-syntax-highlighting
-#=== MISC. =============================================
+  is-snippet \
+    OMZP::fzf
+#=== BINARIES ==========================================
 zturbo from'gh-r' as"command" for \
-  sbin'grex'              pemistahl/grex   \
-  sbin'git-sizer'         bpick"${bpick}" @github/git-sizer \
   sbin'**/bat   -> bat'   @sharkdp/bat     \
   sbin'**/delta -> delta' dandavison/delta \
-  sbin'**/fd    -> fd'    @sharkdp/fd      \
-  sbin'**/rg    -> rg'    BurntSushi/ripgrep \
   sbin'**/hyperfine -> hyperfine' @sharkdp/hyperfine \
-  sbin'shfmt*      -> shfmt'      bpick"${bpick}"    @mvdan/sh         \
-  sbin"**/bin/nvim -> nvim"  bpick"${bpick}" \
+  sbin'**/rg        -> rg'         BurntSushi/ripgrep \
+  sbin'shfmt*       -> shfmt'      bpick"${bpick}"    @mvdan/sh         \
+  sbin'**/bin/nvim  -> nvim'       bpick"${bpick}"    \
   atload"export EDITOR='nvim' && alias v=$EDITOR" neovim/neovim \
   sbin'**/exa -> exa' atclone'cp -vf completions/exa.zsh _exa'  \
   atload"
-      alias ls='exa --git --group-directories-first'
-      alias l='ls -blF' && alias la='ls -abghilmu'
-      alias ll='ls -al' && alias tree='exa --tree'" \
+      alias l='ls -blF'; alias la='ls -abghilmu'
+      alias ll='ls -al'; alias tree='exa --tree'
+      alias ls='exa --git --group-directories-first'" \
     ogham/exa
