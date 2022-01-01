@@ -36,7 +36,7 @@ watchables = require('utils.watchables')
 -- watchers.enabled = {'window-border', 'reload', 'menubar'}
 bindings = require('bindings')
 bindings.askBeforeQuitApps = config.apps.browsers
-bindings.enabled = { 'block-hide', 'ctrl-esc', 'f-keys', 'focus', 'global', 'tiling' }
+bindings.enabled = {'block-hide','focus','global','tiling'}
 -- START MODULES
 local modules = {bindings, notify, watchables, watchers, wm}
 hs.fnutils.each(modules, function(module) if module then module.start() end end)

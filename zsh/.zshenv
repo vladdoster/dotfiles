@@ -19,6 +19,7 @@ case $OSTYPE in
                 export PATH="/usr/local/opt/curl/bin:$PATH"
                 export PATH="/usr/local/opt/expat/bin:$PATH"
                 export PATH="/usr/local/opt/libtool/libexec/gnubin:$PATH"
+                export PATH="/usr/local/opt/python@3.10/bin:$PATH"
                 export PATH="/usr/local/opt/sphinx-doc/bin:$PATH"
                 export PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
                 export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig:$PKG_CONFIG_PATH"
