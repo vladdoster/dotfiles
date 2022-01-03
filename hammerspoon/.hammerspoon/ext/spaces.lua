@@ -1,4 +1,4 @@
-local spaces = require('hs._asm.undocumented.spaces')
+local spaces = require('hs.spaces')
 local activeScreen = require('ext.screen').activeScreen
 local cache = {}
 local module = {cache=cache}

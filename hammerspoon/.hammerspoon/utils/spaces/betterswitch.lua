@@ -5,7 +5,7 @@ local keys             = require('ext.table').keys
 local screenSpaces     = require('ext.spaces').screenSpaces
 local spaceFromIndex   = require('ext.spaces').spaceFromIndex
 local spaceInDirection = require('ext.spaces').spaceInDirection
-local spaces           = require('hs._asm.undocumented.spaces')
+local spaces           = require('hs.spaces')
 
 local cache  = {}
 local module = { cache = cache }

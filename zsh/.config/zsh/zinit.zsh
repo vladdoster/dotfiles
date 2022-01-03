@@ -84,13 +84,14 @@ zturbo for \
 
 #=== BINARIES ==========================================
 zturbo from'gh-r' as'program' for \
-  sbin'bat*/bat'             @sharkdp/bat       \
-  sbin'delta*/delta'         dandavison/delta   \
-  sbin'ripgrep*/rg'          BurntSushi/ripgrep \
-  sbin'shfmt* -> shfmt'      bpick"${bpick}"    @mvdan/sh \
-  sbin'hub-*/bin/hub'  cp'hub-*/etc/hub.zsh_completion -> _hub' @github/hub \
-  sbin'nvim*/bin/nvim' bpick"${bpick}" atinit"export EDITOR='nvim'; alias v=$EDITOR" neovim/neovim \
-  sbin'**/exa' atclone'cp -vf completions/exa.zsh _exa'  \
+  sbin'bat*/bat'     @sharkdp/bat     \
+  sbin'delta*/delta' dandavison/delta \
+  sbin'fd*/fd'       @sharkdp/fd      \
+  sbin'ripgrep*/rg'  BurntSushi/ripgrep \
+  sbin'sd*    -> sd' chmln/sd           \
+  sbin'shfmt* -> shfmt' bpick"${bpick}" @mvdan/sh                                     \
+  sbin'nvim*/bin/nvim'  bpick"${bpick}" atinit"export EDITOR='nvim'; alias v=$EDITOR" neovim/neovim \
+  sbin'**/exa'          atclone'cp -vf completions/exa.zsh _exa' \
   atload"
       alias l='ls -blF'; alias la='ls -abghilmu'
       alias ll='ls -al'; alias tree='exa --tree'

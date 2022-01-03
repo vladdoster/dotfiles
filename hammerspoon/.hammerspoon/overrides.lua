@@ -1,5 +1,5 @@
 local module = {}
-local axuiWindowElement = require('hs._asm.undocumented.axuielement').windowElement
+local axuiWindowElement = require('hs.spaces').windowElement
 local log    = hs.logger.new('overrides', 'debug');
 -- detects if window can be resized
 -- this is not ideal, but works for me

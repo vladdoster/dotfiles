@@ -1,6 +1,7 @@
 -- Display system statistics in menubar
-wifiWatcher = nil
-function ssidChanged()
+local cache  = {}
+local module = {cache=cache}
+module.ssidChanged = function()
     local network = hs.wifi.currentNetwork()
     if network then
         wifiMenu:setTitle('Wifi: ' .. network )
@@ -8,6 +9,10 @@ function ssidChanged()
         wifiMenu:setTitle("Wifi: No network")
     end
 end
-wifiMenu = hs.menubar.new()
-ssidChanged()
-wifiWatcher = hs.wifi.watcher.new(ssidChanged):start()
+module.start = function()
+    wifiMenu = hs.menubar.new()
+    module.ssidChanged()
+    wifiWatcher = hs.wifi.watcher.new(ssidChanged):start()
+end
+module.stop = function() cache.filter:unsubscribe(wifiWatcher) end
+return module

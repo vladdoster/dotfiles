@@ -2,7 +2,7 @@ local focusScreen = require('ext.screen').focusScreen
 local highlightWindow = require('ext.drawing').highlightWindow
 local isSpaceFullscreenApp = require('ext.spaces').isSpaceFullscreenApp
 local spaceInDirection = require('ext.spaces').spaceInDirection
-local spaces = require('hs._asm.undocumented.spaces')
+local spaces = require('hs.spaces')
 local cache = {mousePosition=nil, windowPositions=hs.settings.get('windowPositions') or {}}
 local module = {cache=cache}
 module.fullscreen = function(win) win:setFullScreen(not win:isFullscreen()) end -- fullscreen toggle

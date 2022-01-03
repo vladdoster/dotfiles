@@ -1,6 +1,6 @@
 -- GLOBAL REQUIRES ---------------------
-hs.ipc.cliUninstall()
 hs.ipc.cliInstall()
+hs.ipc.cliUninstall()
 require("hs.ipc")
 require('console').init()
 require('overrides').init()
@@ -26,20 +26,28 @@ config = {
     },
     window = {highlightBorder = true, highlightMouse = true, historyLimit = 0}
 }
+
+
 -- SETTINGS -----------------------------
-bindings                    = require('bindings')
--- watchables                  = require('utils.watchables')
-watchers                    = require('utils.watchers')
-wm                          = require('utils.wm')
+bindings = require('bindings')
+spaces   = require('utils.spaces')
+watchers = require('utils.watchers')
+wm       = require('utils.wm')
+
+require('modules.battery')
+require('modules.windowBorder')
+
+spaces.enabled = {'dots'}
 -- no animations
 hs.window.animationDuration = 0.0
 -- watchers
-watchers.enabled = {'window-border', 'reload', 'menubar'}
+-- watchers.enabled = {'window-border', 'reload' }
+watchers.enabled = { 'reload' }
 -- bindings
 bindings.enabled            = { 'ask-before-quit', 'block-hide', 'focus', 'global', 'tiling' }
 bindings.askBeforeQuitApps  = config.apps.browsers
 -- start/stop modules
-local modules               = { bindings, watchables, watchers, wm }
+local modules               = { bindings, watchables, watchers, wm, spaces}
 hs.fnutils.each(modules, function(module)
   if module then module.start() end
 end)
