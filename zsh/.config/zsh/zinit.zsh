@@ -16,41 +16,44 @@ case "$OSTYPE" in
     *) error 'unsupported system -- some cli programs might not work' ;;
 esac
 #=== ZINIT =============================================
-ZINIT_HOME="${XDG_DATA_HOME:-${HOME:-~/.local/share}}/zinit"
-ZINIT_BIN_DIR_NAME="${ZINIT_BIN_DIR_NAME:-bin}"
-if [[ ! -f "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}/zinit.zsh" ]]; then
+typeset -gAH ZINIT
+ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit
+ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git
+ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump
+ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
+if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'installing zinit' \
-    && command mkdir -p "${ZINIT_HOME}" \
-    && command chmod g-rwX "${ZINIT_HOME}" \
-    && command git clone --depth 1 --branch main https://github.com/${ZINIT_REPO:-vladdoster}/zinit-1 "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}" \
-  && info 'installed zinit' \
+    && command git clone https://github.com/vladdoster/zinit-1 $ZINIT[BIN_DIR] \
+    && command chmod g-rwX $ZINIT[HOME_DIR] \
+    && info 'installed zinit' \
+    && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
   || { error 'unable to clone zinit' >&2 && exit 1 }
 fi
-source "${ZINIT_HOME}/${ZINIT_BIN_DIR_NAME}/zinit.zsh" \
+source $ZINIT[BIN_DIR]/zinit.zsh \
   && autoload -Uz _zinit \
   && (( ${+_comps} )) \
   && _comps[zinit]=_zinit
-#  autoload -U +X bashcompinit && bashcompinit
 zturbo(){ zinit depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
 #=== PROMPT & THEME ====================================
+#  zi snippet OMZL::git.zsh
+#  zi snippet OMZP::git
 zi light-mode for \
+    zdharma-continuum/zinit-annex-{submods,patch-dl,bin-gem-node} \
   compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
       PURE_GIT_UP_ARROW='↑'; PURE_GIT_DOWN_ARROW='↓'; PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ';
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure \
-    zdharma-continuum/zinit-annex-{submods,patch-dl,bin-gem-node}
-#=== ZSH-STATIC =======================================
-#  zturbo light-mode as'null' nocompile nocompletions atpull'%atclone' atclone'./install -e yes -d /usr/local' for \
-    #  @romkatv/zsh-bin
-zinit as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' for \
+  atload"zstyle ':prezto:module:editor' key-bindings 'vi'" \
+  as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
     @romkatv/zsh-bin
-#=== OH-MY-ZSH ===============================================
+
 zturbo for \
     vladdoster/gitfast-zsh-plugin \
     PZTM::{'homebrew','rsync'} \
   atload"zstyle ':prezto:module:editor' key-bindings 'vi'" \
     PZTM::editor
+
 zturbo is-snippet for \
     OMZP::golang    as'completion' OMZP::golang/_golang       \
     OMZP::pip       as'completion' OMZP::pip/_pip             \
@@ -63,23 +66,42 @@ zturbo is-snippet for \
     PZT::modules/completion
 zturbo light-mode for atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
     zdharma-continuum/fast-syntax-highlighting
-#=== FZF ==========================================
+
 zturbo for \
-  sbin"fzf" from'gh-r' as'command' \
-    junegunn/fzf-bin \
-    OMZP::fzf
+  vladdoster/gitfast-zsh-plugin \
+  atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
+    zdharma-continuum/fast-syntax-highlighting \
+  id-as'junegunn/fzf' nocompile pick'/dev/null' sbin'fzf' src'key-bindings.zsh' \
+  from'gh-r' atclone'mkdir -p $ZPFX/{bin,man/man1}' atpull'%atclone' \
+  dl'
+      https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh -> _fzf_completion;
+      https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh;
+      https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf-tmux.1 -> $ZPFX/man/man1/fzf-tmux.1;
+      https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1 -> $ZPFX/man/man1/fzf.1' \
+  @junegunn/fzf \
+  OMZP::fzf
+
 #=== BINARIES ==========================================
-zturbo from'gh-r' as"command" for \
-  sbin'**/bat   -> bat'   @sharkdp/bat     \
-  sbin'**/delta -> delta' dandavison/delta \
-  sbin'**/hyperfine -> hyperfine' @sharkdp/hyperfine \
-  sbin'**/rg        -> rg'         BurntSushi/ripgrep \
-  sbin'shfmt*       -> shfmt'      bpick"${bpick}"    @mvdan/sh         \
-  sbin'**/bin/nvim  -> nvim'       bpick"${bpick}"    \
-  atload"export EDITOR='nvim' && alias v=$EDITOR" neovim/neovim \
-  sbin'**/exa -> exa' atclone'cp -vf completions/exa.zsh _exa'  \
+zturbo 2a from'gh-r' as'program' for \
+  sbin'bat*/bat'             @sharkdp/bat       \
+  sbin'delta*/delta'         dandavison/delta   \
+  sbin'ripgrep*/rg'          BurntSushi/ripgrep \
+  sbin'shfmt* -> shfmt'      bpick"${bpick}"    @mvdan/sh \
+  sbin'hub-*/bin/hub'  cp'hub-*/etc/hub.zsh_completion -> _hub' @github/hub \
+  sbin'nvim*/bin/nvim' bpick"${bpick}" atload"export EDITOR='nvim'; alias v=$EDITOR" neovim/neovim \
+  sbin'**/exa' atclone'cp -vf completions/exa.zsh _exa'  \
   atload"
       alias l='ls -blF'; alias la='ls -abghilmu'
       alias ll='ls -al'; alias tree='exa --tree'
       alias ls='exa --git --group-directories-first'" \
     ogham/exa
+  #  sbin'hyperfine*/hyperfine' @sharkdp/hyperfine \
+#  zturbo 2b as"program" bpick"*.tar.gz" nocompile'!' atpull'%atclone' for \
+   #  make'-j bin/stow' pick"bin/stow" atclone"
+      #  autoreconf -iv \
+      #  && ./configure --prefix=$ZPRFX" \
+    #  @aspiers/stow
+  #  pick"tmux" make'-j' atclone"
+      #  autoreconf -iv \
+      #  && ./configure --disable-utf8proc --prefix=$ZPRFX" \
+    #  @tmux/tmux

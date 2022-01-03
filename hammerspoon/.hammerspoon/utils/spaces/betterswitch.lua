@@ -5,10 +5,8 @@ local mouse    = require('hs.mouse')
 local screen   = require('ext.screen')
 local spaces   = require('hs._asm.undocumented.spaces')
 local timer    = require('hs.timer')
-
 local cache  = {}
 local module = { cache = cache }
-
 local waitForAnimation = function(targetSpace, changedFocus, mousePosition)
   if cache.waiting then return end
   cache.changeStart = timer.secondsSinceEpoch()
@@ -25,18 +23,15 @@ local waitForAnimation = function(targetSpace, changedFocus, mousePosition)
     0.01
   )
 end
-
 -- sends proper amount of ctrl+left/right to move you to given space
 module.switchToIndex = function(targetIdx)
   local currentScreen = spaces.activeScreen()       -- grab spaces for     screen with  active window
   local changedFocus  = spaces.focusScreen(currentScreen)  -- gain focus  on      the    screen
   local mousePosition = mouse.getAbsolutePosition() -- save mouse  pointer to     reset after  switch is done
   local screenSpaces  = spaces.screenSpaces(currentScreen)
-
   -- grab index of currently active space
   local activeIdx     = screen.activeSpaceIndex(screenSpaces)
   local targetSpace   = spaces.spaceFromIndex(targetIdx)
-
   -- check if we really can send the keystrokes
   local shouldSendEvents = fnutils.every({
     not cache.switching,
@@ -45,7 +40,6 @@ module.switchToIndex = function(targetIdx)
     targetIdx <= #screenSpaces,
     targetIdx >= 1
   }, function(test) return test end)
-
   if shouldSendEvents then
     cache.switching = true
     local eventCount     = math.abs(targetIdx - activeIdx)
@@ -58,7 +52,6 @@ module.switchToIndex = function(targetIdx)
     waitForAnimation(targetSpace, changedFocus, mousePosition)
   end
 end
-
 module.switchInDirection = function(direction)
   local currentScreen = spaces.activeScreen()
   local mousePosition = mouse.getAbsolutePosition()
@@ -85,9 +78,7 @@ module.start = function()
     return false -- propagate back to the system
   end, { eventtap.event.types.keyDown }):start()
 end
-
 module.stop = function()
   if cache.eventtap then cache.eventtap:stop() end
 end
-
 return module

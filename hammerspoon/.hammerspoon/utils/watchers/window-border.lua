@@ -1,6 +1,6 @@
 local drawBorder = require('ext.drawing').drawBorder
-local winFilter = require('hs.window.filter')
-local cache = {}
+local winFilter  = require('hs.window.filter')
+local cache  = {}
 local module = {cache=cache}
 module.start = function()
     cache.filter = winFilter.new(nil)

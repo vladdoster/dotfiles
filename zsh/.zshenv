@@ -6,24 +6,26 @@
 # Open an issue in https://github.com/vladdoster/dotfiles if
 # you find a bug, have a feature request, or a question.
 #
+typeset -agU cdpath fpath path
+path=( "${path[@]:#}" )
 case $OSTYPE in
     darwin*)
         case $CPUTYPE in
             arm64*) eval "$(/opt/homebrew/bin/brew shellenv)" ;;
             x86_64*)
                 eval "$(/usr/local/bin/brew shellenv)"
-                export CPPFLAGS="-I/usr/local/opt/curl/include:$CPPFLAGS"
-                export CPPFLAGS="-I/usr/local/opt/expat/include:$CPPFLAGS"
-                export LDFLAGS="-L/usr/local/opt/curl/lib:$LDFLAGS"
-                export LDFLAGS="-L/usr/local/opt/expat/lib:$LDFLAGS"
+                #  export CPPFLAGS="-I/usr/local/opt/curl/include:$CPPFLAGS"
+                #  export CPPFLAGS="-I/usr/local/opt/expat/include:$CPPFLAGS"
+                #  export LDFLAGS="-L/usr/local/opt/curl/lib:$LDFLAGS"
+                #  export LDFLAGS="-L/usr/local/opt/expat/lib:$LDFLAGS"
                 export PATH="/usr/local/opt/curl/bin:$PATH"
                 export PATH="/usr/local/opt/expat/bin:$PATH"
                 export PATH="/usr/local/opt/libtool/libexec/gnubin:$PATH"
                 export PATH="/usr/local/opt/python@3.10/bin:$PATH"
                 export PATH="/usr/local/opt/sphinx-doc/bin:$PATH"
                 export PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
-                export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig:$PKG_CONFIG_PATH"
-                export PKG_CONFIG_PATH="/usr/local/opt/expat/lib/pkgconfig:$PKG_CONFIG_PATH"
+                #  export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig:$PKG_CONFIG_PATH"
+                #  export PKG_CONFIG_PATH="/usr/local/opt/expat/lib/pkgconfig:$PKG_CONFIG_PATH"
             ;;
         esac
     ;;
@@ -73,5 +75,3 @@ export PYTHONSTARTUP="$XDG_CONFIG_HOME"/python/init-repl.py
 export SUBVERSION_HOME="$XDG_CONFIG_HOME"/subversion
 export VIMDOTDIR="$XDG_CONFIG_HOME"/vim
 export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
-path=( "${path[@]:#}" )
-typeset -gU cdpath fpath path

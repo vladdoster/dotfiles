@@ -27,18 +27,24 @@ config = {
     window = {highlightBorder = true, highlightMouse = true, historyLimit = 0}
 }
 -- SETTINGS -----------------------------
-hs.window.animationDuration = 0.0
-wm= require('utils.wm')
+bindings = require('bindings')
+bindings.askBeforeQuitApps = config.apps.browsers
+bindings.enabled = {'focus','global','tiling'}
+
 notify = require('utils.notify')
 notify.enabled = {'battery'}
+
+wm = require('utils.wm')
+windowHighlight = require('modules.windowHighlight')
 watchables = require('utils.watchables')
 -- watchers = require('utils.watchers')
 -- watchers.enabled = {'window-border', 'reload', 'menubar'}
-bindings = require('bindings')
-bindings.askBeforeQuitApps = config.apps.browsers
-bindings.enabled = {'block-hide','focus','global','tiling'}
+
+spaces = require("utils.spaces")
+spaces.enabled = {'betterswitch','dots'}
+
 -- START MODULES
-local modules = {bindings, notify, watchables, watchers, wm}
+local modules = {bindings, notify, watchables,spaces, watchers, wm, windowHighlight}
 hs.fnutils.each(modules, function(module) if module then module.start() end end)
 -- STOP RUNNING MODULES ON SHUTDOWN
 hs.shutdownCallback = function()

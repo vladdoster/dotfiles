@@ -26,11 +26,10 @@ module.init = function()
         return os.date('%F %T' .. ((tostring(date):match('(%.%d+)$')) or ''), math.floor(date))
     end
     -- console styling
-    local grayColor = {red=24 * 4 / 255, green=24 * 4 / 255, blue=24 * 4 / 255, alpha=1}
+    local grayColor =  {red=24 * 4 / 255, green=24 * 4 / 255, blue=24 * 4 / 255, alpha=1}
     local blackColor = {red=24 / 255, green=24 / 255, blue=24 / 255, alpha=1}
     hs.console.consoleCommandColor(blackColor)
     hs.console.consoleResultColor(grayColor)
     hs.console.consolePrintColor(grayColor)
-    hs.console.toolbar(nil) -- no toolbar
 end
 return module
