@@ -11,10 +11,12 @@ spoon.SpoonInstall.use_syncinstall = true
 Install = spoon.SpoonInstall
 Install:andUse('HeadphoneAutoPause', {start = true})
 Install:andUse('TextClipboardHistory', {
-    disable = false,
     config = {show_in_menubar = true},
+    deduplicate = true,
+    disable = false,
+    hist_size = 10,
     hotkeys = {toggle_clipboard = {{'cmd', 'shift'}, 'v'}},
-    start = true
+    start = true,
 })
 hs.brightness.set(100)
 -- GLOBAL CONFIGURATION

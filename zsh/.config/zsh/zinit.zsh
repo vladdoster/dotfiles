@@ -84,11 +84,12 @@ zturbo for \
 
 #=== BINARIES ==========================================
 zturbo from'gh-r' as'program' for \
-  sbin'bat*/bat'     @sharkdp/bat     \
-  sbin'delta*/delta' dandavison/delta \
-  sbin'fd*/fd'       @sharkdp/fd      \
+  sbin'bat*/bat'     @sharkdp/bat       \
+  sbin'delta*/delta' dandavison/delta   \
+  sbin'fd*/fd'       @sharkdp/fd        \
   sbin'ripgrep*/rg'  BurntSushi/ripgrep \
   sbin'sd*    -> sd' chmln/sd           \
+  sbin'hyperfine*/hyperfine' @sharkdp/hyperfine \
   sbin'shfmt* -> shfmt' bpick"${bpick}" @mvdan/sh                                     \
   sbin'nvim*/bin/nvim'  bpick"${bpick}" atinit"export EDITOR='nvim'; alias v=$EDITOR" neovim/neovim \
   sbin'**/exa'          atclone'cp -vf completions/exa.zsh _exa' \
@@ -97,13 +98,13 @@ zturbo from'gh-r' as'program' for \
       alias ll='ls -al'; alias tree='exa --tree'
       alias ls='exa --git --group-directories-first'" \
     ogham/exa
-  #  sbin'hyperfine*/hyperfine' @sharkdp/hyperfine \
-#  zturbo 2b as"program" bpick"*.tar.gz" nocompile'!' atpull'%atclone' for \
-   #  make'-j bin/stow' pick"bin/stow" atclone"
-      #  autoreconf -iv \
-      #  && ./configure --prefix=$ZPRFX" \
-    #  @aspiers/stow
-  #  pick"tmux" make'-j' atclone"
-      #  autoreconf -iv \
-      #  && ./configure --disable-utf8proc --prefix=$ZPRFX" \
-    #  @tmux/tmux
+
+zturbo 1a as"program" bpick"*.tar.gz" nocompile'!' atpull'%atclone' for \
+   make'-j bin/stow' pick"bin/stow" atclone"
+      autoreconf -iv \
+      && ./configure --prefix=$ZPRFX" \
+    @aspiers/stow \
+  pick"tmux" make'-j' atclone"
+      autoreconf -iv \
+      && ./configure --disable-utf8proc --prefix=$ZPRFX" \
+    @tmux/tmux
