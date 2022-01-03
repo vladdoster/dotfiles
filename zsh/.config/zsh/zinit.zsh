@@ -50,6 +50,7 @@ zi light-mode for \
 
 zturbo for \
     vladdoster/gitfast-zsh-plugin \
+  blockf \
     PZTM::{'homebrew','rsync'} \
   atload"zstyle ':prezto:module:editor' key-bindings 'vi'" \
     PZTM::editor

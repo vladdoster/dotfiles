@@ -53,4 +53,4 @@ hs.shutdownCallback = function()
 end
 -- ALERT THAT HS SUCCESSFULLY STARTED
 hs.notify.show('Hammerspoon', 'Reload Notification',
-               'Hammerspoon configuration reloaded.')
+               'Hammerspoon configuration reloaded.') 
