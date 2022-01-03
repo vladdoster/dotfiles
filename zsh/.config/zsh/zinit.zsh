@@ -86,13 +86,12 @@ zturbo from'gh-r' as'program' for \
       alias ll='ls -al'; alias tree='exa --tree'
       alias ls='exa --git --group-directories-first'" \
     ogham/exa
-
-zturbo 1a as"program" bpick"*.tar.gz" nocompile'!' atpull'%atclone' for \
-   make'-j bin/stow' pick"bin/stow" atclone"
-      autoreconf -iv \
-      && ./configure --prefix=$ZPRFX" \
-    @aspiers/stow \
-  pick"tmux" make'-j' atclone"
-      autoreconf -iv \
-      && ./configure --disable-utf8proc --prefix=$ZPRFX" \
-    @tmux/tmux
+#  zturbo 1a as"program" bpick"*.tar.gz" nocompile'!' atpull'%atclone' for \
+   #  make'-j bin/stow' pick"bin/stow" atclone"
+      #  autoreconf -iv \
+      #  && ./configure --prefix=$ZPRFX" \
+    #  @aspiers/stow \
+  #  pick"tmux" make'-j' atclone"
+      #  autoreconf -iv \
+      #  && ./configure --disable-utf8proc --prefix=$ZPRFX" \
+    #  @tmux/tmux
