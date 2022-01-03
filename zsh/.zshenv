@@ -6,8 +6,6 @@
 # Open an issue in https://github.com/vladdoster/dotfiles if
 # you find a bug, have a feature request, or a question.
 #
-typeset -agU cdpath fpath path
-path=( "${path[@]:#}" )
 case $OSTYPE in
     darwin*)
         case $CPUTYPE in
@@ -43,7 +41,7 @@ export KEYTIMEOUT=1
 #  (( ${+LANGUAGE} )) || export LANGUAGE="$LANG"
 #  (( ${+LC_ALL}   )) || export LC_ALL="$LANG"
 ## Common Apps
-export EDITOR="vim"
+#  export EDITOR="vim"
 export VISUAL=$EDITOR
 export FCEDIT=$EDITOR
 export SYSTEMD_EDITOR=$EDITOR
@@ -75,3 +73,5 @@ export PYTHONSTARTUP="$XDG_CONFIG_HOME"/python/init-repl.py
 export SUBVERSION_HOME="$XDG_CONFIG_HOME"/subversion
 export VIMDOTDIR="$XDG_CONFIG_HOME"/vim
 export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
+typeset -agU cdpath fpath path
+path=( "${path[@]:#}" )

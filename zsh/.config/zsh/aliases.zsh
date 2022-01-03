@@ -24,7 +24,7 @@ has() {
     command -v "$1" 1> /dev/null 2>&1
 }
 _edit() {
-    "${EDITOR:-vim}" "$1"
+    ${EDITOR:-nvim} "$1"
 }
 _export() {
     if [[ -d $1 ]]; then
@@ -88,12 +88,14 @@ alias m='make'
 alias mkdir="mkdir -pv"
 alias rmr="rm -rf"
 alias tailf="less +F -R"
+export EDITOR='nvim'
+
 if has nvim; then
     export EDITOR='nvim'
-elif has vim; then
-    export EDITOR='vim'
-elif has vi; then
-    export EDITOR='vi'
+#  elif has vim; then
+    #  export EDITOR='vim'
+#  elif has vi; then
+    #  export EDITOR='vi'
 fi
 #= CONFIG SHORTCUTS ==============================
 alias ealiases="_edit $ZDOTDIR/aliases.zsh"

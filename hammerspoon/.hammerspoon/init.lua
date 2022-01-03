@@ -27,30 +27,25 @@ config = {
     window = {highlightBorder = true, highlightMouse = true, historyLimit = 0}
 }
 -- SETTINGS -----------------------------
-bindings = require('bindings')
-bindings.askBeforeQuitApps = config.apps.browsers
-bindings.enabled = {'focus','global','tiling'}
-
-notify = require('utils.notify')
-notify.enabled = {'battery'}
-
-wm = require('utils.wm')
-windowHighlight = require('modules.windowHighlight')
-watchables = require('utils.watchables')
--- watchers = require('utils.watchers')
--- watchers.enabled = {'window-border', 'reload', 'menubar'}
-
-spaces = require("utils.spaces")
-spaces.enabled = {'betterswitch','dots'}
-
--- START MODULES
-local modules = {bindings, notify, watchables,spaces, watchers, wm, windowHighlight}
-hs.fnutils.each(modules, function(module) if module then module.start() end end)
--- STOP RUNNING MODULES ON SHUTDOWN
+bindings                    = require('bindings')
+-- watchables                  = require('utils.watchables')
+watchers                    = require('utils.watchers')
+wm                          = require('utils.wm')
+-- no animations
+hs.window.animationDuration = 0.0
+-- watchers
+watchers.enabled = {'window-border', 'reload', 'menubar'}
+-- bindings
+bindings.enabled            = { 'ask-before-quit', 'block-hide', 'focus', 'global', 'tiling' }
+bindings.askBeforeQuitApps  = config.apps.browsers
+-- start/stop modules
+local modules               = { bindings, watchables, watchers, wm }
+hs.fnutils.each(modules, function(module)
+  if module then module.start() end
+end)
 hs.shutdownCallback = function()
-    hs.fnutils.each(modules,
-                    function(module) if module then module.stop() end end)
+  hs.fnutils.each(modules, function(module)
+    if module then module.stop() end
+  end)
 end
--- ALERT THAT HS SUCCESSFULLY STARTED
-hs.notify.show('Hammerspoon', 'Reload Notification',
-               'Hammerspoon configuration reloaded.') 
+hs.notify.show('Hammerspoon', 'Hammerspoon configuration reloaded.','')

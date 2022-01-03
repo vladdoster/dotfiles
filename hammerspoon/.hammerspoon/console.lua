@@ -1,4 +1,4 @@
-local axuiWindowElement = require('hs.axuielement').windowElement
+local axuiWindowElement = require('hs._asm.undocumented.axuielement').windowElement
 local reloadHS = require('ext.system').reloadHS
 local module = {}
 module.init = function()
