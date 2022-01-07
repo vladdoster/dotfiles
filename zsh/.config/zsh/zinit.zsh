@@ -36,8 +36,6 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
   && _comps[zinit]=_zinit
 zturbo(){ zinit depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
 #=== PROMPT & THEME ====================================
-#  zi snippet OMZL::git.zsh
-#  zi snippet OMZP::git
 zi light-mode for \
     "$ZI_REPO"/zinit-annex-{'submods','patch-dl','bin-gem-node'} \
   compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
@@ -48,10 +46,12 @@ zi light-mode for \
   as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
     @romkatv/zsh-bin \
     vladdoster/gitfast-zsh-plugin \
-  atload"zstyle ':prezto:module:editor' key-bindings 'vi'" \
     PZTM::{'editor','rsync'}
+  atload"zstyle ':prezto:module:editor' key-bindings 'vi'" \
 
 zturbo for \
+  pack'bgn-binary+keys' \
+    fzf OMZP::fzf \
     OMZP::golang    as'completion' OMZP::golang/_golang       \
     OMZP::pip       as'completion' OMZP::pip/_pip             \
     OMZP::terraform as'completion' OMZP::terraform/_terraform \
@@ -61,22 +61,15 @@ zturbo for \
     PZT::modules/autosuggestions \
     OMZL::completion.zsh \
   svn submods'zsh-users/zsh-completions -> external' \
-    PZT::modules/completion
-
-zturbo light-mode atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" for \
+    PZT::modules/completion \
+  light-mode atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
     zdharma-continuum/fast-syntax-highlighting
-
-zi for \
-  pack'bgn-binary+keys' fzf \
-  OMZP::fzf
-
 #=== BINARIES ==========================================
 zturbo from'gh-r' as'program' for \
-  sbin'bat*/bat'     @sharkdp/bat       \
-  sbin'delta*/delta' dandavison/delta   \
-  sbin'fd*/fd'       @sharkdp/fd        \
+  sbin'bat*/bat'     @sharkdp/bat     \
+  sbin'delta*/delta' dandavison/delta \
+  sbin'fd*/fd'       @sharkdp/fd      \
   sbin'ripgrep*/rg'  BurntSushi/ripgrep \
-  sbin'sd*    -> sd' chmln/sd           \
   sbin'hyperfine*/hyperfine' @sharkdp/hyperfine \
   sbin'shfmt* -> shfmt' bpick"${bpick}" @mvdan/sh                                     \
   sbin'nvim*/bin/nvim'  bpick"${bpick}" atinit"export EDITOR='nvim'; alias v=$EDITOR" neovim/neovim \
