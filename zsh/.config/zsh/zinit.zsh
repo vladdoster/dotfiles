@@ -48,30 +48,27 @@ zi light-mode for \
     vladdoster/gitfast-zsh-plugin \
   atload"zstyle ':prezto:module:editor' key-bindings 'vi'" \
     PZTM::{'editor','rsync'}
-
-zturbo 0a for \
-  pack'bgn-binary+keys' \
-    fzf OMZP::fzf \
+zturbo light-mode for \
+  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
+  pack'bgn-binary+keys' fzf \
     OMZP::golang    as'completion' OMZP::golang/_golang       \
     OMZP::pip       as'completion' OMZP::pip/_pip             \
     OMZP::terraform as'completion' OMZP::terraform/_terraform \
-  is-snippet svn submods'zsh-users/zsh-history-substring-search -> external' \
-    PZTM::history-substring-search \
-  svn submods'zsh-users/zsh-autosuggestions -> external' \
-    PZT::modules/autosuggestions \
-    OMZL::completion.zsh \
   svn submods'zsh-users/zsh-completions -> external' \
     PZT::modules/completion \
-  light-mode atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
-    zdharma-continuum/fast-syntax-highlighting
+  svn submods'zsh-users/zsh-history-substring-search -> external' \
+    PZT::modules/history-substring-search \
+  svn submods'zsh-users/zsh-autosuggestions -> external' \
+    PZT::modules/autosuggestions \
+    zsh-users/zsh-syntax-highlighting
 #=== RUST BINARIES ==========================================
-zturbo 1a as'null' id-as'rust' sbin'bin/*' rustup \
+zturbo as'null' id-as'rust' sbin'bin/*' rustup \
   atload"[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall rust \
          && export CARGO_HOME=$PWD RUSTUP_HOME=$PWD/rustup" \
-  cargo'bat;exa;fd-find;flamegraph;hyperfine;ripgrep;sd;skim;zenith;git-delta' for \
+  cargo'bat;fd-find;flamegraph;hyperfine;ripgrep;sd;skim;zenith;git-delta' for \
     zdharma-continuum/null
 #=== GITHUB BINARIES ==========================================
-zturbo 2a from'gh-r' as'program' bpick"${bpick}" for \
+zturbo from'gh-r' as'program' bpick"${bpick}" for \
   sbin'nvim*/bin/nvim' atinit"alias v=nvim" neovim/neovim \
   sbin'shfmt* -> shfmt' @mvdan/sh \
   sbin'**/exa' atclone'cp -vf completions/exa.zsh _exa' \
