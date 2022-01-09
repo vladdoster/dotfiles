@@ -9,7 +9,13 @@
 case $OSTYPE in
     darwin*)
         case $CPUTYPE in
-            arm64*) eval "$(/opt/homebrew/bin/brew shellenv)" ;;
+            arm64*)
+                eval "$(/opt/homebrew/bin/brew shellenv)"
+                export CPPFLAGS="-I/opt/homebrew/opt/curl/include"
+                export LDFLAGS="-L/opt/homebrew/opt/curl/lib"
+                export PATH="/opt/homebrew/opt/curl/bin:$PATH"
+                export PKG_CONFIG_PATH="/opt/homebrew/opt/curl/lib/pkgconfig"
+              ;;
             x86_64*)
                 eval "$(/usr/local/bin/brew shellenv)"
                 #  export CPPFLAGS="-I/usr/local/opt/curl/include:$CPPFLAGS"
