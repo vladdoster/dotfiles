@@ -65,19 +65,18 @@ zturbo for \
   light-mode atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
     zdharma-continuum/fast-syntax-highlighting
 #=== BINARIES ==========================================
-zturbo from'gh-r' as'program' for \
+zturbo from'gh-r' as'program' bpick"${bpick}"  for \
   sbin'bat*/bat'     @sharkdp/bat     \
   sbin'delta*/delta' dandavison/delta \
   sbin'fd*/fd'       @sharkdp/fd      \
   sbin'ripgrep*/rg'  BurntSushi/ripgrep \
   sbin'hyperfine*/hyperfine' @sharkdp/hyperfine \
-  sbin'shfmt* -> shfmt' bpick"${bpick}" @mvdan/sh                                     \
-  sbin'nvim*/bin/nvim'  bpick"${bpick}" atinit"export EDITOR='nvim'; alias v=$EDITOR" neovim/neovim \
-  sbin'**/exa'          atclone'cp -vf completions/exa.zsh _exa' \
-  atload"
-      alias l='ls -blF'; alias la='ls -abghilmu'
-      alias ll='ls -al'; alias tree='exa --tree'
-      alias ls='exa --git --group-directories-first'" \
+  sbin'shfmt* -> shfmt'      @mvdan/sh          \
+  sbin'nvim*/bin/nvim' atinit"export EDITOR='nvim'; alias v=$EDITOR" neovim/neovim \
+  sbin'**/exa'         atclone'cp -vf completions/exa.zsh _exa' \
+  atload"alias l='ls -blF'; alias la='ls -abghilmu'
+         alias ll='ls -al'; alias tree='exa --tree'
+         alias ls='exa --git --group-directories-first'" \
     ogham/exa
 #  zturbo 1a as"program" bpick"*.tar.gz" nocompile'!' atpull'%atclone' for \
    #  make'-j bin/stow' pick"bin/stow" atclone"
