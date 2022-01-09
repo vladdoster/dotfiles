@@ -37,6 +37,7 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
 zturbo(){ zinit depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
 #=== PROMPT & THEME ====================================
 zi light-mode for \
+    zdharma-continuum/fast-syntax-highlighting \
     "$ZI_REPO"/zinit-annex-{'submods','patch-dl','bin-gem-node','rust'} \
   compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
       PURE_GIT_UP_ARROW='↑'; PURE_GIT_DOWN_ARROW='↓'; PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ';
@@ -49,8 +50,8 @@ zi light-mode for \
   atload"zstyle ':prezto:module:editor' key-bindings 'vi'" \
     PZTM::{'editor','rsync'}
 zturbo light-mode for \
-  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
   pack'bgn-binary+keys' fzf \
+  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
     OMZP::golang    as'completion' OMZP::golang/_golang       \
     OMZP::pip       as'completion' OMZP::pip/_pip             \
     OMZP::terraform as'completion' OMZP::terraform/_terraform \
@@ -59,8 +60,7 @@ zturbo light-mode for \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
     PZT::modules/history-substring-search \
   svn submods'zsh-users/zsh-autosuggestions -> external' \
-    PZT::modules/autosuggestions \
-    zsh-users/zsh-syntax-highlighting
+    PZT::modules/autosuggestions
 #=== RUST BINARIES ==========================================
 zturbo as'null' id-as'rust' sbin'bin/*' rustup \
   atload"[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall rust \
