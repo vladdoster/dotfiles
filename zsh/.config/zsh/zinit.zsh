@@ -37,7 +37,7 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
 zturbo(){ zinit depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
 #=== PROMPT & THEME ====================================
 zi light-mode for \
-    "$ZI_REPO"/zinit-annex-{'submods','patch-dl','bin-gem-node'} \
+    "$ZI_REPO"/zinit-annex-{'submods','patch-dl','bin-gem-node','rust'} \
   compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
       PURE_GIT_UP_ARROW='↑'; PURE_GIT_DOWN_ARROW='↓'; PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ';
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
@@ -46,10 +46,10 @@ zi light-mode for \
   as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
     @romkatv/zsh-bin \
     vladdoster/gitfast-zsh-plugin \
-    PZTM::{'editor','rsync'}
   atload"zstyle ':prezto:module:editor' key-bindings 'vi'" \
+    PZTM::{'editor','rsync'}
 
-zturbo for \
+zturbo 0a for \
   pack'bgn-binary+keys' \
     fzf OMZP::fzf \
     OMZP::golang    as'completion' OMZP::golang/_golang       \
@@ -64,16 +64,17 @@ zturbo for \
     PZT::modules/completion \
   light-mode atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
     zdharma-continuum/fast-syntax-highlighting
-#=== BINARIES ==========================================
-zturbo from'gh-r' as'program' bpick"${bpick}"  for \
-  sbin'bat*/bat'     @sharkdp/bat     \
-  sbin'delta*/delta' dandavison/delta \
-  sbin'fd*/fd'       @sharkdp/fd      \
-  sbin'ripgrep*/rg'  BurntSushi/ripgrep \
-  sbin'hyperfine*/hyperfine' @sharkdp/hyperfine \
-  sbin'shfmt* -> shfmt'      @mvdan/sh          \
-  sbin'nvim*/bin/nvim' atinit"export EDITOR='nvim'; alias v=$EDITOR" neovim/neovim \
-  sbin'**/exa'         atclone'cp -vf completions/exa.zsh _exa' \
+#=== RUST BINARIES ==========================================
+zturbo 1a as'null' id-as'rust' sbin'bin/*' rustup \
+  atload"[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall rust \
+         && export CARGO_HOME=$PWD RUSTUP_HOME=$PWD/rustup" \
+  cargo'bat;exa;fd-find;flamegraph;hyperfine;ripgrep;sd;skim;zenith;git-delta' for \
+    zdharma-continuum/null
+#=== GITHUB BINARIES ==========================================
+zturbo 2a from'gh-r' as'program' bpick"${bpick}" for \
+  sbin'nvim*/bin/nvim' atinit"alias v=nvim" neovim/neovim \
+  sbin'shfmt* -> shfmt' @mvdan/sh \
+  sbin'**/exa' atclone'cp -vf completions/exa.zsh _exa' \
   atload"alias l='ls -blF'; alias la='ls -abghilmu'
          alias ll='ls -al'; alias tree='exa --tree'
          alias ls='exa --git --group-directories-first'" \
