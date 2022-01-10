@@ -36,7 +36,10 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
   && _comps[zinit]=_zinit
 zturbo(){ zinit depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
 #=== PROMPT & THEME ====================================
+
+# pip zsh completion end
 zi light-mode for \
+  atinit"zicompinit; zicdreplay" \
     zdharma-continuum/fast-syntax-highlighting \
     "$ZI_REPO"/zinit-annex-{'submods','patch-dl','bin-gem-node','rust'} \
   compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
@@ -46,16 +49,19 @@ zi light-mode for \
     sindresorhus/pure \
   as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
     @romkatv/zsh-bin \
-    vladdoster/gitfast-zsh-plugin \
-  atload"zstyle ':prezto:module:editor' key-bindings 'vi'" \
-    PZTM::{'editor','rsync'}
+    vladdoster/gitfast-zsh-plugin
 zturbo light-mode for \
   pack'bgn-binary+keys' fzf \
-  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
-    OMZP::golang    as'completion' OMZP::golang/_golang       \
-    OMZP::pip       as'completion' OMZP::pip/_pip             \
-    OMZP::terraform as'completion' OMZP::terraform/_terraform \
+  PZTM::rsync \
+  atinit'VI_MODE_SET_CURSOR=true' OMZP::vi-mode \
+    OMZP::golang      as'completion' OMZP::golang/_golang                 \
+    OMZP::pip         as'completion' OMZP::pip/_pip                       \
+    OMZP::terraform   as'completion' OMZP::terraform/_terraform           \
+  has'brew'           as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
+  has'docker'         as'completion' OMZP::docker/_docker                 \
+  has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
   svn submods'zsh-users/zsh-completions -> external' \
+  blockf atpull'zinit creinstall -q .' \
     PZT::modules/completion \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
     PZT::modules/history-substring-search \
@@ -65,7 +71,7 @@ zturbo light-mode for \
 zturbo as'null' id-as'rust' sbin'bin/*' rustup \
   atload"[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall rust \
          && export CARGO_HOME=$PWD RUSTUP_HOME=$PWD/rustup" \
-  cargo'bat;fd-find;flamegraph;hyperfine;ripgrep;sd;skim;zenith;git-delta' for \
+  cargo'bat;fd-find;hyperfine;ripgrep;sd;skim;zenith;git-delta' for \
     zdharma-continuum/null
 #=== GITHUB BINARIES ==========================================
 zturbo from'gh-r' as'program' bpick"${bpick}" for \
@@ -85,3 +91,14 @@ zturbo from'gh-r' as'program' bpick"${bpick}" for \
       #  autoreconf -iv \
       #  && ./configure --disable-utf8proc --prefix=$ZPRFX" \
     #  @tmux/tmux
+
+# pip zsh completion start
+function _pip_completion {
+  local words cword
+  read -Ac words
+  read -cn cword
+  reply=( $( COMP_WORDS="$words[*]" \
+             COMP_CWORD=$(( cword-1 )) \
+             PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
+}
+compctl -K _pip_completion pip3
