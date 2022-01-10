@@ -33,7 +33,12 @@ case $OSTYPE in
             ;;
         esac
     ;;
-    linux*) eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" ;;
+    linux*)
+      eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" ;;
+      export PATH="/home/linuxbrew/.linuxbrew/opt/python@3.7/bin:$PATH"
+      export LDFLAGS="-L/home/linuxbrew/.linuxbrew/opt/python@3.7/lib"
+      export CPPFLAGS="-I/home/linuxbrew/.linuxbrew/opt/python@3.7/include"
+      export PKG_CONFIG_PATH="/home/linuxbrew/.linuxbrew/opt/python@3.7/lib/pkgconfig"
     *) echo "--- ERROR: $OSTYPE is unsupported" && exit 1 ;;
 esac
 export KEYTIMEOUT=1
@@ -79,5 +84,5 @@ export PYTHONSTARTUP="$XDG_CONFIG_HOME"/python/init-repl.py
 export SUBVERSION_HOME="$XDG_CONFIG_HOME"/subversion
 export VIMDOTDIR="$XDG_CONFIG_HOME"/vim
 export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
-typeset -agU cdpath fpath path
-path=( "${path[@]:#}" )
+#  typeset -agU cdpath fpath path
+#  path=( "${path[@]:#}" )

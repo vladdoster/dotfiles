@@ -49,17 +49,18 @@ zi light-mode for \
     sindresorhus/pure \
   as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
     @romkatv/zsh-bin \
-    vladdoster/gitfast-zsh-plugin
+    vladdoster/gitfast-zsh-plugin \
+  pack'bgn-binary+keys' fzf
 zturbo light-mode for \
-  pack'bgn-binary+keys' fzf \
-  PZTM::rsync \
-  atinit'VI_MODE_SET_CURSOR=true' OMZP::vi-mode \
     OMZP::golang      as'completion' OMZP::golang/_golang                 \
     OMZP::pip         as'completion' OMZP::pip/_pip                       \
     OMZP::terraform   as'completion' OMZP::terraform/_terraform           \
   has'brew'           as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
   has'docker'         as'completion' OMZP::docker/_docker                 \
   has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
+  has'npm'            OMZP::npm      \
+  atinit'export VI_MODE_SET_CURSOR=true' OMZP::vi-mode \
+    PZTM::rsync \
   svn submods'zsh-users/zsh-completions -> external' \
   blockf atpull'zinit creinstall -q .' \
     PZT::modules/completion \
