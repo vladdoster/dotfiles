@@ -50,7 +50,7 @@ zi light-mode for \
   as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
     @romkatv/zsh-bin \
     vladdoster/gitfast-zsh-plugin \
-  pack'bgn-binary+keys' fzf
+  pack'bgn-binary+keys' id-as'package/fzf' fzf
 zturbo light-mode for \
     OMZP::golang      as'completion' OMZP::golang/_golang                 \
     OMZP::pip         as'completion' OMZP::pip/_pip                       \
@@ -69,7 +69,7 @@ zturbo light-mode for \
   svn submods'zsh-users/zsh-autosuggestions -> external' \
     PZT::modules/autosuggestions
 #=== RUST BINARIES ==========================================
-zturbo as'null' id-as'rust' sbin'bin/*' rustup \
+zturbo as'null' sbin'bin/*' rustup \
   atload"[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall rust \
          && export CARGO_HOME=$PWD RUSTUP_HOME=$PWD/rustup" \
   cargo'bat;fd-find;hyperfine;ripgrep;sd;skim;zenith;git-delta' for \

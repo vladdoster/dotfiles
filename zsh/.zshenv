@@ -34,11 +34,12 @@ case $OSTYPE in
         esac
     ;;
     linux*)
-      eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" ;;
+      eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
       export PATH="/home/linuxbrew/.linuxbrew/opt/python@3.7/bin:$PATH"
       export LDFLAGS="-L/home/linuxbrew/.linuxbrew/opt/python@3.7/lib"
       export CPPFLAGS="-I/home/linuxbrew/.linuxbrew/opt/python@3.7/include"
       export PKG_CONFIG_PATH="/home/linuxbrew/.linuxbrew/opt/python@3.7/lib/pkgconfig"
+      ;;
     *) echo "--- ERROR: $OSTYPE is unsupported" && exit 1 ;;
 esac
 export KEYTIMEOUT=1
