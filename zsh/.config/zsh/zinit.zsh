@@ -78,7 +78,7 @@ zi light-mode for \
   #  cargo'bat;fd-find;hyperfine;ripgrep;sd;skim;zenith;git-delta' for \
     #  zdharma-continuum/null
 #=== GITHUB BINARIES ==========================================
-zturbo from'gh-r' as'program' for \
+zturbo from'gh-r' bpick"${bpick}" as'program' for \
   sbin'bat*/bat'     @sharkdp/bat     \
   sbin'delta*/delta' dandavison/delta \
   sbin'fd*/fd'       @sharkdp/fd      \
