@@ -1,7 +1,7 @@
 nvim_cfg=~/.config/nvim
 nvim_cfg_repo=https://github.com/vladdoster/neovim-configuration.git
 
-.DEFAULT_GOAL := help
+.DEFAULT_GOAL := install
 .ONESHELL:
 
 help: ## Display all Makfile targets
@@ -29,7 +29,7 @@ fmt:
 	           --no-spaces-inside-table-braces \
 	           {} \;
 
-init: | clean $(nvim_cfg) ## Deploy dotfiles via GNU stow
+install: | clean $(nvim_cfg) ## Deploy dotfiles via GNU install
 		find * -maxdepth 0 -type d -exec stow --verbose 1 {} --target $$HOME \;
 
 .SILENT: clean
@@ -44,6 +44,12 @@ clean: ## Remove deployed dotfiles
 $(nvim_cfg): ## Clone Neovim config $HOME/.config/nvim
 		$(info --- did not found nvim config, fetching..)
 		git clone --progress --quiet $(nvim_cfg_repo) $(nvim_cfg)
+
+stow: ## Install GNU stow
+	$(info --- installing GNU stow)
+	git clone https://github.com/aspiers/stow
+	cd stow && autoreconf -iv && ./configure --prefix $$PWD && make install
+	$(info --- installed GNU stow)
 
 brew-install: ## Install Homebrew pkg manager
 		/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"

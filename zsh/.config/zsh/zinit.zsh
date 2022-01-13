@@ -24,7 +24,7 @@ ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
 ZI_REPO="zdharma-continuum"
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'installing zinit' \
-    && command git clone https://github.com/$ZI_REPO/zinit $ZINIT[BIN_DIR] \
+    && command git clone https://github.com/vladdoster/zinit $ZINIT[BIN_DIR] \
     && command chmod g-rwX $ZINIT[HOME_DIR] \
     && info 'installed zinit' \
     && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
@@ -69,16 +69,21 @@ zturbo light-mode for \
   svn submods'zsh-users/zsh-autosuggestions -> external' \
     PZT::modules/autosuggestions
 #=== RUST BINARIES ==========================================
-zturbo as'null' sbin'bin/*' rustup \
-  atload"[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall rust \
-         && export CARGO_HOME=$PWD RUSTUP_HOME=$PWD/rustup" \
-  cargo'bat;fd-find;hyperfine;ripgrep;sd;skim;zenith;git-delta' for \
-    zdharma-continuum/null
+#  zturbo as'null' sbin'bin/*' rustup \
+  #  atload"[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall rust \
+         #  && export CARGO_HOME=$PWD RUSTUP_HOME=$PWD/rustup" \
+  #  cargo'bat;fd-find;hyperfine;ripgrep;sd;skim;zenith;git-delta' for \
+    #  zdharma-continuum/null
 #=== GITHUB BINARIES ==========================================
-zturbo from'gh-r' as'program' bpick"${bpick}" for \
-  sbin'nvim*/bin/nvim' atinit"alias v=nvim" neovim/neovim \
-  sbin'shfmt* -> shfmt' @mvdan/sh \
-  sbin'**/exa' atclone'cp -vf completions/exa.zsh _exa' \
+zturbo from'gh-r' as'program' for \
+  sbin'bat*/bat'     @sharkdp/bat     \
+  sbin'delta*/delta' dandavison/delta \
+  sbin'fd*/fd'       @sharkdp/fd      \
+  sbin'ripgrep*/rg'  BurntSushi/ripgrep \
+  sbin'hyperfine*/hyperfine' @sharkdp/hyperfine \
+  sbin'shfmt* -> shfmt'      @mvdan/sh          \
+  sbin'nvim*/bin/nvim' atinit"alias v=$EDITOR" neovim/neovim \
+  sbin'**/exa'         atclone'cp -vf completions/exa.zsh _exa' \
   atload"alias l='ls -blF'; alias la='ls -abghilmu'
          alias ll='ls -al'; alias tree='exa --tree'
          alias ls='exa --git --group-directories-first'" \
