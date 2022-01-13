@@ -54,23 +54,23 @@ zi light-mode for \
     @romkatv/zsh-bin \
     vladdoster/gitfast-zsh-plugin \
   pack'bgn-binary+keys' id-as'package/fzf' fzf
-zturbo light-mode for \
-    OMZP::golang      as'completion' OMZP::golang/_golang                 \
-    OMZP::pip         as'completion' OMZP::pip/_pip                       \
-    OMZP::terraform   as'completion' OMZP::terraform/_terraform           \
-  has'brew'           as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
-  has'docker'         as'completion' OMZP::docker/_docker                 \
-  has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
-  has'npm'            OMZP::npm      \
-  atinit'export VI_MODE_SET_CURSOR=true' OMZP::vi-mode \
-    PZTM::rsync \
-  blockf atpull'zinit creinstall -q .' \
-  svn submods'zsh-users/zsh-completions -> external' \
-    PZT::modules/completion OMZL::completion.zsh \
-  svn submods'zsh-users/zsh-history-substring-search -> external' \
-    PZT::modules/history-substring-search OMZL::history.zsh \
-  svn submods'zsh-users/zsh-autosuggestions -> external' \
-    PZT::modules/autosuggestions
+#  zturbo light-mode for \
+    #  OMZP::golang      as'completion' OMZP::golang/_golang                 \
+    #  OMZP::pip         as'completion' OMZP::pip/_pip                       \
+    #  OMZP::terraform   as'completion' OMZP::terraform/_terraform           \
+  #  has'brew'           as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
+  #  has'docker'         as'completion' OMZP::docker/_docker                 \
+  #  has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
+  #  has'npm'            OMZP::npm      \
+  #  atinit'export VI_MODE_SET_CURSOR=true' OMZP::vi-mode \
+    #  PZTM::rsync \
+  #  blockf atpull'zinit creinstall -q .' \
+  #  svn submods'zsh-users/zsh-completions -> external' \
+    #  PZT::modules/completion OMZL::completion.zsh \
+  #  svn submods'zsh-users/zsh-history-substring-search -> external' \
+    #  PZT::modules/history-substring-search OMZL::history.zsh \
+  #  svn submods'zsh-users/zsh-autosuggestions -> external' \
+    #  PZT::modules/autosuggestions
 #=== RUST BINARIES ==========================================
 #  zturbo as'null' sbin'bin/*' rustup \
   #  atload"[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall rust \
