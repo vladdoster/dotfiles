@@ -24,15 +24,14 @@ ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
 ZI_REPO="zdharma-continuum"
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'installing zinit' \
-    && command git clone \
-                      --branch="maint/add-gh-r-ice-tests" \
-                      --checkout https://github.com/vladdoster/zinit.git \
-                      $ZINIT[BIN_DIR] \
+    && command git clone https://github.com/vladdoster/zinit.git $ZINIT[BIN_DIR] \
     && command chmod g-rwX $ZINIT[HOME_DIR] \
     && info 'installed zinit' \
     && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
   || { error 'unable to clone zinit' >&2 && exit 1 }
 fi
+                      #  --branch="maint/add-gh-r-ice-tests" \
+                      #  --checkout https://github.com/vladdoster/zinit.git \
 source $ZINIT[BIN_DIR]/zinit.zsh \
   && autoload -Uz _zinit \
   && (( ${+_comps} )) \
@@ -54,23 +53,24 @@ zi light-mode for \
     @romkatv/zsh-bin \
     vladdoster/gitfast-zsh-plugin \
   pack'bgn-binary+keys' id-as'package/fzf' fzf
-#  zturbo light-mode for \
-    #  OMZP::golang      as'completion' OMZP::golang/_golang                 \
-    #  OMZP::pip         as'completion' OMZP::pip/_pip                       \
-    #  OMZP::terraform   as'completion' OMZP::terraform/_terraform           \
-  #  has'brew'           as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
-  #  has'docker'         as'completion' OMZP::docker/_docker                 \
-  #  has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
-  #  has'npm'            OMZP::npm      \
-  #  atinit'export VI_MODE_SET_CURSOR=true' OMZP::vi-mode \
-    #  PZTM::rsync \
-  #  blockf atpull'zinit creinstall -q .' \
-  #  svn submods'zsh-users/zsh-completions -> external' \
-    #  PZT::modules/completion OMZL::completion.zsh \
-  #  svn submods'zsh-users/zsh-history-substring-search -> external' \
-    #  PZT::modules/history-substring-search OMZL::history.zsh \
-  #  svn submods'zsh-users/zsh-autosuggestions -> external' \
-    #  PZT::modules/autosuggestions
+zturbo light-mode for \
+    OMZP::golang      as'completion' OMZP::golang/_golang                 \
+    OMZP::pip         as'completion' OMZP::pip/_pip                       \
+    OMZP::terraform   as'completion' OMZP::terraform/_terraform           \
+  has'brew'           as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
+  has'docker'         as'completion' OMZP::docker/_docker                 \
+  has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
+  has'npm'   OMZP::npm   \
+  has'rsync' PZTM::rsync \
+  atload'export VI_MODE_SET_CURSOR=true' 
+             OMZP::vi-mode \
+  svn submods'zsh-users/zsh-completions -> external' \
+  blockf atpull'zinit creinstall -q .' \
+    PZT::modules/completion OMZL::completion.zsh \
+  svn submods'zsh-users/zsh-history-substring-search -> external' \
+    PZT::modules/history-substring-search OMZL::history.zsh \
+  svn submods'zsh-users/zsh-autosuggestions -> external' \
+    PZT::modules/autosuggestions
 #=== RUST BINARIES ==========================================
 #  zturbo as'null' sbin'bin/*' rustup \
   #  atload"[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall rust \

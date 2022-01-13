@@ -68,7 +68,7 @@ export MANPAGER="$PAGER"
 ## -- PATH ---------------------------------------------------------------------
 #  if [ -d "$HOME/.bin" ]; then export PATH="$PATH:$HOME/.bin" fi
 #  if [ -d "$HOME/.cargo/bin" ]; then export PATH="$PATH:$HOME/.cargo/bin" fi
-#  if [ -d "$HOME/.local/bin" ]; then export PATH="$PATH:$HOME/.local/bin" fi
+[ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin"
 #  if [ -d "$HOME/.yarn/bin" ]; then export PATH="$PATH:$HOME/.yarn/bin" fi
 #  if [ -d "$HOME/Application" ]; then export PATH="$PATH:$HOME/Application" fi
 #  if [ -d "$HOME/Applications" ]; then export PATH="$PATH:$HOME/Applications" fi
