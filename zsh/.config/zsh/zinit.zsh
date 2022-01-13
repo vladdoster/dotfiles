@@ -24,7 +24,10 @@ ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
 ZI_REPO="zdharma-continuum"
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'installing zinit' \
-    && command git clone https://github.com/vladdoster/zinit $ZINIT[BIN_DIR] \
+    && command git clone \
+                      --branch="maint/add-gh-r-ice-tests" \
+                      --checkout https://github.com/vladdoster/zinit.git \
+                      $ZINIT[BIN_DIR] \
     && command chmod g-rwX $ZINIT[HOME_DIR] \
     && info 'installed zinit' \
     && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
@@ -61,11 +64,11 @@ zturbo light-mode for \
   has'npm'            OMZP::npm      \
   atinit'export VI_MODE_SET_CURSOR=true' OMZP::vi-mode \
     PZTM::rsync \
-  svn submods'zsh-users/zsh-completions -> external' \
   blockf atpull'zinit creinstall -q .' \
-    PZT::modules/completion \
+  svn submods'zsh-users/zsh-completions -> external' \
+    PZT::modules/completion OMZL::completion.zsh \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
-    PZT::modules/history-substring-search \
+    PZT::modules/history-substring-search OMZL::history.zsh \
   svn submods'zsh-users/zsh-autosuggestions -> external' \
     PZT::modules/autosuggestions
 #=== RUST BINARIES ==========================================
@@ -82,7 +85,7 @@ zturbo from'gh-r' as'program' for \
   sbin'ripgrep*/rg'  BurntSushi/ripgrep \
   sbin'hyperfine*/hyperfine' @sharkdp/hyperfine \
   sbin'shfmt* -> shfmt'      @mvdan/sh          \
-  sbin'nvim*/bin/nvim' atinit"alias v=$EDITOR" neovim/neovim \
+  sbin'nvim*/**/nvim' atinit"alias v=$EDITOR" neovim/neovim \
   sbin'**/exa'         atclone'cp -vf completions/exa.zsh _exa' \
   atload"alias l='ls -blF'; alias la='ls -abghilmu'
          alias ll='ls -al'; alias tree='exa --tree'
