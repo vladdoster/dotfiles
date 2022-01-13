@@ -62,7 +62,7 @@ zturbo light-mode for \
   has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
   has'npm'   OMZP::npm   \
   has'rsync' PZTM::rsync \
-  atload'export VI_MODE_SET_CURSOR=true' 
+  atload"VI_MODE_SET_CURSOR=true" \
              OMZP::vi-mode \
   svn submods'zsh-users/zsh-completions -> external' \
   blockf atpull'zinit creinstall -q .' \
