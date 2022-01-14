@@ -15,7 +15,7 @@ setopt share_history          # share command history data
 #  zstyle ':completion:*' rehash true
 #  WORDCHARS='*?_-.[]~&;!#$%^(){}<>|'
 # source parts of configuration
-zsh_config=(aliases zinit)
+zsh_config=(aliases zinit fzf)
 for FILE in ${zsh_config[@]}; do
     . "$HOME/.config/zsh/$FILE".zsh
 done
