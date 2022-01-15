@@ -48,7 +48,7 @@ zi light-mode for \
     OMZL::{'completion','key-bindings','termsupport'}.zsh \
   is-snippet atinit' export VI_MODE_SET_CURSOR=true; export VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true' \
     OMZP::vi-mode \
-    "$ZI_REPO"/zinit-annex-{'submods','patch-dl','bin-gem-node','rust'} \
+    "$ZI_REPO"/zinit-annex-{'submods','patch-dl','bin-gem-node'} \
   compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
       PURE_GIT_UP_ARROW='↑'; PURE_GIT_DOWN_ARROW='↓'; PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ';
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
@@ -89,29 +89,23 @@ zturbo from'gh-r' as'program' for \
          alias ll='ls -al'; alias tree='exa --tree'
          alias ls='exa --git --group-directories-first'" \
     ogham/exa
-#=== RUST BINARIES ==========================================
-#  zturbo as'null' sbin'bin/*' rustup \
-  #  atload"[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall rust \
-         #  && export CARGO_HOME=$PWD RUSTUP_HOME=$PWD/rustup" \
-  #  cargo'bat;fd-find;hyperfine;ripgrep;sd;skim;zenith;git-delta' for \
-    #  zdharma-continuum/null
-#  zturbo 1a as"program" bpick"*.tar.gz" nocompile'!' atpull'%atclone' for \
-   #  make'-j bin/stow' pick"bin/stow" atclone"
-      #  autoreconf -iv \
-      #  && ./configure --prefix=$ZPRFX" \
-    #  @aspiers/stow \
-  #  pick"tmux" make'-j' atclone"
-      #  autoreconf -iv \
-      #  && ./configure --disable-utf8proc --prefix=$ZPRFX" \
-    #  @tmux/tmux
+  #  as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
+    #  @romkatv/zsh-bin
 
-# pip zsh completion start
-#  function _pip_completion {
-  #  local words cword
-  #  read -Ac words
-  #  read -cn cword
-  #  reply=( $( COMP_WORDS="$words[*]" \
-             #  COMP_CWORD=$(( cword-1 )) \
-             #  PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
-#  }
-#  compctl -K _pip_completion pip3
+#  zturbo 1a as"program" bpick"*.tar.gz" nocompile'!' atpull'%atclone' for \
+#      make'-j bin/stow' pick"bin/stow" atclone"
+#      autoreconf -iv \
+#      && ./configure --prefix=$ZPRFX" \
+#  @aspiers/stow \
+#  pick"tmux" make'-j' atclone"
+#      autoreconf -iv \
+#      && ./configure --disable-utf8proc --prefix=$ZPRFX" \
+#  @tmux/tmux
+
+function _pip_completion {
+  local words cword && read -Ac words && read -cn cword
+  reply=( $( COMP_WORDS="$words[*]" \
+             COMP_CWORD=$(( cword-1 )) \
+             PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
+}
+compctl -K _pip_completion pip3

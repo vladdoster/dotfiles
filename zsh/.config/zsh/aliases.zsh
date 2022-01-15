@@ -110,9 +110,10 @@ alias nvopt="_edit $XDG_CONFIG_HOME/nvim/lua/core/options.lua"
 alias nvplg="_edit $XDG_CONFIG_HOME/nvim/lua/plugins/init.lua"
 alias sshrc="_edit $HOME/.ssh/config"
 alias tmuxrc="_edit $XDG_CONFIG_HOME/tmux/tmux.conf"
-alias zcln="rm -fr ${HOME}/{.local/share/{zinit,zsh},.cache,.config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
 alias zenv="_edit $HOME/.zshenv"
 alias zrc="_edit $ZDOTDIR/zinit.zsh"
+#= RELOAD COMMANDS ===============================
+alias zcln="rm -fr ${HOME}/{.local/share/{zinit,zsh},.cache,.config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
 alias zreset="zcln && zrld"
 alias zrld="exec zsh"
 #= DIRECTORY SHORTCUTS ===========================
@@ -129,9 +130,7 @@ alias rr='_goto $(git rev-parse --show-toplevel)'
 alias share="_goto $HOME/.local/share"
 alias vd="_goto $XDG_CONFIG_HOME/nvim"
 alias zd="_goto $ZDOTDIR"
-alias zl="_goto $ZDOTDIR/lib"
-#= RELOAD COMMANDS ===============================
-alias .sh='source $ZDOTDIR/.zshrc'
+alias zid="_goto $XDG_DATA_HOME/zsh/zinit"
 #= GIT ===========================================
 alias g-submodule-update='git submodule update --merge --remote'
 alias g="git" # GIT ALIASES DEFINED IN $HOME/.config/git/config
