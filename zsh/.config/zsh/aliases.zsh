@@ -131,6 +131,7 @@ alias share="_goto $HOME/.local/share"
 alias vd="_goto $XDG_CONFIG_HOME/nvim"
 alias zd="_goto $ZDOTDIR"
 alias zid="_goto $XDG_DATA_HOME/zsh/zinit"
+alias zigd="_goto $XDG_DATA_HOME/zsh/zinit/zinit.git"
 #= GIT ===========================================
 alias g-submodule-update='git submodule update --merge --remote'
 alias g="git" # GIT ALIASES DEFINED IN $HOME/.config/git/config

@@ -244,3 +244,5 @@ active = true
   merged    = !sh -c 'git o master && git plom && git bd $1 && git rpo' -
   release   = !sh -c 'git tag v$1 && git pst' -
   unrelease = !sh -c 'git tag -d v$1 && git pso :v$1' -
+[lfs]
+	repositoryformatversion = 0

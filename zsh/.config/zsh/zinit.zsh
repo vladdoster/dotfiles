@@ -26,7 +26,7 @@ ZI_REPO="zdharma-continuum"
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
 #  "bugfix/cleanup-logic-for-gh-r"
   info 'installing zinit' \
-    && command git clone --branch="bugfix/cleanup-logic-for-gh-r" \
+    && command git clone --branch="maint/fix-gh-r-binary-selection" \
                          --checkout \
                          https://github.com/vladdoster/zinit.git \
                          $ZINIT[BIN_DIR] \
@@ -56,25 +56,25 @@ zi light-mode for \
     sindresorhus/pure
   #  as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
     #  @romkatv/zsh-bin \
-#  zturbo light-mode for \
-  #  vladdoster/gitfast-zsh-plugin \
-  #  pack'bgn-binary+keys' id-as'package/fzf' fzf \
-  #  has'brew'           as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
-  #  has'docker'         as'completion' OMZP::docker/_docker                 \
-  #  has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
-  #  has'go'        OMZP::golang    as'completion' OMZP::golang/_golang       \
-  #  has'pip'       OMZP::pip       as'completion' OMZP::pip/_pip             \
-  #  has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform \
-  #  has'npm'   OMZP::npm   \
-  #  has'rsync' PZTM::rsync \
-  #  svn submods'zsh-users/zsh-completions -> external' \
-  #  blockf atpull'zinit creinstall -q .' \
-    #  PZT::modules/completion OMZL::completion.zsh \
-  #  svn submods'zsh-users/zsh-history-substring-search -> external' \
-    #  PZT::modules/history-substring-search OMZL::history.zsh \
-  #  atinit'bindkey "^ " autosuggest-accept' \
-  #  svn submods'zsh-users/zsh-autosuggestions -> external' \
-    #  PZT::modules/autosuggestions
+zturbo light-mode for \
+  vladdoster/gitfast-zsh-plugin \
+  pack'bgn-binary+keys' id-as'package/fzf' fzf \
+  has'brew'           as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
+  has'docker'         as'completion' OMZP::docker/_docker                 \
+  has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
+  has'go'        OMZP::golang    as'completion' OMZP::golang/_golang       \
+  has'pip'       OMZP::pip       as'completion' OMZP::pip/_pip             \
+  has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform \
+  has'npm'   OMZP::npm   \
+  has'rsync' PZTM::rsync \
+  svn submods'zsh-users/zsh-completions -> external' \
+  blockf atpull'zinit creinstall -q .' \
+    PZT::modules/completion OMZL::completion.zsh \
+  svn submods'zsh-users/zsh-history-substring-search -> external' \
+    PZT::modules/history-substring-search OMZL::history.zsh \
+  atinit'bindkey "^ " autosuggest-accept' \
+  svn submods'zsh-users/zsh-autosuggestions -> external' \
+    PZT::modules/autosuggestions
 #=== GITHUB BINARIES ==========================================
 zturbo from'gh-r' as'program' for \
   sbin'bat*/bat'     @sharkdp/bat \
@@ -102,10 +102,10 @@ zturbo from'gh-r' as'program' for \
 #      && ./configure --disable-utf8proc --prefix=$ZPRFX" \
 #  @tmux/tmux
 
-function _pip_completion {
-  local words cword && read -Ac words && read -cn cword
-  reply=( $( COMP_WORDS="$words[*]" \
-             COMP_CWORD=$(( cword-1 )) \
-             PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
-}
-compctl -K _pip_completion pip3
+#  function _pip_completion {
+  #  local words cword && read -Ac words && read -cn cword
+  #  reply=( $( COMP_WORDS="$words[*]" \
+             #  COMP_CWORD=$(( cword-1 )) \
+             #  PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
+#  }
+#  compctl -K _pip_completion pip3

@@ -28,6 +28,7 @@ case $OSTYPE in
                 export PATH="/usr/local/opt/expat/bin:$PATH"
                 export PATH="/usr/local/opt/libtool/libexec/gnubin:$PATH"
                 export PATH="/usr/local/opt/python@3.10/bin:$PATH"
+                export PATH="/usr/local/lib/python3.10/site-packages:$PATH"
                 export PATH="/usr/local/opt/sphinx-doc/bin:$PATH"
                 export PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
             ;;
