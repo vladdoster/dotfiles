@@ -11,17 +11,6 @@
 [interactive]
   diffFilter = delta --color-only
 
-;  [color "branch"]
-  ;  current = yellow bold
-  ;  local   = green bold
-  ;  remote  = cyan bold
-;  [color "diff"]
-  ;  meta       = yellow bold
-  ;  frag       = magenta bold
-  ;  old        = red bold
-  ;  new        = green bold
-  ;  whitespace = red reverse
-
 [core]
   autocrlf     = false
   editor       = nvim
@@ -35,7 +24,6 @@
 
 [color]
   ui = auto
-[delta]
 [diff]
   colorMoved = default
   tool = delta
@@ -89,17 +77,13 @@
   versiontag = v
 
 [submodule "hammerspoon/.hammerspoon/hs._asm.undocumented.spaces"]
-url = https://github.com/asmagill/hs._asm.undocumented.spaces.git
-active = true
+  url = https://github.com/asmagill/hs._asm.undocumented.spaces.git
+  active = true
 
 [alias]
   a  = add --all
   ai = add -i
   au = add -u
-#############
-  ac = apply --check
-  ap = apply
-  as = apply --stat
 #############
   ama = am --abort
   amr = am --resolved
@@ -148,17 +132,10 @@ active = true
   ls  = ls-files
   lsf = !git ls-files | grep -i
 #############
-  m  = merge
-  ma = merge --abort
-  mc = merge --continue
-  ms = merge --skip
-#############
   o   = checkout
   om  = checkout master
   ob  = checkout -b
   opr = !sh -c 'git fo pull/$1/head:pr-$1 && git o pr-$1'
-#############
-  pr = prune -v
 #############
   ps  = push
   psf = push -f
@@ -196,26 +173,6 @@ active = true
   pbum = pull --rebase upstream master
   pbuc = !git pull --rebase upstream $(git bc)
 #############
-  rb  = rebase
-#############
-  re    = reset
-#############
-  r   = remote
-  ra  = remote add
-  rr  = remote rm
-  rv  = remote -v
-  rn  = remote rename
-  rp  = remote prune
-  rs  = remote show
-  rao = remote add origin
-  rau = remote add upstream
-  rro = remote remove origin
-  rru = remote remove upstream
-  rso = remote show origin
-  rsu = remote show upstream
-  rpo = remote prune origin
-  rpu = remote prune upstream
-#############
   s  = status
   sb = status -s -b
 #############
@@ -244,5 +201,3 @@ active = true
   merged    = !sh -c 'git o master && git plom && git bd $1 && git rpo' -
   release   = !sh -c 'git tag v$1 && git pst' -
   unrelease = !sh -c 'git tag -d v$1 && git pso :v$1' -
-[lfs]
-	repositoryformatversion = 0
