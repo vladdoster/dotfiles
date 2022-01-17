@@ -9,7 +9,6 @@
 #
 # sources various parts of zsh configuration
 #
-#=== HISTORY =============================================
 module_path+=( "/Users/anonymous/.local/share/zsh/zinit/module/Src" )
 zmodload zdharma_continuum/zinit
 
@@ -17,5 +16,3 @@ zsh_config=(zinit aliases fzf)
 for FILE in ${zsh_config[@]}; do
     . "${ZDOTDIR:-$HOME/.config/zsh}/${FILE}.zsh"
 done
-
-[ -z "$HISTFILE" ] && HISTFILE="$ZDOTDIR/zsh_history"

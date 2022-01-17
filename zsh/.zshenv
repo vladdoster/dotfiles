@@ -87,5 +87,5 @@ export SUBVERSION_HOME="$XDG_CONFIG_HOME"/subversion
 export VIMDOTDIR="$XDG_CONFIG_HOME"/vim
 export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
 #-- DE-DUPE PATH -------------------------------------------------------------
-typeset -agU cdpath fpath path
-path=( "${path[@]:#}" )
+#  typeset -agU cdpath fpath path
+#  path=( "${path[@]:#}" )

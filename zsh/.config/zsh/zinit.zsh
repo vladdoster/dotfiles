@@ -16,20 +16,16 @@ case "$OSTYPE" in
     *) error 'unsupported system -- some cli programs might not work' ;;
 esac
 #=== ZINIT =============================================
-typeset -gAH ZINIT;                          
+typeset -gAH ZINIT;
 ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit
-ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git;     ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions
-ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1;           ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
-ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets; ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump
+ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git;     ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions;
+ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1;           ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins;
+ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets; ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump;
 ZPFX=$ZINIT[HOME_DIR]/polaris
 ZI_REPO="zdharma-continuum"
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
-#  "bugfix/cleanup-logic-for-gh-r"
   info 'installing zinit' \
-    && command git clone --branch="maint/fix-gh-r-binary-selection" \
-                         --checkout \
-                         https://github.com/vladdoster/zinit.git \
-                         $ZINIT[BIN_DIR] \
+    && command git clone https://github.com/zdharma-continuum/zinit.git $ZINIT[BIN_DIR] \
     && command chmod g-rwX $ZINIT[HOME_DIR] \
     && info 'installed zinit' \
     && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
@@ -42,6 +38,8 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
 zturbo(){ zinit depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
 #=== PROMPT & THEME ====================================
 zi light-mode for \
+  as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
+    @romkatv/zsh-bin \
   atinit"zicompinit; zicdreplay" \
     zdharma-continuum/fast-syntax-highlighting \
   as'completion' \
@@ -54,9 +52,7 @@ zi light-mode for \
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure
-  #  as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
-    #  @romkatv/zsh-bin \
-zturbo light-mode for \
+zturbo 1a light-mode for \
   vladdoster/gitfast-zsh-plugin \
   pack'bgn-binary+keys' id-as'package/fzf' fzf \
   has'brew'           as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
@@ -76,15 +72,17 @@ zturbo light-mode for \
   svn submods'zsh-users/zsh-autosuggestions -> external' \
     PZT::modules/autosuggestions
 #=== GITHUB BINARIES ==========================================
-zturbo from'gh-r' as'program' for \
-  sbin'bat*/bat'     @sharkdp/bat \
-  sbin'delta*/delta' dandavison/delta \
-  sbin'fd*/fd'       @sharkdp/fd      \
+zturbo 1b from'gh-r' as'program' bpick"${bpick}" for \
+  sbin'bat*/bat'     @sharkdp/bat       \
+  sbin'gh*/bin/gh'   cli/cli            \
+  sbin'delta*/delta' dandavison/delta   \
+  sbin'fd*/fd'       @sharkdp/fd        \
+  sbin'glow* -> glow' charmbracelet/glow \
   sbin'ripgrep*/rg'  BurntSushi/ripgrep \
   sbin'hyperfine*/hyperfine' @sharkdp/hyperfine \
   sbin'shfmt* -> shfmt'      @mvdan/sh          \
-  sbin'nvim*/**/nvim' atinit"alias v=$EDITOR" neovim/neovim \
-  sbin'**/exa'         atclone'cp -vf completions/exa.zsh _exa' \
+  sbin'nvim*/**/nvim' atinit"alias v=$EDITOR" neovim/neovim    \
+  sbin'**/exa'        atclone'cp -vf completions/exa.zsh _exa' \
   atload"alias l='ls -blF'; alias la='ls -abghilmu'
          alias ll='ls -al'; alias tree='exa --tree'
          alias ls='exa --git --group-directories-first'" \
