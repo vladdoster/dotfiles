@@ -17,7 +17,7 @@ function batt_wrapper_changed()
     batt_watch_changed(changed)
 end
 -- start watchers
-module.start = function() battery=hs.battery.watcher.new(batt_wrapper_changed):start() end
+module.start = function() battery = hs.battery.watcher.new(batt_wrapper_changed):start() end
 module.stop = function() battery:stop() end
 
 return module

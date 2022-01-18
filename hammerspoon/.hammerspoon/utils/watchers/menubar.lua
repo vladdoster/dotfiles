@@ -1,12 +1,12 @@
 -- Display system statistics in menubar
-local cache  = {}
+local cache = {}
 local module = {cache=cache}
 module.ssidChanged = function()
     local network = hs.wifi.currentNetwork()
     if network then
-        wifiMenu:setTitle('Wifi: ' .. network )
+        wifiMenu:setTitle('Wifi: ' .. network)
     else
-        wifiMenu:setTitle("Wifi: No network")
+        wifiMenu:setTitle('Wifi: No network')
     end
 end
 module.start = function()

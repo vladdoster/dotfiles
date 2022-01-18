@@ -48,60 +48,49 @@
     > t.transition(spaceID [, toggle]) -- change to the specified spaceID
     > t.reset() -- reset to a (presumably) safe state if something goes wrong
 
---]]
-
--- we get the internal, "raw" functions so we can bypass the need for the user
+--]] -- we get the internal, "raw" functions so we can bypass the need for the user
 -- to have previously enabled them.  Check out the RawAccess.md file for more
 -- information
-local s = require("hs._asm.undocumented.spaces")
-local si = require("hs._asm.undocumented.spaces.internal")
+local s = require('hs._asm.undocumented.spaces')
+local si = require('hs._asm.undocumented.spaces.internal')
 
-
-local fnutils = require("hs.fnutils")
-local timer   = require("hs.timer")
-local screen  = require("hs.screen")
+local fnutils = require('hs.fnutils')
+local timer = require('hs.timer')
+local screen = require('hs.screen')
 
 local module = {}
 
 module.transition = function(spaceID, reset)
-    if type(reset) ~= "boolean" then reset = true end
-    if spaceID == nil then
-        error("You must specify a spaceID to transition to", 2)
-    end
+    if type(reset) ~= 'boolean' then reset = true end
+    if spaceID == nil then error('You must specify a spaceID to transition to', 2) end
 
     -- keep it at least a little safe...
     if not fnutils.find(s.query(), function(_) return _ == spaceID end) then
-        error("You can only change to a user accessible space", 2)
+        error('You can only change to a user accessible space', 2)
     end
 
     local targetScreenUUID = s.spaceScreenUUID(spaceID)
     local startingSpace = -1
-    for i,v in ipairs(s.query(s.masks.currentSpaces)) do
+    for i, v in ipairs(s.query(s.masks.currentSpaces)) do
         if s.spaceScreenUUID(v) == targetScreenUUID then
             startingSpace = v
             break
         end
     end
-    if startingSpace == -1 then
-        error("Unable to determine active space for the destination specified", 2)
-    end
-    if startingSpace == spaceID then
-        error("Already on the destination space", 2)
-    end
+    if startingSpace == -1 then error('Unable to determine active space for the destination specified', 2) end
+    if startingSpace == spaceID then error('Already on the destination space', 2) end
 
     local targetScreen = nil
-    for i,v in ipairs(screen.allScreens()) do
+    for i, v in ipairs(screen.allScreens()) do
         if v:spacesUUID() == targetScreenUUID then
             targetScreen = v
             break
         end
     end
-    if not targetScreen then
-        error("Unable to get screen object for destination specified", 2)
-    end
+    if not targetScreen then error('Unable to get screen object for destination specified', 2) end
 
     if si.screenUUIDisAnimating(targetScreenUUID) then
-        error("Specified screen is already in an animation sequence", 2)
+        error('Specified screen is already in an animation sequence', 2)
     end
 
     -- Begin actual space animation stuff.  We're attempting to "shrink" the active
@@ -112,7 +101,7 @@ module.transition = function(spaceID, reset)
 
     local state = 1
     local screenFrame = targetScreen:fullFrame()
---     print(spaceID, startingSpace)
+    --     print(spaceID, startingSpace)
 
     si.showSpaces({spaceID, startingSpace})
     si.setScreenUUIDisAnimating(targetScreenUUID, true)
@@ -125,13 +114,13 @@ module.transition = function(spaceID, reset)
             si.spaceTransform(spaceID, nil)
             si._changeToSpace(spaceID) -- has an implicit show
             si.setScreenUUIDisAnimating(targetScreenUUID, false)
-            if reset then hs.execute("killall Dock") end
+            if reset then hs.execute('killall Dock') end
         else
             local hDelta = -1 * screenFrame.h * (10 - state)
             local wDelta = -1 * screenFrame.w * (10 - state)
---             print(screenFrame.h, screenFrame.w, hDelta,wDelta)
-            si.spaceTransform(spaceID, { 11 - state, 0, 0, 11 - state, wDelta, hDelta })
-            si.spaceTransform(startingSpace, { state + 1, 0, 0, state + 1, 0, 0 })
+            --             print(screenFrame.h, screenFrame.w, hDelta,wDelta)
+            si.spaceTransform(spaceID, {11 - state, 0, 0, 11 - state, wDelta, hDelta})
+            si.spaceTransform(startingSpace, {state + 1, 0, 0, state + 1, 0, 0})
         end
         state = state + 1
     end):start()
@@ -143,9 +132,9 @@ end
 -- transforms to the identity matrix, toggle the animation flag to off
 -- and reset the dock.
 module.reset = function()
-    for k,v in pairs(s.spacesByScreenUUID()) do
+    for k, v in pairs(s.spacesByScreenUUID()) do
         local first = true
-        for a,b in ipairs(v) do
+        for a, b in ipairs(v) do
             if first and si.spaceType(b) == s.types.user then
                 si.showSpaces(b)
                 si._changeToSpace(b)
@@ -157,7 +146,7 @@ module.reset = function()
         end
         si.setScreenUUIDisAnimating(k, false)
     end
-    hs.execute("killall Dock")
+    hs.execute('killall Dock')
 end
 
 return module

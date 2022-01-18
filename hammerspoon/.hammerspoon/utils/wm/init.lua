@@ -23,7 +23,7 @@ module.setLayout = function(layout)
     notify('Switched to: ' .. layout)
 end
 module.cycleLayout = function()
-    local screen,currentLayout  = hs.screen.mainScreen(), hhtwm.getLayout()
+    local screen, currentLayout = hs.screen.mainScreen(), hhtwm.getLayout()
     local layouts = config.wm.displayLayouts[screen:name()]
     log.d('--- current layout: ', currentLayout)
     log.d('--- display: ', screen)
@@ -36,26 +36,31 @@ end
 module.start = function()
     cache.watcher = hs.watchable.watch('status.connectedScreenIds', screenWatcher)
     local filters = {
-        {app='Application Loader',  tile=true},
-        {app='Archive Utility',     tile=false},
+        {app='Application Loader', tile=true},
+        {app='Archive Utility', tile=false},
         {app='DiskImages UI Agent', tile=false},
-        {app='Finder',              title='Copy',                tile=false},
-        {app='Finder',              title='Move',                tile=false},
-        {app='Hammerspoon',         title='Hammerspoon Console', tile=true},
-        {app='Kitty',               subrole='AXDialog',          tile=false},
-        {app='Messages',            tile=false},
-        {app='QuickTime Player',    tile=false},
-        {app='System Preferences',  tile=false},
-        {app='Vivaldi',             title='Picture in Picture',  tile=false},
-        {app='iTunes',              title='Mini Player',         tile=false},
-        {app='iTunes',              title='Multiple Song Info',  tile=false},
-        {app='iTunes',              title='Song Info',           tile=false},
-        {title='Quick Look',        tile=false}
+        {app='Finder', title='Copy', tile=false},
+        {app='Finder', title='Move', tile=false},
+        {app='Hammerspoon', title='Hammerspoon Console', tile=true},
+        {app='Kitty', subrole='AXDialog', tile=false},
+        {app='Messages', tile=false},
+        {app='QuickTime Player', tile=false},
+        {app='System Preferences', tile=false},
+        {app='Vivaldi', title='Picture in Picture', tile=false},
+        {app='iTunes', title='Mini Player', tile=false},
+        {app='iTunes', title='Multiple Song Info', tile=false},
+        {app='iTunes', title='Song Info', tile=false},
+        {title='Quick Look', tile=false}
     }
     local isMenubarVisible = hs.screen.primaryScreen():frame().y > 0
     local fullMargin = 12
     local halfMargin = fullMargin / 2
-    local screenMargin = { top=(isMenubarVisible and 22 or 0) + halfMargin, bottom=halfMargin, left=halfMargin, right=halfMargin }
+    local screenMargin = {
+        top=(isMenubarVisible and 22 or 0) + halfMargin,
+        bottom=halfMargin,
+        left=halfMargin,
+        right=halfMargin
+    }
     hhtwm.margin = fullMargin
     hhtwm.screenMargin = screenMargin
     hhtwm.filters = filters

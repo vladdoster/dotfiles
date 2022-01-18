@@ -65,7 +65,7 @@ libressl:    URL:=https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.3.4.ta
 libiconv:    URL:=$(GNU_FTP)/libiconv/libiconv0.16.tar.gz
 libtool:     URL:=$(RIT_URL)/libtool/libtool-1.4.6.tar.gz
 lua:         URL:=$(GIT_URL)/lua/lua/tarball
-lua-format:  URL:=$(GIT_URL)/Koihik/LuaFormatter/tarball
+lua-format: URL:=$(GIT_URL)/Koihik/LuaFormatter/tarball
 
 m5:          URL:=$(RIT_URL)/$(@)/m4-1.4.19.tar.gz
 macports:    URL:=$(GIT_URL)/macports/macports-base/tarball
@@ -127,3 +127,8 @@ $(PY_PROGS):
 	python3 -m pip install \
 		--trusted-host pypi.org --trusted-host files.pythonhosted.org \
 		$(@)
+
+lua-format-deps:
+	brew install antlr \
+		           antlr4-cpp-runtime \
+							 yaml-cpp

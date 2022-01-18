@@ -9,7 +9,11 @@ local SWAP_BETWEEN_SCREENS = false
 local getDefaultLayoutOptions = function() return {mainPaneRatio=1.0} end
 local capitalize = function(str) return str:gsub('^%l', string.upper) end
 local ternary = function(cond, ifTrue, ifFalse)
-    if cond then return ifTrue else return ifFalse end
+    if cond then
+        return ifTrue
+    else
+        return ifFalse
+    end
 end
 local ensureCacheSpaces =
     function(spaceId) if spaceId and not cache.spaces[spaceId] then cache.spaces[spaceId] = {} end end
@@ -113,12 +117,13 @@ module.getLayout = function(spaceId)
     return cache.layouts[spaceId] or (screen and module.displayLayouts and module.displayLayouts[screen:id()]) or
                (screen and module.displayLayouts and module.displayLayouts[screen:name()]) or 'main-right'
 end
-module.resetLayouts = function() -- resbuild cache.layouts table using provided hhtwm.displayLayouts and hhtwm.defaultLayout
-    for key in pairs(cache.layouts) do
-        cache.layouts[key] = nil
-        cache.layouts[key] = module.getLayout(key)
+module.resetLayouts =
+    function() -- resbuild cache.layouts table using provided hhtwm.displayLayouts and hhtwm.defaultLayout
+        for key in pairs(cache.layouts) do
+            cache.layouts[key] = nil
+            cache.layouts[key] = module.getLayout(key)
+        end
     end
-end
 module.resizeLayout = function(resizeOpt)
     local spaceId = getSpaceId()
     if not spaceId then return end
@@ -416,7 +421,7 @@ module.tile = function() -- tile windows - combine caches with current state, an
         cache.spaces[spaceId] = spaceWindows
     end)
     hs.fnutils.each(floatingWindows, -- add new windows to floating cache
-                    function(win) if not module.isFloating(win) then table.insert(cache.floating, win) end end)
+    function(win) if not module.isFloating(win) then table.insert(cache.floating, win) end end)
     -- clean up floating cache
     cache.floating = hs.fnutils.filter(cache.floating, function(cacheWin)
         return hs.fnutils.find(floatingWindows, function(win) return cacheWin:id() == win:id() end)
@@ -483,7 +488,7 @@ local loadSettings = function()
     local jsonTilingCache = hs.settings.get('hhtwm.tilingCache')
     local jsonFloatingCache = hs.settings.get('hhtwm.floatingCache')
     log.d('reading from hs.settings')
-    log.df('hhtwm.tilingCache: %s',   jsonTilingCache)
+    log.df('hhtwm.tilingCache: %s', jsonTilingCache)
     log.df('hhtwm.floatingCache: %s', jsonFloatingCache)
     local allWindows = getAllWindowsUsingSpaces() -- all windows from window filter
     local findWindowById = function(winId)
@@ -548,8 +553,8 @@ module.start = function()
     -- hs.window.filter.forceRefreshOnSpaceChange = true
     -- start window filter
     cache.filter = hs.window.filter.new():setDefaultFilter():setOverrideFilter({
-        visible=true,                   -- only allow visible windows
-        fullscreen=false,               -- ignore fullscreen windows
+        visible=true, -- only allow visible windows
+        fullscreen=false, -- ignore fullscreen windows
         allowRoles={'AXStandardWindow'} -- currentSpace = true,  -- only windows on current space
     })
     -- :setSortOrder(hs.window.filter.sortByCreated)
@@ -561,8 +566,8 @@ module.start = function()
     module.tile() -- tile on start
 end
 module.stop = function()
-    saveSettings()                -- store cache so we persist layouts between restarts
+    saveSettings() -- store cache so we persist layouts between restarts
     cache.filter:unsubscribeAll() -- stop filter
-    cache.screenWatcher:stop()    -- stop watching screens
+    cache.screenWatcher:stop() -- stop watching screens
 end
 return module

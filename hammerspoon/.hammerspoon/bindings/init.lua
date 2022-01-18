@@ -1,5 +1,5 @@
 local cache = {}
-local module = {cache = cache}
+local module = {cache=cache}
 -- modifiers in use:
 -- * ctrl+alt: move focus between windows
 -- * ctrl+shift: do things to windows

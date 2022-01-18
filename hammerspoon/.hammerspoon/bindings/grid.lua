@@ -14,12 +14,18 @@ end
 module.start = function()
     local bind = function(key, fn) hs.hotkey.bind({'ctrl', 'shift'}, key, fn, nil, fn) end
     hs.fnutils.each({
-        {key = 'h', fn = hs.grid.pushWindowLeft},       {key = 'j', fn = hs.grid.pushWindowDown},
-        {key = 'k', fn = hs.grid.pushWindowUp},         {key = 'l', fn = hs.grid.pushWindowRight},
-        {key = '[', fn = hs.grid.pushWindowNextScreen}, {key = ']', fn = hs.grid.pushWindowPrevScreen},
-        {key = ',', fn = hs.grid.resizeWindowThinner},  {key = '.', fn = hs.grid.resizeWindowWider},
-        {key = '=', fn = hs.grid.resizeWindowTaller},   {key = '-', fn = hs.grid.resizeWindowShorter},
-        {key = 'z', fn = hs.grid.maximizeWindow},       {key = 'c', fn = hs.grid.center}
+        {key='h', fn=hs.grid.pushWindowLeft},
+        {key='j', fn=hs.grid.pushWindowDown},
+        {key='k', fn=hs.grid.pushWindowUp},
+        {key='l', fn=hs.grid.pushWindowRight},
+        {key='[', fn=hs.grid.pushWindowNextScreen},
+        {key=']', fn=hs.grid.pushWindowPrevScreen},
+        {key=',', fn=hs.grid.resizeWindowThinner},
+        {key='.', fn=hs.grid.resizeWindowWider},
+        {key='=', fn=hs.grid.resizeWindowTaller},
+        {key='-', fn=hs.grid.resizeWindowShorter},
+        {key='z', fn=hs.grid.maximizeWindow},
+        {key='c', fn=hs.grid.center}
     }, function(object) bind(object.key, doWin(object.fn)) end)
 end
 module.stop = function() end

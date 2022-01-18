@@ -5,7 +5,7 @@ local hhtwm = wm.cache.hhtwm
 local move = function(dir)
     local win = hs.window.frontmostWindow()
     if hhtwm.isFloating(win) then
-        local directions = {west = 'left', south = 'down', north = 'up', east = 'right'}
+        local directions = {west='left', south='down', north='up', east='right'}
         hs.grid['pushWindow' .. capitalize(directions[dir])](win)
     else
         hhtwm.swapInDirection(win, dir)
@@ -34,15 +34,19 @@ module.start = function()
     local bind = function(key, fn) hs.hotkey.bind({'ctrl', 'shift'}, key, fn, nil, fn) end
     -- move window
     hs.fnutils.each({
-        {key = 'h', dir = 'west'},  {key = 'j', dir = 'south'},
-        {key = 'k', dir = 'north'}, {key = 'l', dir = 'east'}
+        {key='h', dir='west'},
+        {key='j', dir='south'},
+        {key='k', dir='north'},
+        {key='l', dir='east'}
     }, function(obj) bind(obj.key, function() move(obj.dir) end) end)
     -- throw between screens
-    hs.fnutils.each({{key = ']', dir = 'prev'}, {key = '[', dir = 'next'}},
+    hs.fnutils.each({{key=']', dir='prev'}, {key='[', dir='next'}},
                     function(obj) bind(obj.key, function() throw(obj.dir) end) end)
     hs.fnutils.each({ -- resize (floating only)
-        {key = ',', dir = 'thinner'}, {key = '.', dir = 'wider'},
-        {key = '-', dir = 'shorter'}, {key = '=', dir = 'taller'}
+        {key=',', dir='thinner'},
+        {key='.', dir='wider'},
+        {key='-', dir='shorter'},
+        {key='=', dir='taller'}
     }, function(obj) bind(obj.key, function() resize(obj.dir) end) end)
     bind('f', function() -- toggle [f]loat
         local win = hs.window.frontmostWindow()
@@ -51,16 +55,16 @@ module.start = function()
         if hhtwm.isFloating(win) then hs.grid.center(win) end
         highlightWindow()
     end)
-    bind('r', hhtwm.reset)          -- [r]eset
-    bind('t', hhtwm.tile)           -- re[t]ile
+    bind('r', hhtwm.reset) -- [r]eset
+    bind('t', hhtwm.tile) -- re[t]ile
     bind('e', hhtwm.equalizeLayout) -- [e]qualize
-    bind('c', function()            -- [c]enter window
+    bind('c', function() -- [c]enter window
         local win = hs.window.frontmostWindow()
         if not hhtwm.isFloating(win) then hhtwm.toggleFloat(win) end
         hs.grid.center(win) -- win:centerOnScreen()
         highlightWindow()
     end)
-    bind('z', function()            -- toggle [z]oom window
+    bind('z', function() -- toggle [z]oom window
         local win = hs.window.frontmostWindow()
         if not hhtwm.isFloating(win) then
             hhtwm.toggleFloat(win)

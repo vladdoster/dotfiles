@@ -1,6 +1,6 @@
 local allWindowsCount = require('ext.application').allWindowsCount
-local cache = {bindings = {}}
-local module = {cache = cache}
+local cache = {bindings={}}
+local module = {cache=cache}
 -- ask before quitting app when there are multiple windows
 local askBeforeQuitting = function(appName, options)
     local enabled = options.enabled or false
@@ -15,7 +15,9 @@ local askBeforeQuitting = function(appName, options)
             local windowsCount = allWindowsCount(appName)
             if windowsCount > 1 then
                 -- for some reason this is way more responsive than calling hs.applescript...
-                hs.task.new(os.getenv('HOME') .. '/.hammerspoon/assets/ask-before-quit.scpt', nil, {appName}):start()
+                hs.task.new(os.getenv('HOME') .. '/.hammerspoon/assets/ask-before-quit.scpt', nil, {
+                    appName
+                }):start()
             else
                 hs.application.find(appName):kill()
             end
@@ -26,7 +28,7 @@ module.start = function()
     cache.filter = hs.window.filter.new(bindings.askBeforeQuitApps)
     cache.filter:subscribe({hs.window.filter.windowFocused, hs.window.filter.windowUnfocused}, function(_, appName,
                                                                                                         event)
-        askBeforeQuitting(appName, {enabled = (event == 'windowFocused')})
+        askBeforeQuitting(appName, {enabled=(event == 'windowFocused')})
     end)
 end
 module.stop = function() cache.filter:unsubscribeAll() end

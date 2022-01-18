@@ -3,17 +3,17 @@
 local module = {}
 local logger = hs.logger.new('windowHighlight', 'debug')
 module.windowFilter = hs.window.filter.new():setOverrideFilter{
-    visible = true,
-    fullscreen = false,
-    allowScreens = '-1,0',
-    currentSpace = true
+    visible=true,
+    fullscreen=false,
+    allowScreens='-1,0',
+    currentSpace=true
 }
 local drawBorder = require('ext.drawing').drawBorder
-local winFilter  = require('hs.window.filter')
-local cache  = {}
+local winFilter = require('hs.window.filter')
+local cache = {}
 local module = {cache=cache}
 module.start = function()
-    module.logger.i("starting window highlight")
+    module.logger.i('starting window highlight')
     cache.filter = winFilter.new(nil)
     cache.filter.forceRefreshOnSpaceChange = true
     cache.filter:subscribe({
@@ -27,12 +27,12 @@ module.start = function()
         winFilter.windowUnfocused,
         winFilter.windowUnfullscreened,
         winFilter.windowUnhidden,
-        winFilter.windowUnminimized,
+        winFilter.windowUnminimized
     }, drawBorder)
     return module
 end
 module.stop = function()
     cache.filter:unsubscribe(drawBorder)
-    module.logger.i("stopping window highlight")
-  return module
+    module.logger.i('stopping window highlight')
+    return module
 end
