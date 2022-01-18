@@ -90,8 +90,11 @@ zturbo from'gh-r' as'program' bpick"${bpick}" for \
     ogham/exa
 
 zturbo as'program' pick"neofetch" make"-j PREFIX=${ZPRFX}" for \
-    dylanaraps/neofetch
-  #  as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
+    dylanaraps/neofetch \
+  pick"cmatrix" make'-j' atclone"
+  autoreconf -i \
+  && ./configure --prefix=$ZPRFX" \
+    abishekvashok/cmatrix
     #  @romkatv/zsh-bin
 
 
@@ -102,10 +105,6 @@ zturbo as'program' pick"neofetch" make"-j PREFIX=${ZPRFX}" for \
 #      autoreconf -iv \
 #      && ./configure --prefix=$ZPRFX" \
 #  @aspiers/stow \
-#  pick"tmux" make'-j' atclone"
-#      autoreconf -iv \
-#      && ./configure --disable-utf8proc --prefix=$ZPRFX" \
-#  @tmux/tmux
 
 #  function _pip_completion {
   #  local words cword && read -Ac words && read -cn cword
