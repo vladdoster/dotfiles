@@ -9,27 +9,31 @@ require('hs.hotkey').setLogLevel('warning')
 hs.loadSpoon('SpoonInstall')
 spoon.SpoonInstall.use_syncinstall = true
 Install = spoon.SpoonInstall
-Install:andUse('HeadphoneAutoPause', {start=true})
+Install:andUse('HeadphoneAutoPause', {start = true})
 Install:andUse('TextClipboardHistory', {
-    config={show_in_menubar=true},
-    deduplicate=true,
-    disable=false,
-    hist_size=10,
-    hotkeys={toggle_clipboard={{'cmd', 'shift'}, 'v'}},
-    start=true
+    config = {show_in_menubar = true},
+    deduplicate = true,
+    disable = false,
+    hist_size = 10,
+    hotkeys = {toggle_clipboard = {{'cmd', 'shift'}, 'v'}},
+    start = true
 })
 hs.brightness.set(100)
 -- GLOBAL CONFIGURATION
 config = {
-    apps={terms={'kitty'}, browsers={'Vivaldi'}},
-    wm={
-        defaultDisplayLayouts={['Built-in Retina Display']={'main-center'}},
-        displayLayouts={['Built-in Retina Display']={'main-center', 'main-right', 'monocle'}}
+    apps = {terms = {'kitty'}, browsers = {'Vivaldi'}},
+    wm = {
+        defaultDisplayLayouts = {['Built-in Retina Display'] = {'main-center'}, ['LG QHD'] = {'main-center'}},
+        displayLayouts = {
+            ['Built-in Retina Display'] = {'main-center', 'main-right', 'monocle'},
+            ['LG QHD'] = {'main-center', 'main-right', 'monocle'}
+        },
     },
-    window={highlightBorder=true, highlightMouse=true, historyLimit=0}
+    window = {highlightBorder = true, highlightMouse = true, historyLimit = 0}
 }
 
 -- SETTINGS -----------------------------
+spacesv2= require('ext.working-spaces')
 bindings = require('bindings')
 spaces = require('utils.spaces')
 watchers = require('utils.watchers')
@@ -38,7 +42,7 @@ wm = require('utils.wm')
 require('modules.battery')
 require('modules.windowBorder')
 
-spaces.enabled = {'dots'}
+spaces.enabled = {'dots', 'betterswitch'}
 -- no animations
 hs.window.animationDuration = 0.0
 -- watchers

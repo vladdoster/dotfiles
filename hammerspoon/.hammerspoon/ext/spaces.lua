@@ -1,7 +1,7 @@
-local spaces = require('hs.spaces')
+local spaces = require('hs._asm.undocumented.spaces')
 local activeScreen = require('ext.screen').activeScreen
 local cache = {}
-local module = {cache=cache}
+local module = {cache = cache}
 module.activeSpaceIndex = function(screenSpaces) return hs.fnutils.indexOf(screenSpaces, spaces.activeSpace()) or 1 end
 module.screenSpaces = function(currentScreen)
     currentScreen = currentScreen or activeScreen()

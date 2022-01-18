@@ -37,22 +37,23 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
   && _comps[zinit]=_zinit
 zturbo(){ zinit depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
 #=== PROMPT & THEME ====================================
+  #  as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
+    #  @romkatv/zsh-bin \
 zi light-mode for \
-  as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
-    @romkatv/zsh-bin \
-  atinit"zicompinit; zicdreplay" \
-    zdharma-continuum/fast-syntax-highlighting \
-  as'completion' \
-    OMZL::{'completion','key-bindings','termsupport'}.zsh \
-  is-snippet atinit' export VI_MODE_SET_CURSOR=true; export VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true' \
-    OMZP::vi-mode \
     "$ZI_REPO"/zinit-annex-{'submods','patch-dl','bin-gem-node'} \
   compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
       PURE_GIT_UP_ARROW='↑'; PURE_GIT_DOWN_ARROW='↓'; PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ';
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure
-zturbo 1a light-mode for \
+
+zturbo light-mode for \
+  atinit"zicompinit; zicdreplay" \
+    zdharma-continuum/fast-syntax-highlighting \
+  as'completion' \
+    OMZL::{'completion','key-bindings','termsupport'}.zsh \
+  is-snippet atinit' export VI_MODE_SET_CURSOR=true; export VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true' \
+    OMZP::vi-mode \
   vladdoster/gitfast-zsh-plugin \
   pack'bgn-binary+keys' id-as'package/fzf' fzf \
   has'brew'           as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
@@ -72,7 +73,7 @@ zturbo 1a light-mode for \
   svn submods'zsh-users/zsh-autosuggestions -> external' \
     PZT::modules/autosuggestions
 #=== GITHUB BINARIES ==========================================
-zturbo 1b from'gh-r' as'program' bpick"${bpick}" for \
+zturbo from'gh-r' as'program' bpick"${bpick}" for \
   sbin'bat*/bat'     @sharkdp/bat       \
   sbin'gh*/bin/gh'   cli/cli            \
   sbin'delta*/delta' dandavison/delta   \
@@ -87,9 +88,15 @@ zturbo 1b from'gh-r' as'program' bpick"${bpick}" for \
          alias ll='ls -al'; alias tree='exa --tree'
          alias ls='exa --git --group-directories-first'" \
     ogham/exa
+
+zturbo as'program' pick"neofetch" make"-j PREFIX=${ZPRFX}" for \
+    dylanaraps/neofetch
   #  as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
     #  @romkatv/zsh-bin
 
+
+
+#  @aspiers/stow \
 #  zturbo 1a as"program" bpick"*.tar.gz" nocompile'!' atpull'%atclone' for \
 #      make'-j bin/stow' pick"bin/stow" atclone"
 #      autoreconf -iv \
