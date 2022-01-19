@@ -11,9 +11,10 @@
 function info() { print -P "%F{34}[INFO]%f%b $1"; }
 function error() { print -P "%F{160}[ERROR]%f%b $1"; }
 case "$OSTYPE" in
-  linux*) bpick='*((#s)|/)*(linux|musl)*((#e)|/)*' ;;
-    darwin*) bpick='*(macos|darwin)*' ;;
-    *) error 'unsupported system -- some cli programs might not work' ;;
+ darwin*) bpick='*(macos|darwin)*' ;;
+   *gnu*) bpick='*((#s)|/)*(linux|gnu)*((#e)|/)*' ;;
+  *musl*) bpick='*((#s)|/)*(linux|musl)*((#e)|/)*' ;;
+       *) error 'unsupported system -- some cli programs might not work' ;;
 esac
 #=== ZINIT =============================================
 typeset -gAH ZINIT;
@@ -74,12 +75,12 @@ zturbo light-mode for \
     PZT::modules/autosuggestions
 #=== GITHUB BINARIES ==========================================
 zturbo from'gh-r' as'program' bpick"${bpick}" for \
-  sbin'bat*/bat'     @sharkdp/bat       \
-  sbin'gh*/bin/gh'   cli/cli            \
-  sbin'delta*/delta' dandavison/delta   \
-  sbin'fd*/fd'       @sharkdp/fd        \
+  sbin'bat*/bat'      @sharkdp/bat       \
+  sbin'delta*/delta'  dandavison/delta   \
+  sbin'fd*/fd'        @sharkdp/fd        \
+  sbin'gh*/bin/gh'    cli/cli            \
   sbin'glow* -> glow' charmbracelet/glow \
-  sbin'ripgrep*/rg'  BurntSushi/ripgrep \
+  sbin'ripgrep*/rg'   BurntSushi/ripgrep \
   sbin'hyperfine*/hyperfine' @sharkdp/hyperfine \
   sbin'shfmt* -> shfmt'      @mvdan/sh          \
   sbin'nvim*/**/nvim' atinit"alias v=$EDITOR" neovim/neovim    \
@@ -89,12 +90,12 @@ zturbo from'gh-r' as'program' bpick"${bpick}" for \
          alias ls='exa --git --group-directories-first'" \
     ogham/exa
 
-zturbo as'program' pick"neofetch" make"-j PREFIX=${ZPRFX}" for \
-    dylanaraps/neofetch \
-  pick"cmatrix" make'-j' atclone"
-  autoreconf -i \
-  && ./configure --prefix=$ZPRFX" \
-    abishekvashok/cmatrix
+#  zturbo as'program' pick"neofetch" make"-j PREFIX=${ZPRFX}" for \
+    #  dylanaraps/neofetch \
+  #  pick"cmatrix" make'-j' atclone"
+  #  autoreconf -i \
+  #  && ./configure --prefix=$ZPRFX" \
+    #  abishekvashok/cmatrix
     #  @romkatv/zsh-bin
 
 
