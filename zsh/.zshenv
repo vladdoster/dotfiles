@@ -65,8 +65,8 @@ cdpath+=("$HOME" "..") && export cdpath
 # -- MANPATH ---------------------------------------------------------------------
 manpath+=(/usr/local/man /usr/share/man) && export manpath
 # -- PATH ---------------------------------------------------------------------
+[ -d "$HOME/.cargo/bin" ] && export PATH="$PATH:$HOME/.cargo/bin"
 [ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin"
-[ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin" fi
 [ -d "/usr/local/bin" ] && export PATH="$PATH:/usr/local/bin"
 [ -d "/usr/sbin" ] && export PATH="$PATH:/usr/sbin"
 #  if [ -d "$HOME/.yarn/bin" ]; then export PATH="$PATH:$HOME/.yarn/bin" fi

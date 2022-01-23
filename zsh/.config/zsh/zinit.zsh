@@ -1,3 +1,4 @@
+#!/bin/zsh
 #
 # Author: Vladislav D.
 # GitHub: vladdoster
@@ -10,12 +11,12 @@
 #
 function info() { print -P "%F{34}[INFO]%f%b $1"; }
 function error() { print -P "%F{160}[ERROR]%f%b $1"; }
-case "$OSTYPE" in
- darwin*) bpick='*(macos|darwin)*' ;;
-   *gnu*) bpick='*((#s)|/)*(linux|gnu)*((#e)|/)*' ;;
-  *musl*) bpick='*((#s)|/)*(linux|musl)*((#e)|/)*' ;;
-       *) error 'unsupported system -- some cli programs might not work' ;;
-esac
+#  case "$OSTYPE" in
+    #  darwin*) bpick='*(darwin|mac(os)#|osx)*' ;;
+       #  *) error 'unsupported system -- some cli programs might not work' ;;
+#  esac
+  #  **) bpick='*(linux-musl|((#s)|)*musl((#e)|-))' ;;
+  #  *musl*) bpick='*(linux-musl|((#s)|)*musl((#e)|-))' ;;
 #=== ZINIT =============================================
 typeset -gAH ZINIT;
 ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit
@@ -26,7 +27,7 @@ ZPFX=$ZINIT[HOME_DIR]/polaris
 ZI_REPO="zdharma-continuum"
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'installing zinit' \
-    && command git clone https://github.com/zdharma-continuum/zinit.git $ZINIT[BIN_DIR] \
+    && command git clone --branch 'bugfix/improve-ghr-system-logic' https://github.com/vladdoster/zinit.git $ZINIT[BIN_DIR] \
     && command chmod g-rwX $ZINIT[HOME_DIR] \
     && info 'installed zinit' \
     && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
@@ -90,27 +91,29 @@ zturbo from'gh-r' as'program' bpick"${bpick}" for \
          alias ls='exa --git --group-directories-first'" \
     ogham/exa
 
-#  zturbo as'program' pick"neofetch" make"-j PREFIX=${ZPRFX}" for \
-    #  dylanaraps/neofetch \
-  #  pick"cmatrix" make'-j' atclone"
-  #  autoreconf -i \
-  #  && ./configure --prefix=$ZPRFX" \
-    #  abishekvashok/cmatrix
-    #  @romkatv/zsh-bin
 
+zturbo for \
+    from'gh-r' \
+    as'command' \
+    bpick"${bpick}*.zip" \
+    sbin'pandoc*/bin/pandoc' \
+  jgm/pandoc
 
+zturbo as'program' make"-j PREFIX=${ZPFX} install" for \
+    atclone"automake; autoreconf -iv; ./configure --prefix=${ZPFX}" \
+    pick"cmatrix" \
+  abishekvashok/cmatrix \
+    atclone"./configure --prefix=${ZPFX}" \
+    pick"neofetch" \
+  dylanaraps/neofetch \
+    atclone"autoreconf -iv && ./configure --prefix=${ZPFX}" \
+    pick"bin/stow" \
+  @aspiers/stow
 
-#  @aspiers/stow \
-#  zturbo 1a as"program" bpick"*.tar.gz" nocompile'!' atpull'%atclone' for \
-#      make'-j bin/stow' pick"bin/stow" atclone"
-#      autoreconf -iv \
-#      && ./configure --prefix=$ZPRFX" \
-#  @aspiers/stow \
-
-#  function _pip_completion {
-  #  local words cword && read -Ac words && read -cn cword
-  #  reply=( $( COMP_WORDS="$words[*]" \
-             #  COMP_CWORD=$(( cword-1 )) \
-             #  PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
-#  }
-#  compctl -K _pip_completion pip3
+function _pip_completion {
+  local words cword && read -Ac words && read -cn cword
+  reply=( $( COMP_WORDS="$words[*]" \
+             COMP_CWORD=$(( cword-1 )) \
+             PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
+}
+compctl -K _pip_completion pip3
