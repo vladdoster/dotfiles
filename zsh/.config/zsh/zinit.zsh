@@ -11,12 +11,6 @@
 #
 function info() { print -P "%F{34}[INFO]%f%b $1"; }
 function error() { print -P "%F{160}[ERROR]%f%b $1"; }
-#  case "$OSTYPE" in
-    #  darwin*) bpick='*(darwin|mac(os)#|osx)*' ;;
-       #  *) error 'unsupported system -- some cli programs might not work' ;;
-#  esac
-  #  **) bpick='*(linux-musl|((#s)|)*musl((#e)|-))' ;;
-  #  *musl*) bpick='*(linux-musl|((#s)|)*musl((#e)|-))' ;;
 #=== ZINIT =============================================
 typeset -gAH ZINIT;
 ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit
@@ -75,39 +69,42 @@ zturbo light-mode for \
   svn submods'zsh-users/zsh-autosuggestions -> external' \
     PZT::modules/autosuggestions
 #=== GITHUB BINARIES ==========================================
-zturbo from'gh-r' as'program' bpick"${bpick}" for \
-  sbin'bat*/bat'      @sharkdp/bat       \
-  sbin'delta*/delta'  dandavison/delta   \
-  sbin'fd*/fd'        @sharkdp/fd        \
-  sbin'gh*/bin/gh'    cli/cli            \
-  sbin'glow* -> glow' charmbracelet/glow \
-  sbin'ripgrep*/rg'   BurntSushi/ripgrep \
-  sbin'hyperfine*/hyperfine' @sharkdp/hyperfine \
-  sbin'shfmt* -> shfmt'      @mvdan/sh          \
-  sbin'nvim*/**/nvim' atinit"alias v=$EDITOR" neovim/neovim    \
-  sbin'**/exa'        atclone'cp -vf completions/exa.zsh _exa' \
+zturbo from'gh-r' for \
+  sbin'**/bat' @sharkdp/bat \
+  sbin'**/fd' @sharkdp/fd  \
+  sbin'**/hyperfine' @sharkdp/hyperfine \
+  sbin'**/delta' dandavison/delta   \
+  sbin'**/gh' cli/cli \
+  sbin'**/glow'  charmbracelet/glow \
+  sbin'**/nvim -> nvim' atinit"alias v=$EDITOR" neovim/neovim \
+  sbin'* -> shfmt' @mvdan/sh \
+  sbin'**/rg' BurntSushi/ripgrep \
+  sbin'**/exa' atclone'cp -vf completions/exa.zsh _exa' \
   atload"alias l='ls -blF'; alias la='ls -abghilmu'
          alias ll='ls -al'; alias tree='exa --tree'
          alias ls='exa --git --group-directories-first'" \
-    ogham/exa
-
+  ogham/exa
 
 zturbo for \
+    bpick'*zip' \
     from'gh-r' \
-    as'command' \
-    bpick"${bpick}*.zip" \
-    sbin'pandoc*/bin/pandoc' \
+    sbin'**/pandoc' \
   jgm/pandoc
 
-zturbo as'program' make"-j PREFIX=${ZPFX} install" for \
-    atclone"automake; autoreconf -iv; ./configure --prefix=${ZPFX}" \
-    pick"cmatrix" \
-  abishekvashok/cmatrix \
-    atclone"./configure --prefix=${ZPFX}" \
-    pick"neofetch" \
-  dylanaraps/neofetch \
+zturbo for \
     atclone"autoreconf -iv && ./configure --prefix=${ZPFX}" \
-    pick"bin/stow" \
+    make"-j PREFIX=${ZPFX} MANDIR=$ZPFX/share/man install"  \
+  abishekvashok/cmatrix
+
+zturbo for \
+    make"-j PREFIX=${ZPFX} MANDIR=${ZPFX}/s install" \
+  dylanaraps/neofetch
+
+zturbo for \
+    as'command' \
+    atclone" autoreconf -iv && ./configure" \
+    atpull'%atclone' \
+    make'bin/stow install-man' \
   @aspiers/stow
 
 function _pip_completion {
