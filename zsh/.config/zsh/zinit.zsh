@@ -42,7 +42,6 @@ zi light-mode for \
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure
-
 zturbo light-mode for \
   atinit"zicompinit; zicdreplay" \
     zdharma-continuum/fast-syntax-highlighting \
@@ -67,7 +66,12 @@ zturbo light-mode for \
     PZT::modules/history-substring-search OMZL::history.zsh \
   atinit'bindkey "^ " autosuggest-accept' \
   svn submods'zsh-users/zsh-autosuggestions -> external' \
-    PZT::modules/autosuggestions
+    PZT::modules/autosuggestions \
+  atinit"zstyle ':autocomplete:*' min-delay 1;
+         zstyle ':autocomplete:tab:*' fzf-completion yes
+         zstyle ':autocomplete:tab:*' insert-unambiguous yes
+         zstyle ':autocomplete:tab:*' widget-style menu-select" \
+    marlonrichert/zsh-autocomplete
 #=== GITHUB BINARIES ==========================================
 zturbo from'gh-r' for \
   sbin'**/bat' @sharkdp/bat \
@@ -84,29 +88,24 @@ zturbo from'gh-r' for \
          alias ll='ls -al'; alias tree='exa --tree'
          alias ls='exa --git --group-directories-first'" \
   ogham/exa
-
 zturbo for \
     bpick'*zip' \
     from'gh-r' \
     sbin'**/pandoc' \
   jgm/pandoc
-
 zturbo for \
     atclone"autoreconf -iv && ./configure --prefix=${ZPFX}" \
     make"-j PREFIX=${ZPFX} MANDIR=$ZPFX/share/man install"  \
   abishekvashok/cmatrix
-
 zturbo for \
     make"-j PREFIX=${ZPFX} MANDIR=${ZPFX}/s install" \
   dylanaraps/neofetch
-
 zturbo for \
     as'command' \
     atclone" autoreconf -iv && ./configure" \
     atpull'%atclone' \
     make'bin/stow install-man' \
   @aspiers/stow
-
 function _pip_completion {
   local words cword && read -Ac words && read -cn cword
   reply=( $( COMP_WORDS="$words[*]" \

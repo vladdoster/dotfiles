@@ -18,7 +18,6 @@ gli() {
     if [ -n "$@" ] && [ -f "$@" ]; then
         filter="-- $@"
     fi
-
     git log \
         --graph --color=always --abbrev=7 --format='%C(auto)%h %an %C(blue)%s %C(yellow)%cr' "$@" \
         | fzf \
@@ -79,7 +78,6 @@ fstash() {
 }
 fmux() {
     set -euo pipefail
-
     prj=$(find $XDG_CONFIG_HOME/tmuxp/ -execdir bash -c 'basename "${0%.*}"' {} ';' | sort | uniq | nl | fzf | cut -f 2)
     tmuxp load $prj
 }
@@ -106,7 +104,6 @@ ftmux() { # ftmux - help you choose tmux sessions
 fcode() { # search code repositories
     cd ~/code/$(find ~/code/* -type d -prune -exec basename {} ';' | sort | uniq | nl | fzf | cut -f 2)
 }
-
 fd() {
     alias d='dirs -v'
     for index ({1..9}) alias "$index"="cd +${index}"; unset index

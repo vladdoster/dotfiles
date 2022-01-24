@@ -19,5 +19,4 @@ end
 -- start watchers
 module.start = function() battery = hs.battery.watcher.new(batt_wrapper_changed):start() end
 module.stop = function() battery:stop() end
-
 return module

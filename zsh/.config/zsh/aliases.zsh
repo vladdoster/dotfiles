@@ -89,7 +89,6 @@ alias mkdir="mkdir -pv"
 alias rmr="rm -rf"
 alias tailf="less +F -R"
 export EDITOR='nvim'
-
 if has nvim; then
     export EDITOR='nvim'
 #  elif has vim; then

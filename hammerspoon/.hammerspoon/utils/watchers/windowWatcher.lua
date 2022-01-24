@@ -22,12 +22,9 @@ local log = require'hs.logger'.new('wwatcher')
 local delayed = require 'hs.delayed'
 local hsappwatcher, hsapp, hswin = require 'hs.application.watcher', require 'hs.application', require 'hs.window'
 local hsuiwatcher = require'hs.uielement'.watcher
-
 local isGuiApp = windowfilter.isGuiApp
 -- TODO allow override of 'root' windowfilter
-
 local watchers = {} -- internal list for windowwatchers
-
 local windowwatcher = {} -- module and class object
 local events = {
     windowCreated=true,
@@ -48,56 +45,42 @@ for k in pairs(events) do windowwatcher[k] = k end -- expose events
 --- hs.windowwatcher.windowCreated
 --- Constant
 --- A new window was created
-
 --- hs.windowwatcher.windowDestroyed
 --- Constant
 --- A window was destroyed
-
 --- hs.windowwatcher.windowMoved
 --- Constant
 --- A window was moved or resized, including toggling fullscreen/maximize
-
 --- hs.windowwatcher.windowMinimized
 --- Constant
 --- A window was minimized
-
 --- hs.windowwatcher.windowUnminimized
 --- Constant
 --- A window was unminimized
-
 --- hs.windowwatcher.windowFullscreened
 --- Constant
 --- A window was expanded to full screen
-
 --- hs.windowwatcher.windowUnfullscreened
 --- Constant
 --- A window was reverted back from full screen
-
 --- hs.windowwatcher.windowHidden
 --- Constant
 --- A window is no longer visible due to it being minimized, closed, or its application being hidden (e.g. via cmd-h) or closed
-
 --- hs.windowwatcher.windowShown
 --- Constant
 --- A window has became visible (after being hidden, or when created)
-
 --- hs.windowwatcher.windowFocused
 --- Constant
 --- A window received focus
-
 --- hs.windowwatcher.windowUnfocused
 --- Constant
 --- A window lost focus
-
 --- hs.windowwatcher.windowTitleChanged
 --- Constant
 --- A window's title changed
-
 local apps = {} -- all GUI apps
 local global = {} -- global state
-
 local Window = {} -- class
-
 function Window:emitEvent(event)
     local logged
     for ww in pairs(self.wws) do
@@ -113,21 +96,18 @@ function Window:emitEvent(event)
         end
     end
 end
-
 function Window:focused()
     if global.focused == self then return log.df('Window %d (%s) already focused', self.id, self.app.name) end
     global.focused = self
     self.app.focused = self
     self:emitEvent(windowwatcher.windowFocused)
 end
-
 function Window:unfocused()
     if global.focused ~= self then return log.vf('Window %d (%s) already unfocused', self.id, self.app.name) end
     global.focused = nil
     self.app.focused = nil
     self:emitEvent(windowwatcher.windowUnfocused)
 end
-
 function Window:setWWatchers()
     self.wws = {} -- reset in case any filters changed
     for ww in pairs(watchers) do
@@ -137,7 +117,6 @@ end
 function Window:setWWatcher(ww)
     if ww.windowfilter:isWindowAllowed(self.window, self.app.name) then self.wws[ww] = true end
 end
-
 function Window.new(win, id, app, watcher)
     local o = setmetatable({app=app, window=win, id=id, watcher=watcher, wws={}}, {__index=Window})
     if not win:isVisible() then o.isHidden = true end
@@ -148,7 +127,6 @@ function Window.new(win, id, app, watcher)
     o:emitEvent(windowwatcher.windowCreated)
     if not o.isHidden and not o.isMinimized then o:emitEvent(windowwatcher.windowShown) end
 end
-
 function Window:destroyed()
     delayed.cancel(self.movedDelayed)
     delayed.cancel(self.titleDelayed)
@@ -160,7 +138,6 @@ function Window:destroyed()
 end
 local WINDOWMOVED_DELAY = 0.5
 function Window:moved() self.movedDelayed = delayed.doAfter(self.movedDelayed, WINDOWMOVED_DELAY, Window.doMoved, self) end
-
 function Window:doMoved()
     self:emitEvent(windowwatcher.windowMoved)
     local fs = self.window:isFullScreen()
@@ -205,11 +182,8 @@ function Window:unminimized()
     self:shown()
     self:emitEvent(windowwatcher.windowUnminimized)
 end
-
 local appWindowEvent
-
 local App = {} -- class
-
 function App:getFocused()
     if self.focused then return end
     local fw = self.app:focusedWindow()
@@ -232,7 +206,6 @@ function App:getFocused()
         end
     end
 end
-
 function App.new(app, appname, watcher)
     local o = setmetatable({app=app, name=appname, watcher=watcher, windows={}}, {__index=App})
     if app:isHidden() then o.isHidden = true end
@@ -241,7 +214,6 @@ function App.new(app, appname, watcher)
     apps[appname] = o
     o:getWindows()
 end
-
 function App:getWindows()
     local windows = self.app:allWindows()
     if #windows > 0 then log.df('Found %d windows for app %s', #windows, self.name) end
@@ -257,7 +229,6 @@ function App:getWindows()
         end
     end
 end
-
 function App:activated()
     local prevactive = global.active
     if self == prevactive then return log.df('App %s already active; skipping', self.name) end
@@ -306,7 +277,6 @@ function App:destroyed()
     for id, window in pairs(self.windows) do window:destroyed() end
     apps[self.name] = nil
 end
-
 local function windowEvent(win, event, _, appname, retry)
     log.vf('Received %s for %s', event, appname)
     local id = win and win.id and win:id()
@@ -337,7 +307,6 @@ local function windowEvent(win, event, _, appname, retry)
 end
 local RETRY_DELAY, MAX_RETRIES = 0.2, 3
 local windowWatcherDelayed = {}
-
 appWindowEvent = function(win, event, _, appname, retry)
     log.vf('Received %s for %s', event, appname)
     local id = win and win.id and win:id()
@@ -389,7 +358,6 @@ appWindowEvent = function(win, event, _, appname, retry)
     end
 end
 local appWatcherDelayed = {}
-
 --[[
 --FIXME for when the 'missing pid' bug is fixed
 local function startAppWatcher(app,appname)
@@ -428,7 +396,6 @@ local function startAppWatcher(app, appname, retry, takeiteasy)
                                                      appname, retry)
     end
 end
-
 local function appEvent(appname, event, app, retry)
     local sevent = {
         [0]='launching',
@@ -469,7 +436,6 @@ local function appEvent(appname, event, app, retry)
         return appo:shown()
     end
 end
-
 local function startGlobalWatcher()
     if global.watcher then return end
     -- if not next(watchers) then return end --safety
@@ -480,7 +446,6 @@ local function startGlobalWatcher()
     for _, app in ipairs(runningApps) do startAppWatcher(app, app:title()) end
     global.watcher:start()
 end
-
 local function stopGlobalWatcher()
     if not global.watcher then return end
     for _, active in pairs(watchers) do if active then return end end
@@ -494,7 +459,6 @@ local function stopGlobalWatcher()
     apps, global = {}, {}
     log.f('Unregistered %d apps', totalApps)
 end
-
 local function subscribe(self, event, fns)
     if not events[event] then error('invalid event: ' .. event, 3) end
     if type(fns) == 'function' then fns = {fns} end
@@ -521,21 +485,18 @@ local function unsubscribe(self, fn)
     end
     return self
 end
-
 local function unsubscribeEvent(self, event)
     if not events[event] then error('invalid event: ' .. event, 3) end
     if self.events[event] then log.df('Removed all callbacks for event %s', event) end
     self.events[event] = nil
     return self
 end
-
 local function start(self)
     if watchers[self] == true then return end
     startGlobalWatcher()
     watchers[self] = true
     for appname, app in pairs(apps) do for _, window in pairs(app.windows) do window:setWWatcher(self) end end
 end
-
 --- hs.windowwatcher:getWindows() -> table
 --- Method
 --- Gets the list of windows being watched
@@ -554,7 +515,6 @@ function windowwatcher:getWindows()
     tsort(t, function(a, b) return a:id() < b:id() end)
     return t
 end
-
 --- hs.windowwatcher:subscribe(event,fn)
 --- Method
 --- Subscribes to one or more events
@@ -578,7 +538,6 @@ function windowwatcher:subscribe(event, fn)
         error('event must be a string or a table of strings', 2)
     end
 end
-
 --- hs.windowwatcher:unsubscribe(fn)
 --- Method
 --- Removes one or more subscriptions
@@ -610,7 +569,6 @@ function windowwatcher:unsubscribe(fn)
     if not next(self.events) then return self:unsubscribeAll() end
     return self
 end
-
 --- hs.windowwatcher:unsubscribeAll() -> hs.windowwatcher
 --- Method
 --- Removes all subscriptions
@@ -625,7 +583,6 @@ function windowwatcher:unsubscribeAll()
     self:pause()
     return self
 end
-
 --- hs.windowwatcher:resume()
 --- Method
 --- Resumes the windowwatcher
@@ -636,7 +593,6 @@ function windowwatcher:resume()
     end
     start(self)
 end
-
 --- hs.windowwatcher:pause()
 --- Method
 --- Stops the windowwatcher; no more event callbacks will be triggered, but the subscriptions remain intact for a subsequent call to `hs.windowwatcher:resume()`
@@ -644,13 +600,11 @@ function windowwatcher:pause()
     watchers[self] = nil
     stopGlobalWatcher()
 end
-
 function windowwatcher:delete()
     watchers[self] = nil
     self.events = {}
     stopGlobalWatcher()
 end
-
 local spacesDone = {}
 function windowwatcher.switchedToSpace(space, cb)
     if spacesDone[space] then
@@ -668,7 +622,6 @@ function windowwatcher.switchedToSpace(space, cb)
         return cb and cb()
     end)
 end
-
 --- hs.windowwatcher.new(windowfilter,...) -> hs.windowwatcher
 --- Function
 --- Creates a new windowwatcher instance. The windowwatcher uses a `hs.windowfilter` object to only receive events about specific windows
@@ -681,7 +634,6 @@ end
 ---
 --- Returns:
 ---  * a new windowwatcher instance
-
 local function allnil(...)
     local n = select('#', ...)
     for i = 1, n do if select(i, ...) ~= nil then return end end
@@ -704,7 +656,6 @@ function windowwatcher.new(wf, ...)
     end
     return o
 end
-
 --- hs.windowwatcher.default
 --- Constant
 --- The default windowwatcher, which uses the default windowfilter (`hs.windowfilter.default`)

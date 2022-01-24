@@ -4,23 +4,18 @@ local module = {
     _VERSION     = '',
     _URL         = 'https://github.com/asmagill/hammerspoon_config',
     _DESCRIPTION = [[
-
           Battery Status
-
           I already had a plan in mind, but the visual design is influenced by code found at
           http://applehelpwriter.com/2014/08/25/applescript-make-your-own-battery-health-meter/
     ]],
     _TODO        = [[
-
        [x] issue warning for low battery?  System doesn't if we hide it's icon...
        [ ] change menu title to icon with color change for battery state?
               awaiting way to composite drawing objects...
-
     ]],
     _LICENSE     = [[ See README.md ]]
 --]=]
 }
-
 -- local menubar    = require("hs.menubar")
 local menubar = require('hs._asm.guitk.menubar')
 local utf8 = require('hs.utf8')
@@ -32,18 +27,13 @@ local styledtext = require('hs.styledtext')
 local timer = require('hs.timer')
 local host = require('hs.host')
 local canvas = require('hs.canvas')
-
 local onAC = utf8.codepointToUTF8(0x1F50C) -- plug
 local onBattery = utf8.codepointToUTF8(0x1F50B) -- battery
-
 local suppressAudioKey = '_asm.battery.suppressAudio'
 local suppressAudio = settings.get(suppressAudioKey) or false
-
 local menuUserData = nil
 local currentPowerSource = ''
-
 local batteryPowerSource = function() return battery.powerSource() or 'no battery' end
-
 -- Some "notifications" to apply... need to update battery watcher to do these
 module.batteryNotifications = {
     {
@@ -124,17 +114,13 @@ module.batteryNotifications = {
         end
     }
 }
-
 local notificationStatus = {}
-
 local updateMenuTitle = function()
     if menuUserData then
         local titleText = onAC
-
         local amp = battery.amperage()
         if amp then
             local text = string.format('%+d\n', amp)
-
             local timeValue = -999
             if batteryPowerSource() == 'AC Power' then
                 timeValue = battery.timeToFullCharge()
@@ -145,7 +131,6 @@ local updateMenuTitle = function()
             text = text ..
                        ((timeValue < 0) and '???' or
                            string.format('%d:%02d', math.floor(timeValue / 60), timeValue % 60))
-
             local titleColor = {white=(host.interfaceStyle() == 'Dark') and 1 or 0}
             titleText = styledtext.new(text, {
                 font={name='Menlo', size=9},
@@ -153,7 +138,6 @@ local updateMenuTitle = function()
                 paragraphStyle={alignment='center'}
             })
         end
-
         -- Big Sur forces a common text baseline for titles which
         -- causes multi-line text to push upper liness off top of
         -- menubar; this converts it to an image which is allowed
@@ -167,7 +151,6 @@ local updateMenuTitle = function()
         --         menuUserData:setTitle(titleText)
     end
 end
-
 local powerSourceChangeFN = function(justOn)
     local newPowerSource = batteryPowerSource()
     if menuUserData then updateMenuTitle() end
@@ -178,7 +161,6 @@ local powerSourceChangeFN = function(justOn)
             timeRemaining=battery.timeRemaining(),
             timeStamp=os.time()
         }
-
         if currentPowerSource ~= newPowerSource then
             currentPowerSource = newPowerSource
             for i, v in ipairs(module.batteryNotifications) do
@@ -259,16 +241,13 @@ local powerSourceChangeFN = function(justOn)
                     else
                         print('++ unknown test for battery notification #' .. tostring(i))
                     end
-
                     if shouldWeDoSomething then notificationStatus[i] = test.timeStamp end
                 end
             end
         end
     end
 end
-
 -- local powerWatcher = battery.watcher.new(powerSourceChangeFN)
-
 local rawBatteryData
 rawBatteryData = function(tbl)
     local data = {}
@@ -292,10 +271,8 @@ rawBatteryData = function(tbl)
             })
         end
     end
-
     return data
 end
-
 local displayBatteryData = function(modifier)
     local menuTable = {}
     updateMenuTitle()
@@ -309,14 +286,11 @@ local displayBatteryData = function(modifier)
                 'On Battery')
         })
     end
-
     table.insert(menuTable, {title='-'})
-
     table.insert(menuTable, {
         title=utf8.codepointToUTF8(0x26A1) .. '  Current Charge: ' ..
             string.format('%.2f%%', (battery.percentage() or 'n/a'))
     })
-
     local timeTitle, timeValue = utf8.codepointToUTF8(0x1F552) .. '  ', nil
     if batteryPowerSource() == 'AC Power' then
         timeTitle = timeTitle .. 'Time to Full: '
@@ -325,7 +299,6 @@ local displayBatteryData = function(modifier)
         timeTitle = timeTitle .. 'Time Remaining: '
         timeValue = battery.timeRemaining()
     end
-
     if timeValue then
         table.insert(menuTable, {
             title=timeTitle ..
@@ -335,28 +308,21 @@ local displayBatteryData = function(modifier)
     else
         table.insert(menuTable, {title=timeTitle .. 'n/a'})
     end
-
     local maxCapacity, designCapacity = battery.maxCapacity(), battery.designCapacity()
     table.insert(menuTable, {
         title=utf8.codepointToUTF8(0x1F340) .. '  Battery Health: ' ..
             (maxCapacity and designCapacity and string.format('%.2f%%', 100 * maxCapacity / designCapacity) or 'n/a')
     })
-
     table.insert(menuTable, {
         title=utf8.codepointToUTF8(0x1F300) .. '  Cycles: ' .. (battery.cycles() or 'n/a')
     })
-
     local healthcondition = battery.healthCondition()
     if healthCondition then table.insert(menuTable, {
         title=utf8.codepointToUTF8(0x26A0) .. '  ' .. healthCondition
     }) end
-
     table.insert(menuTable, {title='-'})
-
     table.insert(menuTable, {title='Raw Battery Data...', menu=rawBatteryData(battery.getAll())})
-
     table.insert(menuTable, {title='-'})
-
     table.insert(menuTable, {
         title='Suppress Audio',
         checked=suppressAudio,
@@ -365,27 +331,20 @@ local displayBatteryData = function(modifier)
             settings.set(suppressAudioKey, suppressAudio)
         end
     })
-
     return menuTable
 end
-
 -- module.menuUserdata = menuUserData -- for debugging, may remove in the future
-
 module.start = function()
     --     menuUserData, currentPowerSource = menubar.new(), ""
     menuUserData, currentPowerSource = menubar.new(), ''
-
     powerSourceChangeFN(true)
     --     powerWatcher:start()
-
     menuUserData:setMenu(displayBatteryData)
-
     --     module.menuTitleChanger = timer.doEvery(5, updateMenuTitle)
     module.menuTitleChanger = timer.doEvery(5, powerSourceChangeFN)
     module.menuUserdata = menuUserData -- for debugging, may remove in the future
     return module
 end
-
 module.stop = function()
     --     powerWatcher:stop()
     module.menuTitleChanger:stop()
@@ -393,14 +352,11 @@ module.stop = function()
     menuUserData = menuUserData:delete()
     return module
 end
-
 module = setmetatable(module, {
     __gc=function(self)
         --         if powerWatcher then powerWatcher:stop() end
         if module.menuTitleChanger then module.menuTitleChanger:stop() end
     end
 })
-
 -- module.powerWatcher = powerWatcher
-
 return module.start()

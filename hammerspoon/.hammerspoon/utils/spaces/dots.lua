@@ -3,12 +3,18 @@ local spaces = require('hs.spaces')
 local screen = require('hs.screen')
 local canvas = require('hs.canvas')
 local module = {}
-module.circle = true -- display as circle or "squashed rounded rect"
-module.radius = 10 -- dot diameter
-module.distance = 30 -- distance between dot centers
-module.color = {white=0.7, alpha=0.45} -- base dot color
-module.selectedColor = {white=0.7, alpha=0.95} -- current space on non-active screen
-module.activeColor = {green=0.5, alpha=0.75} -- current space on active screen
+-- display as circle or "squashed rounded rect"
+module.circle = true
+-- dot diameter
+module.radius = 4
+-- distance between dot centers
+module.distance = 16
+-- base dot color
+module.color = {white=0.7, alpha=0.45}
+-- current space on non-active screen
+module.selectedColor = {white=0.7, alpha=0.95}
+-- current space on active screen
+module.activeColor = {green=0.5, alpha=0.75}
 local cache = {running=false, watchers={}, dots={}}
 local clearDots = function()
     for _, v in pairs(cache.dots) do v:hide():delete() end

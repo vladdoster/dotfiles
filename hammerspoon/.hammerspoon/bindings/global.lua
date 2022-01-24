@@ -3,12 +3,10 @@ local grid = require('ext.grid')
 local smartLaunchOrFocus = require('ext.application').smartLaunchOrFocus
 local system = require('ext.system')
 local window = require('ext.window')
-local spacesv2= require('ext.working-spaces')
 module.start = function()
     -- ultra bindings
     local ultra = {'ctrl', 'alt', 'cmd'}
     -- force paste (sometimes cmd + v is blocked)
-    hs.hotkey.bind({'cmd', 'alt'}, 's', function() require('ext.working-spaces').openMissionControl() end)
     hs.hotkey.bind({'cmd', 'alt', 'shift'}, 'v', function() hs.eventtap.keyStrokes(hs.pasteboard.getContents()) end)
     hs.fnutils.each({ -- toggles
         {key='/', fn=system.toggleConsole},

@@ -5,19 +5,16 @@
 --- Download: [https://github.com/Hammerspoon/Spoons/raw/master/Spoons/SpoonInstall.spoon.zip](https://github.com/Hammerspoon/Spoons/raw/master/Spoons/SpoonInstall.spoon.zip)
 local obj = {}
 obj.__index = obj
-
 -- Metadata
 obj.name = 'SpoonInstall'
 obj.version = '0.1'
 obj.author = 'Diego Zamboni <diego@zzamboni.org>'
 obj.homepage = 'https://github.com/Hammerspoon/Spoons'
 obj.license = 'MIT - https://opensource.org/licenses/MIT'
-
 --- SpoonInstall.logger
 --- Variable
 --- Logger object used within the Spoon. Can be accessed to set the default log level for the messages coming from the Spoon.
 obj.logger = hs.logger.new('SpoonInstall')
-
 --- SpoonInstall.repos
 --- Variable
 --- Table containing the list of available Spoon repositories. The key
@@ -44,7 +41,6 @@ obj.repos = {
         branch='master'
     }
 }
-
 --- SpoonInstall.use_syncinstall
 --- Variable
 --- If `true`, `andUse()` will update repos and install packages synchronously. Defaults to `false`.
@@ -53,7 +49,6 @@ obj.repos = {
 --- block until all missing Spoons are installed, but the notifications
 --- will happen at a more "human readable" rate.
 obj.use_syncinstall = false
-
 -- Execute a command and return its output with trailing EOLs trimmed. If the command fails, an error message is logged.
 local function _x(cmd, errfmt, ...)
     local output, status = hs.execute(cmd)
@@ -65,10 +60,8 @@ local function _x(cmd, errfmt, ...)
         return nil
     end
 end
-
 -- --------------------------------------------------------------------
 -- Spoon repository management
-
 -- Internal callback to process and store the data from docs.json about a repository
 -- callback is called with repo as arguments, only if the call is successful
 function obj:_storeRepoJSON(repo, callback, status, body, hdrs)
@@ -93,7 +86,6 @@ function obj:_storeRepoJSON(repo, callback, status, body, hdrs)
     if callback then callback(repo, success) end
     return success
 end
-
 -- Internal function to return the URL of the docs.json file based on the URL of a GitHub repo
 function obj:_build_repo_json_url(repo)
     if self.repos[repo] and self.repos[repo].url then
@@ -108,7 +100,6 @@ function obj:_build_repo_json_url(repo)
         return nil
     end
 end
-
 --- SpoonInstall:asyncUpdateRepo(repo, callback)
 --- Method
 --- Asynchronously fetch the information about the contents of a Spoon repository
@@ -133,7 +124,6 @@ function obj:asyncUpdateRepo(repo, callback)
         return nil
     end
 end
-
 --- SpoonInstall:updateRepo(repo)
 --- Method
 --- Synchronously fetch the information about the contents of a Spoon repository
@@ -156,7 +146,6 @@ function obj:updateRepo(repo)
         return nil
     end
 end
-
 --- SpoonInstall:asyncUpdateAllRepos()
 --- Method
 --- Asynchronously fetch the information about the contents of all Spoon repositories registered in `SpoonInstall.repos`
@@ -170,7 +159,6 @@ end
 --- Notes:
 ---  * For now, the repository data is not persisted, so you need to update it after every restart if you want to use any of the install functions.
 function obj:asyncUpdateAllRepos() for k, v in pairs(self.repos) do self:asyncUpdateRepo(k) end end
-
 --- SpoonInstall:updateAllRepos()
 --- Method
 --- Synchronously fetch the information about the contents of all Spoon repositories registered in `SpoonInstall.repos`
@@ -185,7 +173,6 @@ function obj:asyncUpdateAllRepos() for k, v in pairs(self.repos) do self:asyncUp
 ---  * This is a synchronous call, which means Hammerspoon will be blocked until it finishes.
 ---  * For now, the repository data is not persisted, so you need to update it after every restart if you want to use any of the install functions.
 function obj:updateAllRepos() for k, v in pairs(self.repos) do self:updateRepo(k) end end
-
 --- SpoonInstall:repolist()
 --- Method
 --- Return a sorted list of registered Spoon repositories
@@ -202,7 +189,6 @@ function obj:repolist()
     table.sort(keys)
     return keys
 end
-
 --- SpoonInstall:search(pat)
 --- Method
 --- Search repositories for a pattern
@@ -232,10 +218,8 @@ function obj:search(pat)
     end
     return res
 end
-
 -- --------------------------------------------------------------------
 -- Spoon installation
-
 -- Internal callback function to finalize the installation of a spoon after the zip file has been downloaded.
 -- callback, if given, is called with (urlparts, success) as arguments
 function obj:_installSpoonFromZipURLgetCallback(urlparts, callback, status, body, headers)
@@ -250,7 +234,6 @@ function obj:_installSpoonFromZipURLgetCallback(urlparts, callback, status, body
             local f = assert(io.open(outfile, 'w'))
             f:write(body)
             f:close()
-
             -- Check its contents - only one *.spoon directory should be in there
             output = _x(string.format(
                             '/usr/bin/unzip -l %s \'*.spoon/\' | /usr/bin/awk \'$NF ~ /\\.spoon\\/$/ { print $NF }\' | /usr/bin/wc -l',
@@ -278,7 +261,6 @@ function obj:_installSpoonFromZipURLgetCallback(urlparts, callback, status, body
     if callback then callback(urlparts, success) end
     return success
 end
-
 --- SpoonInstall:asyncInstallSpoonFromZipURL(url, callback)
 --- Method
 --- Asynchronously download a Spoon zip file and install it.
@@ -303,7 +285,6 @@ function obj:asyncInstallSpoonFromZipURL(url, callback)
         return nil
     end
 end
-
 --- SpoonInstall:installSpoonFromZipURL(url)
 --- Method
 --- Synchronously download a Spoon zip file and install it.
@@ -324,7 +305,6 @@ function obj:installSpoonFromZipURL(url)
         return nil
     end
 end
-
 -- Internal function to check if a Spoon/Repo combination is valid
 function obj:_is_valid_spoon(name, repo)
     if self.repos[repo] then
@@ -345,7 +325,6 @@ function obj:_is_valid_spoon(name, repo)
     end
     return nil
 end
-
 --- SpoonInstall:asyncInstallSpoonFromRepo(name, repo, callback)
 --- Method
 --- Asynchronously install a Spoon from a registered repository
@@ -366,7 +345,6 @@ function obj:asyncInstallSpoonFromRepo(name, repo, callback)
     end
     return nil
 end
-
 --- SpoonInstall:installSpoonFromRepo(name, repo)
 --- Method
 --- Synchronously install a Spoon from a registered repository
@@ -384,7 +362,6 @@ function obj:installSpoonFromRepo(name, repo, callback)
     end
     return nil
 end
-
 --- SpoonInstall:andUse(name, arg)
 --- Method
 --- Declaratively install, load and configure a Spoon
@@ -443,5 +420,4 @@ function obj:andUse(name, arg)
         end
     end
 end
-
 return obj

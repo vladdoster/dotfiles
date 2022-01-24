@@ -5,10 +5,9 @@ local keys = require('ext.table').keys
 local screenSpaces = require('ext.spaces').screenSpaces
 local spaceFromIndex = require('ext.spaces').spaceFromIndex
 local spaceInDirection = require('ext.spaces').spaceInDirection
--- local spaces = require('hs.spaces')
-local spaces = require('hs._asm.undocumented.spaces')
+local spaces = require('hs.spaces')
 local cache = {}
-local module = {cache = cache}
+local module = {cache=cache}
 local waitForSpaceAnimation = function(targetSpace, changedFocus, mousePosition)
     if cache.waiting then return end
     cache.changeStart = hs.timer.secondsSinceEpoch()
@@ -25,14 +24,23 @@ local waitForSpaceAnimation = function(targetSpace, changedFocus, mousePosition)
 end
 -- sends proper amount of ctrl+left/right to move you to given space, even if it's fullscreen app!
 module.switchToIndex = function(targetIdx)
-    local mousePosition = hs.mouse.absolutePosition() -- save mouse pointer to reset after switch is done
-    local currentScreen = activeScreen() -- grab spaces for screen with active window
-    local currentScreenSpaces = screenSpaces(currentScreen) -- gain focus on the screen
+    -- save mouse pointer to reset after switch is done
+    local mousePosition = hs.mouse.getAbsolutePosition()
+    -- grab spaces for screen with active window
+    local currentScreen = activeScreen()
+    local currentScreenSpaces = screenSpaces(currentScreen)
+    -- gain focus on the screen
     local changedFocus = focusScreen(currentScreen)
-    local activeIdx = activeSpaceIndex(currentScreenSpaces) -- grab index of currently active space
+    -- grab index of currently active space
+    local activeIdx = activeSpaceIndex(currentScreenSpaces)
     local targetSpace = spaceFromIndex(targetIdx)
-    local shouldSendEvents = hs.fnutils.every({ -- check if we really can send the keystrokes
-        not cache.switching, targetSpace, activeIdx ~= targetIdx, targetIdx <= #currentScreenSpaces, targetIdx >= 1
+    -- check if we really can send the keystrokes
+    local shouldSendEvents = hs.fnutils.every({
+        not cache.switching,
+        targetSpace,
+        activeIdx ~= targetIdx,
+        targetIdx <= #currentScreenSpaces,
+        targetIdx >= 1
     }, function(test) return test end)
     if shouldSendEvents then
         cache.switching = true
@@ -48,9 +56,10 @@ module.switchToIndex = function(targetIdx)
 end
 module.switchInDirection = function(direction)
     local currentScreen = activeScreen()
-    local mousePosition = hs.mouse.absolutePosition()
+    local mousePosition = hs.mouse.getAbsolutePosition()
     local targetSpace = spaceInDirection(direction)
-    local changedFocus = focusScreen(currentScreen) -- gain focus on the screen
+    -- gain focus on the screen
+    local changedFocus = focusScreen(currentScreen)
     waitForSpaceAnimation(targetSpace, changedFocus, mousePosition)
 end
 -- taps to ctrl + 1-9 overriding default functionality
@@ -62,15 +71,18 @@ module.start = function()
         local isCtrl = #keys(modifiers) == 1 and modifiers.ctrl
         local isCtrlFn = #keys(modifiers) == 2 and modifiers.ctrl and modifiers.fn
         local targetIdx = tonumber(event:getCharacters())
-        if isCtrl and targetIdx then -- switch to index if it's ctrl + 0-9
+        -- switch to index if it's ctrl + 0-9
+        if isCtrl and targetIdx then
             module.switchToIndex(targetIdx)
             return true
         end
-        if isCtrlFn and (keyCode == 123 or keyCode == 124) then -- switch left/right if it's ctrl + left(123)/right(124)
+        -- switch left/right if it's ctrl + left(123)/right(124)
+        if isCtrlFn and (keyCode == 123 or keyCode == 124) then
             module.switchInDirection(keyCode == 123 and 'west' or 'east')
             return false
         end
-        return false -- propagate everything else back to the system
+        -- propagate everything else back to the system
+        return false
     end):start()
 end
 module.stop = function() if cache.eventtap then cache.eventtap:stop() end end
