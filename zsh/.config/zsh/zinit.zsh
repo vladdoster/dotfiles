@@ -21,7 +21,10 @@ ZPFX=$ZINIT[HOME_DIR]/polaris
 ZI_REPO="zdharma-continuum"
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'installing zinit' \
-    && command git clone --branch 'bugfix/improve-ghr-system-logic' https://github.com/vladdoster/zinit.git $ZINIT[BIN_DIR] \
+    && command git clone \
+        --branch 'bugfix/improve-ghr-system-logic' \
+        https://github.com/vladdoster/zinit.git \
+        $ZINIT[BIN_DIR] \
     && command chmod g-rwX $ZINIT[HOME_DIR] \
     && info 'installed zinit' \
     && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
@@ -47,7 +50,7 @@ zturbo light-mode for \
     zdharma-continuum/fast-syntax-highlighting \
   as'completion' \
     OMZL::{'completion','key-bindings','termsupport'}.zsh \
-  is-snippet atinit' export VI_MODE_SET_CURSOR=true; export VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true' \
+  is-snippet atinit'VI_MODE_SET_CURSOR=true; VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true' \
     OMZP::vi-mode \
   vladdoster/gitfast-zsh-plugin \
   pack'bgn-binary+keys' id-as'package/fzf' fzf \
@@ -63,15 +66,11 @@ zturbo light-mode for \
   blockf atpull'zinit creinstall -q .' \
     PZT::modules/completion OMZL::completion.zsh \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
-    PZT::modules/history-substring-search OMZL::history.zsh \
+    OMZP::history-substring-search OMZL::history.zsh \
   atinit'bindkey "^ " autosuggest-accept' \
   svn submods'zsh-users/zsh-autosuggestions -> external' \
     PZT::modules/autosuggestions \
-  atinit"zstyle ':autocomplete:*' min-delay 1;
-         zstyle ':autocomplete:tab:*' fzf-completion yes
-         zstyle ':autocomplete:tab:*' insert-unambiguous yes
-         zstyle ':autocomplete:tab:*' widget-style menu-select" \
-    marlonrichert/zsh-autocomplete
+    zsh-users/zsh-history-substring-search
 #=== GITHUB BINARIES ==========================================
 zturbo from'gh-r' for \
   sbin'**/bat' @sharkdp/bat \
