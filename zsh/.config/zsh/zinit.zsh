@@ -39,7 +39,7 @@ zturbo(){ zinit depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
   #  as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
     #  @romkatv/zsh-bin \
 zi light-mode for \
-    "$ZI_REPO"/zinit-annex-{'submods','patch-dl','bin-gem-node'} \
+    "$ZI_REPO"/zinit-annex-{'submods','patch-dl','bin-gem-node','man'} \
   compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
       PURE_GIT_UP_ARROW='↑'; PURE_GIT_DOWN_ARROW='↓'; PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ';
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
@@ -72,7 +72,7 @@ zturbo light-mode for \
     PZT::modules/autosuggestions \
     zsh-users/zsh-history-substring-search
 #=== GITHUB BINARIES ==========================================
-zturbo from'gh-r' for \
+zturbo as'program' from'gh-r' for \
   sbin'**/bat' @sharkdp/bat \
   sbin'**/fd' @sharkdp/fd  \
   sbin'**/hyperfine' @sharkdp/hyperfine \
@@ -87,24 +87,24 @@ zturbo from'gh-r' for \
          alias ll='ls -al'; alias tree='exa --tree'
          alias ls='exa --git --group-directories-first'" \
   ogham/exa
-zturbo for \
-    bpick'*zip' \
-    from'gh-r' \
-    sbin'**/pandoc' \
-  jgm/pandoc
-zturbo for \
-    atclone"autoreconf -iv && ./configure --prefix=${ZPFX}" \
-    make"-j PREFIX=${ZPFX} MANDIR=$ZPFX/share/man install"  \
-  abishekvashok/cmatrix
-zturbo for \
-    make"-j PREFIX=${ZPFX} MANDIR=${ZPFX}/s install" \
-  dylanaraps/neofetch
-zturbo for \
-    as'command' \
-    atclone" autoreconf -iv && ./configure" \
-    atpull'%atclone' \
-    make'bin/stow install-man' \
-  @aspiers/stow
+#  zturbo for \
+    #  bpick'*zip' \
+    #  from'gh-r' \
+    #  sbin'**/pandoc' \
+  #  jgm/pandoc
+#  zturbo for \
+    #  atclone"autoreconf -iv && ./configure --prefix=${ZPFX}" \
+    #  make"-j PREFIX=${ZPFX} MANDIR=$ZPFX/share/man install"  \
+  #  abishekvashok/cmatrix
+#  zturbo for \
+    #  make"-j PREFIX=${ZPFX} MANDIR=${ZPFX}/s install" \
+  #  dylanaraps/neofetch
+#  zturbo for \
+    #  as'command' \
+    #  atclone" autoreconf -iv && ./configure" \
+    #  atpull'%atclone' \
+    #  make'bin/stow install-man' \
+  #  @aspiers/stow
 function _pip_completion {
   local words cword && read -Ac words && read -cn cword
   reply=( $( COMP_WORDS="$words[*]" \
