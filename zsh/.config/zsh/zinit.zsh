@@ -39,22 +39,24 @@ zturbo(){ zinit depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
   #  as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
     #  @romkatv/zsh-bin \
 zi light-mode for \
-    "$ZI_REPO"/zinit-annex-{'submods','patch-dl','bin-gem-node','man'} \
+    "$ZI_REPO"/zinit-annex-{'submods','patch-dl','bin-gem-node'} \
   compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
       PURE_GIT_UP_ARROW='↑'; PURE_GIT_DOWN_ARROW='↓'; PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ';
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure
 zturbo light-mode for \
-  atinit"zicompinit; zicdreplay" \
-    zdharma-continuum/fast-syntax-highlighting \
   as'completion' \
     OMZL::{'completion','key-bindings','termsupport'}.zsh \
-  is-snippet atinit'VI_MODE_SET_CURSOR=true; VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true' \
+  atload"VI_MODE_SET_CURSOR=true
+         VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
+         bindkey -M vicmd '^e' edit-command-line"  \
     OMZP::vi-mode \
+    OMZP::colored-man-pages
   vladdoster/gitfast-zsh-plugin \
   pack'bgn-binary+keys' id-as'package/fzf' fzf \
   has'brew'           as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
+  has'cargo'          as'completion' https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo \
   has'docker'         as'completion' OMZP::docker/_docker                 \
   has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
   has'go'        OMZP::golang    as'completion' OMZP::golang/_golang       \
@@ -62,15 +64,17 @@ zturbo light-mode for \
   has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform \
   has'npm'   OMZP::npm   \
   has'rsync' PZTM::rsync \
+  atinit"zicompinit; zicdreplay" \
+    zdharma-continuum/fast-syntax-highlighting \
   svn submods'zsh-users/zsh-completions -> external' \
   blockf atpull'zinit creinstall -q .' \
     PZT::modules/completion OMZL::completion.zsh \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
-    OMZP::history-substring-search OMZL::history.zsh \
-  atinit'bindkey "^ " autosuggest-accept' \
+    OMZP::history-substring-search \
+    PZT::modules/history-substring-search \
   svn submods'zsh-users/zsh-autosuggestions -> external' \
+  atinit'bindkey "^ " autosuggest-accept' \
     PZT::modules/autosuggestions \
-    zsh-users/zsh-history-substring-search
 #=== GITHUB BINARIES ==========================================
 zturbo as'program' from'gh-r' for \
   sbin'**/bat' @sharkdp/bat \
@@ -79,7 +83,7 @@ zturbo as'program' from'gh-r' for \
   sbin'**/delta' dandavison/delta   \
   sbin'**/gh' cli/cli \
   sbin'**/glow'  charmbracelet/glow \
-  sbin'**/nvim -> nvim' atinit"alias v=$EDITOR" neovim/neovim \
+  sbin'**/nvim -> nvim' atinit"alias v=${EDITOR}" neovim/neovim \
   sbin'* -> shfmt' @mvdan/sh \
   sbin'**/rg' BurntSushi/ripgrep \
   sbin'**/exa' atclone'cp -vf completions/exa.zsh _exa' \
@@ -88,20 +92,8 @@ zturbo as'program' from'gh-r' for \
          alias ls='exa --git --group-directories-first'" \
   ogham/exa
 #  zturbo for \
-    #  bpick'*zip' \
-    #  from'gh-r' \
-    #  sbin'**/pandoc' \
-  #  jgm/pandoc
-#  zturbo for \
-    #  atclone"autoreconf -iv && ./configure --prefix=${ZPFX}" \
-    #  make"-j PREFIX=${ZPFX} MANDIR=$ZPFX/share/man install"  \
-  #  abishekvashok/cmatrix
-#  zturbo for \
-    #  make"-j PREFIX=${ZPFX} MANDIR=${ZPFX}/s install" \
-  #  dylanaraps/neofetch
-#  zturbo for \
     #  as'command' \
-    #  atclone" autoreconf -iv && ./configure" \
+    #  atclone" autoreconf -iv && ./configure --prefix ${ZPFX}" \
     #  atpull'%atclone' \
     #  make'bin/stow install-man' \
   #  @aspiers/stow
