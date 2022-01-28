@@ -66,15 +66,18 @@ zturbo light-mode for \
   has'rsync' PZTM::rsync \
   atinit"zicompinit; zicdreplay" \
     zdharma-continuum/fast-syntax-highlighting \
-  svn submods'zsh-users/zsh-completions -> external' \
-  blockf atpull'zinit creinstall -q .' \
-    PZT::modules/completion OMZL::completion.zsh \
-  svn submods'zsh-users/zsh-history-substring-search -> external' \
-    OMZP::history-substring-search \
-    PZT::modules/history-substring-search \
   svn submods'zsh-users/zsh-autosuggestions -> external' \
-  atinit'bindkey "^ " autosuggest-accept' \
-    PZT::modules/autosuggestions
+  atload'bindkey "^ " autosuggest-accept' \
+    PZTM::autosuggestions \
+  blockf atpull'zinit creinstall -q .' \
+  svn submods'zsh-users/zsh-completions -> external' \
+    PZTM::completion \
+  svn submods'zsh-users/zsh-history-substring-search -> external' \
+    OMZ::plugins/history-substring-search
+    #  zsh-users/zsh-history-substring-search \
+    #  PZTM::history-substring-search
+#  zinit ice wait'!'
+#  zinit light zsh-users/zsh-history-substring-search
 #=== GITHUB BINARIES ==========================================
 zturbo as'program' from'gh-r' for \
   sbin'**/bat' @sharkdp/bat \
