@@ -48,19 +48,19 @@ zi light-mode for \
 zturbo light-mode for \
   as'completion' \
     OMZL::{'completion','key-bindings','termsupport'}.zsh \
-  atload"VI_MODE_SET_CURSOR=true
+  atinit"VI_MODE_SET_CURSOR=true
          VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
          bindkey -M vicmd '^e' edit-command-line"  \
     OMZP::vi-mode \
-    OMZP::colored-man-pages
-  vladdoster/gitfast-zsh-plugin \
+    OMZP::colored-man-pages \
+    vladdoster/gitfast-zsh-plugin \
   pack'bgn-binary+keys' id-as'package/fzf' fzf \
-  has'brew'           as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
-  has'cargo'          as'completion' https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo \
+  has'brew'  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
+  has'cargo' as'completion' https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo      \
   has'docker'         as'completion' OMZP::docker/_docker                 \
   has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
-  has'go'        OMZP::golang    as'completion' OMZP::golang/_golang       \
-  has'pip'       OMZP::pip       as'completion' OMZP::pip/_pip             \
+  has'go'        OMZP::golang    as'completion' OMZP::golang/_golang      \
+  has'pip'       OMZP::pip       as'completion' OMZP::pip/_pip            \
   has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform \
   has'npm'   OMZP::npm   \
   has'rsync' PZTM::rsync \
@@ -74,7 +74,7 @@ zturbo light-mode for \
     PZT::modules/history-substring-search \
   svn submods'zsh-users/zsh-autosuggestions -> external' \
   atinit'bindkey "^ " autosuggest-accept' \
-    PZT::modules/autosuggestions \
+    PZT::modules/autosuggestions
 #=== GITHUB BINARIES ==========================================
 zturbo as'program' from'gh-r' for \
   sbin'**/bat' @sharkdp/bat \
