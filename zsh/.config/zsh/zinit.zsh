@@ -47,13 +47,10 @@ zi light-mode for \
     sindresorhus/pure
 zturbo light-mode for \
   as'completion' \
-    OMZL::{'completion','key-bindings','termsupport'}.zsh \
-  atinit"VI_MODE_SET_CURSOR=true
-         VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
-         bindkey -M vicmd '^e' edit-command-line"  \
-    OMZP::vi-mode \
-    OMZP::colored-man-pages \
     vladdoster/gitfast-zsh-plugin \
+    OMZL::{'completion','key-bindings','termsupport'}.zsh \
+  is-snippet \
+    OMZ::plugins/colored-man-pages \
   pack'bgn-binary+keys' id-as'package/fzf' fzf \
   has'brew'  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
   has'cargo' as'completion' https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo      \
@@ -74,6 +71,8 @@ zturbo light-mode for \
     PZTM::completion \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
     OMZ::plugins/history-substring-search
+zturbo is-snippet atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" for \
+    OMZP::vi-mode
 #=== GITHUB BINARIES ==========================================
 zturbo as'program' from'gh-r' for \
   sbin'**/bat' @sharkdp/bat \
