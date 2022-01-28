@@ -74,10 +74,6 @@ zturbo light-mode for \
     PZTM::completion \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
     OMZ::plugins/history-substring-search
-    #  zsh-users/zsh-history-substring-search \
-    #  PZTM::history-substring-search
-#  zinit ice wait'!'
-#  zinit light zsh-users/zsh-history-substring-search
 #=== GITHUB BINARIES ==========================================
 zturbo as'program' from'gh-r' for \
   sbin'**/bat' @sharkdp/bat \
