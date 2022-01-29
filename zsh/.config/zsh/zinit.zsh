@@ -81,7 +81,7 @@ zturbo as'program' from'gh-r' for \
   sbin'**/delta' dandavison/delta   \
   sbin'**/gh' cli/cli \
   sbin'**/glow'  charmbracelet/glow \
-  sbin'**/nvim -> nvim' atinit"alias v=${EDITOR}" neovim/neovim \
+  sbin'**/nvim -> nvim' atinit"alias v=${EDITOR}" ver'nightly' neovim/neovim \
   sbin'* -> shfmt' @mvdan/sh \
   sbin'**/rg' BurntSushi/ripgrep \
   sbin'**/exa' atclone'cp -vf completions/exa.zsh _exa' \
