@@ -46,32 +46,32 @@ zi light-mode for \
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure
-zturbo load for \
-  as'completion' vladdoster/gitfast-zsh-plugin \
-  pack'bgn-binary+keys' id-as'package/fzf' fzf \
-  has'brew'  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
-  has'cargo' as'completion' https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo      \
-  has'docker'         as'completion' OMZP::docker/_docker                 \
-  has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
-  has'go'  OMZP::golang as'completion' OMZP::golang/_golang \
-  has'npm' OMZP::npm \
-  has'pip' OMZP::pip as'completion' OMZP::pip/_pip \
-  has'rsync' PZTM::rsync \
-  has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform \
-  OMZL::{'completion','key-bindings','termsupport'}.zsh \
-  OMZP::{'colored-man-pages','history'} \
-  atinit"zicompinit; zicdreplay" \
-    zdharma-continuum/fast-syntax-highlighting \
-  blockf atpull'zinit creinstall -q .' \
-  svn submods'zsh-users/zsh-completions -> external' \
-    PZTM::completion \
-  svn submods'zsh-users/zsh-history-substring-search -> external' \
-    OMZ::plugins/history-substring-search \
-  svn submods'zsh-users/zsh-autosuggestions -> external' \
-  atinit'bindkey "^ " autosuggest-accept' \
-    PZTM::autosuggestions \
-  atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
-    OMZP::vi-mode
+#  zturbo load for \
+  #  as'completion' vladdoster/gitfast-zsh-plugin \
+  #  pack'bgn-binary+keys' id-as'package/fzf' fzf \
+  #  has'brew'  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
+  #  has'cargo' as'completion' https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo      \
+  #  has'docker'         as'completion' OMZP::docker/_docker                 \
+  #  has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
+  #  has'go'  OMZP::golang as'completion' OMZP::golang/_golang \
+  #  has'npm' OMZP::npm \
+  #  has'pip' OMZP::pip as'completion' OMZP::pip/_pip \
+  #  has'rsync' PZTM::rsync \
+  #  has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform \
+  #  OMZL::{'completion','key-bindings','termsupport'}.zsh \
+  #  OMZP::{'colored-man-pages','history'} \
+  #  atinit"zicompinit; zicdreplay" \
+    #  zdharma-continuum/fast-syntax-highlighting \
+  #  blockf atpull'zinit creinstall -q .' \
+  #  svn submods'zsh-users/zsh-completions -> external' \
+    #  PZTM::completion \
+  #  svn submods'zsh-users/zsh-history-substring-search -> external' \
+    #  OMZ::plugins/history-substring-search \
+  #  svn submods'zsh-users/zsh-autosuggestions -> external' \
+  #  atinit'bindkey "^ " autosuggest-accept' \
+    #  PZTM::autosuggestions \
+  #  atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
+    #  OMZP::vi-mode
 #=== GITHUB BINARIES ==========================================
 zturbo as'command' from'gh-r' for \
   sbin'* -> shfmt' @mvdan/sh \
@@ -90,10 +90,52 @@ zturbo as'command' from'gh-r' for \
          alias ls='exa --git --group-directories-first'" \
   ogham/exa \
 
-function _pip_completion {
-  local words cword && read -Ac words && read -cn cword
-  reply=( $( COMP_WORDS="$words[*]" \
-             COMP_CWORD=$(( cword-1 )) \
-             PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
-}
-compctl -K _pip_completion pip3
+#  function _pip_completion {
+  #  local words cword && read -Ac words && read -cn cword
+  #  reply=( $( COMP_WORDS="$words[*]" \
+             #  COMP_CWORD=$(( cword-1 )) \
+             #  PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
+#  }
+#  compctl -K _pip_completion pip3
+
+zi for \
+    bpick'kubectx*' \
+    from'gh-r' \
+    sbin'**/kubectx -> kubectx' \
+  ahmetb/kubectx
+
+zi for \
+    bpick'kubens*' \
+    from'gh-r' \
+    sbin'**/kubens -> kubens' \
+  ahmetb/kubectx
+
+zi for \
+    as'command' \
+    from'gh-r' \
+    sbin'**/fd -> fd' \
+  @sharkdp/fd
+
+zi for \
+    as'command'\
+    from'gh-r' \
+    sbin'fx* -> fx' \
+  @antonmedv/fx
+
+zi for \
+    as'command' \
+    from'gh-r' \
+    sbin'**/gh -> gh' \
+  cli/cli
+
+zi for \
+    as'command' \
+    from'gh-r'  \
+    sbin'grex* -> grex'  \
+  @pemistahl/grex
+
+zi for \
+    as'command' \
+    from'gh-r' \
+    sbin'**/k9s -> k9s' \
+  @derailed/k9s
