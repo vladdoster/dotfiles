@@ -10,8 +10,8 @@
 # A zinit-continuum configuration for macOS and Linux.
 #
 #=== HELPER METHODS ===================================
+function error() { print -P "%F{160}[ERROR] ---%f%b $1" >&2 && exit 1; }
 function info() { print -P "%F{34}[INFO] ---%f%b $1"; }
-function error() { print -P "%F{160}[ERROR] ---%f%b $1"; }
 #=== ZINIT ============================================
 typeset -gAH ZINIT;
 ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
@@ -23,22 +23,21 @@ if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'Downloading Zinit' \
     && command git clone \
         --branch 'bugfix/system-gh-r-selection' \
-        https://github.com/$ZI_REPO/zinit $ZINIT[BIN_DIR] \
-    || { error 'Unable to download zinit' >&2 && exit 1 } \
+        https://github.com/$ZI_REPO/zinit \
+        $ZINIT[BIN_DIR] \
+    || error 'Unable to download zinit' \
     && info 'Installing Zinit' \
     && command chmod g-rwX $ZINIT[HOME_DIR] \
     && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
     && info 'Successfully installed Zinit' \
-    || { error 'Unable to install Zinit' >&2 && exit 1 }
+    || error 'Unable to install Zinit'
 fi
 source $ZINIT[BIN_DIR]/zinit.zsh \
   && autoload -Uz _zinit \
   && (( ${+_comps} )) \
   && _comps[zinit]=_zinit
-zturbo(){ zinit depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
 #=== PROMPT & THEME ====================================
-  #  as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
-    #  @romkatv/zsh-bin \
+function zurbo(){ zi depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
 zi light-mode for \
     "$ZI_REPO"/zinit-annex-{'submods','patch-dl','bin-gem-node'} \
   compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
@@ -46,7 +45,7 @@ zi light-mode for \
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure
-zturbo load for \
+zurbo load for \
   as'completion' vladdoster/gitfast-zsh-plugin \
   pack'bgn-binary+keys' id-as'package/fzf' fzf \
   has'brew'  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
@@ -73,69 +72,35 @@ zturbo load for \
   atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
     OMZP::vi-mode
 #=== GITHUB BINARIES ==========================================
-zturbo as'command' from'gh-r' for \
-  sbin'* -> shfmt' @mvdan/sh \
-  sbin'**/bat' @sharkdp/bat \
-  sbin'**/delta' dandavison/delta   \
-  sbin'**/fd' @sharkdp/fd  \
-  sbin'**/gh' cli/cli \
-  sbin'**/glow'  charmbracelet/glow \
-  sbin'**/hyperfine' @sharkdp/hyperfine \
+zurbo as'command' from'gh-r' for \
+  bpick'kubectx* -> kubectl' id-as'kubectx/kubectx' sbin'**/kubectx -> kubectx' ahmetb/kubectx \
+  bpick'kubens* -> kubens'   id-as'kubectx/kubens'  sbin'**/kubens -> kubens'   ahmetb/kubectx \
+  sbin'**/bat -> bat'             @sharkdp/bat \
+  sbin'**/delta -> delta'         dandavison/delta \
+  sbin'**/fd -> fd'               @sharkdp/fd \
+  sbin'**/gh -> gh'               cli/cli \
+  sbin'**/glow -> glow'           charmbracelet/glow \
+  sbin'**/hyperfine -> hyperfine' @sharkdp/hyperfine \
+  sbin'**/k9s -> k9s'             @derailed/k9s \
   sbin'**/nvim -> nvim' atinit"alias v=${EDITOR}" ver'nightly' neovim/neovim \
-  sbin'**/tmux -> tmux' @tmux/tmux \
-  sbin'**/rg' BurntSushi/ripgrep \
+  sbin'**/rg -> rg'               BurntSushi/ripgrep \
+  sbin'**/tmux -> tmux'           @tmux/tmux \
+  sbin'fx* -> fx'                 @antonmedv/fx \
+  sbin'grex* -> grex'             @pemistahl/grex \
+  sbin'shfmt* -> shfmt'           @mvdan/sh \
   sbin'**/exa' atclone'cp -vf completions/exa.zsh _exa' \
   atload"alias l='ls -blF'; alias la='ls -abghilmu'
          alias ll='ls -al'; alias tree='exa --tree'
          alias ls='exa --git --group-directories-first'" \
-  ogham/exa \
+  ogham/exa
 
-#  function _pip_completion {
-  #  local words cword && read -Ac words && read -cn cword
-  #  reply=( $( COMP_WORDS="$words[*]" \
-             #  COMP_CWORD=$(( cword-1 )) \
-             #  PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
-#  }
-#  compctl -K _pip_completion pip3
+#  as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
+#  @romkatv/zsh-bin \
 
-zi for \
-    bpick'kubectx*' \
-    from'gh-r' \
-    sbin'**/kubectx -> kubectx' \
-  ahmetb/kubectx
-
-zi for \
-    bpick'kubens*' \
-    from'gh-r' \
-    sbin'**/kubens -> kubens' \
-  ahmetb/kubectx
-
-zi for \
-    as'command' \
-    from'gh-r' \
-    sbin'**/fd -> fd' \
-  @sharkdp/fd
-
-zi for \
-    as'command'\
-    from'gh-r' \
-    sbin'fx* -> fx' \
-  @antonmedv/fx
-
-zi for \
-    as'command' \
-    from'gh-r' \
-    sbin'**/gh -> gh' \
-  cli/cli
-
-zi for \
-    as'command' \
-    from'gh-r'  \
-    sbin'grex* -> grex'  \
-  @pemistahl/grex
-
-zi for \
-    as'command' \
-    from'gh-r' \
-    sbin'**/k9s -> k9s' \
-  @derailed/k9s
+function _pip_completion {
+  local words cword && read -Ac words && read -cn cword
+  reply=( $( COMP_WORDS="$words[*]" \
+             COMP_CWORD=$(( cword-1 )) \
+             PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
+}
+compctl -K _pip_completion pip3
