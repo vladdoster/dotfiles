@@ -132,6 +132,7 @@ alias zd="_goto $ZDOTDIR"
 alias zid="_goto $XDG_DATA_HOME/zsh/zinit"
 alias zigd="_goto $XDG_DATA_HOME/zsh/zinit/zinit.git"
 alias zclnplg="rm -rf $XDG_DATA_HOME/zsh/zinit/plugins"
+alias zinstall="rm -rf $XDG_DATA_HOME/zsh/zinit/zinit.git/zinit-install.zsh"
 #= GIT ===========================================
 alias g-submodule-update='git submodule update --merge --remote'
 alias g="git" # GIT ALIASES DEFINED IN $HOME/.config/git/config
