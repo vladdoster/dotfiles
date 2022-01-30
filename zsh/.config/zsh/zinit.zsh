@@ -46,53 +46,49 @@ zi light-mode for \
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure
-zturbo light-mode for \
-  as'completion' \
-    vladdoster/gitfast-zsh-plugin \
-    OMZL::{'completion','key-bindings','termsupport'}.zsh \
-  is-snippet \
-    OMZ::plugins/colored-man-pages \
+zturbo load for \
+  as'completion' vladdoster/gitfast-zsh-plugin \
   pack'bgn-binary+keys' id-as'package/fzf' fzf \
   has'brew'  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
   has'cargo' as'completion' https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo      \
   has'docker'         as'completion' OMZP::docker/_docker                 \
   has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
-  has'go'        OMZP::golang    as'completion' OMZP::golang/_golang      \
-  has'pip'       OMZP::pip       as'completion' OMZP::pip/_pip            \
-  has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform \
-  has'npm'   OMZP::npm   \
+  has'go'  OMZP::golang as'completion' OMZP::golang/_golang \
+  has'npm' OMZP::npm \
+  has'pip' OMZP::pip as'completion' OMZP::pip/_pip \
   has'rsync' PZTM::rsync \
+  has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform \
+  OMZL::{'completion','key-bindings','termsupport'}.zsh \
+  OMZP::{'colored-man-pages','history'} \
   atinit"zicompinit; zicdreplay" \
     zdharma-continuum/fast-syntax-highlighting \
-  svn submods'zsh-users/zsh-autosuggestions -> external' \
-  atload'bindkey "^ " autosuggest-accept' \
-    PZTM::autosuggestions \
   blockf atpull'zinit creinstall -q .' \
   svn submods'zsh-users/zsh-completions -> external' \
     PZTM::completion \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
-    OMZ::plugins/history-substring-search
-zturbo atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet load for \
+    OMZ::plugins/history-substring-search \
+  svn submods'zsh-users/zsh-autosuggestions -> external' \
+  atinit'bindkey "^ " autosuggest-accept' \
+    PZTM::autosuggestions \
+  atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
     OMZP::vi-mode
 #=== GITHUB BINARIES ==========================================
-zturbo as'program' from'gh-r' for \
+zturbo as'command' from'gh-r' for \
+  sbin'* -> shfmt' @mvdan/sh \
   sbin'**/bat' @sharkdp/bat \
-  sbin'**/fd' @sharkdp/fd  \
-  sbin'**/hyperfine' @sharkdp/hyperfine \
   sbin'**/delta' dandavison/delta   \
+  sbin'**/fd' @sharkdp/fd  \
   sbin'**/gh' cli/cli \
   sbin'**/glow'  charmbracelet/glow \
+  sbin'**/hyperfine' @sharkdp/hyperfine \
   sbin'**/nvim -> nvim' atinit"alias v=${EDITOR}" ver'nightly' neovim/neovim \
-  sbin'* -> shfmt' @mvdan/sh \
+  sbin'**/tmux -> tmux' @tmux/tmux \
   sbin'**/rg' BurntSushi/ripgrep \
   sbin'**/exa' atclone'cp -vf completions/exa.zsh _exa' \
   atload"alias l='ls -blF'; alias la='ls -abghilmu'
          alias ll='ls -al'; alias tree='exa --tree'
          alias ls='exa --git --group-directories-first'" \
-  ogham/exa
-
-zinit ice from"gh-r" as"program" mv"tmux* -> tmux" pick"tmux" atload"alias tmux=tmux"
-zinit light tmux/tmux
+  ogham/exa \
 
 function _pip_completion {
   local words cword && read -Ac words && read -cn cword
