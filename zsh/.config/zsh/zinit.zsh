@@ -14,17 +14,18 @@ function error() { print -P "%F{160}[ERROR]%f%b $1"; }
 #=== ZINIT =============================================
 typeset -gAH ZINIT;
 ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit
-ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git;     ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions;
-ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1;           ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins;
-ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets; ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump;
+ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git     ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions
+ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1           ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
+ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump;
 ZPFX=$ZINIT[HOME_DIR]/polaris
 ZI_REPO="zdharma-continuum"
+        #  --branch 'bugfix/improve-ghr-system-logic' \
+        #  https://github.com/vladdoster/zinit.git \
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'installing zinit' \
     && command git clone \
-        --branch 'bugfix/improve-ghr-system-logic' \
-        https://github.com/vladdoster/zinit.git \
-        $ZINIT[BIN_DIR] \
+        --branch 'bugfix/system-gh-r-selection' \
+        https://github.com/$ZI_REPO/zinit $ZINIT[BIN_DIR] \
     && command chmod g-rwX $ZINIT[HOME_DIR] \
     && info 'installed zinit' \
     && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
@@ -71,7 +72,7 @@ zturbo light-mode for \
     PZTM::completion \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
     OMZ::plugins/history-substring-search
-zturbo is-snippet atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" for \
+zturbo atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet load for \
     OMZP::vi-mode
 #=== GITHUB BINARIES ==========================================
 zturbo as'program' from'gh-r' for \
@@ -89,12 +90,10 @@ zturbo as'program' from'gh-r' for \
          alias ll='ls -al'; alias tree='exa --tree'
          alias ls='exa --git --group-directories-first'" \
   ogham/exa
-#  zturbo for \
-    #  as'command' \
-    #  atclone" autoreconf -iv && ./configure --prefix ${ZPFX}" \
-    #  atpull'%atclone' \
-    #  make'bin/stow install-man' \
-  #  @aspiers/stow
+
+zinit ice from"gh-r" as"program" mv"tmux* -> tmux" pick"tmux" atload"alias tmux=tmux"
+zinit light tmux/tmux
+
 function _pip_completion {
   local words cword && read -Ac words && read -cn cword
   reply=( $( COMP_WORDS="$words[*]" \

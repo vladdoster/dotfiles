@@ -47,23 +47,33 @@
   navigate = true
 [delta "interactive"]
   keep-plus-minus-markers = false
-[delta "decorations"]
-  commit-decoration-style       = blue ol
-  commit-style                  = raw
-  file-style                    = omit
-  hunk-header-decoration-style  = blue box
-  hunk-header-file-style        = red
-  hunk-header-line-number-style = "#067a00"
-  hunk-header-style             = file line-number syntax
+;  [delta "decorations"]
+  ;  commit-decoration-style       = blue ol
+  ;  commit-style                  = raw
+  ;  file-style                    = omit
+  ;  hunk-header-decoration-style  = blue box
+  ;  hunk-header-file-style        = red
+  ;  hunk-header-line-number-style = "#067a00"
+  ;  hunk-header-style             = file line-number syntax
 
-[filter "lfs"]
-  clean   = git-lfs clean -- %f
-  smudge  = git-lfs smudge -- %f
-  process = git-lfs filter-process
+[delta "decorations"]
+	minus-style = red bold normal
+	plus-style = green bold normal
+	minus-emph-style = white bold red
+	minus-non-emph-style = red bold normal
+	plus-emph-style = white bold green
+	plus-non-emph-style = green bold normal
+	file-style = yellow bold none
+	file-decoration-style = yellow box
+	hunk-header-style = magenta bold
+	hunk-header-decoration-style = magenta box
+	minus-empty-line-marker-style = normal normal
+	plus-empty-line-marker-style = normal normal
+	line-numbers-right-format = "{np:^4}│ "
 
 [homebrew]
-  analyticsmessage     = true
-  caskanalyticsmessage = true
+  analyticsmessage     = false
+  caskanalyticsmessage = false
 
 [http]
   sslVerify = false
@@ -201,5 +211,7 @@
   merged    = !sh -c 'git o master && git plom && git bd $1 && git rpo' -
   release   = !sh -c 'git tag v$1 && git pst' -
   unrelease = !sh -c 'git tag -d v$1 && git pso :v$1' -
+#############
+  rv = remove --verbose
 [lfs]
 	repositoryformatversion = 0
