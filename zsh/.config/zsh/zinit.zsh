@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 #
 # Author: Vladislav D.
 # GitHub: vladdoster
@@ -9,27 +9,27 @@
 #
 # A zinit-continuum configuration for macOS and Linux.
 #
-function info() { print -P "%F{34}[INFO]%f%b $1"; }
-function error() { print -P "%F{160}[ERROR]%f%b $1"; }
-#=== ZINIT =============================================
+#=== HELPER METHODS ===================================
+function info() { print -P "%F{34}[INFO] ---%f%b $1"; }
+function error() { print -P "%F{160}[ERROR] ---%f%b $1"; }
+#=== ZINIT ============================================
 typeset -gAH ZINIT;
-ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit
-ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git     ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions
-ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1           ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
-ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump;
-ZPFX=$ZINIT[HOME_DIR]/polaris
+ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
+ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
+ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets
+ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump    ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
 ZI_REPO="zdharma-continuum"
-        #  --branch 'bugfix/improve-ghr-system-logic' \
-        #  https://github.com/vladdoster/zinit.git \
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
-  info 'installing zinit' \
+  info 'Downloading Zinit' \
     && command git clone \
         --branch 'bugfix/system-gh-r-selection' \
         https://github.com/$ZI_REPO/zinit $ZINIT[BIN_DIR] \
+    || { error 'Unable to download zinit' >&2 && exit 1 } \
+    && info 'Installing Zinit' \
     && command chmod g-rwX $ZINIT[HOME_DIR] \
-    && info 'installed zinit' \
     && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
-  || { error 'unable to clone zinit' >&2 && exit 1 }
+    && info 'Successfully installed Zinit' \
+    || { error 'Unable to install Zinit' >&2 && exit 1 }
 fi
 source $ZINIT[BIN_DIR]/zinit.zsh \
   && autoload -Uz _zinit \
@@ -46,32 +46,32 @@ zi light-mode for \
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure
-#  zturbo load for \
-  #  as'completion' vladdoster/gitfast-zsh-plugin \
-  #  pack'bgn-binary+keys' id-as'package/fzf' fzf \
-  #  has'brew'  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
-  #  has'cargo' as'completion' https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo      \
-  #  has'docker'         as'completion' OMZP::docker/_docker                 \
-  #  has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
-  #  has'go'  OMZP::golang as'completion' OMZP::golang/_golang \
-  #  has'npm' OMZP::npm \
-  #  has'pip' OMZP::pip as'completion' OMZP::pip/_pip \
-  #  has'rsync' PZTM::rsync \
-  #  has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform \
-  #  OMZL::{'completion','key-bindings','termsupport'}.zsh \
-  #  OMZP::{'colored-man-pages','history'} \
-  #  atinit"zicompinit; zicdreplay" \
-    #  zdharma-continuum/fast-syntax-highlighting \
-  #  blockf atpull'zinit creinstall -q .' \
-  #  svn submods'zsh-users/zsh-completions -> external' \
-    #  PZTM::completion \
-  #  svn submods'zsh-users/zsh-history-substring-search -> external' \
-    #  OMZ::plugins/history-substring-search \
-  #  svn submods'zsh-users/zsh-autosuggestions -> external' \
-  #  atinit'bindkey "^ " autosuggest-accept' \
-    #  PZTM::autosuggestions \
-  #  atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
-    #  OMZP::vi-mode
+zturbo load for \
+  as'completion' vladdoster/gitfast-zsh-plugin \
+  pack'bgn-binary+keys' id-as'package/fzf' fzf \
+  has'brew'  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
+  has'cargo' as'completion' https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo      \
+  has'docker'         as'completion' OMZP::docker/_docker                 \
+  has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
+  has'go'  OMZP::golang as'completion' OMZP::golang/_golang \
+  has'npm' OMZP::npm \
+  has'pip' OMZP::pip as'completion' OMZP::pip/_pip \
+  has'rsync' PZTM::rsync \
+  has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform \
+  OMZL::{'completion','key-bindings','termsupport'}.zsh \
+  OMZP::{'colored-man-pages','history'} \
+  atinit"zicompinit; zicdreplay" \
+    zdharma-continuum/fast-syntax-highlighting \
+  blockf atpull'zinit creinstall -q .' \
+  svn submods'zsh-users/zsh-completions -> external' \
+    PZTM::completion \
+  svn submods'zsh-users/zsh-history-substring-search -> external' \
+    OMZ::plugins/history-substring-search \
+  svn submods'zsh-users/zsh-autosuggestions -> external' \
+  atinit'bindkey "^ " autosuggest-accept' \
+    PZTM::autosuggestions \
+  atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
+    OMZP::vi-mode
 #=== GITHUB BINARIES ==========================================
 zturbo as'command' from'gh-r' for \
   sbin'* -> shfmt' @mvdan/sh \
