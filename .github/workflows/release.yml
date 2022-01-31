@@ -1,17 +1,6 @@
 name: Release Drafter
     
-on:                           
-
-  workflow_run:
-    workflows: ["format"]
-    branches: [master]
-    types: 
-      - completed
-      - requested     
-
-  push:
-    branches:
-      - master
+on:
 
   pull_request:
     types: [opened, reopened, synchronize]
@@ -23,7 +12,6 @@ jobs:
 
   on-success:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
 
       - name: Checkout
@@ -43,11 +31,3 @@ jobs:
         uses: release-drafter/release-drafter@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
-
-  on-failure:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-    steps:
-      - name: Skip release
-        run: |
-          echo "[INFO] Skipped release due to earlier failures"
