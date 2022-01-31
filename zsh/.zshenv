@@ -69,6 +69,7 @@ manpath+=(/usr/local/man /usr/share/man) && export manpath
 [ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin"
 [ -d "/usr/local/bin" ] && export PATH="$PATH:/usr/local/bin"
 [ -d "/usr/sbin" ] && export PATH="$PATH:/usr/sbin"
+[ -e "$HOME/.local/bin/zsh" ] && export PATH="$PATH:$HOME/.local/bin/zsh"
 #  if [ -d "$HOME/.yarn/bin" ]; then export PATH="$PATH:$HOME/.yarn/bin" fi
 #  if [ -d "$HOME/Application" ]; then export PATH="$PATH:$HOME/Application" fi
 #  if [ -d "$HOME/Applications" ]; then export PATH="$PATH:$HOME/Applications" fi

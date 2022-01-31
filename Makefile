@@ -114,3 +114,6 @@ rust-prog: ## Install programs via rust
 		      stylua \
 		      topgrade
 
+ build-container:
+ 	docker buildx build --compress --rm --squash --tag df:alpine-edge .
+

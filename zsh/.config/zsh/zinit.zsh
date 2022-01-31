@@ -64,38 +64,37 @@ zurbo load for \
   blockf atpull'zinit creinstall -q .' \
   svn submods'zsh-users/zsh-completions -> external' \
     PZTM::completion \
-  svn submods'zsh-users/zsh-history-substring-search -> external' \
-    OMZ::plugins/history-substring-search \
   svn submods'zsh-users/zsh-autosuggestions -> external' \
   atinit'bindkey "^ " autosuggest-accept' \
     PZTM::autosuggestions \
+  svn submods'zsh-users/zsh-history-substring-search -> external' \
+    OMZ::plugins/history-substring-search \
   atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
     OMZP::vi-mode
 #=== GITHUB BINARIES ==========================================
-zurbo as'command' from'gh-r' for \
-  bpick'kubectx* -> kubectl' id-as'kubectx/kubectx' sbin'**/kubectx -> kubectx' ahmetb/kubectx \
-  bpick'kubens* -> kubens'   id-as'kubectx/kubens'  sbin'**/kubens -> kubens'   ahmetb/kubectx \
-  sbin'**/bat -> bat'             @sharkdp/bat \
-  sbin'**/delta -> delta'         dandavison/delta \
-  sbin'**/fd -> fd'               @sharkdp/fd \
-  sbin'**/gh -> gh'               cli/cli \
-  sbin'**/glow -> glow'           charmbracelet/glow \
+zurbo as"null" from'gh-r' for \
+  bpick'kubectx*' id-as'kubectx/kubectx' sbin'**/kubectx -> kubectx' ahmetb/kubectx \
+  bpick'kubens*'  id-as'kubectx/kubens'  sbin'**/kubens -> kubens'   ahmetb/kubectx \
+  sbin'**/bat'   @sharkdp/bat       \
+  sbin'**/delta' dandavison/delta   \
+  sbin'**/fd'    @sharkdp/fd        \
+  sbin'**/gh'    cli/cli            \
+  sbin'**/glow'  charmbracelet/glow \
+  sbin'**/k9s'   @derailed/k9s      \
+  sbin'**/rg -> rg'        BurntSushi/ripgrep \
+  sbin'**/fx* -> fx'       @antonmedv/fx      \
+  sbin'**/grex* -> grex'   @pemistahl/grex    \
+  sbin'**/shfmt* -> shfmt' @mvdan/sh          \
   sbin'**/hyperfine -> hyperfine' @sharkdp/hyperfine \
-  sbin'**/k9s -> k9s'             @derailed/k9s \
-  sbin'**/nvim -> nvim' atinit"alias v=${EDITOR}" ver'nightly' neovim/neovim \
-  sbin'**/rg -> rg'               BurntSushi/ripgrep \
-  sbin'**/tmux -> tmux'           @tmux/tmux \
-  sbin'fx* -> fx'                 @antonmedv/fx \
-  sbin'grex* -> grex'             @pemistahl/grex \
-  sbin'shfmt* -> shfmt'           @mvdan/sh \
-  sbin'**/exa' atclone'cp -vf completions/exa.zsh _exa' \
+  sbin'**/nvim' atinit"alias v=${EDITOR}" ver'nightly' neovim/neovim \
+  pick'**/exa* -> exa' atclone'cp -vf completions/exa.zsh _exa' \
   atload"alias l='ls -blF'; alias la='ls -abghilmu'
          alias ll='ls -al'; alias tree='exa --tree'
          alias ls='exa --git --group-directories-first'" \
-  ogham/exa
+    ogham/exa
 
-#  as'null' depth'1' nocompile nocompletions atpull'%atclone' atclone'./install -e no -d ~/.local' \
-#  @romkatv/zsh-bin \
+zurbo atclone'./install -e no -d ~/.local' atpull'%atclone' nocompile nocompletions for \
+    @romkatv/zsh-bin
 
 function _pip_completion {
   local words cword && read -Ac words && read -cn cword

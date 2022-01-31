@@ -212,6 +212,6 @@
   release   = !sh -c 'git tag v$1 && git pst' -
   unrelease = !sh -c 'git tag -d v$1 && git pso :v$1' -
 #############
-  rv = remove --verbose
+  rv = remote --verbose
 [lfs]
 	repositoryformatversion = 0
