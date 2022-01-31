@@ -44,7 +44,8 @@ zi light-mode for \
       PURE_GIT_UP_ARROW='↑'; PURE_GIT_DOWN_ARROW='↓'; PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ';
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
-    sindresorhus/pure
+    sindresorhus/pure \
+    z-shell/zi-rbenv
 zurbo load for \
   as'completion' vladdoster/gitfast-zsh-plugin \
   pack'bgn-binary+keys' id-as'package/fzf' fzf \
@@ -61,12 +62,12 @@ zurbo load for \
   OMZP::{'colored-man-pages','history'} \
   atinit"zicompinit; zicdreplay" \
     zdharma-continuum/fast-syntax-highlighting \
+  atload'bindkey "^ " autosuggest-accept' \
+  svn submods'zsh-users/zsh-autosuggestions -> external' \
+    PZTM::autosuggestions \
   blockf atpull'zinit creinstall -q .' \
   svn submods'zsh-users/zsh-completions -> external' \
     PZTM::completion \
-  svn submods'zsh-users/zsh-autosuggestions -> external' \
-  atinit'bindkey "^ " autosuggest-accept' \
-    PZTM::autosuggestions \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
     OMZ::plugins/history-substring-search \
   atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
