@@ -46,21 +46,7 @@ zi light-mode for \
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure
   #  atinit"bindkey '^?' autosuggest-execute; bindkey '^ ' autosuggest-accept" \
-zurbo for \
-  atinit"zicompinit; zicdreplay" \
-    zdharma-continuum/fast-syntax-highlighting \
-  atinit'bindkey "^ " autosuggest-execute' \
-  svn submods'zsh-users/zsh-autosuggestions -> external' \
-    zsh-users/zsh-autosuggestions \
-  blockf atpull'zinit creinstall -q .' \
-  svn submods'zsh-users/zsh-completions -> external' \
-    PZTM::completion \
-  svn submods'zsh-users/zsh-history-substring-search -> external' \
-    OMZ::plugins/history-substring-search \
-  atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
-    OMZP::vi-mode \
-  is-snippet \
-    OMZP::colored-man-pages \
+zurbo load for \
   as'completion' vladdoster/gitfast-zsh-plugin \
   pack'bgn-binary+keys' id-as'package/fzf' fzf \
   has'brew'  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
@@ -72,7 +58,20 @@ zurbo for \
   has'pip' OMZP::pip as'completion' OMZP::pip/_pip \
   has'rsync' PZTM::rsync \
   has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform \
-  OMZL::{'completion','key-bindings','termsupport'}.zsh
+  OMZL::{'completion','key-bindings','termsupport'}.zsh \
+  OMZP::{'colored-man-pages','history'} \
+  atinit"zicompinit; zicdreplay" \
+    zdharma-continuum/fast-syntax-highlighting \
+  atload'bindkey "^ " autosuggest-accept' \
+  svn submods'zsh-users/zsh-autosuggestions -> external' \
+    PZTM::autosuggestions \
+  blockf atpull'zinit creinstall -q .' \
+  svn submods'zsh-users/zsh-completions -> external' \
+    PZTM::completion \
+  svn submods'zsh-users/zsh-history-substring-search -> external' \
+    OMZ::plugins/history-substring-search \
+  atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
+    OMZP::vi-mode
 #=== GITHUB BINARIES ==========================================
 zurbo as"null" from'gh-r' ver'latest' for \
   bpick'kubectx*' id-as'kubectx/kubectx' sbin'**/kubectx -> kubectx' ahmetb/kubectx \
