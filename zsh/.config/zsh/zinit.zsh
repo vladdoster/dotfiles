@@ -37,16 +37,30 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
   && (( ${+_comps} )) \
   && _comps[zinit]=_zinit
 #=== PROMPT & THEME ====================================
-function zurbo(){ zi depth'1' lucid ${1/#[0-9][a-d]/wait"${1}"} "${@:2}"; }
+function zurbo(){ zinit wait lucid "${@:1}"; }
 zi light-mode for \
     "$ZI_REPO"/zinit-annex-{'submods','patch-dl','bin-gem-node'} \
   compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
       PURE_GIT_UP_ARROW='↑'; PURE_GIT_DOWN_ARROW='↓'; PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ';
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
-    sindresorhus/pure \
-    z-shell/zi-rbenv
-zurbo load for \
+    sindresorhus/pure
+  #  atinit"bindkey '^?' autosuggest-execute; bindkey '^ ' autosuggest-accept" \
+zurbo for \
+  atinit"zicompinit; zicdreplay" \
+    zdharma-continuum/fast-syntax-highlighting \
+  atinit'bindkey "^ " autosuggest-execute' \
+  svn submods'zsh-users/zsh-autosuggestions -> external' \
+    zsh-users/zsh-autosuggestions \
+  blockf atpull'zinit creinstall -q .' \
+  svn submods'zsh-users/zsh-completions -> external' \
+    PZTM::completion \
+  svn submods'zsh-users/zsh-history-substring-search -> external' \
+    OMZ::plugins/history-substring-search \
+  atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
+    OMZP::vi-mode \
+  is-snippet \
+    OMZP::colored-man-pages \
   as'completion' vladdoster/gitfast-zsh-plugin \
   pack'bgn-binary+keys' id-as'package/fzf' fzf \
   has'brew'  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
@@ -58,22 +72,9 @@ zurbo load for \
   has'pip' OMZP::pip as'completion' OMZP::pip/_pip \
   has'rsync' PZTM::rsync \
   has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform \
-  OMZL::{'completion','key-bindings','termsupport'}.zsh \
-  OMZP::{'colored-man-pages','history'} \
-  atinit"zicompinit; zicdreplay" \
-    zdharma-continuum/fast-syntax-highlighting \
-  atload'bindkey "^ " autosuggest-accept' \
-  svn submods'zsh-users/zsh-autosuggestions -> external' \
-    PZTM::autosuggestions \
-  blockf atpull'zinit creinstall -q .' \
-  svn submods'zsh-users/zsh-completions -> external' \
-    PZTM::completion \
-  svn submods'zsh-users/zsh-history-substring-search -> external' \
-    OMZ::plugins/history-substring-search \
-  atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
-    OMZP::vi-mode
+  OMZL::{'completion','key-bindings','termsupport'}.zsh
 #=== GITHUB BINARIES ==========================================
-zurbo as"null" from'gh-r' for \
+zurbo as"null" from'gh-r' ver'latest' for \
   bpick'kubectx*' id-as'kubectx/kubectx' sbin'**/kubectx -> kubectx' ahmetb/kubectx \
   bpick'kubens*'  id-as'kubectx/kubens'  sbin'**/kubens -> kubens'   ahmetb/kubectx \
   sbin'**/bat'   @sharkdp/bat       \
@@ -82,6 +83,7 @@ zurbo as"null" from'gh-r' for \
   sbin'**/gh'    cli/cli            \
   sbin'**/glow'  charmbracelet/glow \
   sbin'**/k9s'   @derailed/k9s      \
+  sbin'**/sd* -> sd' chmln/sd \
   sbin'**/rg -> rg'        BurntSushi/ripgrep \
   sbin'**/fx* -> fx'       @antonmedv/fx      \
   sbin'**/grex* -> grex'   @pemistahl/grex    \
@@ -94,8 +96,8 @@ zurbo as"null" from'gh-r' for \
          alias ls='exa --git --group-directories-first'" \
     ogham/exa
 
-zurbo atclone'./install -e no -d ~/.local' atpull'%atclone' nocompile nocompletions for \
-    @romkatv/zsh-bin
+#  zurbo atclone'./install -e no -d ~/.local' atpull'%atclone' nocompile nocompletions for \
+    #  @romkatv/zsh-bin
 
 function _pip_completion {
   local words cword && read -Ac words && read -cn cword
