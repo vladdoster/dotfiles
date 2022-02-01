@@ -5,6 +5,7 @@ require('hs.ipc')
 require('console').init()
 require('overrides').init()
 require('hs.hotkey').setLogLevel('warning')
+require('hs.application').enableSpotlightForNameSearches(true)
 -- SPOONS -------------------------------
 hs.loadSpoon('SpoonInstall')
 spoon.SpoonInstall.use_syncinstall = true

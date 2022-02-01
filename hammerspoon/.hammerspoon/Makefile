@@ -4,6 +4,14 @@ HS_SPACES_DIR = ./hs._asm.undocumented.spaces
 install:
 	$(MAKE) -C $(HS_SPACES_DIR) install
 
+deps:
+	git \
+		submodule \
+		update \
+		--init \
+		--recursive
+	find ./hammerspoon_asm -name '*.tar.gz' -print -exec tar xzvf {} \;
+
 fmt:
 	@find . -name '*.lua' -print -exec \
 	lua-format --in-place \
