@@ -46,9 +46,31 @@ zi light-mode for \
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure
   #  atinit"bindkey '^?' autosuggest-execute; bindkey '^ ' autosuggest-accept" \
-zurbo load for \
+
+zi for \
   as'completion' vladdoster/gitfast-zsh-plugin \
-  pack'bgn-binary+keys' id-as'package/fzf' fzf \
+  atinit"zicompinit; zicdreplay" light-mode \
+    zdharma-continuum/fast-syntax-highlighting \
+  svn submods'zsh-users/zsh-history-substring-search -> external' \
+    OMZ::plugins/history-substring-search \
+  atinit"bindkey '^ ' autosuggest-execute" \
+  svn submods'zsh-users/zsh-autosuggestions -> external' \
+    PZTM::autosuggestions \
+  atpull'zinit creinstall -q .' blockf light-mode \
+  svn submods'zsh-users/zsh-completions -> external' \
+    PZTM::completion \
+  atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
+    OMZP::vi-mode
+
+zi as'command' from'gh-r' light-mode lucid for \
+  sbin'**/nvim' atinit"alias v=${EDITOR}" ver'nightly' neovim/neovim \
+  sbin'**/exa -> exa' atclone'cp -vf completions/exa.zsh _exa' \
+  atload"alias l='ls -blF'; alias la='ls -abghilmu'
+         alias ll='ls -al'; alias tree='exa --tree'
+         alias ls='exa --git --group-directories-first'" \
+    ogham/exa
+
+zi lucid wait'1' for \
   has'brew'  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
   has'cargo' as'completion' https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo      \
   has'docker'         as'completion' OMZP::docker/_docker                 \
@@ -57,21 +79,7 @@ zurbo load for \
   has'npm' OMZP::npm \
   has'pip' OMZP::pip as'completion' OMZP::pip/_pip \
   has'rsync' PZTM::rsync \
-  has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform \
-  OMZL::{'completion','key-bindings','termsupport'}.zsh \
-  OMZP::{'colored-man-pages','history'} \
-  atinit"zicompinit; zicdreplay" \
-    zdharma-continuum/fast-syntax-highlighting \
-  atload'bindkey "^ " autosuggest-accept' \
-  svn submods'zsh-users/zsh-autosuggestions -> external' \
-    PZTM::autosuggestions \
-  blockf atpull'zinit creinstall -q .' \
-  svn submods'zsh-users/zsh-completions -> external' \
-    PZTM::completion \
-  svn submods'zsh-users/zsh-history-substring-search -> external' \
-    OMZ::plugins/history-substring-search \
-  atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
-    OMZP::vi-mode
+  has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform
 #=== GITHUB BINARIES ==========================================
 zurbo as"command" from'gh-r' for \
   sbin'**/bat'   @sharkdp/bat       \
@@ -80,28 +88,20 @@ zurbo as"command" from'gh-r' for \
   sbin'**/gh'    cli/cli            \
   sbin'**/glow'  charmbracelet/glow \
   sbin'**/k9s'   @derailed/k9s      \
-  sbin'**/*ns -> kubens'  bpick'kubens*'     id-as'kubectx/kubens'  ahmetb/kubectx \
-  sbin'**/*tx -> kubectx' bpick'kubectx*'    id-as'kubectx/kubectx' ahmetb/kubectx \
-  sbin'**/fx* -> fx'      @antonmedv/fx      \
-  sbin'**/gr* -> grex'    @pemistahl/grex    \
-  sbin'**/rg* -> rg'      BurntSushi/ripgrep \
-  sbin'**/sd* -> sd'      chmln/sd           \
-  sbin'**/sh* -> shfmt'   @mvdan/sh          \
-  sbin'**/hy* -> hyperfine' @sharkdp/hyperfine \
-  sbin'**/nvim' atinit"alias v=${EDITOR}" ver'nightly' neovim/neovim \
-  sbin'**/exa* -> exa' atclone'cp -vf completions/exa.zsh _exa' \
-  atload"alias l='ls -blF'; alias la='ls -abghilmu'
-         alias ll='ls -al'; alias tree='exa --tree'
-         alias ls='exa --git --group-directories-first'" \
-    ogham/exa
+  sbin'fzf'      junegunn/fzf       \
+  sbin'**/*ns -> kubens'  bpick'kubens*'  id-as'kubectx/kubens'  ahmetb/kubectx \
+  sbin'**/*tx -> kubectx' bpick'kubectx*' id-as'kubectx/kubectx' ahmetb/kubectx \
+  sbin'**/fx* -> fx'    @antonmedv/fx      \
+  sbin'**/gr* -> grex'  @pemistahl/grex    \
+  sbin'**/*rg -> rg'    BurntSushi/ripgrep \
+  sbin'**/sd* -> sd'    chmln/sd           \
+  sbin'**/sh* -> shfmt' @mvdan/sh          \
+  sbin'**/*ne -> hyperfine' @sharkdp/hyperfine
 
-#  zurbo atclone'./install -e no -d ~/.local' atpull'%atclone' nocompile nocompletions for \
-    #  @romkatv/zsh-bin
-
-function _pip_completion {
-  local words cword && read -Ac words && read -cn cword
-  reply=( $( COMP_WORDS="$words[*]" \
-             COMP_CWORD=$(( cword-1 )) \
-             PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
-}
-compctl -K _pip_completion pip3
+#  function _pip_completion {
+  #  local words cword && read -Ac words && read -cn cword
+  #  reply=( $( COMP_WORDS="$words[*]" \
+             #  COMP_CWORD=$(( cword-1 )) \
+             #  PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
+#  }
+#  compctl -K _pip_completion pip3
