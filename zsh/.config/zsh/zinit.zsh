@@ -53,14 +53,14 @@ zi for \
     zdharma-continuum/fast-syntax-highlighting \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
     OMZ::plugins/history-substring-search \
-  atinit"bindkey '^ ' autosuggest-execute" \
-  svn submods'zsh-users/zsh-autosuggestions -> external' \
-    PZTM::autosuggestions \
   atpull'zinit creinstall -q .' blockf light-mode \
   svn submods'zsh-users/zsh-completions -> external' \
-    PZTM::completion \
+    PZT::modules/completion \
+  atload"bindkey '^ ' autosuggest-execute" \
+  svn submods'zsh-users/zsh-autosuggestions -> external' \
+    PZT::modules/autosuggestions \
   atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
-    OMZP::vi-mode
+    OMZ::plugins/vi-mode
 
 zi as'command' from'gh-r' light-mode lucid for \
   sbin'**/nvim' atinit"alias v=${EDITOR}" ver'nightly' neovim/neovim \

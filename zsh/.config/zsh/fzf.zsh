@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 FZF_COMPLETION_OPTS='--preview "bat --color=always --line-range :50 {} 2> /dev/null || head -50 {}"'
 FZF_COMPLETION_TRIGGER='**'
 FZF_DEFAULT_OPTS='--height 40% --color fg:38,hl:191,fg+:81,bg+:16,info:197,prompt:197,spinner:197,pointer:197,marker:191,header:15'

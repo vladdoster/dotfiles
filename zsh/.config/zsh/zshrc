@@ -1,4 +1,4 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 #
 # Author: Vladislav D.
 # GitHub: vladdoster
@@ -9,9 +9,9 @@
 #
 # sources various parts of zsh configuration
 #
-module_path+=( "/Users/anonymous/.local/share/zsh/zinit/module/Src" )
+module_path+=("/Users/anonymous/.local/share/zsh/zinit/module/Src")
 zmodload zdharma_continuum/zinit
-zsh_config=(zinit aliases fzf)
+zsh_config=(aliases zinit fzf git-fzf)
 for FILE in ${zsh_config[@]}; do
-    . "${ZDOTDIR:-$HOME/.config/zsh}/${FILE}.zsh"
+  . "${ZDOTDIR:-$HOME/.config/zsh}/${FILE}.zsh"
 done
