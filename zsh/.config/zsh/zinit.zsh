@@ -73,23 +73,23 @@ zurbo load for \
   atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
     OMZP::vi-mode
 #=== GITHUB BINARIES ==========================================
-zurbo as"null" from'gh-r' ver'latest' for \
-  bpick'kubectx*' id-as'kubectx/kubectx' sbin'**/kubectx -> kubectx' ahmetb/kubectx \
-  bpick'kubens*'  id-as'kubectx/kubens'  sbin'**/kubens -> kubens'   ahmetb/kubectx \
+zurbo as"command" from'gh-r' for \
   sbin'**/bat'   @sharkdp/bat       \
   sbin'**/delta' dandavison/delta   \
   sbin'**/fd'    @sharkdp/fd        \
   sbin'**/gh'    cli/cli            \
   sbin'**/glow'  charmbracelet/glow \
   sbin'**/k9s'   @derailed/k9s      \
-  sbin'**/sd* -> sd' chmln/sd \
-  sbin'**/rg -> rg'        BurntSushi/ripgrep \
-  sbin'**/fx* -> fx'       @antonmedv/fx      \
-  sbin'**/grex* -> grex'   @pemistahl/grex    \
-  sbin'**/shfmt* -> shfmt' @mvdan/sh          \
-  sbin'**/hyperfine -> hyperfine' @sharkdp/hyperfine \
+  sbin'**/*ns -> kubens'  bpick'kubens*'     id-as'kubectx/kubens'  ahmetb/kubectx \
+  sbin'**/*tx -> kubectx' bpick'kubectx*'    id-as'kubectx/kubectx' ahmetb/kubectx \
+  sbin'**/fx* -> fx'      @antonmedv/fx      \
+  sbin'**/gr* -> grex'    @pemistahl/grex    \
+  sbin'**/rg* -> rg'      BurntSushi/ripgrep \
+  sbin'**/sd* -> sd'      chmln/sd           \
+  sbin'**/sh* -> shfmt'   @mvdan/sh          \
+  sbin'**/hy* -> hyperfine' @sharkdp/hyperfine \
   sbin'**/nvim' atinit"alias v=${EDITOR}" ver'nightly' neovim/neovim \
-  pick'**/exa* -> exa' atclone'cp -vf completions/exa.zsh _exa' \
+  sbin'**/exa* -> exa' atclone'cp -vf completions/exa.zsh _exa' \
   atload"alias l='ls -blF'; alias la='ls -abghilmu'
          alias ll='ls -al'; alias tree='exa --tree'
          alias ls='exa --git --group-directories-first'" \
