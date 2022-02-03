@@ -1,2 +1,0 @@
-git diff HEAD^ --ext-diff --exit-code '*.sh' || docker build -t shfmt:latest https://github.com/PeterDaveHello/docker-shfmt.git
-git diff HEAD^ --ext-diff --exit-code '*.md' || python3 -m pip install --user black mdformat

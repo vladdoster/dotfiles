@@ -81,7 +81,7 @@ zi lucid wait'2' for \
   has'rsync' PZTM::rsync \
   has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform
 #=== GITHUB BINARIES ==========================================
-zi lucid wait'3' as"command" from'gh-r' for \
+zi lucid wait'3' from'gh-r' for \
   sbin'**/bat'   @sharkdp/bat       \
   sbin'**/delta' dandavison/delta   \
   sbin'**/fd'    @sharkdp/fd        \

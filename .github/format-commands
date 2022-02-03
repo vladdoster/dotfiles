@@ -1,3 +1,0 @@
-git diff HEAD^ --ext-diff --exit-code '*.sh' || docker run --rm -v "$(pwd)":/dotfiles shfmt:latest shfmt -bn -ci -i 4 -s -sr -w /dotfiles
-git diff HEAD^ --ext-diff --exit-code '*.md' || find . -name '*.md' -exec mdformat {} \;
-git diff HEAD^ --ext-diff --exit-code '*.py' || find . -name '*.py' -exec black {} \;
