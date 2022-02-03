@@ -87,11 +87,11 @@ zi lucid wait'3' as"command" from'gh-r' for \
   sbin'**/fd'    @sharkdp/fd        \
   sbin'**/glow'  charmbracelet/glow \
   sbin'fzf'      junegunn/fzf       \
-  sbin'**/gr* -> grex'  @pemistahl/grex    \
-  sbin'**/*rg -> rg'    BurntSushi/ripgrep \
+  sbin'**/g*x -> grex'  @pemistahl/grex    \
+  sbin'**/rg -> rg'    BurntSushi/ripgrep \
   sbin'**/sd* -> sd'    chmln/sd           \
   sbin'**/sh* -> shfmt' @mvdan/sh          \
-  sbin'**/*ne -> hyperfine' @sharkdp/hyperfine
+  sbin'**/h*e -> hyperfine' @sharkdp/hyperfine
 #  function _pip_completion {
   #  local words cword && read -Ac words && read -cn cword
   #  reply=( $( COMP_WORDS="$words[*]" \
