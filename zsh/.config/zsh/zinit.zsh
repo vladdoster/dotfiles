@@ -37,7 +37,6 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
   && (( ${+_comps} )) \
   && _comps[zinit]=_zinit
 #=== PROMPT & THEME ====================================
-function zurbo(){ zinit wait lucid "${@:1}"; }
 zi light-mode for \
     "$ZI_REPO"/zinit-annex-{'submods','patch-dl','bin-gem-node'} \
   compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
@@ -45,24 +44,25 @@ zi light-mode for \
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure
-  #  atinit"bindkey '^?' autosuggest-execute; bindkey '^ ' autosuggest-accept" \
 
-zi for \
-  as'completion' vladdoster/gitfast-zsh-plugin \
+
+zi lucid wait'!0' for \
   atinit"zicompinit; zicdreplay" light-mode \
     zdharma-continuum/fast-syntax-highlighting \
-  svn submods'zsh-users/zsh-history-substring-search -> external' \
-    OMZ::plugins/history-substring-search \
-  atpull'zinit creinstall -q .' blockf light-mode \
+  atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
+    OMZ::plugins/vi-mode \
+  atinit"bindkey '^_' autosuggest-execute; bindkey '^ ' autosuggest-accept" \
+    zsh-users/zsh-autosuggestions
+
+zi lucid wait'1' for \
+  as'completion' vladdoster/gitfast-zsh-plugin \
+  atpull'zinit creinstall -q .' blockf \
   svn submods'zsh-users/zsh-completions -> external' \
     PZT::modules/completion \
-  atload"bindkey '^ ' autosuggest-execute" \
-  svn submods'zsh-users/zsh-autosuggestions -> external' \
-    PZT::modules/autosuggestions \
-  atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
-    OMZ::plugins/vi-mode
+  svn submods'zsh-users/zsh-history-substring-search -> external' \
+    OMZ::plugins/history-substring-search
 
-zi as'command' from'gh-r' light-mode lucid for \
+zi lucid wait'1b' as'command' from'gh-r' light-mode for \
   sbin'**/nvim' atinit"alias v=${EDITOR}" ver'nightly' neovim/neovim \
   sbin'**/exa -> exa' atclone'cp -vf completions/exa.zsh _exa' \
   atload"alias l='ls -blF'; alias la='ls -abghilmu'
@@ -70,7 +70,7 @@ zi as'command' from'gh-r' light-mode lucid for \
          alias ls='exa --git --group-directories-first'" \
     ogham/exa
 
-zi lucid wait'1' for \
+zi lucid wait'2' for \
   has'brew'  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
   has'cargo' as'completion' https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo      \
   has'docker'         as'completion' OMZP::docker/_docker                 \
@@ -81,23 +81,17 @@ zi lucid wait'1' for \
   has'rsync' PZTM::rsync \
   has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform
 #=== GITHUB BINARIES ==========================================
-zurbo as"command" from'gh-r' for \
+zi lucid wait'3' as"command" from'gh-r' for \
   sbin'**/bat'   @sharkdp/bat       \
   sbin'**/delta' dandavison/delta   \
   sbin'**/fd'    @sharkdp/fd        \
-  sbin'**/gh'    cli/cli            \
   sbin'**/glow'  charmbracelet/glow \
-  sbin'**/k9s'   @derailed/k9s      \
   sbin'fzf'      junegunn/fzf       \
-  sbin'**/*ns -> kubens'  bpick'kubens*'  id-as'kubectx/kubens'  ahmetb/kubectx \
-  sbin'**/*tx -> kubectx' bpick'kubectx*' id-as'kubectx/kubectx' ahmetb/kubectx \
-  sbin'**/fx* -> fx'    @antonmedv/fx      \
   sbin'**/gr* -> grex'  @pemistahl/grex    \
   sbin'**/*rg -> rg'    BurntSushi/ripgrep \
   sbin'**/sd* -> sd'    chmln/sd           \
   sbin'**/sh* -> shfmt' @mvdan/sh          \
   sbin'**/*ne -> hyperfine' @sharkdp/hyperfine
-
 #  function _pip_completion {
   #  local words cword && read -Ac words && read -cn cword
   #  reply=( $( COMP_WORDS="$words[*]" \
