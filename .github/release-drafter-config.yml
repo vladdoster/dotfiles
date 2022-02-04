@@ -29,26 +29,33 @@ version-resolver:
   default: patch
 template: |
   ## Changes
-
+categories:
+  - title: "Breaking Changes"
+    label: "breaking"
+  - title: "Features"
+    label: "enhancement"
+  - title: "Removals and Deprecations"
+    label: "removal"
+  - title: "Fixes"
+    label: "bug"
+  - title: "Performance"
+    label: "performance"
+  - title: "Testing"
+    label: "testing"
+  - title: "Continuous Integration"
+    label: "ci"
+  - title: "Documentation"
+    label: "documentation"
+  - title: "Refactoring"
+    label: "refactoring"
+  - title: "Style"
+    label: "style"
+  - title: "Dependencies"
+    labels:
+      - "dependencies"
+      - "build"
+exclude-labels:
+  - "skip-changelog"
+template: |
+  ## Changes
   $CHANGES
-autolabeler:
-  - label: 'chore'
-    files:
-      - '*.md'
-    branch:
-      - '/docs{0,1}\/.+/'
-  - label: 'bug'
-    branch:
-      - '/fix\/.+/'
-    title:
-      - '/fix/i'
-  - label: 'maint'
-    branch:
-      - '/maint\/.+/'
-    title:
-      - '/maint/i'
-  - label: 'enhancement'
-    branch:
-      - '/feature\/.+/'
-#     body:
-#       - '/sc-[0-9]{1,4}/'
