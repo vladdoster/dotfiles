@@ -9,4 +9,4 @@ jobs:
     steps:
       - uses: release-drafter/release-drafter@v5.17.6
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_ACTIONS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
