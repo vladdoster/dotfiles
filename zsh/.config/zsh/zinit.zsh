@@ -62,7 +62,7 @@ zi lucid wait'1' for \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
     OMZ::plugins/history-substring-search
 
-zi lucid wait'1b' as'command' from'gh-r' light-mode for \
+zi from'gh-r' light-mode lucid wait'1b' for \
   sbin'**/nvim' atinit"alias v=${EDITOR}" ver'nightly' neovim/neovim \
   sbin'**/exa -> exa' atclone'cp -vf completions/exa.zsh _exa' \
   atload"alias l='ls -blF'; alias la='ls -abghilmu'
@@ -81,7 +81,7 @@ zi lucid wait'2' for \
   has'rsync' PZTM::rsync \
   has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform
 #=== GITHUB BINARIES ==========================================
-zi lucid wait'3' from'gh-r' for \
+zi from'gh-r' lucid nocompile wait'3' for \
   sbin'**/bat'   @sharkdp/bat       \
   sbin'**/delta' dandavison/delta   \
   sbin'**/fd'    @sharkdp/fd        \
