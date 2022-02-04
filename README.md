@@ -23,22 +23,20 @@ git clone https://github.com/vladdoster/dotfiles $HOME/.config/dotfiles
 #### Install
 
 ```bash
-make init
+make
 ```
 
 **Note**: Requires GNU stow. To install stow from source, run:
 
 ```bash
-cd bin/.local/bin
 make stow
-cd -      # go back to repository root
-make init # retry install command
+make
 ```
 
 or if Homebrew is installed:
 
 ```bash
-brew install stow
+make stow
 ```
 
 ##### Install programs to get full experience
