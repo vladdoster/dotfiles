@@ -45,14 +45,15 @@ zi light-mode for \
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure
 
-
 zi lucid wait'!0' for \
   atinit"zicompinit; zicdreplay" light-mode \
     zdharma-continuum/fast-syntax-highlighting \
   atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet \
     OMZ::plugins/vi-mode \
   atinit"bindkey '^_' autosuggest-execute; bindkey '^ ' autosuggest-accept" \
-    zsh-users/zsh-autosuggestions
+    zsh-users/zsh-autosuggestions \
+  atinit"HISTFILE=$HOME/.zhistory" \
+    PZT::modules/history
 
 zi lucid wait'1' for \
   as'completion' vladdoster/gitfast-zsh-plugin \
@@ -62,19 +63,19 @@ zi lucid wait'1' for \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
     OMZ::plugins/history-substring-search
 
-zi from'gh-r' light-mode lucid wait'1b' for \
+zi from'gh-r' lucid wait'1b' for \
   sbin'**/nvim' atinit"alias v=${EDITOR}" ver'nightly' neovim/neovim \
-  sbin'**/exa -> exa' atclone'cp -vf completions/exa.zsh _exa' \
+  sbin'**/exa'  atclone'cp -vf completions/exa.zsh _exa' \
   atload"alias l='ls -blF'; alias la='ls -abghilmu'
          alias ll='ls -al'; alias tree='exa --tree'
          alias ls='exa --git --group-directories-first'" \
     ogham/exa
-
+#=== GITHUB BINARIES ==========================================
 zi lucid wait'2' for \
   has'brew'  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
   has'cargo' as'completion' https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo      \
-  has'docker'         as'completion' OMZP::docker/_docker                 \
-  has'docker-compose' as'completion' OMZP::docker-compose/_docker-compose \
+  has'docker'         as'completion' is-snippet OMZP::docker/_docker                 \
+  has'docker-compose' as'completion' is-snippet OMZP::docker-compose/_docker-compose \
   has'go'  OMZP::golang as'completion' OMZP::golang/_golang \
   has'npm' OMZP::npm \
   has'pip' OMZP::pip as'completion' OMZP::pip/_pip \
@@ -92,10 +93,11 @@ zi from'gh-r' lucid nocompile wait'3' for \
   sbin'**/sd* -> sd'    chmln/sd           \
   sbin'**/sh* -> shfmt' @mvdan/sh          \
   sbin'**/h*e -> hyperfine' @sharkdp/hyperfine
-#  function _pip_completion {
-  #  local words cword && read -Ac words && read -cn cword
-  #  reply=( $( COMP_WORDS="$words[*]" \
-             #  COMP_CWORD=$(( cword-1 )) \
-             #  PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
-#  }
-#  compctl -K _pip_completion pip3
+# Pip completion
+function _pip_completion {
+  local words cword && read -Ac words && read -cn cword
+  reply=( $( COMP_WORDS="$words[*]" \
+             COMP_CWORD=$(( cword-1 )) \
+             PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
+}
+compctl -K _pip_completion pip3
