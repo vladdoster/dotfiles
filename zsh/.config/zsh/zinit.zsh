@@ -64,10 +64,9 @@ zi lucid wait'1' for \
     OMZ::plugins/history-substring-search
 
 zi from'gh-r' lucid wait'1b' for \
-  sbin'**/nvim' atinit"alias v=${EDITOR}" ver'nightly' neovim/neovim \
   sbin'**/exa'  atclone'cp -vf completions/exa.zsh _exa' \
-  atload"alias l='ls -blF'; alias la='ls -abghilmu'
-         alias ll='ls -al'; alias tree='exa --tree'
+  atinit"alias l='exa -blF'; alias la='exa -abghilmu'
+         alias ll='exa -al'; alias tree='exa --tree'
          alias ls='exa --git --group-directories-first'" \
     ogham/exa
 #=== GITHUB BINARIES ==========================================
@@ -83,16 +82,28 @@ zi lucid wait'2' for \
   has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform
 #=== GITHUB BINARIES ==========================================
 zi from'gh-r' lucid nocompile wait'3' for \
-  sbin'**/bat'   @sharkdp/bat       \
-  sbin'**/delta' dandavison/delta   \
-  sbin'**/fd'    @sharkdp/fd        \
-  sbin'**/glow'  charmbracelet/glow \
-  sbin'fzf'      junegunn/fzf       \
-  sbin'**/g*x -> grex'  @pemistahl/grex    \
-  sbin'**/rg -> rg'    BurntSushi/ripgrep \
-  sbin'**/sd* -> sd'    chmln/sd           \
-  sbin'**/sh* -> shfmt' @mvdan/sh          \
-  sbin'**/h*e -> hyperfine' @sharkdp/hyperfine
+  sbin'**/bat -> bat'       @sharkdp/bat \
+  sbin'**/delta -> delta'   dandavison/delta \
+  sbin'**/fd -> fd'         @sharkdp/fd \
+  sbin'**/fx* -> fx'        @antonmedv/fx \
+  sbin'**/gh'               cli/cli \
+  sbin'**/glow'             charmbracelet/glow \
+  sbin'**/h*e -> hyperfine' @sharkdp/hyperfine \
+  sbin'**/lazygit'          jesseduffield/lazygit \
+  sbin'**/nvim -> nvim'     atinit'alias v=nvim' ver'nightly' neovim/neovim \
+  sbin'**/rg -> rg'         BurntSushi/ripgrep \
+  sbin'**/sh* -> shfmt'     @mvdan/sh \
+  sbin'fzf'                 junegunn/fzf \
+  sbin'git-sizer'           @github/git-sizer
+
+zi for \
+      as'program' atpull'%atclone' \
+      atclone"
+        autoreconf -iv \
+        && ./configure --prefix=$ZPFX" \
+      make'bin/stow' pick"$ZPFX/bin/stow" \
+  @aspiers/stow
+
 # Pip completion
 function _pip_completion {
   local words cword && read -Ac words && read -cn cword
