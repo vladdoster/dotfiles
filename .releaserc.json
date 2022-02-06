@@ -1,6 +1,20 @@
 {
   "repositoryUrl": "https://github.com/vladdoster/dotfiles",
   "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "releaseRules": [
+          { "type": "build", "release": "patch" },
+          { "type": "chore", "release": "patch" },
+          { "type": "ci", "release": "patch" },
+          { "type": "docs", "release": "patch" },
+          { "type": "maint", "release": "patch" },
+          { "type": "refactor", "release": "patch" },
+          { "type": "style", "release": "patch" }
+        ]
+      }
+    ],
     "@semantic-release/commit-analyzer",
     [
       "@google/semantic-release-replace-plugin",
@@ -31,15 +45,12 @@
       }
     ],
     [
-      "@semantic-release/github",
-      { "assets": "pack/*.tgz" }
-    ],
-    [
       "@semantic-release/git",
       {
-        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
-        "assets": ["VERSION"]
+        "assets": ["CHANGELOG.md", "VERSION"],
+        "message": "release(version): Release ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
-    ]
+    ],
+    "@semantic-release/github"
   ]
 }
