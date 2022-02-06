@@ -1,11 +1,12 @@
 #!/bin/bash
 
-echo "--- Removing tags"
 num_tags=$(git tag --list | wc -l)
 if [[ $num_tags -eq 0 ]]; then
-  echo "--- No tags to delete, exiting."
+  echo "--- No tags to delete, skipped"
 else
-  echo "--- Removing $num_tags releases"
+  # $(git tag -l | xargs -n 1 git push --delete origin) || continue
+  # $(git tag -l | xargs -n 1 git tag --delete) || continue
+  echo "--- Deleting $num_tags remote tags"
   oldifs="$IFS"
   IFS=$'\t'
   tags=$(git tag --list | awk "{print $1}")
@@ -17,17 +18,19 @@ else
     echo "--- Removing local tag: $tag" || continue
     git tag --delete "$tag" || continue
   done
+  echo "--- $(git tag --list | wc -l) tag(s) exist"
 fi
 
-echo "--- Deleting releases"
 num_releases=$(gh release list | wc -l)
 if [[ $num_releases -eq 0 ]]; then
-  echo "--- No releases to delete, exiting."
+  echo "--- No releases to delete, skipped"
 else
+  oldifs="$IFS"
+  IFS=$'\n'
+  releases=$(gh release list --limit 1000 | awk '{print $5}')
   echo "--- Removing $num_releases releases"
-  releases=$(gh release list --limit 1000 | awk "{print $2}")
   for release in "$releases"; do
-    echo "--- Removing $release" || continue
     gh release delete --yes "$release" || continue
   done
+  echo "--- $(gh release list | wc -l) release(s) exist"
 fi

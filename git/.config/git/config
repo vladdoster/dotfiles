@@ -200,3 +200,5 @@
   rv = remote --verbose
 [lfs]
 	repositoryformatversion = 0
+[remote "origin"]
+	gh-resolved = base
