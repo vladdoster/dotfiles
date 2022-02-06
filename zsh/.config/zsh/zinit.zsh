@@ -99,7 +99,8 @@ zi from'gh-r' lucid nocompile for \
   sbin'**/starship -> starship' starship/starship     \
   sbin'**/tokei -> tokei'       XAMPPRocky/tokei      \
   sbin'fzf'                     junegunn/fzf          \
-  sbin'git-sizer'               @github/git-sizer
+  sbin'git-sizer'               @github/git-sizer     \
+  sbin're*ar -> release-tool'   leviy/release-tool
 
 # Pip completion
 function _pip_completion {
