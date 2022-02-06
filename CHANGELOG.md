@@ -1,3 +1,13 @@
+## v1.2.0 (2022-02-06)
+
+### Refactor
+
+- **.cz.toml**: change commitizen configuration from yaml to toml
+
+### Fix
+
+- **.cz.yaml**: Add VERSION file which will be bumped each release
+
 ## v1.1.0 (2022-02-06)
 
 ### Refactor
