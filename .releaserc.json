@@ -22,12 +22,12 @@
       {
         "replacements": [
           {
-            "files": [".cz.toml"],
-            "from": "(v)?+([0-9]).+([0-9]).+([0-9])",
-            "to": "v${nextRelease.version}",
+            "files": ["./.cz.toml"],
+            "from": "^version = '.*'",
+            "to": "version = '${nextRelease.version}'",
             "results": [
               {
-                "file": ".cz.toml",
+                "file": "./.cz.toml",
                 "hasChanged": true,
                 "numMatches": 1,
                 "numReplacements": 1
@@ -37,7 +37,7 @@
           },
           {
             "files": ["VERSION"],
-            "from": "+([0-9]).+([0-9]).+([0-9])",
+            "from": "${lastRelease.version}",
             "to": "${nextRelease.version}",
             "results": [
               {

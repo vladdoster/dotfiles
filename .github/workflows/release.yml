@@ -16,6 +16,12 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('.github/workflows/release.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - run: |
           npm install --no-package-lock \
             @google/semantic-release-replace-plugin \
