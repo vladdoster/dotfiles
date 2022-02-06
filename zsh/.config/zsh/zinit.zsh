@@ -81,7 +81,7 @@ zi lucid wait'2' for \
   has'rsync' PZTM::rsync \
   has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform
 #=== GITHUB BINARIES ==========================================
-zi from'gh-r' lucid nocompile wait'3' for \
+zi from'gh-r' lucid nocompile for \
   sbin'**/bat -> bat'       @sharkdp/bat \
   sbin'**/delta -> delta'   dandavison/delta \
   sbin'**/fd -> fd'         @sharkdp/fd \
