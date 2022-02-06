@@ -1,0 +1,23 @@
+name: Release
+
+"on":
+  push:
+    branches:
+      - master
+      - next
+      - beta
+      - "*.x"
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          cache: npm
+          node-version: 16
+      - run: npm ci semantic-release/commit-analyzer @semantic-release/changelog @semantic-release/release-notes-generator @semantic-release/github
+      - run: npx semantic-release --dry-run --
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
