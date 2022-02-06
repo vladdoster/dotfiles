@@ -17,7 +17,7 @@ jobs:
         with:
           cache: npm
           node-version: 16
-      - run: npm ci semantic-release/commit-analyzer @semantic-release/changelog @semantic-release/release-notes-generator @semantic-release/github
+      - run: npm install semantic-release/commit-analyzer @semantic-release/changelog @semantic-release/release-notes-generator @semantic-release/github
       - run: npx semantic-release --dry-run --
         env:
           GITHUB_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
