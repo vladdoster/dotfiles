@@ -11,7 +11,7 @@
           { "type": "docs", "release": "patch" },
           { "type": "maint", "release": "patch" },
           { "type": "refactor", "release": "patch" },
-          { "type": "release", "release": "minor"},
+          { "type": "release", "release": "minor" },
           { "type": "style", "release": "patch" }
         ]
       }
@@ -22,18 +22,26 @@
       {
         "replacements": [
           {
-            "files": [".cz.toml", "VERSION"],
-            "from": "v+([0-9]).+([0-9]).+([0-9])",
+            "files": [".cz.toml"],
+            "from": "(v)?+([0-9]).+([0-9]).+([0-9])",
+            "to": "v${nextRelease.version}",
+            "results": [
+              {
+                "file": ".cz.toml",
+                "hasChanged": true,
+                "numMatches": 1,
+                "numReplacements": 1
+              }
+            ],
+            "countMatches": true
+          },
+          {
+            "files": ["VERSION"],
+            "from": "+([0-9]).+([0-9]).+([0-9])",
             "to": "${nextRelease.version}",
             "results": [
               {
                 "file": "VERSION",
-                "hasChanged": true,
-                "numMatches": 1,
-                "numReplacements": 1
-              },
-              {
-                "file": ".cz.toml",
                 "hasChanged": true,
                 "numMatches": 1,
                 "numReplacements": 1
