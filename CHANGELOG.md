@@ -1,3 +1,9 @@
+## Unreleased
+
+### Feat
+
+- add commitizen and pre-commit configurations
+
 ## v1.0.5 (2022-02-06)
 
 ### Fix
