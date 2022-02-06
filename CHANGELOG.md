@@ -1,4 +1,8 @@
-## Unreleased
+## v1.1.0 (2022-02-06)
+
+### Refactor
+
+- remove git-changelog and bumpversion configuration files
 
 ### Feat
 
