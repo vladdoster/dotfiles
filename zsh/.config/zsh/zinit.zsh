@@ -44,7 +44,7 @@ zi light-mode for \
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'; zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure
-
+#=== PLUGINS ==========================================
 zi lucid wait'!0' for \
   atinit"zicompinit; zicdreplay" light-mode \
     zdharma-continuum/fast-syntax-highlighting \
@@ -54,7 +54,6 @@ zi lucid wait'!0' for \
     zsh-users/zsh-autosuggestions \
   atinit"HISTFILE=$HOME/.zhistory" \
     PZT::modules/history
-
 zi lucid wait'1' for \
   as'completion' vladdoster/gitfast-zsh-plugin \
   atpull'zinit creinstall -q .' blockf \
@@ -62,14 +61,7 @@ zi lucid wait'1' for \
     PZT::modules/completion \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
     OMZ::plugins/history-substring-search
-
-zi from'gh-r' lucid wait'1b' for \
-  sbin'**/exa'  atclone'cp -vf completions/exa.zsh _exa' \
-  atinit"alias l='exa -blF'; alias la='exa -abghilmu'
-         alias ll='exa -al'; alias tree='exa --tree'
-         alias ls='exa --git --group-directories-first'" \
-    ogham/exa
-#=== GITHUB BINARIES ==========================================
+#=== COMPLETION ==========================================
 zi lucid wait'2' for \
   has'brew'  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
   has'cargo' as'completion' https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo      \
@@ -82,27 +74,28 @@ zi lucid wait'2' for \
   has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform
 #=== GITHUB BINARIES ==========================================
 zi from'gh-r' lucid nocompile for \
-  sbin'**/bat -> bat'           @sharkdp/bat          \
-  sbin'**/delta -> delta'       dandavison/delta      \
-  sbin'**/fd -> fd'             @sharkdp/fd           \
-  sbin'**/fx* -> fx'            @antonmedv/fx         \
-  sbin'**/gh'                   cli/cli               \
-  sbin'**/git-mkver'            idc101/git-mkver      \
-  sbin'**/glow'                 charmbracelet/glow    \
-  sbin'**/h*e -> hyperfine'     @sharkdp/hyperfine    \
-  sbin'**/lazygit'              jesseduffield/lazygit \
-  sbin'**/lazygit'              jesseduffield/lazygit \
-  sbin'**/nvim -> nvim'         atinit'alias v=nvim'  ver'nightly' neovim/neovim \
-  sbin'**/procs -> procs'       dalance/procs         \
-  sbin'**/rg -> rg'             BurntSushi/ripgrep    \
-  sbin'**/sh* -> shfmt'         @mvdan/sh             \
-  sbin'**/starship -> starship' starship/starship     \
-  sbin'**/tokei -> tokei'       XAMPPRocky/tokei      \
-  sbin'fzf'                     junegunn/fzf          \
-  sbin'git-sizer'               @github/git-sizer     \
-  sbin're*ar -> release-tool'   leviy/release-tool
-
-# Pip completion
+  sbin'**/bat -> bat'       @sharkdp/bat          \
+  sbin'**/d*a -> delta'     dandavison/delta      \
+  sbin'**/fd -> fd'         @sharkdp/fd           \
+  sbin'**/fx* -> fx'        @antonmedv/fx         \
+  sbin'**/gh'               cli/cli               \
+  sbin'**/g*r'              idc101/git-mkver      \
+  sbin'**/g*w'              charmbracelet/glow    \
+  sbin'**/h*e -> hyperfine' @sharkdp/hyperfine    \
+  sbin'**/l*t'              jesseduffield/lazygit \
+  sbin'**/n*m -> nvim'      atinit'alias v=nvim'  ver'nightly' neovim/neovim \
+  sbin'**/p*s -> procs'     dalance/procs         \
+  sbin'**/rg -> rg'         BurntSushi/ripgrep    \
+  sbin'**/sh* -> shfmt'     @mvdan/sh             \
+  sbin'**/t*i -> tokei'     XAMPPRocky/tokei      \
+  sbin'fzf'                 junegunn/fzf          \
+  sbin'g*r'                 @github/git-sizer     \
+  sbin'**/exa'  atclone'cp -vf completions/exa.zsh _exa' atinit"
+      alias l='exa -blF'; alias la='exa -abghilmu'
+      alias ll='exa -al'; alias tree='exa --tree'
+      alias ls='exa --git --group-directories-first'" \
+    ogham/exa
+#=== PIP COMPLETION
 function _pip_completion {
   local words cword && read -Ac words && read -cn cword
   reply=( $( COMP_WORDS="$words[*]" \
