@@ -82,27 +82,24 @@ zi lucid wait'2' for \
   has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform
 #=== GITHUB BINARIES ==========================================
 zi from'gh-r' lucid nocompile for \
-  sbin'**/bat -> bat'       @sharkdp/bat \
-  sbin'**/delta -> delta'   dandavison/delta \
-  sbin'**/fd -> fd'         @sharkdp/fd \
-  sbin'**/fx* -> fx'        @antonmedv/fx \
-  sbin'**/gh'               cli/cli \
-  sbin'**/glow'             charmbracelet/glow \
-  sbin'**/h*e -> hyperfine' @sharkdp/hyperfine \
-  sbin'**/lazygit'          jesseduffield/lazygit \
-  sbin'**/nvim -> nvim'     atinit'alias v=nvim' ver'nightly' neovim/neovim \
-  sbin'**/rg -> rg'         BurntSushi/ripgrep \
-  sbin'**/sh* -> shfmt'     @mvdan/sh \
-  sbin'fzf'                 junegunn/fzf \
-  sbin'git-sizer'           @github/git-sizer
-
-zi for \
-      as'program' atpull'%atclone' \
-      atclone"
-        autoreconf -iv \
-        && ./configure --prefix=$ZPFX" \
-      make'bin/stow' pick"$ZPFX/bin/stow" \
-  @aspiers/stow
+  sbin'**/bat -> bat'           @sharkdp/bat          \
+  sbin'**/delta -> delta'       dandavison/delta      \
+  sbin'**/fd -> fd'             @sharkdp/fd           \
+  sbin'**/fx* -> fx'            @antonmedv/fx         \
+  sbin'**/gh'                   cli/cli               \
+  sbin'**/git-mkver'            idc101/git-mkver      \
+  sbin'**/glow'                 charmbracelet/glow    \
+  sbin'**/h*e -> hyperfine'     @sharkdp/hyperfine    \
+  sbin'**/lazygit'              jesseduffield/lazygit \
+  sbin'**/lazygit'              jesseduffield/lazygit \
+  sbin'**/nvim -> nvim'         atinit'alias v=nvim'  ver'nightly' neovim/neovim \
+  sbin'**/procs -> procs'       dalance/procs         \
+  sbin'**/rg -> rg'             BurntSushi/ripgrep    \
+  sbin'**/sh* -> shfmt'         @mvdan/sh             \
+  sbin'**/starship -> starship' starship/starship     \
+  sbin'**/tokei -> tokei'       XAMPPRocky/tokei      \
+  sbin'fzf'                     junegunn/fzf          \
+  sbin'git-sizer'               @github/git-sizer
 
 # Pip completion
 function _pip_completion {
