@@ -15,8 +15,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          cache: npm
-          node-version: 16
+          node-version: 18
       - run: npm install --no-package-lock semantic-release/commit-analyzer @semantic-release/changelog @semantic-release/release-notes-generator @semantic-release/github
       - run: npx semantic-release --ci --dry-run --
         env:
