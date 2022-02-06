@@ -16,7 +16,12 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16
-      - run: npm install --no-package-lock semantic-release/commit-analyzer @semantic-release/changelog @semantic-release/release-notes-generator @semantic-release/github
+      - run: |
+          npm install --no-package-lock \
+          @google/semantic-release-replace-plugin \
+          @semantic-release-slack-bot \
+          @semantic-release/changelog \
+          @semantic-release/git
       - run: npx semantic-release --ci --dry-run --
         env:
           GITHUB_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
