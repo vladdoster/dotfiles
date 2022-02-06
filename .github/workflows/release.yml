@@ -18,10 +18,10 @@ jobs:
           node-version: 16
       - run: |
           npm install --no-package-lock \
-          @google/semantic-release-replace-plugin \
-          @semantic-release-slack-bot \
-          @semantic-release/changelog \
-          @semantic-release/git
+            @google/semantic-release-replace-plugin \
+            @semantic-release/changelog \
+            @semantic-release/git \
+            @semantic-release/semantic-release-slack-bot
       - run: npx semantic-release --ci --dry-run --
         env:
           GITHUB_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
