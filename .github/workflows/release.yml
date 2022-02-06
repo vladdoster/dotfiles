@@ -22,6 +22,6 @@ jobs:
             @semantic-release/changelog \
             @semantic-release/git \
             semantic-release-slack-bot
-      - run: npx semantic-release --ci --dry-run --
+      - run: npx semantic-release --ci --
         env:
           GITHUB_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
