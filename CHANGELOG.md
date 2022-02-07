@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/vladdoster/dotfiles/compare/v1.3.1...v1.3.2) (2022-02-07)
+
+
+### Bug Fixes
+
+* nvim binary selection more precise ([4f29f6e](https://github.com/vladdoster/dotfiles/commit/4f29f6e0d18b886787e20f71f36a1974198dffff))
+
 ## [1.3.1](https://github.com/vladdoster/dotfiles/compare/v1.3.0...v1.3.1) (2022-02-06)
 
 
