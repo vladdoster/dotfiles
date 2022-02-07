@@ -83,7 +83,7 @@ zi from'gh-r' lucid nocompile for \
   sbin'**/g*w'              charmbracelet/glow    \
   sbin'**/h*e -> hyperfine' @sharkdp/hyperfine    \
   sbin'**/l*t'              jesseduffield/lazygit \
-  sbin'**/n*m -> nvim'      atinit'alias v=nvim'  ver'nightly' neovim/neovim \
+  sbin'**/nvim'      atinit'alias v=nvim'  ver'nightly' neovim/neovim \
   sbin'**/p*s -> procs'     dalance/procs         \
   sbin'**/rg -> rg'         BurntSushi/ripgrep    \
   sbin'g*x -> grex'         pemistahl/grex        \
