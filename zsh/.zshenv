@@ -24,13 +24,14 @@ case $OSTYPE in
                 #  export LDFLAGS="-L/usr/local/opt/expat/lib:$LDFLAGS"
                 #  export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig:$PKG_CONFIG_PATH"
                 #  export PKG_CONFIG_PATH="/usr/local/opt/expat/lib/pkgconfig:$PKG_CONFIG_PATH"
-                export PATH="/usr/local/opt/curl/bin:$PATH"
-                export PATH="/usr/local/opt/expat/bin:$PATH"
-                export PATH="/usr/local/opt/libtool/libexec/gnubin:$PATH"
-                export PATH="/usr/local/opt/python@3.10/bin:$PATH"
+                local opt="/usr/local/opt"
+                export PATH="$opt/expat/bin:$PATH"
+                export PATH="$opt/libtool/libexec/gnubin:$PATH"
+                export PATH="$opt/opt/curl/bin:$PATH"
+                export PATH="$opt/python@3.10/bin:$PATH"
+                export PATH="$opt/sphinx-doc/bin:$PATH"
+                export PATH="$opt/terraform@0.12/bin:$PATH"
                 export PATH="/usr/local/lib/python3.10/site-packages:$PATH"
-                export PATH="/usr/local/opt/sphinx-doc/bin:$PATH"
-                export PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
             ;;
         esac
     ;;

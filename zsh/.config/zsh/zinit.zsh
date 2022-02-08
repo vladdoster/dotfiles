@@ -74,23 +74,22 @@ zi lucid wait'2' for \
   has'terraform' OMZP::terraform as'completion' OMZP::terraform/_terraform
 #=== GITHUB BINARIES ==========================================
 zi from'gh-r' lucid nocompile for \
-  sbin'**/bat -> bat'       @sharkdp/bat          \
-  sbin'**/d*a -> delta'     dandavison/delta      \
-  sbin'**/fd -> fd'         @sharkdp/fd           \
-  sbin'**/fx* -> fx'        @antonmedv/fx         \
-  sbin'**/gh'               cli/cli               \
-  sbin'**/g*r'              idc101/git-mkver      \
-  sbin'**/g*w'              charmbracelet/glow    \
-  sbin'**/h*e -> hyperfine' @sharkdp/hyperfine    \
-  sbin'**/l*t'              jesseduffield/lazygit \
-  sbin'**/nvim'      atinit'alias v=nvim'  ver'nightly' neovim/neovim \
-  sbin'**/p*s -> procs'     dalance/procs         \
-  sbin'**/rg -> rg'         BurntSushi/ripgrep    \
-  sbin'g*x -> grex'         pemistahl/grex        \
-  sbin'**/sh* -> shfmt'     @mvdan/sh             \
-  sbin'**/t*i -> tokei'     XAMPPRocky/tokei      \
-  sbin'fzf'                 junegunn/fzf          \
-  sbin'g*r'                 @github/git-sizer     \
+  sbin'**/bat'  @sharkdp/bat          \
+  sbin'**/d*a'  dandavison/delta      \
+  sbin'**/fd'   @sharkdp/fd           \
+  sbin'**/g*r'  idc101/git-mkver      \
+  sbin'**/g*w'  charmbracelet/glow    \
+  sbin'**/gh'   cli/cli               \
+  sbin'**/h*e'  @sharkdp/hyperfine    \
+  sbin'**/l*t'  jesseduffield/lazygit \
+  sbin'**/nvim' atinit'alias v=nvim'  ver'nightly' neovim/neovim \
+  sbin'**/p*s'  dalance/procs \
+  sbin'**/rg'   BurntSushi/ripgrep \
+  sbin'**/t*i' XAMPPRocky/tokei  \
+  sbin'fzf'    junegunn/fzf      \
+  sbin'g*r'    @github/git-sizer \
+  sbin'g*x'    pemistahl/grex    \
+  sbin'**/sh* -> shfmt' @mvdan/sh             \
   sbin'**/exa'  atclone'cp -vf completions/exa.zsh _exa' atinit"
       alias l='exa -blF'; alias la='exa -abghilmu'
       alias ll='exa -al'; alias tree='exa --tree'
