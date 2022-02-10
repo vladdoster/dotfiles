@@ -61,6 +61,7 @@ export FCEDIT=$EDITOR
 export SYSTEMD_EDITOR=$EDITOR
 export PAGER=less
 export MANPAGER="$PAGER"
+export PYTHONWARNINGS="ignore"
 # -- CDPATH ---------------------------------------------------------------------
 cdpath+=("$HOME" "..") && export cdpath
 # -- MANPATH ---------------------------------------------------------------------
