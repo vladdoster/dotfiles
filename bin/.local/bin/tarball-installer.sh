@@ -10,7 +10,7 @@ _err() {
 SRC_URL=$2
 PROGRAM_TARBALL=$(basename "$2")
 PROGRAM_SRC=$1
-MAKE_OPTS=$2
+MAKE_OPTS=$3
 
 _log "starting install of $PROGRAM_SRC from $SRC_URL"
 
@@ -45,34 +45,35 @@ if eval "$DL_CMD $SRC_URL"; then
     fi
 fi
 pushd "$PROGRAM_SRC"
-ls -al
-_log "configuring $PROGRAM_SRC"
-if autoconf; then
-    _log "autoconf ran successfully, continuing"
-elif autoreconf -iv; then
-    _log "autoreconf successful, continuing"
-elif sh autogen.sh; then
-    _log "ran autogen.sh successfully, continuing"
-elif AUTOCONF=autoconf2.69 sh ./autogen.sh; then
-    _log "ran autogen.sh successfully, continuing"
-elif cmake .; then
-    _log "ran cmake successfully, continuing"
-else
-    _log "failed $PROGRAM_SRC configuration"
-fi
-if [[ -f configure.ac ]]; then
-    if automake; then
-        _log "configure.ac file present, executing automake"
+if [[ ! -e 'Makefile' ]]; then 
+    _log "configuring $PROGRAM_SRC"
+    if autoconf; then
+        _log "autoconf ran successfully, continuing"
+    elif autoreconf -iv; then
+        _log "autoreconf successful, continuing"
+    elif sh autogen.sh; then
+        _log "ran autogen.sh successfully, continuing"
+    elif AUTOCONF=autoconf2.69 sh ./autogen.sh; then
+        _log "ran autogen.sh successfully, continuing"
+    elif cmake .; then
+        _log "ran cmake successfully, continuing"
+    else
+        _log "failed $PROGRAM_SRC configuration"
+    fi
+    if [[ -f configure.ac ]]; then
+        if automake; then
+            _log "configure.ac file present, executing automake"
+        fi
+    fi
+    if ./configure; then
+        _log "configure file present, executing"
+    elif ./Configure; then
+        _log "Configure file present, executing"
+    else
+        _log "failed $PROGRAM_SRC configuration"
     fi
 fi
-if ./configure; then
-    _log "configure file present, executing"
-elif ./Configure; then
-    _log "Configure file present, executing"
-else
-    _log "failed $PROGRAM_SRC configuration"
-fi
-if make --jobs 8; then
+if make --jobs 8 $MAKE_OPTS; then
     _log "make successful, continuing"
     if sudo make --jobs 8 install; then
         _log "$PROGRAM_SRC installed"

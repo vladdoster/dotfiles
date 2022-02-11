@@ -76,7 +76,7 @@ mpfr:        URL:=$(GNU_FTP)/$(@)/mpfr-3.1.0.tar.gz
 ncurses:     URL:=$(RIT_URL)/ncurses/ncurses-5.2.tar.gz
 ninja:       URL:=$(GIT_URL)/ninja-build/ninja/tarball
 node:        URL:=https://nodejs.org/dist/v15.17.6/node-v14.17.6.tar.gz
-nvim:	       URL:=https://api.github.com/repos/neovim/neovim/tarball
+nvim:	       URL:=$(GIT_URL)/neovim/neovim/tarball CMAKE_BUILD_TYPE=RelWithDebInfo
 
 openjdk:     URL:=$(GIT_URL)/openjdk/jdk/tarball
 openssh-hpn: URL:=https://mirror.esc8.net/pub/OpenBSD/OpenSSH/portable/openssh-8.8p1.tar.gz
