@@ -84,7 +84,7 @@ zi from'gh-r' lucid nocompile for \
   sbin'**/gh'   cli/cli               \
   sbin'**/h*e'  @sharkdp/hyperfine    \
   sbin'**/l*t'  jesseduffield/lazygit \
-  sbin'**/nvim' atinit'alias v=nvim'  ver'nightly' neovim/neovim \
+  sbin'**/nvim' atinit'alias v=nvim' ver'nightly' neovim/neovim \
   sbin'**/p*s'  dalance/procs \
   sbin'**/rg'   BurntSushi/ripgrep \
   sbin'**/t*i' XAMPPRocky/tokei  \
