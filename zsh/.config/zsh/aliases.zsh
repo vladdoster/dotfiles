@@ -96,6 +96,9 @@ if has nvim; then
   #  elif has vi; then
   #  export EDITOR='vi'
 fi
+if has python3; then
+  alias python='python3'
+fi
 #= CONFIG SHORTCUTS ==============================
 alias ealiases="_edit $ZDOTDIR/aliases.zsh"
 alias emcutils="_edit $ZDOTDIR/lib/azure.sh"
