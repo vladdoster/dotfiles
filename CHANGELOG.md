@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/vladdoster/dotfiles/compare/v1.3.5...v1.4.0) (2022-02-12)
+
+
+### Features
+
+* add get-gh-release.sh to download and install programs hosted on GitHub ([30576b2](https://github.com/vladdoster/dotfiles/commit/30576b277bddb6ef8350622046221b34b460fb74))
+
 ## [1.3.5](https://github.com/vladdoster/dotfiles/compare/v1.3.4...v1.3.5) (2022-02-11)
 
 ## [1.3.4](https://github.com/vladdoster/dotfiles/compare/v1.3.3...v1.3.4) (2022-02-09)
