@@ -27,7 +27,7 @@ config = {
         defaultDisplayLayouts={['Built-in Retina Display']={'main-center'}},
         displayLayouts={['Built-in Retina Display']={'main-center', 'main-right', 'monocle'}}
     },
-    window={highlightBorder=true, highlightMouse=true, historyLimit=0}
+    window={highlightBorder=false, highlightMouse=true, historyLimit=0}
 }
 -- SETTINGS -----------------------------
 bindings = require('bindings')

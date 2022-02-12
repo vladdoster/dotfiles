@@ -63,10 +63,9 @@ zi lucid wait'1' for \
     OMZ::plugins/history-substring-search
 #=== COMPLETION ==========================================
 zi lucid wait'2' for \
-  has'brew'  as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
-  has'cargo' as'completion' https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo      \
-  has'docker'         as'completion' is-snippet OMZP::docker/_docker                 \
-  has'docker-compose' as'completion' is-snippet OMZP::docker-compose/_docker-compose \
+  is-snippet as'completion' https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
+  is-snippet as'completion' https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo \
+  is-snippet as'completion' https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker \
   has'go'  OMZP::golang as'completion' OMZP::golang/_golang \
   has'npm' OMZP::npm \
   has'pip' OMZP::pip as'completion' OMZP::pip/_pip \
