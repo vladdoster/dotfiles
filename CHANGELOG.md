@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/vladdoster/dotfiles/compare/v1.4.1...v1.4.2) (2022-02-12)
+
+
+### Bug Fixes
+
+* hammerspoon tiling & docker completions ([570b274](https://github.com/vladdoster/dotfiles/commit/570b274cc82795e71d56656e9b1a6bf2967868f7))
+
 ## [1.4.1](https://github.com/vladdoster/dotfiles/compare/v1.4.0...v1.4.1) (2022-02-12)
 
 # [1.4.0](https://github.com/vladdoster/dotfiles/compare/v1.3.5...v1.4.0) (2022-02-12)
