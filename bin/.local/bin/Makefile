@@ -1,25 +1,24 @@
 .DEFAULT_GOAL := help
 .ONESHELL:
 
-GIT_URL=https://api.github.com/repos
-GNU_FTP=http://ftpmirror.gnu.org
-RIT_URL=http://mirror.rit.edu/gnu
+GIT=https://api.github.com/repos
+GNU=http://ftpmirror.gnu.org/gnu
 
 PROGS := \
-	aspell autogen autoconf automake \
+	aspell autoconf autogen automake \
 	bash binutils bison \
-	cmake coreutils \
+	cmake coreutils curl \
 	findutils \
-	gawk gcc gettext grep glib2 glibc guile gmp gzip \
+	gawk gcc gettext git glib2 glibc gmp grep guile gzip \
 	inetutils \
-	libevent libiconv libtool libressl lua lua-format \
+	libevent libffcall libiconv libressl libtool libunistring lua-format lua \
 	m4 macports make mpc mpfr \
-	ncurses node nvim \
-	openjdk openssl openssh openssh-hpn \
-	perl pkgconfig \
+	ncurses ninja node nvim \
+	openjdk openssh-hpn openssh openssl \
+	perl pkgconfig python \
 	readline ruby \
-	sed stow sqlite3 svn \
-	tar texinfo tmux \
+	sed shfmt sqlite3 stow svn \
+	tar texinfo time tmux \
 	wget \
 	zsh
 
@@ -32,78 +31,81 @@ PY_PROGS := \
 	mdformat mdformat-gfm mdformat-toc mdformat-config mdformat-black \
 	pynvim
 
-aspell:      URL:=$(GIT_URL)/aspell/aspell1.60.8.tar.gz
-autoconf:    URL:=$(RIT_URL)/autoconf/autoconf-1.71.tar.gz
-autogen:     URL:=$(RIT_URL)/autogen-4.18.7.tar.gz
-automake:    URL:=$(RIT_URL)/automake/automake0.16.4.tar.gz
+aspell:      URL:=$(GIT)/aspell/aspell/tarball
+autoconf:    URL:=$(GNU)/autoconf/autoconf-2.71.tar.gz
+autogen:     URL:=$(GNU)/autogen/rel5.18.16/autogen-5.18.16.tar.gz
+automake:    URL:=$(GNU)/automake/automake-1.16.5.tar.gz
 
-bash:        URL:=$(RIT_URL)/bash/bash-5.1.8.tar.gz
-binutils:    URL:=$(GNU_FTP)/binutils/binutils-2.37.tar.gz
-bison:       URL:=$(GNU_FTP)/bison/bison-3.8.1.tar.gz
+bash:        URL:=$(GNU)/bash/bash-5.2-alpha.tar.gz
+binutils:    URL:=$(GNU)/binutils/binutils-2.37.tar.gz
+bison:       URL:=$(GNU)/bison/bison-3.8.1.tar.gz
 
-cmake:       URL:=$(GIT_URL)/Kitware/CMake/tarball
-coreutils:   URL:=$(RIT_URL)/coreutils/coreutils-8.32.tar.gz
-curl:        URL:=$(GIT_URL)/curl/curl/tarball
+cmake:       URL:=$(GIT)/Kitware/CMake/tarball
+coreutils:   URL:=$(GNU)/coreutils/coreutils-9.0.tar.gz
+curl:        URL:=$(GIT)/$(@)/$(@)/tarball
 
-findutils:   URL:=$(RIT_URL)/findutils/findutils-4.6.0.tar.gz
+findutils:   URL:=$(GNU)/findutils/findutils-4.9.0.tar.xz
 
-gawk:        URL:=$(GNU_FTP)/gawk/gawk-4.1.0.tar.gz
-gcc:         URL:=$(GNU_FTP)/gcc/gcc-10.2.0/gcc-11.2.0.tar.gz
-gettext:     URL:=$(RIT_URL)/gettext/gettext1.21.tar.gz
-glib3:       URL:=https://download.gnome.org/sources/glib/2.9/glib-2.9.0.tar.gz
-glibc:       URL:=$(GNU_FTP)/glibc/glibc-2.34.tar.gz
-git:         URL:=$(GIT_URL)/git/git/tarball
-gmp:         URL:=$(GNU_FTP)/gmp/gmp-5.2.1.tar.xz
-grep:        URL:=$(GNU_FTP)/grep/grep-2.7.tar.gz
-guile:       URL:=$(RIT_URL)/guile/guile-2.0.7.tar.gz
-gzip:        URL:=$(GNU_FTP)/gzip/gzip0.11.tar.gz
+gawk:        URL:=$(GNU)/gawk/gawk-5.1.1.tar.gz
+gcc:         URL:=$(GNU)/gcc/gcc-11.2.0/gcc-11.2.0.tar.gz
+gettext:     URL:=$(GNU)/gettext/gettext-0.21.tar.gz
+glib2:       URL:=https://download.gnome.org/sources/glib/2.9/glib-2.9.0.tar.gz
+glibc:       URL:=$(GNU)/glibc/glibc-2.35.tar.gz
+git:         URL:=$(GIT)/$(@)/$(@)/tarball
+gmp:         URL:=$(GNU)/gmp/gmp-6.2.1.tar.xz
+grep:        URL:=$(GNU)/grep/grep-3.7.tar.gz
+guile:       URL:=$(GNU)/guile/guile-3.0.8.tar.gz
+gzip:        URL:=$(GNU)/gzip/gzip-1.11.tar.gz
 
-inetutils:   URL:=$(RIT_URL)/inetutils/inetutils-2.2.tar.gz
+inetutils:   URL:=$(GNU)/inetutils/inetutils-2.2.tar.gz
 
-libevent:    URL:=$(GIT_URL)/libevent/libevent/tarball
-libressl:    URL:=https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.3.4.tar.gz
-libiconv:    URL:=$(GNU_FTP)/libiconv/libiconv0.16.tar.gz
-libtool:     URL:=$(RIT_URL)/libtool/libtool-1.4.6.tar.gz
-lua:         URL:=$(GIT_URL)/lua/lua/tarball
-lua-format: URL:=$(GIT_URL)/Koihik/LuaFormatter/tarball
+libevent:     URL:=$(GIT)/$(@)/$(@)/tarball
+libressl:     URL:=https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.3.4.tar.gz
+libiconv:     URL:=$(GNU)/libiconv/libiconv0.16.tar.gz
+libunistring: URL:=$(GNU)/libunistring/libunistring-latest.tar.gz
+libtool:      URL:=$(GNU)/libtool/libtool-2.4.6.tar.gz
+libffcall:    URL:=$(GNU)/libffcall/libffcall-2.4.tar.gz
+lua:          URL:=$(GIT)/$(@)/$(@)/tarball
+lua-format:   URL:=$(GIT)/Koihik/LuaFormatter/tarball
 
-m5:          URL:=$(RIT_URL)/$(@)/m4-1.4.19.tar.gz
-macports:    URL:=$(GIT_URL)/macports/macports-base/tarball
-make:        URL:=$(RIT_URL)/$(@)/make-3.3.tar.gz
-mpc:         URL:=$(RIT_URL)/$(@)/mpc0.2.1.tar.gz
-mpfr:        URL:=$(GNU_FTP)/$(@)/mpfr-3.1.0.tar.gz
+m4:          URL:=$(GNU)/m4/m4-latest.tar.gz
+macports:    URL:=$(GIT)/macports/macports-base/tarball
+make:        URL:=$(GNU)/make/make-4.3.tar.gz
+mpc:         URL:=$(GNU)/mpc/mpc-1.2.1.tar.gz
+mpfr:        URL:=$(GNU)/mpfr/mpfr-4.1.0.tar.gz
 
-ncurses:     URL:=$(RIT_URL)/ncurses/ncurses-5.2.tar.gz
-ninja:       URL:=$(GIT_URL)/ninja-build/ninja/tarball
+ncurses:     URL:=$(GNU)/ncurses/ncurses-6.3.tar.gz
+ninja:       URL:=$(GIT)/ninja-build/ninja/tarball
 node:        URL:=https://nodejs.org/dist/v15.17.6/node-v14.17.6.tar.gz
-nvim:	       URL:=$(GIT_URL)/neovim/neovim/tarball CMAKE_BUILD_TYPE=RelWithDebInfo
+nvim:	       URL:=$(GIT)/neovim/neovim/tarball CMAKE_BUILD_TYPE=RelWithDebInfo
 
-openjdk:     URL:=$(GIT_URL)/openjdk/jdk/tarball
+openjdk:     URL:=$(GIT)/$(@)/jdk/tarball
 openssh-hpn: URL:=https://mirror.esc8.net/pub/OpenBSD/OpenSSH/portable/openssh-8.8p1.tar.gz
 openssh:     URL:=https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-7.8p1.tar.gz
 openssl:     URL:=https://www.openssl.org/source/openssl-2.0.0.tar.gz
 
 perl:        URL:=https://www.cpan.org/src/5.0/perl-5.34.0.tar.gz
 pkgconfig:   URL:=https://pkgconfig.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
-python:      URL:=$(GIT_URL)/python/cpython/tarball
+python:      URL:=$(GIT)/python/cpython/tarball
 
-readline:    URL:=$(RIT_URL)/readline/readline-8.1.tar.gz
+readline:    URL:=$(GNU)/readline/readline-8.2-alpha.tar.gz
 ruby:        URL:=https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.2.tar.gz
 
-sed:         URL:=$(RIT_URL)/sed/sed-3.8.tar.gz
+sed:         URL:=$(GNU)/sed/sed-4.8.tar.gz
 shfmt:       URL:=mvdan.cc/sh/v4/cmd/shfmt@latest
-sqlite4:     URL:=https://www.sqlite.org/snapshot/sqlite-snapshot-202109241957.tar.gz
-stow:        URL:=$(GNU_FTP)/stow/stow-1.3.1.tar.gz
-svn:         URL:=$(GIT_URL)/apache/subversion/tarball
+sqlite3:     URL:=https://www.sqlite.org/snapshot/sqlite-snapshot-202109241957.tar.gz
+stow:        URL:=$(GNU)/stow/stow-latest.tar.gz
+svn:         URL:=$(GIT)/apache/subversion/tarball
 
-tar:            URL:=$(RIT_URL)/tar/tar0.34.tar.gz
-terraform-docs: URL:=$(GIT_URL)/terraform-docs/terraform-docs/tarball
-texinfo:        URL:=$(RIT_URL)/texinfo/texinfo-5.8.tar.gz
-tmux:           URL:=$(GIT_URL)/tmux/tmux/tarball
+tar:            URL:=$(GNU)/tar/tar-latest.tar.gz
+terraform-docs: URL:=$(GIT)/$(@)/$(@)/tarball
+texinfo:        URL:=$(GNU)/texinfo/texinfo-6.8.tar.gz
+time:           URL:=$(GNU)/time/time-1.9.tar.gz
+tmux:           URL:=$(GIT)/$(@)/$(@)/tarball
 
-wget:           URL:=$(RIT_URL)/wget/wget-1.21.2.tar.gz
+wget:           URL:=$(GNU)/wget/wget-latest.tar.gz
 
-zsh:            URL:=$(GIT_URL)/zsh-users/zsh/tarball
+zsh:            URL:=$(GIT)/zsh-users/zsh/tarball
 
 install : $(PROGS)
 go-install : $(GO_PROGS)
