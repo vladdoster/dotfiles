@@ -18,6 +18,7 @@
   excludesfile = ~/.config/git/ignore
   pager        = delta
   whitespace   = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+	hooksPath = .husky
 
 [commit]
   template = ~/.config/git/commit-template
@@ -104,9 +105,9 @@
 #############
   cl   = clone
   cld  = clone --depth 1
-  clg  = !sh -c 'git clone git://github.com/$1 $(basename $1)' -
+  clg  = !sh -c 'git clone https://github.com/$1' -
   clgp = !sh -c 'git clone git@github.com:$1 $(basename $1)' -
-  clgu = !sh -c 'git clone git@github.com:$(git config --get user.username)/$1 $1' -
+  clgu = !sh -c 'git clone git://github.com/$(git config --get user.username)/$1 $1' -
 #############
   cp = cherry-pick
   cpa = cherry-pick --abort
