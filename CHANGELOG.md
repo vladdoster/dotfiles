@@ -1,3 +1,17 @@
+# [1.5.0](https://github.com/vladdoster/dotfiles/compare/v1.4.2...v1.5.0) (2022-02-15)
+
+
+### Bug Fixes
+
+* clean up history env vars & try pip completion ([03fc305](https://github.com/vladdoster/dotfiles/commit/03fc3051bdd463660b3193004aea6b021501ebf9))
+* clean up tmux config annoyances and visuals ([024b246](https://github.com/vladdoster/dotfiles/commit/024b24659530803e62aebbef69790f68a6268485))
+
+
+### Features
+
+* add easy way to clone github repositories ([f03980e](https://github.com/vladdoster/dotfiles/commit/f03980ed4a3effe531902c1f4fc0bd4171d3c903))
+* add graphviz and yasm ([c7b0644](https://github.com/vladdoster/dotfiles/commit/c7b0644f914228012ff0f1a07921ce983d0575fd))
+
 ## [1.4.2](https://github.com/vladdoster/dotfiles/compare/v1.4.1...v1.4.2) (2022-02-12)
 
 
