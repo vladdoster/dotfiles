@@ -9,7 +9,7 @@ PROGS := \
 	bash binutils bison \
 	cmake coreutils curl \
 	findutils \
-	gawk gcc gettext git glib2 glibc gmp grep guile gzip \
+	gawk gcc gettext git glib2 glibc gmp grep guile gzip graphviz \
 	inetutils \
 	libevent libffcall libiconv libressl libtool libunistring lua-format lua \
 	m4 macports make mpc mpfr \
@@ -20,6 +20,7 @@ PROGS := \
 	sed shfmt sqlite3 stow svn \
 	tar texinfo time tmux \
 	wget \
+	yasm \
 	zsh
 
 GO_PROGS := \
@@ -56,6 +57,7 @@ gmp:         URL:=$(GNU)/gmp/gmp-6.2.1.tar.xz
 grep:        URL:=$(GNU)/grep/grep-3.7.tar.gz
 guile:       URL:=$(GNU)/guile/guile-3.0.8.tar.gz
 gzip:        URL:=$(GNU)/gzip/gzip-1.11.tar.gz
+graphviz:     URL:=$(GIT)/graphp/graphviz/tarball
 
 inetutils:   URL:=$(GNU)/inetutils/inetutils-2.2.tar.gz
 
@@ -104,6 +106,8 @@ time:           URL:=$(GNU)/time/time-1.9.tar.gz
 tmux:           URL:=$(GIT)/$(@)/$(@)/tarball
 
 wget:           URL:=$(GNU)/wget/wget-latest.tar.gz
+
+yasm:           URL:=$(GIT)/yasm/yasm/tarball
 
 zsh:            URL:=$(GIT)/zsh-users/zsh/tarball
 
