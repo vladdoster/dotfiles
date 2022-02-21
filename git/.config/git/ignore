@@ -17,6 +17,7 @@ cmd-history
 .zsh_history
 bin/.local/bin/zsh
 bin/.local/man
+*.lock.json
 #-- MAC_OS ---------------------------------------
 .DS_Store
 .AppleDouble
