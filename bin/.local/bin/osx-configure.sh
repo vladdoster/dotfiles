@@ -1,13 +1,17 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 #
 # Close open System Preferences panes preventing overriding changed settings
 #
+function error() { print -P "%F{160}[ERROR] ---%f%b $1" >&2 && exit 1; }
+function user_input() { print -P "%F{20} ---%f%b $1" >&2 && exit 1; }
+function info() { print -P "%F{34}[INFO] ---%f%b $1"; }
 osascript -e 'tell application "System Preferences" to quit' # Ask for the administrator password upfront
 sudo -v
 while true; do # Keep-alive: update existing `sudo` time stamp until finished
 	sudo -n true && sleep 60 && kill -0 "$$" || exit 1
 done 2>/dev/null &
 #== GENERAL UI/UX                                                               #
+info "Updating general system settings"
 sudo nvram SystemAudioVolume=" "                                                       # Disable the sound effects on boot
 defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600" # Set highlight color to green
 defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2                        # Set sidebar icon size to medium
@@ -37,6 +41,7 @@ defaults write com.apple.LaunchServices LSQuarantine -bool true
 # remove duplicates in the “open with” menu (also see `lscleanup` alias)
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
 #== TRACKPAD, MOUSE, KEYBOARD, BLUETOOTH ACCESSORIES, AND INPUT                 #
+info "updating trackpad, mouse, keyboard, and bluetooth settings"
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true # Trackpad: enable tap to click for this user and for the login screen
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
@@ -58,6 +63,7 @@ defaults write NSGlobalDomain AppleLocale -string "en_US@currency=USD"
 defaults write NSGlobalDomain AppleMeasurementUnits -string "Inches"
 defaults write NSGlobalDomain AppleMetricUnits -bool false
 #== SCREEN                                                                      #
+info "Updating display settings"
 defaults write com.apple.screensaver askForPassword -int 1 # Require password immediately after sleep or screen saver begins
 defaults write com.apple.screensaver askForPasswordDelay -int 0
 defaults write com.apple.screencapture location -string "$HOME/Desktop"                             # Save screenshots to the desktop
@@ -65,6 +71,7 @@ defaults write com.apple.screencapture type -string "png"                       
 defaults write com.apple.screencapture disable-shadow -bool true                                    # Disable shadow in screenshots
 sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true # Enable subpixel font rendering on non-Apple LCDs
 #== FINDER                                                                      #
+info "Updating finder settings"
 defaults write com.apple.finder QuitMenuItem -bool true         # Finder: allow quitting via ⌘ + Q; doing so will also hide desktop icons
 defaults write com.apple.finder DisableAllAnimations -bool true # Finder: disable window animations and Get Info animations
 defaults write com.apple.finder NewWindowTarget -string "PfDe"  # Set Desktop as the default location for new Finder windows
@@ -117,6 +124,7 @@ file=/Applications/Dropbox.app/Contents/Resources/emblem-dropbox-uptodate.icns #
 # expand the following file info panes
 defaults write com.apple.finder FXInfoPanesExpanded -dict General -bool true OpenWith -bool true Privileges -bool true
 # DOCK, DASHBOARD, AND HOT CORNERS
+info "updating dock, dashboard, and hot corner settings"
 defaults write com.apple.dashboard mcx-disabled -bool true                        # Disable Dashboard
 defaults write com.apple.dock autohide -bool true                                 # Automatically hide and show the Dock
 defaults write com.apple.dock autohide-delay -float 0                             # Remove the auto-hiding Dock delay
@@ -142,6 +150,7 @@ defaults write com.apple.dock wvous-tl-modifier -int 0
 defaults write com.apple.dock wvous-tr-corner -int 2 # Top right screen corner
 defaults write com.apple.dock wvous-tr-modifier -int 0
 # SAFARI & WEBKIT
+info "updating safari and webkit settings"
 defaults write NSGlobalDomain WebKitDeveloperExtras -bool true                  # Add a context menu item for showing the Web Inspector in web views
 defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false     # Make Safari’s search banners default to Contains instead of Starts With
 defaults write com.apple.Safari IncludeDevelopMenu -bool true                   # Enable the Develop menu and the Web Inspector in Safari
@@ -209,13 +218,13 @@ for application in \
 	"cfprefsd"; do
 	killall "$application" &>/dev/null
 done
-echo "--- Successfully applied configuration options"
-echo "Reboot $HOSTNAME?[y/N]: " # Prompt user to reboot
+info "successfully applied configuration options"
+user_input "Reboot $HOSTNAME?[y/N]: " # Prompt user to reboot
 read -r REBOOT
 if [[ $REBOOT == "y" ]]; then
-	echo "--- Rebooting..."
+	info "rebooting in 5 seconds..."
 	sleep 5
 	sudo reboot
 fi
-echo "--- Skipping reboot"
+info "skipping reboot"
 exit 0
