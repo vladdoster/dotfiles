@@ -1,3 +1,14 @@
+# [1.7.0](https://github.com/vladdoster/dotfiles/compare/v1.6.0...v1.7.0) (2022-02-21)
+
+
+### Features
+
+* add script to display 255 color codes ([4a98b80](https://github.com/vladdoster/dotfiles/commit/4a98b8053b3d1adc91c5b71171c67ee65fe069ad))
+* compile zsh configs for faster load times (~100%) ([a0242c8](https://github.com/vladdoster/dotfiles/commit/a0242c8197e5246090d8228783e4b330928467b4))
+* ignore compiled zsh files (e.g., *.zwc*) ([48dfef7](https://github.com/vladdoster/dotfiles/commit/48dfef7e91612e1f8b75a53bc8d043617bec850b))
+* new aliases to easily access zsh related configs ([4395050](https://github.com/vladdoster/dotfiles/commit/43950506b958d36909e612bcfa765f494aa6bfd0))
+* testing rustup plugin for certain binaries (e.g., exa, delta) ([f442e85](https://github.com/vladdoster/dotfiles/commit/f442e85077d83a57e4790e225e37d340f0be062a))
+
 # [1.6.0](https://github.com/vladdoster/dotfiles/compare/v1.5.0...v1.6.0) (2022-02-21)
 
 ### Features
