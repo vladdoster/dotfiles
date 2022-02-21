@@ -5,14 +5,15 @@
       "@semantic-release/commit-analyzer",
       {
         "releaseRules": [
-          { "type": "build", "release": "patch" },
-          { "type": "chore", "release": "patch" },
-          { "type": "ci", "release": "patch" },
-          { "type": "docs", "release": "patch" },
-          { "type": "maint", "release": "patch" },
+          { "type": "bugfix",   "release": "patch" },
+          { "type": "build",    "release": "patch" },
+          { "type": "chore",    "release": "patch" },
+          { "type": "ci",       "release": "patch" },
+          { "type": "docs",     "release": "patch" },
+          { "type": "maint",    "release": "patch" },
           { "type": "refactor", "release": "patch" },
-          { "type": "release", "release": "minor" },
-          { "type": "style", "release": "patch" }
+          { "type": "release",  "release": "minor" },
+          { "type": "style",    "release": "patch" }
         ]
       }
     ],
