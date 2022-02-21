@@ -11,6 +11,7 @@ jobs:
         with:
           node-version: '16'
           cache: 'npm'
+          cache-dependency-path: '**/.github/workflows/release.yml'          
           check-latest: true
       - run: |
           npm install --global \
