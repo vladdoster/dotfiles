@@ -2,6 +2,7 @@
 if echo "$-" | grep i >/dev/null; then
 	export IS_TTY="${IS_TTY:=false}"
 fi
+export ZPLUG_HOME=$HOME/.local/share/zsh/zplug
 LOG_LEVEL="error"
 _log() {
 	if $IS_TTY; then
@@ -105,6 +106,7 @@ alias emcutils="_edit $ZDOTDIR/lib/azure.sh"
 alias gitignore="_edit $XDG_CONFIG_HOME/git/ignore"
 alias gitrc="_edit $XDG_CONFIG_HOME/git/config"
 alias hs="_goto $HOME/.hammerspoon/"
+alias hsc="_goto $HOME/.hammerspoon/init.lua"
 alias kittyrc="_edit $XDG_CONFIG_HOME/kitty/kitty.conf"
 alias nvcln="rm -fr $HOME/.{local/share/nvim,config/nvim/lua/packer_compiled}"
 alias nvfmt="_edit $XDG_CONFIG_HOME/nvim/lua/plugins/format.lua"
@@ -112,8 +114,9 @@ alias nvopt="_edit $XDG_CONFIG_HOME/nvim/lua/core/options.lua"
 alias nvplg="_edit $XDG_CONFIG_HOME/nvim/lua/plugins/init.lua"
 alias sshrc="_edit $HOME/.ssh/config"
 alias tmuxrc="_edit $XDG_CONFIG_HOME/tmux/tmux.conf"
-alias zenv="_edit $HOME/.zshenv"
-alias zrc="_edit $ZDOTDIR/zinit.zsh"
+alias zec="_edit $HOME/.zshenv"
+alias zic="_edit $ZDOTDIR/zinit.zsh"
+alias zsc="_edit $ZDOTDIR/.zshrc"
 #= RELOAD COMMANDS ===============================
 alias zcln="rm -fr ${HOME}/{.local/share/{zinit,zsh},.cache,.config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
 alias zreset="zcln && zrld"
