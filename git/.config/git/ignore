@@ -12,6 +12,7 @@ TAGS
 tags
 .tags
 !tags/
+*.zwc*
 cmd-history
 .zsh_history
 bin/.local/bin/zsh
