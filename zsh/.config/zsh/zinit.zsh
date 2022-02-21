@@ -38,7 +38,7 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
   && _comps[zinit]=_zinit
 #=== PROMPT & THEME ====================================
 zi light-mode for \
-    "$ZI_REPO"/zinit-annex-{'submods','patch-dl','bin-gem-node'} \
+    "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','rust','submods'} \
   compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
       PURE_GIT_UP_ARROW='↑'; PURE_GIT_DOWN_ARROW='↓'; PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ';
       zstyle ':prompt:pure:git:action' color 'yellow'; zstyle ':prompt:pure:git:branch' color 'blue'; zstyle ':prompt:pure:git:dirty' color 'red'
@@ -59,14 +59,26 @@ zi lucid wait for \
     OMZ::plugins/history-substring-search
 #=== COMPLETION ==========================================
 zi lucid wait is-snippet as'completion' for \
-  OMZP::golang/_golang \
-  OMZP::pip/_pip \
-  OMZP::terraform/_terraform \
+  OMZP::{'golang/_golang','pip/_pip','terraform/_terraform','npm'} \
   https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
   https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker \
-  https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo
-  #  has'npm' OMZP::npm \
-  #  has'rsync' PZTM::rsync \
+  https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo \
+  PZTM::rsync
+
+zi as'null' id-as'rust' sbin'bin/*' rustup \
+   atload"[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall rust \
+          && export CARGO_HOME=$PWD RUSTUP_HOME=$PWD/rustup" \
+   cargo'bat;exa -> ls;fd-find;flamegraph;hyperfine;ripgrep;sd;skim;zenith;git-delta' for \
+     zdharma-continuum/null
+# zi wait rustup cargo'!exa;delta;' as"command" pick"bin/(exa|delta)" for \
+#   "$ZI_REPO"/null
+# zinit ice rustup cargo'exa;git-delta;tokei' pick"bin/(exa|delta|tokei)"
+# zinit load zdharma-continuum/null
+
+# zinit id-as=rust wait=1 as=null sbin="bin/*" lucid rustup \
+#     atload="[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall rust; \
+#     export CARGO_HOME=\$PWD RUSTUP_HOME=\$PWD/rustup" for \
+#         zdharma-continuum/null
 #=== GITHUB BINARIES ==========================================
 zi pip'black; isort; mdformat; mdformat-gfm; mdformat-tables; mdformat-toc; tldr; wheel' load for \
   "$ZI_REPO"/null
@@ -92,6 +104,8 @@ zi pip'black; isort; mdformat; mdformat-gfm; mdformat-tables; mdformat-toc; tldr
       #  alias ll='exa -al'; alias tree='exa --tree'
       #  alias ls='exa --git --group-directories-first'" \
     #  ogham/exa
+    
+
 #=== PIP COMPLETION
 function _pip_completion {
   local words cword && read -Ac words && read -cn cword
@@ -100,4 +114,3 @@ function _pip_completion {
              PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
 }
 compctl -K _pip_completion pip3
-#  eval "$(pip3 completion --zsh)" &
