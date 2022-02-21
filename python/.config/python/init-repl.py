@@ -7,21 +7,24 @@ regular Python commands, so do what you will. Your ~/.inputrc file can greatly
 complement this file.
 
 """
-# Imports we need
-import sys
-import os
-import readline, rlcompleter
 import atexit
-from pprint import pprint
-from tempfile import mkstemp
-from code import InteractiveConsole
 
 # Imports we want
 import datetime
+import os
 import pdb
+import readline
+import rlcompleter
+
+# Imports we need
+import sys
+from code import InteractiveConsole
+from pprint import pprint
+from tempfile import mkstemp
 
 # Color Support
 ###############
+
 
 class TermColors(dict):
     """Gives easy access to ANSI color codes. Attempts to fall back to no color
@@ -157,10 +160,10 @@ def SECRET_KEY():
 
 # If we're working with a Django project, set up the environment
 if "DJANGO_SETTINGS_MODULE" in os.environ:
+    from django.conf import settings as S
     from django.db.models.loading import get_models
     from django.test.client import Client
     from django.test.utils import setup_test_environment, teardown_test_environment
-    from django.conf import settings as S
 
     class DjangoModels(object):
         """Loop through all the models in INSTALLED_APPS and import them."""
@@ -200,8 +203,8 @@ Warning: DEBUG_PROPAGATE_EXCEPTIONS has been set to True.
 ##############
 if "SALT_CLIENT_CONFIG" in os.environ:
     try:
-        import salt.config
         import salt.client
+        import salt.config
         import salt.runner
     except ImportError:
         pass
@@ -214,10 +217,10 @@ if "SALT_CLIENT_CONFIG" in os.environ:
 
 if "SALT_MINION_CONFIG" in os.environ:
     try:
-        import salt.config
-        import salt.client
-        import salt.loader
         import jinja2
+        import salt.client
+        import salt.config
+        import salt.loader
         import yaml
     except ImportError:
         pass

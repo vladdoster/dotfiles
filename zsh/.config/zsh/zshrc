@@ -13,5 +13,5 @@ module_path+=("/Users/anonymous/.local/share/zsh/zinit/module/Src")
 zmodload zdharma_continuum/zinit
 zsh_config=(aliases zinit fzf git-fzf)
 for FILE in ${zsh_config[@]}; do
-  . "${ZDOTDIR:-$HOME/.config/zsh}/${FILE}.zsh"
+	. "${ZDOTDIR:-$HOME/.config/zsh}/${FILE}.zsh"
 done

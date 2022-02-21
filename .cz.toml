@@ -2,6 +2,4 @@
 name = "cz_conventional_commits"
 tag_format = "v$version"
 version = '1.5.0'
-version_files = [
-    "VERSION"
-]
+version_files = ["VERSION"]

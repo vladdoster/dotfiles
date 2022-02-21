@@ -1,14 +1,14 @@
 #!/bin/bash
 
 function git_stashes_count {
-  st_num=$(/usr/bin/git stash list 2> /dev/null | wc -l | tr -d ' ')
-  if [[ $st_num != "0" ]]; then
-    echo "stashes($st_num) "
-  fi
+	st_num=$(/usr/bin/git stash list 2>/dev/null | wc -l | tr -d ' ')
+	if [[ $st_num != "0" ]]; then
+		echo "stashes($st_num) "
+	fi
 }
 
 function parse_git_branch {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/{\1}/'
+	git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/{\1}/'
 }
 
 BLUE="\[\e[0;34m\]"

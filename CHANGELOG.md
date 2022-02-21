@@ -1,32 +1,28 @@
 # [1.5.0](https://github.com/vladdoster/dotfiles/compare/v1.4.2...v1.5.0) (2022-02-15)
 
-
 ### Bug Fixes
 
-* clean up history env vars & try pip completion ([03fc305](https://github.com/vladdoster/dotfiles/commit/03fc3051bdd463660b3193004aea6b021501ebf9))
-* clean up tmux config annoyances and visuals ([024b246](https://github.com/vladdoster/dotfiles/commit/024b24659530803e62aebbef69790f68a6268485))
-
+- clean up history env vars & try pip completion ([03fc305](https://github.com/vladdoster/dotfiles/commit/03fc3051bdd463660b3193004aea6b021501ebf9))
+- clean up tmux config annoyances and visuals ([024b246](https://github.com/vladdoster/dotfiles/commit/024b24659530803e62aebbef69790f68a6268485))
 
 ### Features
 
-* add easy way to clone github repositories ([f03980e](https://github.com/vladdoster/dotfiles/commit/f03980ed4a3effe531902c1f4fc0bd4171d3c903))
-* add graphviz and yasm ([c7b0644](https://github.com/vladdoster/dotfiles/commit/c7b0644f914228012ff0f1a07921ce983d0575fd))
+- add easy way to clone github repositories ([f03980e](https://github.com/vladdoster/dotfiles/commit/f03980ed4a3effe531902c1f4fc0bd4171d3c903))
+- add graphviz and yasm ([c7b0644](https://github.com/vladdoster/dotfiles/commit/c7b0644f914228012ff0f1a07921ce983d0575fd))
 
 ## [1.4.2](https://github.com/vladdoster/dotfiles/compare/v1.4.1...v1.4.2) (2022-02-12)
 
-
 ### Bug Fixes
 
-* hammerspoon tiling & docker completions ([570b274](https://github.com/vladdoster/dotfiles/commit/570b274cc82795e71d56656e9b1a6bf2967868f7))
+- hammerspoon tiling & docker completions ([570b274](https://github.com/vladdoster/dotfiles/commit/570b274cc82795e71d56656e9b1a6bf2967868f7))
 
 ## [1.4.1](https://github.com/vladdoster/dotfiles/compare/v1.4.0...v1.4.1) (2022-02-12)
 
 # [1.4.0](https://github.com/vladdoster/dotfiles/compare/v1.3.5...v1.4.0) (2022-02-12)
 
-
 ### Features
 
-* add get-gh-release.sh to download and install programs hosted on GitHub ([30576b2](https://github.com/vladdoster/dotfiles/commit/30576b277bddb6ef8350622046221b34b460fb74))
+- add get-gh-release.sh to download and install programs hosted on GitHub ([30576b2](https://github.com/vladdoster/dotfiles/commit/30576b277bddb6ef8350622046221b34b460fb74))
 
 ## [1.3.5](https://github.com/vladdoster/dotfiles/compare/v1.3.4...v1.3.5) (2022-02-11)
 
@@ -36,30 +32,26 @@
 
 ## [1.3.2](https://github.com/vladdoster/dotfiles/compare/v1.3.1...v1.3.2) (2022-02-07)
 
-
 ### Bug Fixes
 
-* nvim binary selection more precise ([4f29f6e](https://github.com/vladdoster/dotfiles/commit/4f29f6e0d18b886787e20f71f36a1974198dffff))
+- nvim binary selection more precise ([4f29f6e](https://github.com/vladdoster/dotfiles/commit/4f29f6e0d18b886787e20f71f36a1974198dffff))
 
 ## [1.3.1](https://github.com/vladdoster/dotfiles/compare/v1.3.0...v1.3.1) (2022-02-06)
 
-
 ### Bug Fixes
 
-* consistent order of files in replacement and change verification due to impl ([4ae6fac](https://github.com/vladdoster/dotfiles/commit/4ae6fac870255f8a0a736e42617ef131388ae296))
-* update version in .cz.toml when version changes ([c4bb776](https://github.com/vladdoster/dotfiles/commit/c4bb776bbeb3025f395ca6f52bfb2d67887fd49d))
+- consistent order of files in replacement and change verification due to impl ([4ae6fac](https://github.com/vladdoster/dotfiles/commit/4ae6fac870255f8a0a736e42617ef131388ae296))
+- update version in .cz.toml when version changes ([c4bb776](https://github.com/vladdoster/dotfiles/commit/c4bb776bbeb3025f395ca6f52bfb2d67887fd49d))
 
 # [1.3.0](https://github.com/vladdoster/dotfiles/compare/v1.2.0...v1.3.0) (2022-02-06)
 
-
 ### Bug Fixes
 
-* correct version regex in semantic-release configuration ([81f5d93](https://github.com/vladdoster/dotfiles/commit/81f5d9327a02c8d86fb86dbf199105f23f84c95b))
-
+- correct version regex in semantic-release configuration ([81f5d93](https://github.com/vladdoster/dotfiles/commit/81f5d9327a02c8d86fb86dbf199105f23f84c95b))
 
 ### Features
 
-* add bash script to remove ALL local and remote tags from the current git dir ([ebecc00](https://github.com/vladdoster/dotfiles/commit/ebecc0067680abc58395330b235767ebb4c26b0a))
+- add bash script to remove ALL local and remote tags from the current git dir ([ebecc00](https://github.com/vladdoster/dotfiles/commit/ebecc0067680abc58395330b235767ebb4c26b0a))
 
 ## v1.2.0 (2022-02-06)
 

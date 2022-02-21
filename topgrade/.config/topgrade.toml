@@ -1,13 +1,13 @@
 # Don't ask for confirmations
-assume_yes = true  # Don't ask for confirmations
-cleanup = true     # Cleanup temporary or old files
-no_retry = true    # Do not ask to retry failed steps
+assume_yes = true   # Don't ask for confirmations
+cleanup = true      # Cleanup temporary or old files
+no_retry = true     # Do not ask to retry failed steps
 run_in_tmux = false # Run inside tmux
-set_title = false  # Do not set the terminal title
+set_title = false   # Do not set the terminal title
 
 [git]
 max_concurrency = 5
-repos = [ "~/code/*/" ]
+repos = ["~/code/*/"]
 
 [composer]
 self_update = true

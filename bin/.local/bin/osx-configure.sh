@@ -5,8 +5,8 @@
 osascript -e 'tell application "System Preferences" to quit' # Ask for the administrator password upfront
 sudo -v
 while true; do # Keep-alive: update existing `sudo` time stamp until finished
-  sudo -n true && sleep 60 && kill -0 "$$" || exit 1
-done 2> /dev/null &
+	sudo -n true && sleep 60 && kill -0 "$$" || exit 1
+done 2>/dev/null &
 #== GENERAL UI/UX                                                               #
 sudo nvram SystemAudioVolume=" "                                                       # Disable the sound effects on boot
 defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600" # Set highlight color to green
@@ -85,15 +85,15 @@ defaults write NSGlobalDomain com.apple.springing.enabled -bool true         # E
 defaults write NSGlobalDomain com.apple.springing.delay -float 0             # Remove the spring loading delay for directories
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true # Avoid creating .DS_Store files on network or USB volumes
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
-defaults write com.apple.frameworks.diskimages skip-verify -bool true        # Disable disk image verification
+defaults write com.apple.frameworks.diskimages skip-verify -bool true # Disable disk image verification
 defaults write com.apple.frameworks.diskimages skip-verify-locked -bool true
 defaults write com.apple.frameworks.diskimages skip-verify-remote -bool true
-defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true  # Automatically open a new Finder window when a volume is mounted
+defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true # Automatically open a new Finder window when a volume is mounted
 defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool true
 defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
-defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"          # Use list view in all Finder windows by default
-defaults write com.apple.finder WarnOnEmptyTrash -bool false                 # Disable the warning before emptying the Trash
-sudo chflags nohidden /Volumes                                               # Show the /Volumes folder
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"            # Use list view in all Finder windows by default
+defaults write com.apple.finder WarnOnEmptyTrash -bool false                   # Disable the warning before emptying the Trash
+sudo chflags nohidden /Volumes                                                 # Show the /Volumes folder
 file=/Applications/Dropbox.app/Contents/Resources/emblem-dropbox-uptodate.icns # Remove Dropbox’s green checkmark icons in Finder
 # show item info near icons on the desktop and in other icon views
 /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
@@ -135,47 +135,47 @@ defaults write com.apple.dock show-recents -bool false                          
 defaults write com.apple.dock showhidden -bool true                               # Make Dock icons of hidden applications translucent
 defaults write com.apple.dock tilesize -int 72                                    # Set the icon size of Dock items to 36 pixels
 find "$HOME/Library/Application Support/Dock" -name "*-*.db" -maxdepth 1 -delete  # Reset Launchpad, but keep the desktop wallpaper intact
-defaults write com.apple.dock wvous-bl-corner   -int 2 # Bottom left
+defaults write com.apple.dock wvous-bl-corner -int 2                              # Bottom left
 defaults write com.apple.dock wvous-bl-modifier -int 0
-defaults write com.apple.dock wvous-tl-corner   -int 2 # All corners → Mission Control
+defaults write com.apple.dock wvous-tl-corner -int 2 # All corners → Mission Control
 defaults write com.apple.dock wvous-tl-modifier -int 0
-defaults write com.apple.dock wvous-tr-corner   -int 2 # Top right screen corner
+defaults write com.apple.dock wvous-tr-corner -int 2 # Top right screen corner
 defaults write com.apple.dock wvous-tr-modifier -int 0
 # SAFARI & WEBKIT
-defaults write NSGlobalDomain WebKitDeveloperExtras -bool true                          # Add a context menu item for showing the Web Inspector in web views
-defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false                                                 # Make Safari’s search banners default to Contains instead of Starts With
-defaults write com.apple.Safari IncludeDevelopMenu -bool true                                                               # Enable the Develop menu and the Web Inspector in Safari
-defaults write com.apple.Safari IncludeInternalDebugMenu -bool true                                                         # Enable Safari’s debug menu
+defaults write NSGlobalDomain WebKitDeveloperExtras -bool true                  # Add a context menu item for showing the Web Inspector in web views
+defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false     # Make Safari’s search banners default to Contains instead of Starts With
+defaults write com.apple.Safari IncludeDevelopMenu -bool true                   # Enable the Develop menu and the Web Inspector in Safari
+defaults write com.apple.Safari IncludeInternalDebugMenu -bool true             # Enable Safari’s debug menu
 defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true # Update extensions automatically
-defaults write com.apple.Safari ProxiesInBookmarksBar "()"                                                                  # Remove useless icons from Safari’s bookmarks bar
+defaults write com.apple.Safari ProxiesInBookmarksBar "()"                      # Remove useless icons from Safari’s bookmarks bar
 defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true             # Enable “Do Not Track”
-defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true                                                    # Show the full URL in the address bar (note: this still hides the scheme)
+defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true        # Show the full URL in the address bar (note: this still hides the scheme)
 defaults write com.apple.Safari SuppressSearchSuggestions -bool true
-defaults write com.apple.Safari UniversalSearchEnabled -bool false # Privacy: don’t send search queries to Apple
-defaults write com.apple.Safari WebAutomaticSpellingCorrectionEnabled -bool false       # Disable auto-correct
-defaults write com.apple.Safari WebContinuousSpellCheckingEnabled -bool true            # Enable continuous spellchecking
+defaults write com.apple.Safari UniversalSearchEnabled -bool false                # Privacy: don’t send search queries to Apple
+defaults write com.apple.Safari WebAutomaticSpellingCorrectionEnabled -bool false # Disable auto-correct
+defaults write com.apple.Safari WebContinuousSpellCheckingEnabled -bool true      # Enable continuous spellchecking
 defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
-defaults write com.apple.Safari WebKitJavaScriptCanOpenWindowsAutomatically -bool false # Block pop-up windows
-defaults write com.apple.Safari WebKitTabToLinksPreferenceKey -bool true # Press Tab to highlight each item on a web page
+defaults write com.apple.Safari WebKitJavaScriptCanOpenWindowsAutomatically -bool false                                     # Block pop-up windows
+defaults write com.apple.Safari WebKitTabToLinksPreferenceKey -bool true                                                    # Press Tab to highlight each item on a web page
 defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2BackspaceKeyNavigationEnabled -bool true # Prevent Safari from opening ‘safe’ files automatically after downloading
 defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
 defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically -bool false
 defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2TabsToLinks -bool true
 # Mail                                                                        #
-defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false                           # Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>` in Mail.app
-defaults write com.apple.mail DisableInlineAttachmentViewing -bool true              # Disable inline attachments (just show the icons)
-defaults write com.apple.mail DisableReplyAnimations -bool true # Disable send and reply animations in Mail.app
+defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false # Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>` in Mail.app
+defaults write com.apple.mail DisableInlineAttachmentViewing -bool true    # Disable inline attachments (just show the icons)
+defaults write com.apple.mail DisableReplyAnimations -bool true            # Disable send and reply animations in Mail.app
 defaults write com.apple.mail DisableSendAnimations -bool true
 defaults write com.apple.mail DraftsViewerAttributes -dict-add "DisplayInThreadedMode" -string "yes" # Display emails in threaded mode, sorted by date (oldest at the top)
 defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortOrder" -string "received-date"
 defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortedDescending" -string "yes"
-defaults write com.apple.mail NSUserKeyEquivalents -dict-add "Send" "@\U21a9"                        # Add the keyboard shortcut ⌘ + Enter to send an email in Mail.app
+defaults write com.apple.mail NSUserKeyEquivalents -dict-add "Send" "@\U21a9"        # Add the keyboard shortcut ⌘ + Enter to send an email in Mail.app
 defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnabled" # Disable automatic spell checking
 # TERMINAL
 defaults write com.apple.Terminal ShowLineMarks -int 0           # Disable the annoying line marks
-defaults write com.apple.terminal FocusFollowsMouse -bool true # Enable “focus follows mouse” for Terminal.app and all X11 apps
+defaults write com.apple.terminal FocusFollowsMouse -bool true   # Enable “focus follows mouse” for Terminal.app and all X11 apps
 defaults write com.apple.terminal SecureKeyboardEntry -bool true # Enable Secure Keyboard Entry in Terminal.app
-defaults write com.apple.terminal StringEncodings -array 4     # Only use UTF-8 in Terminal.app
+defaults write com.apple.terminal StringEncodings -array 4       # Only use UTF-8 in Terminal.app
 defaults write org.x.X11 wm_ffm -bool true
 # ACTIVITY MONITOR
 defaults write com.apple.ActivityMonitor IconType -int 5               # Visualize CPU usage in the Activity Monitor Dock icon
@@ -187,35 +187,35 @@ defaults write com.apple.ActivityMonitor SortDirection -int 0
 defaults write com.apple.DiskUtility DUDebugMenuEnabled -bool true # Enable the debug menu in Disk Utility
 defaults write com.apple.DiskUtility advanced-image-options -bool true
 defaults write com.apple.QuickTimePlayerX MGPlayMovieOnOpen -bool false # Disable auto-play videos when opened with QuickTime Player
-defaults write com.apple.TextEdit PlainTextEncoding -int 4 # Open and save files as UTF-8 in TextEdit
+defaults write com.apple.TextEdit PlainTextEncoding -int 4              # Open and save files as UTF-8 in TextEdit
 defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
-defaults write com.apple.TextEdit RichText -int 0          # Use plain text mode for new TextEdit documents
-defaults write com.apple.dashboard devmode -bool true      # Enable Dashboard dev mode (allows keeping widgets on the desktop)
+defaults write com.apple.TextEdit RichText -int 0     # Use plain text mode for new TextEdit documents
+defaults write com.apple.dashboard devmode -bool true # Enable Dashboard dev mode (allows keeping widgets on the desktop)
 # KILL AFFECTED APPLICATIONS                                                  #
 for application in \
-  "Activity Monitor" \
-  "Address Book" \
-  "Calendar" \
-  "Contacts" \
-  "Dock"     \
-  "Finder"   \
-  "Mail"     \
-  "Messages" \
-  "Photos"   \
-  "Safari"   \
-  "SystemUIServer" \
-  "Terminal" \
-  "Vivaldi"  \
-  "cfprefsd" ; do
-  killall "$application" &> /dev/null
+	"Activity Monitor" \
+	"Address Book" \
+	"Calendar" \
+	"Contacts" \
+	"Dock" \
+	"Finder" \
+	"Mail" \
+	"Messages" \
+	"Photos" \
+	"Safari" \
+	"SystemUIServer" \
+	"Terminal" \
+	"Vivaldi" \
+	"cfprefsd"; do
+	killall "$application" &>/dev/null
 done
 echo "--- Successfully applied configuration options"
 echo "Reboot $HOSTNAME?[y/N]: " # Prompt user to reboot
 read -r REBOOT
 if [[ $REBOOT == "y" ]]; then
-  echo "--- Rebooting..."
-  sleep 5
-  sudo reboot
+	echo "--- Rebooting..."
+	sleep 5
+	sudo reboot
 fi
 echo "--- Skipping reboot"
 exit 0

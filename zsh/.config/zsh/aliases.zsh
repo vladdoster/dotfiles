@@ -1,79 +1,79 @@
 #!/usr/bin/env zsh
-if echo "$-" | grep i > /dev/null; then
-  export IS_TTY="${IS_TTY:=false}"
+if echo "$-" | grep i >/dev/null; then
+	export IS_TTY="${IS_TTY:=false}"
 fi
 LOG_LEVEL="error"
 _log() {
-  if $IS_TTY; then
-    case $LOG_LEVEL in
-      error*) echo "--- ERROR: $1" ;;
-      info*) echo "--- INFO: $1" ;;
-    esac
-  fi
+	if $IS_TTY; then
+		case $LOG_LEVEL in
+		error*) echo "--- ERROR: $1" ;;
+		info*) echo "--- INFO: $1" ;;
+		esac
+	fi
 }
 _error() { _log $1; }
 _info() { _log $1; }
 _clone_if_missing() {
-  if [[ ! -d $1 ]]; then
-    git clone "$1" "$2/$(basename "$1" .git)"
-  else
-    return 0
-  fi
+	if [[ ! -d $1 ]]; then
+		git clone "$1" "$2/$(basename "$1" .git)"
+	else
+		return 0
+	fi
 }
 has() {
-  command -v "$1" 1> /dev/null 2>&1
+	command -v "$1" 1>/dev/null 2>&1
 }
 _edit() {
-  ${EDITOR:-nvim} "$1"
+	${EDITOR:-nvim} "$1"
 }
 _export() {
-  if [[ -d $1 ]]; then
-    export PATH="${1}${PATH+:$PATH}"
-    return $?
-  fi
+	if [[ -d $1 ]]; then
+		export PATH="${1}${PATH+:$PATH}"
+		return $?
+	fi
 }
 _fmt() {
-  if has "$2"; then
-    _info "formatting ${1} files via ${2}"
-    find . -name "*.${1}" -print -exec bash -c "${2} {}" \;
-  else
-    _error "$2 not installed"
-  fi
+	if has "$2"; then
+		_info "formatting ${1} files via ${2}"
+		find . -name "*.${1}" -print -exec bash -c "${2} {}" \;
+	else
+		_error "$2 not installed"
+	fi
 }
 _goto() {
-  if [ -e "$1" ]; then
-    cd "$1" && exa --all --long || gls || ls -Go
-  else
-    _error "$1 doesn't exist"
-  fi
+	if [ -e "$1" ]; then
+		cd "$1" && exa --all --long || gls || ls -Go
+	else
+		_error "$1 doesn't exist"
+	fi
 }
 _mkfile() {
-  F_NAME="${3}.${1}"
-  echo "#!/usr/bin/env ${2}" > "$F_NAME"
-  chmod +x "$F_NAME"
-  _info " Created $F_NAME"
+	F_NAME="${3}.${1}"
+	echo "#!/usr/bin/env ${2}" >"$F_NAME"
+	chmod +x "$F_NAME"
+	_info " Created $F_NAME"
 }
 _sys_update() {
-  "$1" update && "$1" upgrade
+	"$1" update && "$1" upgrade
 }
 _archive() {
-  local format="$1"
-  local output="$2"
-  local input=("${@:3}")
-  case "$format" in
-    tar)
-      tar -czvf "${output}.tar.gz" "${input[@]}"
-      ;;
-    7z)
-      7za a "${output}.7z" "${input[@]}"
-      ;;
-  esac
+	local format="$1"
+	local output="$2"
+	local input=("${@:3}")
+	case "$format" in
+	tar)
+		tar -czvf "${output}.tar.gz" "${input[@]}"
+		;;
+	7z)
+		7za a "${output}.7z" "${input[@]}"
+		;;
+	esac
 }
 #= SYSTEM SPECIFIC ===============================
 if [[ $OSTYPE =~ darwin* ]]; then
-  _copy_cmd='pbcopy -pboard general'
-  alias readlink="greadlink"
-  alias copy="$_copy_cmd <"
+	_copy_cmd='pbcopy -pboard general'
+	alias readlink="greadlink"
+	alias copy="$_copy_cmd <"
 fi
 #= NAVIGATION ====================================
 alias .....='_goto ../../../..'
@@ -90,14 +90,14 @@ alias rmr="rm -rf"
 alias tailf="less +F -R"
 export EDITOR='nvim'
 if has nvim; then
-  export EDITOR='nvim'
-  #  elif has vim; then
-  #  export EDITOR='vim'
-  #  elif has vi; then
-  #  export EDITOR='vi'
+	export EDITOR='nvim'
+	#  elif has vim; then
+	#  export EDITOR='vim'
+	#  elif has vi; then
+	#  export EDITOR='vi'
 fi
 if has python3; then
-  alias python='python3'
+	alias python='python3'
 fi
 #= CONFIG SHORTCUTS ==============================
 alias ealiases="_edit $ZDOTDIR/aliases.zsh"

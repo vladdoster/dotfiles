@@ -4,6 +4,8 @@
 #module_path+=("$HOME/.local/share/zsh/zinit/module/Src") || true
 #zmodload zdharma_continuum/zinit || true
 
+alias v="nvim"; alias la="exa -al"; alias l="exa -l"
+
 HISTFILE="$HOME/zsh_history"
 HISTSIZE=50000
 SAVEHIST=50000

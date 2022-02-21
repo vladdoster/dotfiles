@@ -20,7 +20,9 @@ def cli():
     cli = argparse.ArgumentParser(prog="installer")
     cli.add_argument("name", help="the program name")
     cli.add_argument("-s", "--source", help="URL of program source code")
-    cli.add_argument("-c", "--configure", default="", help="Options passed to configure")
+    cli.add_argument(
+        "-c", "--configure", default="", help="Options passed to configure"
+    )
     cli.add_argument("-m", "--make", default="", help="Options passed to make")
     return cli.parse_args()
 
