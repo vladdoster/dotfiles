@@ -1,3 +1,5 @@
+## [1.7.1](https://github.com/vladdoster/dotfiles/compare/v1.7.0...v1.7.1) (2022-02-21)
+
 # [1.7.0](https://github.com/vladdoster/dotfiles/compare/v1.6.0...v1.7.0) (2022-02-21)
 
 
