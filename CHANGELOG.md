@@ -1,9 +1,8 @@
 # [1.6.0](https://github.com/vladdoster/dotfiles/compare/v1.5.0...v1.6.0) (2022-02-21)
 
-
 ### Features
 
-* use trunk mega {formatt,lint}er ([c9f45dd](https://github.com/vladdoster/dotfiles/commit/c9f45dd8cdd52dbd00f7663400561fcd3f4f8491))
+- use trunk mega {formatt,lint}er ([c9f45dd](https://github.com/vladdoster/dotfiles/commit/c9f45dd8cdd52dbd00f7663400561fcd3f4f8491))
 
 # [1.5.0](https://github.com/vladdoster/dotfiles/compare/v1.4.2...v1.5.0) (2022-02-15)
 

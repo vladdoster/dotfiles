@@ -18,64 +18,26 @@ To Install and set everything up, run:
 git clone https://github.com/vladdoster/dotfiles $HOME/.config/dotfiles
 ```
 
-## Usage
+## Makefile targets
 
-#### Install
-
-```bash
-make
-```
-
-**Note**: Requires GNU stow. To install stow from source, run:
-
-```bash
-make stow
-make
-```
-
-or if Homebrew is installed:
-
-```bash
-make stow
-```
-
-##### Install programs to get full experience
-
-```bash
-make all-progs
-```
-
-or if Homebrew is installed, run:
-
-```bash
-brew install bat exa neovim
-```
-
-#### Get all CLI & GUI programs
-
-```bash
-make brew-bundle
-```
-
-#### Uninstall dotfiles
-
-**Note**: Doesn't remove installed programs
-
-```bash
-make clean
-```
-
-#### List Makefile targets
-
-```bash
-make
-```
-
-#### Install Homebrew
-
-```
-make brew-install
-```
+| TARGET          | DESCRIPTION                                                 |
+| --------------- | ----------------------------------------------------------- |
+| all-prog        | Install Python & Rust programs                              |
+| brew-bundle     | Install programs defined in $HOME/.config/dotfiles/Brewfile |
+| brew-fix        | Re-install Homebrew taps homebrew-core & homebrew-cask      |
+| brew-install    | Install Homebrew pkg manager                                |
+| brew-uninstall  | Uninstall Homebrew pkg manager                              |
+| build-container | Build containerized env and install dotfiles                |
+| clean           | Remove deployed dotfiles                                    |
+| help            | Display all Makfile targets                                 |
+| install         | Deploy dotfiles via GNU install                             |
+| linuxbrew-fix   | Re-install Linuxbrew taps homebrew-core & homebrew-cask     |
+| pip-update      | Update Python packages                                      |
+| py-prog         | Install Python dependencies                                 |
+| rust-install    | Install Rust & Cargo pkg manager via Rustup                 |
+| rust-prog       | Install programs via rust                                   |
+| rust-uninstall  | Uninstall Rust                                              |
+| stow            | Install GNU stow                                            |
 
 #### Change shell to ZSH
 
