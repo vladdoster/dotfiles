@@ -183,3 +183,6 @@ cp-to-devcloud() { rsync -a -z -P $(readlink "$1") devcloud:~/$(basename "$1"); 
 alias cp-dotfiles="rsync -azP $XDG_CONFIG_HOME/dotfiles/ devcloud:~/dotfiles"
 alias cp-nvim="rsync -azP $XDG_CONFIG_HOME/nvim/ devcloud:~/nvim"
 alias cp-devcloud="cp-to-devcloud"
+if has docker; then
+	alias di="docker images"
+fi

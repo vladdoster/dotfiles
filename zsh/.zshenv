@@ -1,4 +1,4 @@
-#
+#!/usr/bin/env zsh
 # Author: Vladislav D.
 # GitHub: vladdoster
 #   Repo: https://dotfiles.vdoster.com
@@ -9,42 +9,13 @@
 case $OSTYPE in
     darwin*)
         case $CPUTYPE in
-            arm64*)
-                eval "$(/opt/homebrew/bin/brew shellenv)"
-                export CPPFLAGS="-I/opt/homebrew/opt/curl/include"
-                export LDFLAGS="-L/opt/homebrew/opt/curl/lib"
-                export PATH="/opt/homebrew/opt/curl/bin:$PATH"
-                export PKG_CONFIG_PATH="/opt/homebrew/opt/curl/lib/pkgconfig"
-              ;;
-            x86_64*)
-                eval "$(/usr/local/bin/brew shellenv)"
-                #  export CPPFLAGS="-I/usr/local/opt/curl/include:$CPPFLAGS"
-                #  export CPPFLAGS="-I/usr/local/opt/expat/include:$CPPFLAGS"
-                #  export LDFLAGS="-L/usr/local/opt/curl/lib:$LDFLAGS"
-                #  export LDFLAGS="-L/usr/local/opt/expat/lib:$LDFLAGS"
-                #  export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig:$PKG_CONFIG_PATH"
-                #  export PKG_CONFIG_PATH="/usr/local/opt/expat/lib/pkgconfig:$PKG_CONFIG_PATH"
-                local opt="/usr/local/opt"
-                export PATH="$opt/expat/bin:$PATH"
-                export PATH="$opt/libtool/libexec/gnubin:$PATH"
-                export PATH="$opt/opt/curl/bin:$PATH"
-                export PATH="$opt/python@3.10/bin:$PATH"
-                export PATH="$opt/sphinx-doc/bin:$PATH"
-                export PATH="$opt/terraform@0.12/bin:$PATH"
-                export PATH="/usr/local/lib/python3.10/site-packages:$PATH"
-            ;;
+            arm64*) eval "$(/opt/homebrew/bin/brew shellenv)" ;;
+            x86_64*) eval "$(/usr/local/bin/brew shellenv)" ;;
         esac
     ;;
-    linux*)
-      eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-      export PATH="/home/linuxbrew/.linuxbrew/opt/python@3.7/bin:$PATH"
-      export LDFLAGS="-L/home/linuxbrew/.linuxbrew/opt/python@3.7/lib"
-      export CPPFLAGS="-I/home/linuxbrew/.linuxbrew/opt/python@3.7/include"
-      export PKG_CONFIG_PATH="/home/linuxbrew/.linuxbrew/opt/python@3.7/lib/pkgconfig"
-      ;;
+    linux*) eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" ;;
     *) echo "--- ERROR: $OSTYPE is unsupported" && exit 1 ;;
 esac
-export KEYTIMEOUT=1
 # -- RESERVED VARIABLES -------------------------------------------------------
 (( ${+HOSTNAME} )) || export HOSTNAME="$HOST"
 (( ${+LANGUAGE} )) || export LANGUAGE="$LANG"
@@ -54,32 +25,16 @@ export KEYTIMEOUT=1
 (( ${+XDG_CACHE_HOME}  )) || export XDG_CACHE_HOME="$HOME/.cache"
 (( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="$HOME/.config"
 (( ${+XDG_DATA_HOME}   )) || export XDG_DATA_HOME="$HOME/.local/share"
-#-- COMMON APPS ---------------------------------------------------------------------
-export VISUAL=$EDITOR
-export FCEDIT=$EDITOR
-export SYSTEMD_EDITOR=$EDITOR
+[ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin" # personal scripts
+#-- ENV VARIABLES -------------------------------------------------------------
+export HOMEBREW_BOOTSNAP=1
+export HOMEBREW_INSTALL_FROM_API=1
+export HOMEBREW_NO_ENV_HINTS=1
+export KEYTIMEOUT=1
+export MANPAGER="${PAGER:-less}"
 export PAGER=less
-export MANPAGER="$PAGER"
 export PYTHONWARNINGS="ignore"
-# -- CDPATH ---------------------------------------------------------------------
-cdpath+=("$HOME" "..") && export cdpath
-# -- MANPATH ---------------------------------------------------------------------
-manpath+=(/usr/local/man /usr/share/man) && export manpath
-# -- PATH ---------------------------------------------------------------------
-[ -d "$HOME/.cargo/bin" ] && export PATH="$PATH:$HOME/.cargo/bin"
-[ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin"
-[ -d "/usr/local/bin" ] && export PATH="$PATH:/usr/local/bin"
-[ -d "/usr/sbin" ] && export PATH="$PATH:/usr/sbin"
-[ -e "$HOME/.local/bin/zsh" ] && export PATH="$PATH:$HOME/.local/bin/zsh"
-#  if [ -d "$HOME/.yarn/bin" ]; then export PATH="$PATH:$HOME/.yarn/bin" fi
-#  if [ -d "$HOME/Application" ]; then export PATH="$PATH:$HOME/Application" fi
-#  if [ -d "$HOME/Applications" ]; then export PATH="$PATH:$HOME/Applications" fi
-#  if [ -d "$HOME/bin" ]; then export PATH="$PATH:$HOME/bin" fi
-#  if [ -d "/home/linuxbrew/.linuxbrew/bin" ]; then export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin" fi
-#  if [ -d "/snap/bin" ]; then export PATH="$PATH:/snap/bin" fi
-#  if [ -d "/usr/local/bin" ]; then export PATH="$PATH:/usr/local/bin" fi
-#  if [ -d "/usr/sbin" ]; then export PATH="$PATH:/usr/sbin" fi
-#-- ENV --------------------------------------------------------------
+#-- CONFIGURATIONS ------------------------------------------------------------
 export AZURE_CONFIG_DIR="$XDG_DATA_HOME"/azure
 export DOTFILES="$XDG_CONFIG_HOME"/dotfiles
 export GIT_CONFIG="$XDG_CONFIG_HOME"/git/config
@@ -88,6 +43,8 @@ export PYTHONSTARTUP="$XDG_CONFIG_HOME"/python/init-repl.py
 export SUBVERSION_HOME="$XDG_CONFIG_HOME"/subversion
 export VIMDOTDIR="$XDG_CONFIG_HOME"/vim
 export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
-#-- DE-DUPE PATH -------------------------------------------------------------
-#  typeset -agU cdpath fpath path
-#  path=( "${path[@]:#}" )
+# -- PATH ---------------------------------------------------------------------
+cdpath+=("$HOME" "..") && export cdpath
+manpath+=(/usr/local/man /usr/share/man) && export manpath
+typeset -agU cdpath fpath path
+path=( "${path[@]:#}" ) # de-deduplicate
