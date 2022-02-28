@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/vladdoster/dotfiles/compare/v1.8.0...v1.9.0) (2022-02-28)
+
+
+### Features
+
+* remove trunk and associated formatter config files ([acc3e96](https://github.com/vladdoster/dotfiles/commit/acc3e96de94d3cd32bb60452ddfbe73755e9a41a))
+
 # [1.8.0](https://github.com/vladdoster/dotfiles/compare/v1.7.1...v1.8.0) (2022-02-28)
 
 
