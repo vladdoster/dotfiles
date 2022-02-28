@@ -9,6 +9,10 @@ help: ## Display all Makfile targets
 		| sort \
 		| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+activate_brew:
+	eval $$(/opt/homebrew/bin/brew shellenv)
+
+
 fmt:
 	@find . -name '*.lua' -print -exec \
 	lua-format --in-place \
@@ -79,6 +83,8 @@ linuxbrew-fix: ## Re-install Linuxbrew taps homebrew-core & homebrew-cask
 		brew tap homebrew/cask
 
 all-prog: py-prog rust-prog ## Install Python & Rust programs
+
+
 
 pip-update: ## Update Python packages
 		@pip3 list --user \
