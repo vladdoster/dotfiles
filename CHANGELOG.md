@@ -1,3 +1,10 @@
+## [1.9.3](https://github.com/vladdoster/dotfiles/compare/v1.9.2...v1.9.3) (2022-02-28)
+
+
+### chore
+
+* set release-notes preset to eslint ([c950cc6](https://github.com/vladdoster/dotfiles/commit/c950cc6ceba7aa776e44c7d04f9a6b9efe2d8f38))
+
 ## [1.9.2](https://github.com/vladdoster/dotfiles/compare/v1.9.1...v1.9.2) (2022-02-28)
 
 
