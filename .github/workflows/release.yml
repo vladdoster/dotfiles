@@ -18,7 +18,7 @@ jobs:
             conventional-changelog-conventionalcommits \
             @google/semantic-release-replace-plugin \
             @semantic-release/changelog \
-            @semantic-release/git \
+            @semantic-release/git
       - run: npx semantic-release --ci --
         env:
           GITHUB_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
