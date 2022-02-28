@@ -2,21 +2,16 @@
   "repositoryUrl": "https://github.com/vladdoster/dotfiles",
   "plugins": [
     ["@semantic-release/commit-analyzer", {
-        "preset": "eslint",
-        "releaseRules": [
-          { "type": "bugfix",   "release": "patch" },
-          { "type": "fix",   "release": "patch" },
-          { "type": "build",    "release": "patch" },
-          { "type": "chore",    "release": "patch" },
-          { "type": "ci",       "release": "patch" },
-          { "type": "docs",     "release": "patch" },
-          { "type": "maint",    "release": "patch" },
-          { "type": "refactor", "release": "patch" },
-          { "type": "release",  "release": "minor" },
-          { "type": "style",    "release": "patch" }
-        ]
-      }
-    ],
+      "preset": "eslint",
+      "releaseRules": [
+        {"tag": "Build", "release": "patch"},
+        {"tag": "Chore", "release": "patch"},
+        {"tag": "Docs", "message":"*README*", "release": "patch"},
+        {"tag": "Fix", "release": "patch"},
+        {"tag": "New", "release": "minor"},
+        {"tag": "Update", "release": "Minor"}
+      ]
+    }],
     [
       "@google/semantic-release-replace-plugin",
       {
