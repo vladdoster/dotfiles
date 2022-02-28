@@ -1,3 +1,18 @@
+# [1.8.0](https://github.com/vladdoster/dotfiles/compare/v1.7.1...v1.8.0) (2022-02-28)
+
+
+### Bug Fixes
+
+* add zcompcache dir ([6d9f28b](https://github.com/vladdoster/dotfiles/commit/6d9f28b90aa97ab20e8577c7810740758bf82fd5))
+* zsh aliases, env, and zinit configs ([7984b68](https://github.com/vladdoster/dotfiles/commit/7984b68cb675c0bb5ac126ea56fc2d92b6634212))
+
+
+### Features
+
+* bump num of concurrent workers to update git repositories ([2dc8f76](https://github.com/vladdoster/dotfiles/commit/2dc8f766955b7d28fc7af1e1d04be4dfa58547c1))
+* update Brewfile with misc. programs ([de04d7f](https://github.com/vladdoster/dotfiles/commit/de04d7fbb45bacf7f9e6b6138fc03acb04767ac0))
+* update trunk version v0.7.0 -> v0.8.0 ([6160535](https://github.com/vladdoster/dotfiles/commit/6160535ae6866670f6b4655052bc1b84e9154e78))
+
 ## [1.7.1](https://github.com/vladdoster/dotfiles/compare/v1.7.0...v1.7.1) (2022-02-21)
 
 # [1.7.0](https://github.com/vladdoster/dotfiles/compare/v1.6.0...v1.7.0) (2022-02-21)
