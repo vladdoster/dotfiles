@@ -9,7 +9,7 @@
         {"tag": "Docs", "message":"*README*", "release": "patch"},
         {"tag": "Fix", "release": "patch"},
         {"tag": "New", "release": "minor"},
-        {"tag": "Update", "release": "Minor"}
+        {"tag": "Update", "release": "minor"}
       ]
     }],
     [
