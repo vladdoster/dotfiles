@@ -1,52 +1,68 @@
--- GLOBAL REQUIRES ---------------------
-hs.ipc.cliInstall()
-hs.ipc.cliUninstall()
-require('hs.ipc')
-require('console').init()
-require('overrides').init()
-require('hs.hotkey').setLogLevel('warning')
-require('hs.application').enableSpotlightForNameSearches(true)
--- SPOONS -------------------------------
-hs.loadSpoon('SpoonInstall')
-spoon.SpoonInstall.use_syncinstall = true
-Install = spoon.SpoonInstall
-Install:andUse('HeadphoneAutoPause', {start=true})
-Install:andUse('TextClipboardHistory', {
-    config={show_in_menubar=true},
-    deduplicate=true,
-    disable=false,
-    hist_size=10,
-    hotkeys={toggle_clipboard={{'cmd', 'shift'}, 'v'}},
-    start=true
+hs.window.animationDuration = 0
+
+local running = require("running")
+require("spaces")
+require("border")
+require("wm")
+
+local monocle = require("monocle")
+local quake = require("quake")
+
+local hyper = require("hyper")
+hyper.bindApp({}, "b", "Brave Browser")
+hyper.bindApp({ "cmd" }, "b", function()
+  hs.osascript.javascript([[
+        Application("Brave").Window().make()
+    ]])
+end)
+hyper.bindApp({}, "c", "Visual Studio Code - Insiders")
+hyper.bindApp({}, "f", "Finder")
+hyper.bindApp({}, "e", "Emacs")
+hyper.bindApp({ "cmd" }, "e", function()
+  print("/Users/folke/.emacs.d/bin/org-capture")
+  print(hs.execute("/Users/folke/.emacs.d/bin/org-capture > /dev/null 2>&1 &", true))
+end)
+
+hs.hotkey.bind({ "alt" }, "z", "Zoom", function(event)
+  print(hs.inspect(event))
+  local win = hs.window.focusedWindow()
+  if win then
+    monocle.toggle(win)
+  end
+end)
+
+hs.hotkey.bind({ "cmd" }, "escape", "Scratchpad", quake.toggle)
+hyper.bindApp({}, "return", quake.toggle)
+
+local tap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
+  -- print(hs.inspect(event))
+  local isCmd = event:getFlags():containExactly({ "cmd" })
+  local isQ = event:getKeyCode() == hs.keycodes.map["q"]
+  if isCmd and isQ then
+    local win = hs.window.focusedWindow()
+    if win and win:application():name():find("kitty") then
+      hs.alert("Use alt+cmd+q instead!")
+      return true
+    end
+  end
+end)
+tap:start()
+
+hs.loadSpoon("SpoonInstall")
+hs.loadSpoon("EmmyLua")
+spoon.SpoonInstall:andUse("ReloadConfiguration", { start = true })
+spoon.SpoonInstall:andUse("RoundedCorners", { start = true, config = { radius = 8 } })
+spoon.SpoonInstall:andUse("AClock", {
+  config = { showDuration = 2 },
+  fn = function(clock)
+    hyper:bind({}, "t", function()
+      clock:toggleShow()
+    end)
+  end,
 })
-hs.brightness.set(100)
--- GLOBAL CONFIGURATION
-config = {
-    apps={terms={'kitty'}, browsers={'Vivaldi'}},
-    wm={
-        defaultDisplayLayouts={['Built-in Retina Display']={'main-center'}},
-        displayLayouts={['Built-in Retina Display']={'main-center', 'main-right', 'monocle'}}
-    },
-    window={highlightBorder=false, highlightMouse=true, historyLimit=0}
-}
--- SETTINGS -----------------------------
-bindings = require('bindings')
-spaces = require('utils.spaces')
-watchers = require('utils.watchers')
-wm = require('utils.wm')
-require('modules.battery')
-require('modules.windowBorder')
-spaces.enabled = {'dots'}
--- no animations
-hs.window.animationDuration = 0.0
--- watchers
--- watchers.enabled = {'window-border', 'reload' }
-watchers.enabled = {'reload'}
--- bindings
-bindings.enabled = {'ask-before-quit', 'block-hide', 'focus', 'global', 'tiling'}
-bindings.askBeforeQuitApps = config.apps.browsers
--- start/stop modules
-local modules = {bindings, watchables, watchers, wm, spaces}
-hs.fnutils.each(modules, function(module) if module then module.start() end end)
-hs.shutdownCallback = function() hs.fnutils.each(modules, function(module) if module then module.stop() end end) end
-hs.notify.show('Hammerspoon', 'Hammerspoon configuration reloaded.', '')
+
+hs.hotkey.bind("alt", "tab", "Switch Windo", function()
+  running.switcher()
+end)
+
+hs.alert.show("Hammerspoon Loaded!")
