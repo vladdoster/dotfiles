@@ -4,9 +4,10 @@
     [
       "@semantic-release/commit-analyzer",
       {
-        "preset": "angular",
+        "preset": "eslint",
         "releaseRules": [
           { "type": "bugfix",   "release": "patch" },
+          { "type": "fix",   "release": "patch" },
           { "type": "build",    "release": "patch" },
           { "type": "chore",    "release": "patch" },
           { "type": "ci",       "release": "patch" },
