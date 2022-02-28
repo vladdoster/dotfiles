@@ -12,7 +12,6 @@ help: ## Display all Makfile targets
 activate_brew:
 	eval $$(/opt/homebrew/bin/brew shellenv)
 
-
 fmt:
 	@find . -name '*.lua' -print -exec \
 	lua-format --in-place \
@@ -84,8 +83,6 @@ linuxbrew-fix: ## Re-install Linuxbrew taps homebrew-core & homebrew-cask
 
 all-prog: py-prog rust-prog ## Install Python & Rust programs
 
-
-
 pip-update: ## Update Python packages
 		@pip3 list --user \
 		| cut -d" " -f 1 \
@@ -128,4 +125,3 @@ build-container: ## Build containerized env and install dotfiles
 			--rm \
 			--tag df:alpine-edge \
 			$$PWD
-
