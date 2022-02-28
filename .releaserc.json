@@ -1,9 +1,7 @@
 {
   "repositoryUrl": "https://github.com/vladdoster/dotfiles",
   "plugins": [
-    [
-      "@semantic-release/commit-analyzer",
-      {
+    ["@semantic-release/commit-analyzer", {
         "preset": "eslint",
         "releaseRules": [
           { "type": "bugfix",   "release": "patch" },
@@ -19,7 +17,6 @@
         ]
       }
     ],
-    "@semantic-release/commit-analyzer",
     [
       "@google/semantic-release-replace-plugin",
       {
