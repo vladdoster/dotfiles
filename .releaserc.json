@@ -23,20 +23,6 @@
       {
         "replacements": [
           {
-            "files": ["./.cz.toml"],
-            "from": "version = '([0-9]).+([0-9]).+([0-9])'",
-            "to": "version = '${nextRelease.version}'",
-            "results": [
-              {
-                "file": "./.cz.toml",
-                "hasChanged": true,
-                "numMatches": 1,
-                "numReplacements": 1
-              }
-            ],
-            "countMatches": true
-          },
-          {
             "files": ["VERSION"],
             "from": "^([0-9]).+([0-9]).+([0-9])$",
             "to": "${nextRelease.version}",
@@ -63,8 +49,8 @@
     [
       "@semantic-release/git",
       {
-        "assets": [".cz.toml", "CHANGELOG.md", "VERSION"],
-        "message": "(release): bump ${lastRelease.version} → ${nextRelease.version}\n\n${nextRelease.notes}"
+        "assets": ["CHANGELOG.md", "VERSION"],
+        "message": "release: v${lastRelease.version} → v${nextRelease.version}\n\n${nextRelease.notes}"
       }
     ],
     "@semantic-release/github"
