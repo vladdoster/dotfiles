@@ -4,6 +4,7 @@
     [
       "@semantic-release/commit-analyzer",
       {
+        "preset": "angular",
         "releaseRules": [
           { "type": "bugfix",   "release": "patch" },
           { "type": "build",    "release": "patch" },
