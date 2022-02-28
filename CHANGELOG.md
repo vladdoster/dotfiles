@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/vladdoster/dotfiles/compare/v1.9.0...v1.9.1) (2022-02-28)
+
+
+### Bug Fixes
+
+* remove extra backslash breaking npm installs ([a1411b3](https://github.com/vladdoster/dotfiles/commit/a1411b31874448267ca5afa592b99af8807cb4d0))
+
 # [1.9.0](https://github.com/vladdoster/dotfiles/compare/v1.8.0...v1.9.0) (2022-02-28)
 
 
