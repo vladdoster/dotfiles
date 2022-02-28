@@ -18,7 +18,6 @@ jobs:
             @google/semantic-release-replace-plugin \
             @semantic-release/changelog \
             @semantic-release/git \
-            conventional-changelog-conventionalcommits \
             conventional-changelog-eslint
       - run: npx semantic-release --ci --
         env:
