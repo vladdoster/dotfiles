@@ -1,3 +1,12 @@
+## [1.9.2](https://github.com/vladdoster/dotfiles/compare/v1.9.1...v1.9.2) (2022-02-28)
+
+
+### Bug Fixes
+
+* lowercase release tags in releaserc ([34ba7ae](https://github.com/vladdoster/dotfiles/commit/34ba7ae546590d13c94a8ae350dba104c6d1301e))
+* lowercase release type in releaserc ([6e76b2e](https://github.com/vladdoster/dotfiles/commit/6e76b2e51073d63ae861a7d737293430b0646076))
+* remove conflicting commit parser dependency ([ac14bba](https://github.com/vladdoster/dotfiles/commit/ac14bba5bf1fb9bba808716cad2aea0878a7e2e7))
+
 ## [1.9.1](https://github.com/vladdoster/dotfiles/compare/v1.9.0...v1.9.1) (2022-02-28)
 
 
