@@ -1,3 +1,19 @@
+# [1.10.0](https://github.com/vladdoster/dotfiles/compare/v1.9.3...v1.10.0) (2022-03-01)
+
+
+### chore
+
+* remove releaserc cruft ([307eaa9](https://github.com/vladdoster/dotfiles/commit/307eaa95b0558c3c51cfe738ca23c916b8e53430))
+* use zi gh-r to fetch program binaries ([15282dc](https://github.com/vladdoster/dotfiles/commit/15282dcfd4b267a2e30607aad27a03439d536873))
+
+### fix
+
+* update nvcln alias to delete packer_compiled.lua ([70d1556](https://github.com/vladdoster/dotfiles/commit/70d1556460332dd763b905703813d6b70cddfeee))
+
+### new
+
+* re-do hammerspoonconfig ([a6889ca](https://github.com/vladdoster/dotfiles/commit/a6889caf4689d4db45cb19d3c1f9a666cbfdcc16))
+
 ## [1.9.3](https://github.com/vladdoster/dotfiles/compare/v1.9.2...v1.9.3) (2022-02-28)
 
 
