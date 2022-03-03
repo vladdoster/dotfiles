@@ -1,3 +1,18 @@
+# [1.11.0](https://github.com/vladdoster/dotfiles/compare/v1.10.0...v1.11.0) (2022-03-03)
+
+
+### chore
+
+* add zsh alias for python3 pip ([841152d](https://github.com/vladdoster/dotfiles/commit/841152db6b8959d8c7bc117f31c6e2a9c19235e4))
+
+### new
+
+* git alias for restoring and amending a commit ([721fa97](https://github.com/vladdoster/dotfiles/commit/721fa9762a844e6ac5ab5ebe10a0b84618fe700b))
+
+### refactor
+
+* integrating hhtwm and custom wm-related module ([016e568](https://github.com/vladdoster/dotfiles/commit/016e568bd650d6e39da4ce47fefba80ba291d78f))
+
 # [1.10.0](https://github.com/vladdoster/dotfiles/compare/v1.9.3...v1.10.0) (2022-03-01)
 
 
