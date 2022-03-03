@@ -154,6 +154,8 @@ alias get-my-ip='curl ifconfig.co'
 alias scratch='$EDITOR $(mktemp -t scratch.XXX.md)'
 alias ps-grep="ps aux | grep -v grep | grep -i -e VSZ -e"
 #= PYTHON ========================================
+alias p='python3'
+alias ppip='python3 -m pip'
 alias http-serve='python3 -m http.server'
 alias pip-requirements='pip3 install -r requirements.txt || _error "no requirements.txt found"'
 alias venv-activate='source ./.venv/bin/activate'
