@@ -63,46 +63,23 @@ zi lucid wait for \
     atinit"bindkey '^_' autosuggest-execute; bindkey '^ ' autosuggest-accept" zsh-users/zsh-autosuggestions \
     atpull'zinit creinstall -q .' blockf svn submods'zsh-users/zsh-completions -> external' PZT::modules/completion \
     svn submods'zsh-users/zsh-history-substring-search -> external' OMZ::plugins/history-substring-search
-#=== RUST BINARIES ====================================
-# zi for \
-#     as'null' \
-#     atload"[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] \
-#             && zi creinstall rust \
-#             && export CARGO_HOME=$PWD \
-#             && export RUSTUP_HOME=$PWD/rustup" \
-#     cargo'bat;exa -> ls;fd-find;flamegraph;git-delta;hyperfine;ripgrep;sd;skim;zenith' \
-#     id-as'rust' \
-#     lucid \
-#     rustup \
-#     sbin'bin/*' \
-#   zdharma-continuum/null
-# zi wait rustup cargo'!exa;delta;' as"command" pick"bin/(exa|delta)" for \
-#   "$ZI_REPO"/null
-# zinit ice rustup cargo'exa;git-delta;tokei' pick"bin/(exa|delta|tokei)"
-# zinit load zdharma-continuum/null
-
-# zinit id-as=rust wait=1 as=null sbin="bin/*" lucid rustup \
-#     atload="[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall rust; \
-#     export CARGO_HOME=\$PWD RUSTUP_HOME=\$PWD/rustup" for \
-#         zdharma-continuum/null
 #=== GITHUB BINARIES ==================================
-zi pip'black; isort; mdformat; mdformat-gfm; mdformat-tables; mdformat-toc; tldr; wheel' load for \
-    "$ZI_REPO"/null
- zi from'gh-r' lucid nocompile for \
-    sbin'**/d*a'  dandavison/delta   \
-    sbin'**/fd'   @sharkdp/fd        \
-    sbin'**/g*r'  idc101/git-mkver   \
-    sbin'**/g*w'  charmbracelet/glow \
-    sbin'**/gh'   cli/cli            \
-    sbin'**/h*e'  @sharkdp/hyperfine \
-    sbin'**/l*t'  jesseduffield/lazygit \
-    sbin'**/p*s'  dalance/procs      \
-    sbin'**/rg'   BurntSushi/ripgrep \
+zi from'gh-r' silent nocompile for \
+    sbin'**/d*a' dandavison/delta \
+    sbin'**/fd'  @sharkdp/fd \
+    sbin'**/g*r' idc101/git-mkver \
+    sbin'**/g*w' charmbracelet/glow \
+    sbin'**/gh'  cli/cli \
+    sbin'**/h*e' @sharkdp/hyperfine \
+    sbin'**/l*t' jesseduffield/lazygit \
+    sbin'**/p*s' dalance/procs         \
+    sbin'**/rg'  BurntSushi/ripgrep \
+    sbin'**/t*i' XAMPPRocky/tokei  \
+    sbin'fzf'    junegunn/fzf \
+    sbin'g*r'    @github/git-sizer \
+    sbin'g*x'    pemistahl/grex \
+    sbin'**/f*g' chanzuckerberg/fogg \
     sbin'**/sh* -> shfmt' @mvdan/sh  \
-    sbin'**/t*i' XAMPPRocky/tokei    \
-    sbin'fzf'    junegunn/fzf        \
-    sbin'g*r'    @github/git-sizer   \
-    sbin'g*x'    pemistahl/grex      \
     sbin'**/nvim' atinit'alias v=nvim' ver'nightly' neovim/neovim \
     sbin'**/exa'  atclone'cp -vf completions/exa.zsh _exa' atinit"
         alias l='exa -blF'; alias la='exa -abghilmu'
@@ -111,13 +88,13 @@ zi pip'black; isort; mdformat; mdformat-gfm; mdformat-tables; mdformat-toc; tldr
     ogham/exa
 #=== PIP COMPLETION ===================================
 function _pip_completion {
-    local words cword && read -Ac words && read -cn cword
-    reply=(
-        $(
-            COMP_WORDS="$words[*]" \
-            COMP_CWORD=$(( cword-1 )) \
-            PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null
-        )
+  local words cword && read -Ac words && read -cn cword
+  reply=(
+    $(
+      COMP_WORDS="$words[*]" \
+      COMP_CWORD=$(( cword-1 )) \
+      PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null
     )
+  )
 }
 compctl -K _pip_completion pip3
