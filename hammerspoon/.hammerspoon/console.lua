@@ -1,22 +1,22 @@
-local axuiWindowElement = require('hs.axuielement').windowElement
-local reloadHS          = require('ext.system').reloadHS
+local axuiWindowElement = require("hs.axuielement").windowElement
+-- local reloadHS          = require('ext.system').reloadHS
 local module = {}
 module.init = function()
   -- some global functions for console
   inspect = hs.inspect
-  reload  = reloadHS
+  -- reload = reloadHS
   dumpWindows = function()
     hs.fnutils.each(hs.window.allWindows(), function(win)
       print(hs.inspect({
-        id               = win:id(),
-        title            = win:title(),
-        app              = win:application():name(),
-        role             = win:role(),
-        subrole          = win:subrole(),
-        frame            = win:frame(),
-        buttonZoom       = axuiWindowElement(win):attributeValue('AXZoomButton'),
-        buttonFullScreen = axuiWindowElement(win):attributeValue('AXFullScreenButton'),
-        isResizable      = axuiWindowElement(win):isAttributeSettable('AXSize')
+        id = win:id(),
+        title = win:title(),
+        app = win:application():name(),
+        role = win:role(),
+        subrole = win:subrole(),
+        frame = win:frame(),
+        buttonZoom = axuiWindowElement(win):attributeValue("AXZoomButton"),
+        buttonFullScreen = axuiWindowElement(win):attributeValue("AXFullScreenButton"),
+        isResizable = axuiWindowElement(win):isAttributeSettable("AXSize"),
       }))
     end)
   end
@@ -31,16 +31,16 @@ module.init = function()
   end
   -- console styling
   local grayColor = {
-    red   = 24 * 4 / 255,
+    red = 24 * 4 / 255,
     green = 24 * 4 / 255,
-    blue  = 24 * 4 / 255,
-    alpha = 1
+    blue = 24 * 4 / 255,
+    alpha = 1,
   }
   local blackColor = {
-    red   = 24 / 255,
+    red = 24 / 255,
     green = 24 / 255,
-    blue  = 24 / 255,
-    alpha = 1
+    blue = 24 / 255,
+    alpha = 1,
   }
   hs.console.consoleCommandColor(blackColor)
   hs.console.consoleResultColor(grayColor)

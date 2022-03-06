@@ -1,9 +1,7 @@
 local appw = hs.application.watcher
 local module = { apps = {}, observers = {}, windows = {} }
-
 local spaces = require("hs._asm.undocumented.spaces")
-local desktop = require("desktop")
-
+local desktop = require("utils.desktop")
 module.appEvents = {
   [appw.activated] = "activated",
   [appw.deactivated] = "deactivated",
@@ -13,9 +11,7 @@ module.appEvents = {
   [appw.terminated] = "terminated",
   [appw.unhidden] = "unhidden",
 }
-
 module.events = { focused = "focused", framed = "framed", closed = "closed", created = "created", hidden = "hidden" }
-
 module.getWindowsPerSpace = function()
   local ret = {}
   for _, windows in pairs(module.windows) do
@@ -33,7 +29,6 @@ module.getWindowsPerSpace = function()
   end
   return ret
 end
-
 ---@return hs.window[]
 module.getWindows = function(currentSpaceOnly)
   local mySpace = desktop.activeSpace()
@@ -60,7 +55,6 @@ module.getWindows = function(currentSpaceOnly)
   end
   return ret
 end
-
 module._addAppWindow = function(app, ax)
   if ax ~= nil and ax.AXSubrole == "AXStandardWindow" then
     local pid = app:pid()
@@ -74,7 +68,6 @@ module._addAppWindow = function(app, ax)
     end
   end
 end
-
 module._updateAppWindows = function(app, ax)
   if module.windows[app:pid()] == nil then
     module.windows[app:pid()] = {}
@@ -86,10 +79,8 @@ module._updateAppWindows = function(app, ax)
       end
     end
   end
-
   module._addAppWindow(app, ax.AXMainWindow)
   module._addAppWindow(app, ax.AXFocusedWindow)
-
   for elId, el in pairs(module.windows[app:pid()]) do
     if not el:isValid() then
       module.windows[app:pid()][elId] = nil
@@ -97,7 +88,6 @@ module._updateAppWindows = function(app, ax)
     end
   end
 end
-
 module.triggerChange = function(app, win, event)
   local winTitle = ""
   if win then
@@ -109,7 +99,6 @@ module.triggerChange = function(app, win, event)
     -- hs.timer.doAfter(.01, function() fn(app, win, event) end)
   end
 end
-
 module._listeners = {}
 module.onChange = function(fn)
   table.insert(module._listeners, fn)
@@ -118,7 +107,6 @@ module.onChange = function(fn)
     fn(win:application(), win, module.events.focused)
   end
 end
-
 module._watchApp =
   ---@param app hs.application
   function(app)
@@ -143,7 +131,6 @@ module._watchApp =
       pcall(addWatcher, "AXResized")
       pcall(addWatcher, "AXMoved")
       pcall(addWatcher, "AXUIElementDestroyed")
-
       -- w:addWatcher(ax, "AXUIElementDestroyed")
       w:callback(function(_, axel, notif, _notifData)
         if notif == "AXUIElementDestroyed" then
@@ -152,7 +139,6 @@ module._watchApp =
           end
           return
         end
-
         if not axel:matchesCriteria("AXWindow") then
           return
         end
@@ -171,7 +157,6 @@ module._watchApp =
       module.observers[app:pid()] = w
     end
   end
-
 module._updateSpaces = function()
   for _, space in pairs(spaces.layout()[spaces.mainScreenUUID()]) do
     for _, w in pairs(spaces.allWindowsForSpace(space)) do
@@ -179,13 +164,11 @@ module._updateSpaces = function()
     end
   end
 end
-
 module._updateRunning = function()
   for _, app in ipairs(hs.application.runningApplications()) do
     module._watchApp(app)
   end
 end
-
 module.switcher = function()
   if module._chooser == nil then
     module._chooser = hs.chooser.new(function(choice)
@@ -210,16 +193,13 @@ module.switcher = function()
   end)
   module._chooser:choices(windows):show()
 end
-
 module._appWatcher = appw.new(function(appName, event, app)
   if appName == nil then
     appName = ""
   end
-
   if event == appw.launching then
     return
   end
-
   if event == appw.terminated then
     module.apps[app:pid()] = nil
     if module.observers[app:pid()] ~= nil then
@@ -228,31 +208,24 @@ module._appWatcher = appw.new(function(appName, event, app)
     end
     return
   end
-
   if module.apps[app:pid()] == nil then
     module._watchApp(app)
   end
-
   if event == appw.activated or event == appw.launched then
     local win = app:focusedWindow()
     if win ~= nil then
       module.triggerChange(app, win, module.events.focused)
     end
   end
-
   if event == appw.hidden then
     module.triggerChange(app, app:mainWindow(), module.events.hidden)
   end
 end)
-
 module._spaceWatcher = hs.spaces.watcher.new(module._updateRunning)
-
 module.start = function()
   module._updateSpaces()
   module._spaceWatcher:start()
   module._appWatcher:start()
 end
-
 module.start()
-
 return module

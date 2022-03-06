@@ -1,21 +1,15 @@
 local wb = hs.canvas.windowBehaviors
 local spaces = require("hs._asm.undocumented.spaces")
-local running = require("running")
-
+local running = require("utils.running")
 hs.window.filter.forceRefreshOnSpaceChange = true
-
 local module = { widget = hs.canvas.new({}) }
-
-local desktop = require("desktop")
-
+local desktop = require("utils.desktop")
 module.widget:level(hs.canvas.windowLevels.floating)
 module.widget:clickActivating(false)
 module.widget:_accessibilitySubrole("AXUnknown")
 module.widget:behavior({ wb.default, wb.transient })
-
 module.update = function()
   module.widget:hide()
-
   local win = hs.window.focusedWindow()
   if win == nil or not win:application() or not win:application():isRunning() or not win:isVisible() then
     return
@@ -30,18 +24,14 @@ module.update = function()
   if not found then
     win = nil
   end
-
   if win ~= nil and win:subrole() == "AXStandardWindow" and win:isVisible() and not win:isFullScreen() then
     local top_left = win:topLeft()
     local size = win:size()
-
     module.widget:frame(hs.screen.mainScreen():fullFrame())
-
     local radius = 10
     local border = 4
     local offset = 2
     local alpha = 0.9
-
     module.widget
       :replaceElements({
         -- first we start with a rectangle that covers the full canvas
@@ -75,15 +65,11 @@ module.update = function()
       :show()
   end
 end
-
 running.onChange(function(_app, _win, _event)
   module.update()
 end)
-
 local watcher = hs.spaces.watcher.new(module.update)
 watcher:start()
 desktop.onChange(module.update)
-
 module.update()
-
 return module

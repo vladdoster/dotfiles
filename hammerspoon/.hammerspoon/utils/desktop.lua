@@ -80,14 +80,11 @@ module._tap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(even
   end
   if hasMods and isUp then
     if module.active ~= 1 then
-      -- module.changeTo(module.active)
-      -- os.execute("/usr/local/bin/yabai -m space --focus prev")
       module.previous()
     end
   end
   if hasMods and isDown then
     if module.active ~= #module.layout() then
-      -- os.execute("/usr/local/bin/yabai -m space --focus next")
       module.next()
     end
   end
