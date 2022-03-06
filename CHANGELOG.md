@@ -1,3 +1,10 @@
+## [1.11.2](https://github.com/vladdoster/dotfiles/compare/v1.11.1...v1.11.2) (2022-03-06)
+
+
+### docs
+
+* README.md reflects current feature set ([7b38045](https://github.com/vladdoster/dotfiles/commit/7b380452e3e6bb33808e1a7f8b39ffa49a8710cf))
+
 ## [1.11.1](https://github.com/vladdoster/dotfiles/compare/v1.11.0...v1.11.1) (2022-03-06)
 
 
