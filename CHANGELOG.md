@@ -1,3 +1,18 @@
+## [1.11.1](https://github.com/vladdoster/dotfiles/compare/v1.11.0...v1.11.1) (2022-03-06)
+
+
+### build
+
+* update release user details ([5a04988](https://github.com/vladdoster/dotfiles/commit/5a04988860e1acace493df02ce6adfaefbabfb06))
+
+### chore
+
+* remove unused rust-annex configurations ([7785e16](https://github.com/vladdoster/dotfiles/commit/7785e169570306d5a16bcf16c4dace6c59378bb6))
+
+### refactor
+
+* re-work of hs modules ([4d3ca6e](https://github.com/vladdoster/dotfiles/commit/4d3ca6e778a4df0e80639118087c32aafc01b0aa))
+
 # [1.11.0](https://github.com/vladdoster/dotfiles/compare/v1.10.0...v1.11.0) (2022-03-03)
 
 
