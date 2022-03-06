@@ -4,11 +4,8 @@
 
 ## Features
 
-- Tiling window management via Hammerspoon
-- macOS configuration via Ansible
-- Dotfiles managed by GNU Stow
-- Install all required programs via Brew or from source
-- Comfy neovim configuratiom in Lua
+- Event driven tiling window management via Hammerspoon
+- Managed via GNU Stow
 
 ## Install
 
@@ -40,12 +37,6 @@ git clone https://github.com/vladdoster/dotfiles $HOME/.config/dotfiles
 | stow            | Install GNU stow                                            |
 
 #### Change shell to ZSH
-
-##### macOS
-
-```bash
-sudo dscl . -create /Users/"$USER" UserShell "$(which zsh)"
-```
 
 ##### Linux
 
