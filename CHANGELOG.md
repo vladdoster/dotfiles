@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/vladdoster/dotfiles/compare/v1.11.2...v1.12.0) (2022-03-07)
+
+
+### new
+
+* add global rust & cargo install ([40a27ae](https://github.com/vladdoster/dotfiles/commit/40a27ae6ca2e007a9b32edb3acc1e62d1f29bd7a))
+
 ## [1.11.2](https://github.com/vladdoster/dotfiles/compare/v1.11.1...v1.11.2) (2022-03-06)
 
 
