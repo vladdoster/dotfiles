@@ -86,6 +86,21 @@ zi from'gh-r' silent nocompile for \
         alias ll='exa -al'; alias tree='exa --tree'
         alias ls='exa --git --group-directories-first'" \
     ogham/exa
+
+#=== RUST INSTALL =====================================
+zinit for \
+    as'null' \
+    id-as'rust' \
+    lucid \
+    rustup \
+    sbin"bin/*" \
+    wait'1' \
+    atload"
+      [[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] \
+        && zi creinstall rust \
+        && export CARGO_HOME=${PWD} \
+        && export RUSTUP_HOME=${PWD}/rustup" \
+  zdharma-continuum/null
 #=== PIP COMPLETION ===================================
 function _pip_completion {
   local words cword && read -Ac words && read -cn cword
