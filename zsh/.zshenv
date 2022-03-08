@@ -31,8 +31,8 @@ export HOMEBREW_BOOTSNAP=1
 export HOMEBREW_INSTALL_FROM_API=1
 export HOMEBREW_NO_ENV_HINTS=1
 export KEYTIMEOUT=1
-export MANPAGER="${PAGER:-less}"
-export PAGER=less
+export MANPAGER=less
+export PAGER="${MANPAGER:-less}"
 export PYTHONWARNINGS="ignore"
 #-- CONFIGURATIONS ------------------------------------------------------------
 export AZURE_CONFIG_DIR="$XDG_DATA_HOME"/azure
@@ -44,7 +44,7 @@ export SUBVERSION_HOME="$XDG_CONFIG_HOME"/subversion
 export VIMDOTDIR="$XDG_CONFIG_HOME"/vim
 export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
 # -- PATH ---------------------------------------------------------------------
-cdpath+=("$HOME" "..") && export cdpath
+# cdpath+=("$HOME" "..") && export cdpath
 manpath+=(/usr/local/man /usr/share/man) && export manpath
 typeset -agU cdpath fpath path
 path=( "${path[@]:#}" ) # de-deduplicate

@@ -18,7 +18,7 @@ ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
 ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
 ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets
 ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump    ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
-ZI_REPO="zdharma-continuum"
+ZI_REPO='zdharma-continuum'
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'Downloading Zinit' \
     && command git clone \
@@ -56,16 +56,17 @@ zi is-snippet as'completion' for \
     OMZP::{'golang/_golang','pip/_pip','terraform/_terraform','npm'} \
     PZT::modules/{'history','rsync'}
 #=== PLUGINS ==========================================
-zi lucid wait for \
+zi for \
     as'completion' vladdoster/gitfast-zsh-plugin \
     atinit"zicompinit; zicdreplay" light-mode $ZI_REPO/fast-syntax-highlighting \
     atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet OMZ::plugins/vi-mode \
     atinit"bindkey '^_' autosuggest-execute; bindkey '^ ' autosuggest-accept" zsh-users/zsh-autosuggestions \
-    atpull'zinit creinstall -q .' blockf svn submods'zsh-users/zsh-completions -> external' PZT::modules/completion \
-    svn submods'zsh-users/zsh-history-substring-search -> external' OMZ::plugins/history-substring-search
+    blockf is-snippet svn submods'zsh-users/zsh-history-substring-search -> external' OMZ::plugins/history-substring-search \
+    atpull'zinit creinstall -q .' blockf svn submods'zsh-users/zsh-completions -> external' PZT::modules/completion
 #=== GITHUB BINARIES ==================================
-zi from'gh-r' silent nocompile for \
+zi wait'1' lucid from'gh-r' nocompile for \
     sbin'**/d*a' dandavison/delta \
+    sbin'**/f*g' chanzuckerberg/fogg \
     sbin'**/fd'  @sharkdp/fd \
     sbin'**/g*r' idc101/git-mkver \
     sbin'**/g*w' charmbracelet/glow \
@@ -78,7 +79,6 @@ zi from'gh-r' silent nocompile for \
     sbin'fzf'    junegunn/fzf \
     sbin'g*r'    @github/git-sizer \
     sbin'g*x'    pemistahl/grex \
-    sbin'**/f*g' chanzuckerberg/fogg \
     sbin'**/sh* -> shfmt' @mvdan/sh  \
     sbin'**/nvim' atinit'alias v=nvim' ver'nightly' neovim/neovim \
     sbin'**/exa'  atclone'cp -vf completions/exa.zsh _exa' atinit"
@@ -86,20 +86,13 @@ zi from'gh-r' silent nocompile for \
         alias ll='exa -al'; alias tree='exa --tree'
         alias ls='exa --git --group-directories-first'" \
     ogham/exa
-
+    . $HOME/.config/zsh/zi-programs.zsh
 #=== RUST INSTALL =====================================
-zinit for \
-    as'null' \
-    id-as'rust' \
-    lucid \
-    rustup \
-    sbin"bin/*" \
-    wait'1' \
-    atload"
-      [[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] \
-        && zi creinstall rust \
-        && export CARGO_HOME=${PWD} \
-        && export RUSTUP_HOME=${PWD}/rustup" \
+zi as'null' id-as'rust' lucid rustup sbin'bin/*' wait'2' atload"
+    [[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] \
+    && zi creinstall rust \
+    && export CARGO_HOME=${PWD} \
+    && export RUSTUP_HOME=${PWD}/rustup" for \
   zdharma-continuum/null
 #=== PIP COMPLETION ===================================
 function _pip_completion {
