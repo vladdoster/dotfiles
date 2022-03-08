@@ -6,6 +6,7 @@
 # Open an issue in https://github.com/vladdoster/dotfiles if
 # you find a bug, have a feature request, or a question.
 #
+
 case $OSTYPE in
     darwin*)
         case $CPUTYPE in
@@ -19,21 +20,35 @@ esac
 # -- RESERVED VARIABLES -------------------------------------------------------
 (( ${+HOSTNAME} )) || export HOSTNAME="$HOST"
 (( ${+LANGUAGE} )) || export LANGUAGE="$LANG"
-(( ${+LANG}   )) || export LANG="en_US.UTF-8"
-(( ${+LC_ALL} )) || export LC_ALL="$LANG"
 (( ${+USER}   )) || export USER="$USERNAME"
 (( ${+XDG_CACHE_HOME}  )) || export XDG_CACHE_HOME="$HOME/.cache"
 (( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="$HOME/.config"
 (( ${+XDG_DATA_HOME}   )) || export XDG_DATA_HOME="$HOME/.local/share"
 [ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin" # personal scripts
 #-- ENV VARIABLES -------------------------------------------------------------
+export CGO_CFLAGS="-g -O2 -Wno-return-local-addr"
+export CGO_ENABLED=1
+
+export DISABLE_MAGIC_FUNCTIONS=true     # make pasting into terminal faster
+
+export COMPOSE_DOCKER_CLI_BUILD=1
+export DOCKER_BUILDKIT=1
+
 export HOMEBREW_BOOTSNAP=1
 export HOMEBREW_INSTALL_FROM_API=1
 export HOMEBREW_NO_ENV_HINTS=1
+
 export KEYTIMEOUT=1
+
+export LANG=en_IN.UTF-8
+export LC_ALL=en_IN.UTF-8
+
 export MANPAGER=less
 export PAGER="${MANPAGER:-less}"
+
 export PYTHONWARNINGS="ignore"
+
+export ZSH_AUTOSUGGEST_MANUAL_REBIND=1  # make prompt faster
 #-- CONFIGURATIONS ------------------------------------------------------------
 export AZURE_CONFIG_DIR="$XDG_DATA_HOME"/azure
 export DOTFILES="$XDG_CONFIG_HOME"/dotfiles
@@ -48,3 +63,5 @@ export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
 manpath+=(/usr/local/man /usr/share/man) && export manpath
 typeset -agU cdpath fpath path
 path=( "${path[@]:#}" ) # de-deduplicate
+
+setopt autocd autopushd pushdignoredups

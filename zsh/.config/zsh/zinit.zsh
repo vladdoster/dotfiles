@@ -47,27 +47,32 @@ zi light-mode for \
         zstyle ':prompt:pure:git:dirty' color 'red'
         zstyle ':prompt:pure:path' color 'cyan'
         zstyle ':prompt:pure:prompt:success' color 'green'" \
-    sindresorhus/pure
+    sindresorhus/pure \
+    as'completion' vladdoster/gitfast-zsh-plugin
 #=== COMPLETION =======================================
-zi is-snippet as'completion' for \
-    https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
-    https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker \
-    https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo \
-    OMZP::{'golang/_golang','pip/_pip','terraform/_terraform','npm'} \
-    PZT::modules/{'history','rsync'}
-#=== PLUGINS ==========================================
-zi for \
-    as'completion' vladdoster/gitfast-zsh-plugin \
-    atinit"zicompinit; zicdreplay" light-mode $ZI_REPO/fast-syntax-highlighting \
+    # as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras
+zi wait'!0' lucid for \
+    light-mode atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20" atload"_zsh_autosuggest_start" zsh-users/zsh-autosuggestions \
+    light-mode atinit" typeset -gA FAST_HIGHLIGHT; FAST_HIGHLIGHT[git-cmsg-len]=100; zpcompinit; zpcdreplay; " $ZI_REPO/fast-syntax-highlighting \
     atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet OMZ::plugins/vi-mode \
     atinit"bindkey '^_' autosuggest-execute; bindkey '^ ' autosuggest-accept" zsh-users/zsh-autosuggestions \
     blockf is-snippet svn submods'zsh-users/zsh-history-substring-search -> external' OMZ::plugins/history-substring-search \
+    reset \
     atpull'zinit creinstall -q .' blockf svn submods'zsh-users/zsh-completions -> external' PZT::modules/completion
+#=== PLUGINS ==========================================
+zi wait'1a' lucid is-snippet as'completion' for \
+    OMZP::{'golang/_golang','pip/_pip','terraform/_terraform','npm'} \
+    PZT::modules/{'history','rsync'} \
+    https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
+    https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker \
+    https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo
 #=== GITHUB BINARIES ==================================
-zi wait'1' lucid from'gh-r' nocompile for \
+zi wait'1b' lucid from'gh-r' nocompile for \
+    sbin'**/m*k' rust-lang/mdBook \
     sbin'**/d*a' dandavison/delta \
     sbin'**/f*g' chanzuckerberg/fogg \
     sbin'**/fd'  @sharkdp/fd \
+    sbin'**/g*i'extrawurst/gitui \
     sbin'**/g*r' idc101/git-mkver \
     sbin'**/g*w' charmbracelet/glow \
     sbin'**/gh'  cli/cli \
@@ -75,20 +80,23 @@ zi wait'1' lucid from'gh-r' nocompile for \
     sbin'**/l*t' jesseduffield/lazygit \
     sbin'**/p*s' dalance/procs         \
     sbin'**/rg'  BurntSushi/ripgrep \
+    sbin'**/s*a' JohnnyMorganz/StyLua \
     sbin'**/t*i' XAMPPRocky/tokei  \
+    sbin'**/z*v' numToStr/zenv \
     sbin'fzf'    junegunn/fzf \
     sbin'g*r'    @github/git-sizer \
     sbin'g*x'    pemistahl/grex \
+    sbin'**/nvim' atload'alias v=nvim' ver'nightly' neovim/neovim \
     sbin'**/sh* -> shfmt' @mvdan/sh  \
-    sbin'**/nvim' atinit'alias v=nvim' ver'nightly' neovim/neovim \
+    sbin'**/xh' atload'alias h=xh' @ducaale/xh \
     sbin'**/exa'  atclone'cp -vf completions/exa.zsh _exa' atinit"
         alias l='exa -blF'; alias la='exa -abghilmu'
         alias ll='exa -al'; alias tree='exa --tree'
         alias ls='exa --git --group-directories-first'" \
-    ogham/exa
-    . $HOME/.config/zsh/zi-programs.zsh
+                ogham/exa
+# . $HOME/.config/zsh/zi-programs.zsh
 #=== RUST INSTALL =====================================
-zi as'null' id-as'rust' lucid rustup sbin'bin/*' wait'2' atload"
+zi as'null' id-as'rust' lucid rustup sbin'bin/*' wait'1c' atload"
     [[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] \
     && zi creinstall rust \
     && export CARGO_HOME=${PWD} \
