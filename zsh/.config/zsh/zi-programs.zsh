@@ -12,7 +12,17 @@ zi for \
 zi for \
     from'gh-r' \
     sbin'**/bat -> bat' \
-  @sharkdp/bat
+  @sharkdp/bat \
+sbin'**/f*g' chanzuckerberg/fogg \
+sbin'**/g*i'extrawurst/gitui \
+sbin'**/g*r' idc101/git-mkver \
+sbin'**/g*w' charmbracelet/glow \
+sbin'**/gh'  cli/cli \
+sbin'**/l*t' jesseduffield/lazygit \
+sbin'**/m*k' rust-lang/mdBook \
+sbin'**/p*s' dalance/procs         \
+sbin'**/t*i' XAMPPRocky/tokei  \
+sbin'g*r'    @github/git-sizer
 
 zi for \
     from'gh-r' \

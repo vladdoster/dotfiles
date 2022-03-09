@@ -100,6 +100,10 @@ fi
 if has python3; then
 	alias python='python3'
 fi
+profzsh() {
+  shell=${1-$SHELL}
+  ZPROF=true $shell -i -c exit
+}
 #= CONFIG SHORTCUTS ==============================
 alias ealiases="_edit $ZDOTDIR/aliases.zsh"
 alias emcutils="_edit $ZDOTDIR/lib/azure.sh"

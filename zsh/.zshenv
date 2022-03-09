@@ -40,8 +40,8 @@ export HOMEBREW_NO_ENV_HINTS=1
 
 export KEYTIMEOUT=1
 
-export LANG=en_IN.UTF-8
-export LC_ALL=en_IN.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 export MANPAGER=less
 export PAGER="${MANPAGER:-less}"
@@ -65,3 +65,4 @@ typeset -agU cdpath fpath path
 path=( "${path[@]:#}" ) # de-deduplicate
 
 setopt autocd autopushd pushdignoredups
+. "$HOME/.cargo/env"

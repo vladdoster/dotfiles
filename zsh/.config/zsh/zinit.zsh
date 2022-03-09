@@ -18,7 +18,7 @@ ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
 ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
 ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets
 ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump    ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
-ZI_REPO='zdharma-continuum'
+ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githubusercontent.com'
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'Downloading Zinit' \
     && command git clone \
@@ -38,8 +38,7 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
   && _comps[zinit]=_zinit
 #=== PROMPT & THEME ===================================
 zi light-mode for \
-    "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','rust','submods'} \
-    compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh' atload"
+    compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
         PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
         PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
         zstyle ':prompt:pure:git:action' color 'yellow'
@@ -48,69 +47,61 @@ zi light-mode for \
         zstyle ':prompt:pure:path' color 'cyan'
         zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure \
-    as'completion' vladdoster/gitfast-zsh-plugin
-#=== COMPLETION =======================================
-    # as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras
-zi wait'!0' lucid for \
-    light-mode atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20" atload"_zsh_autosuggest_start" zsh-users/zsh-autosuggestions \
-    light-mode atinit" typeset -gA FAST_HIGHLIGHT; FAST_HIGHLIGHT[git-cmsg-len]=100; zpcompinit; zpcdreplay; " $ZI_REPO/fast-syntax-highlighting \
-    atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet OMZ::plugins/vi-mode \
-    atinit"bindkey '^_' autosuggest-execute; bindkey '^ ' autosuggest-accept" zsh-users/zsh-autosuggestions \
-    blockf is-snippet svn submods'zsh-users/zsh-history-substring-search -> external' OMZ::plugins/history-substring-search \
-    reset \
-    atpull'zinit creinstall -q .' blockf svn submods'zsh-users/zsh-completions -> external' PZT::modules/completion
-#=== PLUGINS ==========================================
-zi wait'1a' lucid is-snippet as'completion' for \
-    OMZP::{'golang/_golang','pip/_pip','terraform/_terraform','npm'} \
-    PZT::modules/{'history','rsync'} \
-    https://raw.githubusercontent.com/Homebrew/brew/master/completions/zsh/_brew \
-    https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker \
-    https://raw.githubusercontent.com/rust-lang/cargo/master/src/etc/_cargo
+    "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','rust','submods'}
+    # as'completion' vladdoster/gitfast-zsh-plugin
 #=== GITHUB BINARIES ==================================
-zi wait'1b' lucid from'gh-r' nocompile for \
-    sbin'**/m*k' rust-lang/mdBook \
+zi from'gh-r' nocompile for \
     sbin'**/d*a' dandavison/delta \
-    sbin'**/f*g' chanzuckerberg/fogg \
     sbin'**/fd'  @sharkdp/fd \
-    sbin'**/g*i'extrawurst/gitui \
-    sbin'**/g*r' idc101/git-mkver \
-    sbin'**/g*w' charmbracelet/glow \
-    sbin'**/gh'  cli/cli \
     sbin'**/h*e' @sharkdp/hyperfine \
-    sbin'**/l*t' jesseduffield/lazygit \
-    sbin'**/p*s' dalance/procs         \
     sbin'**/rg'  BurntSushi/ripgrep \
     sbin'**/s*a' JohnnyMorganz/StyLua \
-    sbin'**/t*i' XAMPPRocky/tokei  \
-    sbin'**/z*v' numToStr/zenv \
     sbin'fzf'    junegunn/fzf \
-    sbin'g*r'    @github/git-sizer \
     sbin'g*x'    pemistahl/grex \
     sbin'**/nvim' atload'alias v=nvim' ver'nightly' neovim/neovim \
     sbin'**/sh* -> shfmt' @mvdan/sh  \
-    sbin'**/xh' atload'alias h=xh' @ducaale/xh \
     sbin'**/exa'  atclone'cp -vf completions/exa.zsh _exa' atinit"
         alias l='exa -blF'; alias la='exa -abghilmu'
         alias ll='exa -al'; alias tree='exa --tree'
         alias ls='exa --git --group-directories-first'" \
-                ogham/exa
-# . $HOME/.config/zsh/zi-programs.zsh
-#=== RUST INSTALL =====================================
-zi as'null' id-as'rust' lucid rustup sbin'bin/*' wait'1c' atload"
-    [[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] \
-    && zi creinstall rust \
-    && export CARGO_HOME=${PWD} \
-    && export RUSTUP_HOME=${PWD}/rustup" for \
-  zdharma-continuum/null
+    ogham/exa
+#=== COMPLETION =======================================
+zinit for \
+	OMZL::{'clipboard','compfix','completion','directories','git','grep','key-bindings','termsupport'}.zsh \
+    PZT::modules/{'history','rsync'}
+zi as'completion' is-snippet for \
+    OMZP::{'git','golang/_golang','pip/_pip','terraform/_terraform','npm'} \
+    $GH_RAW_URL/Homebrew/brew/master/completions/zsh/_brew \
+    $GH_RAW_URL/docker/cli/master/contrib/completion/zsh/_docker \
+    $GH_RAW_URL/rust-lang/cargo/master/src/etc/_cargo \
+	OMZP::docker-compose as"completion" OMZP::docker/_docker
+#=== PLUGINS ==========================================
+zi light-mode for \
+    atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet OMZ::plugins/vi-mode \
+    svn submods'zsh-users/zsh-history-substring-search -> external' OMZ::plugins/history-substring-search \
+    blockf atpull'zinit creinstall -q .' \
+    atinit'
+            zstyle ":completion:*" menu select
+            zstyle ":completion:*" list-colors ${(s.:.)LS_COLORS}
+            zstyle ":completion:*" verbose yes
+            zstyle ":completion:*:descriptions" format "$fg[yellow]%B--- %d%b"
+            zstyle ":completion:*:messages" format "%d"
+            zstyle ":completion:*:warnings" format "$fg[red]No matches for:$reset_color %d"
+            zstyle ":completion:*:corrections" format "%B%d (errors: %e)%b"
+            zstyle ":completion:*" group-name ""' \
+        zsh-users/zsh-completions \
+    atinit"bindkey '^_' autosuggest-execute; bindkey '^ ' autosuggest-accept; ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20" \
+        zsh-users/zsh-autosuggestions \
+    atinit" typeset -gA FAST_HIGHLIGHT; FAST_HIGHLIGHT[git-cmsg-len]=100; zpcompinit; zpcdreplay;" $ZI_REPO/fast-syntax-highlighting
 #=== PIP COMPLETION ===================================
-function _pip_completion {
-  local words cword && read -Ac words && read -cn cword
-  reply=(
-    $(
-      COMP_WORDS="$words[*]" \
-      COMP_CWORD=$(( cword-1 )) \
-      PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null
-    )
-  )
-}
-compctl -K _pip_completion pip3
+# function _pip_completion {
+#   local words cword && read -Ac words && read -cn cword
+#   reply=(
+#     $(
+#       COMP_WORDS="$words[*]" \
+#       COMP_CWORD=$(( cword-1 )) \
+#       PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null
+#     )
+#   )
+# }
+# compctl -K _pip_completion pip3
