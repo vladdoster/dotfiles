@@ -4,7 +4,8 @@
 
 if docker container ls; then
 	echo "--- killing $(docker container ls --all --quiet | wc -l) running containers"
-	docker container stop --time 5 "$(docker container ls --all --quiet)"
+	docker container kill $(docker container ls --quiet)
+	docker container stop $(docker container ls --all --quiet)
 	echo "--- found $(docker container ls --all --quiet | wc -l) running containers"
 
 	echo "--- pruning docker resources"

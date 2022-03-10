@@ -76,6 +76,14 @@ zi as'completion' is-snippet for \
     $GH_RAW_URL/rust-lang/cargo/master/src/etc/_cargo \
 	OMZP::docker-compose as"completion" OMZP::docker/_docker
 #=== PLUGINS ==========================================
+# zi pack'svn' for svn
+zi node'ansible <- !ansible -> ansible; ansible-lint' for $ZI_REPO/null
+zi as'null' for node'react' pip'black' gem'rubyfmt' $ZI_REPO/null
+# zi for \
+#     id-as'node' node'react; semantic-release; vue' \
+#     id-as'pip' pip'black; isort; mdformat; mdformat-gfm; mdformat-tables; mdformat-toc; tldr; wheel' \
+#     id-as'gem' gem'rake; ruby-fmt'
+#   $ZI_REPO/null
 zi light-mode for \
     atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet OMZ::plugins/vi-mode \
     svn submods'zsh-users/zsh-history-substring-search -> external' OMZ::plugins/history-substring-search \

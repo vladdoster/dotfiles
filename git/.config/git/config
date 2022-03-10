@@ -114,6 +114,9 @@
   cpa = cherry-pick --abort
   cpc = cherry-pick --continue
 #############
+  co = checkout
+  cob = checkout -b
+#############
   d = diff
   ds = diff --staged
 #############

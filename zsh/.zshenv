@@ -65,4 +65,3 @@ typeset -agU cdpath fpath path
 path=( "${path[@]:#}" ) # de-deduplicate
 
 setopt autocd autopushd pushdignoredups
-. "$HOME/.cargo/env"
