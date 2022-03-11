@@ -4,7 +4,7 @@ shift_hyper = {'cmd', 'alt', 'ctrl', 'shift'}
 
 hs.hotkey.bindSpec({hyper, 'y'}, hs.toggleConsole)
 
-require('windowBorder')
+require('windowBorder').start()
 require('spoons')
 
 hs.notify.show('Hammerspoon', 'Sucessfully loaded config', '')
