@@ -1,3 +1,16 @@
+## [1.12.1](https://github.com/vladdoster/dotfiles/compare/v1.12.0...v1.12.1) (2022-03-11)
+
+
+### chore
+
+* fix history substring search and add all zi recipes ([f1f809a](https://github.com/vladdoster/dotfiles/commit/f1f809afe6e50adc915c6c1b9e02a5f106b02308))
+* test misc. changes ([ca80d33](https://github.com/vladdoster/dotfiles/commit/ca80d33301c316ffe249cf65a5d1e8963779552a))
+* update kitty, hammerspoon, git config, and zsh cfgs ([84a9070](https://github.com/vladdoster/dotfiles/commit/84a9070bb6ee6d01a2f8183e342f57b05f88e866))
+
+### refactor
+
+* re-work of hs modules ([4be25e0](https://github.com/vladdoster/dotfiles/commit/4be25e046eb81db9213f9847c69a312f6745c157))
+
 # [1.12.0](https://github.com/vladdoster/dotfiles/compare/v1.11.2...v1.12.0) (2022-03-07)
 
 
