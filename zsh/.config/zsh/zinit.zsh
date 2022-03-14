@@ -38,7 +38,7 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
   && _comps[zinit]=_zinit
 #=== PROMPT & THEME ===================================
 zi is-snippet for OMZL::{'functions','history','git','theme-and-appearance'}.zsh
-zi light-mode for \
+zi light-mode silent for \
     compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
         PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
         PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
@@ -67,10 +67,9 @@ zi from'gh-r' nocompile for \
         alias ll='exa -al'; alias tree='exa --tree'
         alias ls='exa --git --group-directories-first'" \
     ogham/exa
- #. "$ZSH_CFG"/zi-programs.zsh
 #=== COMPLETION =======================================
 zinit for \
-    OMZL::{'clipboard','compfix','completion','directories','git','grep','key-bindings','termsupport'}.zsh \
+    OMZL::{'clipboard','compfix','completion','git','grep','key-bindings','termsupport'}.zsh \
     PZT::modules/{'history','rsync'}
 zi as'completion' is-snippet for \
     OMZP::{'git','golang/_golang','pip/_pip','terraform/_terraform','npm'} \
@@ -79,16 +78,8 @@ zi as'completion' is-snippet for \
     $GH_RAW_URL/rust-lang/cargo/master/src/etc/_cargo \
 	OMZP::docker-compose as"completion" OMZP::docker/_docker
 #=== PLUGINS ==========================================
-#zi node'ansible <- !ansible -> ansible; ansible-lint' for $ZI_REPO/null
-#zi as'null' for node'react' pip'black' gem'rubyfmt' $ZI_REPO/null
-# zi for \
-#     id-as'node' node'react; semantic-release; vue' \
-#     id-as'pip' pip'black; isort; mdformat; mdformat-gfm; mdformat-tables; mdformat-toc; tldr; wheel' \
-#     id-as'gem' gem'rake; ruby-fmt'
-#   $ZI_REPO/null
- # zstyle ":completion:*:descriptions" format "$fg[yellow]%B--- %d%b"
+    # if'[[ ${ZSH_VERSION:0:3} -ge 5.8 ]]' has'fzf' Aloxaf/fzf-tab \
 zi light-mode for \
-    if'[[ ${ZSH_VERSION:0:3} -ge 5.8 ]]' has'fzf' Aloxaf/fzf-tab \
     atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet OMZ::plugins/vi-mode \
     svn submods'zsh-users/zsh-history-substring-search -> external' OMZ::plugins/history-substring-search \
     blockf atpull'zinit creinstall -q .' \
