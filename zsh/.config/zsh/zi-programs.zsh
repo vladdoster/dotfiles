@@ -1,4 +1,31 @@
 
+#=== COMPLETION =======================================
+# zi as'completion' is-snippet for \
+#     OMZP::{'git','golang/_golang','pip/_pip','terraform/_terraform','npm'} \
+#     $GH_RAW_URL/Homebrew/brew/master/completions/zsh/_brew \
+#     $GH_RAW_URL/docker/cli/master/contrib/completion/zsh/_docker \
+#     $GH_RAW_URL/rust-lang/cargo/master/src/etc/_cargo \
+# 	OMZP::docker-compose as"completion" OMZP::docker/_docker
+# zi light-mode for \
+#   if'[[ ${ZSH_VERSION:0:3} -ge 5.8 ]]' has'fzf' Aloxaf/fzf-tab
+
+#=== PIP COMPLETION ===================================
+# function _pip_completion {
+#   local words cword && read -Ac words && read -cn cword
+#   reply=(
+#     $(
+#       COMP_WORDS="$words[*]" \
+#       COMP_CWORD=$(( cword-1 )) \
+#       PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null
+#     )
+#   )
+# }
+# compctl -K _pip_completion pip3
+
+# zinit for \
+#     OMZL::{'clipboard','compfix','completion','git','grep','key-bindings','termsupport'}.zsh \
+#     PZT::modules/{'history','rsync'}
+
 zi for \
     as'completions' \
     atclone'

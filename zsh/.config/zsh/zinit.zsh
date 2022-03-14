@@ -37,9 +37,6 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
   && (( ${+_comps} )) \
   && _comps[zinit]=_zinit
 #=== PROMPT & THEME ===================================
-# zinit for \
-#     OMZL::{'clipboard','compfix','completion','git','grep','key-bindings','termsupport'}.zsh \
-#     PZT::modules/{'history','rsync'}
 zi light-mode silent for \
     compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
         PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
@@ -62,15 +59,7 @@ zi from'gh-r' nocompile for \
         alias ll='exa -al'; alias tree='exa --tree'
         alias ls='exa --git --group-directories-first'" \
     ogham/exa
-#=== COMPLETION =======================================
-# zi as'completion' is-snippet for \
-#     OMZP::{'git','golang/_golang','pip/_pip','terraform/_terraform','npm'} \
-#     $GH_RAW_URL/Homebrew/brew/master/completions/zsh/_brew \
-#     $GH_RAW_URL/docker/cli/master/contrib/completion/zsh/_docker \
-#     $GH_RAW_URL/rust-lang/cargo/master/src/etc/_cargo \
-# 	OMZP::docker-compose as"completion" OMZP::docker/_docker
 #=== PLUGINS ==========================================
-    # if'[[ ${ZSH_VERSION:0:3} -ge 5.8 ]]' has'fzf' Aloxaf/fzf-tab \
 zi light-mode for \
     atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet OMZ::plugins/vi-mode \
     svn submods'zsh-users/zsh-history-substring-search -> external' OMZ::plugins/history-substring-search \
@@ -89,15 +78,3 @@ zi light-mode for \
     atinit"bindkey '^_' autosuggest-execute; bindkey '^ ' autosuggest-accept; ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20" \
         zsh-users/zsh-autosuggestions \
     atinit" typeset -gA FAST_HIGHLIGHT; FAST_HIGHLIGHT[git-cmsg-len]=100; zpcompinit; zpcdreplay;" $ZI_REPO/fast-syntax-highlighting
-#=== PIP COMPLETION ===================================
-# function _pip_completion {
-#   local words cword && read -Ac words && read -cn cword
-#   reply=(
-#     $(
-#       COMP_WORDS="$words[*]" \
-#       COMP_CWORD=$(( cword-1 )) \
-#       PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null
-#     )
-#   )
-# }
-# compctl -K _pip_completion pip3
