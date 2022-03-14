@@ -118,10 +118,9 @@ rust-prog: ## Install programs via rust
 		      topgrade
 
 build-container: ## Build containerized env and install dotfiles
-		docker \
-			buildx \
-			build \
+		docker buildx build \
 			--compress \
+			--platform linux/amd64 \
 			--rm \
-			--tag df:alpine-edge \
+			--tag df-ubuntu:latest \
 			$$PWD
