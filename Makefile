@@ -124,3 +124,9 @@ build-container: ## Build containerized env and install dotfiles
 			--rm \
 			--tag df-ubuntu:latest \
 			$$PWD
+
+run-container: build-container ## Run containerized dockerfiles env
+		docker run \
+			--interactive \
+			--tty \
+			df-ubuntu:latest

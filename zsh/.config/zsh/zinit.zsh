@@ -13,12 +13,12 @@
 function error() { print -P "%F{160}[ERROR] ---%f%b $1" >&2 && exit 1; }
 function info() { print -P "%F{34}[INFO] ---%f%b $1"; }
 #=== ZINIT ============================================
-typeset -gAH ZINIT;
-ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
-ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
-ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets
-ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump    ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
-ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githubusercontent.com'
+GH_RAW_URL='https://raw.githubusercontent.com'
+ZSH_CFG="$HOME/.config/zsh"; ZI_REPO='zdharma-continuum';
+typeset -gAH ZINIT; ZINIT[HOME_DIR]=${XDG_DATA_HOME:-$HOME/.local/share/zsh/zinit};
+ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git;     ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions
+ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins;   ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1;
+ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets; ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump;
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'Downloading Zinit' \
     && command git clone \
@@ -37,23 +37,24 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
   && (( ${+_comps} )) \
   && _comps[zinit]=_zinit
 #=== PROMPT & THEME ===================================
+zi is-snippet for OMZL::{'functions','history','git','theme-and-appearance'}.zsh
 zi light-mode for \
-    compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
-        PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
-        PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
-        zstyle ':prompt:pure:git:action' color 'yellow'
-        zstyle ':prompt:pure:git:branch' color 'blue'
-        zstyle ':prompt:pure:git:dirty' color 'red'
-        zstyle ':prompt:pure:path' color 'cyan'
-        zstyle ':prompt:pure:prompt:success' color 'green'" \
-    sindresorhus/pure \
     "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','rust','submods'}
+    # compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
+    #     PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
+    #     PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
+    #     zstyle ':prompt:pure:git:action' color 'yellow'
+    #     zstyle ':prompt:pure:git:branch' color 'blue'
+    #     zstyle ':prompt:pure:git:dirty' color 'red'
+    #     zstyle ':prompt:pure:path' color 'cyan'
+    #     zstyle ':prompt:pure:prompt:success' color 'green'" \
+    # sindresorhus/pure \
     # as'completion' vladdoster/gitfast-zsh-plugin
-zinit snippet OMZL::functions.zsh
-zinit snippet OMZL::history.zsh
-zinit snippet OMZL::git.zsh
-zinit snippet OMZL::theme-and-appearance.zsh
 #=== GITHUB BINARIES ==================================
+zinit ice as"command" from"gh-r" \
+  atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
+  atpull"%atclone" src"init.zsh"
+zinit light starship/starship
 zi from'gh-r' nocompile for \
     sbin'**/d*a'   dandavison/delta \
     sbin'**/d*h'   Phantas0s/devdash \
@@ -71,16 +72,11 @@ zi from'gh-r' nocompile for \
         alias ll='exa -al'; alias tree='exa --tree'
         alias ls='exa --git --group-directories-first'" \
     ogham/exa
+ #. "$ZSH_CFG"/zi-programs.zsh
 #=== COMPLETION =======================================
-zi for \
-  is-snippet OMZL::key-bindings.zsh \
-  is-snippet OMZL::completion.zsh \
-  is-snippet OMZL::correction.zsh \
-  is-snippet OMZL::directories.zsh \
-  is-snippet OMZP::colored-man-pages
-#zinit for \
-#	OMZL::{'clipboard','compfix','completion','directories','git','grep','key-bindings','termsupport'}.zsh \
-#  PZT::modules/{'history','rsync'}
+zinit for \
+    OMZL::{'clipboard','compfix','completion','directories','git','grep','key-bindings','termsupport'}.zsh \
+    PZT::modules/{'history','rsync'}
 zi as'completion' is-snippet for \
     OMZP::{'git','golang/_golang','pip/_pip','terraform/_terraform','npm'} \
     $GH_RAW_URL/Homebrew/brew/master/completions/zsh/_brew \
@@ -115,7 +111,6 @@ zi light-mode for \
     atinit"bindkey '^_' autosuggest-execute; bindkey '^ ' autosuggest-accept; ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20" \
         zsh-users/zsh-autosuggestions \
     atinit" typeset -gA FAST_HIGHLIGHT; FAST_HIGHLIGHT[git-cmsg-len]=100; zpcompinit; zpcdreplay;" $ZI_REPO/fast-syntax-highlighting
-#=== PIP COMPLETION ===================================
 #=== PIP COMPLETION ===================================
 # function _pip_completion {
 #   local words cword && read -Ac words && read -cn cword

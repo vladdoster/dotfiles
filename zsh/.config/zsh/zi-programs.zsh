@@ -12,17 +12,7 @@ zi for \
 zi for \
     from'gh-r' \
     sbin'**/bat -> bat' \
-  @sharkdp/bat \
-sbin'**/f*g' chanzuckerberg/fogg \
-sbin'**/g*i'extrawurst/gitui \
-sbin'**/g*r' idc101/git-mkver \
-sbin'**/g*w' charmbracelet/glow \
-sbin'**/gh'  cli/cli \
-sbin'**/l*t' jesseduffield/lazygit \
-sbin'**/m*k' rust-lang/mdBook \
-sbin'**/p*s' dalance/procs         \
-sbin'**/t*i' XAMPPRocky/tokei  \
-sbin'g*r'    @github/git-sizer
+  @sharkdp/bat
 
 zi for \
     from'gh-r' \
@@ -56,7 +46,7 @@ zi for \
 zi for \
     from'gh-r'  \
     sbin'**/f*g' \
-  chanzuckerberg/fogg
+  @chanzuckerberg/fogg
 
 zi for \
     from'gh-r'  \
@@ -76,7 +66,7 @@ zi for \
 zi for \
     from'gh-r' \
     sbin'**/git-mkver' \
-  idc101/git-mkver
+  @idc101/git-mkver
 
 zi for \
     from'gh-r'      \
@@ -119,7 +109,7 @@ zi for \
       && ./configure --with-oniguruma=builtin \
       && make \
       && ln -sfv $PWD/jq.1 $ZPFX/man/man1" \
-    as'null' \
+    atpull'%atclone' \
     if"(( ${+commands[jq]} == 0 ))" \
     sbin'jq' \
   @stedolan/jq
@@ -132,7 +122,7 @@ zi for \
 zi for \
     from'gh-r' \
     sbin'**/lazygit' \
-  jesseduffield/lazygit
+  @jesseduffield/lazygit
 
 zi for \
     as'program' \
@@ -155,7 +145,7 @@ zi for \
 zi for \
     from'gh-r' \
     sbin'**/rg -> rg' \
-  BurntSushi/ripgrep
+  @BurntSushi/ripgrep
 
 zi for \
     from'gh-r' \
@@ -165,14 +155,14 @@ zi for \
 zi for \
     from'gh-r' \
     sbin'**/starship -> starship' \
-  starship/starship
+  @starship/starship
 
 zi for \
     as'program' \
-    atpull'%atclone' \
     atclone"
          autoreconf -iv \
       && ./configure --prefix=$ZPFX" \
+    atpull'%atclone' \
     make'bin/stow' \
     pick"$ZPFX/bin/stow" \
   @aspiers/stow
@@ -181,10 +171,11 @@ zi for \
     as"tmux=$ZPFX/tmux" \
     from'gh-r' \
     mv'tmux* -> tmux' \
+    make'-j' \
     pick'tmux' \
   @tmux/tmux
 
 zi for \
     from'gh-r' \
     sbin'**/t*i -> tokei' \
-  XAMPPRocky/tokei
+  @XAMPPRocky/tokei
