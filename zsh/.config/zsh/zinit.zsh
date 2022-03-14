@@ -37,7 +37,9 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
   && (( ${+_comps} )) \
   && _comps[zinit]=_zinit
 #=== PROMPT & THEME ===================================
-zi is-snippet for OMZL::{'functions','history','git','theme-and-appearance'}.zsh
+# zinit for \
+#     OMZL::{'clipboard','compfix','completion','git','grep','key-bindings','termsupport'}.zsh \
+#     PZT::modules/{'history','rsync'}
 zi light-mode silent for \
     compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
         PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
@@ -48,18 +50,11 @@ zi light-mode silent for \
         zstyle ':prompt:pure:path' color 'cyan'
         zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure \
-    "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','rust','submods'}
+    "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','submods'}
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' nocompile for \
     sbin'**/d*a'   dandavison/delta \
-    sbin'**/d*h'   Phantas0s/devdash \
-    sbin'**/fd'    @sharkdp/fd \
-    sbin'**/h*e'   @sharkdp/hyperfine \
-    sbin'**/rg'    BurntSushi/ripgrep \
-    sbin'**/s*a'   JohnnyMorganz/StyLua \
-    sbin'**/volta' volta-cli/volta \
     sbin'fzf'      junegunn/fzf \
-    sbin'g*x'      pemistahl/grex \
     sbin'**/nvim' atload'alias v=nvim' ver'nightly' neovim/neovim \
     sbin'**/sh* -> shfmt' @mvdan/sh  \
     sbin'**/exa'  atclone'cp -vf completions/exa.zsh _exa' atinit"
@@ -68,15 +63,12 @@ zi from'gh-r' nocompile for \
         alias ls='exa --git --group-directories-first'" \
     ogham/exa
 #=== COMPLETION =======================================
-zinit for \
-    OMZL::{'clipboard','compfix','completion','git','grep','key-bindings','termsupport'}.zsh \
-    PZT::modules/{'history','rsync'}
-zi as'completion' is-snippet for \
-    OMZP::{'git','golang/_golang','pip/_pip','terraform/_terraform','npm'} \
-    $GH_RAW_URL/Homebrew/brew/master/completions/zsh/_brew \
-    $GH_RAW_URL/docker/cli/master/contrib/completion/zsh/_docker \
-    $GH_RAW_URL/rust-lang/cargo/master/src/etc/_cargo \
-	OMZP::docker-compose as"completion" OMZP::docker/_docker
+# zi as'completion' is-snippet for \
+#     OMZP::{'git','golang/_golang','pip/_pip','terraform/_terraform','npm'} \
+#     $GH_RAW_URL/Homebrew/brew/master/completions/zsh/_brew \
+#     $GH_RAW_URL/docker/cli/master/contrib/completion/zsh/_docker \
+#     $GH_RAW_URL/rust-lang/cargo/master/src/etc/_cargo \
+# 	OMZP::docker-compose as"completion" OMZP::docker/_docker
 #=== PLUGINS ==========================================
     # if'[[ ${ZSH_VERSION:0:3} -ge 5.8 ]]' has'fzf' Aloxaf/fzf-tab \
 zi light-mode for \
