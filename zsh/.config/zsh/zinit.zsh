@@ -13,12 +13,12 @@
 function error() { print -P "%F{160}[ERROR] ---%f%b $1" >&2 && exit 1; }
 function info() { print -P "%F{34}[INFO] ---%f%b $1"; }
 #=== ZINIT ============================================
-GH_RAW_URL='https://raw.githubusercontent.com'
-ZSH_CFG="$HOME/.config/zsh"; ZI_REPO='zdharma-continuum';
-typeset -gAH ZINIT; ZINIT[HOME_DIR]=${XDG_DATA_HOME:-$HOME/.local/share/zsh/zinit};
-ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git;     ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions
-ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins;   ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1;
-ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets; ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump;
+typeset -gAH ZINIT;
+ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
+ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
+ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets
+ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump    ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
+ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githubusercontent.com'
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'Downloading Zinit' \
     && command git clone \
@@ -39,22 +39,17 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
 #=== PROMPT & THEME ===================================
 zi is-snippet for OMZL::{'functions','history','git','theme-and-appearance'}.zsh
 zi light-mode for \
+    compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
+        PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
+        PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
+        zstyle ':prompt:pure:git:action' color 'yellow'
+        zstyle ':prompt:pure:git:branch' color 'blue'
+        zstyle ':prompt:pure:git:dirty' color 'red'
+        zstyle ':prompt:pure:path' color 'cyan'
+        zstyle ':prompt:pure:prompt:success' color 'green'" \
+    sindresorhus/pure \
     "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','rust','submods'}
-    # compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
-    #     PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
-    #     PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
-    #     zstyle ':prompt:pure:git:action' color 'yellow'
-    #     zstyle ':prompt:pure:git:branch' color 'blue'
-    #     zstyle ':prompt:pure:git:dirty' color 'red'
-    #     zstyle ':prompt:pure:path' color 'cyan'
-    #     zstyle ':prompt:pure:prompt:success' color 'green'" \
-    # sindresorhus/pure \
-    # as'completion' vladdoster/gitfast-zsh-plugin
 #=== GITHUB BINARIES ==================================
-zinit ice as"command" from"gh-r" \
-  atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
-  atpull"%atclone" src"init.zsh"
-zinit light starship/starship
 zi from'gh-r' nocompile for \
     sbin'**/d*a'   dandavison/delta \
     sbin'**/d*h'   Phantas0s/devdash \
