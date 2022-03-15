@@ -37,6 +37,10 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
   && (( ${+_comps} )) \
   && _comps[zinit]=_zinit
 #=== PROMPT & THEME ===================================
+zinit for \
+    OMZL::{'clipboard','compfix','completion','git','grep','key-bindings','termsupport'}.zsh \
+    PZT::modules/{'history','rsync'}
+#=== PROMPT & THEME ===================================
 zi light-mode silent for \
     compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
         PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
@@ -48,10 +52,13 @@ zi light-mode silent for \
         zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure \
     "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','submods'}
+#=== FZF ==============================================
+zi for \
+  from'gh-r' nocompile junegunn/fzf \
+  https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' nocompile for \
     sbin'**/d*a'   dandavison/delta \
-    sbin'fzf'      junegunn/fzf \
     sbin'**/nvim' atload'alias v=nvim' ver'nightly' neovim/neovim \
     sbin'**/sh* -> shfmt' @mvdan/sh  \
     sbin'**/exa'  atclone'cp -vf completions/exa.zsh _exa' atinit"
@@ -59,7 +66,6 @@ zi from'gh-r' nocompile for \
         alias ll='exa -al'; alias tree='exa --tree'
         alias ls='exa --git --group-directories-first'" \
     ogham/exa
-#=== PLUGINS ==========================================
 zi light-mode for \
     atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet OMZ::plugins/vi-mode \
     svn submods'zsh-users/zsh-history-substring-search -> external' OMZ::plugins/history-substring-search \
