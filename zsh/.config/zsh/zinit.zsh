@@ -13,6 +13,10 @@
 function error() { print -P "%F{160}[ERROR] ---%f%b $1" >&2 && exit 1; }
 function info() { print -P "%F{34}[INFO] ---%f%b $1"; }
 #=== ZINIT ============================================
+#
+module_path+=( "/Users/anonymous/.local/share/zsh/zinit/module/Src" )
+zmodload zdharma_continuum/zinit
+
 typeset -gAH ZINIT;
 ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
 ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
@@ -67,6 +71,7 @@ zi from'gh-r' nocompile for \
         alias ls='exa --git --group-directories-first'" \
     ogham/exa
 zi light-mode for \
+    thewtex/tmux-mem-cpu-load \
     atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet OMZ::plugins/vi-mode \
     svn submods'zsh-users/zsh-history-substring-search -> external' OMZ::plugins/history-substring-search \
     blockf atpull'zinit creinstall -q .' \
@@ -84,3 +89,14 @@ zi light-mode for \
     atinit"bindkey '^_' autosuggest-execute; bindkey '^ ' autosuggest-accept; ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20" \
         zsh-users/zsh-autosuggestions \
     atinit" typeset -gA FAST_HIGHLIGHT; FAST_HIGHLIGHT[git-cmsg-len]=100; zpcompinit; zpcdreplay;" $ZI_REPO/fast-syntax-highlighting
+
+zinit for \
+    as"null" \
+    atclone"./install -e no -d ~/.local" \
+    atpull"%atclone" \
+    atinit'export PATH="/Users/anonymous/.local/bin:$PATH"' \
+    depth"1" \
+    lucid \
+    nocompile \
+    nocompletions \
+  @romkatv/zsh-bin

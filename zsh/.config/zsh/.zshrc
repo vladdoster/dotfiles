@@ -15,4 +15,4 @@ local files=(aliases fzf git-fzf zinit)
 for f in $files[@]; do
   . "${ZDOTDIR:-$HOME/.config/zsh}/$f".zsh
 done
-plugin-compile
+# plugin-compile
