@@ -62,8 +62,10 @@ zi light-mode silent for \
     OMZP::brew
 #=== FZF  =============================================
 zi for \
-  from'gh-r' nocompile junegunn/fzf \
-  https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
+  from'gh-r' nocompile sbin'fzf' \
+    junegunn/fzf \
+  is-snippet \
+    https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' nocompile for \
     sbin'**/d*a'   dandavison/delta \
@@ -75,6 +77,11 @@ zi from'gh-r' nocompile for \
         alias ll='exa -al'; alias tree='exa --tree'
         alias ls='exa --git --group-directories-first'" \
     ogham/exa
+#=== COMPLETIONS ======================================
+GH_RAW_URL='https://raw.githubusercontent.com'
+zi is-snippet as'completion' for \
+  OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'} \
+  $GH_RAW_URL/{'Homebrew/brew/master/completions/zsh/_brew','docker/cli/master/contrib/completion/zsh/_docker','rust-lang/cargo/master/src/etc/_cargo'}
 #=== MISC. ============================================
 zi light-mode for \
     thewtex/tmux-mem-cpu-load \
@@ -95,8 +102,3 @@ zi light-mode for \
     atinit"bindkey '^_' autosuggest-execute; bindkey '^ ' autosuggest-accept; ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20" \
         zsh-users/zsh-autosuggestions \
     atinit" typeset -gA FAST_HIGHLIGHT; FAST_HIGHLIGHT[git-cmsg-len]=100; zpcompinit; zpcdreplay;" $ZI_REPO/fast-syntax-highlighting
-#=== COMPLETIONS ======================================
-GH_RAW_URL='https://raw.githubusercontent.com'
-zi is-snippet as'completion' for \
-  OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'} \
-  $GH_RAW_URL/{'Homebrew/brew/master/completions/zsh/_brew','docker/cli/master/contrib/completion/zsh/_docker','rust-lang/cargo/master/src/etc/_cargo'}
