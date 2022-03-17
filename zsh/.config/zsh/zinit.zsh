@@ -13,10 +13,6 @@
 function error() { print -P "%F{160}[ERROR] ---%f%b $1" >&2 && exit 1; }
 function info() { print -P "%F{34}[INFO] ---%f%b $1"; }
 #=== ZINIT ============================================
-#
-module_path+=( "/Users/anonymous/.local/share/zsh/zinit/module/Src" )
-zmodload zdharma_continuum/zinit
-
 typeset -gAH ZINIT;
 ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
 ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
@@ -40,7 +36,14 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
   && autoload -Uz _zinit \
   && (( ${+_comps} )) \
   && _comps[zinit]=_zinit
-#=== PROMPT & THEME ===================================
+#=== ZSH BINARY =======================================
+zi for \
+    as"null" atclone"./install -e no -d ~/.local" atinit'export PATH="/Users/anonymous/.local/bin:$PATH"' atpull"%atclone" \
+    depth"1" \
+    lucid \
+    nocompile nocompletions \
+  @romkatv/zsh-bin
+#=== OH-MY-ZSH & PREZTO PLUGINS =======================
 zinit for \
     OMZL::{'clipboard','compfix','completion','git','grep','key-bindings','termsupport'}.zsh \
     PZT::modules/{'history','rsync'}
@@ -55,21 +58,24 @@ zi light-mode silent for \
         zstyle ':prompt:pure:path' color 'cyan'
         zstyle ':prompt:pure:prompt:success' color 'green'" \
     sindresorhus/pure \
-    "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','submods'}
-#=== FZF ==============================================
+    "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','submods'} \
+    OMZP::brew
+#=== FZF  =============================================
 zi for \
   from'gh-r' nocompile junegunn/fzf \
   https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' nocompile for \
     sbin'**/d*a'   dandavison/delta \
-    sbin'**/nvim' atload'alias v=nvim' ver'nightly' neovim/neovim \
+    sbin'**/nvim'  atload'alias v=nvim' ver'nightly' neovim/neovim \
     sbin'**/sh* -> shfmt' @mvdan/sh  \
+    sbin'd*y*   -> dry'   moncho/dry \
     sbin'**/exa'  atclone'cp -vf completions/exa.zsh _exa' atinit"
         alias l='exa -blF'; alias la='exa -abghilmu'
         alias ll='exa -al'; alias tree='exa --tree'
         alias ls='exa --git --group-directories-first'" \
     ogham/exa
+#=== MISC. ============================================
 zi light-mode for \
     thewtex/tmux-mem-cpu-load \
     atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet OMZ::plugins/vi-mode \
@@ -89,14 +95,8 @@ zi light-mode for \
     atinit"bindkey '^_' autosuggest-execute; bindkey '^ ' autosuggest-accept; ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20" \
         zsh-users/zsh-autosuggestions \
     atinit" typeset -gA FAST_HIGHLIGHT; FAST_HIGHLIGHT[git-cmsg-len]=100; zpcompinit; zpcdreplay;" $ZI_REPO/fast-syntax-highlighting
-
-zinit for \
-    as"null" \
-    atclone"./install -e no -d ~/.local" \
-    atpull"%atclone" \
-    atinit'export PATH="/Users/anonymous/.local/bin:$PATH"' \
-    depth"1" \
-    lucid \
-    nocompile \
-    nocompletions \
-  @romkatv/zsh-bin
+#=== COMPLETIONS ======================================
+GH_RAW_URL='https://raw.githubusercontent.com'
+zi is-snippet as'completion' for \
+  OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'} \
+  $GH_RAW_URL/{'Homebrew/brew/master/completions/zsh/_brew','docker/cli/master/contrib/completion/zsh/_docker','rust-lang/cargo/master/src/etc/_cargo'}

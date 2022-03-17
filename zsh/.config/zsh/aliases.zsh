@@ -124,7 +124,7 @@ alias zsc="_edit $ZDOTDIR/.zshrc"
 #= RELOAD COMMANDS ===============================
 alias zcln="rm -fr ${HOME}/{.local/share/{zinit,zsh},.cache,.config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
 alias zreset="zcln && zrld"
-alias zrld="exec zsh"
+alias zrld="clear && exec zsh && clear"
 #= DIRECTORY SHORTCUTS ===========================
 CODE_DIR="${HOME:-~}"/code
 mkdir -p $CODE_DIR || true
