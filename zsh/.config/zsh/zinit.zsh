@@ -62,21 +62,34 @@ zi light-mode silent for \
     OMZP::brew
 #=== FZF  =============================================
 zi for \
-  from'gh-r' nocompile sbin'fzf' \
+  from'gh-r' nocompile sbin \
     junegunn/fzf \
   is-snippet \
     https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' nocompile for \
-    sbin'**/d*a'   dandavison/delta \
-    sbin'**/nvim'  atload'alias v=nvim' ver'nightly' neovim/neovim \
-    sbin'**/sh* -> shfmt' @mvdan/sh  \
-    sbin'd*y*   -> dry'   moncho/dry \
-    sbin'**/exa'  atclone'cp -vf completions/exa.zsh _exa' atinit"
-        alias l='exa -blF'; alias la='exa -abghilmu'
-        alias ll='exa -al'; alias tree='exa --tree'
-        alias ls='exa --git --group-directories-first'" \
-    ogham/exa
+  sbin'**/d*a' \
+    dandavison/delta \
+  sbin'**/nvim' atload'alias v=nvim' ver'nightly' \
+    neovim/neovim \
+  sbin'**/sh* -> shfmt' \
+    @mvdan/sh  \
+  sbin'd*y* -> dry' \
+    moncho/dry \
+  sbin'**/s*c' \
+    @shellspec/shellspec \
+  sbin'**/exa' atinit"
+      alias l='exa -blF'; alias la='exa -abghilmu'
+      alias ll='exa -al'; alias tree='exa --tree'
+      alias ls='exa --git --group-directories-first'" \
+  atclone'mv completions/exa.zsh _exa' \
+    ogham/exa \
+  sbin'**/git-chglog' \
+    @git-chglog/git-chglog
+
+zi as'program' for \
+  pick"revolver" molovo/revolver \
+  atclone'./build.zsh' pick"zunit" zunit-zsh/zunit
 #=== COMPLETIONS ======================================
 GH_RAW_URL='https://raw.githubusercontent.com'
 zi is-snippet as'completion' for \
@@ -84,21 +97,23 @@ zi is-snippet as'completion' for \
   $GH_RAW_URL/{'Homebrew/brew/master/completions/zsh/_brew','docker/cli/master/contrib/completion/zsh/_docker','rust-lang/cargo/master/src/etc/_cargo'}
 #=== MISC. ============================================
 zi light-mode for \
-    thewtex/tmux-mem-cpu-load \
-    atinit"VI_MODE_SET_CURSOR=true; bindkey -M vicmd '^e' edit-command-line" is-snippet OMZ::plugins/vi-mode \
-    svn submods'zsh-users/zsh-history-substring-search -> external' OMZ::plugins/history-substring-search \
+  thewtex/tmux-mem-cpu-load \
+    is-snippet atinit"
+      VI_MODE_SET_CURSOR=true
+      bindkey -M vicmd '^e' edit-command-line" \
+  OMZ::plugins/vi-mode \
+    svn submods'zsh-users/zsh-history-substring-search -> external' \
+  OMZ::plugins/history-substring-search \
     blockf atpull'zinit creinstall -q .' \
+  zsh-users/zsh-completions \
+    atinit"
+      ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+      bindkey '^_' autosuggest-execute
+      bindkey '^ ' autosuggest-accept" \
+  zsh-users/zsh-autosuggestions \
     atinit'
-            zstyle ":completion:*" group-name ""
-            zstyle ":completion:*" list-colors ${(s.:.)LS_COLORS}
-            zstyle ":completion:*" menu select
-            zstyle ":completion:*" verbose yes
-            zstyle ":completion:*:corrections" format "%B%d (errors: %e)%b"
-            zstyle ":completion:*:descriptions" format "[%d]"
-            zstyle ":completion:*:messages" format "[%d]"
-            zstyle ":completion:*:warnings" format "$fg[red]No matches for:$reset_color %d"
-            zstyle -d ":completion:*" format' \
-        zsh-users/zsh-completions \
-    atinit"bindkey '^_' autosuggest-execute; bindkey '^ ' autosuggest-accept; ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20" \
-        zsh-users/zsh-autosuggestions \
-    atinit" typeset -gA FAST_HIGHLIGHT; FAST_HIGHLIGHT[git-cmsg-len]=100; zpcompinit; zpcdreplay;" $ZI_REPO/fast-syntax-highlighting
+      typeset -gA FAST_HIGHLIGHT
+      FAST_HIGHLIGHT[git-cmsg-len]=100'  \
+  $ZI_REPO/fast-syntax-highlighting \
+    atinit'zpcompinit; zpcdreplay' \
+  zimfw/completion
