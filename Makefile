@@ -119,8 +119,6 @@ rust-prog: ## Install programs via rust
 
 build-container: ## Build containerized env and install dotfiles
 		docker buildx build \
-			--compress \
-			--platform linux/amd64 \
 			--rm \
 			--tag df-ubuntu:latest \
 			$$PWD

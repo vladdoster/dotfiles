@@ -1,24 +1,23 @@
-FROM ubuntu:latest
+FROM alpine:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN \
-    apt-get upgrade -y \
- && apt-get update -y \
- && DEBIAN_INTERACTIVE=1 \
-    apt-get install -y \
+    apk upgrade \
+ && apk add \
       automake autoconf \
-      bat binwalk \
+      bat bash build-base \
       cmake curl \
-      git gdb gcc \
+      git gdb gcc gcompat \
       jq \
-      make \
+      make musl \
       nmap neovim \
       python3 \
+      ruby \
       sudo stow subversion \
       tmux \
-      zsh \
- && rm -rf /var/lib/apt/lists/*
+      xz \
+      zsh
 
 RUN \
     NEWUSER="vlad" \
@@ -39,9 +38,6 @@ RUN \
 
 WORKDIR /home/vlad/.config/dotfiles
 
-RUN \
-    make \
- && make brew-install
+RUN make
 
 ENTRYPOINT ["zsh"]
-
