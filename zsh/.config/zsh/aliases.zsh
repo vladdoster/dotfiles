@@ -122,7 +122,7 @@ alias zec="_edit $HOME/.zshenv"
 alias zic="_edit $ZDOTDIR/zinit.zsh"
 alias zsc="_edit $ZDOTDIR/.zshrc"
 #= RELOAD COMMANDS ===============================
-alias zcln="rm -fr ${HOME}/{.local/share/{zinit,zsh},.cache,.config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
+alias zcln="rm -fr ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
 alias zreset="zcln && zrld"
 alias zrld="clear && exec zsh && clear"
 #= DIRECTORY SHORTCUTS ===========================
