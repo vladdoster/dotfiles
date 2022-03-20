@@ -25,6 +25,7 @@ esac
 (( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="$HOME/.config"
 (( ${+XDG_DATA_HOME}   )) || export XDG_DATA_HOME="$HOME/.local/share"
 [ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin" # personal scripts
+export PATH="/usr/local/bin:$PATH"
 #-- ENV VARIABLES -------------------------------------------------------------
 export CGO_CFLAGS="-g -O2 -Wno-return-local-addr"
 export CGO_ENABLED=1

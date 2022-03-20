@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+# #!/usr/bin/env zsh
 if echo "$-" | grep i >/dev/null; then
 	export IS_TTY="${IS_TTY:=false}"
 fi
@@ -112,7 +112,7 @@ alias gitrc="_edit $XDG_CONFIG_HOME/git/config"
 alias hs="_goto $HOME/.hammerspoon/"
 alias hsc="_goto $HOME/.hammerspoon/init.lua"
 alias kittyrc="_edit $XDG_CONFIG_HOME/kitty/kitty.conf"
-alias nvcln='rm --dir --force --verbose --recursive -- ${HOME}/.{local/share/nvim,config/nvim/{plugin,lua/packer_compiled.lua}}'
+alias nvcln="rm -frv $HOME/.{local/share/nvim,config/nvim/plugin}"
 alias nvfmt="_edit $XDG_CONFIG_HOME/nvim/lua/plugins/format.lua"
 alias nvopt="_edit $XDG_CONFIG_HOME/nvim/lua/core/options.lua"
 alias nvplg="_edit $XDG_CONFIG_HOME/nvim/lua/plugins/init.lua"
@@ -186,9 +186,12 @@ alias brew-sys-update="brew upgrade --greedy --force"
 alias yum-sys-update="_sys_update 'sudo yum -y'"
 #= REMOTE =========================================
 cp-to-devcloud() { rsync -a -z -P $(readlink "$1") devcloud:~/$(basename "$1"); }
+alias cp-devcloud="cp-to-devcloud"
 alias cp-dotfiles="rsync -azP $XDG_CONFIG_HOME/dotfiles/ devcloud:~/dotfiles"
 alias cp-nvim="rsync -azP $XDG_CONFIG_HOME/nvim/ devcloud:~/nvim"
-alias cp-devcloud="cp-to-devcloud"
 if has docker; then
 	alias di="docker images"
 fi
+disappointed() { echo -n " ಠ_ಠ " | tee /dev/tty | xclip -selection clipboard; }
+flip() { echo -n "（╯°□°）╯ ┻━┻" | tee /dev/tty | xclip -selection clipboard; }
+shrug() { echo -n "¯\_(ツ)_/¯" | tee /dev/tty | xclip -selection clipboard; }
