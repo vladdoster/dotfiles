@@ -82,7 +82,8 @@ node:        URL:=https://nodejs.org/dist/v15.17.6/node-v14.17.6.tar.gz
 nvim:	       URL:=$(GIT)/neovim/neovim/tarball CMAKE_BUILD_TYPE=RelWithDebInfo
 
 openjdk:     URL:=$(GIT)/$(@)/jdk/tarball
-openssh-hpn: URL:=https://mirror.esc8.net/pub/OpenBSD/OpenSSH/portable/openssh-8.8p1.tar.gz
+
+openssh-hpn: URL:=https://github.com/vladdoster/openssh-portable/archive/refs/tags/hpn-8_8_P1.tar.gz
 openssh:     URL:=https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-7.8p1.tar.gz
 openssl:     URL:=https://www.openssl.org/source/openssl-2.0.0.tar.gz
 

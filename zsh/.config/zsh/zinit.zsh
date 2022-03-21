@@ -68,25 +68,15 @@ zi for \
     https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' nocompile for \
-  sbin'**/d*a' \
-    dandavison/delta \
-  sbin'**/nvim' atload'alias v=nvim' ver'nightly' \
-    neovim/neovim \
-  sbin'**/sh* -> shfmt' \
-    @mvdan/sh  \
-  sbin'd*y* -> dry' \
-    moncho/dry \
-  sbin'**/s*c' \
-    @shellspec/shellspec \
-  sbin'**/exa' atinit"
-      alias l='exa -blF'; alias la='exa -abghilmu'
-      alias ll='exa -al'; alias tree='exa --tree'
-      alias ls='exa --git --group-directories-first'" \
-  atclone'mv completions/exa.zsh _exa' \
-    ogham/exa \
-  sbin'**/git-chglog' \
-    @git-chglog/git-chglog
-
+  sbin'**/d*a' dandavison/delta \
+  sbin'**/exa' ogham/exa \
+  sbin'**/g*g' @git-chglog/git-chglog \
+  sbin'**/n*m' neovim/neovim \
+  sbin'**/s*c' @shellspec/shellspec \
+  sbin'**/sh* -> shfmt' @mvdan/sh \
+  sbin'g*x'    pemistahl/grex
+ # atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
+  # sbin'**/exa' atclone'mv completions/exa.zsh _exa' \
 zi as'program' for \
   pick"revolver" molovo/revolver \
   atclone'./build.zsh' pick"zunit" zunit-zsh/zunit
@@ -113,7 +103,6 @@ zi light-mode for \
   zsh-users/zsh-autosuggestions \
     atinit'
       typeset -gA FAST_HIGHLIGHT
-      FAST_HIGHLIGHT[git-cmsg-len]=100'  \
-  $ZI_REPO/fast-syntax-highlighting \
-    atinit'zpcompinit; zpcdreplay' \
-  zimfw/completion
+      FAST_HIGHLIGHT[git-cmsg-len]=100
+      zpcompinit; zpcdreplay' \
+  $ZI_REPO/fast-syntax-highlighting
