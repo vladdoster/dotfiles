@@ -1,0 +1,13 @@
+yabai -m config layout bsp
+
+# Override default layout for space 2 only
+
+yabai -m config top_padding    20
+yabai -m config bottom_padding 20
+yabai -m config left_padding   20
+yabai -m config right_padding  20
+yabai -m config window_gap     20
+
+yabai -m config window_border on
+yabai -m config window_border_width 6
+yabai -m config active_window_border_color 0xffff0000
