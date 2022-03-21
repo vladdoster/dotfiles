@@ -2,6 +2,7 @@
 **/nvim/plugin/**
 **/hs/
 .zcompdump*
+Spoons
 zsh_history
 tags
 **/Spoons/**
