@@ -1,3 +1,15 @@
+## [1.13.1](https://github.com/vladdoster/dotfiles/compare/v1.13.0...v1.13.1) (2022-03-21)
+
+
+### chore
+
+* remove git config cruft ([bd2629a](https://github.com/vladdoster/dotfiles/commit/bd2629a426caee5f7d3e270c2fbd4dd747193b68))
+* remove homebrew env variables from zshenv ([9ab5939](https://github.com/vladdoster/dotfiles/commit/9ab593910bed005be07905111145f22ca2bb8243))
+
+### style
+
+* format Makefile ([e622580](https://github.com/vladdoster/dotfiles/commit/e6225803dddb9ac789983196c9708845d6f8d6ee))
+
 # [1.13.0](https://github.com/vladdoster/dotfiles/compare/v1.12.1...v1.13.0) (2022-03-21)
 
 
