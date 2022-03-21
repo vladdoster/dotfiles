@@ -6,7 +6,7 @@ hs.hotkey.bindSpec({hyper, 'y'}, hs.toggleConsole)
 
 -- require('windowBorder').start()
 require('spoons')
-require('moveSpaces')
-require('spaceDots').start()
+require('ext.navigation')
+require('ext.infoDisplay').start()
 
 hs.notify.show('Hammerspoon', 'Sucessfully loaded config', '')

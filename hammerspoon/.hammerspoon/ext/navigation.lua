@@ -6,7 +6,6 @@ M.last = nil
 
 spaces.MCwaitTime = 0.1
 
-
 local function getGoodFocusedWindow(nofull)
   local win = window.focusedWindow()
   if not win or not win:isStandard() then return end
@@ -70,16 +69,14 @@ local function moveWindowOneSpace(dir, switch)
   flashScreen(screen) -- Shouldn't get here, so no space found
 end
 
-local function createSpace()
-  spaces.addSpaceToScreen()
-end
+local function createSpace() spaces.addSpaceToScreen() end
 
 local mash, mashshift = {'ctrl', 'cmd'}, {'ctrl', 'cmd', 'shift'}
 hotkey.bind(mash, 'a', nil, function() moveWindowOneSpace('left', true) end)
 hotkey.bind(mash, 's', nil, function() moveWindowOneSpace('right', true) end)
 hotkey.bind(mashshift, 'a', nil, function() moveWindowOneSpace('left', false) end)
 hotkey.bind(mashshift, 's', nil, function() moveWindowOneSpace('right', false) end)
-hotkey.bind({'ctrl','cmd'}, 'n', nil, function() createSpace() end)
-hotkey.bind({'ctrl','cmd'}, 'n', nil, function() spaces.removeSpace(M.last) end)
+hotkey.bind({'ctrl', 'cmd'}, 'n', nil, function() createSpace() end)
+hotkey.bind({'ctrl', 'cmd'}, 'n', nil, function() spaces.removeSpace(M.last) end)
 
 return M
