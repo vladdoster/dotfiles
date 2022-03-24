@@ -1,11 +1,6 @@
 .DEFAULT_GOAL := install
 .ONESHELL:
 
-nvim_cfg=~/.config/nvim
-nvim_cfg_repo=https://github.com/vladdoster/neovim-configuration.git
-
-hammerspoon_cfg=$$HOME/.hammerspoon
-
 CONFIGS:= hammerspoon neovim
 
 GH_URL=https://github.com/vladdoster
@@ -21,7 +16,7 @@ activate_brew:
 	eval $$(/opt/homebrew/bin/brew shellenv)
 
 
-install: | clean $(nvim_cfg) ## Deploy dotfiles via GNU install
+install: | clean neovim ## Deploy dotfiles via GNU install
 	find * -maxdepth 0 -type d -exec stow --verbose 1 {} --target $$HOME \;
 
 .SILENT: clean
@@ -35,7 +30,7 @@ clean: ## Remove deployed dotfiles
 
 $(CONFIGS):
 	$(info --- did not found $(@) config, fetching..)
-	git clone --progress --quiet $(GH_URL)/$@_configuration $(destination)
+	git clone --progress --quiet $(GH_URL)/$@-configuration $(destination)
 
 brew-install: ## Install Homebrew pkg manager
 	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
