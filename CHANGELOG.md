@@ -1,3 +1,14 @@
+# [1.14.0](https://github.com/vladdoster/dotfiles/compare/v1.13.1...v1.14.0) (2022-03-24)
+
+
+### build
+
+* add `feat` & `maint` release rules ([d782ce1](https://github.com/vladdoster/dotfiles/commit/d782ce15262f0d67d2b9eab46c9d2d9703fcf39c))
+
+### feat
+
+* hs modules battery, sys stats, new spoons ([8bf1de4](https://github.com/vladdoster/dotfiles/commit/8bf1de4d1c62b50f47b9989a533c95c833da0cdd))
+
 ## [1.13.1](https://github.com/vladdoster/dotfiles/compare/v1.13.0...v1.13.1) (2022-03-21)
 
 
