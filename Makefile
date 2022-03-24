@@ -86,8 +86,6 @@ py-prog: ## Install Python dependencies
 		yapf
 	$(info --- py packages installed)
 
-
-
 rust-prog: ## Install programs via rust
 	cargo install \
 		bat \
