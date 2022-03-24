@@ -4,12 +4,13 @@
     ["@semantic-release/commit-analyzer", {
       "preset": "eslint",
       "releaseRules": [
-        {"tag": "build",  "release": "patch"},
-        {"tag": "chore",  "release": "patch"},
-        {"tag": "docs",   "release": "patch"},
-        {"tag": "fix",    "release": "patch"},
-        {"tag": "new",    "release": "minor"},
-        {"tag": "update", "release": "minor"}
+        {"tag": "build", "release": "patch"},
+        {"tag": "chore", "release": "patch"},
+        {"tag": "docs",  "release": "patch"},
+        {"tag": "feat",  "release": "minor"},
+        {"tag": "fix",   "release": "patch"},
+        {"tag": "maint", "release": "minor"},
+        {"tag": "new",   "release": "minor"}
       ]
     }],
     ["@google/semantic-release-replace-plugin", {
