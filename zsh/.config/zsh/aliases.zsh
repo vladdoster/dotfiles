@@ -62,12 +62,8 @@ _archive() {
 	local output="$2"
 	local input=("${@:3}")
 	case "$format" in
-	tar)
-		tar -czvf "${output}.tar.gz" "${input[@]}"
-		;;
-	7z)
-		7za a "${output}.7z" "${input[@]}"
-		;;
+	tar) tar -czvf "${output}.tar.gz" "${input[@]}" ;;
+	7z) 7za a "${output}.7z" "${input[@]}" ;;
 	esac
 }
 #= SYSTEM SPECIFIC ===============================
