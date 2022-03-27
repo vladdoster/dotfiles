@@ -39,52 +39,51 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
 #=== ZSH BINARY =======================================
 zi for \
     as"null" atclone"./install -e no -d ~/.local" atinit'export PATH="/Users/anonymous/.local/bin:$PATH"' atpull"%atclone" \
-    depth"1" \
-    lucid \
-    nocompile nocompletions \
+    depth"1" lucid nocompile nocompletions \
   @romkatv/zsh-bin
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 zinit for \
     OMZL::{'clipboard','compfix','completion','git','grep','key-bindings','termsupport'}.zsh \
+    OMZP::brew \
     PZT::modules/{'history','rsync'}
-#=== PROMPT & THEME ===================================
-zi light-mode silent for \
+#=== COMPLETIONS ======================================
+local GH_RAW_URL='https://raw.githubusercontent.com'
+zi is-snippet as'completion' for \
+  OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'} \
+  $GH_RAW_URL/{'Homebrew/brew/master/completions/zsh/_brew','docker/cli/master/contrib/completion/zsh/_docker','rust-lang/cargo/master/src/etc/_cargo'}
+#=== PROMPT ===================================
+zi light-mode for \
     compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
-        PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
-        PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
-        zstyle ':prompt:pure:git:action' color 'yellow'
-        zstyle ':prompt:pure:git:branch' color 'blue'
-        zstyle ':prompt:pure:git:dirty' color 'red'
-        zstyle ':prompt:pure:path' color 'cyan'
-        zstyle ':prompt:pure:prompt:success' color 'green'" \
-    sindresorhus/pure \
-    "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','submods'} \
-    OMZP::brew
+      PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
+      PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
+      zstyle ':prompt:pure:git:action' color 'yellow'
+      zstyle ':prompt:pure:git:branch' color 'blue'
+      zstyle ':prompt:pure:git:dirty' color 'red'
+      zstyle ':prompt:pure:path' color 'cyan'
+      zstyle ':prompt:pure:prompt:success' color 'green'" \
+  sindresorhus/pure \
+  "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','submods'} \
+#=== GITHUB BINARIES ==================================
+zi from'gh-r' nocompile sbin for \
+  sbin'**/d*a' dandavison/delta \
+  sbin'**/g*g' @git-chglog/git-chglog \
+  sbin'**/s*c' @shellspec/shellspec \
+  sbin'**/nvim' ver'nightly' neovim/neovim \
+  sbin'**/sh* -> shfmt' @mvdan/sh \
+  sbin'g*x'    pemistahl/grex
+  atclone'mv completions/exa.zsh _exa' \
+  atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
+    ogham/exa
 #=== FZF  =============================================
 zi for \
   from'gh-r' nocompile sbin \
     junegunn/fzf \
   is-snippet \
     https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
-#=== GITHUB BINARIES ==================================
-zi from'gh-r' nocompile for \
-  sbin'**/d*a' dandavison/delta \
-  sbin'**/exa' ogham/exa \
-  sbin'**/g*g' @git-chglog/git-chglog \
-  sbin'**/n*m' neovim/neovim \
-  sbin'**/s*c' @shellspec/shellspec \
-  sbin'**/sh* -> shfmt' @mvdan/sh \
-  sbin'g*x'    pemistahl/grex
- # atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
-  # sbin'**/exa' atclone'mv completions/exa.zsh _exa' \
-zi as'program' for \
-  pick"revolver" molovo/revolver \
-  atclone'./build.zsh' pick"zunit" zunit-zsh/zunit
-#=== COMPLETIONS ======================================
-GH_RAW_URL='https://raw.githubusercontent.com'
-zi is-snippet as'completion' for \
-  OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'} \
-  $GH_RAW_URL/{'Homebrew/brew/master/completions/zsh/_brew','docker/cli/master/contrib/completion/zsh/_docker','rust-lang/cargo/master/src/etc/_cargo'}
+#=== TESTING ============================================
+# zi as'program' for \
+#   pick"revolver" molovo/revolver \
+#   atclone'./build.zsh' pick"zunit" zunit-zsh/zunit
 #=== MISC. ============================================
 zi light-mode for \
   thewtex/tmux-mem-cpu-load \
