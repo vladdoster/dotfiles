@@ -1,14 +1,15 @@
-FROM alpine:latest
+FROM ubuntu:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN \
-    apk upgrade \
- && apk add \
+    apt update \
+ && apt upgrade -y \
+ && apt install -y \
       automake autoconf \
-      bat bash build-base \
+      bat bash \
       cmake curl \
-      git gdb gcc gcompat \
+      git gdb gcc \
       jq \
       make musl \
       nmap neovim \
@@ -16,7 +17,6 @@ RUN \
       ruby \
       sudo stow subversion \
       tmux \
-      xz \
       zsh
 
 RUN \
