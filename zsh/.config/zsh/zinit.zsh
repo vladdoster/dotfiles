@@ -70,7 +70,7 @@ zi from'gh-r' nocompile sbin for \
   sbin'**/s*c' @shellspec/shellspec \
   sbin'**/nvim' ver'nightly' neovim/neovim \
   sbin'**/sh* -> shfmt' @mvdan/sh \
-  sbin'g*x'    pemistahl/grex
+  sbin'g*x'    pemistahl/grex \
   atclone'mv completions/exa.zsh _exa' \
   atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
     ogham/exa
