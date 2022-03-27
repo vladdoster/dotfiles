@@ -2,7 +2,6 @@
 .ONESHELL:
 
 CONFIGS:= hammerspoon neovim
-
 GH_URL=https://github.com/vladdoster
 hammerspoon: destination:=$$HOME/.hammerspoon
 neovim: destination:=$$HOME/.config/nvim
@@ -14,7 +13,6 @@ help: ## Display all Makfile targets
 
 activate_brew:
 	eval $$(/opt/homebrew/bin/brew shellenv)
-
 
 install: | clean neovim ## Deploy dotfiles via GNU install
 	find * -maxdepth 0 -type d -exec stow --verbose 1 {} --target $$HOME \;
@@ -32,10 +30,10 @@ $(CONFIGS):
 	$(info --- did not found $(@) config, fetching..)
 	git clone --progress --quiet $(GH_URL)/$@-configuration $(destination)
 
-brew-install: ## Install Homebrew pkg manager
+brew-install: ## Install Homebrew
 	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-brew-uninstall: ## Uninstall Homebrew pkg manager
+brew-uninstall: ## Uninstall Homebrew
 	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
 
 brew-bundle: ## Install programs defined in $HOME/.config/dotfiles/Brewfile
@@ -57,9 +55,15 @@ linuxbrew-fix: ## Re-install Linuxbrew taps homebrew-core & homebrew-cask
 	@git -C "/home/linuxbrew/.linuxbrew/Homebrew" remote add origin https://github.com/Homebrew/brew
 	brew tap homebrew/core homebrew/cask
 
+rust-install: ## Install Rust & Cargo pkg manager via Rustup
+	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+rust-uninstall: ## Uninstall Rust via rustup utility
+	@rustup self uninstall
+
 all-prog: py-prog rust-prog ## Install Python & Rust programs
 
-pip-update: ## Update Python packages
+pip-update: ## Update Python3 packages
 	@pip3 list --user \
 		| cut -d" " -f 1 \
 		| tail -n +3 \
@@ -80,38 +84,34 @@ py-prog: ## Install Python dependencies
 		pynvim \
 		tox \
 		yapf
-	@echo "--- installed python packages"
+	$(info --- py packages installed)
 
-rust-install: ## Install Rust & Cargo pkg manager via Rustup
-	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-rust-uninstall: ## Uninstall Rust via rustup utility
-	@rustup self uninstall
 
 rust-prog: ## Install programs via rust
 	cargo install \
-	bat \
-	cargo-update \
-	exa \
-	stylua \
-	topgrade
-
-build-container: ## Build containerized env and install dotfiles
-	docker buildx build \
-		--tag df-ubuntu:latest \
-		$$PWD
-
-run-container: build-container ## Run containerized dockerfiles env
-	@echo "--- $$PWD"
-	mkdir -p $$HOME/df-docker-volume || true
-	docker run \
-		--interactive \
-		--tty \
-		--volume $$HOME/df-docker-volume/:/home/vlad \
-		df-ubuntu:latest
+		bat \
+		cargo-update \
+		exa \
+		stylua \
+		topgrade
 
 stow: ## Install GNU stow
 	$(info --- installing GNU stow)
 	git clone https://github.com/aspiers/stow
 	cd stow && autoreconf -iv && ./configure --prefix $$PWD && make install
 	$(info --- installed GNU stow)
+
+build-container: ## Build container && install dotfiles
+	docker buildx build \
+		--tag df-ubuntu:latest \
+		$$PWD
+	$(info --- built df container)
+
+container: build-container ## Run containerized dockerfiles env
+	mkdir -p $$HOME/df-docker-volume || true
+	docker run \
+		--interactive \
+		--tty \
+		--volume $$HOME/df-docker-volume/:/home/vlad \
+		df-ubuntu:latest
