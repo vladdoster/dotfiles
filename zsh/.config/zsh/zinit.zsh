@@ -9,6 +9,7 @@
 #
 # A zinit-continuum configuration for macOS and Linux.
 #
+#
 #=== HELPER METHODS ===================================
 function error() { print -P "%F{160}[ERROR] ---%f%b $1" >&2 && exit 1; }
 function info() { print -P "%F{34}[INFO] ---%f%b $1"; }
@@ -20,17 +21,17 @@ ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions ZINIT[SNIPPETS_DIR]=$ZINIT[H
 ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump    ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
 ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githubusercontent.com'
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
-  info 'Downloading Zinit' \
+  info 'downloading zinit' \
     && command git clone \
-        --branch 'bugfix/system-gh-r-selection' \
-        https://github.com/$ZI_REPO/zinit \
+        --branch 'fix/gh-r-logic' \
+        https://github.com/vladdoster/zinit.git \
         $ZINIT[BIN_DIR] \
-    || error 'Unable to download zinit' \
-    && info 'Installing Zinit' \
+    || error 'unable to clone zinit repository' \
+    && info 'installing zinit' \
     && command chmod g-rwX $ZINIT[HOME_DIR] \
     && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
-    && info 'Successfully installed Zinit' \
-    || error 'Unable to install Zinit'
+    && info 'successfully installed zinit' \
+    || error 'unable to install zinit'
 fi
 source $ZINIT[BIN_DIR]/zinit.zsh \
   && autoload -Uz _zinit \
@@ -46,6 +47,7 @@ zinit for \
     OMZL::{'clipboard','compfix','completion','git','grep','key-bindings','termsupport'}.zsh \
     OMZP::brew \
     PZT::modules/{'history','rsync'}
+compctl -K _pip_completion pip3
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
 zi is-snippet as'completion' for \
@@ -60,11 +62,14 @@ zi light-mode for \
       zstyle ':prompt:pure:git:branch' color 'blue'
       zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'
-      zstyle ':prompt:pure:prompt:success' color 'green'" \
+      zstyle ':prompt:pure:prompt:success' color 'green'
+      zstyle ':prompt:pure:host:' show yes
+      zstyle ':prompt:pure:user:' show yes" \
   sindresorhus/pure \
-  "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','submods'} \
+  "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','submods'}
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' nocompile sbin for \
+  sbin'**/zenith' bvaisvil/zenith \
   sbin'**/d*a' dandavison/delta \
   sbin'**/g*g' @git-chglog/git-chglog \
   sbin'**/s*c' @shellspec/shellspec \
@@ -74,6 +79,16 @@ zi from'gh-r' nocompile sbin for \
   atclone'mv completions/exa.zsh _exa' \
   atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
     ogham/exa
+
+zi for \
+    as"command" \
+    atclone'./direnv hook zsh > zhook.zsh' \
+    from"gh-r" \
+    has'direnv' \
+    light-mode \
+    mv"direnv* -> direnv" \
+    src'zhook.zsh' \
+  direnv/direnv
 #=== FZF  =============================================
 zi for \
   from'gh-r' nocompile sbin \
@@ -81,9 +96,9 @@ zi for \
   is-snippet \
     https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 #=== TESTING ============================================
-# zi as'program' for \
-#   pick"revolver" molovo/revolver \
-#   atclone'./build.zsh' pick"zunit" zunit-zsh/zunit
+zi as'program' for \
+  pick"revolver" molovo/revolver \
+  atclone'./build.zsh' pick"zunit" zunit-zsh/zunit
 #=== MISC. ============================================
 zi light-mode for \
   thewtex/tmux-mem-cpu-load \
@@ -105,3 +120,28 @@ zi light-mode for \
       FAST_HIGHLIGHT[git-cmsg-len]=100
       zpcompinit; zpcdreplay' \
   $ZI_REPO/fast-syntax-highlighting
+
+# pip zsh completion start
+function _pip_completion {
+  local words cword
+  read -Ac words
+  read -cn cword
+  reply=( $( COMP_WORDS="$words[*]" \
+             COMP_CWORD=$(( cword-1 )) \
+             PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
+}
+compctl -K _pip_completion pip3
+# pip zsh completion end
+
+# === ISSUE DEBUGGING ============================================
+
+
+# zi for \
+#     atinit"zicompinit; zicdreplay"  \
+#   zdharma-continuum/fast-syntax-highlighting \
+#   OMZP::colored-man-pages \
+#   OMZL::git.zsh \
+#     blockf \
+#   zsh-users/zsh-completions \
+#     atload"!_zsh_autosuggest_start" \
+#   zsh-users/zsh-autosuggestions

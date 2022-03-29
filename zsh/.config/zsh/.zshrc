@@ -2,6 +2,8 @@
 #
 # source zsh configuration
 #
+
+
 alias v="nvim"; alias la="exa -al"; alias l="exa -l"
 function plugin-compile() {
   ZPLUGINDIR=${ZDOTDIR:-$HOME/.config/zsh}
@@ -16,3 +18,4 @@ for f in $files[@]; do
   . "${ZDOTDIR:-$HOME/.config/zsh}/$f".zsh
 done
 # plugin-compile
+ulimit -c unlimited
