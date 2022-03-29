@@ -54,6 +54,8 @@ zi is-snippet as'completion' for \
   OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'} \
   $GH_RAW_URL/{'Homebrew/brew/master/completions/zsh/_brew','docker/cli/master/contrib/completion/zsh/_docker','rust-lang/cargo/master/src/etc/_cargo'}
 #=== PROMPT ===================================
+zstyle :prompt:pure:host: show yes
+zstyle :prompt:pure:user: show yes
 zi light-mode for \
     compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
       PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
@@ -62,9 +64,7 @@ zi light-mode for \
       zstyle ':prompt:pure:git:branch' color 'blue'
       zstyle ':prompt:pure:git:dirty' color 'red'
       zstyle ':prompt:pure:path' color 'cyan'
-      zstyle ':prompt:pure:prompt:success' color 'green'
-      zstyle ':prompt:pure:host:' show yes
-      zstyle ':prompt:pure:user:' show yes" \
+      zstyle ':prompt:pure:prompt:success' color 'green'" \
   sindresorhus/pure \
   "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','submods'}
 #=== GITHUB BINARIES ==================================
