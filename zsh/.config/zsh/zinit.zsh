@@ -22,16 +22,16 @@ ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump    ZINIT[PLUGINS_DIR]=$ZINIT[HO
 ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githubusercontent.com'
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'downloading zinit' \
-    && command git clone \
-        --branch 'fix/gh-r-logic' \
-        https://github.com/vladdoster/zinit.git \
-        $ZINIT[BIN_DIR] \
-    || error 'unable to clone zinit repository' \
-    && info 'installing zinit' \
-    && command chmod g-rwX $ZINIT[HOME_DIR] \
-    && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
-    && info 'successfully installed zinit' \
-    || error 'unable to install zinit'
+  && command git clone \
+    --branch 'fix/gh-r-logic' \
+    https://github.com/vladdoster/zinit.git \
+    $ZINIT[BIN_DIR] \
+  || error 'unable to clone zinit repository' \
+  && info 'installing zinit' \
+  && command chmod g-rwX $ZINIT[HOME_DIR] \
+  && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
+  && info 'successfully installed zinit' \
+  || error 'unable to install zinit'
 fi
 source $ZINIT[BIN_DIR]/zinit.zsh \
   && autoload -Uz _zinit \
@@ -44,10 +44,9 @@ zi for \
   @romkatv/zsh-bin
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 zinit for \
-    OMZL::{'clipboard','compfix','completion','git','grep','key-bindings','termsupport'}.zsh \
-    OMZP::brew \
-    PZT::modules/{'history','rsync'}
-compctl -K _pip_completion pip3
+  OMZL::{'clipboard','compfix','completion','git','grep','key-bindings','termsupport'}.zsh \
+  OMZP::brew \
+  PZT::modules/{'history','rsync'}
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
 zi is-snippet as'completion' for \
@@ -57,38 +56,28 @@ zi is-snippet as'completion' for \
 zstyle :prompt:pure:host: show yes
 zstyle :prompt:pure:user: show yes
 zi light-mode for \
-    compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
-      PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
-      PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
-      zstyle ':prompt:pure:git:action' color 'yellow'
-      zstyle ':prompt:pure:git:branch' color 'blue'
-      zstyle ':prompt:pure:git:dirty' color 'red'
-      zstyle ':prompt:pure:path' color 'cyan'
-      zstyle ':prompt:pure:prompt:success' color 'green'" \
+  compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
+    PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
+    PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
+    zstyle ':prompt:pure:git:action' color 'yellow'
+    zstyle ':prompt:pure:git:branch' color 'blue'
+    zstyle ':prompt:pure:git:dirty' color 'red'
+    zstyle ':prompt:pure:path' color 'cyan'
+    zstyle ':prompt:pure:prompt:success' color 'green'" \
   sindresorhus/pure \
   "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','submods'}
 #=== GITHUB BINARIES ==================================
-zi from'gh-r' nocompile sbin for \
+zi from'gh-r' as'null' for \
   sbin'**/zenith' bvaisvil/zenith \
   sbin'**/d*a' dandavison/delta \
   sbin'**/g*g' @git-chglog/git-chglog \
   sbin'**/s*c' @shellspec/shellspec \
-  sbin'**/nvim' ver'nightly' neovim/neovim \
   sbin'**/sh* -> shfmt' @mvdan/sh \
   sbin'g*x'    pemistahl/grex \
-  atclone'mv completions/exa.zsh _exa' \
-  atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
-    ogham/exa
-
-zi for \
-    as"command" \
-    atclone'./direnv hook zsh > zhook.zsh' \
-    from"gh-r" \
-    has'direnv' \
-    light-mode \
-    mv"direnv* -> direnv" \
-    src'zhook.zsh' \
-  direnv/direnv
+    atclone'mv completions/exa.zsh _exa' \
+    atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
+    sbin'**/exa' \
+  ogham/exa
 #=== FZF  =============================================
 zi for \
   from'gh-r' nocompile sbin \
@@ -120,7 +109,6 @@ zi light-mode for \
       FAST_HIGHLIGHT[git-cmsg-len]=100
       zpcompinit; zpcdreplay' \
   $ZI_REPO/fast-syntax-highlighting
-
 # pip zsh completion start
 function _pip_completion {
   local words cword
@@ -132,9 +120,16 @@ function _pip_completion {
 }
 compctl -K _pip_completion pip3
 # pip zsh completion end
-
 # === ISSUE DEBUGGING ============================================
 
+# zi for \
+#     atclone'./direnv hook zsh > zhook.zsh' \
+#     from"gh-r" \
+#     ver'v2.31.0' \
+#     mv"direnv* -> direnv" \
+#     src'zhook.zsh' \
+#     autoload'_direnv_hook' \
+#   direnv/direnv
 
 # zi for \
 #     atinit"zicompinit; zicdreplay"  \
