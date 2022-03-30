@@ -1,50 +1,36 @@
+#!/usr/bin/env zsh
 
-#=== COMPLETION =======================================
-# zi as'completion' is-snippet for \
-#     OMZP::{'git','golang/_golang','pip/_pip','terraform/_terraform','npm'} \
-#     $GH_RAW_URL/Homebrew/brew/master/completions/zsh/_brew \
-#     $GH_RAW_URL/docker/cli/master/contrib/completion/zsh/_docker \
-#     $GH_RAW_URL/rust-lang/cargo/master/src/etc/_cargo \
-# 	OMZP::docker-compose as"completion" OMZP::docker/_docker
-# zi light-mode for \
-#   if'[[ ${ZSH_VERSION:0:3} -ge 5.8 ]]' has'fzf' Aloxaf/fzf-tab
+# reduce verbiage
+zi light-mode for zdharma-continuum/zinit-annex-default-ice
+zinit default-ice lucid from"gh-r"
 
-#=== PIP COMPLETION ===================================
-# function _pip_completion {
-#   local words cword && read -Ac words && read -cn cword
-#   reply=(
-#     $(
-#       COMP_WORDS="$words[*]" \
-#       COMP_CWORD=$(( cword-1 )) \
-#       PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null
-#     )
-#   )
-# }
-# compctl -K _pip_completion pip3
-
-# zinit for \
-#     OMZL::{'clipboard','compfix','completion','git','grep','key-bindings','termsupport'}.zsh \
-#     PZT::modules/{'history','rsync'}
+zi sbin'**/bat -> bat' for @sharkdp/bat
+zi sbin'**/delta -> delta' for dandavison/delta
+zi sbin'**/f*g' for @chanzuckerberg/fogg
+zi sbin'**/fx* -> fx' for @antonmedv/fx
+zi sbin'**/gh' for cli/cli
+zi sbin'**/git-mkver' for @idc101/git-mkver
+zi sbin'**/glow' for charmbracelet/glow
+zi sbin'**/h*e -> hyperfine' for @sharkdp/hyperfine
+zi sbin'**/lazygit' for @jesseduffield/lazygit
+zi sbin'**/nvim -> nvim' ver'nightly' for neovim/neovim
+zi sbin'**/procs -> procs' for @dalance/procs
+zi sbin'**/rg -> rg' for @BurntSushi/ripgrep
+zi sbin'**/sh* -> shfmt' for @mvdan/sh
+zi sbin'**/starship -> starship' for @starship/starship
+zi sbin'**/t*i -> tokei' for @XAMPPRocky/tokei
+zi sbin'checkmake* -> checkmake' for mrtazz/checkmake
+zi sbin'fzf' for @junegunn/fzf
+zi sbin'g*x -> grex' for pemistahl/grex
+zi sbin'git-sizer' for @github/git-sizer
 
 zi for \
     as'completions' \
-    atclone'
-      ./argocd* completion zsh > _argocd' \
+    atclone'./argocd* completion zsh > _argocd' \
     atpull'%atclone' \
-    from'gh-r' \
     if'[[ "$(uname -m)" == x86_64 ]]' \
     sbin'argocd* -> argocd' \
   argoproj/argo-cd
-
-zi for \
-    from'gh-r' \
-    sbin'**/bat -> bat' \
-  @sharkdp/bat
-
-zi for \
-    from'gh-r' \
-    sbin'checkmake* -> checkmake' \
-  mrtazz/checkmake
 
 zi for \
     as'program' \
@@ -55,60 +41,47 @@ zi for \
   abishekvashok/cmatrix
 
 zi for \
-    from'gh-r' \
-    sbin'**/delta -> delta' \
-  dandavison/delta
-
-zi for \
     atclone'cp -vf completions/exa.zsh _exa'  \
-    from'gh-r' \
     sbin'**/exa -> exa' \
   ogham/exa
 
 zi for \
-    from'gh-r'  \
+    atclone'cp -vf completions/fd.zsh _fd' \
     sbin'**/fd -> fd' \
   @sharkdp/fd
 
 zi for \
-    from'gh-r'  \
-    sbin'**/f*g' \
-  @chanzuckerberg/fogg
+    atclone"
+      autoreconf -fi
+      ./configure --with-oniguruma=builtin
+      make
+      ln -sfv $PWD/jq.1 $ZPFX/man/man1" \
+    atpull'%atclone' \
+    if"(( ${+commands[jq]} == 0 ))" \
+    sbin'jq' \
+  @stedolan/jq
 
 zi for \
-    from'gh-r'  \
-    sbin'**/fx* -> fx' \
-  @antonmedv/fx
+    as'program' \
+    atpull'%atclone' \
+    make"-j PREFIX=${ZPRFX} install > /dev/null" \
+    pick"neofetch" \
+  dylanaraps/neofetch
 
 zi for \
-    from'gh-r'  \
-    sbin'fzf'   \
-  @junegunn/fzf
+    as'program' \
+    atclone" autoreconf -iv; ./configure --prefix=$ZPFX" \
+    atpull'%atclone' \
+    make'-j bin/stow' \
+    pick"$ZPFX/bin/stow" \
+  @aspiers/stow
 
 zi for \
-    from'gh-r' \
-    sbin'**/gh' \
-  cli/cli
-
-zi for \
-    from'gh-r' \
-    sbin'**/git-mkver' \
-  @idc101/git-mkver
-
-zi for \
-    from'gh-r'      \
-    sbin'git-sizer' \
-  @github/git-sizer
-
-zi for \
-    from'gh-r'  \
-    sbin'**/glow' \
-  charmbracelet/glow
-
-zi for \
-    from'gh-r'  \
-    sbin'g*x -> grex'  \
-  pemistahl/grex
+    as"tmux=$ZPFX/tmux" \
+    make'-j' \
+    mv'tmux* -> tmux' \
+    pick'tmux' \
+  @tmux/tmux
 
 zi for \
     as'null' \
@@ -124,85 +97,3 @@ zi for \
     sbin'bin/brew' \
     src'brew.zsh' \
   @homebrew/brew
-
-zi for \
-    from'gh-r' \
-    sbin'**/h*e -> hyperfine' \
-  @sharkdp/hyperfine
-
-zi for \
-    atclone"
-      autoreconf -fi \
-      && ./configure --with-oniguruma=builtin \
-      && make \
-      && ln -sfv $PWD/jq.1 $ZPFX/man/man1" \
-    atpull'%atclone' \
-    if"(( ${+commands[jq]} == 0 ))" \
-    sbin'jq' \
-  @stedolan/jq
-
-# zi for \
-#     from'gh-r' \
-#     sbin'kubectx;kubens'  \
-#   ahmetb/kubectx
-
-zi for \
-    from'gh-r' \
-    sbin'**/lazygit' \
-  @jesseduffield/lazygit
-
-zi for \
-    as'program' \
-    atpull'%atclone' \
-    make"-j PREFIX=${ZPRFX} install > /dev/null" \
-    pick"neofetch" \
-  dylanaraps/neofetch
-
-zi for \
-    from'gh-r' \
-    sbin'**/nvim -> nvim' \
-    ver'nightly' \
-  neovim/neovim
-
-zi for \
-    from'gh-r' \
-    sbin'**/procs -> procs' \
-  @dalance/procs
-
-zi for \
-    from'gh-r' \
-    sbin'**/rg -> rg' \
-  @BurntSushi/ripgrep
-
-zi for \
-    from'gh-r' \
-    sbin'**/sh* -> shfmt' \
-  @mvdan/sh
-
-zi for \
-    from'gh-r' \
-    sbin'**/starship -> starship' \
-  @starship/starship
-
-zi for \
-    as'program' \
-    atclone"
-         autoreconf -iv \
-      && ./configure --prefix=$ZPFX" \
-    atpull'%atclone' \
-    make'bin/stow' \
-    pick"$ZPFX/bin/stow" \
-  @aspiers/stow
-
-zi for \
-    as"tmux=$ZPFX/tmux" \
-    from'gh-r' \
-    mv'tmux* -> tmux' \
-    make'-j' \
-    pick'tmux' \
-  @tmux/tmux
-
-zi for \
-    from'gh-r' \
-    sbin'**/t*i -> tokei' \
-  @XAMPPRocky/tokei
