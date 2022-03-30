@@ -39,7 +39,10 @@ source $ZINIT[BIN_DIR]/zinit.zsh \
   && _comps[zinit]=_zinit
 #=== ZSH BINARY =======================================
 zi for \
-    as"null" atclone"./install -e no -d ~/.local" atinit'export PATH="/Users/anonymous/.local/bin:$PATH"' atpull"%atclone" \
+    as"null" \
+    atclone"./install -e no -d ~/.local" \
+    atinit'export PATH="/Users/anonymous/.local/bin:$PATH"' \
+    atpull"%atclone" \
     depth"1" lucid nocompile nocompletions \
   @romkatv/zsh-bin
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
