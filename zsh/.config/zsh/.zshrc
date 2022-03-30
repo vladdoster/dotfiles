@@ -2,8 +2,8 @@
 #
 # source zsh configuration
 #
-
-
+#
+#
 alias v="nvim"; alias la="exa -al"; alias l="exa -l"
 function plugin-compile() {
   ZPLUGINDIR=${ZDOTDIR:-$HOME/.config/zsh}
