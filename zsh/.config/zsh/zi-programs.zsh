@@ -2,28 +2,50 @@
 
 # reduce verbiage
 zi light zdharma-continuum/zinit-annex-default-ice
-zi default-ice lucid from'gh-r' nocompile
+zi default-ice lucid from'gh-r' lbin nocompile
 
-zi sbin'**/bat -> bat' for @sharkdp/bat
-zi sbin'**/delta -> delta' for dandavison/delta
-zi sbin'**/f*g' for @chanzuckerberg/fogg
-zi sbin'**/fx* -> fx' for @antonmedv/fx
-zi sbin'**/gh' for cli/cli
-zi sbin'**/git-mkver' for @idc101/git-mkver
-zi sbin'**/glow' for charmbracelet/glow
-zi sbin'**/h*e -> hyperfine' for @sharkdp/hyperfine
-zi sbin'**/lazygit' for jesseduffield/lazygit
-zi sbin'**/nvim -> nvim' ver'nightly' for neovim/neovim
-zi sbin'**/procs -> procs' for @dalance/procs
-zi sbin'**/rg -> rg' for @BurntSushi/ripgrep
-zi sbin'**/sh* -> shfmt' for @mvdan/sh
-zi sbin'**/starship -> starship' for @starship/starship
-zi sbin'**/t*i -> tokei' for @XAMPPRocky/tokei
-zi sbin'**/volta' for volta-cli/volta
-zi sbin'checkmake* -> checkmake' for mrtazz/checkmake
-zi sbin'fzf' for @junegunn/fzf
-zi sbin'g*x -> grex' for pemistahl/grex
-zi sbin'git-sizer' for @github/git-sizer
+# zi sbin'**/bat -> bat' for @sharkdp/bat
+# zi sbin'**/delta -> delta' for dandavison/delta
+# zi sbin'**/f*g' for @chanzuckerberg/fogg
+# zi sbin'**/fx* -> fx' for @antonmedv/fx
+# zi sbin'**/gh' for cli/cli
+# zi sbin'**/git-mkver' for @idc101/git-mkver
+# zi sbin'**/glow' for charmbracelet/glow
+# zi sbin'**/h*e -> hyperfine' for @sharkdp/hyperfine
+# zi sbin'**/lazygit' for jesseduffield/lazygit
+# zi sbin'**/nvim -> nvim' ver'nightly' for neovim/neovim
+# zi sbin'**/procs -> procs' for @dalance/procs
+# zi sbin'**/rg -> rg' for @BurntSushi/ripgrep
+# zi sbin'**/sh* -> shfmt' for @mvdan/sh
+# zi sbin'**/starship -> starship' for @starship/starship
+# zi sbin'**/t*i -> tokei' for @XAMPPRocky/tokei
+# zi sbin'**/volta' for volta-cli/volta
+# zi sbin'checkmake* -> checkmake' for mrtazz/checkmake
+# zi sbin'fzf' for @junegunn/fzf
+# zi sbin'g*x -> grex' for pemistahl/grex
+# zi sbin'git-sizer' for @github/git-sizer
+
+zi for \
+  ver'nightly' neovim/neovim \
+  @BurntSushi/ripgrep \
+  @XAMPPRocky/tokei \
+  @antonmedv/fx \
+  @chanzuckerberg/fogg \
+  @dalance/procs \
+  @github/git-sizer \
+  @idc101/git-mkver \
+  @junegunn/fzf \
+  @mvdan/sh \
+  @sharkdp/bat \
+  @sharkdp/hyperfine \
+  @starship/starship \
+  charmbracelet/glow \
+  cli/cli \
+  dandavison/delta \
+  jesseduffield/lazygit \
+  mrtazz/checkmake \
+  pemistahl/grex \
+  volta-cli/volta
 
 zi default-ice --clear
 

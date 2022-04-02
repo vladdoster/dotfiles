@@ -19,12 +19,12 @@ ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
 ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
 ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets
 ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump    ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
-ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githubusercontent.com'
+ZI_FORK='vladdoster' ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githubusercontent.com'
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'downloading zinit' \
   && command git clone \
-    --branch 'fix/gh-r-logic' \
-    https://github.com/vladdoster/zinit.git \
+    --branch 'refactor/zunit-tests' \
+    https://github.com/$ZI_REPO/zinit.git \
     $ZINIT[BIN_DIR] \
   || error 'unable to clone zinit repository' \
   && info 'installing zinit' \
@@ -68,18 +68,16 @@ zi light-mode for \
     zstyle ':prompt:pure:path' color 'cyan'
     zstyle ':prompt:pure:prompt:success' color 'green'" \
   sindresorhus/pure \
-  "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','submods'}
+  "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','submods','binary-symlink'}
 #=== GITHUB BINARIES ==================================
-zi from'gh-r' as'null' for \
-  sbin'**/zenith' bvaisvil/zenith \
-  sbin'**/d*a' dandavison/delta \
-  sbin'**/g*g' @git-chglog/git-chglog \
-  sbin'**/s*c' @shellspec/shellspec \
-  sbin'**/sh* -> shfmt' @mvdan/sh \
-  sbin'g*x'    pemistahl/grex \
+zi from'gh-r' lbin nocompile for \
+  bvaisvil/zenith \
+  dandavison/delta \
+  @git-chglog/git-chglog \
+  @mvdan/sh \
+  pemistahl/grex \
     atclone'mv completions/exa.zsh _exa' \
     atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
-    sbin'**/exa' \
   ogham/exa
 #=== FZF  =============================================
 zi for \
@@ -89,8 +87,8 @@ zi for \
     https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 #=== TESTING ============================================
 zi as'program' for \
-  pick"revolver" molovo/revolver \
-  atclone'./build.zsh' pick"zunit" zunit-zsh/zunit
+  pick"revolver" mv'revolver.zsh-completion -> _revolver' molovo/revolver \
+  atclone'./build.zsh' mv'zunit.zsh-completion -> _zunit' pick"zunit" zunit-zsh/zunit
 #=== MISC. ============================================
 zi light-mode for \
   thewtex/tmux-mem-cpu-load \
