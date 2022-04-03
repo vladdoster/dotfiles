@@ -19,6 +19,7 @@ bin/.local/bin/zsh
 bin/.local/man
 *.lock.json
 *.zcompcache/
+*.revolver/
 #-- MAC_OS ---------------------------------------
 .DS_Store
 .AppleDouble
