@@ -19,12 +19,12 @@ ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
 ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
 ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets
 ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump    ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
-ZI_FORK='vladdoster' ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githubusercontent.com'
+ZI_FORK='vladdoster'; ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githubusercontent.com'
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'downloading zinit' \
   && command git clone \
     --branch 'fix/gh-r-logic' \
-    https://github.com/$ZI_REPO/zinit.git \
+    https://github.com/$ZI_FORK/zinit.git \
     $ZINIT[BIN_DIR] \
   || error 'unable to clone zinit repository' \
   && info 'installing zinit' \
