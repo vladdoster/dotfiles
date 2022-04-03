@@ -14,6 +14,7 @@
 function error() { print -P "%F{160}[ERROR] ---%f%b $1" >&2 && exit 1; }
 function info() { print -P "%F{34}[INFO] ---%f%b $1"; }
 #=== ZINIT ============================================
+#    --branch 'refactor/zunit-tests' \
 typeset -gAH ZINIT;
 ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
 ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
@@ -24,6 +25,7 @@ if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'downloading zinit' \
   && command git clone \
     --branch 'fix/gh-r-logic' \
+    --depth 1 \
     https://github.com/$ZI_FORK/zinit.git \
     $ZINIT[BIN_DIR] \
   || error 'unable to clone zinit repository' \
@@ -56,8 +58,6 @@ zi is-snippet as'completion' for \
   OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'} \
   $GH_RAW_URL/{'Homebrew/brew/master/completions/zsh/_brew','docker/cli/master/contrib/completion/zsh/_docker','rust-lang/cargo/master/src/etc/_cargo'}
 #=== PROMPT ===================================
-zstyle :prompt:pure:host: show yes
-zstyle :prompt:pure:user: show yes
 zi light-mode for \
   compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
     PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
@@ -71,10 +71,10 @@ zi light-mode for \
   "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','submods','binary-symlink'}
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' lbin nocompile for \
-  bvaisvil/zenith \
   dandavison/delta \
   @git-chglog/git-chglog \
   @mvdan/sh \
+  sbin'**/nvim' ver'nightly' neovim/neovim \
   pemistahl/grex \
     atclone'mv completions/exa.zsh _exa' \
     atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
