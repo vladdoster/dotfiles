@@ -1,3 +1,49 @@
+# [1.15.0](https://github.com/vladdoster/dotfiles/compare/v1.14.0...v1.15.0) (2022-04-04)
+
+
+### chore
+
+* condense formtting of extract alias ([317f8ce](https://github.com/vladdoster/dotfiles/commit/317f8ce6e0af4f701535c1ac5f597e8e3fe9baf8))
+* correct Makefile targets for configurations ([aa2d8df](https://github.com/vladdoster/dotfiles/commit/aa2d8df868e5cc42d15c681a240543c2e4546f18))
+* rm hammerspoon config; it has own repo now ([fa36fa2](https://github.com/vladdoster/dotfiles/commit/fa36fa2dac1875b9727bb58d66eb262ab6f26ca1))
+
+### feat
+
+* refactor Makefile to install hs || nvim cfg ([ef5e598](https://github.com/vladdoster/dotfiles/commit/ef5e59856feb122ef90d9c8d5456dba92b15a391))
+
+### fix
+
+* add missing backslash in zinit.zsh ([b884c5c](https://github.com/vladdoster/dotfiles/commit/b884c5c70bc9420104ab4c1e45fc0885e26d9545))
+* fix Makefile config targets ([9829b7d](https://github.com/vladdoster/dotfiles/commit/9829b7d9f820ae83b8887b9aedd575b9b80f96da))
+* remove you-the-champ.zsh cruft ([e154883](https://github.com/vladdoster/dotfiles/commit/e154883f4f3ad58c89a960a698081ad61663d8a3))
+
+### maint
+
+* add completion for zunit & revolver ([bd75644](https://github.com/vladdoster/dotfiles/commit/bd7564431b85c6dcaac9ff06121926d32c826459))
+* add debug section for zsh & add zenith binary ([2889bc2](https://github.com/vladdoster/dotfiles/commit/2889bc2c1f20107f31c0f7374cb90e2f32e5320c))
+* add volta-cli to test programs ([153130b](https://github.com/vladdoster/dotfiles/commit/153130b097034ec249b6b5e52683c11b294ad456))
+* added revolver artifact dir to gitignore ([12e7722](https://github.com/vladdoster/dotfiles/commit/12e77224241e00276e03fa0b546e33bd0cbd37da))
+* change dockerfile base image to ubuntu ([b17c5a0](https://github.com/vladdoster/dotfiles/commit/b17c5a044aa335c1e4726cbfdd058e6bdef186d9))
+* clean up zinit.zsh whitespace ([2e140b9](https://github.com/vladdoster/dotfiles/commit/2e140b93524b0da0319cb6468f9c8215ae479d0a))
+* increase kitty scrollback speed ([ee877f5](https://github.com/vladdoster/dotfiles/commit/ee877f5bd91ac588198d99bd15a2c304e81656e7))
+* minor value tweaks & formatting kitty config ([20f395b](https://github.com/vladdoster/dotfiles/commit/20f395b0780916f3b196efffc211dcb77369395b))
+* put zsh-bin ices on newlines ([bc17ff0](https://github.com/vladdoster/dotfiles/commit/bc17ff0ae549a2d73960e1d37d194a5b0c831c89))
+* remove logging ([feffde4](https://github.com/vladdoster/dotfiles/commit/feffde4a2a92e0b1d35183fdead3e16bf752371f))
+* remove zinit.zsh config cruft ([772fe6d](https://github.com/vladdoster/dotfiles/commit/772fe6d2639cfbf045a1321446d32f74dbce7f80))
+* rm git config husky hooks & submodule cruft ([3589d53](https://github.com/vladdoster/dotfiles/commit/3589d539054dc95a3d6b0782bc046307186cadf0))
+* use correct branch for zunit tests ([5e55c18](https://github.com/vladdoster/dotfiles/commit/5e55c18a85c90cbd6ad8434207a52bf8215deb60))
+* use correct branch for zunit tests ([09efaac](https://github.com/vladdoster/dotfiles/commit/09efaacfb673f1be7abc2d9025418cf66147bb66))
+* zsh prompt shows user and host ([dcc9b35](https://github.com/vladdoster/dotfiles/commit/dcc9b3581b9c3091a23cd0d42a1d3fcd6a9491cc))
+
+### refactor
+
+* dotfiles dockerfile ([e2cfca0](https://github.com/vladdoster/dotfiles/commit/e2cfca08f47252d83b43cbc3e91a53127efb3c28))
+
+### style
+
+* clean up misc. fmt Makefile issues ([3dbeead](https://github.com/vladdoster/dotfiles/commit/3dbeead9238c6cb40def9b79554bba5b5e5620c2))
+* reorder zinit plugins ([25b5ebf](https://github.com/vladdoster/dotfiles/commit/25b5ebf93288a85f8e53898e6502062b3092dff5))
+
 # [1.14.0](https://github.com/vladdoster/dotfiles/compare/v1.13.1...v1.14.0) (2022-03-24)
 
 
