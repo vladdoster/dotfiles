@@ -1,8 +1,6 @@
 #!/usr/bin/env zsh
 
-# reduce verbiage
-
-zi from'gh-r' for \
+zi from'gh-r' nocompile sbin for \
   sbin'**/bat -> bat' @sharkdp/bat \
   sbin'**/delta -> delta' dandavison/delta \
   sbin'**/f*g' @chanzuckerberg/fogg \
@@ -10,43 +8,19 @@ zi from'gh-r' for \
   sbin'**/gh' cli/cli \
   sbin'**/git-mkver' @idc101/git-mkver \
   sbin'**/glow' charmbracelet/glow \
+  sbin'**/h*e -> hyperfine' @sharkdp/hyperfine \
   sbin'**/lazygit' jesseduffield/lazygit \
+  sbin'**/nvim -> nvim' ver'nightly' neovim/neovim \
   sbin'**/procs -> procs' @dalance/procs \
   sbin'**/rg -> rg' @BurntSushi/ripgrep \
   sbin'**/sh* -> shfmt' @mvdan/sh \
   sbin'**/starship -> starship' @starship/starship \
+  sbin'**/tokei -> tokei' @XAMPPRocky/tokei \
   sbin'**/volta' volta-cli/volta \
   sbin'checkmake* -> checkmake' mrtazz/checkmake \
-  sbin'fzf' @junegunn/fzf \
-  sbin'g*x -> grex' pemistahl/grex \
+  @junegunn/fzf \
+  pemistahl/grex \
   sbin'git-sizer' @github/git-sizer
-# from'gh-r' sbin'**/h*e -> hyperfine' for @sharkdp/hyperfine \
-# from'gh-r' sbin'**/tokei -> tokei' for @XAMPPRocky/tokei
-zi sbin'**/nvim -> nvim' ver'nightly' from'gh-t' for neovim/neovim
-
-#zi for \
-#
-#  ver'nightly' neovim/neovim \
-#  @BurntSushi/ripgrep \
-#  @XAMPPRocky/tokei \
-#  @antonmedv/fx \
-#  @chanzuckerberg/fogg \
-#  @dalance/procs \
-#  @github/git-sizer \
-#  @idc101/git-mkver \
-#  @junegunn/fzf \
-#  @mvdan/sh \
-#  @sharkdp/bat \
-#  @sharkdp/hyperfine \
-#  @starship/starship \
-#  charmbracelet/glow \
-#  cli/cli \
-#  dandavison/delta \
-#  jesseduffield/lazygit \
-#  mrtazz/checkmake \
-#  pemistahl/grex \
-#  volta-cli/volta
-
 
 # zi for \
 #     as'completions' \
