@@ -1,15 +1,4 @@
-#!/usr/bin/env zsh
-#
-# Author: Vladislav D.
-# GitHub: vladdoster
-#   Repo: https://dotfiles.vdoster.com
-#
-# Open an issue in https://github.com/vladdoster/dotfiles if
-# you find a bug, have a feature request, or a question.
-#
-# A zinit-continuum configuration for macOS and Linux.
-#
-#
+#!/usr/bin/env zsh Author: Vladislav D. GitHub: vladdoster Repo: https://dotfiles.vdoster.com Open an issue in https://github.com/vladdoster/dotfiles if you find a bug, have a feature request, or a question. A zinit-continuum configuration for macOS and Linux.
 #=== HELPER METHODS ===================================
 function error() { print -P "%F{160}[ERROR] ---%f%b $1" >&2 && exit 1; }
 function info() { print -P "%F{34}[INFO] ---%f%b $1"; }
@@ -24,9 +13,9 @@ ZI_FORK='vladdoster'; ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githu
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'downloading zinit' \
   && command git clone \
-    --branch 'fix/gh-r-logic' \
+    --branch 'refactor/zunit-tests' \
     --depth 1 \
-    https://github.com/$ZI_FORK/zinit.git \
+    https://github.com/$ZI_REPO/zinit.git \
     $ZINIT[BIN_DIR] \
   || error 'unable to clone zinit repository' \
   && info 'installing zinit' \
