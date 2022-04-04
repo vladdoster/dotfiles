@@ -4,6 +4,7 @@
 GIT=https://api.github.com/repos
 GNU=http://ftpmirror.gnu.org/gnu
 
+.PHONY: zsh
 PROGS := \
 	aspell autoconf autogen automake \
 	bash binutils bison \
@@ -24,7 +25,7 @@ PROGS := \
 	zsh
 
 GO_PROGS := \
-	shfmt terraform-docs
+	terraform-docs
 
 PY_PROGS := \
 	black \
@@ -95,7 +96,7 @@ readline:    URL:=$(GNU)/readline/readline-8.2-alpha.tar.gz
 ruby:        URL:=https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.2.tar.gz
 
 sed:         URL:=$(GNU)/sed/sed-4.8.tar.gz
-shfmt:       URL:=mvdan.cc/sh/v4/cmd/shfmt@latest
+shfmt:       URL:=$(GIT)/shfmt/shfmt/tarball
 sqlite3:     URL:=https://www.sqlite.org/snapshot/sqlite-snapshot-202109241957.tar.gz
 stow:        URL:=$(GNU)/stow/stow-latest.tar.gz
 svn:         URL:=$(GIT)/apache/subversion/tarball
