@@ -17,7 +17,7 @@ PROGS := \
 	ncurses ninja node nvim \
 	openjdk openssh-hpn openssh openssl \
 	perl pkgconfig python \
-	readline ruby \
+	readline ruby-latest ruby2.6.8 \
 	sed shfmt sqlite3 stow svn \
 	tar texinfo time tmux \
 	wget \
@@ -58,7 +58,7 @@ gmp:         URL:=$(GNU)/gmp/gmp-6.2.1.tar.xz
 grep:        URL:=$(GNU)/grep/grep-3.7.tar.gz
 guile:       URL:=$(GNU)/guile/guile-3.0.8.tar.gz
 gzip:        URL:=$(GNU)/gzip/gzip-1.11.tar.gz
-graphviz:     URL:=$(GIT)/graphp/graphviz/tarball
+graphviz:    URL:=$(GIT)/graphp/graphviz/tarball
 
 inetutils:   URL:=$(GNU)/inetutils/inetutils-2.2.tar.gz
 
@@ -80,7 +80,7 @@ mpfr:        URL:=$(GNU)/mpfr/mpfr-4.1.0.tar.gz
 ncurses:     URL:=$(GNU)/ncurses/ncurses-6.3.tar.gz
 ninja:       URL:=$(GIT)/ninja-build/ninja/tarball
 node:        URL:=https://nodejs.org/dist/v15.17.6/node-v14.17.6.tar.gz
-nvim:	       URL:=$(GIT)/neovim/neovim/tarball CMAKE_BUILD_TYPE=RelWithDebInfo
+nvim:	     URL:=$(GIT)/neovim/neovim/tarball CMAKE_BUILD_TYPE=RelWithDebInfo
 
 openjdk:     URL:=$(GIT)/$(@)/jdk/tarball
 
@@ -93,7 +93,8 @@ pkgconfig:   URL:=https://pkgconfig.freedesktop.org/releases/pkg-config-0.29.2.t
 python:      URL:=$(GIT)/python/cpython/tarball
 
 readline:    URL:=$(GNU)/readline/readline-8.2-alpha.tar.gz
-ruby:        URL:=https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.2.tar.gz
+ruby-latest: URL:=https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.2.tar.gz
+ruby2.6.8:   URL:=https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.8.tar.gz
 
 sed:         URL:=$(GNU)/sed/sed-4.8.tar.gz
 shfmt:       URL:=$(GIT)/shfmt/shfmt/tarball
