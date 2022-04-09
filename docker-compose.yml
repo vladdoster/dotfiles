@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+
+  # a fully loaded development environment to test new code
+  devbox:
+    container_name: devbox
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    image: "vladdoster/devbox"
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    volumes:
+      - ~/devbox:/home/vlad/

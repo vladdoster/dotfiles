@@ -1,10 +1,22 @@
 FROM ubuntu:latest
 
+ARG _USER="vlad"
+ARG _UID="1001"
+ARG _GID="100"
+ARG _SHELL="/usr/local/bin/zsh"
+
+RUN useradd -m -s "${_SHELL}" -N -u "${_UID}" "${_USER}"
+
+ENV USER ${_USER}
+ENV UID ${_UID}
+ENV GID ${_GID}
+ENV HOME /home/${_USER}
+ENV SHELL ${_SHELL}
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN export INITRD=no \
-&& mkdir -p /etc/container_environment \
-&& echo -n no > /etc/container_environment/INITRD
+ && mkdir -p /etc/container_environment \
+ && echo -n no > /etc/container_environment/INITRD
 
 ## Enable Ubuntu Universe, Multiverse, and deb-src for main.
 RUN sed -i 's/^#\s*\(deb.*main restricted\)$/\1/g' /etc/apt/sources.list \
@@ -12,7 +24,6 @@ RUN sed -i 's/^#\s*\(deb.*main restricted\)$/\1/g' /etc/apt/sources.list \
  && sed -i 's/^#\s*\(deb.*multiverse\)$/\1/g' /etc/apt/sources.list \
  && apt-get update
 
-## Fix some issues with APT packages.
 ## See https://github.com/dotcloud/docker/issues/1024
 RUN dpkg-divert --local --rename --add /sbin/initctl \
  && ln -sf /bin/true /sbin/initctl
@@ -47,23 +58,17 @@ RUN locale-gen en_US \
  && echo -n en_US.UTF-8 > /etc/container_environment/LANG \
  && echo -n en_US.UTF-8 > /etc/container_environment/LC_CTYPE
 
-RUN NEWUSER="vlad" \
- && echo "${NEWUSER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
- && adduser \
-   --ingroup root \
-   --shell="$(which zsh)" \
-   --system "${NEWUSER}" \
- && echo "${NEWUSER} ALL=(ALL) ALL" > /etc/sudoers.d/"${NEWUSER}" \
- && chmod 0440 /etc/sudoers.d/${NEWUSER}
+RUN echo "${USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
+ && echo "${USER} ALL=(ALL) ALL" > "/etc/sudoers.d/${USER}" \
+ && chmod 0440 /etc/sudoers.d/"${USER}"
 
-USER vlad
+USER ${USER}
 
-RUN git config --global url."https://github.com/".insteadOf git@github.com: \
- && git config --global url."https://".insteadOf git:// \
- && git clone "git@github.com:vladdoster/dotfiles.git" "${HOME}/.config/dotfiles"
+RUN mkdir ${HOME}/.config \
+ && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
+ && chown -R ${UID}:${GID} ${HOME} \
+ && make -C ${HOME}/.config/dotfiles install \
+ && echo "#!/usr/bin/env zsh" > $HOME/.zshrc
 
-WORKDIR /home/vlad/.config/dotfiles
-
-RUN make
-
-ENTRYPOINT ["zsh"]
+WORKDIR ${HOME}
+CMD ["zsh", "--no-rcs"]

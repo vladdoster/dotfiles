@@ -108,8 +108,4 @@ build-container: ## Build container && install dotfiles
 
 container: build-container ## Run containerized dockerfiles env
 	mkdir -p $$HOME/df-docker-volume || true
-	docker run \
-		--interactive \
-		--tty \
-		--volume $$HOME/df-docker-volume/:/home/vlad \
-		df-ubuntu:latest
+	docker compose up --build
