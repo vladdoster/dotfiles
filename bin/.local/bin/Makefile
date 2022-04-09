@@ -1,6 +1,7 @@
 .DEFAULT_GOAL := help
 .ONESHELL:
 
+# Variables [[[
 GIT=https://api.github.com/repos
 GNU=http://ftpmirror.gnu.org/gnu
 
@@ -32,7 +33,8 @@ PY_PROGS := \
 	isort \
 	mdformat mdformat-gfm mdformat-toc mdformat-config mdformat-black \
 	pynvim
-
+# ]]]
+# Program tarball URLs [[[
 aspell:      URL:=$(GIT)/aspell/aspell/tarball
 autoconf:    URL:=$(GNU)/autoconf/autoconf-2.71.tar.gz
 autogen:     URL:=$(GNU)/autogen/rel5.18.16/autogen-5.18.16.tar.gz
@@ -106,14 +108,15 @@ tar:            URL:=$(GNU)/tar/tar-latest.tar.gz
 terraform-docs: URL:=$(GIT)/$(@)/$(@)/tarball
 texinfo:        URL:=$(GNU)/texinfo/texinfo-6.8.tar.gz
 time:           URL:=$(GNU)/time/time-1.9.tar.gz
-tmux:           URL:=$(GIT)/$(@)/$(@)/tarball
+tmux:           URL:=$(GIT)/tmux/tmux/tarball
 
 wget:           URL:=$(GNU)/wget/wget-latest.tar.gz
 
 yasm:           URL:=$(GIT)/yasm/yasm/tarball
 
 zsh:            URL:=$(GIT)/zsh-users/zsh/tarball
-
+# ]]]
+# Make Targets [[[
 install : $(PROGS)
 go-install : $(GO_PROGS)
 py-install : $(PY_PROGS)
@@ -141,3 +144,6 @@ lua-format-deps:
 	brew install antlr \
 		           antlr4-cpp-runtime \
 							 yaml-cpp
+# ]]]
+
+# vim:ft=zsh:sw=4:sts=4:et:foldmarker=[[[,]]]:foldmethod=marker
