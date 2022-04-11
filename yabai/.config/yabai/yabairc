@@ -4,7 +4,7 @@ function set_opt(){
   yabai -m config "$@"
 }
 
-sudo yabai --load-sa .*/
+sudo yabai --load-sa
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa" .*/
 
 # GLOBAL SETTINGS
@@ -41,7 +41,7 @@ set_opt window_topmost             off
 set_opt layout bsp
 
 # general space settings
-set_opt layout                       bsp
+set_opt layout                       off
 set_opt top_padding                  12
 set_opt bottom_padding               12
 set_opt left_padding                 12

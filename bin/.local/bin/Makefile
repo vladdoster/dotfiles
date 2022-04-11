@@ -13,6 +13,7 @@ PROGS := \
 	findutils \
 	gawk gcc gettext git glib2 glibc gmp grep guile gzip graphviz \
 	inetutils \
+    htop \
 	libevent libffcall libiconv libressl libtool libunistring lua-format lua \
 	m4 macports make mpc mpfr \
 	ncurses ninja node nvim \
@@ -61,6 +62,8 @@ grep:        URL:=$(GNU)/grep/grep-3.7.tar.gz
 guile:       URL:=$(GNU)/guile/guile-3.0.8.tar.gz
 gzip:        URL:=$(GNU)/gzip/gzip-1.11.tar.gz
 graphviz:    URL:=$(GIT)/graphp/graphviz/tarball
+
+htop:        URL:=$(GIT)/htop-dev/htop/tarball
 
 inetutils:   URL:=$(GNU)/inetutils/inetutils-2.2.tar.gz
 

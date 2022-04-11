@@ -165,15 +165,17 @@ alias venv-setup='venv-create && venv-activate && pip-requirements'
 alias get-open-ports='sudo lsof -i -n -P | grep TCP'
 alias ping='ping -c 10'
 #= FILE CREATION =================================
-alias mk-md='{ F_NAME="$(cat -).md"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
-alias mk-py='_mkfile py "python3"'
-alias mk-sh='_mkfile sh "bash"'
-alias mk-txt='{ F_NAME="$(cat -).txt"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
+alias mkmd='{ F_NAME="$(cat -).md"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
+alias mkpy='_mkfile py "python3"'
+alias mksh='_mkfile sh "bash"'
+alias mktxt='{ F_NAME="$(cat -).txt"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
+alias mkzsh='_mkfile zsh "zsh"'
+mkcd(){ mkdir -p -- "$1" && cd -P -- "$1" ;}
 #= FILE FORMATTING ===============================
-alias fmt-lua='_fmt lua "stylua -i"'
-alias fmt-md="_fmt md mdformat"
-alias fmt-py="_fmt py python3 -m black"
-alias fmt-sh='_fmt sh "shfmt -bn -ci -i 4 -ln=bash -s -sr -w"'
+alias fmtlua='_fmt lua "stylua -i"'
+alias fmtmd="_fmt md mdformat"
+alias fmtpy="_fmt py python3 -m black"
+alias fmtsh='_fmt sh "shfmt -bn -ci -i 4 -ln=bash -s -sr -w"'
 #= SYS ===========================================
 alias apt-sys-update="_sys_update 'sudo apt --yes'"
 alias brew-clean="brew cleanup --prune=all"
