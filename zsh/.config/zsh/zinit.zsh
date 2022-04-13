@@ -64,45 +64,31 @@ zi light-mode for \
     zstyle ':prompt:pure:prompt:success' color 'green'" \
   sindresorhus/pure \
   "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','submods','binary-symlink'}
-
-
 # cursor configurations for zsh-vim-mode
-MODE_CURSOR_VICMD="green block"
-MODE_CURSOR_VIINS="#20d08a blinking bar"
-MODE_CURSOR_SEARCH="#ff00ff blinking underline"
-
-# mode configuration for zsh-vim-mode, shown on the right (RPS1 stuff)
-MODE_INDICATOR_VIINS='%F{15}%F{8}INSERT%f'
-MODE_INDICATOR_VICMD='%F{10}%F{2}NORMAL%f'
-MODE_INDICATOR_REPLACE='%F{9}%F{1}REPLACE%f'
-MODE_INDICATOR_VISUAL='%F{12}%F{4}VISUAL%f'
-MODE_INDICATOR_VLINE='%F{12}%F{4}V-LINE%f'
-
+MODE_CURSOR_VICMD="green block";              MODE_CURSOR_VIINS="#20d08a blinking bar"
+MODE_INDICATOR_REPLACE='%F{9}%F{1}REPLACE%f'; MODE_INDICATOR_VISUAL='%F{12}%F{4}VISUAL%f'
+MODE_INDICATOR_VIINS='%F{15}%F{8}INSERT%f';   MODE_INDICATOR_VICMD='%F{10}%F{2}NORMAL%f'
+MODE_INDICATOR_VLINE='%F{12}%F{4}V-LINE%f';   MODE_CURSOR_SEARCH="#ff00ff blinking underline"
 # Make it work with your existing RPS1 if it is set. Note the single quotes
 setopt PROMPT_SUBST
 RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
-export LESS='-RMs'
-export PAGER=less
-export VISUAL=vi
-export LC_COLLATE='C'
-export LC_ALL="en_US.UTF-8"
-export LANG=en_US.UTF-8
 export KEYTIMEOUT=1
-
+export LANG=en_US.UTF-8; export LC_ALL="en_US.UTF-8"; export LC_COLLATE='C'
+export LESS='-RMs'; export PAGER=less; export VISUAL=vi
 #=== GITHUB BINARIES ==================================
-zi ice pip'pip;wheel;setuptools;speedtest-cli;'
+# zi ice pip'pip;wheel;setuptools;speedtest-cli;'
 # mdformat'{'','-config','-gfm','-shfmt','-toc','-web'}';isort;pylint;black'
-zi load "$ZI_REPO"/null
+# zi load "$ZI_REPO"/null
 zi from'gh-r' lbin nocompile for \
   @git-chglog/git-chglog \
-  JohnnyMorganz/StyLua \
+  sbin'**/hyperfine -> hyperfine' @sharkdp/hyperfine \
   dandavison/delta \
   koalaman/shellcheck \
   lbin'* -> shfmt' @mvdan/sh \
   pemistahl/grex \
   r-darwish/topgrade \
-  sbin'**/nvim' ver'nightly' neovim/neovim \
-  sbin'**/stylua' JohnnyMorganz/StyLua \
+  sbin'**/nvim' ver'nightly' bpick'*mac*' neovim/neovim \
+  sbin'**/rg -> rg' @BurntSushi/ripgrep \
   ver'nightly' neovim/neovim \
     atclone'mv completions/exa.zsh _exa' \
     atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
@@ -135,7 +121,6 @@ zi light-mode for \
       FAST_HIGHLIGHT[git-cmsg-len]=100
       zpcompinit; zpcdreplay' \
   $ZI_REPO/fast-syntax-highlighting
-
 # pip zsh completion start
 function _pip_completion {
   local words cword

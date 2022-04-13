@@ -34,7 +34,7 @@ PY_PROGS := \
 	isort \
 	mdformat mdformat-gfm mdformat-toc mdformat-config mdformat-black \
 	pynvim
-# ]]]
+#]]]
 # Program tarball URLs [[[
 aspell:      URL:=$(GIT)/aspell/aspell/tarball
 autoconf:    URL:=$(GNU)/autoconf/autoconf-2.71.tar.gz
@@ -118,8 +118,8 @@ wget:           URL:=$(GNU)/wget/wget-latest.tar.gz
 yasm:           URL:=$(GIT)/yasm/yasm/tarball
 
 zsh:            URL:=$(GIT)/zsh-users/zsh/tarball
-# ]]]
-# Make Targets [[[
+#]]]
+# Targets [[[
 install : $(PROGS)
 go-install : $(GO_PROGS)
 py-install : $(PY_PROGS)
@@ -147,6 +147,6 @@ lua-format-deps:
 	brew install antlr \
 		           antlr4-cpp-runtime \
 							 yaml-cpp
-# ]]]
+#]]]
 
 # vim:ft=zsh:sw=4:sts=4:et:foldmarker=[[[,]]]:foldmethod=marker

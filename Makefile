@@ -1,11 +1,13 @@
 .DEFAULT_GOAL := install
 .ONESHELL:
 
+# Variables [[[
 CONFIGS:= hammerspoon neovim
 GH_URL=https://github.com/vladdoster
 hammerspoon: destination:=$$HOME/.hammerspoon
 neovim: destination:=$$HOME/.config/nvim
-
+#]]]
+# Targets [[[
 help: ## Display all Makfile targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	| sort \
@@ -109,3 +111,6 @@ build-container: ## Build container && install dotfiles
 container: build-container ## Run containerized dockerfiles env
 	mkdir -p $$HOME/df-docker-volume || true
 	docker compose up --build
+# ]]]
+
+# vim:ft=zsh:sw=4:sts=4:et:foldmarker=[[[, ]]]:foldmethod=marker

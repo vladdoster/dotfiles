@@ -20,9 +20,12 @@ case $OSTYPE in
               # export PKG_CONFIG_PATH="/usr/local/opt/python@3.7/lib/pkgconfig"
               # export LDFLAGS="-L/usr/local/opt/node@14/lib"
               # export CPPFLAGS="-I/usr/local/opt/node@14/include"
+              export CPPFLAGS="-I/usr/local/opt/ruby@3.0/include"
+              export LDFLAGS="-L/usr/local/opt/ruby@3.0/lib"
               export PATH="/usr/local/opt/llvm/bin:$PATH"
               export PATH="/usr/local/opt/node@14/bin:$PATH"
               export PATH="/usr/local/opt/python@3.7/bin:$PATH"
+              export PATH="/usr/local/opt/ruby@3.0/bin:$PATH"
               ;;
         esac
     ;;
