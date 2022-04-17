@@ -53,4 +53,4 @@ setopt AUTO_PARAM_SLASH # If completed parameter is a directory, add a trailing 
 setopt COMPLETE_IN_WORD # Complete from both ends of a word.
 setopt EXTENDED_GLOB    # Needed for file modification glob modifiers with compinit.
 setopt MENU_COMPLETE    # Do not autoselect the first completion entry.
-setopt PATH_DIRS        # Perform path search even on command names with slashes.
+setopt PATH_DIRS        # Perform path search even on command names with slashes.        # Perform path search even on command names with slashes.

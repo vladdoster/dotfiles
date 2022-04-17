@@ -17,6 +17,7 @@ ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
 ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets
 ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump    ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
 ZI_FORK='vladdoster'; ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githubusercontent.com'
+
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'downloading zinit' \
   && command git clone \
@@ -79,17 +80,16 @@ export LESS='-RMs'; export PAGER=less; export VISUAL=vi
 # zi ice pip'pip;wheel;setuptools;speedtest-cli;'
 # mdformat'{'','-config','-gfm','-shfmt','-toc','-web'}';isort;pylint;black'
 # zi load "$ZI_REPO"/null
-zi from'gh-r' lbin nocompile for \
+zi from'gh-r' lbin nocompile light-mode for \
+  @BurntSushi/ripgrep \
   @git-chglog/git-chglog \
-  sbin'**/hyperfine -> hyperfine' @sharkdp/hyperfine \
+  @sharkdp/hyperfine \
   dandavison/delta \
   koalaman/shellcheck \
-  lbin'* -> shfmt' @mvdan/sh \
   pemistahl/grex \
   r-darwish/topgrade \
-  sbin'**/nvim' ver'nightly' bpick'*mac*' neovim/neovim \
-  sbin'**/rg -> rg' @BurntSushi/ripgrep \
-  ver'nightly' neovim/neovim \
+  lbin'* -> shfmt' @mvdan/sh \
+  lbin'**/nvim' ver'nightly' neovim/neovim \
     atclone'mv completions/exa.zsh _exa' \
     atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
   ogham/exa \
