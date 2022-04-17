@@ -1,3 +1,35 @@
+# [1.16.0](https://github.com/vladdoster/dotfiles/compare/v1.15.0...v1.16.0) (2022-04-17)
+
+
+### feat
+
+* add vim script (vim 8) configuration ([ec9b676](https://github.com/vladdoster/dotfiles/commit/ec9b6761f96e69f4fad62edb29b3311a8d04c629))
+* add vimrc ([24e95c5](https://github.com/vladdoster/dotfiles/commit/24e95c50d2d3abde79d42e456f25d6692b5b7e58))
+* fix zsh related config ([447cac3](https://github.com/vladdoster/dotfiles/commit/447cac37d7d1b9b82f5a0fa5eb97b15c6dc7f008))
+* fix zshenv ([505a66f](https://github.com/vladdoster/dotfiles/commit/505a66f2a46d459d9fb2266be117d40fa196dd70))
+
+### fix
+
+* Docker volume permissions && use docker compose ([329631d](https://github.com/vladdoster/dotfiles/commit/329631d23835f3a218ac672bb79de98bfe16a9cf))
+* remove zsh cruft ([7b50aef](https://github.com/vladdoster/dotfiles/commit/7b50aef1f3454022a44d1170ba6971a4e0132cea))
+* rm duplicate vimrc and clean up zinit.zsh ([2c275d5](https://github.com/vladdoster/dotfiles/commit/2c275d51bd81acf3e9faf874181f5cf6b77df17b))
+* use zunit test branch ([3a8732a](https://github.com/vladdoster/dotfiles/commit/3a8732a10c68053945fbb69a65f90b94ca466bc2))
+
+### maint
+
+* add ruby 2.6.8 and fix URL spacing ([087a9df](https://github.com/vladdoster/dotfiles/commit/087a9dfb6480bfdca9600062aaf4f02fd5e8eee3))
+* fix ices for zi-programs.zsh ([e474164](https://github.com/vladdoster/dotfiles/commit/e474164e1bdb17b97ba1c93a8514c9eba1382a86))
+* make zsh target phony && shfmt source URL ([3c06d46](https://github.com/vladdoster/dotfiles/commit/3c06d46057533c34c8d8f7773b2bf72853d2948c))
+
+### style
+
+* add vim fold markers ([608ca15](https://github.com/vladdoster/dotfiles/commit/608ca156275a511b3d9e05ded4b21d508dd34974))
+
+### update
+
+* add vim fold markers to bin Makefile ([d483436](https://github.com/vladdoster/dotfiles/commit/d48343659a38fd4aaa8fcd13b2fb4c7382092252))
+* yabai config fleshed out ([36569b6](https://github.com/vladdoster/dotfiles/commit/36569b62c41b67e9a51b07c5daa0513f0a7962d0))
+
 # [1.15.0](https://github.com/vladdoster/dotfiles/compare/v1.14.0...v1.15.0) (2022-04-04)
 
 
