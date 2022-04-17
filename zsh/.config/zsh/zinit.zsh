@@ -7,8 +7,8 @@
 # have a feature request, or a question. A zinit-continuum configuration for
 # macOS and Linux.
 #=== HELPER METHODS ===================================
-function error() { print -P "%F{160}[ERROR] ---%f%b $1" >&2 && exit 1; }
-function info() { print -P "%F{34}[INFO] ---%f%b $1"; }
+function error() { print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && return 1 }
+function info() { print -P "%F{blue}[INFO]%f: %F{cyan}$1%f"; }
 #=== ZINIT ============================================
 #    --branch 'refactor/zunit-tests' \
 typeset -gAH ZINIT;
@@ -24,17 +24,21 @@ if [[ ! -e $ZINIT[BIN_DIR] ]]; then
     --branch 'refactor/zunit-tests' \
     https://github.com/$ZI_REPO/zinit.git \
     $ZINIT[BIN_DIR] \
-  || error 'unable to clone zinit repository' \
-  && info 'installing zinit' \
+  || error 'failed to clone zinit repository' \
+  && info 'setting up zinit' \
   && command chmod g-rwX $ZINIT[HOME_DIR] \
   && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
-  && info 'successfully installed zinit' \
-  || error 'unable to install zinit'
+  && info 'sucessfully installed zinit'
 fi
-source $ZINIT[BIN_DIR]/zinit.zsh \
-  && autoload -Uz _zinit \
-  && (( ${+_comps} )) \
-  && _comps[zinit]=_zinit
+if [[ -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
+  source $ZINIT[BIN_DIR]/zinit.zsh \
+    && autoload -Uz _zinit \
+    && (( ${+_comps} )) \
+    && _comps[zinit]=_zinit
+else
+  error "unable to find 'zinit.zsh'"
+  return 1
+fi
 #=== ZSH BINARY =======================================
 zi for \
     as"null" \
@@ -81,7 +85,7 @@ export LESS='-RMs'; export PAGER=less; export VISUAL=vi
 # mdformat'{'','-config','-gfm','-shfmt','-toc','-web'}';isort;pylint;black'
 # zi load "$ZI_REPO"/null
 zi from'gh-r' lbin nocompile light-mode for \
-  @BurntSushi/ripgrep \
+  sbin'**/rg* -> rg' @BurntSushi/ripgrep \
   @git-chglog/git-chglog \
   @sharkdp/hyperfine \
   dandavison/delta \
@@ -89,7 +93,7 @@ zi from'gh-r' lbin nocompile light-mode for \
   pemistahl/grex \
   r-darwish/topgrade \
   lbin'* -> shfmt' @mvdan/sh \
-  lbin'**/nvim' ver'nightly' neovim/neovim \
+  sbin'**/nvim' ver'nightly' neovim/neovim \
     atclone'mv completions/exa.zsh _exa' \
     atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
   ogham/exa \
