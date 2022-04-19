@@ -1,3 +1,14 @@
+# [1.17.0](https://github.com/vladdoster/dotfiles/compare/v1.16.0...v1.17.0) (2022-04-19)
+
+
+### feat
+
+* clone personal repos via `https://vdoster/${REPO_NAME}` ([d62dfc6](https://github.com/vladdoster/dotfiles/commit/d62dfc6acfddcda51ac2207052e98311b9f357d4))
+
+### style
+
+* add vim modeline and fold markers ([ba26119](https://github.com/vladdoster/dotfiles/commit/ba2611992d4539232e9142f134b651753c7c67e3))
+
 # [1.16.0](https://github.com/vladdoster/dotfiles/compare/v1.15.0...v1.16.0) (2022-04-17)
 
 
