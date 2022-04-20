@@ -7,27 +7,22 @@
 # you find a bug, have a feature request, or a question.
 #
 # SYSTEM SPECIFIC <<
-print -P "%F{blue}[INFO]%f: %F{cyan} ${OSTYPE} ($(arch)) detected %f"
+print -P "%F{blue}[INFO]%f: %F{cyan} ${OSTYPE} ($(uname -m)) detected %f"
 case "${OSTYPE}" in
   darwin*)
-    case $(arch) in
-      arm*)
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-        export PATH="/Library/Frameworks/Python.framework/Versions/3.9/bin:${PATH}"
-        export PATH="/opt/homebrew/bin:${PATH}"
-        export PATH="/opt/homebrew/opt:$PATH"
-        export PATH="/opt/homebrew/sbin:${PATH}"
+    case $(uname -m) in
+      arm64) eval "$(/opt/homebrew/bin/brew shellenv)"
+             export PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
         ;;
-      x86_64)
-        eval "$(/usr/local/bin/brew shellenv)"
-        ;;
+     x86_64) eval "$(/usr/local/bin/brew shellenv)" ;;
     esac
     ;;
-  linux*) eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" ;;
-  *) print -P "%F{red}[WARNING]%f:%F{yellow} ${OSTYPE} is unsupported %f"
-      ;;
+   linux*) eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" ;;
+        *) print -P "%F{red}[WARNING]%f:%F{yellow} ${OSTYPE} is unsupported %f" ;;
 esac # >>
 # RESERVED VARIABLES <<
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 (( ${+HOSTNAME} )) || export HOSTNAME="$HOST"
 (( ${+LANGUAGE} )) || export LANGUAGE="$LANG"
 (( ${+USER}   )) || export USER="$USERNAME"
@@ -47,22 +42,9 @@ export VIMDOTDIR="$XDG_CONFIG_HOME"/vim
 export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
 # >>
 # ENV VARIABLES <<
-export CGO_ENABLED=1
-export COMPOSE_DOCKER_CLI_BUILD=1
-
 export DISABLE_MAGIC_FUNCTIONS=true
-export DOCKER_BUILDKIT=1
-
-export HOMEBREW_INSTALL_FROM_API=0
 export HOMEBREW_NO_ENV_HINTS=1
-
 export KEYTIMEOUT=1
-
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-
-export PYTHONWARNINGS="ignore"
-
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1  # make prompt faster
 # >>
 # PATH <<

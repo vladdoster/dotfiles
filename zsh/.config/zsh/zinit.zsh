@@ -41,18 +41,25 @@ fi
 #     atinit'export PATH="/Users/anonymous/.local/bin:$PATH"' \
 #     atpull"%atclone" depth"1" lucid nocompile nocompletions \
 #   @romkatv/zsh-bin
-      # && sudo mv /bin/{"zsh","$zsh.bak"} \
-      # && print -P "%F{blue}[INFO]%f: %F{cyan} Moved pre-existing Zsh to /bin/zsh.bak %f" \
-zi for as'null' atclone'
-      print -P "%F{blue}[INFO]%f: %F{cyan}Building Zsh %f" \
-      && autoreconf --force --install --make || ./Util/preconfig \
-      && print -P "%F{blue}[INFO]%f: %F{cyan} Installing Zsh to /bin directory %f" \
-      && CFLAGS="-g -O3" ./configure --prefix=/usr/local \
-      && sudo make -j8 install \
-      && print -P "%F{blue}[INFO]%f: %F{green} Successfully built & installed $(/bin/zsh --version) %f" \
-      || print -P "%F{red}[ERROR]%f: %F{yellow} Failed to build & install Zsh %f"' \
-    atpull'%atclone' nocompile \
-  zsh-users/zsh
+# zi for
+#     as'null' atclone'
+#       {
+#         print -P "%F{blue}[INFO]%f:%F{cyan}Building Zsh %f" \
+#         && autoreconf --force --install --make || ./Util/preconfig \
+#         && CFLAGS="-g -O3" ./configure --prefix=/usr/local >/dev/null \
+#         && print -P "%F{blue}[INFO]%f:%F{cyan} Configured Zsh %f" \
+#         && make -j8 PREFIX=/usr/local >/dev/null || make \
+#         && print -P "%F{blue}[INFO]%f:%F{green} Compiled Zsh %f" \
+#         && sudo make -j8 install >/dev/null || make \
+#         && print -P "%F{blue}[INFO]%f:%F{green} Installed $(/usr/local/bin/zsh --version) @ /usr/local/bin/zsh %f" \
+#         && print -P "%F{blue}[INFO]%f:%F{green} Adding /usr/local/bin/zsh to /etc/shells %f" \
+#         sudo sh -c "echo /usr/bin/local/zsh >> /etc/shells" \
+#         && print -P "%F{blue}[INFO]%f: To update your shell, run: %F{cyan} chsh --shell /usr/local/bin/zsh $USER %f"
+#       } || {
+#         print -P "%F{red}[ERROR]%f:%F{yellow} Failed to install Zsh %f"
+#       }' \
+#     atpull'%atclone' nocompile \
+#   zsh-users/zsh
 # ]]]
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================[[[
 zi for compile \
