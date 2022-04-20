@@ -43,7 +43,7 @@ brew-bundle: ## Install programs defined in $HOME/.config/dotfiles/Brewfile
 
 brew-fix: ## Re-install Homebrew taps homebrew-core & homebrew-cask
 	$(info --- adding git remote to origin)
-	git -C "/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core" prune origin
+	git -C "/opt/homebrew/Library/Taps/homebrew/homebrew-core" prune origin
 	git -C "/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core" remote remove origin
 	git -C "/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core" remote add origin https://github.com/Homebrew/homebrew-core
 	brew tap homebrew/core

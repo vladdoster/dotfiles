@@ -8,7 +8,7 @@
 #]]]
 # Core [[[
 [core]
-    autocrlf     = false
+	autocrlf = false
     editor       = nvim
     eol          = lf
     excludesfile = ~/.config/git/ignore
@@ -63,8 +63,8 @@
 #]]]
 # homebrew [[[
 [homebrew]
-analyticsmessage = true
-caskanalyticsmessage = true
+	analyticsmessage = true
+	caskanalyticsmessage = true
 #]]]
 # http(s) [[[
 [http]

@@ -1,50 +1,45 @@
-#!/usr/bin/env bash
-
-function set_opt() {
-  yabai -m config "$@"
-}
+#!/usr/bin/env sh
+#sudo yabai --load-sa
+#yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+#
+#
+#
+#yabai -m config window_border on
+#yabai -m config window_border_width 6
+#yabai -m config active_window_border_color 0xffff0000
 
 sudo yabai --load-sa
-yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa" .*/
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 
-# GLOBAL SETTINGS
-set_opt active_window_border_color 0xffff0000
-set_opt active_window_opacity 1.0
-
-set_opt auto_balance off
-
-set_opt focus_follows_mouse on
-
-set_opt insert_feedback_color 0xffd75f5f
-
-set_opt mouse_action1 move
-set_opt mouse_action2 resize
-set_opt mouse_drop_action swap
-set_opt mouse_follows_focus off
-set_opt mouse_modifier fn
-
-set_opt normal_window_border_color 0xff555555
-set_opt normal_window_opacity 0.90
-
-set_opt split_ratio 0.50
-
-set_opt window_border on
-set_opt window_border_width 6
-set_opt window_border_width 6
-set_opt window_opacity off
-set_opt window_opacity_duration 0.0
-set_opt window_origin_display default
-set_opt window_placement second_child
-set_opt window_shadow on
-set_opt window_topmost off
-
-set_opt layout bsp
+# global settings
+yabai -m config mouse_follows_focus          off
+yabai -m config focus_follows_mouse          off
+yabai -m config window_origin_display        default
+yabai -m config window_placement             second_child
+yabai -m config window_topmost               off
+yabai -m config window_shadow                on
+yabai -m config window_opacity               off
+yabai -m config window_opacity_duration      0.0
+yabai -m config active_window_opacity        1.0
+yabai -m config normal_window_opacity        0.90
+yabai -m config window_border                off
+yabai -m config window_border_width          6
+yabai -m config active_window_border_color   0xff775759
+yabai -m config normal_window_border_color   0xff555555
+yabai -m config insert_feedback_color        0xffd75f5f
+yabai -m config split_ratio                  0.50
+yabai -m config auto_balance                 off
+yabai -m config mouse_modifier               fn
+yabai -m config mouse_action1                move
+yabai -m config mouse_action2                resize
+yabai -m config mouse_drop_action            swap
 
 # general space settings
-set_opt top_padding 12
-set_opt bottom_padding 12
-set_opt left_padding 12
-set_opt right_padding 12
-set_opt window_gap 06
+yabai -m config layout                       bsp
+yabai -m config top_padding                  12
+yabai -m config bottom_padding               12
+yabai -m config left_padding                 12
+yabai -m config right_padding                12
+yabai -m config window_gap                   06
 
-echo "--- yabai configuration loaded.."
+echo "yabai configuration loaded.."

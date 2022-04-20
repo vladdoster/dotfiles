@@ -36,11 +36,23 @@ else error "unable to find 'zinit.zsh'" && return 1
 fi
 # ]]]
 #=== ZSH BINARY =======================================[[[
-zi for \
-    as"null" atclone"./install -e no -d ~/.local" \
-    atinit'export PATH="/Users/anonymous/.local/bin:$PATH"' \
-    atpull"%atclone" depth"1" lucid nocompile nocompletions \
-  @romkatv/zsh-bin
+# zi for \
+#     as"null" atclone"./install -e no -d ~/.local" \
+#     atinit'export PATH="/Users/anonymous/.local/bin:$PATH"' \
+#     atpull"%atclone" depth"1" lucid nocompile nocompletions \
+#   @romkatv/zsh-bin
+      # && sudo mv /bin/{"zsh","$zsh.bak"} \
+      # && print -P "%F{blue}[INFO]%f: %F{cyan} Moved pre-existing Zsh to /bin/zsh.bak %f" \
+zi for as'null' atclone'
+      print -P "%F{blue}[INFO]%f: %F{cyan}Building Zsh %f" \
+      && autoreconf --force --install --make || ./Util/preconfig \
+      && print -P "%F{blue}[INFO]%f: %F{cyan} Installing Zsh to /bin directory %f" \
+      && CFLAGS="-g -O3" ./configure --prefix=/usr/local \
+      && sudo make -j8 install \
+      && print -P "%F{blue}[INFO]%f: %F{green} Successfully built & installed $(/bin/zsh --version) %f" \
+      || print -P "%F{red}[ERROR]%f: %F{yellow} Failed to build & install Zsh %f"' \
+    atpull'%atclone' nocompile \
+  zsh-users/zsh
 # ]]]
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================[[[
 zi for compile \
@@ -74,7 +86,10 @@ MODE_INDICATOR_VLINE='%F{12}%F{4}V-LINE%f';   MODE_CURSOR_SEARCH="#ff00ff blinki
 setopt PROMPT_SUBST;  export KEYTIMEOUT=1 export LANG=en_US.UTF-8; export LC_ALL="en_US.UTF-8";
 export LC_COLLATE='C' export LESS='-RMs'; export PAGER=less;       export VISUAL=vi
 RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
-# ]]]]]]
+# ]]]
+#=== ANNEXES ===========================================[[[
+zi for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
+# ]]]
 #=== GITHUB BINARIES ==================================[[[
 # zi ice pip'pip;wheel;setuptools;speedtest-cli;'
 # mdformat'{'','-config','-gfm','-shfmt','-toc','-web'}';isort;pylint;black'
@@ -87,14 +102,13 @@ zi from'gh-r' lbin nocompile light-mode for \
   koalaman/shellcheck \
   pemistahl/grex \
   r-darwish/topgrade \
-  lbin'**/bin/mas' mas-cli/mas \
   lbin'* -> shfmt' @mvdan/sh \
   sbin'**/nvim' ver'nightly' neovim/neovim \
     atclone'mv completions/exa.zsh _exa' \
     atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
-  ogham/exa \
-  from'gh-r' nocompile junegunn/fzf \
-  is-snippet https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
+  ogham/exa
+zi from'gh-r' sbin'fzf' for junegunn/fzf
+zi light-mode is-snippet for https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 # ]]]
 #=== TESTING ==========================================[[[
 zi as'program' for \
@@ -133,4 +147,4 @@ function _pip_completion {
 compctl -K _pip_completion pip3
 # ]]]
 
-# vim:ft=zsh:sw=4:sts=4:et:foldmarker=[[[,]]]:foldmethod=marker
+# vim:ft=zsh:sw=2:sts=2:et:foldmarker=[[[,]]]:foldmethod=marker

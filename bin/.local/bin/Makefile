@@ -35,7 +35,7 @@ PY_PROGS := \
 	mdformat mdformat-gfm mdformat-toc mdformat-config mdformat-black \
 	pynvim
 #]]]
-# Program tarball URLs [[[
+# Program tarball URLs
 aspell:      URL:=$(GIT)/aspell/aspell/tarball
 autoconf:    URL:=$(GNU)/autoconf/autoconf-2.71.tar.gz
 autogen:     URL:=$(GNU)/autogen/rel5.18.16/autogen-5.18.16.tar.gz
@@ -118,7 +118,8 @@ wget:           URL:=$(GNU)/wget/wget-latest.tar.gz
 yasm:           URL:=$(GIT)/yasm/yasm/tarball
 
 zsh:            URL:=$(GIT)/zsh-users/zsh/tarball
-#]]]
+
+#
 # Targets [[[
 install : $(PROGS)
 go-install : $(GO_PROGS)
