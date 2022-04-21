@@ -63,7 +63,7 @@ fi
 # ]]]
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================[[[
 zi for compile \
-  OMZL::{'clipboard','compfix','completion','git','grep','key-bindings','termsupport'}.zsh \
+  OMZL::{'clipboard','compfix','completion','git','grep','key-bindings'}.zsh \
   OMZP::{'brew'} \
   PZT::modules/{'history','rsync'}
 # ]]]
