@@ -2,97 +2,93 @@
 .ONESHELL:
 
 help: ## Display all Makfile targets[[[
-    @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
-    | sort \
-    | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-# ]]]
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
+	| sort \
+	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-CONFIGS:= hammerspoon neovim# [[[
+CONFIGS:= hammerspoon neovim
 GH_URL=https://github.com/vladdoster
 hammerspoon: destination:=$$HOME/.hammerspoon
-neovim: destination:=$$HOME/.config/nvim# ]]]
+neovim: destination:=$$HOME/.config/nvim
 
 $(CONFIGS): ## Clone a program's configuration repository[[[
-    $(info --- did not found $(@) config, fetching..)
-    git clone --progress --quiet $(GH_URL)/$@-configuration $(destination)# ]]]
+	$(info --- did not found $(@) config, fetching..)
+	git clone --progress --quiet $(GH_URL)/$@-configuration $(destination)# ]]]
 
 install: | clean neovim ## Deploy dotfiles via GNU install[[[
-    find * -maxdepth 0 -type d -exec stow --verbose 1 {} --target $$HOME \; # ]]]
+	find * -maxdepth 0 -type d -exec stow --verbose 1 {} --target $$HOME \; # ]]]
 
-brew-install: ## Install Homebrew[[[
-    @/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" # ]]]
+brew-install: ## Install Homebrew
+	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 brew-uninstall: ## Uninstall Homebrew[[[
-    @/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)" # ]]]
+	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)" # ]]]
 
-brew-bundle: ## Install programs defined in $HOME/.config/dotfiles/Brewfile[[[
-    @brew bundle --zap --cleanup --force --file "$$PWD"/Brewfile# ]]]
+brew-bundle: ## Install programs defined in $HOME/.config/dotfiles/Brewfile
+	@brew bundle --cleanup --file Brewfile --force --no-lock --zap
 
-linuxbrew-fix: ## Re-install Linuxbrew taps homebrew-core & homebrew-cask[[[
-    $(info --- adding git remote to origin)
-    @git -C "/home/linuxbrew/.linuxbrew/Homebrew" remote add origin https://github.com/Homebrew/brew
-    brew tap homebrew/core homebrew/cask # ]]]
+linuxbrew-fix: ## Re-install Linuxbrew taps homebrew-core & homebrew-cask
+	$(info --- adding git remote to origin)
+	@git -C "/home/linuxbrew/.linuxbrew/Homebrew" remote add origin https://github.com/Homebrew/brew
+	brew tap homebrew/core homebrew/cask
 
-rust-install: ## Install Rust & Cargo pkg manager via Rustup[[[
-    @curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh# ]]]
+rust-install: ## Install Rust & Cargo pkg manager via Rustup
+	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-rust-uninstall: ## Uninstall Rust via rustup utility[[[
-    @rustup self uninstall# ]]]
+rust-uninstall: ## Uninstall Rust via rustup utility
+	@rustup self uninstall
 
 all-prog: py-prog rust-prog ## Install Python & Rust programs
-pip-update: ## Update Python3 packages[[[
-    @pip3 list --user \
-        | cut -d" " -f 1 \
-        | tail -n +3 \
-    | xargs pip3 install \
-        --user \
-        --upgrade \
-        --trusted-host pypi.org \
-        --trusted-host files.pythonhosted.org # ]]]
+pip-update: ## Update Python3 packages
+	@pip3 list --user \
+			| cut -d" " -f 1 \
+			| tail -n +3 \
+	| xargs pip3 install \
+			--user \
+			--upgrade \
+			--trusted-host pypi.org \
+			--trusted-host files.pythonhosted.org
 
-py-prog: ## Install Python dependencies[[[
-    @python3 -m pip install --upgrade pip
-    @python3 -m pip install \
-        --upgrade --trusted-host pypi.org --trusted-host files.pythonhosted.org \
-        autopep8 \
-        black bpytop \
-        flake8 \
-        isort \
-        mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables \
-        pynvim
-    $(info --- py packages installed) # ]]]
+py-prog: ## Install Python dependencies
+	@python3 -m pip install --upgrade pip
+	@python3 -m pip install --upgrade --trusted-host pypi.org --trusted-host files.pythonhosted.org \
+		autopep8 \
+		black bpytop \
+		flake8 \
+		isort \
+		mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables \
+		pynvim
+	$(info --- py packages installed)
 
-rust-prog: ## Install programs via rust[[[
-	cacargo install \
-        bat \
-        cargo-update \
-        exa \
-        topgrade # ]]]
+rust-prog: ## Install programs via rust
+	cargo install \
+		bat \
+		cargo-update \
+		exa \
+		topgrade
 
-stow: ## Install GNU stow[[[
-    $(info --- installing GNU stow)
-    git clone https://github.com/aspiers/stow
-    pushd stow && autoreconf -iv && ./configure --prefix $$PWD && make install && popd
-    rm -rf stow
-    $(info --- installed GNU stow) # ]]]
+stow: ## Install GNU stow
+	$(info --- installing GNU stow)
+	git clone https://github.com/aspiers/stow
+	pushd stow && autoreconf -iv && ./configure --prefix $$PWD && make install && popd
+	rm -rf stow
+	$(info --- installed GNU stow)
 
-build-container: ## Build container && install dotfiles[[[
-    docker buildx build \
-        --tag df-ubuntu:latest \
-        $$PWD
-        $(info --- built df container) # ]]]
+build-container: ## Build container && install dotfiles
+	docker buildx build \
+		--tag df-ubuntu:latest \
+		$$PWD
+	$(info --- built df container)
 
-container: build-container ## Run containerized dockerfiles env[[[
-    mkdir -p $$HOME/df-docker-volume || true
-    docker compose up --build # ]]]
+container: build-container ## Run containerized dockerfiles env
+	mkdir -p $$HOME/df-docker-volume || true
+	docker compose up --build
 
 .SILENT: clean
-clean: ## Remove deployed dotfiles[[[
-    find "$$PWD" -type f -name "*.DS_Store" -print -delete
-    $(info --- cleaned .DS_Store files)
-    find * -maxdepth 0 -type d -exec stow --verbose 1 --target $$HOME --delete {} \;
-    $(info --- removed linked dotfiles)
-    rm -rf $HOME/{.cache,.config/nvim/lua/packer_compiled.lua,.local/share/nvim}
-    $(info --- removed files generated by nvim & zsh) # ]]]
-
-# vim:ft=make:sw=2:sts=2:et:foldmarker=[[[,]]]:foldmethod=marker
+clean: ## Remove deployed dotfiles
+	find "$$PWD" -type f -name "*.DS_Store" -print -delete
+	$(info --- cleaned .DS_Store files)
+	find * -maxdepth 0 -type d -exec stow --verbose 1 --target $$HOME --delete {} \;
+	$(info --- removed linked dotfiles)
+	rm -rf $HOME/{.cache,.config/nvim/lua/packer_compiled.lua,.local/share/nvim}
+	$(info --- removed files generated by nvim & zsh)
