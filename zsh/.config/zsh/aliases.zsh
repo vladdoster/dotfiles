@@ -114,16 +114,16 @@ alias nvopt="_edit $XDG_CONFIG_HOME/nvim/lua/core/options.lua"
 alias nvplg="_edit $XDG_CONFIG_HOME/nvim/lua/plugins/init.lua"
 alias sshrc="_edit $HOME/.ssh/config"
 alias tmuxrc="_edit $XDG_CONFIG_HOME/tmux/tmux.conf"
-alias zec="_edit $HOME/.zshenv"
-alias zic="_edit $ZDOTDIR/zinit.zsh"
-alias zsc="_edit $ZDOTDIR/.zshrc"
+alias zec="_edit ${HOME}/.zshenv"
+alias zic="_edit ${ZDOTDIR}/zinit.zsh"
+alias zsc="_edit ${ZDOTDIR}/.zshrc"
 #= RELOAD COMMANDS ===============================
 alias zcln="rm -fr ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
-alias zreset="zd && zcln && zrld"
-alias zrld="clear && exec zsh && clear"
+alias zreset="pushd ${HOME} && zcln && zrld"
+alias zrld="exec zsh"
 #= DIRECTORY SHORTCUTS ===========================
-CODE_DIR="${HOME:-~}"/code
-mkdir -p $CODE_DIR || true
+CODE_DIR="${HOME:-~}/code"
+! [[ -d "$CODE_DIR" ]] && mkdir -p "${CODE_DIR}"
 alias bin="_goto $HOME/.local/bin"
 alias c="_goto $CODE_DIR"
 alias cfg="_goto $XDG_CONFIG_HOME"
@@ -134,10 +134,10 @@ alias installers="_goto $HOME/.local/bin/installers"
 alias rr='_goto $(git rev-parse --show-toplevel)'
 alias share="_goto $HOME/.local/share"
 alias vd="_goto $XDG_CONFIG_HOME/nvim"
+alias zclnplg="rm -rf $XDG_DATA_HOME/zsh/zinit/plugins"
 alias zd="_goto $ZDOTDIR"
 alias zid="_goto $XDG_DATA_HOME/zsh/zinit"
 alias zigd="_goto $XDG_DATA_HOME/zsh/zinit/zinit.git"
-alias zclnplg="rm -rf $XDG_DATA_HOME/zsh/zinit/plugins"
 alias zinstall="_edit $XDG_DATA_HOME/zsh/zinit/zinit.git/zinit-install.zsh"
 #= GIT ===========================================
 alias g-submodule-update='git submodule update --merge --remote'
@@ -154,10 +154,10 @@ alias get-my-ip='curl ifconfig.co'
 alias scratch='$EDITOR $(mktemp -t scratch.XXX.md)'
 alias ps-grep="ps aux | grep -v grep | grep -i -e VSZ -e"
 #= PYTHON ========================================
-alias p='python3'
-alias ppip='python3 -m pip'
 alias http-serve='python3 -m http.server'
+alias p='python3'
 alias pip-requirements='pip3 install -r requirements.txt || _error "no requirements.txt found"'
+alias ppip='python3 -m pip'
 alias venv-activate='source ./.venv/bin/activate'
 alias venv-create='python3 -m venv ./.venv'
 alias venv-setup='venv-create && venv-activate && pip-requirements'
@@ -177,12 +177,12 @@ alias fmtmd="_fmt md mdformat"
 alias fmtpy="_fmt py python3 -m black"
 alias fmtsh='_fmt sh "shfmt -bn -ci -i 4 -ln=bash -s -sr -w"'
 #= SYS ===========================================
+#= REMOTE =========================================
 alias apt-sys-update="_sys_update 'sudo apt --yes'"
 alias brew-clean="brew cleanup --prune=all"
 alias brew-reset="brew update-reset"
 alias brew-sys-update="brew upgrade --greedy --force"
 alias yum-sys-update="_sys_update 'sudo yum -y'"
-#= REMOTE =========================================
 cp-to-devcloud() { rsync -a -z -P $(readlink "$1") devcloud:~/$(basename "$1"); }
 alias cp-devcloud="cp-to-devcloud"
 alias cp-dotfiles="rsync -azP $XDG_CONFIG_HOME/dotfiles/ devcloud:~/dotfiles"
