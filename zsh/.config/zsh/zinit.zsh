@@ -36,25 +36,23 @@ else error "unable to find 'zinit.zsh'" && return 1
 fi
 # ]]]
 #=== ZSH BINARY =======================================[[[
-# zi for \
-#     as"null" atclone"./install -e no -d ~/.local" \
-#     atinit'export PATH="/Users/anonymous/.local/bin:$PATH"' \
-#     atpull"%atclone" depth"1" lucid nocompile nocompletions \
+# zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null"
+#     atclone"./install -e no -d ~/.local" atinit'export PATH="/Users/anonymous/.local/bin:$PATH"' \
 #   @romkatv/zsh-bin
-zi for atpull'%atclone' nocompile as'null' atclone'
-    { print -P "%F{blue}[INFO]%f:%F{cyan}Building Zsh %f" \
-      && autoreconf --force --install --make || ./Util/preconfig \
-      && CFLAGS="-g -O3" ./configure --prefix=/usr/local >/dev/null \
-      && print -P "%F{blue}[INFO]%f:%F{cyan} Configured Zsh %f" \
-      && make -j8 PREFIX=/usr/local >/dev/null || make \
-      && print -P "%F{blue}[INFO]%f:%F{green} Compiled Zsh %f" \
-      && sudo make -j8 install >/dev/null || make \
-      && print -P "%F{blue}[INFO]%f:%F{green} Installed $(/usr/local/bin/zsh --version) @ /usr/local/bin/zsh %f" \
-      && print -P "%F{blue}[INFO]%f:%F{green} Adding /usr/local/bin/zsh to /etc/shells %f" \
-      sudo sh -c "echo /usr/bin/local/zsh >> /etc/shells" \
-      && print -P "%F{blue}[INFO]%f: To update your shell, run: %F{cyan} chsh --shell /usr/local/bin/zsh $USER %f"
-    } || { print -P "%F{red}[ERROR]%f:%F{yellow} Failed to install Zsh %f" }' \
-  zsh-users/zsh
+# zi for atpull'%atclone' nocompile as'null' atclone'
+#     { print -P "%F{blue}[INFO]%f:%F{cyan}Building Zsh %f" \
+#       && autoreconf --force --install --make || ./Util/preconfig \
+#       && CFLAGS="-g -O3" ./configure --prefix=/usr/local >/dev/null \
+#       && print -P "%F{blue}[INFO]%f:%F{cyan} Configured Zsh %f" \
+#       && make -j8 PREFIX=/usr/local >/dev/null || make \
+#       && print -P "%F{blue}[INFO]%f:%F{green} Compiled Zsh %f" \
+#       && sudo make -j8 install >/dev/null || make \
+#       && print -P "%F{blue}[INFO]%f:%F{green} Installed $(/usr/local/bin/zsh --version) @ /usr/local/bin/zsh %f" \
+#       && print -P "%F{blue}[INFO]%f:%F{green} Adding /usr/local/bin/zsh to /etc/shells %f" \
+#       sudo sh -c "echo /usr/bin/local/zsh >> /etc/shells" \
+#       && print -P "%F{blue}[INFO]%f: To update your shell, run: %F{cyan} chsh --shell /usr/local/bin/zsh $USER %f"
+#     } || { print -P "%F{red}[ERROR]%f:%F{yellow} Failed to install Zsh %f" }' \
+#   zsh-users/zsh
 # ]]]
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================[[[
 zi for compile \
@@ -80,7 +78,7 @@ zi light-mode for \
     zstyle ':prompt:pure:prompt:success' color 'green'" \
   sindresorhus/pure
 # ]]]
-# zsh-vim-mode cursor configuration [[[
+# === zsh-vim-mode cursor configuration [[[
 MODE_CURSOR_VICMD="green block";              MODE_CURSOR_VIINS="#20d08a blinking bar"
 MODE_INDICATOR_REPLACE='%F{9}%F{1}REPLACE%f'; MODE_INDICATOR_VISUAL='%F{12}%F{4}VISUAL%f'
 MODE_INDICATOR_VIINS='%F{15}%F{8}INSERT%f';   MODE_INDICATOR_VICMD='%F{10}%F{2}NORMAL%f'
@@ -138,16 +136,16 @@ zi light-mode for \
       zpcompinit; zpcdreplay' \
   $ZI_REPO/fast-syntax-highlighting
 # ]]]
-# PIP COMPLETION [[[
+# === PIP COMPLETION [[[
 function _pip_completion {
-  local words cword
-  read -Ac words
-  read -cn cword
-  reply=( $( COMP_WORDS="$words[*]" \
-             COMP_CWORD=$(( cword-1 )) \
-             PIP_AUTO_COMPLETE=1 $words 2>/dev/null ))
-}
-compctl -K _pip_completion pip3
+  local words cword; read -Ac words; read -cn cword
+  reply=(
+    $(
+      COMP_WORDS="$words[*]"; COMP_CWORD=$(( cword-1 )) \
+      PIP_AUTO_COMPLETE=1 $words 2>/dev/null
+    )
+  )
+}; compctl -K _pip_completion pip3
 # ]]]
 
 # vim:ft=zsh:sw=2:sts=2:et:foldmarker=[[[,]]]:foldmethod=marker
