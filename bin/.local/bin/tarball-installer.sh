@@ -1,18 +1,12 @@
 #!/usr/bin/env bash
 
-_log() { echo -e "[INFO] ${1}"; }
+#=== HELPER METHODS ===================================[[[
+function _err() { print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && exit 1; }
+function _log() { print -P "; F{blue}[INFO]%f: %F{cyan}$1%f"; }
 
-_err() {
-	echo -e "[ERROR] ${1}"
-	exit 1
-}
+PROGRAM_SRC=$1; SRC_URL=$2; PROGRAM_TARBALL=$(basename "$2"); MAKE_OPTS=$3
 
-SRC_URL=$2
-PROGRAM_TARBALL=$(basename "$2")
-PROGRAM_SRC=$1
-MAKE_OPTS=$3
-
-_log "starting install of $PROGRAM_SRC from $SRC_URL"
+_log "installing $PROGRAM_SRC from $SRC_URL"
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORK_DIR=$(mktemp -d)
@@ -39,9 +33,9 @@ fi
 pushd "$WORK_DIR"
 if eval "$DL_CMD $SRC_URL"; then
 	mkdir "$PROGRAM_SRC"
-	_log "downloaded $PROGRAM_TARBALL tarball, continuing"
+	_log "downloaded $PROGRAM_TARBALL tarball"
 	if tar -xvf "$PROGRAM_TARBALL" -C "$PROGRAM_SRC" --strip-components 1; then
-		_log "unpacked $PROGRAM_SRC tarball, continuing"
+		_log "unpacked $PROGRAM_SRC tarball"
 	fi
 fi
 pushd "$PROGRAM_SRC"
