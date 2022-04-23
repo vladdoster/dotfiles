@@ -41,25 +41,20 @@ fi
 #     atinit'export PATH="/Users/anonymous/.local/bin:$PATH"' \
 #     atpull"%atclone" depth"1" lucid nocompile nocompletions \
 #   @romkatv/zsh-bin
-# zi for
-#     as'null' atclone'
-#       {
-#         print -P "%F{blue}[INFO]%f:%F{cyan}Building Zsh %f" \
-#         && autoreconf --force --install --make || ./Util/preconfig \
-#         && CFLAGS="-g -O3" ./configure --prefix=/usr/local >/dev/null \
-#         && print -P "%F{blue}[INFO]%f:%F{cyan} Configured Zsh %f" \
-#         && make -j8 PREFIX=/usr/local >/dev/null || make \
-#         && print -P "%F{blue}[INFO]%f:%F{green} Compiled Zsh %f" \
-#         && sudo make -j8 install >/dev/null || make \
-#         && print -P "%F{blue}[INFO]%f:%F{green} Installed $(/usr/local/bin/zsh --version) @ /usr/local/bin/zsh %f" \
-#         && print -P "%F{blue}[INFO]%f:%F{green} Adding /usr/local/bin/zsh to /etc/shells %f" \
-#         sudo sh -c "echo /usr/bin/local/zsh >> /etc/shells" \
-#         && print -P "%F{blue}[INFO]%f: To update your shell, run: %F{cyan} chsh --shell /usr/local/bin/zsh $USER %f"
-#       } || {
-#         print -P "%F{red}[ERROR]%f:%F{yellow} Failed to install Zsh %f"
-#       }' \
-#     atpull'%atclone' nocompile \
-#   zsh-users/zsh
+zi for atpull'%atclone' nocompile as'null' atclone'
+    { print -P "%F{blue}[INFO]%f:%F{cyan}Building Zsh %f" \
+      && autoreconf --force --install --make || ./Util/preconfig \
+      && CFLAGS="-g -O3" ./configure --prefix=/usr/local >/dev/null \
+      && print -P "%F{blue}[INFO]%f:%F{cyan} Configured Zsh %f" \
+      && make -j8 PREFIX=/usr/local >/dev/null || make \
+      && print -P "%F{blue}[INFO]%f:%F{green} Compiled Zsh %f" \
+      && sudo make -j8 install >/dev/null || make \
+      && print -P "%F{blue}[INFO]%f:%F{green} Installed $(/usr/local/bin/zsh --version) @ /usr/local/bin/zsh %f" \
+      && print -P "%F{blue}[INFO]%f:%F{green} Adding /usr/local/bin/zsh to /etc/shells %f" \
+      sudo sh -c "echo /usr/bin/local/zsh >> /etc/shells" \
+      && print -P "%F{blue}[INFO]%f: To update your shell, run: %F{cyan} chsh --shell /usr/local/bin/zsh $USER %f"
+    } || { print -P "%F{red}[ERROR]%f:%F{yellow} Failed to install Zsh %f" }' \
+  zsh-users/zsh
 # ]]]
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================[[[
 zi for compile \
@@ -83,8 +78,8 @@ zi light-mode for \
     zstyle ':prompt:pure:git:dirty' color 'red'
     zstyle ':prompt:pure:path' color 'cyan'
     zstyle ':prompt:pure:prompt:success' color 'green'" \
-  sindresorhus/pure \
-  "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods','test'}
+  sindresorhus/pure
+# ]]]
 # zsh-vim-mode cursor configuration [[[
 MODE_CURSOR_VICMD="green block";              MODE_CURSOR_VIINS="#20d08a blinking bar"
 MODE_INDICATOR_REPLACE='%F{9}%F{1}REPLACE%f'; MODE_INDICATOR_VISUAL='%F{12}%F{4}VISUAL%f'
@@ -95,12 +90,13 @@ export LC_COLLATE='C' export LESS='-RMs'; export PAGER=less;       export VISUAL
 RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
 # ]]]
 #=== ANNEXES ===========================================[[[
-zi for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
+zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
 # ]]]
 #=== GITHUB BINARIES ==================================[[[
 # zi ice pip'pip;wheel;setuptools;speedtest-cli;'
 # mdformat'{'','-config','-gfm','-shfmt','-toc','-web'}';isort;pylint;black'
 # zi load "$ZI_REPO"/null
+zi make nocompile for $ZI_REPO/zshelldoc
 zi from'gh-r' lbin nocompile light-mode for \
   lbin'**/rg -> rg' @BurntSushi/ripgrep \
   @git-chglog/git-chglog \
