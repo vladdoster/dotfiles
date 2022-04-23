@@ -31,9 +31,9 @@ trap cleanup EXIT # cleanup build artifacts on EXIT signals
 if command -v curl &>/dev/null; then
 	DL_CMD="curl -Lk --output $PROGRAM_TARBALL"
 elif command -v wget &>/dev/null; then
-	DL_CMD="wget --output-document $PROGRAM_TARBAL:"
+	DL_CMD="wget --output-document $PROGRAM_TARBALL:"
 else
-	_err "cURL & wget not found, exiting"
+	_err "unable to find cURL or wget"
 fi
 
 pushd "$WORK_DIR"
