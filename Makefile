@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := install
 .ONESHELL:
 
-help: ## Display all Makfile targets[[[
+help: ## Display all Makfile targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	| sort \
 	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -11,18 +11,18 @@ GH_URL=https://github.com/vladdoster
 hammerspoon: destination:=$$HOME/.hammerspoon
 neovim: destination:=$$HOME/.config/nvim
 
-$(CONFIGS): ## Clone a program's configuration repository[[[
+$(CONFIGS): ## Clone a program's configuration repository
 	$(info --- did not found $(@) config, fetching..)
-	git clone --progress --quiet $(GH_URL)/$@-configuration $(destination)# ]]]
+	git clone --progress --quiet $(GH_URL)/$@-configuration $(destination)
 
-install: | clean neovim ## Deploy dotfiles via GNU install[[[
-	find * -maxdepth 0 -type d -exec stow --verbose 1 {} --target $$HOME \; # ]]]
+install: | clean neovim ## Deploy dotfiles via GNU install
+	find * -maxdepth 0 -type d -exec stow --verbose 1 {} --target $$HOME \;
 
 brew-install: ## Install Homebrew
 	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-brew-uninstall: ## Uninstall Homebrew[[[
-	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)" # ]]]
+brew-uninstall: ## Uninstall Homebrew
+	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
 
 brew-bundle: ## Install programs defined in $HOME/.config/dotfiles/Brewfile
 	@brew bundle --cleanup --file Brewfile --force --no-lock --zap
