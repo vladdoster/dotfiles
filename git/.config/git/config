@@ -221,3 +221,5 @@
 #]]]
 
 # vim:ft=toml:sw=4:sts=4:et:foldmarker=[[[,]]]:foldmethod=marker
+[lfs]
+	repositoryformatversion = 0
