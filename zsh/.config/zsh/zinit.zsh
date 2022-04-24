@@ -18,7 +18,7 @@ ZI_FORK='vladdoster'; ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githu
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'downloading zinit' \
   && command git clone \
-    --branch 'refactor/zunit-tests' \
+    --branch 'main' \
     https://github.com/$ZI_REPO/zinit.git \
     $ZINIT[BIN_DIR] \
   || error 'failed to clone zinit repository' \
