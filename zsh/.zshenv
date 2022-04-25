@@ -14,7 +14,7 @@ case "${OSTYPE}" in
       arm64) eval "$(/opt/homebrew/bin/brew shellenv)"
              export PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
         ;;
-     x86_64) eval "$(/usr/local/bin/brew shellenv)" ;;
+      x86_64) eval "$(/usr/local/bin/brew shellenv)" ;;
     esac
     ;;
    linux*) eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" ;;

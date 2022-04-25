@@ -36,9 +36,9 @@ else error "unable to find 'zinit.zsh'" && return 1
 fi
 # ]]]
 #=== ZSH BINARY =======================================[[[
-# zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null"
-#     atclone"./install -e no -d ~/.local" atinit'export PATH="/Users/anonymous/.local/bin:$PATH"' \
-#   @romkatv/zsh-bin
+zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null" \
+    atclone"./install -e no -d ~/.local" atinit'export PATH="/Users/anonymous/.local/bin:$PATH"' \
+  @romkatv/zsh-bin
 # zi for atpull'%atclone' nocompile as'null' atclone'
 #     { print -P "%F{blue}[INFO]%f:%F{cyan}Building Zsh %f" \
 #       && autoreconf --force --install --make || ./Util/preconfig \
@@ -64,7 +64,7 @@ zi for compile \
 local GH_RAW_URL='https://raw.githubusercontent.com'
 zi is-snippet as'completion' for \
   OMZP::{'golang/_golang','pip/_pip','pylint/_pylint','terraform/_terraform','yarn/_yarn'} \
-  $GH_RAW_URL/{'Homebrew/brew/master/completions/zsh/_brew','docker/cli/master/contrib/completion/zsh/_docker','rust-lang/cargo/master/src/etc/_cargo'}
+  $GH_RAW_URL/{'Homebrew/brew/master/completions/zsh/_brew','docker/cli/master/contrib/completion/zsh/_docker'}
   # ]]]
 #=== PROMPT ===========================================[[[
 zi light-mode for \
@@ -103,6 +103,7 @@ zi from'gh-r' lbin nocompile light-mode for \
   koalaman/shellcheck \
   pemistahl/grex \
   r-darwish/topgrade \
+  lbin'* -> hadolint' hadolint/hadolint \
   lbin'* -> shfmt' @mvdan/sh \
   sbin'**/nvim' ver'nightly' neovim/neovim \
     atclone'mv completions/exa.zsh _exa' \
@@ -111,6 +112,9 @@ zi from'gh-r' lbin nocompile light-mode for \
 zi from'gh-r' sbin'fzf' for junegunn/fzf
 zi light-mode is-snippet for https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 # ]]]
+
+zinit make"PREFIX=$ZPFX install" for Old-Man-Programmer/tree
+
 #=== TESTING ==========================================[[[
 zi as'program' for \
   pick"revolver" mv'revolver.zsh-completion -> _revolver' molovo/revolver \
