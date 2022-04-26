@@ -144,4 +144,8 @@ alt - p : yabai -m window --toggle sticky;\
           yabai -m window --toggle topmost;\
           yabai -m window --toggle pip
 
+# alt - p : yabai -m window --toggle sticky;\
+#           yabai -m window --toggle topmost;\
+#           yabai -m window --grid 5:5:4:0:1:1
+
 # vim:ft=bash:sw=4:sts=4:et:foldmarker=[[[, ]]]:foldmethod=marker
