@@ -141,7 +141,6 @@ zi light-mode for \
   $ZI_REPO/fast-syntax-highlighting
 # ]]]
 # === PYTHON ===========================================[[[
-zi ice pip"pip;wheel;setuptools;speedtest-cli;mdformat{'','-config','-gfm','-shfmt','-toc','-web'}';isort;pylint;black'"
 zi load "$ZI_REPO"/null
 function _pip_completion {
   local words cword; read -Ac words; read -cn cword
