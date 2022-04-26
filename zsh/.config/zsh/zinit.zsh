@@ -87,14 +87,13 @@ setopt PROMPT_SUBST;  export KEYTIMEOUT=1 export LANG=en_US.UTF-8; export LC_ALL
 export LC_COLLATE='C' export LESS='-RMs'; export PAGER=less;       export VISUAL=vi
 RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
 # ]]]
-#=== ANNEXES ===========================================[[[
+#=== ANNEXES ==========================================[[[
 zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
 # ]]]
 #=== GITHUB BINARIES ==================================[[[
-# zi ice pip'pip;wheel;setuptools;speedtest-cli;'
-# mdformat'{'','-config','-gfm','-shfmt','-toc','-web'}';isort;pylint;black'
-# zi load "$ZI_REPO"/null
-zi make nocompile for $ZI_REPO/zshelldoc
+zi ice pip"pip;wheel;setuptools;speedtest-cli;mdformat{'','-config','-gfm','-shfmt','-toc','-web'}';isort;pylint;black'"
+zi load "$ZI_REPO"/null
+
 zi from'gh-r' lbin nocompile light-mode for \
   lbin'**/rg -> rg' @BurntSushi/ripgrep \
   @git-chglog/git-chglog \
@@ -112,9 +111,10 @@ zi from'gh-r' lbin nocompile light-mode for \
 zi from'gh-r' sbin'fzf' for junegunn/fzf
 zi light-mode is-snippet for https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 # ]]]
-
-zinit make"PREFIX=$ZPFX install" for Old-Man-Programmer/tree
-
+#=== COMPILED PROGRAMS ================================[[[
+zi make"PREFIX=$ZPFX install" for Old-Man-Programmer/tree
+zi make nocompile for $ZI_REPO/zshelldoc
+# ]]]
 #=== TESTING ==========================================[[[
 zi as'program' for \
   pick"revolver" mv'revolver.zsh-completion -> _revolver' molovo/revolver \
@@ -140,7 +140,9 @@ zi light-mode for \
       zpcompinit; zpcdreplay' \
   $ZI_REPO/fast-syntax-highlighting
 # ]]]
-# === PIP COMPLETION [[[
+# === PYTHON ===========================================[[[
+zi ice pip"pip;wheel;setuptools;speedtest-cli;mdformat{'','-config','-gfm','-shfmt','-toc','-web'}';isort;pylint;black'"
+zi load "$ZI_REPO"/null
 function _pip_completion {
   local words cword; read -Ac words; read -cn cword
   reply=(

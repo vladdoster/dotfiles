@@ -52,3 +52,35 @@ setopt COMPLETE_IN_WORD # Complete from both ends of a word.
 setopt EXTENDED_GLOB    # Needed for file modification glob modifiers with compinit.
 setopt MENU_COMPLETE    # Do not autoselect the first completion entry.
 setopt PATH_DIRS        # Perform path search even on command names with slashes.
+
+(
+  if (( ${+ZSH_COMPILING_FILES} )); then
+    return
+  fi
+  export ZSH_COMPILING_FILES=1
+
+  # Function to determine the need of a zcompile. If the .zwc file
+  # does not exist, or the base file is newer, we need to compile.
+  # These jobs are asynchronous, and will not impact the interactive shell
+  zcompare() {
+    if [[ -s ${1} && ( ! -s ${1}.zwc || ${1} -nt ${1}.zwc) ]]; then
+      zcompile ${1}
+    fi
+  }
+
+  setopt EXTENDED_GLOB
+
+  # zcompile ZSH config files
+  for file in ${ZDOTDIR:-${HOME}}/.{zlogin,zlogout,zprofile,zshenv,zshrc}; do
+    zcompare ${file} &> /dev/null
+  done
+
+  # compile Zit plugins
+  for module_dir in ${ZINIT[PLUGINS_DIR]}; do
+    for file in ${module_dir}/**/*.*sh(.N); do
+      zcompare ${file} &> /dev/null
+    done
+  done
+
+  unset ZSH_COMPILING_FILES
+) &!
