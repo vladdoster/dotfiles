@@ -66,9 +66,9 @@ USER ${USER}
 
 RUN mkdir ${HOME}/.config \
  && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
- && chown -R ${UID}:${GID} ${HOME} \
- && make -C ${HOME}/.config/dotfiles install \
- && echo "#!/usr/bin/env zsh" > $HOME/.zshrc
+ && chown -R ${UID}:${GID} ${HOME}
+ # && make -C ${HOME}/.config/dotfiles install \
+ # && echo "#!/usr/bin/env zsh" > $HOME/.zshrc
 
 WORKDIR ${HOME}
 CMD ["zsh", "--no-rcs"]
