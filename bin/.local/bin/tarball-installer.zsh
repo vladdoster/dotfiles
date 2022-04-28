@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 #=== HELPER METHODS ===================================[[[
 function _err() { print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && exit 1; }
-function _log() { print -P "; F{blue}[INFO]%f: %F{cyan}$1%f"; }
+function _log() { print -P "%F{blue}[INFO]%f: %F{cyan}$1%f"; }
 
 PROGRAM_SRC=$1; SRC_URL=$2; PROGRAM_TARBALL=$(basename "$2"); MAKE_OPTS=$3
 
