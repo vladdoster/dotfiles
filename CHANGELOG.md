@@ -1,3 +1,42 @@
+# [1.18.0](https://github.com/vladdoster/dotfiles/compare/v1.17.0...v1.18.0) (2022-04-28)
+
+
+### feat
+
+* add skhd (keymap daemon) configuration ([ff02fef](https://github.com/vladdoster/dotfiles/commit/ff02feff867942ef957bb6171fad3e81c34d783c))
+* zinit, zsh, yabai, and skhd updates ([4fde072](https://github.com/vladdoster/dotfiles/commit/4fde072e6f357d2ef235a52cba4c8edee4628c54))
+
+### fix
+
+* correct misspelled variable ([8e2a1f7](https://github.com/vladdoster/dotfiles/commit/8e2a1f72c7939a14a970f2805ae48dc5d8fe31be))
+* git config ([5ba3815](https://github.com/vladdoster/dotfiles/commit/5ba3815ad535f2a288fce2c7c9410592408d8152))
+* Makefile formatting ([7525fb1](https://github.com/vladdoster/dotfiles/commit/7525fb1ffc419ef058d7f60646a00cc2aedfe025))
+* omz_urlencode not error when using Terminal.app ([363363f](https://github.com/vladdoster/dotfiles/commit/363363fe0b314d0a1007438ccad58b5fe508c2ac))
+* remove '.' prefix from skhd config filename ([3edc8ab](https://github.com/vladdoster/dotfiles/commit/3edc8abc6d9c1a3ea91aa9b22997a64491c22950))
+* zreset alias crashing terminal ([f24a663](https://github.com/vladdoster/dotfiles/commit/f24a66359868f3cd84023517ff8631356f8edac5))
+* zsh install from src and zshenv ([f33a193](https://github.com/vladdoster/dotfiles/commit/f33a1936a44b383789cf5f338311a1628f26056a))
+
+### maint
+
+* change zinit branch ([3de6202](https://github.com/vladdoster/dotfiles/commit/3de62021dc1da8567b44849c96d08c9356e7a85a))
+* change zinit branch back to main ([e783a4f](https://github.com/vladdoster/dotfiles/commit/e783a4f3386e5c39f884f817e25b771cef3a7d28))
+* clean up Brewfile ([1054bef](https://github.com/vladdoster/dotfiles/commit/1054befac8d4b1d40269c55032635a413faf04ab))
+* clean up Makefile ([0507ff8](https://github.com/vladdoster/dotfiles/commit/0507ff84e645ac2e5b914c3a37b4fa85a482c9be))
+* clean up unused parts of vimrc ([2633bdf](https://github.com/vladdoster/dotfiles/commit/2633bdf06b7a3b1b7ee648963640c2507f2a4ddf))
+* compilation function and clean up zinit sections ([c7bc310](https://github.com/vladdoster/dotfiles/commit/c7bc31000f8e0c92f51836f59dd40977bdf6325c))
+* fix misc issues in zsh related configs ([82173ea](https://github.com/vladdoster/dotfiles/commit/82173ea6cad788fc38f4b7efa246c1e7b57fa865))
+* fix printing in bin Makefile ([9798dc1](https://github.com/vladdoster/dotfiles/commit/9798dc1e9a604b71d6c38b74b7112dc7d4499640))
+* make yabai active window border color to bright red ([ea3ff5a](https://github.com/vladdoster/dotfiles/commit/ea3ff5a99224efec6b44d6366c6f85f8aa547687))
+* remove pip ice install ([57eda71](https://github.com/vladdoster/dotfiles/commit/57eda7185cfa7a0fabc4a9d4fbf2c2cfc97c887c))
+
+### style
+
+* add color to logging functions ([abf0a50](https://github.com/vladdoster/dotfiles/commit/abf0a50b01f99525df1ee7820074e9b4d46f4a81))
+* condense compiling zsh from source formatting ([2f6e8e3](https://github.com/vladdoster/dotfiles/commit/2f6e8e3feada214bc8781e838af7b6e80f946e21))
+* fix folds and pip completion function ([1ee0a82](https://github.com/vladdoster/dotfiles/commit/1ee0a821d97a251247e3136433888350a4f8ae46))
+* fmt aliases ([faa323c](https://github.com/vladdoster/dotfiles/commit/faa323c9a2034ea47f507dcfaefbc5be768610cb))
+* remove vim folds ([2129887](https://github.com/vladdoster/dotfiles/commit/212988765ea29fecce772ba55403b7b7ddb4d59c))
+
 # [1.17.0](https://github.com/vladdoster/dotfiles/compare/v1.16.0...v1.17.0) (2022-04-19)
 
 
