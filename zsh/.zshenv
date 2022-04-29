@@ -7,7 +7,7 @@
 # you find a bug, have a feature request, or a question.
 #
 # SYSTEM SPECIFIC <<
-print -P "%F{blue}[INFO]%f: %F{cyan} ${OSTYPE} ($(uname -m)) detected %f"
+# print -P "%F{blue}[INFO]%f: %F{cyan} ${OSTYPE} ($(uname -m)) detected %f"
 case "${OSTYPE}" in
   darwin*)
     case $(uname -m) in
