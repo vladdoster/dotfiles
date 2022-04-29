@@ -90,32 +90,34 @@ export LC_COLLATE='C' export LESS='-RMs'; export PAGER=less;       export VISUAL
 RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
 # ]]]
 #=== ANNEXES ==========================================[[[
-zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
+zi light-mode for \
+  "$ZI_FORK"/zinit-annex-bin-gem-node \
+    ver'fix/improve-lbin-logic' \
+  "$ZI_REPO"/zinit-annex-binary-symlink \
+  "$ZI_REPO"/zinit-annex-{'patch-dl','submods'}
 # ]]]
 #=== GITHUB BINARIES ==================================[[[
-zi ice pip"pip;wheel;setuptools;speedtest-cli;mdformat{'','-config','-gfm','-shfmt','-toc','-web'}';isort;pylint;black'"
-zi load "$ZI_REPO"/null
-
-zi from'gh-r' lbin nocompile light-mode for \
-  lbin'**/rg -> rg' @BurntSushi/ripgrep \
+zi from'gh-r' lbin'!' nocompile for \
   @git-chglog/git-chglog \
   @sharkdp/hyperfine \
   dandavison/delta \
+  id-as'nvim' ver'nightly' @neovim/neovim \
+  id-as'rg' @BurntSushi/ripgrep \
+  id-as'shfmt' @mvdan/sh \
+  id-as'hadolint' hadolint/hadolint \
   koalaman/shellcheck \
   pemistahl/grex \
   r-darwish/topgrade \
-  lbin'* -> hadolint' hadolint/hadolint \
-  lbin'* -> shfmt' @mvdan/sh \
-  sbin'**/nvim' ver'nightly' neovim/neovim \
     atclone'mv completions/exa.zsh _exa' \
     atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
-  ogham/exa
-zi from'gh-r' sbin'fzf' for junegunn/fzf
+  ogham/exa \
+  junegunn/fzf
 zi light-mode is-snippet for https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 # ]]]
 #=== COMPILED PROGRAMS ================================[[[
-zi make"PREFIX=$ZPFX install" for Old-Man-Programmer/tree
-zi make nocompile for $ZI_REPO/zshelldoc
+zi make'PREFIX=$PWD install' lbin nocompile for \
+  Old-Man-Programmer/tree \
+  id-as'zsd' @zdharma-continuum/zshelldoc
 # ]]]
 #=== TESTING ==========================================[[[
 zi as'program' for \
@@ -143,7 +145,6 @@ zi light-mode for \
   $ZI_REPO/fast-syntax-highlighting
 # ]]]
 # === PYTHON ===========================================[[[
-zi load "$ZI_REPO"/null
 function _pip_completion {
   local words cword; read -Ac words; read -cn cword
   reply=(
