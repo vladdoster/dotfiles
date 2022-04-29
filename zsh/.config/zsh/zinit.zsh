@@ -8,13 +8,6 @@
 function error() { print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && return 1 }
 function info() { print -P "%F{blue}[INFO]%f: %F{cyan}$1%f"; }
 # ]]]
-#
-if type brew &>/dev/null
-then
-  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-  autoload -Uz compinit
-  compinit
-fi
 #=== ZINIT ============================================[[[
 typeset -gAH ZINIT;
 ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
@@ -42,11 +35,12 @@ if [[ -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
 else error "unable to find 'zinit.zsh'" && return 1
 fi
 # ]]]
-#=== ZSH BINARY =======================================[[[
-# zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null" \
-#     atclone"./install -e no -d ~/.local" atinit'export PATH="/Users/anonymous/.local/bin:$PATH"' \
-#   @romkatv/zsh-bin
-
+#=== STATIC ZSH BINARY =======================================[[[
+zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null" \
+    atclone"./install -e no -d ~/.local" atinit"export PATH=$HOME/.local/bin:$PATH" \
+  @romkatv/zsh-bin
+# ]]]
+#=== COMPILE ZSH SOURCE =======================================[[[
 # zi for atpull'%atclone' nocompile as'null' atclone'
 #     { print -P "%F{blue}[INFO]%f:%F{cyan}Building Zsh %f" \
 #       && autoreconf --force --install --make || ./Util/preconfig \
