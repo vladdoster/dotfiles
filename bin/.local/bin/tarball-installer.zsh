@@ -59,7 +59,7 @@ if [[ ! -e 'Makefile' ]]; then
 			_log "configure.ac file present, executing automake"
 		fi
 	fi
-	if ./configure; then
+	if ./configure $MAKE_OPTS; then
 		_log "configure file present, executing"
 	elif ./Configure; then
 		_log "Configure file present, executing"
@@ -67,7 +67,7 @@ if [[ ! -e 'Makefile' ]]; then
 		_log "failed $PROGRAM_SRC configuration"
 	fi
 fi
-if make --jobs 8 $MAKE_OPTS; then
+if make --jobs 8; then
 	_log "make successful, continuing"
 	if sudo make --jobs 8 install; then
 		_log "$PROGRAM_SRC installed"

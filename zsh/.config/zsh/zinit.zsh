@@ -18,7 +18,7 @@ ZI_FORK='vladdoster'; ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githu
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'downloading zinit' \
   && command git clone \
-    --branch 'main' \
+    --branch 'bug/fix-rpm-and-deb-selection' \
     https://github.com/$ZI_REPO/zinit.git \
     $ZINIT[BIN_DIR] \
   || error 'failed to clone zinit repository' \
@@ -100,18 +100,18 @@ zi light-mode for \
 zi from'gh-r' lbin'!' nocompile for \
   @git-chglog/git-chglog \
   @sharkdp/hyperfine \
-  dandavison/delta \
+  @dandavison/delta \
+  id-as'hadolint' @hadolint/hadolint \
   id-as'nvim' ver'nightly' @neovim/neovim \
   id-as'rg' @BurntSushi/ripgrep \
   id-as'shfmt' @mvdan/sh \
-  id-as'hadolint' hadolint/hadolint \
-  koalaman/shellcheck \
-  pemistahl/grex \
-  r-darwish/topgrade \
+  @junegunn/fzf \
+  @koalaman/shellcheck \
+  @pemistahl/grex \
+  @r-darwish/topgrade \
     atclone'mv completions/exa.zsh _exa' \
     atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
-  ogham/exa \
-  junegunn/fzf
+  ogham/exa
 zi light-mode is-snippet for https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 # ]]]
 #=== COMPILED PROGRAMS ================================[[[
@@ -124,26 +124,6 @@ zi as'program' for \
   pick"revolver" mv'revolver.zsh-completion -> _revolver' molovo/revolver \
   atclone'./build.zsh' mv'zunit.zsh-completion -> _zunit' pick"zunit" zunit-zsh/zunit
 # ]]]
-#=== MISC. ============================================[[[
-zi light-mode for \
-    compile'zsh-vim-mode*.zsh' atinit"bindkey -M vicmd '^e' edit-command-line" \
-  softmoth/zsh-vim-mode \
-  thewtex/tmux-mem-cpu-load \
-    svn submods'zsh-users/zsh-history-substring-search -> external' \
-  OMZ::plugins/history-substring-search \
-    blockf atpull'zinit creinstall -q .' \
-  zsh-users/zsh-completions \
-    atinit"
-      ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-      bindkey '^_' autosuggest-execute
-      bindkey '^ ' autosuggest-accept" \
-  zsh-users/zsh-autosuggestions \
-    atinit'
-      typeset -gA FAST_HIGHLIGHT
-      FAST_HIGHLIGHT[git-cmsg-len]=100
-      zpcompinit; zpcdreplay' \
-  $ZI_REPO/fast-syntax-highlighting
-# ]]]
 # === PYTHON ===========================================[[[
 function _pip_completion {
   local words cword; read -Ac words; read -cn cword
@@ -154,6 +134,32 @@ function _pip_completion {
     )
   )
 }; compctl -K _pip_completion pip3
+# ]]]
+#=== MISC. ============================================[[[
+zi light-mode for \
+    compile'zsh-vim-mode*.zsh' atinit"bindkey -M vicmd '^e' edit-command-line" \
+  softmoth/zsh-vim-mode \
+  thewtex/tmux-mem-cpu-load \
+    svn submods'zsh-users/zsh-history-substring-search -> external' \
+  OMZ::plugins/history-substring-search \
+    blockf atpull'zinit creinstall -q .' \
+  zsh-users/zsh-completions \
+    atload'_zsh_autosuggest_start' \
+    atinit"
+      ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+      bindkey '^_' autosuggest-execute
+      bindkey '^ ' autosuggest-accept" \
+  zsh-users/zsh-autosuggestions \
+    atload'FAST_HIGHLIGHT[chroma-man]=' \
+    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
+    compile'.*fast*~*.zwc' \
+    nocompletions \
+    atpull'%atclone' \
+  $ZI_REPO/fast-syntax-highlighting
+
+zi for lucid wait'1a' id-as'zinit/cleanup' nocd as'null' atinit'
+    zicompinit; zicdreplay; _zsh_highlight_bind_widgets; _zsh_autosuggest_bind_widgets' \
+  zdharma-continuum/null
 # ]]]
 
 # vim:ft=zsh:sw=2:sts=2:et:foldmarker=[[[,]]]:foldmethod=marker

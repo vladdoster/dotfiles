@@ -7,12 +7,13 @@
 # you find a bug, have a feature request, or a question.
 #
 # SYSTEM SPECIFIC <<
-# print -P "%F{blue}[INFO]%f: %F{cyan} ${OSTYPE} ($(uname -m)) detected %f"
+print -P "%F{blue}[INFO]%f: %F{cyan} ${OSTYPE} ($(uname -m)) detected %f"
 case "${OSTYPE}" in
   darwin*)
     case $(uname -m) in
-      arm64) eval "$(/opt/homebrew/bin/brew shellenv)"
-             export PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
+      arm64)
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+        export PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
         ;;
       x86_64) eval "$(/usr/local/bin/brew shellenv)" ;;
     esac
@@ -42,7 +43,9 @@ export VIMDOTDIR="$XDG_CONFIG_HOME"/vim
 export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
 # >>
 # ENV VARIABLES <<
+export COMPOSE_DOCKER_CLI_BUILD=0
 export DISABLE_MAGIC_FUNCTIONS=true
+export DOCKER_BUILDKIT=0
 export HOMEBREW_NO_ENV_HINTS=1
 export KEYTIMEOUT=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1  # make prompt faster

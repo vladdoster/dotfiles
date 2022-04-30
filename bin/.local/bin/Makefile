@@ -111,7 +111,7 @@ tar:            URL:=$(GNU)/tar/tar-latest.tar.gz
 terraform-docs: URL:=$(GIT)/$(@)/$(@)/tarball
 texinfo:        URL:=$(GNU)/texinfo/texinfo-6.8.tar.gz
 time:           URL:=$(GNU)/time/time-1.9.tar.gz
-tmux:           URL:=$(GIT)/tmux/tmux/tarball
+tmux:           URL:=$(GIT)/tmux/tmux/tarball --disable-utf8proc
 
 wget:           URL:=$(GNU)/wget/wget-latest.tar.gz
 
