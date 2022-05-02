@@ -4,11 +4,11 @@
 # have a feature request, or a question. A zinit-continuum configuration for
 # macOS and Linux.
 #
-#=== HELPER METHODS ===================================[[[
+#=== HELPER METHODS ===================================
 function error() { print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && return 1 }
 function info() { print -P "%F{blue}[INFO]%f: %F{cyan}$1%f"; }
 # ]]]
-#=== ZINIT ============================================[[[
+#=== ZINIT ============================================
 typeset -gAH ZINIT;
 ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
 ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
@@ -18,7 +18,6 @@ ZI_FORK='vladdoster'; ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githu
 if [[ ! -e $ZINIT[BIN_DIR] ]]; then
   info 'downloading zinit' \
   && command git clone \
-    --branch 'bug/fix-rpm-and-deb-selection' \
     https://github.com/$ZI_REPO/zinit.git \
     $ZINIT[BIN_DIR] \
   || error 'failed to clone zinit repository' \
@@ -35,12 +34,12 @@ if [[ -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
 else error "unable to find 'zinit.zsh'" && return 1
 fi
 # ]]]
-#=== STATIC ZSH BINARY =======================================[[[
+#=== STATIC ZSH BINARY =======================================
 zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null" \
     atclone"./install -e no -d ~/.local" atinit"export PATH=$HOME/.local/bin:$PATH" \
   @romkatv/zsh-bin
 # ]]]
-#=== COMPILE ZSH SOURCE =======================================[[[
+#=== COMPILE ZSH SOURCE =======================================
 # zi for atpull'%atclone' nocompile as'null' atclone'
 #     { print -P "%F{blue}[INFO]%f:%F{cyan}Building Zsh %f" \
 #       && autoreconf --force --install --make || ./Util/preconfig \
@@ -56,19 +55,24 @@ zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null" \
 #     } || { print -P "%F{red}[ERROR]%f:%F{yellow} Failed to install Zsh %f" }' \
 #   zsh-users/zsh
 # ]]]
-#=== OH-MY-ZSH & PREZTO PLUGINS =======================[[[
-zi for compile \
+# #=== OH-MY-ZSH & PREZTO PLUGINS =======================
+zi for is-snippet \
   OMZL::{'clipboard','compfix','completion','git','grep','key-bindings'}.zsh \
   OMZP::{'brew'} \
   PZT::modules/{'history','rsync'}
-# ]]]
-#=== COMPLETIONS ======================================[[[
+zi as'completion' for OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
+# # ]]]
+# #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
-zi is-snippet as'completion' for \
-  OMZP::{'golang/_golang','pip/_pip','pylint/_pylint','terraform/_terraform','yarn/_yarn'} \
-  $GH_RAW_URL/{'Homebrew/brew/master/completions/zsh/_brew','docker/cli/master/contrib/completion/zsh/_docker'}
-  # ]]]
-#=== PROMPT ===========================================[[[
+install_completion(){ zinit for as'completion' nocompile id-as"$1" is-snippet "$GH_RAW_URL/$2"; }
+install_completion 'bat-completion/_bat'       'sharkdp/bat/master/assets/completions/bat.zsh.in'
+install_completion 'brew-completion/_brew'     'Homebrew/brew/master/completions/zsh/_brew'
+install_completion 'docker-completion/_docker' 'docker/cli/master/contrib/completion/zsh/_docker'
+install_completion 'exa-completion/_exa'   'ogham/exa/master/completions/zsh/_exa'
+install_completion 'fd-completion/_fd'     'sharkdp/fd/master/contrib/completion/_fd'
+install_completion 'tldr-completion/_tldr' 'dbrgn/tealdeer/main/completion/zsh_tealdeer'
+# # ]]]
+# #=== PROMPT ===========================================
 zi light-mode for \
   compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
     PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
@@ -79,8 +83,8 @@ zi light-mode for \
     zstyle ':prompt:pure:path' color 'cyan'
     zstyle ':prompt:pure:prompt:success' color 'green'" \
   sindresorhus/pure
-# ]]]
-# === zsh-vim-mode cursor configuration [[[
+# # ]]]
+#=== zsh-vim-mode cursor configuration [[[
 MODE_CURSOR_VICMD="green block";              MODE_CURSOR_VIINS="#20d08a blinking bar"
 MODE_INDICATOR_REPLACE='%F{9}%F{1}REPLACE%f'; MODE_INDICATOR_VISUAL='%F{12}%F{4}VISUAL%f'
 MODE_INDICATOR_VIINS='%F{15}%F{8}INSERT%f';   MODE_INDICATOR_VICMD='%F{10}%F{2}NORMAL%f'
@@ -89,42 +93,43 @@ setopt PROMPT_SUBST;  export KEYTIMEOUT=1 export LANG=en_US.UTF-8; export LC_ALL
 export LC_COLLATE='C' export LESS='-RMs'; export PAGER=less;       export VISUAL=vi
 RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
 # ]]]
-#=== ANNEXES ==========================================[[[
+#=== ANNEXES ==========================================
 zi light-mode for \
   "$ZI_FORK"/zinit-annex-bin-gem-node \
     ver'fix/improve-lbin-logic' \
   "$ZI_REPO"/zinit-annex-binary-symlink \
   "$ZI_REPO"/zinit-annex-{'patch-dl','submods'}
 # ]]]
-#=== GITHUB BINARIES ==================================[[[
+#=== GITHUB BINARIES ==================================
 zi from'gh-r' lbin'!' nocompile for \
-  @git-chglog/git-chglog \
-  @sharkdp/hyperfine \
   @dandavison/delta \
-  id-as'hadolint' @hadolint/hadolint \
-  id-as'nvim' ver'nightly' @neovim/neovim \
-  id-as'rg' @BurntSushi/ripgrep \
-  id-as'shfmt' @mvdan/sh \
+  @git-chglog/git-chglog \
+    lbin'!* -> hadolint' \
+  @hadolint/hadolint \
   @junegunn/fzf \
   @koalaman/shellcheck \
   @pemistahl/grex \
   @r-darwish/topgrade \
-    atclone'mv completions/exa.zsh _exa' \
+  @sharkdp/hyperfine \
+    lbin'!*->rg' id-as'ripgrep/rg' \
+  @BurntSushi/ripgrep \
+    lbin'!*->shfmt' \
+  @mvdan/sh \
     atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
   ogham/exa
 zi light-mode is-snippet for https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 # ]]]
-#=== COMPILED PROGRAMS ================================[[[
-zi make'PREFIX=$PWD install' lbin nocompile for \
+#=== COMPILED PROGRAMS ================================
+zi make'PREFIX=$PWD install' sbin nocompile for \
   Old-Man-Programmer/tree \
-  id-as'zsd' @zdharma-continuum/zshelldoc
+  id-as'zshelldoc/zsd' @zdharma-continuum/zshelldoc
 # ]]]
-#=== TESTING ==========================================[[[
+#=== TESTING ==========================================
 zi as'program' for \
   pick"revolver" mv'revolver.zsh-completion -> _revolver' molovo/revolver \
   atclone'./build.zsh' mv'zunit.zsh-completion -> _zunit' pick"zunit" zunit-zsh/zunit
 # ]]]
-# === PYTHON ===========================================[[[
+#=== PYTHON ===========================================[[[
 function _pip_completion {
   local words cword; read -Ac words; read -cn cword
   reply=(
@@ -137,7 +142,7 @@ function _pip_completion {
 # ]]]
 #=== MISC. ============================================[[[
 zi light-mode for \
-    compile'zsh-vim-mode*.zsh' atinit"bindkey -M vicmd '^e' edit-command-line" \
+    atinit"bindkey -M vicmd '^e' edit-command-line" compile'zsh-vim-mode*.zsh' \
   softmoth/zsh-vim-mode \
   thewtex/tmux-mem-cpu-load \
     svn submods'zsh-users/zsh-history-substring-search -> external' \
@@ -146,9 +151,8 @@ zi light-mode for \
   zsh-users/zsh-completions \
     atload'_zsh_autosuggest_start' \
     atinit"
-      ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-      bindkey '^_' autosuggest-execute
-      bindkey '^ ' autosuggest-accept" \
+      bindkey '^_' autosuggest-execute; bindkey '^ ' autosuggest-accept
+      ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50" \
   zsh-users/zsh-autosuggestions \
     atload'FAST_HIGHLIGHT[chroma-man]=' \
     atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
@@ -157,9 +161,9 @@ zi light-mode for \
     atpull'%atclone' \
   $ZI_REPO/fast-syntax-highlighting
 
-zi for lucid wait'1a' id-as'zinit/cleanup' nocd as'null' atinit'
+zi for lucid wait id-as'zinit/cleanup' nocd as'null' atload'
     zicompinit; zicdreplay; _zsh_highlight_bind_widgets; _zsh_autosuggest_bind_widgets' \
   zdharma-continuum/null
 # ]]]
 
-# vim:ft=zsh:sw=2:sts=2:et:foldmarker=[[[,]]]:foldmethod=marker
+# vim:ft=zsh:sw=2:sts=2:et:foldmarker=#===,]]]:foldmethod=marker
