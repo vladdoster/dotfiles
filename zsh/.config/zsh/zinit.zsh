@@ -111,8 +111,10 @@ zi from'gh-r' lbin'!' nocompile for \
   @pemistahl/grex \
   @r-darwish/topgrade \
   @sharkdp/hyperfine \
+  sbin'**/fd -> fd' @sharkdp/fd  \
     lbin'!*->rg' id-as'ripgrep/rg' \
   @BurntSushi/ripgrep \
+  sbin'**/nvim' neovim/neovim \
     lbin'!*->shfmt' \
   @mvdan/sh \
     atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \

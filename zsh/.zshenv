@@ -18,7 +18,10 @@ case "${OSTYPE}" in
       x86_64) eval "$(/usr/local/bin/brew shellenv)" ;;
     esac
     ;;
-   linux*) eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" ;;
+   linux*)
+     # eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" 
+     eval "$(/home/$USER/.linuxbrew/Homebrew/bin/brew shellenv)" 
+     ;;
         *) print -P "%F{red}[WARNING]%f:%F{yellow} ${OSTYPE} is unsupported %f" ;;
 esac # >>
 # RESERVED VARIABLES <<
@@ -46,6 +49,7 @@ export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
 export COMPOSE_DOCKER_CLI_BUILD=0
 export DISABLE_MAGIC_FUNCTIONS=true
 export DOCKER_BUILDKIT=0
+export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_ENV_HINTS=1
 export KEYTIMEOUT=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1  # make prompt faster

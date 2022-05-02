@@ -177,7 +177,7 @@ alias fmtmd="_fmt md mdformat"
 alias fmtpy="_fmt py python3 -m black"
 alias fmtsh='_fmt sh "shfmt -bn -ci -i 4 -ln=bash -s -sr -w"'
 #= SYS ===========================================
-alias what-system="echo $OSTYPE $MACHTYPE $CPUTYPE $VENDOR $(uname -a)"
+alias what-system='echo $OSTYPE $MACHTYPE $CPUTYPE $(uname -a)'
 #= REMOTE =========================================
 alias apt-sys-update="_sys_update 'sudo apt --yes'"
 alias brew-clean="brew cleanup --prune=all"
