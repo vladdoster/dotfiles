@@ -101,6 +101,7 @@ zi light-mode for \
   "$ZI_REPO"/zinit-annex-{'patch-dl','submods'}
 # ]]]
 #=== GITHUB BINARIES ==================================
+<<<<<<< HEAD
 zi from'gh-r' nocompile for \
   lbin'!**/delta' @dandavison/delta \
   lbin'!**/fd' @sharkdp/fd  \
@@ -164,4 +165,4 @@ zi for lucid wait id-as'zinit/cleanup' nocd as'null' atload'
   zdharma-continuum/null
 # ]]]
 
-# vim:ft=zsh:sw=2:sts=2:et:foldmarker=#===,]]]:foldmethod=marker
+# vim:ft=zsh:sw=2:sts=2
