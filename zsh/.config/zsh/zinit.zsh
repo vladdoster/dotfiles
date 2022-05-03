@@ -7,7 +7,6 @@
 #=== HELPER METHODS ===================================
 function error() { print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && return 1 }
 function info() { print -P "%F{blue}[INFO]%f: %F{cyan}$1%f"; }
-# ]]]
 #=== ZINIT ============================================
 typeset -gAH ZINIT;
 ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
@@ -33,12 +32,10 @@ if [[ -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
     && _comps[zinit]=_zinit
 else error "unable to find 'zinit.zsh'" && return 1
 fi
-# ]]]
 #=== STATIC ZSH BINARY =======================================
 zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null" \
     atclone"./install -e no -d ~/.local" atinit"export PATH=$HOME/.local/bin:$PATH" \
   @romkatv/zsh-bin
-# ]]]
 #=== COMPILE ZSH SOURCE =======================================
 # zi for atpull'%atclone' nocompile as'null' atclone'
 #     { print -P "%F{blue}[INFO]%f:%F{cyan}Building Zsh %f" \
@@ -54,15 +51,13 @@ zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null" \
 #       && print -P "%F{blue}[INFO]%f: To update your shell, run: %F{cyan} chsh --shell /usr/local/bin/zsh $USER %f"
 #     } || { print -P "%F{red}[ERROR]%f:%F{yellow} Failed to install Zsh %f" }' \
 #   zsh-users/zsh
-# ]]]
 # #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 zi for is-snippet \
   OMZL::{'clipboard','compfix','completion','git','grep','key-bindings'}.zsh \
   OMZP::{'brew'} \
   PZT::modules/{'history','rsync'}
 zi as'completion' for OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
-# # ]]]
-# #=== COMPLETIONS ======================================
+#=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
 install_completion(){ zinit for as'completion' nocompile id-as"$1" is-snippet "$GH_RAW_URL/$2"; }
 install_completion 'bat-completion/_bat'       'sharkdp/bat/master/assets/completions/bat.zsh.in'
@@ -71,8 +66,7 @@ install_completion 'docker-completion/_docker' 'docker/cli/master/contrib/comple
 install_completion 'exa-completion/_exa'   'ogham/exa/master/completions/zsh/_exa'
 install_completion 'fd-completion/_fd'     'sharkdp/fd/master/contrib/completion/_fd'
 install_completion 'tldr-completion/_tldr' 'dbrgn/tealdeer/main/completion/zsh_tealdeer'
-# # ]]]
-# #=== PROMPT ===========================================
+#=== PROMPT ===========================================
 zi light-mode for \
   compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
     PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
@@ -83,7 +77,6 @@ zi light-mode for \
     zstyle ':prompt:pure:path' color 'cyan'
     zstyle ':prompt:pure:prompt:success' color 'green'" \
   sindresorhus/pure
-# # ]]]
 #=== zsh-vim-mode cursor configuration [[[
 MODE_CURSOR_VICMD="green block";              MODE_CURSOR_VIINS="#20d08a blinking bar"
 MODE_INDICATOR_REPLACE='%F{9}%F{1}REPLACE%f'; MODE_INDICATOR_VISUAL='%F{12}%F{4}VISUAL%f'
@@ -92,16 +85,13 @@ MODE_INDICATOR_VLINE='%F{12}%F{4}V-LINE%f';   MODE_CURSOR_SEARCH="#ff00ff blinki
 setopt PROMPT_SUBST;  export KEYTIMEOUT=1 export LANG=en_US.UTF-8; export LC_ALL="en_US.UTF-8";
 export LC_COLLATE='C' export LESS='-RMs'; export PAGER=less;       export VISUAL=vi
 RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
-# ]]]
 #=== ANNEXES ==========================================
 zi light-mode for \
   "$ZI_FORK"/zinit-annex-bin-gem-node \
     ver'fix/improve-lbin-logic' \
   "$ZI_REPO"/zinit-annex-binary-symlink \
   "$ZI_REPO"/zinit-annex-{'patch-dl','submods'}
-# ]]]
 #=== GITHUB BINARIES ==================================
-<<<<<<< HEAD
 zi from'gh-r' nocompile for \
   lbin'!**/delta' @dandavison/delta \
   lbin'!**/fd' @sharkdp/fd  \
@@ -117,17 +107,14 @@ zi from'gh-r' nocompile for \
     atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
   ogham/exa
 zi light-mode is-snippet for https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
-# ]]]
 #=== COMPILED PROGRAMS ================================
 zi make'PREFIX=$PWD install' nocompile for \
   lbin'!**tree' Old-Man-Programmer/tree \
   lbin'!**/zsd' @zdharma-continuum/zshelldoc
-# ]]]
 #=== TESTING ==========================================
 zi as'program' for \
   pick"revolver" mv'revolver.zsh-completion -> _revolver' molovo/revolver \
   atclone'./build.zsh' mv'zunit.zsh-completion -> _zunit' pick"zunit" zunit-zsh/zunit
-# ]]]
 #=== PYTHON ===========================================[[[
 function _pip_completion {
   local words cword; read -Ac words; read -cn cword
@@ -138,7 +125,6 @@ function _pip_completion {
     )
   )
 }; compctl -K _pip_completion pip3
-# ]]]
 #=== MISC. ============================================[[[
 zi light-mode for \
     atinit"bindkey -M vicmd '^e' edit-command-line" compile'zsh-vim-mode*.zsh' \
@@ -163,6 +149,5 @@ zi light-mode for \
 zi for lucid wait id-as'zinit/cleanup' nocd as'null' atload'
     zicompinit; zicdreplay; _zsh_highlight_bind_widgets; _zsh_autosuggest_bind_widgets' \
   zdharma-continuum/null
-# ]]]
 
 # vim:ft=zsh:sw=2:sts=2
