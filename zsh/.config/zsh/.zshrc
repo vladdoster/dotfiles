@@ -11,7 +11,7 @@ function plugin-compile() {
     zrecompile -pq "$f"
   done
 }
-local files=(aliases zinit)
+local files=(aliases git-fzf zinit)
 for f in $files[@]; do
   . "${ZDOTDIR:-$HOME/.config/zsh}/$f".zsh
 done
