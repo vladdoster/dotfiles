@@ -101,30 +101,26 @@ zi light-mode for \
   "$ZI_REPO"/zinit-annex-{'patch-dl','submods'}
 # ]]]
 #=== GITHUB BINARIES ==================================
-zi from'gh-r' lbin'!' nocompile for \
-  @dandavison/delta \
-  @git-chglog/git-chglog \
-    lbin'!* -> hadolint' \
-  @hadolint/hadolint \
-  @junegunn/fzf \
-  @koalaman/shellcheck \
-  @pemistahl/grex \
-  @r-darwish/topgrade \
-  @sharkdp/hyperfine \
-  sbin'**/fd -> fd' @sharkdp/fd  \
-    lbin'!*->rg' id-as'ripgrep/rg' \
-  @BurntSushi/ripgrep \
-  sbin'**/nvim' neovim/neovim \
-    lbin'!*->shfmt' \
-  @mvdan/sh \
+zi from'gh-r' nocompile for \
+  lbin'!**/delta' @dandavison/delta \
+  lbin'!**/fd' @sharkdp/fd  \
+  lbin'!**/fzf' @junegunn/fzf \
+  lbin'!**/git-chglog' @git-chglog/git-chglog \
+  lbin'!**/grex' @pemistahl/grex \
+  lbin'!*->hadolint' @hadolint/hadolint \
+  lbin'!**/hyperfine' @sharkdp/hyperfine \
+  lbin'!**/rg' @BurntSushi/ripgrep \
+  lbin'!**/shellcheck' @koalaman/shellcheck \
+  lbin'!*->shfmt' @mvdan/sh \
+  lbin'!**/topgrade' @r-darwish/topgrade \
     atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
   ogham/exa
 zi light-mode is-snippet for https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 # ]]]
 #=== COMPILED PROGRAMS ================================
-zi make'PREFIX=$PWD install' sbin nocompile for \
-  Old-Man-Programmer/tree \
-  id-as'zshelldoc/zsd' @zdharma-continuum/zshelldoc
+zi make'PREFIX=$PWD install' nocompile for \
+  lbin'!**tree' Old-Man-Programmer/tree \
+  lbin'!**/zsd' @zdharma-continuum/zshelldoc
 # ]]]
 #=== TESTING ==========================================
 zi as'program' for \
