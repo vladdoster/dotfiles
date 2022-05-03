@@ -1,3 +1,26 @@
+# [1.19.0](https://github.com/vladdoster/dotfiles/compare/v1.18.0...v1.19.0) (2022-05-03)
+
+
+### fix
+
+* remove git artifacts from merge ([c47e7d0](https://github.com/vladdoster/dotfiles/commit/c47e7d0d732d46fe70b601a4717c558df6e098c6))
+* which zsh to use ([f9178ae](https://github.com/vladdoster/dotfiles/commit/f9178ae1b094c537a855c63c7063ec21a578a81e))
+* zinit initialization ([1b99639](https://github.com/vladdoster/dotfiles/commit/1b9963981e5dde8093b43c03eb76856cbad7f167))
+
+### maint
+
+* add alias to output detailed system info ([4c40a2f](https://github.com/vladdoster/dotfiles/commit/4c40a2f5b9bc1384153fc5327932cb4fffd9aacc))
+* add back git-fzf.zsh ([0b6fc01](https://github.com/vladdoster/dotfiles/commit/0b6fc01b22f73f0da5b6c5f2775a7e35238cbc11))
+* add back neovim gh-r recipe to zinit.zsh ([57ae185](https://github.com/vladdoster/dotfiles/commit/57ae185c79aa88aec6381f2a1466344b09f74fff))
+* add logic to handle 2 cases for linuxbrew ([a363eee](https://github.com/vladdoster/dotfiles/commit/a363eee92cd76d9e7e39e6748003a497077464ed))
+* convert all gh-r recipes to use lbin ice ([6c3267d](https://github.com/vladdoster/dotfiles/commit/6c3267d0b29eebdb2a31142912b4d52dc8ec6883))
+* remove 1password-{cli,beta} from Brewfile ([9e7c52b](https://github.com/vladdoster/dotfiles/commit/9e7c52b08b6b0817deb3e870abdc38667eb56e1a))
+* remove vim fold markers from git config ([8cc350e](https://github.com/vladdoster/dotfiles/commit/8cc350e716586e02a2c61420a66f8b2d52d06d4f))
+* stop homebrew autoupdate, fix linuxbrew init, add gh-r recipes, remove git and fzf from zsh init ([364c602](https://github.com/vladdoster/dotfiles/commit/364c6027e78a00cfcd66a3ec5a3d0d6e72ea1807))
+* update lbin syntax for testing ([1458249](https://github.com/vladdoster/dotfiles/commit/1458249ff926eddad25773dce6518ef3c8a1918f))
+* update tar Makefile, Dockerfile, and zinit configs ([061e13d](https://github.com/vladdoster/dotfiles/commit/061e13da4a226728a0268d7955a4cc01ca49ae86))
+* update various zinit.zsh sections ([5add278](https://github.com/vladdoster/dotfiles/commit/5add278e374450d3538e1ab26bc47620ac07b753))
+
 # [1.18.0](https://github.com/vladdoster/dotfiles/compare/v1.17.0...v1.18.0) (2022-04-28)
 
 
