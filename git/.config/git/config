@@ -1,12 +1,9 @@
-# User [[[
 [user]
     email    = "mvdoster@gmail.com"
     name     = "Vladislav Doster"
     username = "vladdoster"
 [credential]
     helper   = cache --timeout=86400
-#]]]
-# Core [[[
 [core]
 	autocrlf = false
     editor       = nvim
@@ -14,15 +11,10 @@
     excludesfile = ~/.config/git/ignore
     pager        = delta
     whitespace   = fix,-indent-with-non-tab,trailing-space,cr-at-eol
-#]]]
-
 [url "github.com"]
     insteadOf=vdoster.com
-
 [url "https://github.com/vladdoster"]
   insteadOf = https://vdoster
-
-
 [color]
     ui            = auto
 [diff]
@@ -30,7 +22,6 @@
     tool          = delta
 [merge]
     conflictstyle = diff3
-
 [commit]
     template   = ~/.config/git/commit-template
 [pull]
@@ -41,11 +32,8 @@
 [rerere]
     enabled    = 1
     autoupdate = 1
-
 [interactive]
     diffFilter = delta --color-only --features=interactive
-
-# delta [[[
 [delta]
   features = line-numbers decorations
   line-numbers = true
@@ -60,35 +48,24 @@
   hunk-header-file-style        = red
   hunk-header-line-number-style = "#067a00"
   hunk-header-style             = file line-number syntax
-#]]]
-# homebrew [[[
 [homebrew]
-	analyticsmessage = true
-	caskanalyticsmessage = true
-#]]]
-# http(s) [[[
+    analyticsmessage = true
+    caskanalyticsmessage = true
 [http]
   sslVerify = false
 [https]
   sslVerify = false
-#]]]
-
 [github]
   user = vladdoster
-
-[gitflow "prefix"]# [[[
-  versiontag = v# ]]]
-
-
+[gitflow "prefix"]
+  versiontag = v
 [alias]
   aliases   = !git config -l | grep alias | cut -c 7-
   bump      = !sh -c 'git commit -am \"Version bump v$1\" && git psuoc && git release $1' -
   merged    = !sh -c 'git o master && git plom && git bd $1 && git rpo' -
-# add [[[
   a  = add --all
   ai = add -i
-  au = add -u #]]]
-# branch [[[
+  au = add -u 
   b   = branch
   ba  = branch -a
   bc  = rev-parse --abbrev-ref HEAD
@@ -97,26 +74,18 @@
   br  = branch -r
   bs  = !git-branch-status
   bu  = !git rev-parse --abbrev-ref --symbolic-full-name "@{u}"
-#]]]
-# checkout [[[
   o   = checkout
   om  = checkout master
   ob  = checkout -b
   opr = !sh -c 'git fo pull/$1/head:pr-$1 && git o pr-$1'
-#]]]
-# cherry-pick [[[
   cp = cherry-pick
   cpa = cherry-pick --abort
   cpc = cherry-pick --continue
-#]]]
-# clone [[[
   cl   = clone
   cld  = clone --depth 1
   clg  = !sh -c 'git clone https://github.com/$1' -
   clgp = !sh -c 'git clone git@github.com:$1 $(basename $1)' -
   clgu = !sh -c 'git clone https://github.com/$(git config --get user.username)/$1 $1' -
-#]]]
-# commit [[[
   c   = commit --signoff
   ca  = commit -a
   cm  = commit -m
@@ -126,25 +95,15 @@
   cdne = commit --amend --no-edit
   cad = commit -a --amend
   ced = commit --allow-empty --amend
-#]]]]
-# diff [[[
   d = diff
   ds = diff --staged
-#]]]
-# fetch [[[
   f  = fetch
   fo = fetch origin
   fu = fetch upstream
-#]]]
-# log [[[
   l  = log --oneline
   lg = log --oneline --graph --decorate
-#]]]
-# ls [[[
   ls  = ls-files
   lsf = !git ls-files | grep -i
-#]]]
-# pull [[[
   pl = pull
   pb = pull --rebase
   plo  = pull origin
@@ -158,8 +117,6 @@
   pluc = !git pull upstream $(git bc)
   pbum = pull --rebase upstream master
   pbuc = !git pull --rebase upstream $(git bc)
-#]]]
-# push [[[
   ps  = push
   psf = push -f
   psu = push -u
@@ -177,15 +134,9 @@
   psfoc = !git push -f origin $(git bc)
   psuoc = !git push -u origin $(git bc)
   psdc  = !git push origin :$(git bc)
-#]]]
-# remote [[[
   rv = remote --verbose
-#]]]
-# restore [[[
   ru = restore
   rs = restore --staged
-#]]]
-# stash [[[
   sa  = stash apply
   sc  = stash clear
   sd  = stash drop
@@ -195,29 +146,17 @@
   ssk = stash save -k
   sw  = stash show
   st  = !git stash list | wc -l 2>/dev/null | grep -oEi '[0-9][0-9]*'
-#]]]
-# status [[[
   s  = status
   sb = status -s -b
-#]]]
-# submodule [[[
   co = checkout
   cob = checkout -b
-#]]]
-# submodule [[[
   subadd  = !sh -c 'git submodule add git://github.com/$1 $2/$(basename $1)' -
   subpull = !git submodule foreach git pull --tags origin master
   subrm   = !sh -c 'git submodule deinit -f -- $1 && rm -rf .git/modules/$1 && git rm -f $1' -
   subup   = submodule update --init --recursive
-#]]]
-# tag [[[
   t  = tag
   td = tag -d
   release   = !sh -c 'git tag v$1 && git pst' -
   unrelease = !sh -c 'git tag -d v$1 && git pso :v$1' -
-#]]]
-# tag [[[
   w  = show
-#]]]
-
-# vim:ft=toml:sw=4:sts=4:et:foldmarker=[[[,]]]:foldmethod=marker
+# vim:ft=toml:sw=2:sts=2
