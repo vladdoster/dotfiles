@@ -54,7 +54,7 @@ zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null" \
 # #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 zi for is-snippet \
   OMZL::{'clipboard','compfix','completion','git','grep','key-bindings'}.zsh \
-  OMZP::{'brew'} \
+  OMZP::brew \
   PZT::modules/{'history','rsync'}
 zi as'completion' for OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
 #=== COMPLETIONS ======================================
@@ -86,35 +86,37 @@ setopt PROMPT_SUBST;  export KEYTIMEOUT=1 export LANG=en_US.UTF-8; export LC_ALL
 export LC_COLLATE='C' export LESS='-RMs'; export PAGER=less;       export VISUAL=vi
 RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
 #=== ANNEXES ==========================================
+    # ver'fix/improve-lbin-logic' \
 zi light-mode for \
   "$ZI_FORK"/zinit-annex-bin-gem-node \
-    ver'fix/improve-lbin-logic' \
-  "$ZI_REPO"/zinit-annex-binary-symlink \
-  "$ZI_REPO"/zinit-annex-{'patch-dl','submods'}
+  "$ZI_REPO"/zinit-annex-{'binary-symlink','patch-dl','submods'}
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' nocompile for \
-  lbin'!**/delta' @dandavison/delta \
-  lbin'!**/fd' @sharkdp/fd  \
-  lbin'!**/fzf' @junegunn/fzf \
+  lbin'!* -> hadolint' @hadolint/hadolint \
+  lbin'!* -> shfmt'    @mvdan/sh \
+  lbin'!**/delta'      @dandavison/delta \
+  lbin'!**/fd'         @sharkdp/fd  \
+  lbin'!**/fzf'        @junegunn/fzf \
   lbin'!**/git-chglog' @git-chglog/git-chglog \
-  lbin'!**/grex' @pemistahl/grex \
-  lbin'!*->hadolint' @hadolint/hadolint \
-  lbin'!**/hyperfine' @sharkdp/hyperfine \
-  lbin'!**/rg' @BurntSushi/ripgrep \
+  lbin'!**/grex'       @pemistahl/grex \
+  lbin'!**/hyperfine'  @sharkdp/hyperfine \
+  lbin'!**/rg'         @BurntSushi/ripgrep \
+  lbin'!**/nvim'       @neovim/neovim \
   lbin'!**/shellcheck' @koalaman/shellcheck \
-  lbin'!*->shfmt' @mvdan/sh \
-  lbin'!**/topgrade' @r-darwish/topgrade \
-    atinit"alias l='exa -blF';alias la='exa -abghilmu;alias ll='exa -al;alias ls='exa --git --group-directories-first'" \
-  ogham/exa
+  lbin'!**/topgrade'   @r-darwish/topgrade \
+  lbin'!**/exa' atinit" alias ll='exa -al'
+    alias l='exa -blF'; alias la='exa -abghilmu'
+    alias ls='exa --git --group-directories-first'" \
+  @ogham/exa
 zi light-mode is-snippet for https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 #=== COMPILED PROGRAMS ================================
 zi make'PREFIX=$PWD install' nocompile for \
-  lbin'!**tree' Old-Man-Programmer/tree \
-  lbin'!**/zsd' @zdharma-continuum/zshelldoc
+  lbin'!**/tree' Old-Man-Programmer/tree \
+  lbin'!**/zsd' $ZI_REPO/zshelldoc
 #=== TESTING ==========================================
-zi as'program' for \
-  pick"revolver" mv'revolver.zsh-completion -> _revolver' molovo/revolver \
-  atclone'./build.zsh' mv'zunit.zsh-completion -> _zunit' pick"zunit" zunit-zsh/zunit
+zi for \
+  lbin'!revolver' mv'*completion -> _revolver' molovo/revolver \
+  atclone'./build.zsh' lbin'!zunit' mv'*completion -> _zunit' zunit-zsh/zunit
 #=== PYTHON ===========================================[[[
 function _pip_completion {
   local words cword; read -Ac words; read -cn cword
@@ -127,27 +129,39 @@ function _pip_completion {
 }; compctl -K _pip_completion pip3
 #=== MISC. ============================================[[[
 zi light-mode for \
-    atinit"bindkey -M vicmd '^e' edit-command-line" compile'zsh-vim-mode*.zsh' \
+    atinit"bindkey -M vicmd '^e' edit-command-line" \
+    compile'zsh-vim-mode*.zsh' \
   softmoth/zsh-vim-mode \
   thewtex/tmux-mem-cpu-load \
-    svn submods'zsh-users/zsh-history-substring-search -> external' \
+    submods'zsh-users/zsh-history-substring-search -> external' \
+    svn \
   OMZ::plugins/history-substring-search \
-    blockf atpull'zinit creinstall -q .' \
+    atpull'zinit creinstall -q .' \
+    blockf \
   zsh-users/zsh-completions \
     atload'_zsh_autosuggest_start' \
     atinit"
-      bindkey '^_' autosuggest-execute; bindkey '^ ' autosuggest-accept
-      ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50" \
+      ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50
+      bindkey '^_' autosuggest-execute
+      bindkey '^ ' autosuggest-accept" \
   zsh-users/zsh-autosuggestions \
-    atload'FAST_HIGHLIGHT[chroma-man]=' \
     atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
+    atload'FAST_HIGHLIGHT[chroma-man]=' \
+    atpull'%atclone' \
     compile'.*fast*~*.zwc' \
     nocompletions \
-    atpull'%atclone' \
   $ZI_REPO/fast-syntax-highlighting
 
-zi for lucid wait id-as'zinit/cleanup' nocd as'null' atload'
-    zicompinit; zicdreplay; _zsh_highlight_bind_widgets; _zsh_autosuggest_bind_widgets' \
-  zdharma-continuum/null
+zi for \
+    as'null' \
+    atload'
+      zicompinit; zicdreplay
+      _zsh_highlight_bind_widgets
+      _zsh_autosuggest_bind_widgets' \
+    id-as'zinit/cleanup' \
+    lucid \
+    nocd \
+    wait \
+  $ZI_REPO/null
 
 # vim:ft=zsh:sw=2:sts=2
