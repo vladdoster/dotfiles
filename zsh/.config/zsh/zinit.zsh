@@ -123,9 +123,14 @@ zi make'PREFIX=$PWD install' nocompile for \
   lbin'!**/tree' Old-Man-Programmer/tree \
   lbin'!**/zsd' $ZI_REPO/zshelldoc
 #=== TESTING ==========================================
-zi as'program' for \
-  lbin'!revolver' mv'*completion -> _revolver' molovo/revolver \
-  atclone'./build.zsh' lbin'zunit' mv'*completion -> _zunit' zunit-zsh/zunit
+zi lucid for \
+    lbin'!revolver' \
+    mv'*completion -> _revolver' \
+  molovo/revolver \
+    atclone'zsh build.zsh' \
+    lbin'!zunit -> zunit' \
+    mv'*completion -> _zunit' \
+  $ZI_REPO/zunit
 #=== PYTHON ===========================================[[[
 function _pip_completion {
   local words cword; read -Ac words; read -cn cword
