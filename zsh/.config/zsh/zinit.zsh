@@ -95,22 +95,23 @@ zi from'gh-r' nocompile for \
   lbin'!' @hadolint/hadolint \
   lbin'!* -> jq' @stedolan/jq \
   lbin'!**/gh' @cli/cli \
-  lbin'!* -> shfmt'    @mvdan/sh \
-  sbin @dandavison/delta \
-  sbin @sharkdp/fd  \
-  sbin @junegunn/fzf \
-  sbin @git-chglog/git-chglog \
+  lbin'!* -> shfmt' @mvdan/sh \
+  lbin'!* -> docker-compose' @docker/compose \
+  lbin @dandavison/delta \
+  lbin @sharkdp/fd  \
+  lbin @junegunn/fzf \
+  lbin @git-chglog/git-chglog \
       bpick'*tar.gz*' \
       from'gh-r' \
       sbin'nvim' \
       ver'nightly' \
     neovim/neovim \
-  sbin @pemistahl/grex \
-  sbin @sharkdp/hyperfine \
-  lbin'!**/rg'         @BurntSushi/ripgrep \
-  sbin @koalaman/shellcheck \
-  sbin @r-darwish/topgrade \
-  sbin atinit" alias ll='exa -al'
+  lbin @pemistahl/grex \
+  lbin @sharkdp/hyperfine \
+  lbin'!**/rg' @BurntSushi/ripgrep \
+  lbin @koalaman/shellcheck \
+  lbin @r-darwish/topgrade \
+  lbin atinit" alias ll='exa -al'
     alias l='exa -blF'; alias la='exa -abghilmu'
     alias ls='exa --git --group-directories-first'" \
   @ogham/exa
