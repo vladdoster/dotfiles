@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := install
+.DEFAULT_GOAL:=install
 .ONESHELL:
 
 help: ## Display all Makfile targets
@@ -11,9 +11,11 @@ GH_URL=https://github.com/vladdoster
 hammerspoon: destination:=$$HOME/.hammerspoon
 neovim: destination:=$$HOME/.config/nvim
 
+.SILENT: neovim
 $(CONFIGS): ## Clone a program's configuration repository
-	$(info --- did not found $(@) config, fetching..)
-	git clone --progress --quiet $(GH_URL)/$@-configuration $(destination)
+	if ! [ -d $(destination) ]; then \
+		git clone --progress --quiet $(GH_URL)/$@-configuration $(destination); \
+	fi
 
 install: | clean neovim ## Deploy dotfiles via GNU install
 	find * -maxdepth 0 -type d -exec stow --verbose 1 {} --target $$HOME \;
