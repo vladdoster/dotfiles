@@ -101,7 +101,6 @@ zi from'gh-r' nocompile for \
   lbin'!**/grex'       @pemistahl/grex \
   lbin'!**/hyperfine'  @sharkdp/hyperfine \
   lbin'!**/rg'         @BurntSushi/ripgrep \
-  lbin'!**/nvim'       @neovim/neovim \
   lbin'!**/shellcheck' @koalaman/shellcheck \
   lbin'!**/topgrade'   @r-darwish/topgrade \
   lbin'!**/exa' atinit" alias ll='exa -al'

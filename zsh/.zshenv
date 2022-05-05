@@ -7,50 +7,35 @@
 # you find a bug, have a feature request, or a question.
 #
 # SYSTEM SPECIFIC 
-print -P "%F{blue}[INFO]%f: %F{cyan} ${OSTYPE} ($(uname -m)) detected %f"
 
-add_to_path(){ 
-  if [[ -d $1 ]]; then
-    export PATH="${1}:$PATH" 
-  fi
+path_append() {
+  for ARG in "$@"; do
+    if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
+        PATH="${PATH:+"$PATH:"}$ARG"
+        print -P "%F{blue}[INFO]%f: %F{cyan}Appended to PATH%f -> %F{green}${ARG}%f"
+    fi
+  done
 }
 
-case "${OSTYPE}" in
-  darwin*)
-    case $(uname -m) in
-      arm64)
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-        add_to_path "/opt/homebrew/opt/make/libexec/gnubin"
-        ;;
-      x86_64)
-        eval "$(/usr/local/bin/brew shellenv)"
-        add_to_path "/usr/local/opt/coreutils/libexec/gnubin"
-        ;;
-    esac
-    ;;
-  linux*)
-    if [[ -d /home/linuxbrew/ ]] { eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" } 
-    if [[ -d /home/$USER/.linuxbrew ]] { eval "$(/home/$USER/.linuxbrew/Homebrew/bin/brew shellenv)" }
-    ;;
-  *) print -P "%F{red}[WARNING]%f:%F{yellow} ${OSTYPE} is unsupported %f"
-    ;;
-esac
-
+activate_brew() {
+  LOCATIONS=( '/opt/homebrew' '/usr/local' '$HOME/.linuxbrew/Homebrew' '/home/linuxbrew/.linuxbrew' )
+  for ARG in $LOCATIONS; do
+    if [ -d "$ARG" ]; then
+      print -P "%F{blue}[INFO]%f: %F{cyan}OS%f @ %F{green}${OSTYPE} ($(uname -m))%f"
+      eval "$(${ARG}/bin/brew shellenv)"
+      print -P "%F{blue}[INFO]%f: %F{cyan}Homebrew%f @ %F{green}$ARG/bin/brew%f"
+      break
+    fi
+  done
+}
+activate_brew
 # RESERVED VARIABLES
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
 (( ${+HOSTNAME} )) || export HOSTNAME="$HOST"
 (( ${+LANGUAGE} )) || export LANGUAGE="$LANG"
 (( ${+USER}   )) || export USER="$USERNAME"
-[[ -d "$HOME/.local/bin" ]] && export PATH="$PATH:$HOME/.local/bin" # personal scriptsbrew
-# (( $(brew list --quiet | grep 'guile') )) && {
-#   export GUILE_LOAD_PATH="/home/linuxbrew/.linuxbrew/share/guile/site/3.0" && \
-#   export GUILE_LOAD_COMPILED_PATH="/home/linuxbrew/.linuxbrew/lib/guile/3.0/site-ccache" && \
-#   export GUILE_SYSTEM_EXTENSIONS_PATH="/home/linuxbrew/.linuxbrew/lib/guile/3.0/extensions"
-# }
-# (( $(brew list --quiet | grep 'coreutils') )) && { 
-#   add_to_path "/usr/local/opt/coreutils/libexec/gnubin"
-# }
+path_append "/opt/homebrew/opt/make/libexec/gnubin"
+path_append "/usr/local/opt/coreutils/libexec/gnubin"
+path_append "$HOME/.local/bin" # personal scriptsbrew
 # XDG ENV VARIABLES 
 (( ${+XDG_CACHE_HOME}  )) || export XDG_CACHE_HOME="$HOME/.cache"
 (( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="$HOME/.config"
