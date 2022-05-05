@@ -92,30 +92,39 @@ zi light-mode for \
   "$ZI_REPO"/zinit-annex-{'binary-symlink','patch-dl','submods'}
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' nocompile for \
-  lbin'!* -> hadolint' @hadolint/hadolint \
+  lbin'!' @hadolint/hadolint \
+  lbin'!* -> jq' @stedolan/jq \
+  lbin'!**/gh' @cli/cli \
   lbin'!* -> shfmt'    @mvdan/sh \
-  lbin'!**/delta'      @dandavison/delta \
-  lbin'!**/fd'         @sharkdp/fd  \
-  lbin'!**/fzf'        @junegunn/fzf \
-  lbin'!**/git-chglog' @git-chglog/git-chglog \
-  lbin'!**/grex'       @pemistahl/grex \
-  lbin'!**/hyperfine'  @sharkdp/hyperfine \
+  sbin @dandavison/delta \
+  sbin @sharkdp/fd  \
+  sbin @junegunn/fzf \
+  sbin @git-chglog/git-chglog \
+      bpick'*tar.gz*' \
+      from'gh-r' \
+      sbin'nvim' \
+      ver'nightly' \
+    neovim/neovim \
+  sbin @pemistahl/grex \
+  sbin @sharkdp/hyperfine \
   lbin'!**/rg'         @BurntSushi/ripgrep \
-  lbin'!**/shellcheck' @koalaman/shellcheck \
-  lbin'!**/topgrade'   @r-darwish/topgrade \
-  lbin'!**/exa' atinit" alias ll='exa -al'
+  sbin @koalaman/shellcheck \
+  sbin @r-darwish/topgrade \
+  sbin atinit" alias ll='exa -al'
     alias l='exa -blF'; alias la='exa -abghilmu'
     alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 zi light-mode is-snippet for https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
+zi from'gh-r' nocompile sbin'*->rust-analyzer' for \
+  rust-lang/rust-analyzer
 #=== COMPILED PROGRAMS ================================
 zi make'PREFIX=$PWD install' nocompile for \
   lbin'!**/tree' Old-Man-Programmer/tree \
   lbin'!**/zsd' $ZI_REPO/zshelldoc
 #=== TESTING ==========================================
-zi for \
+zi as'program' for \
   lbin'!revolver' mv'*completion -> _revolver' molovo/revolver \
-  atclone'./build.zsh' lbin'!zunit' mv'*completion -> _zunit' zunit-zsh/zunit
+  atclone'./build.zsh' lbin'zunit' mv'*completion -> _zunit' zunit-zsh/zunit
 #=== PYTHON ===========================================[[[
 function _pip_completion {
   local words cword; read -Ac words; read -cn cword
