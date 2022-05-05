@@ -1,3 +1,15 @@
+# [1.20.0](https://github.com/vladdoster/dotfiles/compare/v1.19.0...v1.20.0) (2022-05-05)
+
+
+### maint
+
+* clean up and format zinit.zsh ([3791f42](https://github.com/vladdoster/dotfiles/commit/3791f429cc41d6c03051a415ed5add1c10e2d248))
+* new gh workflow && zinit logic ([90b5c3c](https://github.com/vladdoster/dotfiles/commit/90b5c3c01de043c4fb6190d051f62fc4221d68c3))
+
+### refactor
+
+* homebrew activation logic in zshenv ([c3fe834](https://github.com/vladdoster/dotfiles/commit/c3fe834c85ba5a900ed414633d2580486747c682))
+
 # [1.19.0](https://github.com/vladdoster/dotfiles/compare/v1.18.0...v1.19.0) (2022-05-03)
 
 
