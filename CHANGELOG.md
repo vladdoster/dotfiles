@@ -1,3 +1,16 @@
+# [1.21.0](https://github.com/vladdoster/dotfiles/compare/v1.20.0...v1.21.0) (2022-05-06)
+
+
+### feat
+
+* check if config exists, update Brewfile, and rm compile from zshrc ([e959623](https://github.com/vladdoster/dotfiles/commit/e95962326f61ca0bb197b1f7064deff8b141b6cf))
+
+### maint
+
+* change gh binaries to use lbin ice ([02ebd81](https://github.com/vladdoster/dotfiles/commit/02ebd8116cb089b676d4e396e2e94442e7746403))
+* cleanup zinit.zsh binary and plugin installations ([ad06ed6](https://github.com/vladdoster/dotfiles/commit/ad06ed66d02d10dd2c82f3cdf8878c84bd17fc6a))
+* update zunit and revolver recipes ([f074838](https://github.com/vladdoster/dotfiles/commit/f07483828c6ebe9d1c61ee58f7a3fbba1c037f84))
+
 # [1.20.0](https://github.com/vladdoster/dotfiles/compare/v1.19.0...v1.20.0) (2022-05-05)
 
 
