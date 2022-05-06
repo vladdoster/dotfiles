@@ -86,52 +86,44 @@ setopt PROMPT_SUBST;  export KEYTIMEOUT=1 export LANG=en_US.UTF-8; export LC_ALL
 export LC_COLLATE='C' export LESS='-RMs'; export PAGER=less;       export VISUAL=vi
 RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
 #=== ANNEXES ==========================================
-    # ver'fix/improve-lbin-logic' \
-zi light-mode for \
-  "$ZI_FORK"/zinit-annex-bin-gem-node \
-  "$ZI_REPO"/zinit-annex-{'binary-symlink','patch-dl','submods'}
+zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
 #=== GITHUB BINARIES ==================================
-zi from'gh-r' nocompile for \
-  lbin'!' @hadolint/hadolint \
-  lbin'!* -> jq' @stedolan/jq \
-  lbin'!**/gh' @cli/cli \
-  lbin'!* -> shfmt' @mvdan/sh \
+zi from'gh-r' lbin'!' nocompile for \
+  @dandavison/delta \
+  @git-chglog/git-chglog \
+  @hadolint/hadolint \
+  @junegunn/fzf \
+  @koalaman/shellcheck \
+  @pemistahl/grex \
+  @r-darwish/topgrade \
+  @sharkdp/fd  \
+  @sharkdp/hyperfine \
   lbin'!* -> docker-compose' @docker/compose \
-  lbin @dandavison/delta \
-  lbin @sharkdp/fd  \
-  lbin @junegunn/fzf \
-  lbin @git-chglog/git-chglog \
-      bpick'*tar.gz*' \
-      from'gh-r' \
-      sbin'nvim' \
-      ver'nightly' \
-    neovim/neovim \
-  lbin @pemistahl/grex \
-  lbin @sharkdp/hyperfine \
+  lbin'!* -> jq' @stedolan/jq \
+  lbin'!* -> shfmt' @mvdan/sh \
+  lbin'!**/gh' @cli/cli \
   lbin'!**/rg' @BurntSushi/ripgrep \
-  lbin @koalaman/shellcheck \
-  lbin @r-darwish/topgrade \
-  lbin atinit" alias ll='exa -al'
+  lbin atinit"alias ll='exa -al'
     alias l='exa -blF'; alias la='exa -abghilmu'
     alias ls='exa --git --group-directories-first'" \
   @ogham/exa
-zi light-mode is-snippet for https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
-zi from'gh-r' nocompile sbin'*->rust-analyzer' for \
-  rust-lang/rust-analyzer
+
+zi as'command' light-mode for \
+  pick'revolver' @molovo/revolver \
+  pick'zunit' atclone'./build.zsh' @zunit-zsh/zunit
+
+zi ice as'command' pick'src/vramsteg' atclone'cmake .' atpull'%atclone' make
+zi light z-shell/vramsteg-zsh
+
+# zi light-mode for \
+#   mv'*completion -> _revolver' @molovo/revolver \
+#   atclone'zsh build.zsh' mv'*completion -> _zunit' @$ZI_REPO/zunit \
+#   is-snippet https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 #=== COMPILED PROGRAMS ================================
-zi make'PREFIX=$PWD install' nocompile for \
+zi lucid make'PREFIX=$PWD install' nocompile for \
   lbin'!**/tree' Old-Man-Programmer/tree \
   lbin'!**/zsd' $ZI_REPO/zshelldoc
-#=== TESTING ==========================================
-zi lucid for \
-    lbin'!revolver' \
-    mv'*completion -> _revolver' \
-  molovo/revolver \
-    atclone'zsh build.zsh' \
-    lbin'!zunit -> zunit' \
-    mv'*completion -> _zunit' \
-  $ZI_REPO/zunit
-#=== PYTHON ===========================================[[[
+#=== PYTHON ===========================================
 function _pip_completion {
   local words cword; read -Ac words; read -cn cword
   reply=(
@@ -141,7 +133,7 @@ function _pip_completion {
     )
   )
 }; compctl -K _pip_completion pip3
-#=== MISC. ============================================[[[
+#=== MISC. ============================================
 zi light-mode for \
     atinit"bindkey -M vicmd '^e' edit-command-line" \
     compile'zsh-vim-mode*.zsh' \
