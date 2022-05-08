@@ -86,14 +86,15 @@ setopt PROMPT_SUBST;  export KEYTIMEOUT=1 export LANG=en_US.UTF-8; export LC_ALL
 export LC_COLLATE='C' export LESS='-RMs'; export PAGER=less;       export VISUAL=vi
 RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
 #=== ANNEXES ==========================================
-zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
+zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','submods'}
+zi light-mode for vladdoster/z-a-linkbin
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' lbin'!' nocompile for \
   @dandavison/delta \
   @git-chglog/git-chglog \
   @hadolint/hadolint \
-  @junegunn/fzf \
-  @koalaman/shellcheck \
+  lbin'!fzf' @junegunn/fzf \
+  lbin'!**/shellcheck' @koalaman/shellcheck \
   @pemistahl/grex \
   @r-darwish/topgrade \
   @sharkdp/fd  \
