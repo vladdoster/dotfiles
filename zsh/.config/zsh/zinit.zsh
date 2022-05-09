@@ -60,12 +60,10 @@ zi as'completion' for OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
 install_completion(){ zinit for as'completion' nocompile id-as"$1" is-snippet "$GH_RAW_URL/$2"; }
-install_completion 'bat-completion/_bat'       'sharkdp/bat/master/assets/completions/bat.zsh.in'
 install_completion 'brew-completion/_brew'     'Homebrew/brew/master/completions/zsh/_brew'
 install_completion 'docker-completion/_docker' 'docker/cli/master/contrib/completion/zsh/_docker'
-install_completion 'exa-completion/_exa'   'ogham/exa/master/completions/zsh/_exa'
-install_completion 'fd-completion/_fd'     'sharkdp/fd/master/contrib/completion/_fd'
-install_completion 'tldr-completion/_tldr' 'dbrgn/tealdeer/main/completion/zsh_tealdeer'
+install_completion 'exa-completion/_exa'       'ogham/exa/master/completions/zsh/_exa'
+install_completion 'fd-completion/_fd'         'sharkdp/fd/master/contrib/completion/_fd'
 #=== PROMPT ===========================================
 zi light-mode for \
   compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
@@ -89,36 +87,24 @@ RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
 zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' lbin'!' nocompile for \
-  @dandavison/delta \
-  @git-chglog/git-chglog \
-  @hadolint/hadolint \
-  @junegunn/fzf \
-  @koalaman/shellcheck \
-  @pemistahl/grex \
-  @r-darwish/topgrade \
-  @sharkdp/fd  \
+  @dandavison/delta    @junegunn/fzf   \
+  @koalaman/shellcheck @pemistahl/grex \
+  @r-darwish/topgrade  @sharkdp/fd     \
   @sharkdp/hyperfine \
-  lbin'!* -> docker-compose' @docker/compose \
-  lbin'!* -> jq' @stedolan/jq \
-  lbin'!* -> shfmt' @mvdan/sh \
-  lbin'!**/gh' @cli/cli \
-  lbin'!**/rg' @BurntSushi/ripgrep \
-  lbin atinit"alias ll='exa -al'
-    alias l='exa -blF'; alias la='exa -abghilmu'
+  lbin'!* -> jq'     @stedolan/jq        \
+  lbin'!* -> shfmt'  @mvdan/sh           \
+  lbin'!**/bin/nvim' @neovim/neovim      \
+  lbin'!**/rg'       @BurntSushi/ripgrep \
+  lbin atinit"
+    alias ll='exa -al';
+    alias l='exa -blF'; 
+    alias la='exa -abghilmu';
     alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 
 zi as'command' light-mode for \
   pick'revolver' @molovo/revolver \
   pick'zunit' atclone'./build.zsh' @zunit-zsh/zunit
-
-zi ice as'command' pick'src/vramsteg' atclone'cmake .' atpull'%atclone' make
-zi light z-shell/vramsteg-zsh
-
-# zi light-mode for \
-#   mv'*completion -> _revolver' @molovo/revolver \
-#   atclone'zsh build.zsh' mv'*completion -> _zunit' @$ZI_REPO/zunit \
-#   is-snippet https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 #=== COMPILED PROGRAMS ================================
 zi lucid make'PREFIX=$PWD install' nocompile for \
   lbin'!**/tree' Old-Man-Programmer/tree \
@@ -135,15 +121,12 @@ function _pip_completion {
 }; compctl -K _pip_completion pip3
 #=== MISC. ============================================
 zi light-mode for \
-    atinit"bindkey -M vicmd '^e' edit-command-line" \
-    compile'zsh-vim-mode*.zsh' \
+    atinit"bindkey -M vicmd '^e' edit-command-line" compile'zsh-vim-mode*.zsh' \
   softmoth/zsh-vim-mode \
   thewtex/tmux-mem-cpu-load \
-    submods'zsh-users/zsh-history-substring-search -> external' \
-    svn \
+    svn submods'zsh-users/zsh-history-substring-search -> external' \
   OMZ::plugins/history-substring-search \
-    atpull'zinit creinstall -q .' \
-    blockf \
+    atpull'zinit creinstall -q .' blockf \
   zsh-users/zsh-completions \
     atload'_zsh_autosuggest_start' \
     atinit"
@@ -152,22 +135,15 @@ zi light-mode for \
       bindkey '^ ' autosuggest-accept" \
   zsh-users/zsh-autosuggestions \
     atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
-    atload'FAST_HIGHLIGHT[chroma-man]=' \
-    atpull'%atclone' \
-    compile'.*fast*~*.zwc' \
-    nocompletions \
+    atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
+    compile'.*fast*~*.zwc' nocompletions \
   $ZI_REPO/fast-syntax-highlighting
 
-zi for \
-    as'null' \
-    atload'
+zi for atload'
       zicompinit; zicdreplay
       _zsh_highlight_bind_widgets
       _zsh_autosuggest_bind_widgets' \
-    id-as'zinit/cleanup' \
-    lucid \
-    nocd \
-    wait \
+    as'null' id-as'zinit/cleanup' lucid nocd wait \
   $ZI_REPO/null
 
 # vim:ft=zsh:sw=2:sts=2

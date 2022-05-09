@@ -1,11 +1,10 @@
 .DEFAULT_GOAL := help
 .ONESHELL:
 
-# Variables [[[
+# Variables 
 GIT=https://api.github.com/repos
 GNU=http://ftpmirror.gnu.org/gnu
 
-.PHONY: zsh
 PROGS := \
 	aspell autoconf autogen automake \
 	bash binutils bison \
@@ -34,7 +33,7 @@ PY_PROGS := \
 	isort \
 	mdformat mdformat-gfm mdformat-toc mdformat-config mdformat-black \
 	pynvim
-#]]]
+
 # Program tarball URLs
 aspell:      URL:=$(GIT)/aspell/aspell/tarball
 autoconf:    URL:=$(GNU)/autoconf/autoconf-2.71.tar.gz
@@ -119,8 +118,7 @@ yasm:           URL:=$(GIT)/yasm/yasm/tarball
 
 zsh:            URL:=$(GIT)/zsh-users/zsh/tarball
 
-#
-# Targets [[[
+# Targets 
 install : $(PROGS)
 go-install : $(GO_PROGS)
 py-install : $(PY_PROGS)
@@ -134,7 +132,7 @@ help:
 	| column
 
 $(PROGS):
-	zsh tarball-installer.zsh $(@) $(URL) $(OPTS)
+	bash tarball-installer $(@) $(URL) $(OPTS)
 
 $(GO_PROGS):
 	go install $(URL)
@@ -148,6 +146,6 @@ lua-format-deps:
 	brew install antlr \
 		           antlr4-cpp-runtime \
 							 yaml-cpp
-#]]]
+#
 
-# vim:ft=zsh:sw=4:sts=4:et:foldmarker=[[[,]]]:foldmethod=marker
+# vim:ft=zsh:sw=4:sts=4
