@@ -67,7 +67,7 @@ install_completion 'exa-completion/_exa'   'ogham/exa/master/completions/zsh/_ex
 install_completion 'fd-completion/_fd'     'sharkdp/fd/master/contrib/completion/_fd'
 install_completion 'tldr-completion/_tldr' 'dbrgn/tealdeer/main/completion/zsh_tealdeer'
 #=== PROMPT ===========================================
-zi light-mode for \
+zi for \
   compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
     PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
     PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
@@ -86,8 +86,7 @@ setopt PROMPT_SUBST;  export KEYTIMEOUT=1 export LANG=en_US.UTF-8; export LC_ALL
 export LC_COLLATE='C' export LESS='-RMs'; export PAGER=less;       export VISUAL=vi
 RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
 #=== ANNEXES ==========================================
-zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl','submods'}
-zi light-mode for vladdoster/z-a-linkbin
+zi compile'handler' for "$ZI_REPO"/zinit-annex-{'binary-symlink','bin-gem-node','patch-dl','submods'}
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' lbin'!' nocompile for \
   @dandavison/delta \
@@ -109,21 +108,14 @@ zi from'gh-r' lbin'!' nocompile for \
     alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 
-zi as'command' light-mode for \
+zi as'command' for \
   pick'revolver' @molovo/revolver \
   pick'zunit' atclone'./build.zsh' @zunit-zsh/zunit
-
-zi ice as'command' pick'src/vramsteg' atclone'cmake .' atpull'%atclone' make
-zi light z-shell/vramsteg-zsh
-
-# zi light-mode for \
-#   mv'*completion -> _revolver' @molovo/revolver \
-#   atclone'zsh build.zsh' mv'*completion -> _zunit' @$ZI_REPO/zunit \
-#   is-snippet https://github.com/junegunn/fzf/raw/master/shell/{'completion','key-bindings'}.zsh
 #=== COMPILED PROGRAMS ================================
 zi lucid make'PREFIX=$PWD install' nocompile for \
   lbin'!**/tree' Old-Man-Programmer/tree \
-  lbin'!**/zsd' $ZI_REPO/zshelldoc
+  lbin'!**/zsd' $ZI_REPO/zshelldoc \
+  lbin'!**/bin/fzy -> fzy' @jhawthorn/fzy
 #=== PYTHON ===========================================
 function _pip_completion {
   local words cword; read -Ac words; read -cn cword
@@ -135,7 +127,7 @@ function _pip_completion {
   )
 }; compctl -K _pip_completion pip3
 #=== MISC. ============================================
-zi light-mode for \
+zi for \
     atinit"bindkey -M vicmd '^e' edit-command-line" \
     compile'zsh-vim-mode*.zsh' \
   softmoth/zsh-vim-mode \
@@ -143,10 +135,9 @@ zi light-mode for \
     submods'zsh-users/zsh-history-substring-search -> external' \
     svn \
   OMZ::plugins/history-substring-search \
-    atpull'zinit creinstall -q .' \
     blockf \
   zsh-users/zsh-completions \
-    atload'_zsh_autosuggest_start' \
+    atload'!_zsh_autosuggest_start' \
     atinit"
       ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50
       bindkey '^_' autosuggest-execute
@@ -159,16 +150,27 @@ zi light-mode for \
     nocompletions \
   $ZI_REPO/fast-syntax-highlighting
 
+# zinit for \
+#   from"gh-r" \
+#   lbin'!*->tldr' \
+#   nocompile \
+#   @dbrgn/tealdeer 
+#
+# zinit for \
+#   as"completion" \
+#   bpick"completions_zsh" \
+#   from"gh-r" \
+#   id-as"tldr-completion/gh-r" \
+#   pick"completions_zsh" \
+#   @dbrgn/tealdeer 
+
 zi for \
-    as'null' \
-    atload'
-      zicompinit; zicdreplay
-      _zsh_highlight_bind_widgets
-      _zsh_autosuggest_bind_widgets' \
+    as'null' atload'
+      zicompinit; zicdreplay;
+      _zsh_highlight_bind_widgets;
+      _zsh_autosuggest_bind_widgets;' \
     id-as'zinit/cleanup' \
-    lucid \
-    nocd \
-    wait \
+    lucid nocd wait \
   $ZI_REPO/null
 
 # vim:ft=zsh:sw=2:sts=2
