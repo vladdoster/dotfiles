@@ -20,12 +20,12 @@ path_append() {
 activate_brew() {
   LOCATIONS=( '/opt/homebrew' '/usr/local' '$HOME/.linuxbrew/Homebrew' '/home/linuxbrew/.linuxbrew' )
   for ARG in $LOCATIONS; do
-    if [ -d "$ARG" ]; then
+    if [[ -e "${ARG}"/bin/brew  ]] {
       print -P "%F{blue}[INFO]%f: %F{cyan}OS%f @ %F{green}${OSTYPE} ($(uname -m))%f"
-      eval "$(${ARG}/bin/brew shellenv)"
-      print -P "%F{blue}[INFO]%f: %F{cyan}Homebrew%f @ %F{green}$ARG/bin/brew%f"
+      if eval "$( ${ARG}/bin/brew shellenv )"
+      print -P "%F{blue}[INFO]%f: %F{cyan}Homebrew%f @ %F{green}${ARG}/bin/brew%f"
       break
-    fi
+    }
   done
 }
 activate_brew
@@ -35,7 +35,7 @@ activate_brew
 (( ${+USER}   )) || export USER="$USERNAME"
 path_append "/opt/homebrew/opt/make/libexec/gnubin"
 path_append "/usr/local/opt/coreutils/libexec/gnubin"
-path_append "$HOME/.local/bin" # personal scriptsbrew
+path_append "$HOME/.local/bin"
 # XDG ENV VARIABLES 
 (( ${+XDG_CACHE_HOME}  )) || export XDG_CACHE_HOME="$HOME/.cache"
 (( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="$HOME/.config"
