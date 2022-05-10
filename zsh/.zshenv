@@ -33,6 +33,8 @@ activate_brew
 (( ${+HOSTNAME} )) || export HOSTNAME="$HOST"
 (( ${+LANGUAGE} )) || export LANGUAGE="$LANG"
 (( ${+USER}   )) || export USER="$USERNAME"
+path_append "/opt/homebrew/opt/gnu-sed/libexec/gnubin"
+path_append "/opt/homebrew/opt/gnu-tar/libexec/gnubin"
 path_append "/opt/homebrew/opt/make/libexec/gnubin"
 path_append "/usr/local/opt/coreutils/libexec/gnubin"
 path_append "$HOME/.local/bin" # personal scriptsbrew
