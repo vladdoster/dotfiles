@@ -132,7 +132,7 @@ help:
 	| column
 
 $(PROGS):
-	bash tarball-installer $(@) $(URL) $(OPTS)
+	zsh tarball-installer $(@) $(URL) $(OPTS)
 
 $(GO_PROGS):
 	go install $(URL)
