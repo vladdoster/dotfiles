@@ -92,8 +92,6 @@ zi from'gh-r' lbin'!' nocompile for \
   @dandavison/delta \
   @git-chglog/git-chglog \
   @hadolint/hadolint \
-  lbin'!fzf' @junegunn/fzf \
-  lbin'!**/shellcheck' @koalaman/shellcheck \
   @pemistahl/grex \
   @r-darwish/topgrade \
   @sharkdp/fd  \
@@ -103,6 +101,8 @@ zi from'gh-r' lbin'!' nocompile for \
   lbin'!* -> shfmt' @mvdan/sh \
   lbin'!**/gh' @cli/cli \
   lbin'!**/rg' @BurntSushi/ripgrep \
+  lbin'!**/shellcheck' @koalaman/shellcheck \
+  lbin'!fzf' @junegunn/fzf \
   lbin atinit"alias ll='exa -al'
     alias l='exa -blF'; alias la='exa -abghilmu'
     alias ls='exa --git --group-directories-first'" \
