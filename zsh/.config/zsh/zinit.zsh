@@ -110,7 +110,7 @@ zi from'gh-r' lbin'!' nocompile for \
 
 zi as'command' for \
   pick'revolver' @molovo/revolver \
-  pick'zunit' atclone'./build.zsh' @zunit-zsh/zunit
+  pick'zunit' atclone'./build.zsh' @zdharma-continuum/zunit
 #=== COMPILED PROGRAMS ================================
 zi lucid make'PREFIX=$PWD install' nocompile for \
   lbin'!**/tree' Old-Man-Programmer/tree \
