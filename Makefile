@@ -13,7 +13,7 @@ neovim: destination:=$$HOME/.config/nvim
 
 .SILENT: neovim
 $(CONFIGS): ## Clone a program's configuration repository
-	if ! [ -d $(destination) ]; then \
+	if [[ ! -d $(destination) ]]; then \
 		git clone --progress --quiet $(GH_URL)/$@-configuration $(destination); \
 	fi
 
@@ -34,22 +34,23 @@ linuxbrew-fix: ## Re-install Linuxbrew taps homebrew-core & homebrew-cask
 	@git -C "/home/linuxbrew/.linuxbrew/Homebrew" remote add origin https://github.com/Homebrew/brew
 	brew tap homebrew/core homebrew/cask
 
+all-prog: py-prog rust-prog ## Install Python & Rust programs
+
 rust-install: ## Install Rust & Cargo pkg manager via Rustup
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 rust-uninstall: ## Uninstall Rust via rustup utility
 	@rustup self uninstall
 
-all-prog: py-prog rust-prog ## Install Python & Rust programs
 pip-update: ## Update Python3 packages
 	@pip3 list --user \
-			| cut -d" " -f 1 \
-			| tail -n +3 \
+	| cut -d" " -f 1 \
+	| tail -n +3 \
 	| xargs pip3 install \
-			--user \
-			--upgrade \
-			--trusted-host pypi.org \
-			--trusted-host files.pythonhosted.org
+		--trusted-host files.pythonhosted.org \
+		--trusted-host pypi.org \
+		--upgrade \
+		--user
 
 py-prog: ## Install Python dependencies
 	@python3 -m pip install --upgrade pip
