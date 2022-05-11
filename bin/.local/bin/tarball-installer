@@ -49,7 +49,7 @@ if [[ ! -e 'Makefile' ]]; then
 		_log "ran autogen.sh successfully, continuing"
 	elif AUTOCONF=autoconf2.69 sh ./autogen.sh; then
 		_log "ran autogen.sh successfully, continuing"
-	elif cmake .; then
+	elif mkdir build && pushd build && cmake . && popd; then
 		_log "ran cmake successfully, continuing"
 	else
 		_log "failed $PROGRAM_SRC configuration"
