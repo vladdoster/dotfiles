@@ -83,15 +83,11 @@ alias cpv="rsync -ah --info=progress2"
 alias d='dirs -v'
 alias m='make'
 alias mkdir="mkdir -pv"
-alias rmr="rm -rf"
+alias rrm="rm -rf"
 alias tailf="less +F -R"
 export EDITOR='nvim'
 if has nvim; then
 	export EDITOR='nvim'
-	#  elif has vim; then
-	#  export EDITOR='vim'
-	#  elif has vi; then
-	#  export EDITOR='vi'
 fi
 if has python3; then
 	alias python='python3'
@@ -101,23 +97,21 @@ profzsh() {
   ZPROF=true $shell -i -c exit
 }
 #= CONFIG SHORTCUTS ==============================
-alias ealiases="_edit $ZDOTDIR/aliases.zsh"
-alias emcutils="_edit $ZDOTDIR/lib/azure.sh"
-alias gitignore="_edit $XDG_CONFIG_HOME/git/ignore"
-alias gitrc="_edit $XDG_CONFIG_HOME/git/config"
-alias hs="_goto $HOME/.hammerspoon/"
-alias hsc="_goto $HOME/.hammerspoon/init.lua"
-alias kittyrc="_edit $XDG_CONFIG_HOME/kitty/kitty.conf"
-alias nvcln="rm -frv $HOME/.{local/share/nvim,config/nvim/plugin}"
-alias nvfmt="_edit $XDG_CONFIG_HOME/nvim/lua/plugins/format.lua"
-alias nvopt="_edit $XDG_CONFIG_HOME/nvim/lua/core/options.lua"
-alias nvplg="_edit $XDG_CONFIG_HOME/nvim/lua/plugins/init.lua"
-alias sshrc="_edit $HOME/.ssh/config"
-alias tmuxrc="_edit $XDG_CONFIG_HOME/tmux/tmux.conf"
-alias zec="_edit ${HOME}/.zshenv"
-alias zic="_edit ${ZDOTDIR}/zinit.zsh"
-alias zsc="_edit ${ZDOTDIR}/.zshrc"
+cfg_alias(){ alias ${1}="_edit ${XDG_CONFIG_HOME}/${2}"; }
+home_alias(){ alias ${1}="_edit ${HOME}/${2}"; }
+cfg_alias 'ealiases' 'zsh/aliases.zsh'
+cfg_alias 'gitignore' 'git/ignore'
+cfg_alias 'gitrc' 'git/config'
+cfg_alias 'kittyrc' 'kitty/kitty.conf'
+cfg_alias 'nvplg' "nvim/lua/plugins.lua"
+cfg_alias 'tmuxrc' 'tmux/tmux.conf'
+cfg_alias 'zic' 'zsh/zinit.zsh'
+cfg_alias 'zsc' 'zsh/.zshrc'
+home_alias 'hs'  '.hammerspoon/init.lua'
+home_alias 'sshrc' '.ssh/config'
+home_alias 'zec' '.zshenv'
 #= RELOAD COMMANDS ===============================
+alias nvcln="rm -frv $HOME/.{local/share/nvim,config/nvim/plugin}"
 alias zcln="rm -fr ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
 alias zreset="pushd ${HOME} && zcln && zrld"
 alias zrld="exec zsh"
