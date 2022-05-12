@@ -87,7 +87,7 @@ RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
 zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' lbin'!' nocompile for \
-  @dandavison/delta    @junegunn/fzf       \
+  bpick'*musl*' @dandavison/delta    @junegunn/fzf       \
   @koalaman/shellcheck @pemistahl/grex     \
   @melbahja/got        @r-darwish/topgrade \
   @sharkdp/fd          @sharkdp/hyperfine  \
