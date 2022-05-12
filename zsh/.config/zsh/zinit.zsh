@@ -95,7 +95,7 @@ zi from'gh-r' lbin'!' nocompile for \
   lbin'!* -> shfmt'  @mvdan/sh           \
   lbin'!**/bin/nvim' @neovim/neovim      \
   lbin'!**/rg'       @BurntSushi/ripgrep \
-  lbin atinit"
+  lbin'!**/exa' atinit"
     alias ll='exa -al';
     alias l='exa -blF'; 
     alias la='exa -abghilmu';
