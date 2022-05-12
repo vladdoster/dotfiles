@@ -33,9 +33,11 @@ activate_brew
 (( ${+HOSTNAME} )) || export HOSTNAME="$HOST"
 (( ${+LANGUAGE} )) || export LANGUAGE="$LANG"
 (( ${+USER}   )) || export USER="$USERNAME"
+path_append "$HOME/.local/bin" # personal scriptsbrew
 path_append "/opt/homebrew/opt/make/libexec/gnubin"
 path_append "/usr/local/opt/coreutils/libexec/gnubin"
-path_append "$HOME/.local/bin"
+path_append "/usr/local/opt/gnu-sed/libexec/gnubin"
+path_append "/usr/local/opt/gnu-tar/libexec/gnubin"
 # XDG ENV VARIABLES 
 (( ${+XDG_CACHE_HOME}  )) || export XDG_CACHE_HOME="$HOME/.cache"
 (( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="$HOME/.config"
