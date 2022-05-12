@@ -1,3 +1,5 @@
+[advice]
+    skippedCherryPicks = false 
 [user]
     email    = "mvdoster@gmail.com"
     name     = "Vladislav Doster"
