@@ -1,7 +1,7 @@
 # macOS
 
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/vladdoster/dotfiles)
-[![Release](https://github.com/vladdoster/dotfiles/actions/workflows/release.yml/badge.svg)](https://github.com/vladdoster/dotfiles/actions/workflows/release.yml)
+![Release Version](https://img.shields.io/github/v/release/vladdoster/dotfiles)
+[![Release Status](https://github.com/vladdoster/dotfiles/actions/workflows/release.yml/badge.svg)](https://github.com/vladdoster/dotfiles/actions/workflows/release.yml)
 
 ## Features
 
