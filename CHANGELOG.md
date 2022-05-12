@@ -1,3 +1,25 @@
+# [1.22.0](https://github.com/vladdoster/dotfiles/compare/v1.21.0...v1.22.0) (2022-05-12)
+
+
+### fix
+
+* break after successful configure command to avoid errors ([2f0e56f](https://github.com/vladdoster/dotfiles/commit/2f0e56f96c7986414c83e7a1c54526b1ce8f583e))
+* check if tty via $- and print accordingly ([5895445](https://github.com/vladdoster/dotfiles/commit/58954454f93a39f9ac3b453b481c64a38b90e5c3))
+* check if tty via $- and print accordingly ([0b9f09d](https://github.com/vladdoster/dotfiles/commit/0b9f09d06709f7c40884d6898a3893724b4548d3))
+* conditional logic for sourcing brew shellenv ([6805d77](https://github.com/vladdoster/dotfiles/commit/6805d77e1cddec42bf89c0041332bbe0b556bbf3))
+* stopgap for delta binary until fixed in zinit upstream ([f3cdc97](https://github.com/vladdoster/dotfiles/commit/f3cdc97cbae507dc0ea30d159dd1bd815fef3b58))
+* tarball installer cmake conditional logic ([b8310b6](https://github.com/vladdoster/dotfiles/commit/b8310b6a3138ef50735af716742bd2c644c0e8d0))
+
+### maint
+
+* add gpt cli and format zinit.zsh ([9fc3105](https://github.com/vladdoster/dotfiles/commit/9fc31054c3c64f41e2962440498935b59d5e4503))
+* change edit-commandline bind-key from ^e to ^v ([981217b](https://github.com/vladdoster/dotfiles/commit/981217b66983c626d08ff13f71fef9eb233d4056))
+* create helper function to create aliases and remove redundant code ([879e5f8](https://github.com/vladdoster/dotfiles/commit/879e5f84d13f543c829fc7b7ff5b0c0adce1bad7))
+* fix indentation of dotfiles Makefile ([4892374](https://github.com/vladdoster/dotfiles/commit/4892374948d898b9f57e9f4ef74d3278748bba94))
+* fix lua URL, remove modeline, format to fix missing seperator ([9d8325e](https://github.com/vladdoster/dotfiles/commit/9d8325e49fa4eef2d14270f2082ab544fce07001))
+* update bin Makefile and zinit.zsh ([eeec9fe](https://github.com/vladdoster/dotfiles/commit/eeec9fe6a744ffdfc25f7b0be094fa5123d5f8c3))
+* use zsh to call tarball install script ([1c11649](https://github.com/vladdoster/dotfiles/commit/1c11649e40b6b60c0fcc67b5569aa6adcb8d21d6))
+
 # [1.21.0](https://github.com/vladdoster/dotfiles/compare/v1.20.0...v1.21.0) (2022-05-06)
 
 
