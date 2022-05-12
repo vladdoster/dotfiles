@@ -1,3 +1,15 @@
+# [1.23.0](https://github.com/vladdoster/dotfiles/compare/v1.22.0...v1.23.0) (2022-05-12)
+
+
+### docs
+
+* add release CI workflow status badge ([f0dc7c6](https://github.com/vladdoster/dotfiles/commit/f0dc7c6d6e4e6bd6f9fd4536d863ce620754154e))
+* update status badge alt names ([067ad88](https://github.com/vladdoster/dotfiles/commit/067ad881255d83e9450b95bb2e9224125fb56376))
+
+### maint
+
+* decrease # of workflows to retain in workflows cleanup job ([5cdb5bb](https://github.com/vladdoster/dotfiles/commit/5cdb5bb6400667fcb1dc359ef32b2ac8a917c817))
+
 # [1.22.0](https://github.com/vladdoster/dotfiles/compare/v1.21.0...v1.22.0) (2022-05-12)
 
 
