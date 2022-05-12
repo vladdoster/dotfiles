@@ -1,3 +1,28 @@
+# [1.24.0](https://github.com/vladdoster/dotfiles/compare/v1.23.0...v1.24.0) (2022-05-12)
+
+
+### fix
+
+* correct volume prune cmd from nuke-docker.sh ([c714126](https://github.com/vladdoster/dotfiles/commit/c71412694fb4ed5e43a20318b02b06e1089af388))
+* dotfiles Makefile config cloning logic ([0d75f95](https://github.com/vladdoster/dotfiles/commit/0d75f95ff8327e9d93b5b13500466bd42576ff4c))
+* exa lbin glob ([312fe63](https://github.com/vladdoster/dotfiles/commit/312fe6354c5d5c502734ae76c8badf7655ac76a8))
+
+### maint
+
+* add xz, file and rm bat from Dockerfile ([d8c94a4](https://github.com/vladdoster/dotfiles/commit/d8c94a46c496d9afeac16dc7697bf305c0c01f8c))
+* clean up dotfiles Dockerfile ([5a04813](https://github.com/vladdoster/dotfiles/commit/5a048135568382c51e1fcb92aa9bad5d942644d4))
+* delete docker-compose.yml ([85d8ebb](https://github.com/vladdoster/dotfiles/commit/85d8ebbef86b98fe1de078e20df63c893fcc2e89))
+* delete tarball-installer.py ([beef34c](https://github.com/vladdoster/dotfiles/commit/beef34c228d428992e5c139f7cd55f184fc33553))
+* downgrade docker-compse version from 3.9 -> 3 ([edaef35](https://github.com/vladdoster/dotfiles/commit/edaef35abc1da95a8b34ab55b9eead7a43fb16f5))
+* locales and misc. cleanup in Dockerfile ([da72471](https://github.com/vladdoster/dotfiles/commit/da7247191c3970233d71d6a644be448d017a4914))
+* silence Skittped CherryPicks warning in git config ([146fa0f](https://github.com/vladdoster/dotfiles/commit/146fa0f095508e7538df0ceeaad8523a76ab28ca))
+* update locales configuration in Dockerfile ([8ae8e6b](https://github.com/vladdoster/dotfiles/commit/8ae8e6b2580d8aeab31b51f74a65bb46c084c2fd))
+* update volume configuration in Dockerfile and Makefile ([c35cf22](https://github.com/vladdoster/dotfiles/commit/c35cf22dcdd703311c424a8231a5798bcc719157))
+
+### style
+
+* fmt zinit gh-r configuration ([b73e4e9](https://github.com/vladdoster/dotfiles/commit/b73e4e93b4183c164a819d9299d391a293d038fc))
+
 # [1.23.0](https://github.com/vladdoster/dotfiles/compare/v1.22.0...v1.23.0) (2022-05-12)
 
 
