@@ -1,4 +1,5 @@
-FROM debian:latest
+# FROM debian:latest
+FROM ubuntu:18.04
 
 LABEL maintainer="Vladislav Doster <mvdoster@gmail.com>"
 
@@ -25,7 +26,7 @@ RUN apt-get update \
   figlet \
   git gdb gcc \
   jq \
-  locales-all \
+  locales \
   make musl \
   nmap neovim \
   python3 \
@@ -37,10 +38,12 @@ RUN apt-get update \
   && apt-get dist-upgrade \
   --no-install-recommends \
   -o Dpkg::Options::="--force-confold" \
-  -y \
-  && locale-gen en_US.UTF-8 \
-  && locale-gen en_US \
-  && update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8
+  -y
+
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+  dpkg-reconfigure --frontend=noninteractive locales && \
+  update-locale LANG=en_US.UTF-8
+ENV LANG en_US.UTF-8
 
 RUN useradd -m -s "$(which zsh)" -N -u "${UID}" "${USER}" \
   && echo "$USER:root" | chpasswd \
@@ -49,14 +52,15 @@ RUN useradd -m -s "$(which zsh)" -N -u "${UID}" "${USER}" \
   && echo "${USER} ALL=(ALL) ALL" > "/etc/sudoers.d/${USER}" \
   && chmod 0440 /etc/sudoers.d/"${USER}"
 
-RUN mkdir ${HOME}/.config \
+USER ${USER}
+WORKDIR $HOME
+
+RUN /bin/bash -c "\
+  mkdir ${HOME}/.config \
   && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
   && pushd ${HOME}/.config/dotfiles \
   && make brew-install \
   && make install \
-  && chown -R ${UID}:${GID} ${HOME}
+  && popd"
 
-USER ${USER}
-
-WORKDIR "$HOME"
-CMD ["zsh"]
+CMD ["/bin/zsh"]

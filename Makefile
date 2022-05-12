@@ -1,5 +1,6 @@
 .DEFAULT_GOAL:=install
 .ONESHELL:
+CONTAINER_NAME:=dotfiles
 
 help: ## Display all Makfile targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
@@ -75,15 +76,20 @@ stow: ## Install GNU stow
 	rm -rf stow
 	$(info --- installed GNU stow)
 
-build-container: ## Build container && install dotfiles
-	docker buildx build \
-		--tag df-ubuntu:latest \
-		$$PWD
+container/build: ## Build container && install dotfiles
+	docker build --tag $(CONTAINER_NAME):latest $$PWD
 	$(info --- built df container)
 
-container: build-container ## Run containerized dockerfiles env
+container/run: ## Run containerized dockerfiles env
 	mkdir -p $$HOME/df-docker-volume || true
-	docker compose up --build
+	$(info --- starting df container)
+	docker volume create configuration
+	docker run \
+		--interactive \
+		--tty \
+		--user vlad \
+		--volume configuration:/home/vlad \
+		$(CONTAINER_NAME):latest
 
 .SILENT: clean
 clean: ## Remove deployed dotfiles
