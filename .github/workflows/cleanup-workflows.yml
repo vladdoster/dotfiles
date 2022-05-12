@@ -14,5 +14,5 @@ jobs:
         with:
           token: ${{ secrets.GH_ACTIONS_TOKEN }}
           repository: ${{ github.repository }}
-          retain_days: 14
-          keep_minimum_runs: 50
+          retain_days: 3
+          keep_minimum_runs: 5
