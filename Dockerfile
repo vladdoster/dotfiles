@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM debian:latest
 
 LABEL maintainer="Vladislav Doster <mvdoster@gmail.com>"
 
@@ -20,17 +20,17 @@ RUN apt-get update \
   && apt upgrade -y \
   && apt install -y \
   apt-utils automake autoconf \
-  bash build-essential \
+  bat bash build-essential \
   cmake curl \
   figlet \
   git gdb gcc \
   jq \
-  language-pack-en \
+  locales-all \
   make musl \
   nmap neovim \
   python3 \
-  unzip \
   ruby \
+  unzip \
   sudo stow subversion \
   tmux \
   zsh \
@@ -42,15 +42,12 @@ RUN apt-get update \
   && locale-gen en_US \
   && update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8
 
-
 RUN useradd -m -s "$(which zsh)" -N -u "${UID}" "${USER}" \
   && echo "$USER:root" | chpasswd \
   && usermod -aG sudo ${USER} \
   && echo "${USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
   && echo "${USER} ALL=(ALL) ALL" > "/etc/sudoers.d/${USER}" \
   && chmod 0440 /etc/sudoers.d/"${USER}"
-
-USER ${USER}
 
 RUN mkdir ${HOME}/.config \
   && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
@@ -59,13 +56,7 @@ RUN mkdir ${HOME}/.config \
   && make install \
   && chown -R ${UID}:${GID} ${HOME}
 
+USER ${USER}
+
 WORKDIR "$HOME"
 CMD ["zsh"]
-
-# && adduser \
-# --quiet \
-# --disabled-password \
-# --shell $SHELL \
-# --home $HOME \
-# --gecos "User" \
-# $USER \
