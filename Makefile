@@ -13,9 +13,7 @@ neovim: destination:=$$HOME/.config/nvim
 
 .SILENT: neovim
 $(CONFIGS): ## Clone a program's configuration repository
-	if [[ ! -d $(destination) ]]; then \
-		git clone --progress --quiet $(GH_URL)/$@-configuration $(destination); \
-	fi
+	sh -c "[ -d $(destination) ] || git clone $(GH_URL)/$@-configuration $(destination)"
 
 install: | clean neovim ## Deploy dotfiles via GNU install
 	find * -maxdepth 0 -type d -exec stow --verbose 1 {} --target $$HOME \;
