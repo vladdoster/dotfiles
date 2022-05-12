@@ -8,11 +8,14 @@
 #
 # SYSTEM SPECIFIC 
 
+# $- includes i if bash is interactive, allowing a shell script or startup file to test this state
+_print() { [[ $- == *i* ]] && print -P "${1}"; }
+
 path_append() {
   for ARG in "$@"; do
     if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
         PATH="${PATH:+"$PATH:"}$ARG"
-        print -P "%F{blue}[INFO]%f: %F{cyan}Appended to PATH%f -> %F{green}${ARG}%f"
+        _print "%F{blue}[INFO]%f: %F{cyan}Appended to PATH%f -> %F{green}${ARG}%f"
     fi
   done
 }
@@ -21,9 +24,9 @@ activate_brew() {
   LOCATIONS=( '/opt/homebrew' '/usr/local' '$HOME/.linuxbrew/Homebrew' '/home/linuxbrew/.linuxbrew' )
   for ARG in $LOCATIONS; do
     if [[ -e "${ARG}"/bin/brew  ]] {
-      print -P "%F{blue}[INFO]%f: %F{cyan}OS%f @ %F{green}${OSTYPE} ($(uname -m))%f"
+      _print "%F{blue}[INFO]%f: %F{cyan}OS%f @ %F{green}${OSTYPE} ($(uname -m))%f"
       if eval "$( ${ARG}/bin/brew shellenv )"
-      print -P "%F{blue}[INFO]%f: %F{cyan}Homebrew%f @ %F{green}${ARG}/bin/brew%f"
+      _print "%F{blue}[INFO]%f: %F{cyan}Homebrew%f @ %F{green}${ARG}/bin/brew%f"
       break
     }
   done
