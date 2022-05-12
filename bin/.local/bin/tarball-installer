@@ -43,16 +43,22 @@ if [[ ! -e 'Makefile' ]]; then
 	_log "configuring $PROGRAM_SRC"
 	if autoconf; then
 		_log "autoconf ran successfully, continuing"
+    break
 	elif autoreconf -iv; then
 		_log "autoreconf successful, continuing"
+    break
 	elif sh autogen.sh; then
 		_log "ran autogen.sh successfully, continuing"
+    break
 	elif AUTOCONF=autoconf2.69 sh ./autogen.sh; then
 		_log "ran autogen.sh successfully, continuing"
+    break
 	elif mkdir build && pushd build && cmake . && popd; then
 		_log "ran cmake successfully, continuing"
+    break
 	else
 		_log "failed $PROGRAM_SRC configuration"
+    break
 	fi
 	if [[ -f configure.ac ]]; then
 		if automake; then
