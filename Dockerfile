@@ -21,9 +21,9 @@ RUN apt-get update \
   && apt upgrade -y \
   && apt install -y \
   apt-utils automake autoconf \
-  bat bash build-essential \
+  bash build-essential \
   cmake curl \
-  figlet \
+  figlet file \
   git gdb gcc \
   jq \
   locales \
@@ -34,6 +34,7 @@ RUN apt-get update \
   unzip \
   sudo stow subversion \
   tmux \
+  xz \
   zsh \
   && apt-get dist-upgrade \
   --no-install-recommends \
