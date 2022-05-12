@@ -102,7 +102,7 @@ zi from'gh-r' lbin'!' nocompile for \
     alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 
-zi as'command' light-mode for \
+zi as'command' for \
   pick'revolver' @molovo/revolver \
   pick'zunit' atclone'./build.zsh' @zunit-zsh/zunit
 #=== COMPILED PROGRAMS ================================
@@ -120,8 +120,8 @@ function _pip_completion {
   )
 }; compctl -K _pip_completion pip3
 #=== MISC. ============================================
-zi light-mode for \
-    atinit"bindkey -M vicmd '^e' edit-command-line" compile'zsh-vim-mode*.zsh' \
+zi light-mode lucid for \
+    atinit"bindkey -M vicmd '^v' edit-command-line" compile'zsh-vim-mode*.zsh' \
   softmoth/zsh-vim-mode \
   thewtex/tmux-mem-cpu-load \
     svn submods'zsh-users/zsh-history-substring-search -> external' \
