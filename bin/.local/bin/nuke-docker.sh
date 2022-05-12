@@ -9,7 +9,8 @@ if docker container ls; then
 	echo "--- found $(docker container ls --all --quiet | wc -l) running containers"
 
 	echo "--- pruning docker resources"
-	docker system prune --all --force --volumes
+  docker system prune --all --force
+  docker volume prune --force
 	exit 0
 else
 	echo "ERROR: is docker running?"
