@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3'
 
 services:
 
@@ -8,6 +8,8 @@ services:
     build:
       dockerfile: ./Dockerfile
       context: .
+    security_opt:
+      - 'seccomp:unconfined'
     image: "vladdoster/devbox"
     stdin_open: true # docker run -i
     tty: true        # docker run -t
