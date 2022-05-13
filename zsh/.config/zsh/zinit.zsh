@@ -92,6 +92,7 @@ zi from'gh-r' lbin'!' nocompile for \
   @koalaman/shellcheck @pemistahl/grex \
   @melbahja/got @r-darwish/topgrade \
   @sharkdp/fd   @sharkdp/hyperfine  \
+  bpick'*.zip' lbin'!**/bin/hyper' @vercel/hyper \
   lbin'!* -> jq'     @stedolan/jq   \
   lbin'!* -> shfmt'  @mvdan/sh      \
   lbin'!**/rg'       @BurntSushi/ripgrep \
