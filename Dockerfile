@@ -29,7 +29,7 @@ RUN apt-get update \
   locales \
   make musl \
   nmap neovim \
-  python3 \
+  pkg-config python3 \
   ruby \
   unzip \
   sudo stow subversion \
