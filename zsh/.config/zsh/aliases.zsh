@@ -98,18 +98,20 @@ profzsh() {
 }
 #= CONFIG SHORTCUTS ==============================
 cfg_alias(){ alias ${1}="_edit ${XDG_CONFIG_HOME}/${2}"; }
-home_alias(){ alias ${1}="_edit ${HOME}/${2}"; }
 cfg_alias 'ealiases' 'zsh/aliases.zsh'
-cfg_alias 'gitignore' 'git/ignore'
-cfg_alias 'gitrc' 'git/config'
-cfg_alias 'kittyrc' 'kitty/kitty.conf'
-cfg_alias 'nvplg' "nvim/lua/plugins.lua"
-cfg_alias 'tmuxrc' 'tmux/tmux.conf'
-cfg_alias 'zic' 'zsh/zinit.zsh'
-cfg_alias 'zsc' 'zsh/.zshrc'
-home_alias 'hs'  '.hammerspoon/init.lua'
+cfg_alias 'gignore'  'git/ignore'
+cfg_alias 'gcfg'     'git/config'
+cfg_alias 'kittyrc'  'kitty/kitty.conf'
+cfg_alias 'nvplg'    "nvim/lua/plugins.lua"
+cfg_alias 'skhdrc'   'skhd/skhdrc'
+cfg_alias 'tmuxrc'   'tmux/tmux.conf'
+cfg_alias 'zic'      'zsh/zinit.zsh'
+cfg_alias 'zsc'      'zsh/.zshrc'
+#= HOME SHORTCUTS ================================
+home_alias(){ alias ${1}="_edit ${HOME}/${2}"; }
+home_alias 'hs'    '.hammerspoon/init.lua'
 home_alias 'sshrc' '.ssh/config'
-home_alias 'zec' '.zshenv'
+home_alias 'zec'   '.zshenv'
 #= RELOAD COMMANDS ===============================
 alias nvcln="rm -frv $HOME/.{local/share/nvim,config/nvim/plugin}"
 alias zcln="rm -fr ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
