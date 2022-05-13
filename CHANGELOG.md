@@ -1,3 +1,25 @@
+# [1.25.0](https://github.com/vladdoster/dotfiles/compare/v1.24.0...v1.25.0) (2022-05-13)
+
+
+### feat
+
+* add Docker buildx and docker-credential-helpers gh-r recipes ([5d87509](https://github.com/vladdoster/dotfiles/commit/5d87509dcf5704070bd9ef0a94acc75ffc4b4e22))
+
+### fix
+
+* add pkg-config to dotfiles Dockerfile ([6deaae7](https://github.com/vladdoster/dotfiles/commit/6deaae7aff6b7594173563a34c3b82efc2f6e7ed))
+* remove git-fzf in favor of fzf helpful functions ([9be6505](https://github.com/vladdoster/dotfiles/commit/9be6505652292432de6724e2c347efdfc52c17a9))
+
+### maint
+
+* clean up skhd configuration ([bfe9972](https://github.com/vladdoster/dotfiles/commit/bfe9972e4e5fd75aa98047eda7f019cd54206d9e))
+* delete .deepsource.toml ([ed85bf5](https://github.com/vladdoster/dotfiles/commit/ed85bf567c6f57a044c4a508a1607a6f87c973d7))
+* update Docker dotfiles Dockerfile and build/run make targets ([19ddf30](https://github.com/vladdoster/dotfiles/commit/19ddf30121752b9896604c05db811c3a4b8bab4d))
+
+### style
+
+* format aliases.zsh ([01cac60](https://github.com/vladdoster/dotfiles/commit/01cac60a06cdc971ea442ef6fccbf952a1417f46))
+
 # [1.24.0](https://github.com/vladdoster/dotfiles/compare/v1.23.0...v1.24.0) (2022-05-12)
 
 
