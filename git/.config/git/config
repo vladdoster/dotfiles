@@ -1,5 +1,5 @@
 [advice]
-    skippedCherryPicks = false 
+    skippedCherryPicks = false
 [user]
     email    = "mvdoster@gmail.com"
     name     = "Vladislav Doster"
@@ -67,7 +67,7 @@
   merged    = !sh -c 'git o master && git plom && git bd $1 && git rpo' -
   a  = add --all
   ai = add -i
-  au = add -u 
+  au = add -u
   b   = branch
   ba  = branch -a
   bc  = rev-parse --abbrev-ref HEAD
