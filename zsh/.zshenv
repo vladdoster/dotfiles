@@ -41,6 +41,7 @@ path_append "/opt/homebrew/opt/make/libexec/gnubin"
 path_append "/usr/local/opt/coreutils/libexec/gnubin"
 path_append "/usr/local/opt/gnu-sed/libexec/gnubin"
 path_append "/usr/local/opt/gnu-tar/libexec/gnubin"
+path_append "/Users/anonymous/Library/Python/3.8/bin"
 # XDG ENV VARIABLES 
 (( ${+XDG_CACHE_HOME}  )) || export XDG_CACHE_HOME="$HOME/.cache"
 (( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="$HOME/.config"
