@@ -7,8 +7,10 @@ help: ## Display all Makfile targets
 	| sort \
 	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+install:
 CONFIGS:= hammerspoon neovim
 GH_URL=https://github.com/vladdoster
+HOMEBREW_URL:=https://raw.githubusercontent.com/Homebrew/install/HEAD
 hammerspoon: destination:=$$HOME/.hammerspoon
 neovim: destination:=$$HOME/.config/nvim
 
@@ -38,11 +40,9 @@ container/run: ## Run containerized dockerfiles env
 		--volume configuration:/home/vlad \
 		$(CONTAINER_NAME)
 
-brew-install: ## Install Homebrew
-	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-brew-uninstall: ## Uninstall Homebrew
-	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+brew:  ## (Un)install Homebrew
+	$(info Preparing to $(filter-out $@, $(MAKECMDGOALS)) homebrew)
+	@/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/$(filter-out $@, $(MAKECMDGOALS)).sh)"
 
 brew-bundle: ## Install programs defined in $HOME/.config/dotfiles/Brewfile
 	@brew bundle --cleanup --file Brewfile --force --no-lock --zap
@@ -105,3 +105,6 @@ clean: ## Remove deployed dotfiles
 
 .PHONY: CONFIGS all clean hammerspoon install neovim test
 .SILENT: brew-install clean container/build container/run stow
+
+%: ## A catch-all target to make fake targets
+	@true
