@@ -88,18 +88,13 @@ zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch
 #=== GITHUB BINARIES ==================================
 # lbin'!**/bin/nvim' @neovim/neovim \
 zi from'gh-r' lbin'!' nocompile for \
-  @dandavison/delta @junegunn/fzf \
-  @koalaman/shellcheck @pemistahl/grex \
-  @melbahja/got @r-darwish/topgrade \
-  @sharkdp/fd   @sharkdp/hyperfine  \
-  bpick'*.zip' lbin'!**/bin/hyper' @vercel/hyper \
-  lbin'!* -> jq'     @stedolan/jq   \
-  lbin'!* -> shfmt'  @mvdan/sh      \
-  lbin'!**/rg'       @BurntSushi/ripgrep \
-  lbin'!**/exa' atinit"
-    alias ll='exa -al';
-    alias l='exa -blF';
-    alias la='exa -abghilmu';
+  @dandavison/delta   @junegunn/fzf @koalaman/shellcheck @pemistahl/grex \
+  @r-darwish/topgrade @sharkdp/fd   @sharkdp/hyperfine   \
+  lbin'!* -> jq'    @stedolan/jq \
+  lbin'!* -> shfmt' @mvdan/sh    \
+  lbin'!**/rg'      @BurntSushi/ripgrep \
+  lbin'!**/exa' atinit"alias l='exa -blF'
+    alias la='exa -abghilmu'; alias ll='exa -al'
     alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 #=== DOCKER ===========================================
