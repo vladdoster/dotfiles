@@ -1,30 +1,32 @@
 .DEFAULT_GOAL := help
 .ONESHELL:
 
-# Variables
+
+ZSH := $(shell command -v zsh 2> /dev/null)
+
+zwc:
+	$(or $(ZSH),:) -fc 'for f in *.zsh; do zcompile -R -- $$f.zwc $$f || exit; done'
+
 GIT=https://api.github.com/repos
 GNU=http://ftpmirror.gnu.org/gnu
 
 PROGS := \
-	aspell    autoconf    autogen   automake \
-	bash      binutils    bison     \
-	cmake     coreutils   curl      \
-	gawk      gcc         gettext   git      glib2   glibc        gmp graphviz   grep guile gzip \
-	htop      \
-	inetutils \
-	libevent  libffcall   libiconv  libressl libtool libunistring lua lua-format \
-	m4        macports    make      mpc      mpfr    \
-	ncurses   ninja       node      nvim     \
-	openjdk   openssh-hpn openssh   openssl  \
-	perl      pkgconfig   python    \
-	readline  ruby-latest ruby2.6.8 \
-	sed       shfmt       sqlite3   stow     svn     \
-	tar       texinfo     time      tmux     \
-	wget \
-	yasm \
+	aspell   autoconf  autogen  automake \
+	bash     binutils  bison    \
+	cmake    curl \
+	gawk     gcc       gettext  git      glib2   glibc        gmp graphviz   grep guile gzip \
+	htop     \
+	libevent libffcall libiconv libressl libtool libunistring lua lua-format \
+	m4       macports    make      mpc      mpfr    \
+	ncurses  ninja       node      nvim     \
+	openjdk  openssh-hpn openssh   openssl  \
+	perl     pkgconfig   python    \
+	readline ruby-latest ruby2.6.8 \
+	sed      shfmt       shtool    sqlite3  stow    svn \
+	tar      texinfo     time      tmux     \
+	wget      \
+	yasm      \
 	zsh
-
-GO_PROGS := terraform-docs
 
 PY_PROGS := \
 	black \
@@ -102,6 +104,7 @@ shfmt:   URL:=$(GIT)/shfmt/shfmt/tarball
 sqlite3: URL:=https://www.sqlite.org/snapshot/sqlite-snapshot-202109241957.tar.gz
 stow:    URL:=$(GNU)/stow/stow-latest.tar.gz
 svn:     URL:=$(GIT)/apache/subversion/tarball
+shtool:  URL:=$(GNU)/shtool/shtool-2.0.8.tar.gz
 
 tar:     URL:=$(GNU)/tar/tar-latest.tar.gz
 tf-docs: URL:=$(GIT)/terraform-docs/terraform-docs/tarball
@@ -118,18 +121,17 @@ go-install : $(GO_PROGS)
 py-install : $(PY_PROGS)
 
 $(PROGS):
-	bash installer $(@) $(URL) $(OPTS)
-
-$(GO_PROGS):
-	go install "$(@)@latest"
+	$(ZSH) installer $(@) $(URL) $(OPTS)
 
 $(PY_PROGS):
-	python3 -m pip install \
+	python3 -m pip \
+		install \
 		--trusted-host pypi.org \
 		--trusted-host files.pythonhosted.org \
 		$(@)
 
 lua-format-deps:
 	brew install \
+		--build-from-source \
 		antlr \
 		antlr4-cpp-runtime
