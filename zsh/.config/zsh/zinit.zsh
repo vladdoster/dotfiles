@@ -103,34 +103,37 @@ zi from'gh-r' nocompile for \
   lbin'!* -> docker-credential-desktop' @docker/docker-credential-helpers
 #=== UNIT TESTING =====================================
 zi as'command' for \
-  pick'revolver' @molovo/revolver \
-  pick'zunit' atclone'./build.zsh' @zunit-zsh/zunit
+    pick'revolver' \
+  @molovo/revolver \
+    atclone'./build.zsh' \
+    pick'zunit' \
+  @zdharma-continuum/zunit
 #=== COMPILED PROGRAMS ================================
 zi lucid make'PREFIX=$PWD install' nocompile for \
   lbin'!**/tree' Old-Man-Programmer/tree \
-  lbin'!**/zsd' $ZI_REPO/zshelldoc
+  lbin'!**/bin/zsd' $ZI_REPO/zshelldoc
 #=== PYTHON ===========================================
 function _pip_completion {
   local words cword; read -Ac words; read -cn cword
-  reply=(
-    $(
-      COMP_WORDS="$words[*]"; COMP_CWORD=$(( cword-1 )) \
-      PIP_AUTO_COMPLETE=1 $words 2>/dev/null
-    )
-  )
-}; compctl -K _pip_completion pip3
+  reply=( $(
+    COMP_WORDS="$words[*]"; COMP_CWORD=$(( cword-1 )) \
+    PIP_AUTO_COMPLETE=1 $words 2>/dev/null
+  ) ) };
+compctl -K _pip_completion pip3
 #=== MISC. ============================================
 zi light-mode lucid for \
-    atinit"bindkey -M vicmd '^v' edit-command-line" compile'zsh-vim-mode*.zsh' \
+    atinit"bindkey -M vicmd '^v' edit-command-line" \
+    compile'zsh-vim-mode*.zsh' \
   softmoth/zsh-vim-mode \
   thewtex/tmux-mem-cpu-load \
-    svn submods'zsh-users/zsh-history-substring-search -> external' \
+    submods'zsh-users/zsh-history-substring-search -> external' \
+    svn \
   OMZ::plugins/history-substring-search \
-    atpull'zinit creinstall -q .' blockf \
+    atpull'zinit creinstall -q .' \
+    blockf \
   zsh-users/zsh-completions \
     atload'_zsh_autosuggest_start' \
-    atinit"
-      ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50
+    atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50
       bindkey '^_' autosuggest-execute
       bindkey '^ ' autosuggest-accept" \
   zsh-users/zsh-autosuggestions \
@@ -139,11 +142,10 @@ zi light-mode lucid for \
     compile'.*fast*~*.zwc' nocompletions \
   $ZI_REPO/fast-syntax-highlighting
 
-zi for atload'
-      zicompinit; zicdreplay
+zi for atload'zicompinit; zicdreplay
       _zsh_highlight_bind_widgets
       _zsh_autosuggest_bind_widgets' \
-    as'null' id-as'zinit/cleanup' lucid nocd wait \
+    as'null' id-as'zinit/cleanup' lucid nocd wait'1' \
   $ZI_REPO/null
 
 # vim:ft=zsh:sw=2:sts=2
