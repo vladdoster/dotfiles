@@ -62,8 +62,9 @@ _archive() {
 	local output="$2"
 	local input=("${@:3}")
 	case "$format" in
-	tar) tar -czvf "${output}.tar.gz" "${input[@]}" ;;
-	7z) 7za a "${output}.7z" "${input[@]}" ;;
+    tar) tar -czvf "${output}.tar.gz" "${input[@]}" ;;
+    7z) 7za a "${output}.7z" "${input[@]}" ;;
+    *) _error 'unrecognized archive format'
 	esac
 }
 #= SYSTEM SPECIFIC ===============================
@@ -85,17 +86,16 @@ alias m='make'
 alias mkdir="mkdir -pv"
 alias rrm="rm -rf"
 alias tailf="less +F -R"
-export EDITOR='nvim'
 if has nvim; then
 	export EDITOR='nvim'
+elif has vim; then
+  export EDITOR='vim'
+else
+  export EDITOR='vi'
 fi
 if has python3; then
 	alias python='python3'
 fi
-profzsh() {
-  shell=${1-$SHELL}
-  ZPROF=true $shell -i -c exit
-}
 #= CONFIG SHORTCUTS ==============================
 cfg_alias(){ alias ${1}="_edit ${XDG_CONFIG_HOME}/${2}"; }
 cfg_alias 'ealiases' 'zsh/aliases.zsh'
@@ -109,7 +109,7 @@ cfg_alias 'zic'      'zsh/zinit.zsh'
 cfg_alias 'zsc'      'zsh/.zshrc'
 #= HOME SHORTCUTS ================================
 home_alias(){ alias ${1}="_edit ${HOME}/${2}"; }
-home_alias 'hs'    '.hammerspoon/init.lua'
+home_alias 'hscfg' '.hammerspoon/init.lua'
 home_alias 'sshrc' '.ssh/config'
 home_alias 'zec'   '.zshenv'
 #= RELOAD COMMANDS ===============================
@@ -145,9 +145,9 @@ alias zc='zinit compile'
 alias zp='zinit times'
 alias zt='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
 #= MISC. =========================================
-alias genpasswd='openssl rand -base64 24'
+alias gen-passwd='openssl rand -base64 24'
 alias get-my-ip='curl ifconfig.co'
-alias scratch='$EDITOR $(mktemp -t scratch.XXX.md)'
+alias tmp-md='$EDITOR $(mktemp -t scratch.XXX.md)'
 alias ps-grep="ps aux | grep -v grep | grep -i -e VSZ -e"
 #= PYTHON ========================================
 alias http-serve='python3 -m http.server'

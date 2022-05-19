@@ -92,15 +92,20 @@ zi from'gh-r' lbin'!' nocompile for \
   @blacknon/hwatch   @r-darwish/topgrade @sharkdp/fd           @sharkdp/hyperfine  \
   lbin'!* -> jq'     @stedolan/jq        lbin'!* -> checkmake' @mrtazz/checkmake   \
   lbin'!* -> shfmt'  @mvdan/sh           lbin'!**/rg'          @BurntSushi/ripgrep \
-  lbin'!**/bin/nvim' @neovim/neovim      \
-  lbin'!**/exa' atinit"alias l='exa -blF'
-    alias la='exa -abghilmu'; alias ll='exa -al'
-    alias ls='exa --git --group-directories-first'" \
+    lbin'!**/bin/nvim' ver'nightly' \
+  @neovim/neovim \
+    lbin'!* -> docker-credential-desktop' \
+  @docker/docker-credential-helpers
+    lbin'!buildx-* -> buildx' as'completions' atclone'buildx* completion zsh > _buildx' \
+  @docker/buildx \
+    lbin'!**/exa' atinit"alias l='exa -blF'
+      alias la='exa -abghilmu'; alias ll='exa -al'
+      alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 #=== DOCKER ===========================================
 zi from'gh-r' nocompile for \
-  as'completions' atclone'buildx* completion zsh > _buildx' lbin'!buildx-* -> buildx' @docker/buildx \
-  lbin'!* -> docker-credential-desktop' @docker/docker-credential-helpers
+
+
 #=== UNIT TESTING =====================================
 zi as'command' for \
     pick'revolver' \
@@ -109,9 +114,9 @@ zi as'command' for \
     pick'zunit' \
   @zdharma-continuum/zunit
 #=== COMPILED PROGRAMS ================================
-zi lucid make'PREFIX=$PWD install' nocompile for \
-  lbin'!**/tree' Old-Man-Programmer/tree \
-  lbin'!**/bin/zsd' $ZI_REPO/zshelldoc
+zi lucid make"PREFIX=$ZPFX install" nocompile for \
+  lbin'!**/bin/tree' @Old-Man-Programmer/tree \
+  lbin'!**/bin/zsd' @$ZI_REPO/zshelldoc
 #=== PYTHON ===========================================
 function _pip_completion {
   local words cword; read -Ac words; read -cn cword
