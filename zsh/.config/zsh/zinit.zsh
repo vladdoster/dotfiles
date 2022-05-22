@@ -36,21 +36,6 @@ fi
 zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null" \
     atclone"./install -e no -d ~/.local" atinit"export PATH=$HOME/.local/bin:$PATH" \
   @romkatv/zsh-bin
-#=== COMPILE ZSH SOURCE =======================================
-# zi for atpull'%atclone' nocompile as'null' atclone'
-#     { print -P "%F{blue}[INFO]%f:%F{cyan}Building Zsh %f" \
-#       && autoreconf --force --install --make || ./Util/preconfig \
-#       && CFLAGS="-g -O3" ./configure --prefix=/usr/local >/dev/null \
-#       && print -P "%F{blue}[INFO]%f:%F{cyan} Configured Zsh %f" \
-#       && make -j8 PREFIX=/usr/local >/dev/null || make \
-#       && print -P "%F{blue}[INFO]%f:%F{green} Compiled Zsh %f" \
-#       && sudo make -j8 install >/dev/null || make \
-#       && print -P "%F{blue}[INFO]%f:%F{green} Installed $(/usr/local/bin/zsh --version) @ /usr/local/bin/zsh %f" \
-#       && print -P "%F{blue}[INFO]%f:%F{green} Adding /usr/local/bin/zsh to /etc/shells %f" \
-#       sudo sh -c "echo /usr/bin/local/zsh >> /etc/shells" \
-#       && print -P "%F{blue}[INFO]%f: To update your shell, run: %F{cyan} chsh --shell /usr/local/bin/zsh $USER %f"
-#     } || { print -P "%F{red}[ERROR]%f:%F{yellow} Failed to install Zsh %f" }' \
-#   zsh-users/zsh
 # #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 zi for is-snippet \
   OMZL::{'clipboard','compfix','completion','git','grep','key-bindings'}.zsh \
@@ -88,24 +73,14 @@ zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch
 #=== GITHUB BINARIES ==================================
 # lbin'!**/bin/nvim' @neovim/neovim \
 zi from'gh-r' lbin'!' nocompile for \
-  @dandavison/delta  @junegunn/fzf       @koalaman/shellcheck  @pemistahl/grex     \
-  @blacknon/hwatch   @r-darwish/topgrade @sharkdp/fd           @sharkdp/hyperfine  \
-  lbin'!* -> jq'     @stedolan/jq        lbin'!* -> checkmake' @mrtazz/checkmake   \
-  lbin'!* -> shfmt'  @mvdan/sh           lbin'!**/rg'          @BurntSushi/ripgrep \
-    lbin'!**/bin/nvim' ver'nightly' \
-  @neovim/neovim \
-    lbin'!* -> docker-credential-desktop' \
-  @docker/docker-credential-helpers
-    lbin'!buildx-* -> buildx' as'completions' atclone'buildx* completion zsh > _buildx' \
-  @docker/buildx \
-    lbin'!**/exa' atinit"alias l='exa -blF'
-      alias la='exa -abghilmu'; alias ll='exa -al'
-      alias ls='exa --git --group-directories-first'" \
+  @dandavison/delta   @junegunn/fzf @koalaman/shellcheck @pemistahl/grex \
+  @r-darwish/topgrade @sharkdp/fd   @sharkdp/hyperfine   \
+  lbin'!* -> jq' @stedolan/jq        lbin'!* -> shfmt'  @mvdan/sh \
+  lbin'!**/rg'   @BurntSushi/ripgrep lbin'!**/bin/nvim' @neovim/neovim \
+  lbin'!* -> checkmake' @mrtazz/checkmake  lbin'!**/exa' atinit"alias l='exa -blF'
+    alias la='exa -abghilmu'; alias ll='exa -al'
+    alias ls='exa --git --group-directories-first'" \
   @ogham/exa
-#=== DOCKER ===========================================
-zi from'gh-r' nocompile for \
-
-
 #=== UNIT TESTING =====================================
 zi as'command' for \
     pick'revolver' \
@@ -115,16 +90,15 @@ zi as'command' for \
   @zdharma-continuum/zunit
 #=== COMPILED PROGRAMS ================================
 zi lucid make"PREFIX=$ZPFX install" nocompile for \
-  lbin'!**/bin/tree' @Old-Man-Programmer/tree \
-  lbin'!**/bin/zsd' @$ZI_REPO/zshelldoc
+  lbin'!**/tree' Old-Man-Programmer/tree \
+  lbin'!**/zsd'  $ZI_REPO/zshelldoc
 #=== PYTHON ===========================================
 function _pip_completion {
   local words cword; read -Ac words; read -cn cword
-  reply=( $(
-    COMP_WORDS="$words[*]"; COMP_CWORD=$(( cword-1 )) \
-    PIP_AUTO_COMPLETE=1 $words 2>/dev/null
-  ) ) };
-compctl -K _pip_completion pip3
+  reply=($(
+      COMP_WORDS="$words[*]"; COMP_CWORD=$(( cword-1 )) \
+      PIP_AUTO_COMPLETE=1 $words 2>/dev/null
+  ))}; compctl -K _pip_completion pip3
 #=== MISC. ============================================
 zi light-mode lucid for \
     atinit"bindkey -M vicmd '^v' edit-command-line" \
@@ -146,11 +120,26 @@ zi light-mode lucid for \
     atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
     compile'.*fast*~*.zwc' nocompletions \
   $ZI_REPO/fast-syntax-highlighting
-
 zi for atload'zicompinit; zicdreplay
       _zsh_highlight_bind_widgets
       _zsh_autosuggest_bind_widgets' \
-    as'null' id-as'zinit/cleanup' lucid nocd wait'1' \
+    as'null' id-as'zinit/cleanup' lucid nocd wait'!' \
   $ZI_REPO/null
+
+#=== COMPILE ZSH SOURCE =======================================
+# zi for atpull'%atclone' nocompile as'null' atclone'
+#     { print -P "%F{blue}[INFO]%f:%F{cyan}Building Zsh %f" \
+#       && autoreconf --force --install --make || ./Util/preconfig \
+#       && CFLAGS="-g -O3" ./configure --prefix=/usr/local >/dev/null \
+#       && print -P "%F{blue}[INFO]%f:%F{cyan} Configured Zsh %f" \
+#       && make -j8 PREFIX=/usr/local >/dev/null || make \
+#       && print -P "%F{blue}[INFO]%f:%F{green} Compiled Zsh %f" \
+#       && sudo make -j8 install >/dev/null || make \
+#       && print -P "%F{blue}[INFO]%f:%F{green} Installed $(/usr/local/bin/zsh --version) @ /usr/local/bin/zsh %f" \
+#       && print -P "%F{blue}[INFO]%f:%F{green} Adding /usr/local/bin/zsh to /etc/shells %f" \
+#       sudo sh -c "echo /usr/bin/local/zsh >> /etc/shells" \
+#       && print -P "%F{blue}[INFO]%f: To update your shell, run: %F{cyan} chsh --shell /usr/local/bin/zsh $USER %f"
+#     } || { print -P "%F{red}[ERROR]%f:%F{yellow} Failed to install Zsh %f" }' \
+#   zsh-users/zsh
 
 # vim:ft=zsh:sw=2:sts=2
