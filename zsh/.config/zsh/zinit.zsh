@@ -90,8 +90,11 @@ zi as'command' for \
   @zdharma-continuum/zunit
 #=== COMPILED PROGRAMS ================================
 zi lucid make"PREFIX=$ZPFX install" nocompile for \
-  lbin'!**/tree' Old-Man-Programmer/tree \
-  lbin'!**/zsd'  $ZI_REPO/zshelldoc
+  lbin'!tree' Old-Man-Programmer/tree \
+  lbin'!bin/zsd'  $ZI_REPO/zshelldoc
+
+zi lucid  nocompile has'luarocks' as'completion' atclone'luarocks completion zsh > _luarocks' for \
+  $ZI_REPO/null
 #=== PYTHON ===========================================
 function _pip_completion {
   local words cword; read -Ac words; read -cn cword
