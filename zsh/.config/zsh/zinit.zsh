@@ -93,7 +93,12 @@ zi lucid make"PREFIX=$ZPFX install" nocompile for \
   lbin'!tree' Old-Man-Programmer/tree \
   lbin'!bin/zsd'  $ZI_REPO/zshelldoc
 
-zi lucid  nocompile has'luarocks' as'completion' atclone'luarocks completion zsh > _luarocks' for \
+zi for \
+    as'completion' atpull'%atclone' depth'1' atclone"./configure --prefix=$PWD" \
+    make"PREFIX=$ZPFX install" nocompile lbin"!build/luarocks" \
+  luarocks/luarocks
+
+zi lucid nocompile as'completion' atclone'luarocks completion zsh > _luarocks' for \
   $ZI_REPO/null
 #=== PYTHON ===========================================
 function _pip_completion {
