@@ -73,11 +73,10 @@ zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch
 #=== GITHUB BINARIES ==================================
 # lbin'!**/bin/nvim' @neovim/neovim \
 zi from'gh-r' lbin'!' nocompile for \
-  @dandavison/delta   @junegunn/fzf @koalaman/shellcheck @pemistahl/grex \
-  @r-darwish/topgrade @sharkdp/fd   @sharkdp/hyperfine   \
-  lbin'!* -> jq' @stedolan/jq        lbin'!* -> shfmt'  @mvdan/sh \
-  lbin'!**/rg'   @BurntSushi/ripgrep lbin'!**/bin/nvim' @neovim/neovim \
-  lbin'!* -> checkmake' @mrtazz/checkmake  lbin'!**/exa' atinit"alias l='exa -blF'
+  @dandavison/delta   @junegunn/fzf @koalaman/shellcheck @pemistahl/grex   \
+  @r-darwish/topgrade @sharkdp/fd   @sharkdp/hyperfine   @mrtazz/checkmake @stedolan/jq \
+  lbin'!* -> shfmt'  @mvdan/sh lbin'!**/rg'   @BurntSushi/ripgrep lbin'!**/bin/nvim' ver'nightly' @neovim/neovim \
+  lbin'!**/exa' atinit"alias l='exa -blF'
     alias la='exa -abghilmu'; alias ll='exa -al'
     alias ls='exa --git --group-directories-first'" \
   @ogham/exa
@@ -85,6 +84,7 @@ zi from'gh-r' lbin'!' nocompile for \
 zi as'command' for \
     pick'revolver' \
   @molovo/revolver \
+    ver'feat/list-failed-tests-to-reports' \
     atclone'./build.zsh' \
     pick'zunit' \
   @zdharma-continuum/zunit
@@ -93,10 +93,10 @@ zi lucid make"PREFIX=$ZPFX install" nocompile for \
   lbin'!tree' Old-Man-Programmer/tree \
   lbin'!bin/zsd'  $ZI_REPO/zshelldoc
 
-zi for \
-    as'completion' atpull'%atclone' depth'1' atclone"./configure --prefix=$PWD" \
-    make"PREFIX=$ZPFX install" nocompile lbin"!build/luarocks" \
-  luarocks/luarocks
+# zi for \
+#     as'completion' atpull'%atclone' depth'1' atclone"./configure --prefix=$PWD" \
+#     make"PREFIX=$ZPFX install" nocompile lbin"!build/luarocks" \
+#   luarocks/luarocks
 
 zi lucid nocompile as'completion' atclone'luarocks completion zsh > _luarocks' for \
   $ZI_REPO/null
