@@ -1,8 +1,5 @@
 # #!/usr/bin/env zsh
-if echo "$-" | grep i >/dev/null; then
-	export IS_TTY="${IS_TTY:=false}"
-fi
-export ZPLUG_HOME=$HOME/.local/share/zsh/zplug
+if echo "$-" | grep i >/dev/null; then export IS_TTY="${IS_TTY:=false}"; fi
 LOG_LEVEL="error"
 _log() {
 	if $IS_TTY; then
@@ -14,59 +11,17 @@ _log() {
 }
 _error() { _log $1; }
 _info() { _log $1; }
-_clone_if_missing() {
-	if [[ ! -d $1 ]]; then
-		git clone "$1" "$2/$(basename "$1" .git)"
-	else
-		return 0
-	fi
-}
-has() {
-	command -v "$1" 1>/dev/null 2>&1
-}
-_edit() {
-	${EDITOR:-nvim} "$1"
-}
-_export() {
-	if [[ -d $1 ]]; then
-		export PATH="${1}${PATH+:$PATH}"
-		return $?
-	fi
-}
-_fmt() {
-	if has "$2"; then
-		_info "formatting ${1} files via ${2}"
-		find . -name "*.${1}" -print -exec bash -c "${2} {}" \;
-	else
-		_error "$2 not installed"
-	fi
-}
-_goto() {
-	if [ -e "$1" ]; then
-		cd "$1" && exa --all --long || gls || ls -Go
-	else
-		_error "$1 doesn't exist"
-	fi
-}
-_mkfile() {
-	F_NAME="${3}.${1}"
-	echo "#!/usr/bin/env ${2}" >"$F_NAME"
-	chmod +x "$F_NAME"
-	_info " Created $F_NAME"
-}
-_sys_update() {
-	"$1" update && "$1" upgrade
-}
-_archive() {
-	local format="$1"
-	local output="$2"
-	local input=("${@:3}")
-	case "$format" in
-    tar) tar -czvf "${output}.tar.gz" "${input[@]}" ;;
-    7z) 7za a "${output}.7z" "${input[@]}" ;;
-    *) _error 'unrecognized archive format'
-	esac
-}
+
+_clone_if_absent() { [[ ! -d $1 ]] && git clone "$1" "$2/$(basename "$1" .git)"; }
+_edit() { ${EDITOR:-nvim} "$1"; }
+_export() { [[ -d $1 ]] && export PATH="${1}${PATH+:$PATH}"; return $?; }
+_goto(){ [[ -e "$1" ]] && cd "$1" && exa --all --long || gls || ls -Go; }
+_mkfile() { echo "#!/usr/bin/env ${2}" >"${3}.${1}" && chmod +x "${3}.${1}"; }
+_sys_update() { "$1" update && "$1" upgrade; }
+has() { command -v "$1" 1>/dev/null 2>&1; }
+#= CODE DIRECTORY ===============================
+CODE_DIR="${HOME:-~}/code"
+! [[ -d "$CODE_DIR" ]] && mkdir -p "${CODE_DIR}"
 #= SYSTEM SPECIFIC ===============================
 if [[ $OSTYPE =~ darwin* ]]; then
 	_copy_cmd='pbcopy -pboard general'
@@ -118,23 +73,21 @@ alias zcln="rm -fr ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{z
 alias zreset="pushd ${HOME} && zcln && zrld"
 alias zrld="exec zsh"
 #= DIRECTORY SHORTCUTS ===========================
-CODE_DIR="${HOME:-~}/code"
-! [[ -d "$CODE_DIR" ]] && mkdir -p "${CODE_DIR}"
-alias bin="_goto $HOME/.local/bin"
-alias c="_goto $CODE_DIR"
-alias cfg="_goto $XDG_CONFIG_HOME"
-alias df="_goto $XDG_CONFIG_HOME/dotfiles"
-alias dl="_goto $HOME/Downloads"
-alias h="_goto $HOME"
-alias installers="_goto $HOME/.local/bin/installers"
-alias rr='_goto $(git rev-parse --show-toplevel)'
-alias share="_goto $HOME/.local/share"
-alias vd="_goto $XDG_CONFIG_HOME/nvim"
-alias zclnplg="rm -rf $XDG_DATA_HOME/zsh/zinit/plugins"
-alias zd="_goto $ZDOTDIR"
-alias zid="_goto $XDG_DATA_HOME/zsh/zinit"
-alias zigd="_goto $XDG_DATA_HOME/zsh/zinit/zinit.git"
-alias zinstall="_edit $XDG_DATA_HOME/zsh/zinit/zinit.git/zinit-install.zsh"
+cd_alias(){ alias ${1}="_goto ${2}"; }
+cd_alias "bin"      "$HOME/.local/bin"
+cd_alias "c"        "$CODE_DIR"
+cd_alias "cfg"      "$XDG_CONFIG_HOME"
+cd_alias "df"       "$XDG_CONFIG_HOME/dotfiles"
+cd_alias "dl"       "$HOME/Downloads"
+cd_alias "h"        "$HOME"
+cd_alias "hs"       "$HOME/.hammerspoon"
+cd_alias "rr"       "$(git rev-parse --show-toplevel)"
+cd_alias "share"    "$HOME/.local/share"
+cd_alias "vd"       "$XDG_CONFIG_HOME/nvim"
+cd_alias "zd"       "$ZDOTDIR"
+cd_alias "zid"      "$ZINIT[HOME_DIR]"
+cd_alias "zigd"     "$ZINIT[BIN_DIR]"
+cd_alias "zinstall" "$ZINIT[BIN_DIR]/zinit-install.zsh"
 #= GIT ===========================================
 alias g-submodule-update='git submodule update --merge --remote'
 alias g="git" # GIT ALIASES DEFINED IN $HOME/.config/git/config
@@ -144,6 +97,7 @@ alias rshfmt="shfmt -i 4 -s -ln bash -sr -bn -ci -w"
 alias zc='zinit compile'
 alias zp='zinit times'
 alias zt='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
+alias zclnplg="$(rm -rf $ZINIT[PLUGINS_DIR])"
 #= MISC. =========================================
 alias gen-passwd='openssl rand -base64 24'
 alias get-my-ip='curl ifconfig.co'
@@ -168,10 +122,10 @@ alias mktxt='{ F_NAME="$(cat -).txt"; touch "$F_NAME"; _info "created: $F_NAME";
 alias mkzsh='_mkfile zsh "zsh"'
 mkcd(){ mkdir -p -- "$1" && cd -P -- "$1" ;}
 #= FILE FORMATTING ===============================
-alias fmtlua='_fmt lua "stylua -i"'
-alias fmtmd="_fmt md mdformat"
-alias fmtpy="_fmt py python3 -m black"
-alias fmtsh='_fmt sh "shfmt -bn -ci -i 4 -ln=bash -s -sr -w"'
+# alias fmtlua='_fmt lua "stylua -i"'
+# alias fmtmd="_fmt md mdformat"
+# alias fmtpy="_fmt py python3 -m black"
+# alias fmtsh='_fmt sh "shfmt -bn -ci -i 4 -ln=bash -s -sr -w"'
 #= SYS ===========================================
 alias what-system='echo OSTYPE=${OSTYPE} MACHTYPE=${MACHTYPE} CPUTYPE=${CPUTYPE} hardware=$(uname -m) processor=$(uname -p)'
 #= REMOTE =========================================
