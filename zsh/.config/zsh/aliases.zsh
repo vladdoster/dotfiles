@@ -74,20 +74,19 @@ alias zreset="pushd ${HOME} && zcln && zrld"
 alias zrld="exec zsh"
 #= DIRECTORY SHORTCUTS ===========================
 cd_alias(){ alias ${1}="_goto ${2}"; }
-cd_alias "bin"      "$HOME/.local/bin"
-cd_alias "c"        "$CODE_DIR"
-cd_alias "cfg"      "$XDG_CONFIG_HOME"
-cd_alias "df"       "$XDG_CONFIG_HOME/dotfiles"
-cd_alias "dl"       "$HOME/Downloads"
-cd_alias "h"        "$HOME"
-cd_alias "hs"       "$HOME/.hammerspoon"
-cd_alias "rr"       "$(git rev-parse --show-toplevel)"
-cd_alias "share"    "$HOME/.local/share"
-cd_alias "vd"       "$XDG_CONFIG_HOME/nvim"
-cd_alias "zd"       "$ZDOTDIR"
-cd_alias "zid"      "$ZINIT[HOME_DIR]"
-cd_alias "zigd"     "$ZINIT[BIN_DIR]"
-cd_alias "zinstall" "$ZINIT[BIN_DIR]/zinit-install.zsh"
+cd_alias "bin" $HOME/.local/bin
+cd_alias "c"   $CODE_DIR
+cd_alias "cfg" $XDG_CONFIG_HOME
+cd_alias "df"  $XDG_CONFIG_HOME/dotfiles
+cd_alias "dl"  $HOME/Downloads
+cd_alias "h"   $HOME
+cd_alias "hs"  $HOME/.hammerspoon
+cd_alias "rr"  '$(git rev-parse --show-toplevel)'
+cd_alias "vd"  $XDG_CONFIG_HOME/nvim
+cd_alias "zd"  $ZDOTDIR
+cd_alias "zid" $ZINIT[HOME_DIR]
+cd_alias "zigd" $ZINIT[BIN_DIR]
+cd_alias "zinstall" $ZINIT[BIN_DIR]/zinit-install.zsh
 #= GIT ===========================================
 alias g-submodule-update='git submodule update --merge --remote'
 alias g="git" # GIT ALIASES DEFINED IN $HOME/.config/git/config
