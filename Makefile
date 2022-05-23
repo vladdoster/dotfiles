@@ -21,6 +21,11 @@ $(CONFIGS): ## Clone a program's configuration repository
 install: | clean neovim ## Deploy dotfiles via GNU install
 	find * -maxdepth 0 -type d -exec stow --verbose 1 {} --target $$HOME \;
 
+update: clean
+	git pull --autostash --quiet
+	make
+	$(info -- updated dotfiles)
+
 container/build: ## Build container && install dotfiles
 	docker volume create configuration
 	docker buildx build \
