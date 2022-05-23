@@ -73,7 +73,7 @@ zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch
 #=== GITHUB BINARIES ==================================
 # lbin'!**/bin/nvim' @neovim/neovim \
 zi from'gh-r' lbin'!' nocompile for \
-  @dandavison/delta   @junegunn/fzf @koalaman/shellcheck @pemistahl/grex   \
+  @dandavison/delta   @junegunn/fzf @koalaman/shellcheck @pemistahl/grex  lbin'!* -> stylua' @JohnnyMorganz/StyLua \
   @r-darwish/topgrade @sharkdp/fd   @sharkdp/hyperfine   @mrtazz/checkmake @stedolan/jq \
   lbin'!* -> shfmt'  @mvdan/sh lbin'!**/rg'   @BurntSushi/ripgrep lbin'!**/bin/nvim' ver'nightly' @neovim/neovim \
   lbin'!**/exa' atinit"alias l='exa -blF'
