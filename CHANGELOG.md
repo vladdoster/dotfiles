@@ -1,3 +1,49 @@
+# [1.26.0](https://github.com/vladdoster/dotfiles/compare/v1.25.0...v1.26.0) (2022-05-24)
+
+
+### feat
+
+* add `update` Make target ([6c9ac99](https://github.com/vladdoster/dotfiles/commit/6c9ac99298de2b254f3790d1bf186bbc864f7e73))
+* add hyper gh-r recipe ([d5f2743](https://github.com/vladdoster/dotfiles/commit/d5f274358b52fb2212ff67c8ce6846a54f482f43))
+* clean up skhd configuration ([87de048](https://github.com/vladdoster/dotfiles/commit/87de048b15c97eadf42b9bbbc25b2a57d36d0e0c))
+* clean up zinit cfg for lbin updates ([9b85aa7](https://github.com/vladdoster/dotfiles/commit/9b85aa7698136a2bfb7441fe4b074b0cef8082d7))
+* test out CodeQL ([651a724](https://github.com/vladdoster/dotfiles/commit/651a724736409ccbe966be7f75e6c88a27050638))
+* use 1password-beta to Brewfile ([6ffd3d7](https://github.com/vladdoster/dotfiles/commit/6ffd3d74258efe2a3ccb21016cef07ad3de67bfa))
+
+### fix
+
+* {zshelldoc,tree} lbin & add luarocks completion ([1d8f66f](https://github.com/vladdoster/dotfiles/commit/1d8f66f4a30c1960ea1a2b59acfdd74ad225e152))
+* aliases and zinit config ([d94710e](https://github.com/vladdoster/dotfiles/commit/d94710e13dbe484de2fa94dc4343a21385bcf6a8))
+* aliases incorrectly quoted ([b625381](https://github.com/vladdoster/dotfiles/commit/b62538183bdb015b73f80625c01ddd49798b9fbd))
+* only show targets for make tab completion ([655716b](https://github.com/vladdoster/dotfiles/commit/655716b8197906667c844ce6aca980ba29c434b3))
+* semantic-release config path ([be8d1ef](https://github.com/vladdoster/dotfiles/commit/be8d1ef5de80caeadae31d3532efe3f7654c5766))
+* swap OS filter logic to generic first and specific last ([368b1c2](https://github.com/vladdoster/dotfiles/commit/368b1c26fdd5d2aa1600c5fbf72f247aa1b33a64))
+
+### maint
+
+* add back semantic-release config ([bfdc7d3](https://github.com/vladdoster/dotfiles/commit/bfdc7d364942d771ed8598a689c095d40dafe1c9))
+* add checkmake gh-r, python38 to path, and sort PHONY targets ([af2e170](https://github.com/vladdoster/dotfiles/commit/af2e170cab48f577ce1e82911c7ce55cc64d062d))
+* add stylua gh-r ([4994fd0](https://github.com/vladdoster/dotfiles/commit/4994fd0047d374612b7bfda78ac32ce6d6554fb7))
+* condense brew (u)install logic into single target ([b5d7a1b](https://github.com/vladdoster/dotfiles/commit/b5d7a1b39ac17430eb3f4ec9644a2af33ea42884))
+* delete .gitmodules due to hammerspoon config now seperate repository ([f13696b](https://github.com/vladdoster/dotfiles/commit/f13696beb5a4208c41bbe788d96fb3b8693ed7e9))
+* delete unused .chglog config and template ([942585b](https://github.com/vladdoster/dotfiles/commit/942585b2c1a0e5e73a44c2a619d89a788a350cfc))
+* install luarocks from source ([e8e5571](https://github.com/vladdoster/dotfiles/commit/e8e5571db52c479e362986966edfcd61af510e11))
+* move .releaserc to .github dir to clean up $HOME ([518e521](https://github.com/vladdoster/dotfiles/commit/518e521eb5a84bfbbaf76c74244471304a67fe22))
+* remove CodeQL scan ([99493e6](https://github.com/vladdoster/dotfiles/commit/99493e647095097722e4a18c7bba5e1a3b2f7ec0))
+* remove help target and clean up bin Makefile ([a37432e](https://github.com/vladdoster/dotfiles/commit/a37432eea54c8618facf1c66346f42da837adbeb))
+
+### refactor
+
+* goto alias logic condensed ([2a870e4](https://github.com/vladdoster/dotfiles/commit/2a870e46a37b9ffb09a39afd72e3c7fbae5123e3))
+
+### style
+
+* clean up zinit configuration ([79a17eb](https://github.com/vladdoster/dotfiles/commit/79a17eb7d2d00e990143d37438cf8b1fef9e3c9e))
+* fmt README.md ([38422a8](https://github.com/vladdoster/dotfiles/commit/38422a82b86fbf6b65988d8e45f984cab0500a6c))
+* format gh-r recipes ([814759b](https://github.com/vladdoster/dotfiles/commit/814759bfc0afdf17469aecc5b74d547992f31265))
+* format zinit.zsh ([cc44c8b](https://github.com/vladdoster/dotfiles/commit/cc44c8b76c240f7e1fc980f676f03f1ceda5e042))
+* format zshrc and fzf.zsh utility functions ([5c9b313](https://github.com/vladdoster/dotfiles/commit/5c9b3139bd7c14946ad13d9f1c57aa9c77de37ce))
+
 # [1.25.0](https://github.com/vladdoster/dotfiles/compare/v1.24.0...v1.25.0) (2022-05-13)
 
 
