@@ -17,24 +17,24 @@ git clone https://github.com/vladdoster/dotfiles $HOME/.config/dotfiles
 
 ## Makefile targets
 
-| TARGET          | DESCRIPTION                                                 |
+|     TARGET      | DESCRIPTION                                                 |
 | :-------------: | ----------------------------------------------------------- |
-| all-prog        | Install Python & Rust programs                              |
-| brew-bundle     | Install programs defined in $HOME/.config/dotfiles/Brewfile |
-| brew-fix        | Re-install Homebrew taps homebrew-core & homebrew-cask      |
-| brew-install    | Install Homebrew pkg manager                                |
+|    all-prog     | Install Python & Rust programs                              |
+|   brew-bundle   | Install programs defined in $HOME/.config/dotfiles/Brewfile |
+|    brew-fix     | Re-install Homebrew taps homebrew-core & homebrew-cask      |
+|  brew-install   | Install Homebrew pkg manager                                |
 | brew-uninstall  | Uninstall Homebrew pkg manager                              |
 | build-container | Build containerized env and install dotfiles                |
-| clean           | Remove deployed dotfiles                                    |
-| help            | Display available Makfile targets                           |
-| install         | Deploy dotfiles via GNU install                             |
-| linuxbrew-fix   | Re-install Linuxbrew taps homebrew-core & homebrew-cask     |
-| pip-update      | Update Python packages                                      |
-| py-prog         | Install Python dependencies                                 |
-| rust-install    | Install Rust & Cargo pkg manager via Rustup                 |
-| rust-prog       | Install programs via rust                                   |
+|      clean      | Remove deployed dotfiles                                    |
+|      help       | Display available Makfile targets                           |
+|     install     | Deploy dotfiles via GNU install                             |
+|  linuxbrew-fix  | Re-install Linuxbrew taps homebrew-core & homebrew-cask     |
+|   pip-update    | Update Python packages                                      |
+|     py-prog     | Install Python dependencies                                 |
+|  rust-install   | Install Rust & Cargo pkg manager via Rustup                 |
+|    rust-prog    | Install programs via rust                                   |
 | rust-uninstall  | Uninstall Rust                                              |
-| stow            | Install GNU stow                                            |
+|      stow       | Install GNU stow                                            |
 
 ## Change shell to ZSH
 
