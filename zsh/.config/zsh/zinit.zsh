@@ -73,15 +73,23 @@ zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch
 #=== GITHUB BINARIES ==================================
 # lbin'!**/bin/nvim' @neovim/neovim \
 zi from'gh-r' lbin'!' nocompile for \
-  @dandavison/delta   @junegunn/fzf @koalaman/shellcheck @pemistahl/grex  lbin'!* -> stylua' @JohnnyMorganz/StyLua \
-  @r-darwish/topgrade @sharkdp/fd   @sharkdp/hyperfine   @mrtazz/checkmake @stedolan/jq \
-  lbin'!* -> shfmt'  @mvdan/sh lbin'!**/rg'   @BurntSushi/ripgrep lbin'!**/bin/nvim' ver'nightly' @neovim/neovim \
+  @dandavison/delta    @junegunn/fzf \
+  @koalaman/shellcheck @pemistahl/grex \
+  @r-darwish/topgrade  @sharkdp/fd \
+  @sharkdp/hyperfine   @mrtazz/checkmake \
+  @stedolan/jq \
+  lbin'!* -> shfmt'  @mvdan/sh \
+  lbin'!* -> stylua' @JohnnyMorganz/StyLua  \
+  lbin'!**/bin/nvim' @neovim/neovim \
+  lbin'!**/rg'       @BurntSushi/ripgrep \
   lbin'!**/exa' atinit"alias l='exa -blF'
     alias la='exa -abghilmu'; alias ll='exa -al'
     alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 #=== UNIT TESTING =====================================
 zi as'command' for \
+    pick'src/semver' \
+  vladdoster/semver-tool \
     pick'revolver' \
   @molovo/revolver \
     ver'feat/list-failed-tests-to-reports' \

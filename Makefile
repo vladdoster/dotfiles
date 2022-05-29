@@ -84,7 +84,8 @@ py-prog: ## Install Python dependencies
 		flake8 \
 		isort \
 		mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables \
-		pynvim
+		pynvim \
+		reorder-python-imports
 	$(info --- py packages installed)
 
 rust-prog: ## Install programs via rust
