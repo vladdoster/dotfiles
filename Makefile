@@ -73,11 +73,12 @@ pip-update: ## Update Python3 packages
 		--trusted-host files.pythonhosted.org \
 		--trusted-host pypi.org \
 		--upgrade \
-		--user
+		--user \
+		--no-compile
 
 py-prog: ## Install Python dependencies
 	@python3 -m pip install --upgrade pip
-	@python3 -m pip install --upgrade --trusted-host pypi.org --trusted-host files.pythonhosted.org \
+	@python3 -m pip install --upgrade --trusted-host pypi.org --trusted-host files.pythonhosted.org --no-compile \
 		autopep8 \
 		black bpytop \
 		flake8 \
