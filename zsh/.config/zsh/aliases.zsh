@@ -15,7 +15,7 @@ _info() { _log $1; }
 _clone_if_absent() { [[ ! -d $1 ]] && git clone "$1" "$2/$(basename "$1" .git)"; }
 _edit() { ${EDITOR:-nvim} "$1"; }
 _export() { [[ -d $1 ]] && export PATH="${1}${PATH+:$PATH}"; return $?; }
-_goto(){ [[ -e "$1" ]] && cd "$1" && exa --all --long || gls || ls -Go; }
+_goto(){ [[ -e "$1" ]] && cd "$1" && $(which exa) --all --long || ls -lGo; }
 _mkfile() { echo "#!/usr/bin/env ${2}" >"${3}.${1}" && chmod +x "${3}.${1}"; }
 _sys_update() { "$1" update && "$1" upgrade; }
 has() { command -v "$1" 1>/dev/null 2>&1; }
@@ -28,18 +28,14 @@ if [[ $OSTYPE =~ darwin* ]]; then
 	alias readlink="greadlink"
 	alias copy="$_copy_cmd <"
 fi
-#= NAVIGATION ====================================
-alias .....='_goto ../../../..'
-alias ....='_goto ../../..'
-alias ...='_goto ../..'
-alias ..='_goto ..'
 #= FILE LOCATIONS ================================
 alias b="cd -"
 alias cpv="rsync -ah --info=progress2"
-alias d='dirs -v'
+alias d='dirs -v --'
 alias m='make'
-alias mkdir="mkdir -pv"
-alias rrm="rm -rf"
+alias mkdir="mkdir -pv --"
+alias rld="source"
+alias rmr="rm -rf --"
 alias tailf="less +F -R"
 if has nvim; then
 	export EDITOR='nvim'
@@ -72,21 +68,25 @@ alias nvcln="rm -frv $HOME/.{local/share/nvim,config/nvim/plugin}"
 alias zcln="rm -fr ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
 alias zreset="pushd ${HOME} && zcln && zrld"
 alias zrld="exec zsh"
-#= DIRECTORY SHORTCUTS ===========================
+#= NAVIGATION ====================================
 cd_alias(){ alias ${1}="_goto ${2}"; }
-cd_alias "bin" $HOME/.local/bin
-cd_alias "c"   $CODE_DIR
-cd_alias "cfg" $XDG_CONFIG_HOME
-cd_alias "df"  $XDG_CONFIG_HOME/dotfiles
-cd_alias "dl"  $HOME/Downloads
-cd_alias "h"   $HOME
-cd_alias "hs"  $HOME/.hammerspoon
-cd_alias "rr"  '$(git rev-parse --show-toplevel)'
-cd_alias "vd"  $XDG_CONFIG_HOME/nvim
-cd_alias "zd"  $ZDOTDIR
-cd_alias "zid" $ZINIT[HOME_DIR]
-cd_alias "zigd" $ZINIT[BIN_DIR]
-cd_alias "zinstall" $ZINIT[BIN_DIR]/zinit-install.zsh
+cd_alias '..' '..'
+cd_alias '...' '../..'
+cd_alias '....' '../../..'
+cd_alias '.....' '../../../..'
+cd_alias 'bin' $HOME/.local/bin
+cd_alias 'c' $CODE_DIR
+cd_alias 'cfg' $XDG_CONFIG_HOME
+cd_alias 'df' $XDG_CONFIG_HOME/dotfiles
+cd_alias 'dl' $HOME/Downloads
+cd_alias 'h' $HOME
+cd_alias 'hs' $HOME/.hammerspoon
+cd_alias 'rr' '$(git rev-parse --show-toplevel)'
+cd_alias 'vd' $XDG_CONFIG_HOME/nvim
+cd_alias 'zd' '$ZDOTDIR'
+cd_alias 'zid' '$ZINIT[HOME_DIR]'
+cd_alias 'zigd' '$ZINIT[BIN_DIR]'
+cd_alias 'zinstall' '$ZINIT[BIN_DIR]/zinit-install.zsh'
 #= GIT ===========================================
 alias g-submodule-update='git submodule update --merge --remote'
 alias g="git" # GIT ALIASES DEFINED IN $HOME/.config/git/config
