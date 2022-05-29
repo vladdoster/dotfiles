@@ -105,6 +105,7 @@ zi lucid make"PREFIX=$ZPFX install" nocompile for \
 #     as'completion' atpull'%atclone' depth'1' atclone"./configure --prefix=$PWD" \
 #     make"PREFIX=$ZPFX install" nocompile lbin"!build/luarocks" \
 #   luarocks/luarocks
+# zinit for as'completions' atclone'./buildx* completion zsh > _buildx' from'gh-r' nocompile lbin'!buildx-* -> buildx' @docker/buildx
 
 zi lucid nocompile as'completion' atclone'luarocks completion zsh > _luarocks' for \
   $ZI_REPO/null
