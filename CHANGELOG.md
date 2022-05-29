@@ -1,3 +1,15 @@
+# [1.27.0](https://github.com/vladdoster/dotfiles/compare/v1.26.0...v1.27.0) (2022-05-29)
+
+
+### fix
+
+* conflicting ctrl skhd commands ([d765913](https://github.com/vladdoster/dotfiles/commit/d7659135796e6407a735573a8306ec22de7185b5))
+
+### maint
+
+* run pip with --no-compile option ([44ebf99](https://github.com/vladdoster/dotfiles/commit/44ebf99496fd0ddef4068d77cf78d6ce12b6b46b))
+* update aliases ([b4796bb](https://github.com/vladdoster/dotfiles/commit/b4796bb5d2658e63a4d51f460c62b261a77d6388))
+
 # [1.26.0](https://github.com/vladdoster/dotfiles/compare/v1.25.0...v1.26.0) (2022-05-24)
 
 
