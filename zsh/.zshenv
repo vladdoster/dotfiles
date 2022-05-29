@@ -6,7 +6,7 @@
 # Open an issue in https://github.com/vladdoster/dotfiles if
 # you find a bug, have a feature request, or a question.
 #
-# SYSTEM SPECIFIC 
+# SYSTEM SPECIFIC
 
 # $- includes i if bash is interactive, allowing a shell script or startup file to test this state
 _print() { [[ $- == *i* ]] && print -P "${1}"; }
@@ -43,7 +43,7 @@ path_append "/usr/local/opt/gnu-sed/libexec/gnubin"
 path_append "/usr/local/opt/gnu-tar/libexec/gnubin"
 path_append "/Users/$USER/Library/Python/3.8/bin"
 path_append "/Users/$USER/Library/Python/3.9/bin"
-# XDG ENV VARIABLES 
+# XDG ENV VARIABLES
 (( ${+XDG_CACHE_HOME}  )) || export XDG_CACHE_HOME="$HOME/.cache"
 (( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="$HOME/.config"
 (( ${+XDG_DATA_HOME}   )) || export XDG_DATA_HOME="$HOME/.local/share"
