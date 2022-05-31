@@ -11,7 +11,9 @@ _log() {
 }
 _error() { _log $1; }
 _info() { _log $1; }
-
+# +────────────────+
+# │ UTIL FUNCTIONS │
+# +────────────────+
 _clone_if_absent() { [[ ! -d $1 ]] && git clone "$1" "$2/$(basename "$1" .git)"; }
 _edit() { ${EDITOR:-nvim} "$1"; }
 _export() { [[ -d $1 ]] && export PATH="${1}${PATH+:$PATH}"; return $?; }
@@ -149,29 +151,28 @@ mkcd(){ mkdir -p -- "$1" && cd -P -- "$1" ;}
 # +─────────────────+
 # │ FILE FORMATTING │
 # +─────────────────+
-alias fmtlua='_fmt lua "stylua -i"'
-alias fmtmd="_fmt md mdformat"
-alias fmtpy="_fmt py python3 -m black"
-alias fmtsh='_fmt sh "shfmt -bn -ci -i 4 -ln=bash -s -sr -w"'
+alias fmtlua='stylua -i'
+alias fmtmd="mdformat"
+alias fmtpy="python3 -m black"
+alias fmtsh="shfmt -bn -ci -i 4 -ln=bash -s -sr -w"
 # +─────+
 # │ SYS │
 # +─────+
-alias what-system='echo OSTYPE=${OSTYPE} MACHTYPE=${MACHTYPE} CPUTYPE=${CPUTYPE} hardware=$(uname -m) processor=$(uname -p)'
-# +────────+
-# │ REMOTE │
-# +────────+
 alias apt-sys-update="_sys_update 'sudo apt --yes'"
 alias brew-clean="brew cleanup --prune=all"
 alias brew-reset="brew update-reset"
 alias brew-sys-update="brew upgrade --greedy --force"
+alias what-system='echo OSTYPE=${OSTYPE} MACHTYPE=${MACHTYPE} CPUTYPE=${CPUTYPE} hardware=$(uname -m) processor=$(uname -p)'
 alias yum-sys-update="_sys_update 'sudo yum -y'"
-cp-to-devcloud() { rsync -a -z -P $(readlink "$1") devcloud:~/$(basename "$1"); }
-alias cp-devcloud="cp-to-devcloud"
+# +────────+
+# │ REMOTE │
+# +────────+
 alias cp-dotfiles="rsync -azP $XDG_CONFIG_HOME/dotfiles/ devcloud:~/dotfiles"
+alias cp-hammerspoon="rsync -azP $HOME/.hammerspoon/ devcloud:~/hammerspoon"
 alias cp-nvim="rsync -azP $XDG_CONFIG_HOME/nvim/ devcloud:~/nvim"
-if has docker; then
-	alias di="docker images"
-fi
+# +────────+
+# │ EMOJIS │
+# +────────+
 disappointed() { echo -n " ಠ_ಠ " | tee /dev/tty | xclip -selection clipboard; }
 flip() { echo -n "（╯°□°）╯ ┻━┻" | tee /dev/tty | xclip -selection clipboard; }
 shrug() { echo -n "¯\_(ツ)_/¯" | tee /dev/tty | xclip -selection clipboard; }
