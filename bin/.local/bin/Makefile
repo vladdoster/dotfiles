@@ -1,7 +1,6 @@
 .DEFAULT_GOAL := help
 .ONESHELL:
 
-
 ZSH := $(shell command -v zsh 2> /dev/null)
 
 zwc:
