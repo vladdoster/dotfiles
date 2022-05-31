@@ -97,7 +97,8 @@ rust-prog: ## Install programs via rust
 
 stow: ## Install GNU stow
 	$(info --- installing GNU stow)
-	make -C ./bin/.local/bin stow
+	cd ./bin/.local/bin \
+	&& make stow
 	$(info --- installed GNU stow)
 
 clean: ## Remove deployed dotfiles

@@ -120,7 +120,7 @@ go-install : $(GO_PROGS)
 py-install : $(PY_PROGS)
 
 $(PROGS):
-	$(ZSH) installer $(@) $(URL) $(OPTS)
+	$(ZSH) $$PWD/installer $(@) $(URL) $(OPTS)
 
 $(PY_PROGS):
 	python3 -m pip \

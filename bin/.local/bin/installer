@@ -1,8 +1,9 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 #=== HELPER METHODS ===================================[[[
-function _err() { print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && exit 1; }
-function _log() { print -P "%F{blue}[INFO]%f: %F{cyan}$1%f"; }
+
+function _err() { echo -e "\e[38;5;82m[ERROR]\e[39m:\e[38;5;198m $1" && exit 1; }
+function _log() { echo -e " \e[32m[INFO]\e[39m: $1"; }
 
 PROGRAM_SRC=$1; SRC_URL=$2; PROGRAM_TARBALL=$(basename "$2"); MAKE_OPTS=$3
 
@@ -43,7 +44,7 @@ if [[ ! -e 'Makefile' ]]; then
 	_log "configuring $PROGRAM_SRC"
 	if autoconf; then _log "autoconf successful"
 	elif autoreconf -iv; then _log "autoreconf successful"
-	elif sh ./autogen.sh; then _log "autogen.sh successful"
+	elif sh autogen.sh; then _log "autogen.sh successful"
 	elif mkdir build && pushd build && cmake . && popd; then _log "cmake successful"
 	else _log "failed $PROGRAM_SRC configuration"
 	fi
@@ -57,7 +58,6 @@ if [[ ! -e 'Makefile' ]]; then
 	elif ./Configure; then _log "configured install"
 	else _log "failed to configure $PROGRAM_SRC"
 	fi
-
 fi
 
 sudo make --jobs 8 install \
