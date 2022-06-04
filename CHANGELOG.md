@@ -1,3 +1,32 @@
+# [1.28.0](https://github.com/vladdoster/dotfiles/compare/v1.27.0...v1.28.0) (2022-06-04)
+
+
+### feat
+
+* add alacritty terminal configuration ([7a513b4](https://github.com/vladdoster/dotfiles/commit/7a513b47cf04b2fd9ebebcce64908a9b917f9486))
+
+### fix
+
+* bin installer Makefile and dotfiles Makefile ([5ce1e1e](https://github.com/vladdoster/dotfiles/commit/5ce1e1eec136fa550bcfd266068d2f8aecc6bb1b))
+* zshelldoc & tree gh-r recipes & "v" alias ([9e783f6](https://github.com/vladdoster/dotfiles/commit/9e783f6fb8a9a6bbeb845db1745b1919ab2fa0cd))
+
+### maint
+
+* add comment boxes to aliases.zsh ([0c0fac6](https://github.com/vladdoster/dotfiles/commit/0c0fac686db53c484ceac0e7a0f78fe28dfd46ed))
+* add docker buildx binary ([a17c411](https://github.com/vladdoster/dotfiles/commit/a17c411c8adff744be484f32b3d9c9012ada5422))
+* add more zsh options ([3278a3a](https://github.com/vladdoster/dotfiles/commit/3278a3a0704f87252dd685e5f1caaaeb29d9ee60))
+* add semver program and format gh-r programs ([e3adde2](https://github.com/vladdoster/dotfiles/commit/e3adde2c54aa8a35b559d6313117bd7ee3eb168f))
+* display hostname in tmux statusbar ([29c501c](https://github.com/vladdoster/dotfiles/commit/29c501ce3e7cff24b0a7890f980827433e19690f))
+* update bin Makefile install target and installer configure logic ([3dde004](https://github.com/vladdoster/dotfiles/commit/3dde00446d27c33897e585e72fea455a2a33b869))
+* update stow install and dotfiles {un,i}nstall targets ([3a89e40](https://github.com/vladdoster/dotfiles/commit/3a89e40d7841af703c88e3e2ad0003cae20f3210))
+* update Zsh options to get preferred behavior ([9b087d0](https://github.com/vladdoster/dotfiles/commit/9b087d0675d067b7de5d7486d0fe6eb7ce380df8))
+
+### style
+
+* change section headers to boxes ([15ff0fc](https://github.com/vladdoster/dotfiles/commit/15ff0fc4b9c677e99290a7a1c5e5864ca3f776ed))
+* remove trailing whitespace ([6a7aecc](https://github.com/vladdoster/dotfiles/commit/6a7aecc1de136112488eab51d6acef86220ae801))
+* switch to patched font BlexMono Nerd Font ([4a6202a](https://github.com/vladdoster/dotfiles/commit/4a6202a94425530145ddc8449a1d8ebbe4e7c0dd))
+
 # [1.27.0](https://github.com/vladdoster/dotfiles/compare/v1.26.0...v1.27.0) (2022-05-29)
 
 
