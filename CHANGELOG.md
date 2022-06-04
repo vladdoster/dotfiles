@@ -1,3 +1,11 @@
+## [1.28.1](https://github.com/vladdoster/dotfiles/compare/v1.28.0...v1.28.1) (2022-06-04)
+
+
+### fix
+
+* "zinstall" alias ([4471132](https://github.com/vladdoster/dotfiles/commit/44711321dae9be6d8a3fb69f67cce7af7ee5b09b))
+* zshelldoc binary selection and add gh cli binary ([bff906f](https://github.com/vladdoster/dotfiles/commit/bff906f3412da60defdadcb236c8b10120ad067e))
+
 # [1.28.0](https://github.com/vladdoster/dotfiles/compare/v1.27.0...v1.28.0) (2022-06-04)
 
 
