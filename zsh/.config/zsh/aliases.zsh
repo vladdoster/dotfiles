@@ -103,7 +103,7 @@ cd_alias 'vd' $XDG_CONFIG_HOME/nvim
 cd_alias 'zd' '$ZDOTDIR'
 cd_alias 'zid' '$ZINIT[HOME_DIR]'
 cd_alias 'zigd' '$ZINIT[BIN_DIR]'
-cd_alias 'zinstall' '$ZINIT[BIN_DIR]/zinit-install.zsh'
+alias zinstall='_edit $ZINIT[BIN_DIR]/zinit-install.zsh'
 # +─────+
 # │ GIT │
 # +─────+
