@@ -52,6 +52,7 @@ elif has vim; then
 else
   export EDITOR='vi'
 fi
+alias v=$EDITOR
 if has python3; then
 	alias python='python3'
 fi

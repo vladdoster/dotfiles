@@ -97,9 +97,9 @@ zi as'command' for \
     pick'zunit' \
   @zdharma-continuum/zunit
 #=== COMPILED PROGRAMS ================================
-zi lucid make"PREFIX=$ZPFX install" nocompile for \
-  lbin'!tree' Old-Man-Programmer/tree \
-  lbin'!bin/zsd'  $ZI_REPO/zshelldoc
+zi lucid make'PREFIX=$PWD install' nocompile for \
+  lbin'!**/bin/tree' Old-Man-Programmer/tree \
+  lbin'!**/bin/zsd'  $ZI_REPO/zshelldoc
 
 # zi for \
 #     as'completion' atpull'%atclone' depth'1' atclone"./configure --prefix=$PWD" \
