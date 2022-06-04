@@ -99,13 +99,15 @@ zi as'command' for \
 #=== COMPILED PROGRAMS ================================
 zi lucid make'PREFIX=$PWD install' nocompile for \
   lbin'!**/bin/tree' Old-Man-Programmer/tree \
-  lbin'!**/bin/zsd'  $ZI_REPO/zshelldoc
+  lbin'!**/zsd*' $ZI_REPO/zshelldoc
 
 # zi for \
 #     as'completion' atpull'%atclone' depth'1' atclone"./configure --prefix=$PWD" \
 #     make"PREFIX=$ZPFX install" nocompile lbin"!build/luarocks" \
 #   luarocks/luarocks
 # zinit for as'completions' atclone'./buildx* completion zsh > _buildx' from'gh-r' nocompile lbin'!buildx-* -> buildx' @docker/buildx
+
+zi lucid nocompile blockf atclone'**/bin/gh completion --shell zsh > _gh' lbin'!**/bin/gh' from'gh-r' for @cli/cli
 
 zi lucid nocompile as'completion' atclone'luarocks completion zsh > _luarocks' for \
   $ZI_REPO/null
