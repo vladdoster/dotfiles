@@ -80,12 +80,12 @@ zi from'gh-r' lbin'!' nocompile for \
   @stedolan/jq \
   lbin'!* -> shfmt'  @mvdan/sh \
   lbin'!* -> stylua' @JohnnyMorganz/StyLua  \
-  lbin'!**/bin/nvim' @neovim/neovim \
   lbin'!**/rg'       @BurntSushi/ripgrep \
   lbin'!**/exa' atinit"alias l='exa -blF'
     alias la='exa -abghilmu'; alias ll='exa -al'
     alias ls='exa --git --group-directories-first'" \
   @ogham/exa
+  # lbin'!**/bin/nvim' @neovim/neovim \
 #=== UNIT TESTING =====================================
 zi as'command' for \
     pick'src/semver' \
@@ -141,7 +141,7 @@ zi for atload'zicompinit; zicdreplay
       _zsh_highlight_bind_widgets
       _zsh_autosuggest_bind_widgets' \
     as'null' id-as'zinit/cleanup' lucid nocd wait'!' \
-  $ZI_REPO/null
+  /dev/null
 
 #=== COMPILE ZSH SOURCE =======================================
 # zi for atpull'%atclone' nocompile as'null' atclone'
