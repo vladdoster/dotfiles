@@ -77,7 +77,7 @@ zi from'gh-r' lbin'!' nocompile for \
   @koalaman/shellcheck @pemistahl/grex \
   @r-darwish/topgrade  @sharkdp/fd \
   @sharkdp/hyperfine   @mrtazz/checkmake \
-  @stedolan/jq \
+  lbin'!* -> jq'     @stedolan/jq \
   lbin'!* -> shfmt'  @mvdan/sh \
   lbin'!* -> stylua' @JohnnyMorganz/StyLua  \
   lbin'!**/rg'       @BurntSushi/ripgrep \
