@@ -28,10 +28,8 @@ update: clean
 
 container/build: ## Build container && install dotfiles
 	docker volume create configuration
-	docker buildx build \
+	docker build \
 		--no-cache \
-		--output=type=docker \
-		--platform linux/amd64 \
 		--tag=$(CONTAINER_NAME):latest \
 		$$PWD
 	$(info --- built df container)
@@ -41,8 +39,8 @@ container/run: ## Run containerized dockerfiles env
 	docker run \
 		--interactive \
 		--tty \
-		--user vlad \
-		--volume configuration:/home/vlad \
+		--user docker \
+		--volume configuration:/home/docker \
 		$(CONTAINER_NAME)
 
 brew:  ## (Un)install Homebrew

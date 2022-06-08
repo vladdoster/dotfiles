@@ -43,7 +43,6 @@ path_append "/usr/local/opt/gnu-sed/libexec/gnubin"
 path_append "/usr/local/opt/gnu-tar/libexec/gnubin"
 path_append "/Users/$USER/Library/Python/3.8/bin"
 path_append "/Users/$USER/Library/Python/3.9/bin"
-path_append "/Applications/Docker.app/Contents/MacOS"
 # XDG ENV VARIABLES
 (( ${+XDG_CACHE_HOME}  )) || export XDG_CACHE_HOME="$HOME/.cache"
 (( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="$HOME/.config"
