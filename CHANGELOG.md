@@ -1,3 +1,11 @@
+# [1.29.0](https://github.com/vladdoster/dotfiles/compare/v1.28.1...v1.29.0) (2022-06-08)
+
+
+### maint
+
+* fix jq naming and add docker to path ([af80e9b](https://github.com/vladdoster/dotfiles/commit/af80e9bd50cdc2a1cb7bf38a45b7b39f4fd2d488))
+* update df Dockerfile, docker Make targets, and nuke-docker.sh ([825c730](https://github.com/vladdoster/dotfiles/commit/825c730295e26d74097fe642e238326a11d74b21))
+
 ## [1.28.1](https://github.com/vladdoster/dotfiles/compare/v1.28.0...v1.28.1) (2022-06-04)
 
 
