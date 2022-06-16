@@ -43,25 +43,38 @@ container/run: ## Run containerized dockerfiles env
 		--volume configuration:/home/docker \
 		$(CONTAINER_NAME)
 
-brew:  ## (Un)install Homebrew
+brew/install:  ## (Un)install Homebrew
 	$(info Preparing to $(filter-out $@, $(MAKECMDGOALS)) homebrew)
 	@/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/$(filter-out $@, $(MAKECMDGOALS)).sh)"
 
-brew-bundle: ## Install programs defined in $HOME/.config/dotfiles/Brewfile
+brew/bundle: ## Install programs defined in $HOME/.config/dotfiles/Brewfile
 	@brew bundle --cleanup --file Brewfile --force --no-lock --zap
 
-linuxbrew-fix: ## Re-install Linuxbrew taps homebrew-core & homebrew-cask
+brew/fix: ## Re-install Linuxbrew taps homebrew-core & homebrew-cask
 	$(info --- adding git remote to origin)
 	@git -C "/home/linuxbrew/.linuxbrew/Homebrew" remote add origin https://github.com/Homebrew/brew
 	brew tap homebrew/core homebrew/cask
 
-all-prog: py-prog rust-prog ## Install Python & Rust programs
-
-rust-install: ## Install Rust & Cargo pkg manager via Rustup
+rust/install: ## Install Rust & Cargo pkg manager via Rustup
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-rust-uninstall: ## Uninstall Rust via rustup utility
+rust/uninstall: ## Uninstall Rust via rustup utility
 	@rustup self uninstall
+
+
+prog/all: py-prog rust-prog ## Install Python & Rust programs
+
+prog/python: ## Install Python dependencies
+	@python3 -m pip install --upgrade pip
+	@python3 -m pip install --upgrade --trusted-host pypi.org --trusted-host files.pythonhosted.org --no-compile \
+		autopep8 \
+		black bpytop \
+		flake8 \
+		isort \
+		mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables \
+		pynvim \
+		reorder-python-imports
+	$(info --- py packages installed)
 
 pip-update: ## Update Python3 packages
 	@pip3 list --user \
@@ -74,26 +87,14 @@ pip-update: ## Update Python3 packages
 		--upgrade \
 		--user
 
-py-prog: ## Install Python dependencies
-	@python3 -m pip install --upgrade pip
-	@python3 -m pip install --upgrade --trusted-host pypi.org --trusted-host files.pythonhosted.org --no-compile \
-		autopep8 \
-		black bpytop \
-		flake8 \
-		isort \
-		mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables \
-		pynvim \
-		reorder-python-imports
-	$(info --- py packages installed)
-
-rust-prog: ## Install programs via rust
+prog/rust: ## Install programs via rust
 	cargo install \
 		bat \
 		cargo-update \
 		exa \
 		topgrade
 
-stow: ## Install GNU stow
+stow/install: ## Install GNU stow
 	$(info --- installing GNU stow)
 	cd ./bin/.local/bin \
 	&& make stow
