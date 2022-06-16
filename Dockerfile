@@ -1,4 +1,7 @@
-FROM debian:latest
+FROM --platform=$BUILDPLATFORM debian:latest AS build
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM" > /log
 
 ARG USERNAME
 ENV DEBIAN_FRONTEND noninteractive
