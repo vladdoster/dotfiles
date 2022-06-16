@@ -1,13 +1,3 @@
-# [1.30.0](https://github.com/vladdoster/dotfiles/compare/v1.29.0...v1.30.0) (2022-06-16)
-
-
-### maint
-
-* add checkmake to zinit gh-r to install ([c814311](https://github.com/vladdoster/dotfiles/commit/c814311d7fe269e4c6f1f3d09b915b319b288cd9))
-* clean up zsh configuration files ([4bbf3c2](https://github.com/vladdoster/dotfiles/commit/4bbf3c2e805451b4107a5dbe46b6b740ba2d4e1e))
-* Make targets consistent name scheme ([9009ca5](https://github.com/vladdoster/dotfiles/commit/9009ca500bc25f8d6acfeaf25ec9071bd9680fc3))
-* utlize muli-platform images via buildx ([4745b76](https://github.com/vladdoster/dotfiles/commit/4745b76357eae6de51aeb01629ddf8bedd886828))
-
 # [1.29.0](https://github.com/vladdoster/dotfiles/compare/v1.28.1...v1.29.0) (2022-06-08)
 
 
