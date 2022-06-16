@@ -36,13 +36,15 @@ activate_brew
 (( ${+HOSTNAME} )) || export HOSTNAME="$HOST"
 (( ${+LANGUAGE} )) || export LANGUAGE="$LANG"
 (( ${+USER}   )) || export USER="$USERNAME"
-path_append "$HOME/.local/bin" # personal scriptsbrew
+path_append "$HOME/.cargo/bin"
+path_append "$HOME/.local/bin" # personal scripts
+path_append "$HOME/Library/Python/3.8/bin"
+path_append "$HOME/Library/Python/3.9/bin"
 path_append "/opt/homebrew/opt/make/libexec/gnubin"
+path_append "/usr/local/opt/binutils/bin"
 path_append "/usr/local/opt/coreutils/libexec/gnubin"
 path_append "/usr/local/opt/gnu-sed/libexec/gnubin"
 path_append "/usr/local/opt/gnu-tar/libexec/gnubin"
-path_append "/Users/$USER/Library/Python/3.8/bin"
-path_append "/Users/$USER/Library/Python/3.9/bin"
 # XDG ENV VARIABLES
 (( ${+XDG_CACHE_HOME}  )) || export XDG_CACHE_HOME="$HOME/.cache"
 (( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="$HOME/.config"
@@ -64,7 +66,4 @@ export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 export KEYTIMEOUT=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1  # make prompt faster
-# PATH
-setopt autocd autopushd pushdignoredups
-
 # vim:ft=zsh:sw=2:sts=2
