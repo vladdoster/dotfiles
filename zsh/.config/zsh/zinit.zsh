@@ -76,7 +76,8 @@ zi from'gh-r' lbin'!' nocompile for \
   @dandavison/delta    @junegunn/fzf \
   @koalaman/shellcheck @pemistahl/grex \
   @r-darwish/topgrade  @sharkdp/fd \
-  @sharkdp/hyperfine   @mrtazz/checkmake \
+  @sharkdp/hyperfine \
+  lbin'!* -> checkmake' @mrtazz/checkmake \
   lbin'!* -> jq'     @stedolan/jq \
   lbin'!* -> shfmt'  @mvdan/sh \
   lbin'!* -> stylua' @JohnnyMorganz/StyLua  \
