@@ -43,7 +43,7 @@ container/run: ## Run containerized dockerfiles env
 		--volume configuration:/home/docker \
 		$(CONTAINER_NAME)
 
-brew/install:  ## (Un)install Homebrew
+brew: ## (Un)install Homebrew
 	$(info Preparing to $(filter-out $@, $(MAKECMDGOALS)) homebrew)
 	@/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/$(filter-out $@, $(MAKECMDGOALS)).sh)"
 
