@@ -10,18 +10,18 @@ dots() { # quick lookup for my config files
 fzfp() { #fzf with preview options
   fzf \
     --ansi
-    --bind '?:toggle-preview' \
+  --bind '?:toggle-preview' \
     --inline-info \
     --preview='\
-      [[ $(file --mime {}) =~ binary ]] \
-      && echo {} is a binary file \
-      || highlight --style base16/nord -O ansi -l {} \
-      || cat {} 2> /dev/null | head -500' \
+    [[ $(file --mime {}) =~ binary ]] \
+    && echo {} is a binary file \
+    || highlight --style base16/nord -O ansi -l {} \
+    || cat {} 2> /dev/null | head -500' \
     --reverse \
     --tabstop=1 \
 
 
-}
+  }
 gli() {
   local filter
   if [ -n "$@" ] && [ -f "$@" ]; then
@@ -29,10 +29,10 @@ gli() {
   fi
   git log \
     --graph --color=always --abbrev=7 --format='%C(auto)%h %an %C(blue)%s %C(yellow)%cr' "$@" |
-    fzf \
-      --ansi --no-sort --reverse --tiebreak=index --height 80% --preview-window=right:60% \
-      --preview "f() { set -- \$(echo -- \$@ | grep -o '[a-f0-9]\{7\}'); [ \$# -eq 0 ] || git show --color=always \$1 $filter; }; f {}" \
-      --bind "j:down,k:up,alt-j:preview-down,alt-k:preview-up,ctrl-f:preview-page-down,ctrl-b:preview-page-up,q:abort,ctrl-m:execute:
+  fzf \
+    --ansi --no-sort --reverse --tiebreak=index --height 80% --preview-window=right:60% \
+    --preview "f() { set -- \$(echo -- \$@ | grep -o '[a-f0-9]\{7\}'); [ \$# -eq 0 ] || git show --color=always \$1 $filter; }; f {}" \
+    --bind "j:down,k:up,alt-j:preview-down,alt-k:preview-up,ctrl-f:preview-page-down,ctrl-b:preview-page-up,q:abort,ctrl-m:execute:
                 (grep -o '[a-f0-9]\{7\}' | head -1 |
                 xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
                 {}
@@ -55,12 +55,12 @@ fglog() { # git log browser with FZF
         --no-sort \
         --reverse \
         --tiebreak=index \
-        --bind "ctrl-m:execute:\
-              (grep -o '[a-f0-9]\{7\}' \
-              | head -1 \
-              | xargs -I % sh -c 'git show --color=always % \
-              | less -R'
-              ) << 'FZF-EOF' {} FZF-EOF"
+    --bind "ctrl-m:execute:\
+    (grep -o '[a-f0-9]\{7\}' \
+      | head -1 \
+      | xargs -I % sh -c 'git show --color=always % \
+      | less -R'
+  ) << 'FZF-EOF' {} FZF-EOF"
 }
 # fstash - easier way to deal with stashes
 # type fstash to get a list of your stashes

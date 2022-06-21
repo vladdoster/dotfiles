@@ -2,12 +2,12 @@
 if echo "$-" | grep i >/dev/null; then export IS_TTY="${IS_TTY:=false}"; fi
 LOG_LEVEL="error"
 _log() {
-	if $IS_TTY; then
-		case $LOG_LEVEL in
-		error*) echo "--- ERROR: $1" ;;
-		info*) echo "--- INFO: $1" ;;
-		esac
-	fi
+  if $IS_TTY; then
+    case $LOG_LEVEL in
+      error*) echo "--- ERROR: $1" ;;
+      info*) echo "--- INFO: $1" ;;
+    esac
+  fi
 }
 _error() { _log $1; }
 _info() { _log $1; }
@@ -17,7 +17,7 @@ _info() { _log $1; }
 _clone_if_absent() { [[ ! -d $1 ]] && git clone "$1" "$2/$(basename "$1" .git)"; }
 _edit() { ${EDITOR:-nvim} "$1"; }
 _export() { [[ -d $1 ]] && export PATH="${1}${PATH+:$PATH}"; return $?; }
-_goto(){ [[ -e "$1" ]] && cd "$1" && $(which exa) --all --long || ls -lGo; }
+_goto() { [[ -e "$1" ]] && cd "$1" && $(which exa) --all --long || ls -lGo; }
 _mkfile() { echo "#!/usr/bin/env ${2}" >"${3}.${1}" && chmod +x "${3}.${1}"; }
 _sys_update() { "$1" update && "$1" upgrade; }
 has() { command -v "$1" 1>/dev/null 2>&1; }
@@ -30,9 +30,9 @@ CODE_DIR="${HOME:-~}/code"
 # │ SYSTEM SPECIFIC │
 # +─────────────────+
 if [[ $OSTYPE =~ darwin* ]]; then
-	_copy_cmd='pbcopy -pboard general'
-	alias readlink="greadlink"
-	alias copy="$_copy_cmd <"
+  _copy_cmd='pbcopy -pboard general'
+  alias readlink="greadlink"
+  alias copy="$_copy_cmd <"
 fi
 # +───────+
 # │ FILES │
@@ -46,7 +46,7 @@ alias rld="source"
 alias rmr="rm -rf --"
 alias tailf="less +F -R"
 if has nvim; then
-	export EDITOR='nvim'
+  export EDITOR='nvim'
 elif has vim; then
   export EDITOR='vim'
 else
@@ -54,12 +54,12 @@ else
 fi
 alias v=$EDITOR
 if has python3; then
-	alias python='python3'
+  alias python='python3'
 fi
 # +──────────────────+
 # │ CONFIG SHORTCUTS │
 # +──────────────────+
-cfg_alias(){ alias ${1}="_edit ${XDG_CONFIG_HOME}/${2}"; }
+cfg_alias() { alias ${1}="_edit ${XDG_CONFIG_HOME}/${2}"; }
 cfg_alias 'ealiases' 'zsh/aliases.zsh'
 cfg_alias 'gignore'  'git/ignore'
 cfg_alias 'gcfg'     'git/config'
@@ -72,7 +72,7 @@ cfg_alias 'zsc'      'zsh/.zshrc'
 # +────────────────+
 # │ HOME SHORTCUTS │
 # +────────────────+
-home_alias(){ alias ${1}="_edit ${HOME}/${2}"; }
+home_alias() { alias ${1}="_edit ${HOME}/${2}"; }
 home_alias 'hscfg' '.hammerspoon/init.lua'
 home_alias 'sshrc' '.ssh/config'
 home_alias 'zec'   '.zshenv'
@@ -86,7 +86,7 @@ alias zrld="exec zsh"
 # +────────────+
 # │ NAVIGATION │
 # +────────────+
-cd_alias(){ alias ${1}="_goto ${2}"; }
+cd_alias() { alias ${1}="_goto ${2}"; }
 cd_alias '..' '..'
 cd_alias '...' '../..'
 cd_alias '....' '../../..'
@@ -148,7 +148,7 @@ alias mkpy='_mkfile py "python3"'
 alias mksh='_mkfile sh "bash"'
 alias mktxt='{ F_NAME="$(cat -).txt"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
 alias mkzsh='_mkfile zsh "zsh"'
-mkcd(){ mkdir -p -- "$1" && cd -P -- "$1" ;}
+mkcd() { mkdir -p -- "$1" && cd -P -- "$1" ;}
 # +─────────────────+
 # │ FILE FORMATTING │
 # +─────────────────+
