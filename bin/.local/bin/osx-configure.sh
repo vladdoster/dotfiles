@@ -2,13 +2,13 @@
 #
 # Close open System Preferences panes preventing overriding changed settings
 #
-function error() { print -P "%F{160}[ERROR] ---%f%b $1" >&2 && exit 1; }
-function user_input() { print -P "%F{20} ---%f%b $1" >&2 && exit 1; }
-function info() { print -P "%F{34}[INFO] ---%f%b $1"; }
+error() { print -P "%F{160}[ERROR] ---%f%b $1" >&2 && exit 1; }
+user_input() { print -P "%F{20} ---%f%b $1" >&2 && exit 1; }
+info() { print -P "%F{34}[INFO] ---%f%b $1"; }
 osascript -e 'tell application "System Preferences" to quit' # Ask for the administrator password upfront
 sudo -v
 while true; do # Keep-alive: update existing `sudo` time stamp until finished
-	sudo -n true && sleep 60 && kill -0 "$$" || exit 1
+  sudo -n true && sleep 60 && kill -0 "$$" || exit 1
 done 2>/dev/null &
 #== GENERAL UI/UX                                                               #
 info "Updating general system settings"
@@ -202,29 +202,29 @@ defaults write com.apple.TextEdit RichText -int 0     # Use plain text mode for 
 defaults write com.apple.dashboard devmode -bool true # Enable Dashboard dev mode (allows keeping widgets on the desktop)
 # KILL AFFECTED APPLICATIONS                                                  #
 for application in \
-	"Activity Monitor" \
-	"Address Book" \
-	"Calendar" \
-	"Contacts" \
-	"Dock" \
-	"Finder" \
-	"Mail" \
-	"Messages" \
-	"Photos" \
-	"Safari" \
-	"SystemUIServer" \
-	"Terminal" \
-	"Vivaldi" \
-	"cfprefsd"; do
-	killall "$application" &>/dev/null
+  "Activity Monitor" \
+  "Address Book" \
+  "Calendar" \
+  "Contacts" \
+  "Dock" \
+  "Finder" \
+  "Mail" \
+  "Messages" \
+  "Photos" \
+  "Safari" \
+  "SystemUIServer" \
+  "Terminal" \
+  "Vivaldi" \
+  "cfprefsd"; do
+  killall "$application" &>/dev/null
 done
 info "successfully applied configuration options"
 user_input "Reboot $HOSTNAME?[y/N]: " # Prompt user to reboot
 read -r REBOOT
 if [[ $REBOOT == "y" ]]; then
-	info "rebooting in 5 seconds..."
-	sleep 5
-	sudo reboot
+  info "rebooting in 5 seconds..."
+  sleep 5
+  sudo reboot
 fi
 info "skipping reboot"
 exit 0
