@@ -1,7 +1,7 @@
-FROM --platform=$BUILDPLATFORM debian:latest AS build
-ARG TARGETPLATFORM
-ARG BUILDPLATFORM
-RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM" > /log
+FROM debian:latest AS build
+# ARG TARGETPLATFORM
+# ARG BUILDPLATFORM
+# RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM" > /log
 
 ARG USERNAME
 ENV DEBIAN_FRONTEND noninteractive
@@ -36,7 +36,7 @@ WORKDIR ${HOME}
 RUN bash -c "mkdir ${HOME}/.config \
   && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
   && pushd ${HOME}/.config/dotfiles \
-  && make stow \
+  && make stow/install \
   && make install \
   && popd \
   && zsh"

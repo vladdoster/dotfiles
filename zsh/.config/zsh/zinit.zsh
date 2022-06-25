@@ -65,8 +65,8 @@ MODE_CURSOR_VICMD="green block";              MODE_CURSOR_VIINS="#20d08a blinkin
 MODE_INDICATOR_REPLACE='%F{9}%F{1}REPLACE%f'; MODE_INDICATOR_VISUAL='%F{12}%F{4}VISUAL%f'
 MODE_INDICATOR_VIINS='%F{15}%F{8}INSERT%f';   MODE_INDICATOR_VICMD='%F{10}%F{2}NORMAL%f'
 MODE_INDICATOR_VLINE='%F{12}%F{4}V-LINE%f';   MODE_CURSOR_SEARCH="#ff00ff blinking underline"
-setopt PROMPT_SUBST;  export KEYTIMEOUT=1 export LANG=en_US.UTF-8; export LC_ALL="en_US.UTF-8";
-export LC_COLLATE='C' export LESS='-RMs'; export PAGER=less;       export VISUAL=vi
+setopt PROMPT_SUBST;  export KEYTIMEOUT=1 export LANG=en_US.UTF-8; export LC_ALL=en_US.UTF-8;
+export LC_COLLATE=C;  export LESS='-RMs'; export PAGER=less;       export VISUAL=vi;
 RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
 #=== ANNEXES ==========================================
 zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
@@ -76,6 +76,7 @@ zi from'gh-r' lbin'!' nocompile for \
   @koalaman/shellcheck @pemistahl/grex \
   @r-darwish/topgrade  @sharkdp/fd \
   @sharkdp/hyperfine \
+  bpick'*extended*' @gohugoio/hugo \
   lbin'!* -> checkmake' @mrtazz/checkmake \
   lbin'!* -> jq'     @stedolan/jq \
   lbin'!* -> shfmt'  @mvdan/sh \

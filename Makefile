@@ -27,11 +27,15 @@ update: clean
 	$(info -- updated dotfiles)
 
 container/build: ## Build container && install dotfiles
+	# docker buildx create --use --name dotfiles-builder || echo "--- exists"
 	docker volume create configuration
 	docker build \
-		--no-cache \
 		--tag=$(CONTAINER_NAME):latest \
-		$$PWD
+		.
+	# docker buildx build \
+	# 	--platform=darwin/arm64e\
+	# 	--load \
+	# 	.
 	$(info --- built df container)
 
 container/run: ## Run containerized dockerfiles env
