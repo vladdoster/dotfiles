@@ -113,13 +113,12 @@ zi lucid nocompile as'completion' atclone'luarocks completion zsh > _luarocks' f
 _pip_completion() {
   local words cword; read -Ac words; read -cn cword
   reply=($(
-      COMP_WORDS="$words[*]"; COMP_CWORD=$(( cword-1 )) \
-        PIP_AUTO_COMPLETE=1 $words 2>/dev/null
+      COMP_WORDS="$words[*]"
+      COMP_CWORD=$(( cword-1 )) PIP_AUTO_COMPLETE=1 $words 2>/dev/null
 ))}; compctl -K _pip_completion pip3
 #=== MISC. ============================================
 zi light-mode lucid for \
-  atinit"
-bindkey -M vicmd '^v' edit-command-line" \
+    atinit'bindkey -M vicmd "^v" edit-command-line' \
     compile'zsh-vim-mode*.zsh' \
   softmoth/zsh-vim-mode \
   thewtex/tmux-mem-cpu-load \
@@ -130,22 +129,24 @@ bindkey -M vicmd '^v' edit-command-line" \
     blockf \
   zsh-users/zsh-completions \
     atload'_zsh_autosuggest_start' \
-    atinit"
-ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50
-bindkey '^_' autosuggest-execute
-bindkey '^ ' autosuggest-accept" \
+    atinit'\
+    ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50;\
+    bindkey "^_" autosuggest-execute;\
+    bindkey "^ " autosuggest-accept' \
   zsh-users/zsh-autosuggestions \
+    atinit'bindkey "^R" history-search-multi-word' \
+  $ZI_REPO/history-search-multi-word \
     atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
     atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
     compile'.*fast*~*.zwc' nocompletions \
   $ZI_REPO/fast-syntax-highlighting
 
 zi for \
-  as'null' id-as'zinit/cleanup' lucid nocd wait'!' \
-  atload'
-zicompinit; zicdreplay
-_zsh_highlight_bind_widgets
-_zsh_autosuggest_bind_widgets' \
+    as'null' id-as'zinit/cleanup' lucid nocd wait'!' \
+    atload'\
+    zicompinit; zicdreplay;\
+    _zsh_highlight_bind_widgets;\
+    _zsh_autosuggest_bind_widgets' \
   /dev/null
 
 #=== COMPILE ZSH SOURCE =======================================
