@@ -91,14 +91,14 @@ pip-update: ## Update Python3 packages
 		--upgrade \
 		--user
 
-prog/rust: ## Install programs via rust
+prog-rust: ## Install programs via rust
 	cargo install \
 		bat \
 		cargo-update \
 		exa \
 		topgrade
 
-stow/install: ## Install GNU stow
+stow-install: ## Install GNU stow
 	$(info --- installing GNU stow)
 	cd ./bin/.local/bin \
 	&& make stow
