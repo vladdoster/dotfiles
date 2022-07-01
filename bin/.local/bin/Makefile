@@ -1,7 +1,8 @@
-.DEFAULT_GOAL := help
+ZSH := $(shell command -v zsh 2> /dev/null)
+.DEFAULT_SHELL := $(ZSH)
 .ONESHELL:
 
-ZSH := $(shell command -v zsh 2> /dev/null)
+.DEFAULT_GOAL := help
 
 zwc:
 	$(or $(ZSH),:) -fc 'for f in *.zsh; do zcompile -R -- $$f.zwc $$f || exit; done'
@@ -124,7 +125,7 @@ $(PROGS):
 	$(ZSH) \
 		$$PWD/installer \
 		$(@) \
-		"$(GNU)/$(@)/$(shell curl $(GNU)/$(@)/ | ggrep -oP "$(@)-[0-9]+(\.[0-9]+)*.tar\.gz" | sort -V -t. -r -k1,1 -k2,2 -k3,3 | head -1)" \
+		"$(GNU)/$(@)/$(shell curl $(GNU)/$(@)/ | ggrep -oP '$(@)-[0-9]+(\.[0-9]+)*.tar\.gz' | sort -V -t. -r -k1,1 -k2,2 -k3,3 | head -1)" \
 		$(OPTS)
 
 $(PY_PROGS):

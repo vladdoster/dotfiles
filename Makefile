@@ -61,7 +61,7 @@ install/all: python/prog rust/prog ## Install Python & Rust programs
 
 install/gnu-stow: ## Install GNU stow
 	$(info --- installing GNU Stow)
-	$(shell pushd ./bin/.local/bin; make stow)
+	cd ./bin/.local/bin && make stow
 	$(info --- installed GNU Stow)
 
 python/prog: ## Install useful Python programs

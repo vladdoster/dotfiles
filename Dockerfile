@@ -34,14 +34,16 @@ RUN useradd \
 USER ${USER}
 WORKDIR ${HOME}
 
-RUN bash -c "mkdir ${HOME}/.config \
+RUN mkdir ${HOME}/.config \
   && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
-  && pushd ${HOME}/.config/dotfiles \
-  && make stow/install \
-  && make install \
-  && popd \
-  && zsh"
+ && make -C ${HOME}/.config/dotfiles install/gnu-stow \
+ && make -C ${HOME}/.config/dotfiles install \
 
-USER ${USER}
+# WORKDIR ${HOME}/.config/dotfiles
+
+# RUN make -C ${HOME}/.config/dotfiles install/gnu-stow \
+#  && make -C ${HOME}/.config/dotfiles install \
+
+USER "$USER"
 
 CMD ["zsh"]
