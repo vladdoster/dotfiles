@@ -33,9 +33,9 @@ if [[ -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
 else error "unable to find 'zinit.zsh'" && return 1
 fi
 #=== STATIC ZSH BINARY =======================================
-# zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null" \
-  #     atclone"./install -e no -d ~/.local" atinit"export PATH=$HOME/.local/bin:$PATH" \
-  #   @romkatv/zsh-bin
+zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null" \
+  atclone"./install -e no -d ~/.local" atinit"export PATH=$HOME/.local/bin:$PATH" \
+  @romkatv/zsh-bin
 # #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 zi for is-snippet \
   OMZL::{'clipboard','compfix','completion','git','grep','key-bindings'}.zsh \
@@ -52,13 +52,13 @@ install_completion 'fd-completion/_fd'         'sharkdp/fd/master/contrib/comple
 #=== PROMPT ===========================================
 zi light-mode for \
   compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
-    PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
-    PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
-    zstyle ':prompt:pure:git:action' color 'yellow'
-    zstyle ':prompt:pure:git:branch' color 'blue'
-    zstyle ':prompt:pure:git:dirty' color 'red'
-    zstyle ':prompt:pure:path' color 'cyan'
-    zstyle ':prompt:pure:prompt:success' color 'green'" \
+PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
+PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
+zstyle ':prompt:pure:git:action' color 'yellow'
+zstyle ':prompt:pure:git:branch' color 'blue'
+zstyle ':prompt:pure:git:dirty' color 'red'
+zstyle ':prompt:pure:path' color 'cyan'
+zstyle ':prompt:pure:prompt:success' color 'green'" \
   sindresorhus/pure
 #=== zsh-vim-mode cursor configuration [[[
 MODE_CURSOR_VICMD="green block";              MODE_CURSOR_VIINS="#20d08a blinking bar"
@@ -66,9 +66,7 @@ MODE_INDICATOR_REPLACE='%F{9}%F{1}REPLACE%f'; MODE_INDICATOR_VISUAL='%F{12}%F{4}
 MODE_INDICATOR_VIINS='%F{15}%F{8}INSERT%f';   MODE_INDICATOR_VICMD='%F{10}%F{2}NORMAL%f'
 MODE_INDICATOR_VLINE='%F{12}%F{4}V-LINE%f';   MODE_CURSOR_SEARCH="#ff00ff blinking underline"
 export KEYTIMEOUT=1; export LESS='-RMs'; export PAGER=less; export VISUAL=vi;
-LC_CTYPE=en_US.UTF-8; LC_ALL=en_US.UTF-8
-# Setting for the new UTF-8 terminal support in Lion
-RPS1='${MODE_INDICATOR_PROMPT} ${vcs_info_msg_0_}'
+# LC_CTYPE=en_US.UTF-8; LC_ALL=en_US.UTF-8
 #=== ANNEXES ==========================================
 zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
 #=== GITHUB BINARIES ==================================
@@ -85,17 +83,17 @@ zi from'gh-r' lbin'!' nocompile for \
   lbin'!**/rg'       @BurntSushi/ripgrep \
   lbin'!**/bin/nvim' ver'nightly' @neovim/neovim \
   lbin'!**/exa' atinit"alias l='exa -blF';
-    alias la='exa -abghilmu'; alias ll='exa -al'
-    alias ls='exa --git --group-directories-first'" \
+alias la='exa -abghilmu'; alias ll='exa -al'
+alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 #=== UNIT TESTING =====================================
 zi as'command' for \
   pick'src/semver' \
-    vladdoster/semver-tool \
+  vladdoster/semver-tool \
   pick'revolver' \
-    @molovo/revolver \
+  @molovo/revolver \
   atclone'./build.zsh' pick'zunit' \
-    @zdharma-continuum/zunit
+  @zdharma-continuum/zunit
 #=== COMPILED PROGRAMS ================================
 zi lucid make'PREFIX=$PWD install' nocompile for \
   lbin'!**/bin/tree' Old-Man-Programmer/tree \
@@ -120,8 +118,8 @@ _pip_completion() {
 ))}; compctl -K _pip_completion pip3
 #=== MISC. ============================================
 zi light-mode lucid for \
-    atinit"
-      bindkey -M vicmd '^v' edit-command-line" \
+  atinit"
+bindkey -M vicmd '^v' edit-command-line" \
     compile'zsh-vim-mode*.zsh' \
   softmoth/zsh-vim-mode \
   thewtex/tmux-mem-cpu-load \
@@ -133,9 +131,9 @@ zi light-mode lucid for \
   zsh-users/zsh-completions \
     atload'_zsh_autosuggest_start' \
     atinit"
-      ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50
-      bindkey '^_' autosuggest-execute
-      bindkey '^ ' autosuggest-accept" \
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50
+bindkey '^_' autosuggest-execute
+bindkey '^ ' autosuggest-accept" \
   zsh-users/zsh-autosuggestions \
     atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
     atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
@@ -143,27 +141,27 @@ zi light-mode lucid for \
   $ZI_REPO/fast-syntax-highlighting
 
 zi for \
-    as'null' id-as'zinit/cleanup' lucid nocd wait'!' \
-    atload'
-      zicompinit; zicdreplay
-      _zsh_highlight_bind_widgets
-      _zsh_autosuggest_bind_widgets' \
+  as'null' id-as'zinit/cleanup' lucid nocd wait'!' \
+  atload'
+zicompinit; zicdreplay
+_zsh_highlight_bind_widgets
+_zsh_autosuggest_bind_widgets' \
   /dev/null
 
 #=== COMPILE ZSH SOURCE =======================================
-zi for atpull'%atclone' nocompile as'null' atclone'
-{ print -P "%F{blue}[INFO]%f:%F{cyan}Building Zsh %f" \
-    && autoreconf --force --install --make || ./Util/preconfig \
-    && CFLAGS="-g -O3" ./configure --prefix=/usr/local >/dev/null \
-    && print -P "%F{blue}[INFO]%f:%F{cyan} Configured Zsh %f" \
-    && make -j8 PREFIX=/usr/local >/dev/null || make \
-    && print -P "%F{blue}[INFO]%f:%F{green} Compiled $(/usr/local/bin/zsh --version) %f" \
-    && sudo make -j8 install >/dev/null || make \
-    && print -P "%F{blue}[INFO]%f:%F{green} Installed $(/usr/local/bin/zsh --version) @ /usr/local/bin/zsh %f" \
-    && print -P "%F{blue}[INFO]%f:%F{green} Adding /usr/local/bin/zsh to /etc/shells %f" \
-    sudo sh -c "echo /usr/bin/local/zsh >> /etc/shells" \
-    && print -P "%F{blue}[INFO]%f: To update your shell, run: %F{cyan} chsh --shell /usr/local/bin/zsh $USER %f"
-} || { print -P "%F{red}[ERROR]%f:%F{yellow} Failed to install Zsh %f" }' \
-  zsh-users/zsh
+# zi for atpull'%atclone' nocompile as'null' atclone'
+# { print -P "%F{blue}[INFO]%f:%F{cyan}Building Zsh %f" \
+  #     && autoreconf --force --install --make || ./Util/preconfig \
+  #     && CFLAGS="-g -O3" ./configure --prefix=/usr/local >/dev/null \
+  #     && print -P "%F{blue}[INFO]%f:%F{cyan} Configured Zsh %f" \
+  #     && make -j8 PREFIX=/usr/local >/dev/null || make \
+  #     && print -P "%F{blue}[INFO]%f:%F{green} Compiled $(/usr/local/bin/zsh --version) %f" \
+  #     && sudo make -j8 install >/dev/null || make \
+  #     && print -P "%F{blue}[INFO]%f:%F{green} Installed $(/usr/local/bin/zsh --version) @ /usr/local/bin/zsh %f" \
+  #     && print -P "%F{blue}[INFO]%f:%F{green} Adding /usr/local/bin/zsh to /etc/shells %f" \
+  #     sudo sh -c "echo /usr/bin/local/zsh >> /etc/shells" \
+  #     && print -P "%F{blue}[INFO]%f: To update your shell, run: %F{cyan} chsh --shell /usr/local/bin/zsh $USER %f"
+# } || { print -P "%F{red}[ERROR]%f:%F{yellow} Failed to install Zsh %f" }' \
+  #   zsh-users/zsh
 
 # vim:ft=zsh:sw=2:sts=2

@@ -15,6 +15,7 @@ RUN apt-get update \
   file \
   git g++ \
   make \
+  ncurses-base ncurses-bin \
   subversion sudo \
   tar \
   unzip \
