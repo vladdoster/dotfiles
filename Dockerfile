@@ -36,8 +36,8 @@ WORKDIR ${HOME}
 
 RUN mkdir ${HOME}/.config \
   && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
- && make -C ${HOME}/.config/dotfiles install/gnu-stow \
- && make -C ${HOME}/.config/dotfiles install \
+  && make -C ${HOME}/.config/dotfiles install/gnu-stow \
+  && make -C ${HOME}/.config/dotfiles install
 
 # WORKDIR ${HOME}/.config/dotfiles
 
