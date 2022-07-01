@@ -125,7 +125,7 @@ $(PROGS):
 	$(ZSH) \
 		$$PWD/installer \
 		$(@) \
-		"$(GNU)/$(@)/$(shell curl $(GNU)/$(@)/ | ggrep -oP '$(@)-[0-9]+(\.[0-9]+)*.tar\.gz' | sort -V -t. -r -k1,1 -k2,2 -k3,3 | head -1)" \
+		"$(GNU)/$(@)/$(shell curl $(GNU)/$(@)/ | grep -oP "$(@)-[0-9]+(\.[0-9]+)*.tar\.gz" | sort -V -t. -r -k1,1 -k2,2 -k3,3 | head -1)" \
 		$(OPTS)
 
 $(PY_PROGS):
