@@ -13,6 +13,9 @@ Install and set everything up, run:
 
 ```bash
 git clone https://github.com/vladdoster/dotfiles $HOME/.config/dotfiles
+make stow-install
+make install
+exec zsh
 ```
 
 ## Makefile targets
