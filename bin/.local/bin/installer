@@ -1,7 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
-#=== HELPER METHODS ===================================[[[
-
+# +──────────────────+
+# │ # HELPER METHODS │
+# +──────────────────+
 _err() { echo -e "\e[38;5;82m[ERROR]\e[39m:\e[38;5;198m $1" && exit 1; }
 _log() { echo -e " \e[32m[INFO]\e[39m: $1"; }
 has() { command -v "$1" 1> /dev/null 2>&1; }
@@ -34,7 +35,7 @@ else
   _err "unable to find cURL or wget"
 fi
 
-pushd "$WORK_DIR" || exit
+cd "$WORK_DIR" || exit
 if eval "$DL_CMD $SRC_URL"; then
   _log "downloaded $PROGRAM_TARBALL tarball"
   mkdir "$PROGRAM_SRC"
@@ -43,29 +44,30 @@ if eval "$DL_CMD $SRC_URL"; then
   fi
 fi
 
-pushd "$PROGRAM_SRC" || exit
+cd "$PROGRAM_SRC" || exit
 
 if [[ ! -e 'Makefile' ]]; then
   _log "configuring $PROGRAM_SRC"
-  if has autoconf && autoconf; then
+  if has autoupdate && autoupdate && autoreconf; then
+    _log "autoupdate successful"
+  elif has autoconf && autoconf; then
     _log "autoconf successful"
   elif has autoreconf && autoreconf -iv; then
     _log "autoreconf successful"
-  elif [ -e autogen.sh ] && sh autogen.sh; then
+  elif [[ -e $$PWD/autogen.sh ]] && sh autogen.sh && autoreconf; then
     _log "autogen.sh successful"
-  elif mkdir build && pushd build && cmake .. && popd; then
+  elif mkdir build && cd build && cmake . && cd -; then
     _log "cmake successful"
-  elif has automake && [ -f configure.ac ]; then
-    _log "found configure.ac, running automake"
-    automake && _log "automake successful"
+  elif has automake && [[ -f configure.ac ]] && automake; then
+    _log "automake successful"
   else
     _log "failed $PROGRAM_SRC configuration"
   fi
 fi
 
-if sh configure $MAKE_OPTS; then
+if sh $$PWD/configure $MAKE_OPTS; then
   _log "configured install"
-elif ./Configure; then
+elif sh $PWD/Configure; then
   _log "configured install"
 else
   _log "failed to configure $PROGRAM_SRC"
@@ -74,5 +76,5 @@ fi
 if sudo make --jobs 8 install; then
   _log "$PROGRAM_SRC installed" && exit 0
 else
-  _err "failed to install $PROGRAM_SRC"
+  _err "failed to install $PROGRAM_SRC" && exit 1
 fi

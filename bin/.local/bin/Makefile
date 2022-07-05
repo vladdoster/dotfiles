@@ -11,8 +11,8 @@ GITL=https://api.github.com/repos
 GNU=http://ftpmirror.gnu.org/gnu
 
 PROGS := \
-	aspell autoconf autogen automake \
-	bash binutils bison \
+	aspell autoconf autoconf-2.69 autogen automake \
+	ballandpaddle bash binutils bison \
 	cmake curl \
 	gawk gcc gettext git glib2 glibc gmp graphviz grep guile gzip \
 	htop \
@@ -35,17 +35,19 @@ PY_PROGS := \
 	pynvim
 
 # Program tarball URLs
-aspell:    URL:=$(GIT)/aspell/aspell
-autoconf:  URL:=$(GNU)/autoconf/autoconf-2.71.tar.gz
-autogen:   URL:=$(GNU)/autogen/rel5.18.16/autogen-5.18.16.tar.gz
-automake:  URL:=$(GNU)/automake/automake-1.16.5.tar.gz
+aspell:          URL:=$(GNU)/aspell
+autoconf-2.69:   URL:=$(GNU)/autoconf/autoconf-2.69.tar.gz
+autoconf: URL:=$(GNU)/autoconf
+autogen:         URL:=$(GNU)/autogen/rel5.18.16
+automake:        URL:=$(GNU)/automake
 
-bash:      URL:=$(GNU)/bash/bash-5.2-alpha.tar.gz
-binutils:  URL:=$(GNU)/binutils/binutils-2.37.tar.gz
-bison:     URL:=$(GNU)/bison/bison-3.8.1.tar.gz
+ballandpaddle: URL:=$(GNU)/ballandpaddle
+bash:      URL:=$(GNU)/bash
+binutils:  URL:=$(GNU)/binutils
+bison:     URL:=$(GNU)/bison
 
 cmake:     URL:=$(GIT)/Kitware/CMake/tarball
-coreutils: URL:=$(GNU)/coreutils/coreutils-9.0.tar.gz
+coreutils: URL:=$(GNU)/coreutils
 curl:      URL:=$(GIT)/curl/curl
 
 findutils: URL:=$(GNU)/findutils
@@ -96,8 +98,8 @@ pkgconfig:   URL:=https://pkgconfig.freedesktop.org/releases/pkg-config-0.29.2.t
 python:      URL:=$(GIT)/python/cpython
 
 readline:    URL:=$(GNU)/readline
-ruby-latest: URL:=https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.2.tar.gz
-ruby2.6.8:   URL:=https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.8.tar.gz
+ruby/latest: URL:=https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.2.tar.gz
+ruby/2.6.8:  URL:=https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.8.tar.gz
 
 sed:     URL:=$(GNU)/sed
 shfmt:   URL:=$(GIT)/shfmt/shfmt
@@ -115,6 +117,7 @@ tmux:    URL:=$(GIT)/tmux/tmux --disable-utf8proc
 wget: URL:=$(GNU)/wget
 yasm: URL:=$(GIT)/yasm/yasm
 zlib: URL:=$(GIT)/madler/zlib
+
 zsh:  URL:=$(GIT)/zsh-users/zsh
 
 install : $(PROGS)
@@ -122,21 +125,7 @@ go-install : $(GO_PROGS)
 py-install : $(PY_PROGS)
 
 $(PROGS):
-	$(ZSH) \
-		$$PWD/installer \
-		$(@) \
-		"$(GNU)/$(@)/$(shell curl $(GNU)/$(@)/ | grep -oP "$(@)-[0-9]+(\.[0-9]+)*.tar\.gz" | sort -V -t. -r -k1,1 -k2,2 -k3,3 | head -1)" \
-		$(OPTS)
+	$(ZSH) $${PWD}/installer $(@) $(GNU)/$(@)/$(shell curl $(GNU)/$(@)/ | grep -oE "$(@)-([0-9\-]+\.){0,3}(\*|[0-9\.]+)\.tar\.gz" | sort -V -t. -r -k1,1 -k2,2 -k3,3 | head -1) $(OPTS)
 
 $(PY_PROGS):
-	python3 -m pip \
-		install \
-		--trusted-host pypi.org \
-		--trusted-host files.pythonhosted.org \
-		$(@)
-
-lua-format-deps:
-	brew install \
-		--build-from-source \
-		antlr \
-		antlr4-cpp-runtime
+	python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org $(@)

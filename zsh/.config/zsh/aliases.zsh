@@ -69,6 +69,7 @@ cfg_alias 'skhdrc'   'skhd/skhdrc'
 cfg_alias 'tmuxrc'   'tmux/tmux.conf'
 cfg_alias 'zic'      'zsh/zinit.zsh'
 cfg_alias 'zsc'      'zsh/.zshrc'
+alias zinstall='_edit $ZINIT[BIN_DIR]/zinit-install.zsh'
 # +────────────────+
 # │ HOME SHORTCUTS │
 # +────────────────+
@@ -82,6 +83,7 @@ home_alias 'zec'   '.zshenv'
 alias nvcln="rm -frv $HOME/.{local/share/nvim,config/nvim/plugin}"
 alias zcln="rm -fr ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
 alias zreset="pushd ${HOME} && zcln && zrld"
+alias zicln="zi delete --all --yes; ( exec zsh );"
 alias zrld="exec zsh"
 # +────────────+
 # │ NAVIGATION │
@@ -103,7 +105,6 @@ cd_alias 'vd' $XDG_CONFIG_HOME/nvim
 cd_alias 'zd' '$ZDOTDIR'
 cd_alias 'zid' '$ZINIT[HOME_DIR]'
 cd_alias 'zigd' '$ZINIT[BIN_DIR]'
-alias zinstall='_edit $ZINIT[BIN_DIR]/zinit-install.zsh'
 # +─────+
 # │ GIT │
 # +─────+
@@ -163,7 +164,8 @@ alias apt-sys-update="_sys_update 'sudo apt --yes'"
 alias brew-clean="brew cleanup --prune=all"
 alias brew-reset="brew update-reset"
 alias brew-sys-update="brew upgrade --greedy --force"
-alias what-system='echo OSTYPE=${OSTYPE} MACHTYPE=${MACHTYPE} CPUTYPE=${CPUTYPE} hardware=$(uname -m) processor=$(uname -p)'
+alias wsys='echo OSTYPE=${OSTYPE} MACHTYPE=${MACHTYPE} CPUTYPE=${CPUTYPE} hardware=$(uname -m) processor=$(uname -p)'
+alias cldf='mkdir -p ~/.config; cd ~/.config; git clone https://github.com/vladdoster/dotfiles; cd dotfiles;'
 alias yum-sys-update="_sys_update 'sudo yum -y'"
 # +────────+
 # │ REMOTE │

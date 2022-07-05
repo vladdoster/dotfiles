@@ -66,5 +66,6 @@ export DOCKER_BUILDKIT=0
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
+export ARCHPREFERENCE=arm64,x86_64
 # export ZSH_AUTOSUGGEST_MANUAL_REBIND=1  # make prompt faster
 # vim:ft=zsh:sw=2:sts=2

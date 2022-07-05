@@ -1,4 +1,4 @@
-FROM debian:latest AS build
+FROM ubuntu:latest AS build
 # ARG TARGETPLATFORM
 # ARG BUILDPLATFORM
 # RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM" > /log
@@ -8,15 +8,17 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV USER=${USERNAME:-docker}
 ENV HOME /home/${USER}
 
+  # && apt-get install -y --no-install-recommends \
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends \
+  && apt-get install -y \
   apt-transport-https automake \
   ca-certificates cmake curl \
   file \
-  git g++ \
+  git g++ grep \
   make \
   ncurses-base ncurses-bin \
-  subversion sudo \
+  perl \
+  stow subversion sudo \
   tar \
   unzip \
   wget \
@@ -35,9 +37,12 @@ USER ${USER}
 WORKDIR ${HOME}
 
 RUN mkdir ${HOME}/.config \
-  && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
-  && make -C ${HOME}/.config/dotfiles install/gnu-stow \
-  && make -C ${HOME}/.config/dotfiles install
+  && grep --version \
+  && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles
+
+WORKDIR $HOME/.config/dotfiles
+
+RUN ["zsh", "-c", "echo $PWD && make install"]
 
 # WORKDIR ${HOME}/.config/dotfiles
 

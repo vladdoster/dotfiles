@@ -5,8 +5,15 @@
 # macOS and Linux.
 #
 #=== HELPER METHODS ===================================
-error() { print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && return 1 }
-info() { print -P "%F{blue}[INFO]%f: %F{cyan}$1%f"; }
+error() {
+  # print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && return 1
+  print -P "[ERROR]: $1"
+  return 1
+}
+info() {
+  # print -P "%F{blue}[INFO]%f: %F{cyan}$1%f"
+  print -P "[INFO]: $1"
+}
 #=== ZINIT ============================================
 typeset -gAH ZINIT;
 ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
@@ -71,10 +78,9 @@ export KEYTIMEOUT=1; export LESS='-RMs'; export PAGER=less; export VISUAL=vi;
 zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' lbin'!' nocompile for \
-  @dandavison/delta    @junegunn/fzf \
-  @koalaman/shellcheck @pemistahl/grex \
-  @r-darwish/topgrade  @sharkdp/fd \
-  @sharkdp/hyperfine \
+  @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck','pemistahl/grex'} \
+  @{'r-darwish/topgrade','sharkdp/fd','sharkdp/hyperfine','itchyny/gojq'} \
+  blockf atclone'**/bin/gh completion --shell zsh > _gh' lbin'!**/bin/gh' @cli/cli \
   bpick'*extended*' @gohugoio/hugo \
   lbin'!* -> checkmake' @mrtazz/checkmake \
   lbin'!* -> jq'     @stedolan/jq \
@@ -83,21 +89,21 @@ zi from'gh-r' lbin'!' nocompile for \
   lbin'!**/rg'       @BurntSushi/ripgrep \
   lbin'!**/bin/nvim' ver'nightly' @neovim/neovim \
   lbin'!**/exa' atinit"alias l='exa -blF';
-alias la='exa -abghilmu'; alias ll='exa -al'
-alias ls='exa --git --group-directories-first'" \
+    alias la='exa -abghilmu'; alias ll='exa -al'
+    alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 #=== UNIT TESTING =====================================
 zi as'command' for \
-  pick'src/semver' \
+    pick'src/semver' \
   vladdoster/semver-tool \
-  pick'revolver' \
+    pick'revolver' \
   @molovo/revolver \
-  atclone'./build.zsh' pick'zunit' \
+    atclone'./build.zsh' pick'zunit' \
   @zdharma-continuum/zunit
 #=== COMPILED PROGRAMS ================================
 zi lucid make'PREFIX=$PWD install' nocompile for \
   lbin'!**/bin/tree' Old-Man-Programmer/tree \
-  lbin'!**/zsd*' $ZI_REPO/zshelldoc
+  lbin'!**/zsd(-*|)$' $ZI_REPO/zshelldoc
 
 # zi for \
   #     as'completion' atpull'%atclone' depth'1' atclone"./configure --prefix=$PWD" \
@@ -105,7 +111,6 @@ zi lucid make'PREFIX=$PWD install' nocompile for \
   #   luarocks/luarocks
 # zinit for as'completions' atclone'./buildx* completion zsh > _buildx' from'gh-r' nocompile lbin'!buildx-* -> buildx' @docker/buildx
 
-zi lucid nocompile blockf atclone'**/bin/gh completion --shell zsh > _gh' lbin'!**/bin/gh' from'gh-r' for @cli/cli
 
 zi lucid nocompile as'completion' atclone'luarocks completion zsh > _luarocks' for \
   $ZI_REPO/null
