@@ -5,10 +5,14 @@ zmodload zsh/complist
 # +─────────────────────+
 # │ LOAD CONFIGURATIONS │
 # +─────────────────────+
-local files=(aliases fzf zinit)
-for f in "$files[@]"; do
-  . "${ZDOTDIR:-$HOME/.config/zsh}/${f}".zsh
-done
+# local files=(aliases fzf zinit)
+# for f in "$files[@]"; do
+#   . "${ZDOTDIR:-$HOME/.config/zsh}/${f}".zsh
+# done
+export HOMEBREW_CURL_PATH=/home/linuxbrew/.linuxbrew/Cellar/curl/7.84.0/bin/curl
+source $HOME/.config/zsh/aliases.zsh
+source $HOME/.config/zsh/fzf.zsh
+source $HOME/.config/zsh/zinit.zsh
 # +───────────────────────+
 # │ Zsh Line Editor (ZLE) │
 # +───────────────────────+

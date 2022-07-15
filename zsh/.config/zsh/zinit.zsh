@@ -40,9 +40,9 @@ if [[ -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
 else error "unable to find 'zinit.zsh'" && return 1
 fi
 #=== STATIC ZSH BINARY =======================================
-zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null" \
-  atclone"./install -e no -d ~/.local" atinit"export PATH=$HOME/.local/bin:$PATH" \
-  @romkatv/zsh-bin
+# zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null" \
+#   atclone"./install -e no -d ~/.local" atinit"export PATH=$HOME/.local/bin:$PATH" \
+#   @romkatv/zsh-bin
 # #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 zi for is-snippet \
   OMZL::{'clipboard','compfix','completion','git','grep','key-bindings'}.zsh \
@@ -101,20 +101,20 @@ zi as'command' for \
     atclone'./build.zsh' pick'zunit' \
   @zdharma-continuum/zunit
 #=== COMPILED PROGRAMS ================================
-zi for \
-  as'null' \
-  atclone'./configure --disable-utf8proc --prefix=$PWD' \
-  atpull'%atclone' \
-  extract'!' \
-  from'gh-r' \
-  id-as'tmux' \
-  lbin'!' \
-  lucid \
-  make'-j 8 install' \
-  nocompile \
-  ver'latest' \
-  wait'1' \
-@tmux/tmux
+# zi for \
+#  as'null' \
+#  atclone'autoconf && ./configure --disable-utf8proc --prefix=$PWD' \
+#  atpull'%atclone' \
+#  extract'!' \
+#  from'gh-r' \
+#  id-as'tmux' \
+#  lbin'!' \
+#  lucid \
+#  make'-j 8 install' \
+#  nocompile \
+#  ver'latest' \
+#  wait'1' \
+#@tmux/tmux
 
 zi lucid make'PREFIX=$PWD install' nocompile for \
   lbin'!**/bin/tree' Old-Man-Programmer/tree \
@@ -127,8 +127,8 @@ zi lucid make'PREFIX=$PWD install' nocompile for \
 # zinit for as'completions' atclone'./buildx* completion zsh > _buildx' from'gh-r' nocompile lbin'!buildx-* -> buildx' @docker/buildx
 
 
-zi lucid nocompile as'completion' atclone'luarocks completion zsh > _luarocks' for \
-  $ZI_REPO/null
+# zi lucid nocompile as'completion' atclone'luarocks completion zsh > _luarocks' for \
+#   $ZI_REPO/null
 #=== PYTHON ===========================================
 _pip_completion() {
   local words cword; read -Ac words; read -cn cword
@@ -137,11 +137,12 @@ _pip_completion() {
       COMP_CWORD=$(( cword-1 )) PIP_AUTO_COMPLETE=1 $words 2>/dev/null
 ))}; compctl -K _pip_completion pip3
 #=== MISC. ============================================
+# has'tmux' \
+#   thewtex/tmux-mem-cpu-load \
 zi light-mode lucid for \
     atinit'bindkey -M vicmd "^v" edit-command-line' \
     compile'zsh-vim-mode*.zsh' \
   softmoth/zsh-vim-mode \
-  thewtex/tmux-mem-cpu-load \
     submods'zsh-users/zsh-history-substring-search -> external' \
     svn \
   OMZ::plugins/history-substring-search \
@@ -163,26 +164,26 @@ zi light-mode lucid for \
 
 zi for \
     as'null' id-as'zinit/cleanup' lucid nocd wait'!' \
-    atload'\
-    zicompinit; zicdreplay;\
-    _zsh_highlight_bind_widgets;\
-    _zsh_autosuggest_bind_widgets' \
+    atload'
+      zicompinit; zicdreplay;
+      _zsh_highlight_bind_widgets
+      _zsh_autosuggest_bind_widgets' \
   /dev/null
 
 #=== COMPILE ZSH SOURCE =======================================
 # zi for atpull'%atclone' nocompile as'null' atclone'
-# { print -P "%F{blue}[INFO]%f:%F{cyan}Building Zsh %f" \
-  #     && autoreconf --force --install --make || ./Util/preconfig \
-  #     && CFLAGS="-g -O3" ./configure --prefix=/usr/local >/dev/null \
-  #     && print -P "%F{blue}[INFO]%f:%F{cyan} Configured Zsh %f" \
-  #     && make -j8 PREFIX=/usr/local >/dev/null || make \
-  #     && print -P "%F{blue}[INFO]%f:%F{green} Compiled $(/usr/local/bin/zsh --version) %f" \
-  #     && sudo make -j8 install >/dev/null || make \
-  #     && print -P "%F{blue}[INFO]%f:%F{green} Installed $(/usr/local/bin/zsh --version) @ /usr/local/bin/zsh %f" \
-  #     && print -P "%F{blue}[INFO]%f:%F{green} Adding /usr/local/bin/zsh to /etc/shells %f" \
-  #     sudo sh -c "echo /usr/bin/local/zsh >> /etc/shells" \
-  #     && print -P "%F{blue}[INFO]%f: To update your shell, run: %F{cyan} chsh --shell /usr/local/bin/zsh $USER %f"
-# } || { print -P "%F{red}[ERROR]%f:%F{yellow} Failed to install Zsh %f" }' \
-  #   zsh-users/zsh
+#     { print -P "%F{blue}[INFO]%f:%F{cyan}Building Zsh %f" \
+#           && autoreconf --force --install --make || ./Util/preconfig \
+#           && CFLAGS="-g -O3" ./configure --prefix=/usr/local >/dev/null \
+#           && print -P "%F{blue}[INFO]%f:%F{cyan} Configured Zsh %f" \
+#           && make -j8 PREFIX=/usr/local >/dev/null || make \
+#           && print -P "%F{blue}[INFO]%f:%F{green} Compiled $(/usr/local/bin/zsh --version) %f" \
+#           && sudo make -j8 install >/dev/null || make \
+#           && print -P "%F{blue}[INFO]%f:%F{green} Installed $(/usr/local/bin/zsh --version) @ /usr/local/bin/zsh %f" \
+#           && print -P "%F{blue}[INFO]%f:%F{green} Adding /usr/local/bin/zsh to /etc/shells %f" \
+#           sudo sh -c "echo /usr/bin/local/zsh >> /etc/shells" \
+#           && print -P "%F{blue}[INFO]%f: To update your shell, run: %F{cyan} chsh --shell /usr/local/bin/zsh $USER %f"
+#     } || { print -P "%F{red}[ERROR]%f:%F{yellow} Failed to install Zsh %f" }' \
+#   zsh-users/zsh
 
 # vim:ft=zsh:sw=2:sts=2
