@@ -101,6 +101,21 @@ zi as'command' for \
     atclone'./build.zsh' pick'zunit' \
   @zdharma-continuum/zunit
 #=== COMPILED PROGRAMS ================================
+zi for \
+  as'null' \
+  atclone'./configure --disable-utf8proc --prefix=$PWD' \
+  atpull'%atclone' \
+  extract'!' \
+  from'gh-r' \
+  id-as'tmux' \
+  lbin'!' \
+  lucid \
+  make'-j 8 install' \
+  nocompile \
+  ver'latest' \
+  wait'1' \
+@tmux/tmux
+
 zi lucid make'PREFIX=$PWD install' nocompile for \
   lbin'!**/bin/tree' Old-Man-Programmer/tree \
   lbin'!**/zsd(-*|)$' $ZI_REPO/zshelldoc

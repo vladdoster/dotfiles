@@ -9,48 +9,49 @@
 # SYSTEM SPECIFIC
 
 # $- includes i if bash is interactive, allowing a shell script or startup file to test this state
-_print() { [[ $- == *i* ]] && print -P "${1}"; }
-
+_def () { [[ ! -z "${(tP)1}" ]]; }
+_echo() { [[ $- == *i* ]] && print -P "${1}"; }
 path_append() {
   for ARG in "$@"; do
     if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
-        PATH="${PATH:+"$PATH:"}$ARG"
-        _print "%F{blue}[INFO]%f: %F{cyan}Appended to PATH%f -> %F{green}${ARG}%f"
+      PATH="${PATH:+"$PATH:"}$ARG"
+      _echo "%F{blue}[INFO]%f: %F{cyan}Appended to PATH%f -> %F{green}${ARG}%f"
     fi
   done
 }
-
 activate_brew() {
-  LOCATIONS=( '/opt/homebrew' '/usr/local' '$HOME/.linuxbrew/Homebrew' '/home/linuxbrew/.linuxbrew' )
-  for ARG in $LOCATIONS; do
-    if [[ -e "${ARG}"/bin/brew  ]] {
-      _print "%F{blue}[INFO]%f: %F{cyan}OS%f @ %F{green}${OSTYPE} ($(uname -m))%f"
-      if eval "$( ${ARG}/bin/brew shellenv )"
-      _print "%F{blue}[INFO]%f: %F{cyan}Homebrew%f @ %F{green}${ARG}/bin/brew%f"
-      break
+  LOCATIONS=( '$HOME/.linuxbrew/Homebrew' '/home/linuxbrew/.linuxbrew' '/opt/homebrew' '/usr/local' )
+  for F_PATH in $LOCATIONS; do
+    if [[ -e "${F_PATH}"/bin/brew  ]] {
+      _echo "%F{blue}[INFO]%f: %F{cyan}OS%f @ %F{green}${OSTYPE} [$(uname -m)]%f"
+      if eval "$( ${F_PATH}/bin/brew shellenv )"; then
+        _echo "%F{blue}[INFO]%f: %F{cyan}Homebrew%f @ %F{green}${F_PATH}/bin/brew%f"
+        break
+      fi
     }
   done
 }
 activate_brew
 # RESERVED VARIABLES
+local usr_path="/usr/local/opt" brew_path="/opt/homebrew/opt"
+path_append \
+  "${HOME}/.cargo/bin" \
+  "${HOME}/.local/bin" \
+  "${HOME}/Library/Python/3.8/bin" \
+  "${HOME}/Library/Python/3.9/bin" \
+  "${brew_path}/llvm/bin" \
+  "${brew_path}/make/libexec/gnubin" \
+  "${usr_path}/binutils/bin" \
+  "${usr_path}/coreutils/libexec/gnubin" \
+  "${usr_path}/gnu-sed/libexec/gnubin" \
+  "${usr_path}/gnu-tar/libexec/gnubin"
+# ENV VARIABLES
 (( ${+HOSTNAME} )) || export HOSTNAME="$HOST"
 (( ${+LANGUAGE} )) || export LANGUAGE="$LANG"
-(( ${+USER}   )) || export USER="$USERNAME"
-local usr_path="/usr/local/opt" brew_path="/opt/homebrew/opt"
-path_append "${HOME}/.cargo/bin"
-path_append "${HOME}/.local/bin" # personal scripts
-path_append "${HOME}/Library/Python/3.8/bin"
-path_append "${HOME}/Library/Python/3.9/bin"
-path_append "${brew_path}/llvm/bin"
-path_append "${brew_path}/make/libexec/gnubin"
-path_append "${usr_path}/binutils/bin"
-path_append "${usr_path}/coreutils/libexec/gnubin"
-path_append "${usr_path}/gnu-sed/libexec/gnubin"
-path_append "${usr_path}/gnu-tar/libexec/gnubin"
-# XDG ENV VARIABLES
-(( ${+XDG_CACHE_HOME}  )) || export XDG_CACHE_HOME="$HOME/.cache"
+(( ${+USER} )) || export USER="$USERNAME"
+(( ${+XDG_CACHE_HOME} )) || export XDG_CACHE_HOME="$HOME/.cache"
 (( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="$HOME/.config"
-(( ${+XDG_DATA_HOME}   )) || export XDG_DATA_HOME="$HOME/.local/share"
+(( ${+XDG_DATA_HOME} )) || export XDG_DATA_HOME="$HOME/.local/share"
 export AZURE_CONFIG_DIR="$XDG_DATA_HOME"/azure
 export DOTFILES="$XDG_CONFIG_HOME"/dotfiles
 export GIT_CONFIG="$XDG_CONFIG_HOME"/git/config

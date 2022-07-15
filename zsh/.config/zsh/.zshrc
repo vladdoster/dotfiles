@@ -6,8 +6,8 @@ zmodload zsh/complist
 # │ LOAD CONFIGURATIONS │
 # +─────────────────────+
 local files=(aliases fzf zinit)
-for f in $files[@]; do
-  . "${ZDOTDIR:-$HOME/.config/zsh}/$f".zsh
+for f in "$files[@]"; do
+  . "${ZDOTDIR:-$HOME/.config/zsh}/${f}".zsh
 done
 # +───────────────────────+
 # │ Zsh Line Editor (ZLE) │
