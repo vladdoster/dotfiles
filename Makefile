@@ -71,7 +71,7 @@ python/prog: ## Install useful Python programs
 		black bpytop \
 		flake8 \
 		isort \
-		mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables \
+		mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc \
 		pynvim \
 		reorder-python-imports
 	$(info --- py packages installed)
