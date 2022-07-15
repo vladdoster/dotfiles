@@ -1,3 +1,41 @@
+# [1.31.0](https://github.com/vladdoster/dotfiles/compare/v1.30.0...v1.31.0) (2022-07-15)
+
+
+### docs
+
+* update installation guide ([7c44084](https://github.com/vladdoster/dotfiles/commit/7c4408497ab5ebaf78f87ed6f21eeb6b36ebc3e7))
+* update Makefile targets & setup steps ([4a8d2cf](https://github.com/vladdoster/dotfiles/commit/4a8d2cf0b8e7471318e604b90bb5f101f01a646c))
+
+### feat
+
+* add history multi word search plugin ([915c89a](https://github.com/vladdoster/dotfiles/commit/915c89aeaa77c10ea69bb92e03d87a19274b9835))
+* add zicln and cldf aliases ([8f97fb6](https://github.com/vladdoster/dotfiles/commit/8f97fb69ad8f4b2da7aecd44e231953e4d0b3df4))
+
+### fix
+
+* brew target for install/uninstall ([e60b969](https://github.com/vladdoster/dotfiles/commit/e60b969aa9bb1cc9f5b793f0d0261ed4decf4a12))
+* build grep w/ --enable-perl-regexp (i.e., -P) ([d9a92bc](https://github.com/vladdoster/dotfiles/commit/d9a92bc294fdcc475e014ae3937c174bd62ae23f))
+* Dockerfile Makefile target calls ([fd06d4d](https://github.com/vladdoster/dotfiles/commit/fd06d4d7f79ee02589629abd24d05eaf2344b538))
+* locale variables for Zsh ([d625b16](https://github.com/vladdoster/dotfiles/commit/d625b168ab3281de25b35f0652b35ee896145290))
+* remove extra \ at EoL ([75030dc](https://github.com/vladdoster/dotfiles/commit/75030dc010baa7f6d9aee553954cff8279a59dae))
+* use grep instead of ggrep to parse versions ([1d63344](https://github.com/vladdoster/dotfiles/commit/1d633440444d672ee9cb1a8fa080dadeb48438be))
+
+### maint
+
+* add mdformat-toc pkg to python/prog target ([798af42](https://github.com/vladdoster/dotfiles/commit/798af426b5369e0b1b859788b3331589dc94515e))
+* clean up zsh{rc,env} & add tmux recipe ([3ed7942](https://github.com/vladdoster/dotfiles/commit/3ed7942013883d087953df518b8f96fd8f85bbdd))
+* comment out various broken zinit config bits ([3203851](https://github.com/vladdoster/dotfiles/commit/3203851bc184048272033183b20d0bb764dd1d58))
+* refactor GNU target to automagically get latest version ([7b4c022](https://github.com/vladdoster/dotfiles/commit/7b4c022d7338e2da06f98cfdc9c901f0bf128737))
+* remove shell extenstion from nuke-docker cmd ([b8a51e7](https://github.com/vladdoster/dotfiles/commit/b8a51e790369927c20d841fd630600b3e643c4bf))
+* update `stow` make target ([11b95b8](https://github.com/vladdoster/dotfiles/commit/11b95b8a7ce0ce393f8a66565c0b966b18bac5d2))
+* update dotfiles Dockerfile && make targets ([410557e](https://github.com/vladdoster/dotfiles/commit/410557e3b83be53a50746478ad0e146fb394b194))
+
+### style
+
+* consistent formatting of bin scripts ([d0f455e](https://github.com/vladdoster/dotfiles/commit/d0f455ee54e80f0247ec2536c959909a6dd7aa01))
+* consistent formatting of zinit config ([357a191](https://github.com/vladdoster/dotfiles/commit/357a19155926a9e9cc3e43e82223fca62caa6692))
+* consistent formatting of zsh files ([02164a2](https://github.com/vladdoster/dotfiles/commit/02164a2e9e9160fe52ee50e7faa87b957ad58d5d))
+
 # [1.30.0](https://github.com/vladdoster/dotfiles/compare/v1.29.0...v1.30.0) (2022-06-16)
 
 
