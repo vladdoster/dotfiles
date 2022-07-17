@@ -1,3 +1,10 @@
+# [1.33.0](https://github.com/vladdoster/dotfiles/compare/v1.32.0...v1.33.0) (2022-07-17)
+
+
+### feat
+
+* add utility functions file util.sh ([7178465](https://github.com/vladdoster/dotfiles/commit/71784657857ba3d18c3b48e2359b32dad8c825bf))
+
 # [1.32.0](https://github.com/vladdoster/dotfiles/compare/v1.31.0...v1.32.0) (2022-07-17)
 
 
