@@ -12,7 +12,8 @@ zmodload zsh/complist
 export HOMEBREW_CURL_PATH=/home/linuxbrew/.linuxbrew/Cellar/curl/7.84.0/bin/curl
 source $HOME/.config/zsh/aliases.zsh
 source $HOME/.config/zsh/fzf.zsh
-source $HOME/.config/zsh/zinit.zsh
+source $HOME/.config/zsh/util.sh
+source $HOME/.config/zsh/zinit.zsh || true
 # +───────────────────────+
 # │ Zsh Line Editor (ZLE) │
 # +───────────────────────+

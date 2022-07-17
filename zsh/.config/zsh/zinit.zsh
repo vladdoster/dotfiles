@@ -16,42 +16,39 @@ ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions ZINIT[SNIPPETS_DIR]=$ZINIT[H
 ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump    ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
 ZI_FORK='vladdoster'; ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githubusercontent.com'
 if [[ ! -e $ZINIT[BIN_DIR] ]] {
-    info 'downloading zinit'
-    command git clone https://github.com/$ZI_REPO/zinit.git $ZINIT[BIN_DIR] \
-        || error 'failed to clone zinit repository'
-    command chmod g-rwX $ZINIT[HOME_DIR] \
-        && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
-        && info 'sucessfully installed zinit'
+  info 'downloading zinit'
+  command git clone https://github.com/$ZI_REPO/zinit.git $ZINIT[BIN_DIR] \
+    || error 'failed to clone zinit repository'
+  command chmod g-rwX $ZINIT[HOME_DIR] \
+    && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
+    && info 'sucessfully installed zinit'
 }
 if [[ -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
-    source $ZINIT[BIN_DIR]/zinit.zsh \
-        && autoload -Uz _zinit \
-        && (( ${+_comps} )) \
-        && _comps[zinit]=_zinit
+  source $ZINIT[BIN_DIR]/zinit.zsh \
+    && autoload -Uz _zinit \
+    && (( ${+_comps} )) \
+    && _comps[zinit]=_zinit
 else
-    error "unable to find 'zinit.zsh'" && return 1
+  error "unable to find 'zinit.zsh'" && return 1
 fi
 #=== STATIC ZSH BINARY =======================================
 zi \
-    as"null" \
-    atclone"./install -e no -d ~/.local" \
-    atinit"export PATH=$HOME/.local/bin:$PATH" \
-    atpull"%atclone" \
-    depth"1" \
-    lucid \
-    nocompile \
-    nocompletions \
-    for @romkatv/zsh-bin
+  as"null" \
+  atclone"./install -e no -d ~/.local" \
+  atinit"export PATH=$HOME/.local/bin:$PATH" \
+  atpull"%atclone" \
+  depth"1" \
+  lucid \
+  nocompile \
+  nocompletions \
+  for @romkatv/zsh-bin
 # #=== OH-MY-ZSH & PREZTO PLUGINS =======================
-zi \
-    is-snippet \
-    for \
-    OMZL::{'clipboard','compfix','completion','git','grep','key-bindings'}.zsh \
-    OMZP::{'brew','npm'} \
-    PZT::modules/{'history','rsync'}
-zi \
-    as'completion' \
-    for OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
+zi is-snippet for \
+  OMZL::{'clipboard','compfix','completion','git','grep','key-bindings'}.zsh \
+  OMZP::{'brew','npm'} \
+  PZT::modules/{'history','rsync'}
+zi as'completion' for \
+  OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
 install_completion() { zinit for as'completion' nocompile id-as"$1" is-snippet "$GH_RAW_URL/$2"; }
@@ -61,7 +58,7 @@ install_completion 'exa-completion/_exa'       'ogham/exa/master/completions/zsh
 install_completion 'fd-completion/_fd'         'sharkdp/fd/master/contrib/completion/_fd'
 #=== PROMPT ===========================================
 zi light-mode for \
-    compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
+  compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
 PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
 PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
 zstyle ':prompt:pure:git:action' color 'yellow'
@@ -69,7 +66,7 @@ zstyle ':prompt:pure:git:branch' color 'blue'
 zstyle ':prompt:pure:git:dirty' color 'red'
 zstyle ':prompt:pure:path' color 'cyan'
 zstyle ':prompt:pure:prompt:success' color 'green'" \
-    sindresorhus/pure
+  sindresorhus/pure
 #=== zsh-vim-mode cursor configuration [[[
 MODE_CURSOR_VICMD="green block";              MODE_CURSOR_VIINS="#20d08a blinking bar"
 MODE_INDICATOR_REPLACE='%F{9}%F{1}REPLACE%f'; MODE_INDICATOR_VISUAL='%F{12}%F{4}VISUAL%f'
@@ -78,145 +75,138 @@ MODE_INDICATOR_VLINE='%F{12}%F{4}V-LINE%f';   MODE_CURSOR_SEARCH="#ff00ff blinki
 export KEYTIMEOUT=1; export LESS='-RMs'; export PAGER=less; export VISUAL=vi;
 # LC_CTYPE=en_US.UTF-8; LC_ALL=en_US.UTF-8
 #=== ANNEXES ==========================================
-zi light-mode for "$ZI_REPO"/zinit-annex-{'binary-symlink','patch-dl','submods','readurl'}
+zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods','readurl'}
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' lbin'!' nocompile for \
-    @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck','pemistahl/grex'} \
-    @{'r-darwish/topgrade','sharkdp/fd','sharkdp/hyperfine','itchyny/gojq'} \
-    blockf atclone'**/bin/gh completion --shell zsh > _gh' lbin'!**/bin/gh' @cli/cli \
-    bpick'*extended*' @gohugoio/hugo \
-    lbin'!* -> checkmake' @mrtazz/checkmake \
-    lbin'!* -> jq'     @stedolan/jq \
-    lbin'!* -> shfmt'  @mvdan/sh \
-    lbin'!* -> stylua' @JohnnyMorganz/StyLua  \
-    lbin'!**/rg'       @BurntSushi/ripgrep \
-    lbin'!**/bin/nvim' ver'nightly' @neovim/neovim \
-    lbin'!**/exa' atinit"alias l='exa -blF';
+  @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck','pemistahl/grex'} \
+  @{'r-darwish/topgrade','sharkdp/fd','sharkdp/hyperfine','itchyny/gojq'} \
+  blockf atclone'**/bin/gh completion --shell zsh > _gh' lbin'!**/bin/gh' @cli/cli \
+  bpick'*extended*' @gohugoio/hugo \
+  lbin'!* -> checkmake' @mrtazz/checkmake \
+  lbin'!* -> jq'     @stedolan/jq \
+  lbin'!* -> shfmt'  @mvdan/sh \
+  lbin'!* -> stylua' @JohnnyMorganz/StyLua  \
+  lbin'!**/rg'       @BurntSushi/ripgrep \
+  lbin'!**/bin/nvim' ver'nightly' @neovim/neovim \
+  lbin'!**/exa' atinit"alias l='exa -blF';
 alias la='exa -abghilmu'; alias ll='exa -al'
 alias ls='exa --git --group-directories-first'" \
-    @ogham/exa
+  @ogham/exa
 #=== UNIT TESTING =====================================
 zi as'command' for \
-    pick'src/semver' \
-    vladdoster/semver-tool \
-    pick'revolver' \
-    @molovo/revolver \
-    atclone'./build.zsh' pick'zunit' \
-    @zdharma-continuum/zunit
-zi as'command' for \
-    pick'src/semver' vladdoster/semver-tool \
-    pick'revolver' @molovo/revolver \
-    atclone'./build.zsh' pick'zunit' @zdharma-continuum/zunit
+  pick'src/semver' vladdoster/semver-tool \
+  pick'revolver' @molovo/revolver \
+  atclone'./build.zsh' pick'zunit' @zdharma-continuum/zunit
 #=== COMPILED PROGRAMS ================================
-zi \
-    lucid \
-    make'PREFIX=$PWD install' \
-    nocompile \
-    for \
-    lbin'!**/bin/tree'  Old-Man-Programmer/tree \
-    lbin'!**/zsd(-*|)$' $ZI_REPO/zshelldoc
+# zi \
+  #     lucid \
+  #     make'PREFIX=$PWD install' \
+  #     nocompile \
+  #     for \
+  #     lbin'!**/bin/tree'  Old-Man-Programmer/tree \
+  #     lbin'!**/zsd(-*|)$' $ZI_REPO/zshelldoc
+#
+# zi \
+  #     as'null' \
+  #     atclone'./configure --disable-utf8proc --prefix=$PWD' \
+  #     atpull'%atclone' \
+  #     extract'!' \
+  #     from'gh-r' \
+  #     id-as'tmux' \
+  #     make'PREFIX=$PWD install'\
+  #     nocompile \
+  #     lbin'!' \
+  #     ver'latest' \
+  #     for @tmux/tmux
 
 zi \
-    as'null' \
-    atclone'./configure --disable-utf8proc --prefix=$PWD' \
-    atpull'%atclone' \
-    extract'!' \
-    from'gh-r' \
-    id-as'tmux' \
-    make'PREFIX=$PWD install'\
-    nocompile \
-    sbin \
-    ver'latest' \
-    for @tmux/tmux
+  as'null' \
+  atclone'autoreconf -iv && ./configure --prefix=$PWD' \
+  atpull'%atclone' \
+  lbin'!**/stow' \
+  make'PREFIX=$PWD install' \
+  nocompile \
+  for @aspiers/stow
 
 zi \
-    as'null' \
-    atclone'autoreconf -iv && ./configure --prefix=$PWD' \
-    atpull'%atclone' \
-    lbin'!**/stow' \
-    make'PREFIX=$PWD install' \
-    nocompile \
-    for @aspiers/stow
+  as'completion' \
+  atclone'./configure --prefix=$PWD' \
+  atpull'%atclone' \
+  depth'1' \
+  lbin"!**/luarocks" \
+  make'PREFIX=$PWD install' \
+  nocompile \
+  for @luarocks/luarocks
 
 zi \
-    as'completion' \
-    atclone"./configure --prefix=$PWD" \
-    atpull'%atclone' \
-    depth'1' \
-    lbin"!build/luarocks" \
-    make"PREFIX=$ZPFX install" \
-    nocompile \
-    for @luarocks/luarocks
+  as'completions' \
+  atclone'./buildx* completion zsh > _buildx' \
+  from'gh-r' \
+  lbin'!buildx-* -> buildx' \
+  nocompile \
+  for @docker/buildx
 
 zi \
-    as'completions' \
-    atclone'./buildx* completion zsh > _buildx' \
-    from'gh-r' \
-    lbin'!buildx-* -> buildx' \
-    nocompile \
-    for @docker/buildx
-
-zi \
-    as'completion' \
-    atclone'luarocks completion zsh > _luarocks' \
-    lucid \
-    nocompile \
-    for $ZI_REPO/null
+  as'completion' \
+  atclone'luarocks completion zsh > _luarocks' \
+  lucid \
+  nocompile \
+  for $ZI_REPO/null
 #=== PYTHON ===========================================
 _pip_completion() {
-    local words cword; read -Ac words; read -cn cword
-    reply=($(
-            COMP_WORDS="$words[*]"
-            COMP_CWORD=$(( cword-1 )) PIP_AUTO_COMPLETE=1 $words 2>/dev/null
+  local words cword; read -Ac words; read -cn cword
+  reply=($(
+      COMP_WORDS="$words[*]"
+      COMP_CWORD=$(( cword-1 )) PIP_AUTO_COMPLETE=1 $words 2>/dev/null
 ))}; compctl -K _pip_completion pip3
 #=== MISC. ============================================
 zi light-mode lucid wait'1' for \
-    atinit'bindkey -M vicmd "^v" edit-command-line' \
-    compile'zsh-vim-mode*.zsh' \
-    softmoth/zsh-vim-mode \
-    thewtex/tmux-mem-cpu-load \
-    submods'zsh-users/zsh-history-substring-search -> external' \
-    svn \
-    OMZ::plugins/history-substring-search \
-    atpull'zinit creinstall -q .' \
-    blockf \
-    zsh-users/zsh-completions \
-    atload'_zsh_autosuggest_start' \
-    atinit'\
-    ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50;\
-    bindkey "^_" autosuggest-execute;\
-    bindkey "^ " autosuggest-accept' \
-    zsh-users/zsh-autosuggestions \
-    atinit'bindkey "^R" history-search-multi-word' \
-    $ZI_REPO/history-search-multi-word \
-    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
-    atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
-    compile'.*fast*~*.zwc' nocompletions \
-    $ZI_REPO/fast-syntax-highlighting
+  atinit'bindkey -M vicmd "^v" edit-command-line' \
+  compile'zsh-vim-mode*.zsh' \
+  softmoth/zsh-vim-mode \
+  thewtex/tmux-mem-cpu-load \
+  submods'zsh-users/zsh-history-substring-search -> external' \
+  svn \
+  OMZ::plugins/history-substring-search \
+  atpull'zinit creinstall -q .' \
+  blockf \
+  zsh-users/zsh-completions \
+  atload'_zsh_autosuggest_start' \
+  atinit'\
+  ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50;\
+  bindkey "^_" autosuggest-execute;\
+  bindkey "^ " autosuggest-accept' \
+  zsh-users/zsh-autosuggestions \
+  atinit'bindkey "^R" history-search-multi-word' \
+  $ZI_REPO/history-search-multi-word \
+  atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
+  atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
+  compile'.*fast*~*.zwc' nocompletions \
+  $ZI_REPO/fast-syntax-highlighting
 
 zi \
-    as'null' \
-    id-as'zinit/cleanup' \
-    lucid \
-    nocd \
-    wait'!' \
-    atload'\
-    _zsh_autosuggest_bind_widgets; _zsh_highlight_bind_widgets; \
-    zicompinit; zicdreplay' \
-    for @$ZI_REPO/null
+  as'null' \
+  id-as'zinit/cleanup' \
+  lucid \
+  nocd \
+  wait'2' \
+  atload'\
+  _zsh_autosuggest_bind_widgets; _zsh_highlight_bind_widgets; \
+  zicompinit; zicdreplay' \
+  for @$ZI_REPO/null
 
 # { print -P "%F{blue}[INFO]%f:%F{cyan}Building Zsh %f" \
-    #     && autoreconf --force --install --make || ./Util/preconfig \
-    #     && CFLAGS="-g -O3" ./configure --prefix=/usr/local >/dev/null \
-    #     && print -P "%F{blue}[INFO]%f:%F{cyan} Configured Zsh %f" \
-    #     && make -j8 PREFIX=/usr/local >/dev/null || make \
-    #     && print -P "%F{blue}[INFO]%f:%F{green} Compiled $(/usr/local/bin/zsh --version) %f" \
-    #     && sudo make -j8 install >/dev/null || make \
-    #     && print -P "%F{blue}[INFO]%f:%F{green} Installed $(/usr/local/bin/zsh --version) @ /usr/local/bin/zsh %f" \
-    #     && print -P "%F{blue}[INFO]%f:%F{green} Adding /usr/local/bin/zsh to /etc/shells %f" \
-    #     sudo sh -c "echo /usr/bin/local/zsh >> /etc/shells" \
-    #     && print -P "%F{blue}[INFO]%f: To update your shell, run: %F{cyan} chsh --shell /usr/local/bin/zsh $USER %f"
+  #     && autoreconf --force --install --make || ./Util/preconfig \
+  #     && CFLAGS="-g -O3" ./configure --prefix=/usr/local >/dev/null \
+  #     && print -P "%F{blue}[INFO]%f:%F{cyan} Configured Zsh %f" \
+  #     && make -j8 PREFIX=/usr/local >/dev/null || make \
+  #     && print -P "%F{blue}[INFO]%f:%F{green} Compiled $(/usr/local/bin/zsh --version) %f" \
+  #     && sudo make -j8 install >/dev/null || make \
+  #     && print -P "%F{blue}[INFO]%f:%F{green} Installed $(/usr/local/bin/zsh --version) @ /usr/local/bin/zsh %f" \
+  #     && print -P "%F{blue}[INFO]%f:%F{green} Adding /usr/local/bin/zsh to /etc/shells %f" \
+  #     sudo sh -c "echo /usr/bin/local/zsh >> /etc/shells" \
+  #     && print -P "%F{blue}[INFO]%f: To update your shell, run: %F{cyan} chsh --shell /usr/local/bin/zsh $USER %f"
 # } || { print -P "%F{red}[ERROR]%f:%F{yellow} Failed to install Zsh %f" }' \
-    #   zsh-users/zsh
+  #   zsh-users/zsh
 
 # vim:ft=zsh:sw=2:sts=2:et
