@@ -1,3 +1,20 @@
+# [1.32.0](https://github.com/vladdoster/dotfiles/compare/v1.31.0...v1.32.0) (2022-07-17)
+
+
+### feat
+
+* add 'needs-triage' to new issues ([2f3af5e](https://github.com/vladdoster/dotfiles/commit/2f3af5ef2046449d285d2c059300108a568e5920))
+* add pull request automation workflow ([964ddb6](https://github.com/vladdoster/dotfiles/commit/964ddb636b2a5d15f26e21387a9124a045b440e5))
+* use kitty split layout && format zinit config ([6324464](https://github.com/vladdoster/dotfiles/commit/63244648e8d329fd9b4300b0110d2e3af806ddda))
+
+### fix
+
+* correct label name for issue automation ([a8e9b1b](https://github.com/vladdoster/dotfiles/commit/a8e9b1bfb727bf485f37e554b0d31d27b97eda97))
+
+### maint
+
+* clean up zinit config ([fa31657](https://github.com/vladdoster/dotfiles/commit/fa31657f167e71c7bec973350d6570d0e2f2543b))
+
 # [1.31.0](https://github.com/vladdoster/dotfiles/compare/v1.30.0...v1.31.0) (2022-07-15)
 
 
