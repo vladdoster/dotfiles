@@ -70,3 +70,47 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-
 # Make
 zstyle ':completion:*:*:make:*' tag-order 'targets'
 zstyle ':completion:*:rm:*' file-patterns '*:all-files'
+
+setopt extended_history       # record timestamp of command in HISTFILE
+setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
+setopt hist_ignore_space      # ignore commands that start with space
+setopt hist_verify            # show command with history expansion to user before running it
+setopt share_history          # share command history data
+
+setopt no_beep              # do not beep on error
+setopt auto_cd              # If you type foo, and it is not a command, and it is a directory in your cdpath, go there
+setopt multios              # perform implicit tees or cats when multiple redirections are attempted
+setopt prompt_subst         # enable parameter expansion, command substitution, and arithmetic expansion in the prompt
+setopt interactive_comments # Allow comments even in interactive shells (especially for Muness)
+setopt pushd_ignore_dups    # don't push multiple copies of the same directory onto the directory stack
+setopt auto_pushd           # make cd push the old directory onto the directory stack
+setopt pushdminus           # swapped the meaning of cd +1 and cd -1; we want them to mean the opposite of what they mean
+setopt pushd_silent         # Silence pushd
+setopt glob_dots            # Show dotfiles in completions
+setopt extended_glob
+
+# Fuzzy matching of completions for when you mistype them:
+zstyle ':completion:*' completer _complete _match _list _ignored _correct _approximate
+zstyle ':completion:*:match:*' original only
+zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3>7?7:($#PREFIX+$#SUFFIX)/3))numeric)'
+
+# Pretty completions
+#zstyle ':completion:*' format ' %F{yellow}-- %d --%f'
+#zstyle ':completion:*' group-name ''
+#zstyle ':completion:*:corrections' format ' %F{green}-- %d (errors: %e) --%f'
+#zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
+#zstyle ':completion:*:matches' group 'yes'
+#zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
+#zstyle ':completion:*:options' auto-description '%d'
+#zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
+zstyle ':completion:*' ignore-parents parent pwd
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' use-cache yes
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:default' list-prompt '%S%M matches%s'
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
+zstyle ':completion:*:manuals' separate-sections true
+zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'

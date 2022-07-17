@@ -153,10 +153,11 @@ mkcd() { mkdir -p -- "$1" && cd -P -- "$1" ;}
 # +─────────────────+
 # │ FILE FORMATTING │
 # +─────────────────+
+alias fmtbtysh='beautysh --indent-size=2 --force-function-style=paronly'
 alias fmtlua='stylua -i'
-alias fmtmd="mdformat"
-alias fmtpy="python3 -m black"
-alias fmtsh="shfmt -bn -ci -i 4 -ln=bash -s -sr -w"
+alias fmtmd='mdformat --number --wrap 100'
+alias fmtpy='python3 -m black'
+alias fmtsh='shfmt -bn -ci -i 2 -ln=bash -s -sr -w'
 # +─────+
 # │ SYS │
 # +─────+

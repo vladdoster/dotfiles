@@ -11,7 +11,7 @@
 [core]
 	autocrlf = false
     editor       = nvim
-    eol          = lf
+	eol = lf
     excludesfile = ~/.config/git/ignore
     pager        = delta
     whitespace   = fix,-indent-with-non-tab,trailing-space,cr-at-eol
@@ -164,3 +164,9 @@
   unrelease = !sh -c 'git tag -d v$1 && git pso :v$1' -
   w  = show
 # vim:ft=toml:sw=2:sts=2
+[fsck]
+	zeroPaddedFilemode = ignore
+[fetch "fsck"]
+	zeroPaddedFilemode = ignore
+[receive "fsck"]
+	zeroPaddedFilemode = ignore

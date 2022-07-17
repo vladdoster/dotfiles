@@ -75,7 +75,8 @@ MODE_INDICATOR_VLINE='%F{12}%F{4}V-LINE%f';   MODE_CURSOR_SEARCH="#ff00ff blinki
 export KEYTIMEOUT=1; export LESS='-RMs'; export PAGER=less; export VISUAL=vi;
 # LC_CTYPE=en_US.UTF-8; LC_ALL=en_US.UTF-8
 #=== ANNEXES ==========================================
-zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
+zi light-mode for "$ZI_REPO"/zinit-annex-{'binary-symlink','patch-dl','submods','readurl'}
+zi light-mode for ver'style/format-md-and-zsh' "$ZI_REPO"/zinit-annex-bin-gem-node
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' lbin'!' nocompile for \
   @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck','pemistahl/grex'} \
@@ -93,13 +94,13 @@ zi from'gh-r' lbin'!' nocompile for \
     alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 #=== UNIT TESTING =====================================
-zi as'command' for \
-    pick'src/semver' \
-  vladdoster/semver-tool \
-    pick'revolver' \
-  @molovo/revolver \
-    atclone'./build.zsh' pick'zunit' \
-  @zdharma-continuum/zunit
+# zi as'command' for \
+#     pick'src/semver' \
+#   vladdoster/semver-tool \
+#     pick'revolver' \
+#   @molovo/revolver \
+#     atclone'./build.zsh' pick'zunit' \
+#   @zdharma-continuum/zunit
 #=== COMPILED PROGRAMS ================================
 # zi for \
 #  as'null' \
@@ -125,21 +126,17 @@ zi lucid make'PREFIX=$PWD install' nocompile for \
   #     make"PREFIX=$ZPFX install" nocompile lbin"!build/luarocks" \
   #   luarocks/luarocks
 # zinit for as'completions' atclone'./buildx* completion zsh > _buildx' from'gh-r' nocompile lbin'!buildx-* -> buildx' @docker/buildx
-
-
-# zi lucid nocompile as'completion' atclone'luarocks completion zsh > _luarocks' for \
-#   $ZI_REPO/null
 #=== PYTHON ===========================================
-_pip_completion() {
-  local words cword; read -Ac words; read -cn cword
-  reply=($(
-      COMP_WORDS="$words[*]"
-      COMP_CWORD=$(( cword-1 )) PIP_AUTO_COMPLETE=1 $words 2>/dev/null
-))}; compctl -K _pip_completion pip3
+# _pip_completion() {
+#   local words cword; read -Ac words; read -cn cword
+#   reply=($(
+#       COMP_WORDS="$words[*]"
+#       COMP_CWORD=$(( cword-1 )) PIP_AUTO_COMPLETE=1 $words 2>/dev/null
+# ))}; compctl -K _pip_completion pip3
 #=== MISC. ============================================
 # has'tmux' \
 #   thewtex/tmux-mem-cpu-load \
-zi light-mode lucid for \
+zi light-mode lucid wait'1' for \
     atinit'bindkey -M vicmd "^v" edit-command-line' \
     compile'zsh-vim-mode*.zsh' \
   softmoth/zsh-vim-mode \
