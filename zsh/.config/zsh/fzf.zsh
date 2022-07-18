@@ -18,44 +18,46 @@ fzfp() { #fzf with preview options
     || highlight --style base16/nord -O ansi -l {} \
     || cat {} 2> /dev/null | head -500' \
     --reverse \
-    --tabstop=1 \
+    --tabstop=1
 
+}
 
-  }
 gli() {
   local filter
   if [ -n "$@" ] && [ -f "$@" ]; then
     filter="-- $@"
   fi
   git log \
-    --graph --color=always --abbrev=7 --format='%C(auto)%h %an %C(blue)%s %C(yellow)%cr' "$@" |
-  fzf \
-    --ansi --no-sort --reverse --tiebreak=index --height 80% --preview-window=right:60% \
-    --preview "f() { set -- \$(echo -- \$@ | grep -o '[a-f0-9]\{7\}'); [ \$# -eq 0 ] || git show --color=always \$1 $filter; }; f {}" \
-    --bind "j:down,k:up,alt-j:preview-down,alt-k:preview-up,ctrl-f:preview-page-down,ctrl-b:preview-page-up,q:abort,ctrl-m:execute:
+    --graph --color=always --abbrev=7 --format='%C(auto)%h %an %C(blue)%s %C(yellow)%cr' "$@" \
+    | fzf \
+      --ansi --no-sort --reverse --tiebreak=index --height 80% --preview-window=right:60% \
+      --preview "f() { set -- \$(echo -- \$@ | grep -o '[a-f0-9]\{7\}'); [ \$# -eq 0 ] || git show --color=always \$1 $filter; }; f {}" \
+      --bind "j:down,k:up,alt-j:preview-down,alt-k:preview-up,ctrl-f:preview-page-down,ctrl-b:preview-page-up,q:abort,ctrl-m:execute:
                 (grep -o '[a-f0-9]\{7\}' | head -1 |
                 xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
                 {}
-                FZF-EOF" \
+                FZF-EOF"
 
 }
 fgco() { # checkout git branch (including remote branches) with FZF
   local branches=$(
-    git branch --all | grep -v HEAD) \
-    && local branch=$(echo "$branches" | fzf-tmux -d $((2 + $(wc -l <<<"$branches"))) +m) \
-    && git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##"
-  )
+    git branch --all | grep -v HEAD
+  ) \
+    && local branch=$(echo "$branches" | fzf-tmux -d $((2 + $(wc -l <<< "$branches"))) +m) \
+    && git checkout $(
+      echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##"
+    )
 }
 fglog() { # git log browser with FZF
   git log --graph --color=always \
     --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" \
     | fzf \
-        --ansi \
-        --bind=ctrl-s:toggle-sort \
-        --no-sort \
-        --reverse \
-        --tiebreak=index \
-    --bind "ctrl-m:execute:\
+      --ansi \
+      --bind=ctrl-s:toggle-sort \
+      --no-sort \
+      --reverse \
+      --tiebreak=index \
+      --bind "ctrl-m:execute:\
     (grep -o '[a-f0-9]\{7\}' \
       | head -1 \
       | xargs -I % sh -c 'git show --color=always % \
@@ -70,11 +72,11 @@ fglog() { # git log browser with FZF
 fstash() {
   local out q k sha
   while out=$(
-    git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
-      fzf --ansi --no-sort --query="$q" --print-query \
+    git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" \
+      | fzf --ansi --no-sort --query="$q" --print-query \
         --expect=ctrl-d,ctrl-b
   ); do
-    mapfile -t out <<<"$out"
+    mapfile -t out <<< "$out"
     q="${out[0]}"
     k="${out[1]}"
     sha="${out[-1]}"

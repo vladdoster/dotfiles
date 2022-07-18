@@ -9,7 +9,6 @@ zmodload zsh/complist
 # for f in "$files[@]"; do
 #   . "${ZDOTDIR:-$HOME/.config/zsh}/${f}".zsh
 # done
-export HOMEBREW_CURL_PATH=/home/linuxbrew/.linuxbrew/Cellar/curl/7.84.0/bin/curl
 source $HOME/.config/zsh/aliases.zsh
 source $HOME/.config/zsh/fzf.zsh
 source $HOME/.config/zsh/util.sh
@@ -78,9 +77,8 @@ setopt hist_ignore_space      # ignore commands that start with space
 setopt hist_verify            # show command with history expansion to user before running it
 setopt share_history          # share command history data
 
-setopt no_beep              # do not beep on error
-setopt auto_cd              # If you type foo, and it is not a command, and it is a directory in your cdpath, go there
-setopt multios              # perform implicit tees or cats when multiple redirections are attempted
+setopt no_beep
+setopt multios
 setopt prompt_subst         # enable parameter expansion, command substitution, and arithmetic expansion in the prompt
 setopt interactive_comments # Allow comments even in interactive shells (especially for Muness)
 setopt pushd_ignore_dups    # don't push multiple copies of the same directory onto the directory stack
@@ -115,3 +113,6 @@ zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
+
+# vim: ft=zsh:
+### End of Zinit's installer chunk

@@ -1,5 +1,5 @@
 # #!/usr/bin/env zsh
-if echo "$-" | grep i >/dev/null; then export IS_TTY="${IS_TTY:=false}"; fi
+if echo "$-" | grep i > /dev/null; then export IS_TTY="${IS_TTY:=false}"; fi
 LOG_LEVEL="error"
 _log() {
   if $IS_TTY; then
@@ -16,16 +16,19 @@ _info() { _log $1; }
 # +────────────────+
 _clone_if_absent() { [[ ! -d $1 ]] && git clone "$1" "$2/$(basename "$1" .git)"; }
 _edit() { ${EDITOR:-nvim} "$1"; }
-_export() { [[ -d $1 ]] && export PATH="${1}${PATH+:$PATH}"; return $?; }
-_goto() { [[ -e "$1" ]] && cd "$1" && $(which exa) --all --long || ls -lGo; }
-_mkfile() { echo "#!/usr/bin/env ${2}" >"${3}.${1}" && chmod +x "${3}.${1}"; }
+_export() {
+  [[ -d $1 ]] && export PATH="${1}${PATH+:$PATH}"
+  return $?
+}
+_goto() { [[ -e $1 ]] && cd "$1" && $(which exa) --all --long || ls -lGo; }
+_mkfile() { echo "#!/usr/bin/env ${2}" > "${3}.${1}" && chmod +x "${3}.${1}"; }
 _sys_update() { "$1" update && "$1" upgrade; }
-has() { command -v "$1" 1>/dev/null 2>&1; }
+has() { command -v "$1" 1> /dev/null 2>&1; }
 # +────────────────+
 # │ CODE DIRECTORY │
 # +────────────────+
 CODE_DIR="${HOME:-~}/code"
-! [[ -d "$CODE_DIR" ]] && mkdir -p "${CODE_DIR}"
+! [[ -d $CODE_DIR ]] && mkdir -p "${CODE_DIR}"
 # +─────────────────+
 # │ SYSTEM SPECIFIC │
 # +─────────────────+
@@ -61,14 +64,14 @@ fi
 # +──────────────────+
 cfg_alias() { alias ${1}="_edit ${XDG_CONFIG_HOME}/${2}"; }
 cfg_alias 'ealiases' 'zsh/aliases.zsh'
-cfg_alias 'gignore'  'git/ignore'
-cfg_alias 'gcfg'     'git/config'
-cfg_alias 'kittyrc'  'kitty/kitty.conf'
-cfg_alias 'nvplg'    "nvim/lua/plugins.lua"
-cfg_alias 'skhdrc'   'skhd/skhdrc'
-cfg_alias 'tmuxrc'   'tmux/tmux.conf'
-cfg_alias 'zic'      'zsh/zinit.zsh'
-cfg_alias 'zsc'      'zsh/.zshrc'
+cfg_alias 'gignore' 'git/ignore'
+cfg_alias 'gcfg' 'git/config'
+cfg_alias 'kittyrc' 'kitty/kitty.conf'
+cfg_alias 'nvplg' "nvim/lua/plugins.lua"
+cfg_alias 'skhdrc' 'skhd/skhdrc'
+cfg_alias 'tmuxrc' 'tmux/tmux.conf'
+cfg_alias 'zic' 'zsh/zinit.zsh'
+cfg_alias 'zsc' 'zsh/.zshrc'
 alias zinstall='_edit $ZINIT[BIN_DIR]/zinit-install.zsh'
 # +────────────────+
 # │ HOME SHORTCUTS │
@@ -76,7 +79,7 @@ alias zinstall='_edit $ZINIT[BIN_DIR]/zinit-install.zsh'
 home_alias() { alias ${1}="_edit ${HOME}/${2}"; }
 home_alias 'hscfg' '.hammerspoon/init.lua'
 home_alias 'sshrc' '.ssh/config'
-home_alias 'zec'   '.zshenv'
+home_alias 'zec' '.zshenv'
 # +─────────────────+
 # │ RELOAD COMMANDS │
 # +─────────────────+
@@ -149,7 +152,7 @@ alias mkpy='_mkfile py "python3"'
 alias mksh='_mkfile sh "bash"'
 alias mktxt='{ F_NAME="$(cat -).txt"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
 alias mkzsh='_mkfile zsh "zsh"'
-mkcd() { mkdir -p -- "$1" && cd -P -- "$1" ;}
+mkcd() { mkdir -p -- "$1" && cd -P -- "$1"; }
 # +─────────────────+
 # │ FILE FORMATTING │
 # +─────────────────+

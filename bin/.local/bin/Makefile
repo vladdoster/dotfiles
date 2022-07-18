@@ -1,3 +1,4 @@
+
 ZSH := $(shell command -v zsh 2> /dev/null)
 .DEFAULT_SHELL := $(ZSH)
 .ONESHELL:
@@ -7,7 +8,7 @@ ZSH := $(shell command -v zsh 2> /dev/null)
 zwc:
 	$(or $(ZSH),:) -fc 'for f in *.zsh; do zcompile -R -- $$f.zwc $$f || exit; done'
 
-GITL=https://api.github.com/repos
+GIT=https://api.github.com/repos
 GNU=http://ftpmirror.gnu.org/gnu
 
 PROGS := \
@@ -86,7 +87,7 @@ mpfr:     URL:=$(GNU)/mpfr
 ncurses:  URL:=$(GNU)/ncurses
 ninja:    URL:=$(GIT)/ninja-build/ninja
 node:     URL:=https://nodejs.org/dist/v15.17.6/node-v14.17.6.tar.gz
-nvim:     URL:=$(GIT)/neovim/neovim CMAKE_BUILD_TYPE=RelWithDebInfo
+nvim: URL:=$(GIT)/neovim/neovim
 
 openjdk:     URL:=$(GIT)/openjdk/jdk
 openssh-hpn: URL:=https://github.com/vladdoster/openssh-portable/archive/refs/tags/hpn-8_8_P1.tar.gz
@@ -118,6 +119,7 @@ wget: URL:=$(GNU)/wget
 yasm: URL:=$(GIT)/yasm/yasm
 zlib: URL:=$(GIT)/madler/zlib
 
+.PHONY: zsh
 zsh:  URL:=$(GIT)/zsh-users/zsh
 
 install : $(PROGS)
@@ -125,7 +127,8 @@ go-install : $(GO_PROGS)
 py-install : $(PY_PROGS)
 
 $(PROGS):
-	$(ZSH) $${PWD}/installer $(@) $(GNU)/$(@)/$(shell curl $(GNU)/$(@)/ | grep -oE "$(@)-([0-9\-]+\.){0,3}(\*|[0-9\.]+)\.tar\.gz" | sort -V -t. -r -k1,1 -k2,2 -k3,3 | head -1) $(OPTS)
+	url:=$(eval$(if $(filter-out "gnu", $(processed_input)), $(GNU)/$(@)/$(shell curl $(GNU)/$(@)/ | grep -oE "$(@)-([0-9\-]+\.){0,3}(\*|[0-9\.]+)\.tar\.gz" | sort -V -t. -r -k1,1 -k2,2 -k3,3 | head -1), $(URL)/tarball))
+	$(ZSH) $${PWD}/installer $(@) $(url)
 
 $(PY_PROGS):
 	python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org $(@)

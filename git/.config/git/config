@@ -53,8 +53,8 @@
   hunk-header-line-number-style = "#067a00"
   hunk-header-style             = file line-number syntax
 [homebrew]
-    analyticsmessage = true
-    caskanalyticsmessage = true
+	analyticsmessage = true
+	caskanalyticsmessage = true
 [http]
   sslVerify = false
 [https]
@@ -164,9 +164,3 @@
   unrelease = !sh -c 'git tag -d v$1 && git pso :v$1' -
   w  = show
 # vim:ft=toml:sw=2:sts=2
-[fsck]
-	zeroPaddedFilemode = ignore
-[fetch "fsck"]
-	zeroPaddedFilemode = ignore
-[receive "fsck"]
-	zeroPaddedFilemode = ignore

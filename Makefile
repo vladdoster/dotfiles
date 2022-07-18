@@ -16,7 +16,7 @@ neovim: destination:=$$HOME/.config/nvim
 
 .SILENT: neovim
 $(CONFIGS): ## Clone a program's configuration repository
-	sh -c "[ -d $(destination) ] || git clone $(GH_URL)/$@-configuration $(destination)"
+	sh -c "[ ! -d $(destination) ] && git clone $(GH_URL)/$@-configuration $(destination)"
 
 install: | clean ## Deploy dotfiles via GNU install
 	find * -maxdepth 0 -mindepth 0 -type d -exec stow --verbose 1 --stow --target $$HOME {} \;
@@ -68,7 +68,7 @@ python/prog: ## Install useful Python programs
 	@python3 -m pip install --upgrade pip
 	@python3 -m pip install --upgrade --trusted-host pypi.org --trusted-host files.pythonhosted.org --no-compile \
 		autopep8 \
-		black bpytop \
+		beautysh black bpytop \
 		flake8 \
 		isort \
 		mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc \
