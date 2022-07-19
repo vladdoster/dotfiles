@@ -73,23 +73,23 @@ MODE_CURSOR_VICMD="green block";              MODE_CURSOR_VIINS="#20d08a blinkin
 MODE_INDICATOR_REPLACE='%F{9}%F{1}REPLACE%f'; MODE_INDICATOR_VISUAL='%F{12}%F{4}VISUAL%f'
 MODE_INDICATOR_VIINS='%F{15}%F{8}INSERT%f';   MODE_INDICATOR_VICMD='%F{10}%F{2}NORMAL%f'
 MODE_INDICATOR_VLINE='%F{12}%F{4}V-LINE%f';   MODE_CURSOR_SEARCH="#ff00ff blinking underline"
-export KEYTIMEOUT=1; export LESS='-RMs'; export PAGER=less; export VISUAL=vi;
-# LC_CTYPE=en_US.UTF-8; LC_ALL=en_US.UTF-8
+export PAGER=less; export VISUAL=vi;
+(( $+commands[locale] )) || return
+local loc=(${(@M)$(locale -a):#*.(utf|UTF)(-|)8})
+(( $#loc )) || return
+export LC_ALL=${loc[(r)(#i)C.UTF(-|)8]:-${loc[(r)(#i)en_US.UTF(-|)8]:-$loc[1]}}
 #=== ANNEXES ==========================================
 zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
 zi light-mode ver'style/format-zsh' for "$ZI_REPO"/zinit-annex-readurl
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' lbin'!' nocompile for \
   @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck','pemistahl/grex'} \
-  @{'r-darwish/topgrade','sharkdp/fd','sharkdp/hyperfine','itchyny/gojq'} \
-  blockf atclone'**/bin/gh completion --shell zsh > _gh' lbin'!**/bin/gh' @cli/cli \
-  bpick'*extended*' @gohugoio/hugo \
+  @{'r-darwish/topgrade','sharkdp/fd','sharkdp/hyperfine'} \
   lbin'!* -> checkmake' @mrtazz/checkmake \
   lbin'!* -> jq'     @stedolan/jq \
   lbin'!* -> shfmt'  @mvdan/sh \
-  lbin'!* -> stylua' @JohnnyMorganz/StyLua  \
   lbin'!**/rg'       @BurntSushi/ripgrep \
-  lbin'!**/bin/nvim' @neovim/neovim \
+  lbin'!**/bin/nvim' nocompletions @neovim/neovim \
   lbin'!**/exa' atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 #=== UNIT TESTING =====================================
@@ -98,35 +98,11 @@ zi as'command' for \
   pick'revolver' @molovo/revolver \
   atclone'./build.zsh' pick'zunit' @zdharma-continuum/zunit
 #=== COMPILED PROGRAMS ================================
-  # configure'--disable-lzmadec --disable-lzmainfo' \
-  # lbin'!$PWD/**/bin/xz' \
-# zi configure'--prefix=$PWD' make'-j PREFIX=$PWD install' nocompile for \
-# zi for configure'#--disable-utf8proc' extract'!' from'gh-r' ver'latest' nocompile as'null' lbin'!**/bin/tmux' make'install' \
-#   @tmux/tmux
-#
-# zi for configure'#' nocompile as'null' lbin'!**/bin/stow' make'install' \
-#   @aspiers/stow
-#
 zi configure'#--prefix=$PWD' nocompile as'null' make'PREFIX=$PWD install' for \
   lbin'!**/tree' \
   @Old-Man-Programmer/tree \
   lbin'!$PWD/**/zsd*$' \
   ${ZI_REPO}/zshelldoc
-
-# zi \
-  #   as'completions' \
-  #   atclone'./buildx* completion zsh > _buildx' \
-  #   from'gh-r' \
-  #   lbin'!buildx-* -> buildx' \
-  #   nocompile \
-  #   for @docker/buildx
-
-# zi \
-  #   as'completion' \
-  #   atclone'luarocks completion zsh > _luarocks' \
-  #   lucid \
-  #   nocompile \
-  #   for $ZI_REPO/null
 #=== PYTHON ===========================================
 _pip_completion() {
   local words cword; read -Ac words; read -cn cword
