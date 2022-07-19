@@ -54,65 +54,48 @@ setopt NO_NOMATCH # If a pattern has no matches, don't print an error, leave it 
 # +────────────+
 # │ Completion │
 # +────────────+
-zle_highlight=('paste:none')
+#
+PROMPT_EOL_MARK='%K{red} %k'   # mark the missing \n at the end of a comand output with a red block
+WORDCHARS=''                   # only alphanums make up words in word-based zle widgets
+ZLE_REMOVE_SUFFIX_CHARS=''     # don't eat space when typing '|' after a tab completion
+KEYTIMEOUT=20                  # wait for 200ms for the continuation of a key sequence
+zle_highlight=('paste:none')   # disable highlighting of text pasted into the command line
+
+zstyle ':completion:*' matcher-list     "m:{a-z}={A-Z}"
+zstyle ':completion:*' menu             "false"
+zstyle ':completion:*' single-ignored   "show"
+zstyle ':completion:*' squeeze-slashes  "true"
+zstyle ':completion:*' verbose          "true"
 zstyle ':completion:*' complete-options true
-zstyle ':completion:*' list-colors ${(s#:#)LS_COLORS} # Match dircolors with completion schema.
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-zstyle ':completion:*' menu select # Use completion menu for completion when available.
-zstyle ':completion:*' rehash true # When new programs is installed, auto update without reloading.
-# PIDs
-zstyle ':completion:*:(rm|kill|diff):*' ignore-line other
-zstyle ':completion:*:*:*:*:processes' command 'ps -u $LOGNAME -o pid,user,command -w'
-zstyle ':completion:*:*:kill:*' force-list always
-zstyle ':completion:*:*:kill:*' insert-ids single
-zstyle ':completion:*:*:kill:*' menu yes select
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;36=0=01'
+zstyle ':completion:*' list-colors      ${(s#:#)LS_COLORS} # Match dircolors with completion schema.
+zstyle ':completion:*' matcher-list     'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' menu             select # Use completion menu for completion when available.
+zstyle ':completion:*' rehash           true # When new programs is installed, auto update without reloading.
+
+zstyle ':completion:*:-subscript-:*' tag-order         "indexes parameters"
+zstyle ':completion:*:-tilde-:*'     tag-order         "directory-stack" "named-directories" "users"
+zstyle ':completion:*:diff:*'        ignore-line       "other"
+zstyle ':completion:*:functions'     ignored-patterns  "-*|_*"
+zstyle ':completion:*:kill:*'        ignore-line       "other"
+zstyle ':completion:*:paths'         accept-exact-dirs "true"
+zstyle ':completion:*:rm:*'          file-patterns     "*:all-files"
+zstyle ':completion:*:rm:*'          ignore-line       "other"
+zstyle ':completion:::::'            insert-tab        "pending"
+zstyle ':completion:*:parameters'    ignored-patterns  \
+  "_(gitstatus|GITSTATUS|zsh_highlight|zsh_autosuggest|ZSH_HIGHLIGHT|ZSH_AUTOSUGGEST)*"
+
+zstyle ':completion:*:ssh:argument-1:*'                    sort             'true'
+zstyle ':completion:*:scp:argument-rest:*'                 sort             'true'
+
+zstyle ':completion:*:git-*:argument-rest:heads'           ignored-patterns '(FETCH_|ORIG_|*/|)HEAD'
+zstyle ':completion:*:git-*:argument-rest:heads-local'     ignored-patterns '(FETCH_|ORIG_|)HEAD'
+zstyle ':completion:*:git-*:argument-rest:heads-remote'    ignored-patterns '*/HEAD'
+zstyle ':completion:*:git-*:argument-rest:commits'         ignored-patterns '*'
+zstyle ':completion:*:git-*:argument-rest:commit-objects'  ignored-patterns '*'
+zstyle ':completion:*:git-*:argument-rest:recent-branches' ignored-patterns '*'
 # Make
 zstyle ':completion:*:*:make:*' tag-order 'targets'
-zstyle ':completion:*:rm:*' file-patterns '*:all-files'
-
-setopt extended_history       # record timestamp of command in HISTFILE
-setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
-setopt hist_ignore_space      # ignore commands that start with space
-setopt hist_verify            # show command with history expansion to user before running it
-setopt share_history          # share command history data
-
-setopt no_beep
-setopt multios
-setopt prompt_subst         # enable parameter expansion, command substitution, and arithmetic expansion in the prompt
-setopt interactive_comments # Allow comments even in interactive shells (especially for Muness)
-setopt pushd_ignore_dups    # don't push multiple copies of the same directory onto the directory stack
-setopt auto_pushd           # make cd push the old directory onto the directory stack
-setopt pushdminus           # swapped the meaning of cd +1 and cd -1; we want them to mean the opposite of what they mean
-setopt pushd_silent         # Silence pushd
-setopt glob_dots            # Show dotfiles in completions
-setopt extended_glob
-
 # Fuzzy matching of completions for when you mistype them:
 zstyle ':completion:*' completer _complete _match _list _ignored _correct _approximate
 zstyle ':completion:*:match:*' original only
 zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3>7?7:($#PREFIX+$#SUFFIX)/3))numeric)'
-
-# Pretty completions
-#zstyle ':completion:*' format ' %F{yellow}-- %d --%f'
-#zstyle ':completion:*' group-name ''
-#zstyle ':completion:*:corrections' format ' %F{green}-- %d (errors: %e) --%f'
-#zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
-#zstyle ':completion:*:matches' group 'yes'
-#zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
-#zstyle ':completion:*:options' auto-description '%d'
-#zstyle ':completion:*:options' description 'yes'
-zstyle ':completion:*' accept-exact '*(N)'
-zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
-zstyle ':completion:*' ignore-parents parent pwd
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-zstyle ':completion:*' use-cache yes
-zstyle ':completion:*' verbose yes
-zstyle ':completion:*:default' list-prompt '%S%M matches%s'
-zstyle ':completion:*:descriptions' format '[%d]'
-zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
-zstyle ':completion:*:manuals' separate-sections true
-zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
-
-# vim: ft=zsh:
-### End of Zinit's installer chunk
