@@ -24,7 +24,7 @@ if [[ ! -e $ZINIT[BIN_DIR] ]] {
     && info 'sucessfully installed zinit'
 }
 if [[ -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
-  source $ZINIT[BIN_DIR]/zinit.zsh \
+  builtin source $ZINIT[BIN_DIR]/zinit.zsh \
     && autoload -Uz _zinit \
     && (( ${+_comps} )) \
     && _comps[zinit]=_zinit
