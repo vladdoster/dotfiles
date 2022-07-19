@@ -40,6 +40,7 @@ fi
 # +───────+
 # │ FILES │
 # +───────+
+alias bashly_edge='docker run --rm -it --user $(id -u):$(id -g) --volume "$PWD:/app" dannyben/bashly:edge'
 alias b="cd -"
 alias cpv="rsync -ah --info=progress2"
 alias d='dirs -v --'
@@ -86,8 +87,8 @@ home_alias 'zec' '.zshenv'
 alias nvcln="rm -frv $HOME/.{local/share/nvim,config/nvim/plugin}"
 alias zcln="rm -fr ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
 alias zreset="pushd ${HOME} && zcln && zrld"
-alias zicln="zi delete --all --yes; ( exec zsh );"
-alias zrld="exec zsh"
+alias zicln="zi delete --all --yes; ( exec zsh -il );"
+alias zrld="exec zsh -il"
 # +────────────+
 # │ NAVIGATION │
 # +────────────+

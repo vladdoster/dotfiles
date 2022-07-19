@@ -44,14 +44,17 @@ path_append \
   "${HOME}/.local/bin" \
   "${HOME}/Library/Python/3.8/bin" \
   "${HOME}/Library/Python/3.9/bin" \
+  "${brew_path}/lib/ruby/gems/3.1.0/bin" \
   "${brew_path}/llvm/bin" \
   "${brew_path}/make/libexec/gnubin" \
+  "${brew_path}/opt/libtool/libexec/gnubin" \
+  "${brew_path}/opt/ruby/bin" \
+  "${brew_path}/opt/texinfo/bin" \
   "${usr_path}/binutils/bin" \
   "${usr_path}/coreutils/libexec/gnubin" \
   "${usr_path}/gnu-sed/libexec/gnubin" \
   "${usr_path}/gnu-tar/libexec/gnubin" \
-  "${brew_path}/opt/libtool/libexec/gnubin" \
-  "${brew_path}/opt/texinfo/bin"
+  "/Users/null/.gem/ruby/3.1.0/bin" 
 # +─────────────────+
 # │ # ENV VARIABLES │
 # +─────────────────+
