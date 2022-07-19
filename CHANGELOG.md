@@ -1,3 +1,20 @@
+# [1.34.0](https://github.com/vladdoster/dotfiles/compare/v1.33.0...v1.34.0) (2022-07-19)
+
+
+### feat
+
+* add ssh config to improve the ssh experience ([e7973b8](https://github.com/vladdoster/dotfiles/commit/e7973b80b5ef1e17b3383e5bc20e87d59a2c2a05))
+
+### fix
+
+* zinit config issues ([97011ed](https://github.com/vladdoster/dotfiles/commit/97011ed4a2b74a7fc3a645dc6efe9337402106ff))
+* zrld and zicln aliases ([d670720](https://github.com/vladdoster/dotfiles/commit/d670720ced0916afd2a1bf9bd4e5543c444e1c4a))
+* zsh zstyles ([c7f7288](https://github.com/vladdoster/dotfiles/commit/c7f7288e999b38671d0691111f5489a8bf464cf7))
+
+### style
+
+* formatting ([b04b4ea](https://github.com/vladdoster/dotfiles/commit/b04b4ea7d9b6fef90eabbb8a0d214b2f1ec3f3ca))
+
 # [1.33.0](https://github.com/vladdoster/dotfiles/compare/v1.32.0...v1.33.0) (2022-07-17)
 
 
