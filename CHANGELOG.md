@@ -1,3 +1,14 @@
+# [1.35.0](https://github.com/vladdoster/dotfiles/compare/v1.34.0...v1.35.0) (2022-07-22)
+
+
+### feat
+
+* add system info script ([7494b7d](https://github.com/vladdoster/dotfiles/commit/7494b7dd4a765e463aa54429a391d8ed221a0d35))
+
+### fix
+
+* ssh configuration ([4d9bcee](https://github.com/vladdoster/dotfiles/commit/4d9bcee3f9871114e2eb8edaec3d0f572e98eea0))
+
 # [1.34.0](https://github.com/vladdoster/dotfiles/compare/v1.33.0...v1.34.0) (2022-07-19)
 
 
