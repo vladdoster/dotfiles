@@ -116,6 +116,7 @@ zi light-mode lucid wait'1' for \
   compile'zsh-vim-mode*.zsh' \
   softmoth/zsh-vim-mode \
   thewtex/tmux-mem-cpu-load \
+  MichaelAquilina/zsh-auto-notify \
   submods'zsh-users/zsh-history-substring-search -> external' \
   svn \
   OMZ::plugins/history-substring-search \
