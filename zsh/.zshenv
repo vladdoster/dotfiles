@@ -54,7 +54,7 @@ path_append \
   "${usr_path}/coreutils/libexec/gnubin" \
   "${usr_path}/gnu-sed/libexec/gnubin" \
   "${usr_path}/gnu-tar/libexec/gnubin" \
-  "/Users/null/.gem/ruby/3.1.0/bin" 
+  "/Users/null/.gem/ruby/3.1.0/bin"
 # +─────────────────+
 # │ # ENV VARIABLES │
 # +─────────────────+
@@ -63,7 +63,6 @@ path_append \
 (( ${+XDG_CACHE_HOME} )) || export XDG_CACHE_HOME="$HOME/.cache"
 (( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="$HOME/.config"
 (( ${+XDG_DATA_HOME} )) || export XDG_DATA_HOME="$HOME/.local/share"
-eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)" 2>/dev/null 
 export AZURE_CONFIG_DIR="$XDG_DATA_HOME"/azure
 export DOTFILES="$XDG_CONFIG_HOME"/dotfiles
 export GIT_CONFIG="$XDG_CONFIG_HOME"/git/config
