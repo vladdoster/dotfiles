@@ -89,7 +89,7 @@ zi from'gh-r' lbin'!' nocompile for \
   lbin'!* -> jq'     @stedolan/jq \
   lbin'!* -> shfmt'  @mvdan/sh \
   lbin'!**/rg'       @BurntSushi/ripgrep \
-  lbin'!**/bin/nvim' nocompletions @neovim/neovim \
+  sbin'**/bin/nvim' ver'nightly' atinit'alias v=nvim; alias vim=nvim' @neovim/neovim \
   lbin'!**/exa' atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 #=== UNIT TESTING =====================================
@@ -98,7 +98,7 @@ zi as'command' for \
   pick'revolver' @molovo/revolver \
   atclone'./build.zsh' pick'zunit' @zdharma-continuum/zunit
 #=== COMPILED PROGRAMS ================================
-zi configure'#--prefix=$PWD' nocompile as'null' make'PREFIX=$PWD install' for \
+zi configure nocompile as'null' make'PREFIX=$PWD install' for \
   lbin'!**/tree' \
   @Old-Man-Programmer/tree \
   lbin'!$PWD/**/zsd*$' \
