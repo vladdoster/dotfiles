@@ -98,7 +98,7 @@ zi as'command' for \
   pick'revolver' @molovo/revolver \
   atclone'./build.zsh' pick'zunit' @zdharma-continuum/zunit
 #=== COMPILED PROGRAMS ================================
-zi configure nocompile as'null' make'PREFIX=$PWD install' for \
+zi configure nocompile as'null' make'PREFIX=$PWD' for \
   lbin'!**/tree' \
   @Old-Man-Programmer/tree \
   lbin'!$PWD/**/zsd*$' \
