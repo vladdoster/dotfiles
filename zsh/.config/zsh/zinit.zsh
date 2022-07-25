@@ -79,8 +79,7 @@ local loc=(${(@M)$(locale -a):#*.(utf|UTF)(-|)8})
 (( $#loc )) || return
 export LC_ALL=${loc[(r)(#i)C.UTF(-|)8]:-${loc[(r)(#i)en_US.UTF(-|)8]:-$loc[1]}}
 #=== ANNEXES ==========================================
-zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods'}
-zi light-mode ver'style/format-zsh' for "$ZI_REPO"/zinit-annex-readurl
+zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods','readurl'}
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' lbin'!' nocompile for \
   @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck','pemistahl/grex'} \
@@ -92,6 +91,12 @@ zi from'gh-r' lbin'!' nocompile for \
   sbin'**/bin/nvim' ver'nightly' atinit'alias v=nvim; alias vim=nvim' @neovim/neovim \
   lbin'!**/exa' atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa
+
+zi light zdharma-continuum/zinit-annex-rust
+zinit ice rustup cargo'!lsd'
+zinit load zdharma-continuum/null
+zi ice rustup cargo'!exa -> ls'
+zi load zdharma-continuum/null
 #=== UNIT TESTING =====================================
 zi as'command' for \
   pick'src/semver' vladdoster/semver-tool \
@@ -111,7 +116,7 @@ _pip_completion() {
       COMP_CWORD=$(( cword-1 )) PIP_AUTO_COMPLETE=1 $words 2>/dev/null
 ))}; compctl -K _pip_completion pip3
 #=== MISC. ============================================
-zi light-mode lucid wait'1' for \
+zi light-mode lucid wait'!' for \
   atinit'bindkey -M vicmd "^v" edit-command-line' \
   compile'zsh-vim-mode*.zsh' \
   softmoth/zsh-vim-mode \
@@ -142,7 +147,7 @@ zi \
   id-as'zinit/cleanup' \
   lucid \
   nocd \
-  wait'2' \
+  wait'1' \
   for @$ZI_REPO/null
 
 # vim:ft=zsh:sw=2:sts=2:et

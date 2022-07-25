@@ -61,41 +61,49 @@ ZLE_REMOVE_SUFFIX_CHARS=''     # don't eat space when typing '|' after a tab com
 KEYTIMEOUT=20                  # wait for 200ms for the continuation of a key sequence
 zle_highlight=('paste:none')   # disable highlighting of text pasted into the command line
 
-zstyle ':completion:*' matcher-list     "m:{a-z}={A-Z}"
-zstyle ':completion:*' menu             "false"
-zstyle ':completion:*' single-ignored   "show"
-zstyle ':completion:*' squeeze-slashes  "true"
-zstyle ':completion:*' verbose          "true"
-zstyle ':completion:*' complete-options true
-zstyle ':completion:*' list-colors      ${(s#:#)LS_COLORS} # Match dircolors with completion schema.
-zstyle ':completion:*' matcher-list     'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-zstyle ':completion:*' menu             select # Use completion menu for completion when available.
-zstyle ':completion:*' rehash           true # When new programs is installed, auto update without reloading.
 
-zstyle ':completion:*:-subscript-:*' tag-order         "indexes parameters"
-zstyle ':completion:*:-tilde-:*'     tag-order         "directory-stack" "named-directories" "users"
-zstyle ':completion:*:diff:*'        ignore-line       "other"
-zstyle ':completion:*:functions'     ignored-patterns  "-*|_*"
-zstyle ':completion:*:kill:*'        ignore-line       "other"
-zstyle ':completion:*:paths'         accept-exact-dirs "true"
-zstyle ':completion:*:rm:*'          file-patterns     "*:all-files"
-zstyle ':completion:*:rm:*'          ignore-line       "other"
-zstyle ':completion:::::'            insert-tab        "pending"
-zstyle ':completion:*:parameters'    ignored-patterns  \
-  "_(gitstatus|GITSTATUS|zsh_highlight|zsh_autosuggest|ZSH_HIGHLIGHT|ZSH_AUTOSUGGEST)*"
+bindkey ' ' magic-space    # also do history expansion on space
+bindkey '^I' complete-word # complete on tab, leave expansion to _expand
 
-zstyle ':completion:*:ssh:argument-1:*'                    sort             'true'
-zstyle ':completion:*:scp:argument-rest:*'                 sort             'true'
+# Setup new style completion system. To see examples of the old style (compctl
+# based) programmable completion, check Misc/compctl-examples in the zsh
+# distribution.
+# Completion Styles
 
-zstyle ':completion:*:git-*:argument-rest:heads'           ignored-patterns '(FETCH_|ORIG_|*/|)HEAD'
-zstyle ':completion:*:git-*:argument-rest:heads-local'     ignored-patterns '(FETCH_|ORIG_|)HEAD'
-zstyle ':completion:*:git-*:argument-rest:heads-remote'    ignored-patterns '*/HEAD'
-zstyle ':completion:*:git-*:argument-rest:commits'         ignored-patterns '*'
-zstyle ':completion:*:git-*:argument-rest:commit-objects'  ignored-patterns '*'
-zstyle ':completion:*:git-*:argument-rest:recent-branches' ignored-patterns '*'
-# Make
-zstyle ':completion:*:*:make:*' tag-order 'targets'
-# Fuzzy matching of completions for when you mistype them:
-zstyle ':completion:*' completer _complete _match _list _ignored _correct _approximate
-zstyle ':completion:*:match:*' original only
-zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3>7?7:($#PREFIX+$#SUFFIX)/3))numeric)'
+# list of completers to use
+zstyle ':completion:*::::' completer _expand _complete _ignored _approximate
+
+# allow one error for every three characters typed in approximate completer
+zstyle -e ':completion:*:approximate:*' max-errors \
+    'reply=( $(( ($#PREFIX+$#SUFFIX)/3 )) numeric )'
+    
+# insert all expansions for expand completer
+zstyle ':completion:*:expand:*' tag-order all-expansions
+
+# formatting and messages
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:descriptions' format '%B%d%b'
+zstyle ':completion:*:messages' format '%d'
+zstyle ':completion:*:warnings' format 'No matches for: %d'
+zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
+zstyle ':completion:*' group-name ''
+
+# match uppercase from lowercase
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+# offer indexes before parameters in subscripts
+zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+
+# command for process lists, the local web server details and host completion
+#zstyle ':completion:*:processes' command 'ps -o pid,s,nice,stime,args'
+#zstyle ':completion:*:urls' local 'www' '/var/www/htdocs' 'public_html'
+zstyle '*' hosts $hosts
+
+# Filename suffixes to ignore during completion (except after rm command)
+zstyle ':completion:*:*:(^rm):*:*files' ignored-patterns '*?.o' '*?.c~' \
+    '*?.old' '*?.pro'
+# the same for old style completion
+#fignore=(.o .c~ .old .pro)
+
+# ignore completion functions (until the _ignored completer)
+zstyle ':completion:*:functions' ignored-patterns '_*'
