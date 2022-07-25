@@ -1,3 +1,19 @@
+# [1.36.0](https://github.com/vladdoster/dotfiles/compare/v1.35.0...v1.36.0) (2022-07-25)
+
+
+### fix
+
+* configure ice ([cb24ded](https://github.com/vladdoster/dotfiles/commit/cb24ded5dcdd03409ad1188909a300b7aa186c57))
+* nuke-docker output and retry logic ([8db576a](https://github.com/vladdoster/dotfiles/commit/8db576af86f57685e786c19bca706b84f9c2d922))
+* remove perl eval ([c89ca8e](https://github.com/vladdoster/dotfiles/commit/c89ca8e1a61f1cf0b84b8da149fed231800d679c))
+* retry logic for nuke-docker ([3dbd641](https://github.com/vladdoster/dotfiles/commit/3dbd6410d9efbc3362a817aeecc70c14d143dc7c))
+* window border padding fix for vivaldi ([2a5c1cc](https://github.com/vladdoster/dotfiles/commit/2a5c1cc69c65dd8632936269a24281be0f75c339))
+
+### maint
+
+* add rust annex, fix readurl annex branch, and waits ([b184e48](https://github.com/vladdoster/dotfiles/commit/b184e48449d12924fb0208e9ccc521bb240561fe))
+* make ice ([4f01bfc](https://github.com/vladdoster/dotfiles/commit/4f01bfc940c748bdef81c11762b7cf1e2e99f9c5))
+
 # [1.35.0](https://github.com/vladdoster/dotfiles/compare/v1.34.0...v1.35.0) (2022-07-22)
 
 
