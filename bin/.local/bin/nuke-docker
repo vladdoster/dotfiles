@@ -1,24 +1,26 @@
 #!/usr/bin/env zsh
+
 #
 # Remove all Docker related resources
 #
-RET=3
-until [ ${RET} -eq 0 ]; do
-  if docker container ls 2> /dev/null; then
-    builtin print -P "${ZINIT[col-error]}ERROR:%f%b Couldn't find ${ZINIT[col-obj]}$(docker container ls --all --quiet | wc -l)%f%b."
-    docker container kill $(docker container ls --quiet)
-    docker container stop $(docker container ls --all --quiet)
-    # builtin print -P "${ZINIT[col-error]}ERROR:%f%b {msg2}found {cmd}$(docker container ls --all --quiet | wc -l){msg2} running containers{rst}"Couldn't find ${ZINIT[col-obj]}$(docker container ls --all --quiet | wc -l)%f%b."
-    # +zinit-message "--- {msg2}found {cmd}$(docker container ls --all --quiet | wc -l){msg2} running containers{rst}"
-    # +zinit-message "--- {msg2} pruning docker resources{rst}"
-    docker system prune --all --force
-    # +zinit-message "--- {msg2} pruning docker volumes{rst}"
-    docker volume prune --force
+
+n=0
+until [ ${n} -eq 3 ]; do
+  if docker system info &>/dev/null; then
+    NUM_CONTAINERS=$(docker container ls --all --quiet | wc -l)
+    builtin print -P "INFO: found $(docker container ls --all --quiet | wc -l | xargs) containers"
+    [[ $NUM_CONTAINERS -eq 0 ]] && exit 0
+    {
+      docker container kill $(docker container ls --quiet)
+      docker container stop $(docker container ls --all --quiet)
+      docker system prune --all --force
+      docker volume prune --force
+    } 2>/dev/null
     exit 0
   else
-    builtin print -P "${ZINIT[col-error]}ERROR:%f%b Couldn't find ${ZINIT[col-obj]}docker daemon%f%b."
-    exit 1
+    ((n++))
+    builtin print -P "ERROR: couldn't find docker daemon, retrying $n/3 times"
+    sleep 5
   fi
-  RET=$?
-  sleep 5
 done
+builtin print -P "ERROR: couldn't find docker daemon, aborting"
