@@ -1,3 +1,16 @@
+# [1.37.0](https://github.com/vladdoster/dotfiles/compare/v1.36.0...v1.37.0) (2022-07-27)
+
+
+### fix
+
+* various zsh config fixes ([528810e](https://github.com/vladdoster/dotfiles/commit/528810eced3b6ac79e238209b3173817f3983a8e))
+* zinit loading logic ([7548de7](https://github.com/vladdoster/dotfiles/commit/7548de7e2baec0f98c59953ef3f46a588c93fd56))
+
+### maint
+
+* add prezto environment and LESS env vars ([b1b9375](https://github.com/vladdoster/dotfiles/commit/b1b9375d175673d65dae2f2509da803a6a933216))
+* use prezto completion via submod annex ([795e1a6](https://github.com/vladdoster/dotfiles/commit/795e1a61e7ab1d0692287791ccc841e9eb37a917))
+
 # [1.36.0](https://github.com/vladdoster/dotfiles/compare/v1.35.0...v1.36.0) (2022-07-25)
 
 
