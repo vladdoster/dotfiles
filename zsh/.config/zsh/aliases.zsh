@@ -86,9 +86,9 @@ home_alias 'zec' '.zshenv'
 # +─────────────────+
 alias nvcln="rm -frv $HOME/.{local/share/nvim,config/nvim/plugin}"
 alias zcln="rm -fr ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
-alias zreset="pushd ${HOME} && zcln && zrld"
+alias zreset="cd ${HOME} && ( zcln && zrld ) && cd -"
 alias zicln="zi delete --all --yes; ( exec zsh -il );"
-alias zrld="exec zsh -il"
+alias zrld="exec zsh -i"
 # +────────────+
 # │ NAVIGATION │
 # +────────────+

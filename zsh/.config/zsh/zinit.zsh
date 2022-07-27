@@ -4,44 +4,69 @@
 # have a feature request, or a question. A zinit-continuum configuration for
 # macOS and Linux.
 #
+# #=== HELPER METHODS ===================================
+# error() { builtin print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && return 1; }
+# info() { builtin print -P "%F{blue}[INFO]%f: %F{cyan}$1%f"; }
+# # print -P "[ERROR]: $1" print -P "[INFO]: $1"
+# #=== ZINIT ============================================
+# typeset -gAH ZINIT;
+# ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
+# ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
+# ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets
+# ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump    ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
+# ZI_FORK='vladdoster'; ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githubusercontent.com'
+# if [[ ! -e $ZINIT[BIN_DIR] ]] {
+#   info 'downloading zinit'
+#   command git clone https://github.com/$ZI_REPO/zinit.git $ZINIT[BIN_DIR] \
+#     || error 'failed to clone zinit repository'
+#   builtin chmod g-rwX $ZINIT[HOME_DIR] \
+#     && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
+#     && info 'sucessfully installed zinit'
+# }
+# if [[ -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
+#   builtin source $ZINIT[BIN_DIR]/zinit.zsh \
+#     && autoload -Uz _zinit \
+#     && (( ${+_comps} )) \
+#     && _comps[zinit]=_zinit
+# else
+#   error "unable to find 'zinit.zsh'" && return 1
+# fi
 #=== HELPER METHODS ===================================
 error() { builtin print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && return 1; }
 info() { builtin print -P "%F{blue}[INFO]%f: %F{cyan}$1%f"; }
-# print -P "[ERROR]: $1" print -P "[INFO]: $1"
 #=== ZINIT ============================================
-typeset -gAH ZINIT;
-ZINIT[HOME_DIR]=$XDG_DATA_HOME/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
-ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
-ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets
-ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump    ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
-ZI_FORK='vladdoster'; ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githubusercontent.com'
-if [[ ! -e $ZINIT[BIN_DIR] ]] {
-  info 'downloading zinit'
-  command git clone https://github.com/$ZI_REPO/zinit.git --branch "maint/update-configure-ice" $ZINIT[BIN_DIR] \
-    || error 'failed to clone zinit repository'
-  builtin chmod g-rwX $ZINIT[HOME_DIR] \
-    && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
+typeset -gAH ZI=(HOME_DIR "$HOME/.local/share/zinit")
+ZI+=(
+  BIN_DIR "$ZI[HOME_DIR]/zinit.git" COMPLETIONS_DIR "$ZI[HOME_DIR]/completions" OPTIMIZE_OUT_OF_DISK_ACCESSES "1"
+  PLUGINS_DIR "$ZI[HOME_DIR]/plugins" SNIPPETS_DIR "$ZI[HOME_DIR]/snippets" ZCOMPDUMP_PATH "$ZI[HOME_DIR]/zcompdump" 
+)
+ZI_FORK='vladdoster'; ZI_REPO='zdharma-continuum'; ZPFX=$ZI[HOME_DIR]/polaris
+if [[ ! -e "$ZI[BIN_DIR]/zinit.zsh" ]] {
+  info 'downloading zinit' \
+    && command rm -rf $ZI[BIN_DIR] \
+    && command git clone "https://github.com/$ZI_REPO/zinit.git" $ZI[BIN_DIR]
+  info 'setting up zinit' \
+    && command chmod g-rwX $ZI[HOME_DIR] \
+    && zcompile $ZI[BIN_DIR]/zinit.zsh \
     && info 'sucessfully installed zinit'
 }
-if [[ -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
-  builtin source $ZINIT[BIN_DIR]/zinit.zsh \
+# } else { error 'failed to install zinit' }
+if [[ -e "$ZI[BIN_DIR]/zinit.zsh" ]] {
+  typeset -gAH ZINIT=( ${(kv)ZI} ) \
+    && builtin source $ZINIT[BIN_DIR]/zinit.zsh \
     && autoload -Uz _zinit \
     && (( ${+_comps} )) \
     && _comps[zinit]=_zinit
-else
-  error "unable to find 'zinit.zsh'" && return 1
-fi
+} else { error 'failed to find zinit installation' }
 #=== STATIC ZSH BINARY =======================================
-zi \
+zi for \
   as"null" \
-  atclone"./install -e no -d ~/.local" \
-  atinit"export PATH=$HOME/.local/bin:$PATH" \
-  atpull"%atclone" \
+  atclone"./install -e no -d ${ZPFX}" \
   depth"1" \
   lucid \
   nocompile \
   nocompletions \
-  for @romkatv/zsh-bin
+  @romkatv/zsh-bin
 # #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 zi is-snippet for \
   OMZL::{'clipboard','compfix','completion','git','grep','key-bindings'}.zsh \
@@ -51,23 +76,22 @@ zi as'completion' for \
   OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
-install_completion() { zinit for as'completion' nocompile id-as"$1" is-snippet "$GH_RAW_URL/$2"; }
-install_completion 'brew-completion/_brew'          'Homebrew/brew/master/completions/zsh/_brew'
-install_completion 'brew-completion/_brew-services' 'Homebrew/homebrew-services/master/completions/zsh/_brew_services'
-install_completion 'docker-completion/_docker' 'docker/cli/master/contrib/completion/zsh/_docker'
-install_completion 'exa-completion/_exa'       'ogham/exa/master/completions/zsh/_exa'
-install_completion 'fd-completion/_fd'         'sharkdp/fd/master/contrib/completion/_fd'
+znippet() { zinit for as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
+znippet 'brew'          'Homebrew/brew/master/completions/zsh'
+# znippet 'brew_services' 'Homebrew/homebrew-services/master/completions/zsh'
+znippet 'docker'        'docker/cli/master/contrib/completion/zsh'
+znippet 'exa'           'ogham/exa/master/completions/zsh'
+znippet 'fd'            'sharkdp/fd/master/contrib/completion'
 #=== PROMPT ===========================================
-zi light-mode for \
-  compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
-PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
-PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
-zstyle ':prompt:pure:git:action' color 'yellow'
-zstyle ':prompt:pure:git:branch' color 'blue'
-zstyle ':prompt:pure:git:dirty' color 'red'
-zstyle ':prompt:pure:path' color 'cyan'
-zstyle ':prompt:pure:prompt:success' color 'green'" \
-  sindresorhus/pure
+zi for as'null' light-mode compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
+    PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
+    PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
+    zstyle ':prompt:pure:git:action' color 'yellow'
+    zstyle ':prompt:pure:git:branch' color 'blue'
+    zstyle ':prompt:pure:git:dirty' color 'red'
+    zstyle ':prompt:pure:path' color 'cyan'
+    zstyle ':prompt:pure:prompt:success' color 'green'" \
+  @sindresorhus/pure
 #=== zsh-vim-mode cursor configuration [[[
 MODE_CURSOR_VICMD="green block";              MODE_CURSOR_VIINS="#20d08a blinking bar"
 MODE_INDICATOR_REPLACE='%F{9}%F{1}REPLACE%f'; MODE_INDICATOR_VISUAL='%F{12}%F{4}VISUAL%f'
@@ -91,12 +115,6 @@ zi from'gh-r' lbin'!' nocompile for \
   sbin'**/bin/nvim' ver'nightly' atinit'alias v=nvim; alias vim=nvim' @neovim/neovim \
   lbin'!**/exa' atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa
-
-zi light zdharma-continuum/zinit-annex-rust
-zinit ice rustup cargo'!lsd'
-zinit load zdharma-continuum/null
-zi ice rustup cargo'!exa -> ls'
-zi load zdharma-continuum/null
 #=== UNIT TESTING =====================================
 zi as'command' for \
   pick'src/semver' vladdoster/semver-tool \
@@ -108,15 +126,9 @@ zi configure nocompile as'null' make'PREFIX=$PWD' for \
   @Old-Man-Programmer/tree \
   lbin'!$PWD/**/zsd*$' \
   ${ZI_REPO}/zshelldoc
-#=== PYTHON ===========================================
-_pip_completion() {
-  local words cword; read -Ac words; read -cn cword
-  reply=($(
-      COMP_WORDS="$words[*]"
-      COMP_CWORD=$(( cword-1 )) PIP_AUTO_COMPLETE=1 $words 2>/dev/null
-))}; compctl -K _pip_completion pip3
+
 #=== MISC. ============================================
-zi light-mode lucid wait'!' for \
+zi light-mode lucid wait'1' for \
   atinit'bindkey -M vicmd "^v" edit-command-line' \
   compile'zsh-vim-mode*.zsh' \
   softmoth/zsh-vim-mode \
@@ -140,14 +152,17 @@ zi light-mode lucid wait'!' for \
   atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
   compile'.*fast*~*.zwc' nocompletions \
   $ZI_REPO/fast-syntax-highlighting
-
-zi \
+#=== PYTHON ===========================================
+_pip_completion() {
+  local words cword; read -Ac words; read -cn cword
+  reply=($(COMP_WORDS="$words[*]" COMP_CWORD=$(( cword-1 )) PIP_AUTO_COMPLETE=1 $words 2>/dev/null))
+};
+zi for \
   as'null' \
-  atload'_zsh_autosuggest_bind_widgets; _zsh_highlight_bind_widgets; zicompinit; zicdreplay' \
+  atload'( _zsh_autosuggest_bind_widgets && _zsh_highlight_bind_widgets && zicompinit && zicdreplay ) &>/dev/null' \
   id-as'zinit/cleanup' \
   lucid \
   nocd \
-  wait'1' \
-  for @$ZI_REPO/null
-
+  wait'2' \
+  @${ZI_REPO}/null
 # vim:ft=zsh:sw=2:sts=2:et
