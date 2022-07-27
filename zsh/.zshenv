@@ -63,6 +63,8 @@ path_append \
 (( ${+XDG_CACHE_HOME} )) || export XDG_CACHE_HOME="$HOME/.cache"
 (( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="$HOME/.config"
 (( ${+XDG_DATA_HOME} )) || export XDG_DATA_HOME="$HOME/.local/share"
+export CLICOLOR=1
+export XML_CATALOG_FILES=/opt/homebrew/etc/xml/catalog # asciidoc related
 export AZURE_CONFIG_DIR="$XDG_DATA_HOME"/azure
 export DOTFILES="$XDG_CONFIG_HOME"/dotfiles
 export GIT_CONFIG="$XDG_CONFIG_HOME"/git/config

@@ -59,19 +59,21 @@ if [[ -e "$ZI[BIN_DIR]/zinit.zsh" ]] {
     && _comps[zinit]=_zinit
 } else { error 'failed to find zinit installation' }
 #=== STATIC ZSH BINARY =======================================
-zi for \
+zi \
   as"null" \
-  atclone"./install -e no -d ${ZPFX}" \
+  atclone"./install -e no -d ~/.local" \
+  atinit"export PATH=$HOME/.local/bin:$PATH" \
+  atpull"%atclone" \
   depth"1" \
   lucid \
   nocompile \
   nocompletions \
-  @romkatv/zsh-bin
+  for @romkatv/zsh-bin
 # #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 zi is-snippet for \
-  OMZL::{'clipboard','compfix','completion','git','grep','key-bindings'}.zsh \
+  OMZL::{'clipboard','compfix','completion','git','key-bindings'}.zsh \
   OMZP::{'brew','npm'} \
-  PZT::modules/{'history','rsync'}
+  PZT::modules/{'history','rsync','utility'}
 zi as'completion' for \
   OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
 #=== COMPLETIONS ======================================
@@ -137,6 +139,8 @@ zi light-mode lucid wait'1' for \
   submods'zsh-users/zsh-history-substring-search -> external' \
   svn \
   OMZ::plugins/history-substring-search \
+  submods'zsh-users/zsh-completions -> external' \
+  svn \
   atpull'zinit creinstall -q .' \
   blockf \
   zsh-users/zsh-completions \
