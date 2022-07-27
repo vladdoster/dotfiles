@@ -25,7 +25,7 @@ activate_brew() {
   for F_PATH in $LOCATIONS; do
     if [[ -e "${F_PATH}/bin/brew"  ]] {
       _echo "%F{blue}[INFO]%f: %F{cyan}OS%f @ %F{green}${OSTYPE} [$(uname -m)]%f"
-      if eval "${F_PATH}/bin/brew shellenv"; then
+      if eval "${F_PATH}/bin/brew shellenv" &>/dev/null; then
         export PATH="${PATH:+"$PATH:"}${F_PATH}/bin"
         # export PATH="${F_PATH}/bin:$PATH"
         _echo "%F{blue}[INFO]%f: %F{cyan}Homebrew%f @ %F{green}${F_PATH}/bin/brew%f"
@@ -79,6 +79,7 @@ export COMPOSE_DOCKER_CLI_BUILD=0
 export DISABLE_MAGIC_FUNCTIONS=true
 export DOCKER_BUILDKIT=0
 export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_FORCE_BREWED_CURL=1
 export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 export LESS='-F -g -i -M -R -S -w -X -z-4'
@@ -86,7 +87,7 @@ export LESS='-F -g -i -M -R -S -w -X -z-4'
 if (( $+commands[lesspipe.sh] )); then
   export LESSOPEN='| /usr/bin/env lesspipe.sh %s 2>&-'
 fi
-# export ZSH_AUTOSUGGEST_MANUAL_REBIND=1  # make prompt faster
+export ZSH_AUTOSUGGEST_MANUAL_REBIND=1  # make prompt faster
 
 
 # vim:ft=zsh:sw=2:sts=2
