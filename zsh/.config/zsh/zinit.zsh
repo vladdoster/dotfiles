@@ -73,7 +73,7 @@ zi \
 zi is-snippet for \
   OMZL::{'clipboard','compfix','completion','git','key-bindings'}.zsh \
   OMZP::{'brew','npm'} \
-  PZT::modules/{'history','rsync','utility'}
+  PZT::modules/{'environment','history','rsync','utility'}
 zi as'completion' for \
   OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
 #=== COMPLETIONS ======================================

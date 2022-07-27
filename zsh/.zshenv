@@ -81,6 +81,11 @@ export DOCKER_BUILDKIT=0
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
+export LESS='-F -g -i -M -R -S -w -X -z-4'
+# Set the Less input preprocessor.
+if (( $+commands[lesspipe.sh] )); then
+  export LESSOPEN='| /usr/bin/env lesspipe.sh %s 2>&-'
+fi
 # export ZSH_AUTOSUGGEST_MANUAL_REBIND=1  # make prompt faster
 
 
