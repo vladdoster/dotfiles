@@ -58,16 +58,16 @@ if [[ -e $ZI[BIN_DIR]/zinit.zsh ]] {
     && _comps[zinit]=_zinit
 } else { error 'failed to find zinit installation' }
 #=== STATIC ZSH BINARY =======================================
-zi \
-  as"null" \
-  atclone"./install -e no -d ~/.local" \
-  atinit"export PATH=$HOME/.local/bin:$PATH" \
-  atpull"%atclone" \
-  depth"1" \
-  lucid \
-  nocompile \
-  nocompletions \
-  for @romkatv/zsh-bin
+# zi \
+#   as"null" \
+#   atclone"./install -e no -d ~/.local" \
+#   atinit"export PATH=$HOME/.local/bin:$PATH" \
+#   atpull"%atclone" \
+#   depth"1" \
+#   lucid \
+#   nocompile \
+#   nocompletions \
+#   for @romkatv/zsh-bin
 # #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 zi is-snippet for \
   OMZL::{'clipboard','compfix','completion','git','key-bindings'}.zsh \
@@ -133,7 +133,7 @@ zi light-mode lucid wait'1a' for \
   @OMZ::plugins/history-substring-search \
   submods'zsh-users/zsh-completions -> external' svn \
   atpull'zinit creinstall -q .' blockf \
-  @zsh-users/zsh-completions \
+  PZTM::completion \
   atload'_zsh_autosuggest_start' atinit'\
   ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50;\
   bindkey "^_" autosuggest-execute;\
@@ -145,6 +145,7 @@ zi light-mode lucid wait'1a' for \
   atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
   compile'.*fast*~*.zwc' nocompletions \
   $ZI_REPO/fast-syntax-highlighting
+  # @zsh-users/zsh-completions \
 #=== PYTHON ===========================================
 _pip_completion() {
   local words cword; read -Ac words; read -cn cword
