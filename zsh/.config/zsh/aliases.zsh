@@ -28,7 +28,7 @@ has() { command -v "$1" 1> /dev/null 2>&1; }
 # │ CODE DIRECTORY │
 # +────────────────+
 CODE_DIR="${HOME:-~}/code"
-! [[ -d $CODE_DIR ]] && mkdir -p "${CODE_DIR}"
+! [[ -d $CODE_DIR ]] && mkdir -p -- "${CODE_DIR}"
 # +─────────────────+
 # │ SYSTEM SPECIFIC │
 # +─────────────────+
@@ -42,11 +42,6 @@ fi
 # +───────+
 alias bashly_edge='docker run --rm -it --user $(id -u):$(id -g) --volume "$PWD:/app" dannyben/bashly:edge'
 alias b="cd -"
-alias cpv="rsync -ah --info=progress2"
-alias d='dirs -v --'
-alias m='make'
-alias mkdir="mkdir -pv --"
-alias rld="source"
 alias rmr="rm -rf --"
 alias tailf="less +F -R"
 if has nvim; then
@@ -63,7 +58,7 @@ fi
 # +──────────────────+
 # │ CONFIG SHORTCUTS │
 # +──────────────────+
-cfg_alias() { alias ${1}="_edit ${XDG_CONFIG_HOME}/${2}"; }
+cfg_alias() { command alias ${1}="_edit ${XDG_CONFIG_HOME}/${2}"; }
 cfg_alias 'ealiases' 'zsh/aliases.zsh'
 cfg_alias 'gignore' 'git/ignore'
 cfg_alias 'gcfg' 'git/config'
@@ -77,15 +72,15 @@ alias zinstall='_edit $ZINIT[BIN_DIR]/zinit-install.zsh'
 # +────────────────+
 # │ HOME SHORTCUTS │
 # +────────────────+
-home_alias() { alias ${1}="_edit ${HOME}/${2}"; }
+home_alias() { command alias ${1}="_edit ${HOME}/${2}"; }
 home_alias 'hscfg' '.hammerspoon/init.lua'
 home_alias 'sshrc' '.ssh/config'
 home_alias 'zec' '.zshenv'
 # +─────────────────+
 # │ RELOAD COMMANDS │
 # +─────────────────+
-alias nvcln="rm -frv $HOME/.{local/share/nvim,config/nvim/plugin}"
-alias zcln="rm -fr ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
+alias nvcln="command rm -rf $HOME/.{local/share/nvim,config/nvim/plugin}"
+alias zcln="command rm -rf ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
 alias zreset="cd ${HOME} && ( zcln && zrld ) && cd -"
 alias zicln="zi delete --all --yes; ( exec zsh -il );"
 alias zrld="exec zsh -i"
@@ -122,7 +117,7 @@ alias rshfmt="shfmt -i 4 -s -ln bash -sr -bn -ci -w"
 alias zc='zinit compile'
 alias zp='zinit times'
 alias zt='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
-alias zclnplg="$(rm -rf $ZINIT[PLUGINS_DIR])"
+alias ziclnplg="$(command rm -rf $ZINIT[PLUGINS_DIR])"
 # +───────+
 # │ MISC. │
 # +───────+
@@ -153,7 +148,7 @@ alias mkpy='_mkfile py "python3"'
 alias mksh='_mkfile sh "bash"'
 alias mktxt='{ F_NAME="$(cat -).txt"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
 alias mkzsh='_mkfile zsh "zsh"'
-mkcd() { mkdir -p -- "$1" && cd -P -- "$1"; }
+mkcd() { command mkdir -p -- "$1" && cd -P -- "$1"; }
 # +─────────────────+
 # │ FILE FORMATTING │
 # +─────────────────+
@@ -170,7 +165,7 @@ alias brew-clean="brew cleanup --prune=all"
 alias brew-reset="brew update-reset"
 alias brew-sys-update="brew upgrade --greedy --force"
 alias wsys='echo OSTYPE=${OSTYPE} MACHTYPE=${MACHTYPE} CPUTYPE=${CPUTYPE} hardware=$(uname -m) processor=$(uname -p)'
-alias cldf='mkdir -p ~/.config; cd ~/.config; git clone https://github.com/vladdoster/dotfiles; cd dotfiles;'
+alias cldf='command mkdir -p -- $HOME/.config; git clone https://github.com/vladdoster/dotfiles $HOME/.config/dotfiles; cd dotfiles'
 alias yum-sys-update="_sys_update 'sudo yum -y'"
 # +────────+
 # │ REMOTE │
@@ -181,6 +176,6 @@ alias cp-nvim="rsync -azP $XDG_CONFIG_HOME/nvim/ devcloud:~/nvim"
 # +────────+
 # │ EMOJIS │
 # +────────+
-disappointed() { echo -n " ಠ_ಠ " | tee /dev/tty | xclip -selection clipboard; }
-flip() { echo -n "（╯°□°）╯ ┻━┻" | tee /dev/tty | xclip -selection clipboard; }
-shrug() { echo -n "¯\_(ツ)_/¯" | tee /dev/tty | xclip -selection clipboard; }
+disappointed() { command echo -n " ಠ_ಠ " | tee /dev/tty | xclip -selection clipboard; }
+flip() { command echo -n "（╯°□°）╯ ┻━┻" | tee /dev/tty | xclip -selection clipboard; }
+shrug() { command echo -n "¯\_(ツ)_/¯" | tee /dev/tty | xclip -selection clipboard; }

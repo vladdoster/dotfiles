@@ -1,3 +1,5 @@
+# zstyle ':znap:*' repos-dir ~/.local/share/znap
+# source ~/znap.zsh
 #!/usr/bin/env zsh
 
 ulimit -c unlimited
