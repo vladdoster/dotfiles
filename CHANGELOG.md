@@ -1,3 +1,16 @@
+# [1.38.0](https://github.com/vladdoster/dotfiles/compare/v1.37.0...v1.38.0) (2022-07-30)
+
+
+### feat
+
+* add Docker dev environment support ([49a17c6](https://github.com/vladdoster/dotfiles/commit/49a17c625d69254087d518ab43ca3721aee047e8))
+
+### fix
+
+* aliases & zinit config bugs ([66e987a](https://github.com/vladdoster/dotfiles/commit/66e987a012d961dc008f3f0af23cc34c2fb732c5))
+* improve multiple targets ([fcce534](https://github.com/vladdoster/dotfiles/commit/fcce53493e5a6b56408a03cc20667422cc2ef6ea))
+* misc. zsh & zinit config bugs ([8904554](https://github.com/vladdoster/dotfiles/commit/8904554c223bbd0ab47122db5960488d2d57f2df))
+
 # [1.37.0](https://github.com/vladdoster/dotfiles/compare/v1.36.0...v1.37.0) (2022-07-27)
 
 
