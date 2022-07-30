@@ -1,11 +1,11 @@
 # #!/usr/bin/env zsh
-if echo "$-" | grep i > /dev/null; then export IS_TTY="${IS_TTY:=false}"; fi
+if builtin echo "$-" | grep i > /dev/null; then export IS_TTY="${IS_TTY:=false}"; fi
 LOG_LEVEL="error"
 _log() {
   if $IS_TTY; then
     case $LOG_LEVEL in
-      error*) echo "--- ERROR: $1" ;;
-      info*) echo "--- INFO: $1" ;;
+      error*) builtin echo "--- ERROR: $1" ;;
+      info*) builtin echo "--- INFO: $1" ;;
     esac
   fi
 }
@@ -21,14 +21,14 @@ _export() {
   return $?
 }
 _goto() { [[ -e $1 ]] && cd "$1" && $(which exa) --all --long || ls -lGo; }
-_mkfile() { echo "#!/usr/bin/env ${2}" > "${3}.${1}" && chmod +x "${3}.${1}"; }
+_mkfile() { builtin echo "#!/usr/bin/env ${2}" > "${3}.${1}" && chmod +x "${3}.${1}"; }
 _sys_update() { "$1" update && "$1" upgrade; }
 has() { command -v "$1" 1> /dev/null 2>&1; }
 # +────────────────+
 # │ CODE DIRECTORY │
 # +────────────────+
 CODE_DIR="${HOME:-~}/code"
-! [[ -d $CODE_DIR ]] && mkdir -p -- "${CODE_DIR}"
+! [[ -d $CODE_DIR ]] && command mkdir -p -- "${CODE_DIR}"
 # +─────────────────+
 # │ SYSTEM SPECIFIC │
 # +─────────────────+
@@ -58,7 +58,7 @@ fi
 # +──────────────────+
 # │ CONFIG SHORTCUTS │
 # +──────────────────+
-cfg_alias() { command alias ${1}="_edit ${XDG_CONFIG_HOME}/${2}"; }
+cfg_alias() { builtin alias ${1}="nvim ${XDG_CONFIG_HOME}/${2}"; }
 cfg_alias 'ealiases' 'zsh/aliases.zsh'
 cfg_alias 'gignore' 'git/ignore'
 cfg_alias 'gcfg' 'git/config'
@@ -72,7 +72,7 @@ alias zinstall='_edit $ZINIT[BIN_DIR]/zinit-install.zsh'
 # +────────────────+
 # │ HOME SHORTCUTS │
 # +────────────────+
-home_alias() { command alias ${1}="_edit ${HOME}/${2}"; }
+home_alias() { builtin alias ${1}="nvim ${HOME}/${2}"; }
 home_alias 'hscfg' '.hammerspoon/init.lua'
 home_alias 'sshrc' '.ssh/config'
 home_alias 'zec' '.zshenv'
@@ -81,13 +81,13 @@ home_alias 'zec' '.zshenv'
 # +─────────────────+
 alias nvcln="command rm -rf $HOME/.{local/share/nvim,config/nvim/plugin}"
 alias zcln="command rm -rf ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
-alias zreset="cd ${HOME} && ( zcln && zrld ) && cd -"
+alias zreset="builtin cd ${HOME} && ( zcln && zrld ) && cd -"
 alias zicln="zi delete --all --yes; ( exec zsh -il );"
-alias zrld="exec zsh -i"
+alias zrld="builtin exec zsh -i"
 # +────────────+
 # │ NAVIGATION │
 # +────────────+
-cd_alias() { alias ${1}="_goto ${2}"; }
+cd_alias() { builtin alias ${1}="_goto ${2}"; }
 cd_alias '..' '..'
 cd_alias '...' '../..'
 cd_alias '....' '../../..'

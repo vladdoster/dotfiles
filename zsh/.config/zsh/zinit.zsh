@@ -15,7 +15,7 @@ ZI+=(
 )
 ZI_FORK='vladdoster'; ZI_REPO='zdharma-continuum'; ZPFX=$ZI[HOME_DIR]/polaris
 if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]] {
-    info 'downloading zinit' \
+  info 'downloading zinit' \
     && command git clone "https://github.com/$ZI_REPO/zinit.git" $ZI[BIN_DIR]
   info 'setting up zinit' \
     && command chmod g-rwX $ZI[HOME_DIR] \
@@ -41,39 +41,36 @@ if [[ -e $ZI[BIN_DIR]/zinit.zsh ]] {
   #   nocompletions \
   #   for @romkatv/zsh-bin
 # #=== OH-MY-ZSH & PREZTO PLUGINS =======================
-zi is-snippet for \
-  OMZL::{'clipboard','compfix','completion','git','key-bindings'}.zsh \
-  OMZP::{'brew','npm'} \
-  PZT::modules/{'environment','history','rsync'}
-zi as'completion' for \
-  OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
+zi nocompletions is-snippet for OMZL::{'compfix','completion','git'}.zsh
+zi nocompletions is-snippet for PZT::modules/{'environment','history','rsync'}
+zi as'completion' for OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
-znippet() { zinit for as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
+znippet() { zi for as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
 znippet 'brew' 'Homebrew/brew/master/completions/zsh'
-# znippet 'brew_services' 'Homebrew/homebrew-services/master/completions/zsh'
 znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
 znippet 'exa' 'ogham/exa/master/completions/zsh'
 znippet 'fd' 'sharkdp/fd/master/contrib/completion'
+# znippet 'brew_services' 'Homebrew/homebrew-services/master/completions/zsh'
 #=== PROMPT ===========================================
-zi for as'null' light-mode compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
+zi ice as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
 PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
 PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
 zstyle ':prompt:pure:git:action' color 'yellow'
 zstyle ':prompt:pure:git:branch' color 'blue'
 zstyle ':prompt:pure:git:dirty' color 'red'
 zstyle ':prompt:pure:path' color 'cyan'
-zstyle ':prompt:pure:prompt:success' color 'green'" \
-  @sindresorhus/pure
+zstyle ':prompt:pure:prompt:success' color 'green'"
+zi light @sindresorhus/pure
 #=== zsh-vim-mode cursor configuration [[[
 MODE_CURSOR_VICMD="green block";              MODE_CURSOR_VIINS="#20d08a blinking bar"
 MODE_INDICATOR_REPLACE='%F{9}%F{1}REPLACE%f'; MODE_INDICATOR_VISUAL='%F{12}%F{4}VISUAL%f'
 MODE_INDICATOR_VIINS='%F{15}%F{8}INSERT%f';   MODE_INDICATOR_VICMD='%F{10}%F{2}NORMAL%f'
 MODE_INDICATOR_VLINE='%F{12}%F{4}V-LINE%f';   MODE_CURSOR_SEARCH="#ff00ff blinking underline"
 #=== ANNEXES ==========================================
-zi light-mode for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods','readurl'}
+zi for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods','readurl'}
 #=== GITHUB BINARIES ==================================
-zi from'gh-r' lbin'!' nocompile for \
+zi as'null' from'gh-r' lbin'!' nocompile for \
   @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck','pemistahl/grex'} \
   @{'r-darwish/topgrade','sharkdp/fd','sharkdp/hyperfine'} \
   lbin'!* -> checkmake' @mrtazz/checkmake \
@@ -82,29 +79,14 @@ zi from'gh-r' lbin'!' nocompile for \
   lbin'!**/rg'       @BurntSushi/ripgrep \
   lbin'!**/exa' atload"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa
-
-# lbin'!**/bin/nvim' ver'nightly' nocompletions atload'alias v=nvim; alias vim=nvim' @neovim/neovim \
 zinit ice from'gh-r' ver'nightly' nocompletions atload'alias v=nvim; alias vim=nvim' nocompile lbin'!**/nvim -> nvim'
 zinit load @neovim/neovim
 #=== UNIT TESTING =====================================
-zi as'command' for \
-  pick'src/semver' vladdoster/semver-tool \
-  pick'revolver' @molovo/revolver \
-  atclone'./build.zsh' pick'zunit' @zdharma-continuum/zunit
-#=== COMPILED PROGRAMS ================================
-zi configure nocompile as'null' make'PREFIX=$PWD' for \
-  has'cmake' lbin'!**/tree' \
-  @Old-Man-Programmer/tree \
-  lbin'!$PWD/**/zsd*$' \
-  ${ZI_REPO}/zshelldoc
+zi ice as'command' atclone'./build.zsh' pick'zunit'; zi light @zdharma-continuum/zunit
 #=== MISC. ============================================
-zi light-mode lucid wait'1a' for \
-  atinit'bindkey -M vicmd "^v" edit-command-line' \
-  compile'zsh-vim-mode*.zsh' \
-  softmoth/zsh-vim-mode \
-  thewtex/tmux-mem-cpu-load \
-  if'[[ "Darwin" = $(uname) ]]' @MichaelAquilina/zsh-auto-notify \
-  has'svn' submods'zsh-users/zsh-history-substring-search -> external' svn \
+zi lucid wait'0' light-mode for \
+  as'null' thewtex/tmux-mem-cpu-load \
+  as'null' has'svn' submods'zsh-users/zsh-history-substring-search -> external' svn \
   @OMZ::plugins/history-substring-search \
   submods'zsh-users/zsh-completions -> external' svn \
   atpull'zinit creinstall -q .' blockf \
@@ -120,18 +102,5 @@ zi light-mode lucid wait'1a' for \
   atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
   compile'.*fast*~*.zwc' nocompletions \
   $ZI_REPO/fast-syntax-highlighting
-# @zsh-users/zsh-completions \
-  #=== PYTHON ===========================================
-# _pip_completion() {
-#   local words cword; read -Ac words; read -cn cword
-#   reply=($(COMP_WORDS="$words[*]" COMP_CWORD=$(( cword-1 )) PIP_AUTO_COMPLETE=1 $words 2>/dev/null))
-# };
-# zi for \
-#   as'null' \
-#   atload'_zsh_autosuggest_bind_widgets;_zsh_highlight_bind_widgets;zicompinit;zicdreplay' \
-#   id-as'zinit/cleanup' \
-#   lucid \
-#   nocd \
-#   wait'1b' \
-#   @${ZI_REPO}/null
-# vim:ft=zsh:sw=2:sts=2:et
+
+zi ice wait'2' null atinit'bindkey -M vicmd "^v" edit-command-line'; zi load @softmoth/zsh-vim-mode
