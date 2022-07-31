@@ -30,16 +30,6 @@ if [[ -e $ZI[BIN_DIR]/zinit.zsh ]] {
     && _comps[zinit]=_zinit
 } else { error 'failed to find zinit installation' }
 #=== STATIC ZSH BINARY =======================================
-# zi \
-  #   as"null" \
-  #   atclone"./install -e no -d ~/.local" \
-  #   atinit"export PATH=$HOME/.local/bin:$PATH" \
-  #   atpull"%atclone" \
-  #   depth"1" \
-  #   lucid \
-  #   nocompile \
-  #   nocompletions \
-  #   for @romkatv/zsh-bin
 # #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 zi nocompletions is-snippet for OMZL::{'compfix','completion','git'}.zsh
 zi nocompletions is-snippet for PZT::modules/{'environment','history','rsync'}
@@ -63,37 +53,48 @@ zstyle ':prompt:pure:path' color 'cyan'
 zstyle ':prompt:pure:prompt:success' color 'green'"
 zi light @sindresorhus/pure
 #=== zsh-vim-mode cursor configuration [[[
-MODE_CURSOR_VICMD="green block";              MODE_CURSOR_VIINS="#20d08a blinking bar"
-MODE_INDICATOR_REPLACE='%F{9}%F{1}REPLACE%f'; MODE_INDICATOR_VISUAL='%F{12}%F{4}VISUAL%f'
-MODE_INDICATOR_VIINS='%F{15}%F{8}INSERT%f';   MODE_INDICATOR_VICMD='%F{10}%F{2}NORMAL%f'
-MODE_INDICATOR_VLINE='%F{12}%F{4}V-LINE%f';   MODE_CURSOR_SEARCH="#ff00ff blinking underline"
+#
+eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
+# export MODE_INDICATOR_{'V'{'IINS=%F{15}%F{8}INSERT%f','ICMD=%F{10}%F{2}NORMAL%f','LINE="%F{12}%F{4}V-LINE%f"','VISUAL=%F{12}%F{4}VISUAL%f'},'REPLACE=%F{9}%F{1}REPLACE%f'}
 #=== ANNEXES ==========================================
-zi for "$ZI_REPO"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods','readurl'}
+for ANNEX (bin-gem-node binary-symlink submods readurl); do zi load @zdharma-continuum/zinit-annex-${ANNEX}; done
+zi ice ver'fix/correct-logic-bug'; zi load @zdharma-continuum/zinit-annex-patch-dl
+zinit ice \
+    as"command" \
+    atclone"./configure --prefix=$ZPFX" \
+    atpull"%atclone" \
+    dl"https://aur.archlinux.org/cgit/aur.git/plain/0001-Fix-build-with-gcc-6.patch?h=fbterm-git" \
+    dl"https://bugs.archlinux.org/task/46860?getfile=13513 -> ins.patch" \
+    make"install" \
+    patch"ins.patch;0001-Fix-build-with-gcc-6.patch" \
+    pick"$ZPFX/bin/fbterm" \
+    reset
+zinit load izmntuk/fbterm
 #=== GITHUB BINARIES ==================================
-zi as'null' from'gh-r' lbin'!' nocompile for \
-  @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck','pemistahl/grex'} \
-  @{'r-darwish/topgrade','sharkdp/fd','sharkdp/hyperfine'} \
+zi from'gh-r' lbin'!' nocompile for \
+  @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck','pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'}} \
   lbin'!* -> checkmake' @mrtazz/checkmake \
   lbin'!* -> jq'     @stedolan/jq \
   lbin'!* -> shfmt'  @mvdan/sh \
   lbin'!**/rg'       @BurntSushi/ripgrep \
-  lbin'!**/exa' atload"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
+  lbin'!**/exa' atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa
-zinit ice from'gh-r' ver'nightly' nocompletions atload'alias v=nvim; alias vim=nvim' nocompile lbin'!**/nvim -> nvim'
+  zinit ice from'gh-r' ver'nightly' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' nocompile lbin'!**/nvim -> nvim'
 zinit load @neovim/neovim
 #=== UNIT TESTING =====================================
-zi ice as'command' atclone'./build.zsh' pick'zunit'; zi light @zdharma-continuum/zunit
+zi ice as'command' atclone'./build.zsh' pick'zunit'; zi load @zdharma-continuum/zunit
+zi ice nocompile atinit'bindkey -M vicmd "^v" edit-command-line'; zi light @softmoth/zsh-vim-mode
 #=== MISC. ============================================
-zi lucid wait'0' light-mode for \
-  as'null' thewtex/tmux-mem-cpu-load \
-  as'null' has'svn' submods'zsh-users/zsh-history-substring-search -> external' svn \
+zi lucid wait load for \
+  @thewtex/tmux-mem-cpu-load \
+  svn submods'zsh-users/zsh-history-substring-search -> external' \
   @OMZ::plugins/history-substring-search \
-  submods'zsh-users/zsh-completions -> external' svn \
+  svn submods'zsh-users/zsh-completions -> external' \
   atpull'zinit creinstall -q .' blockf \
-  PZTM::completion \
+  @PZTM::completion \
   atload'_zsh_autosuggest_start' atinit'\
-  ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50;\
-  bindkey "^_" autosuggest-execute;\
+  ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50
+  bindkey "^_" autosuggest-execute
   bindkey "^ " autosuggest-accept' \
   zsh-users/zsh-autosuggestions \
   atinit'bindkey "^R" history-search-multi-word' \
@@ -102,5 +103,3 @@ zi lucid wait'0' light-mode for \
   atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
   compile'.*fast*~*.zwc' nocompletions \
   $ZI_REPO/fast-syntax-highlighting
-
-zi ice wait'2' null atinit'bindkey -M vicmd "^v" edit-command-line'; zi load @softmoth/zsh-vim-mode

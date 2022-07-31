@@ -33,7 +33,7 @@ CODE_DIR="${HOME:-~}/code"
 # │ SYSTEM SPECIFIC │
 # +─────────────────+
 if [[ $OSTYPE =~ darwin* ]]; then
-  _copy_cmd='pbcopy -pboard general'
+  _copy_cmd='pbcopy'
   alias readlink="greadlink"
   alias copy="$_copy_cmd <"
 fi
@@ -44,17 +44,8 @@ alias bashly_edge='docker run --rm -it --user $(id -u):$(id -g) --volume "$PWD:/
 alias b="cd -"
 alias rmr="rm -rf --"
 alias tailf="less +F -R"
-if has nvim; then
-  export EDITOR='nvim'
-elif has vim; then
-  export EDITOR='vim'
-else
-  export EDITOR='vi'
-fi
-alias v=$EDITOR
-if has python3; then
-  alias python='python3'
-fi
+has nvim && EDITOR='nvim'
+has python3 && alias python='python3'
 # +──────────────────+
 # │ CONFIG SHORTCUTS │
 # +──────────────────+
@@ -83,7 +74,7 @@ alias nvcln="command rm -rf $HOME/.{local/share/nvim,config/nvim/plugin}"
 alias zcln="command rm -rf ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
 alias zreset="builtin cd ${HOME} && ( zcln && zrld ) && cd -"
 alias zicln="zi delete --all --yes; ( exec zsh -il );"
-alias zrld="builtin exec zsh -i"
+alias zrld="builtin exec zsh -il"
 # +────────────+
 # │ NAVIGATION │
 # +────────────+
@@ -176,6 +167,6 @@ alias cp-nvim="rsync -azP $XDG_CONFIG_HOME/nvim/ devcloud:~/nvim"
 # +────────+
 # │ EMOJIS │
 # +────────+
-disappointed() { command echo -n " ಠ_ಠ " | tee /dev/tty | xclip -selection clipboard; }
-flip() { command echo -n "（╯°□°）╯ ┻━┻" | tee /dev/tty | xclip -selection clipboard; }
-shrug() { command echo -n "¯\_(ツ)_/¯" | tee /dev/tty | xclip -selection clipboard; }
+disappointed() { command echo -n " ಠ_ಠ " | tee /dev/tty | $_copy_cmd; }
+flip() { command echo -n "（╯°□°）╯ ┻━┻" | tee /dev/tty | $_copy_cmd; }
+shrug() { command echo -n "¯\_(ツ)_/¯" | tee /dev/tty | $_copy_cmd; }

@@ -1,88 +1,17 @@
-#!/usr/bin/env zsh
-# vim: ts=2 sw=2 et
-typeset -g ZSH_REMOTE_URL; ZSH_REMOTE_URL=https://github.com/zsh-users/zsh.git
-typeset -g ZSH_SOURCE_LOCATION; ZSH_SOURCE_LOCATION=/usr/local/share/zsh
-typeset -g ZSH_BIN_LOCATION; ZSH_BIN_LOCATION=/usr/local/bin/zsh
 
-# Build and install zsh version from source
-function builder/usage () {
-  echo "Usage: $0 --source /path/to/source --target /path/to/target --version ZSH_VERSION" 
-}
+curl -L https://api.github.com/repos/zsh-users/zsh/tarball/$ref | tar xz --strip=1
 
-function builder/main () {
-  zparseopts -A opts s:=src -source:=src \
-  v:=version -version:=version t=target -target=target || builder/usage
-
-  local src=$src[2]
-  if [[ -z $src ]]; then
-    src="${ZSH_SOURCE_LOCATION}"
-  fi
-
-  local version=$version[2]
-
-  local target=$target[2]
-  if [[ -z $target ]]; then
-    target="${ZSH_BIN_LOCATION}-$version"
-  fi
-
-  builder/exec $src $target $version
-}
-
-function builder/exec () {
-  local src=$1
-  local target=$2
-  local version=$3
-
-  # zsh source already exists
-  if [[ ! -d $src/.git ]]; then
-    echo "No zsh source found. Cloning from $ZSH_REMOTE_URL"
-    git clone $ZSH_REMOTE_URL $src
-  fi
-
-  # Get the code. Should cache it.
-  builder/compile $src $target $version
-}
-
-function builder/compile () {
-  local src=$1
-  local target=$2
-  local version=$3
-
-  echo "Compiling zsh version: $version from $src to $target"
-
-  cd $src || exit 1
-
-  # Build version
-  # Be sure to clean everything
-  make clean
-  git clean -fd
-  git checkout -- .
-
-  # Check out with branch to build, ie: master, zsh-5.0.1, etc
-  git checkout $version || exit 1
-
-  # Make configure
-  ./Util/preconfig
-
-  if [[ ! -d $target ]]; then
-    command mkdir -p  -- $target
-  fi
-  # build deps before the configuration
-  ./Util/preconfig
-  # Configure bindir for this branch
-  ./configure --enable-dynamic --enable-function-subdirs --enable-pcre --without-tcsetpgrp
-
-  # Make
-  make -j8
-
-  sudo make install \
-    install.bin \
-    install.fns \
-    install.info  \
-    install.man \
-    install.modules
-
-  cd -
-}
-
-builder/main $@
+./Util/preconfig
+build_platform=x86_64; \
+    case "$(dpkg --print-architecture)" in \
+      arm64) \
+        build_platform="aarch64" \
+        ;; \
+    esac; \
+    ./configure --build=${build_platform}-unknown-linux-gnu \
+                --prefix /usr \
+                --enable-pcre \
+                --enable-cap \
+                --enable-multibyte \
+                --with-term-lib='ncursesw tinfo' \
+                --with-tcsetpgrp

@@ -54,7 +54,6 @@ path_append \
   "${usr_path}/coreutils/libexec/gnubin" \
   "${usr_path}/gnu-sed/libexec/gnubin" \
   "${usr_path}/gnu-tar/libexec/gnubin" \
-  "/Users/null/.gem/ruby/3.1.0/bin"
 # +─────────────────+
 # │ # ENV VARIABLES │
 # +─────────────────+
@@ -83,11 +82,4 @@ export HOMEBREW_FORCE_BREWED_CURL=1
 export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 export LESS='-F -g -i -M -R -S -w -X -z-4'
-# Set the Less input preprocessor.
-if (( $+commands[lesspipe.sh] )); then
-  export LESSOPEN='| /usr/bin/env lesspipe.sh %s 2>&-'
-fi
-export ZSH_AUTOSUGGEST_MANUAL_REBIND=1  # make prompt faster
-
-
 # vim:ft=zsh:sw=2:sts=2
