@@ -3,24 +3,29 @@
 #
 # Remove all Docker related resources
 #
-
+error() { builtin print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && return 1; }
+info() { builtin print -P "%F{blue}[INFO]%f: %F{cyan}$1%f"; }
 n=0
 until [ ${n} -eq 3 ]; do
   if docker system info &>/dev/null; then
     NUM_CONTAINERS=$(docker container ls --all --quiet | wc -l)
-    builtin print -P "INFO: found $(docker container ls --all --quiet | wc -l | xargs) containers"
-    [[ $NUM_CONTAINERS -eq 0 ]] && exit 0
+    info "found $(docker container ls --all --quiet | wc -l | xargs) containers"
     {
-      docker container kill $(docker container ls --quiet)
-      docker container stop $(docker container ls --all --quiet)
-      docker system prune --all --force
-      docker volume prune --force
+      docker container stop $(docker container ls --quiet);
+      info "stopped running containers"
+      docker image rm --force $(docker image ls --quiet);
+      info "removed images"
+      docker volume rm $(docker volumels --quiet);
+      info "removed volumes"
+      docker system prune --all --force --volumes;
+      info "cleaned system resources"
     } 2>/dev/null
+    info "successfully nuked docker"
     exit 0
   else
     ((n++))
-    builtin print -P "ERROR: couldn't find docker daemon, retrying $n/3 times"
+    error "couldn't find docker daemon, retrying $n/3 times"
     sleep 5
   fi
 done
-builtin print -P "ERROR: couldn't find docker daemon, aborting"
+info "couldn't find docker daemon, aborting"
