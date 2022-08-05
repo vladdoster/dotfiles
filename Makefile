@@ -15,18 +15,21 @@ ifeq ($(DOCKER_CLI_GO_BUILD_CACHE),y)
 DOCKER_CLI_MOUNTS += -v "$(CACHE_VOLUME_NAME):/root/.cache/go-build"
 endif
 
+test:
+	$(CURDIR)
+
 .PHONY: hammerspoon
-hammerspoon: destination:=$$HOME/.hammerspoon
+hammerspoon: destination:=$${HOME}/.hammerspoon
 
 .PHONY: neovim
-neovim: destination := $$HOME/.config/nvim
+neovim: destination := $${HOME}/.config/nvim
 
 $(CONFIGS): ## clone configuration repository
 	sh -c "[ ! -d $(destination) ] && git clone $(GH_URL)/$@-configuration $(destination)"
 
 .PHONY: dotfiles
 dotfiles: | clean ## Deploy dotfiles via GNU install
-	find * -maxdepth 0 -mindepth 0 -type d -exec stow --verbose 1 --stow --target $$HOME {} \;
+	find * -maxdepth 0 -mindepth 0 -type d -exec stow --verbose 1 --stow --target $${HOME} {} \;
 
 # Some Dockerfiles use features that are only supported with BuildKit enabled
 export DOCKER_BUILDKIT=1
@@ -103,11 +106,11 @@ rust-uninstall: ## Uninstall Rust via rustup
 	@rustup self uninstall
 
 clean-nvim:
-	rm -rf $$HOME/.{cache,config/nvim/lua/plugins,local/share/nvim}
+	rm -rf $${HOME}/.{cache,config/nvim/lua/plugins,local/share/nvim}
 	$(info --- removed nvim artifacts)
 
 clean-dotfiles:
-	find * -maxdepth 0 -mindepth 0 -type d -exec stow --verbose 1 --target $$HOME --delete {} \;
+	find * -maxdepth 0 -mindepth 0 -type d -exec stow --verbose 1 --target $${HOME} --delete {} \;
 	$(info --- uninstalled dotfiles)
 
 .PHONY: clean
