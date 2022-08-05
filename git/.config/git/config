@@ -53,14 +53,16 @@
   hunk-header-line-number-style = "#067a00"
   hunk-header-style             = file line-number syntax
 [homebrew]
-	analyticsmessage = true
-	caskanalyticsmessage = true
+	analyticsmessage = false
+	caskanalyticsmessage = false
 [http]
   sslVerify = false
 [https]
   sslVerify = false
 [github]
   user = vladdoster
+[remote "origin"]
+	gh-resolved = base
 [gitflow "prefix"]
   versiontag = v
 [alias]
@@ -164,3 +166,4 @@
   unrelease = !sh -c 'git tag -d v$1 && git pso :v$1' -
   w  = show
 # vim:ft=toml:sw=2:sts=2
+
