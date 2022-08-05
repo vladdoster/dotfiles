@@ -1,3 +1,14 @@
+# [1.39.0](https://github.com/vladdoster/dotfiles/compare/v1.38.0...v1.39.0) (2022-08-05)
+
+
+### fix
+
+* zsh related configurations ([69cb863](https://github.com/vladdoster/dotfiles/commit/69cb863f851bb609c694529fc2183b53af19bb1d))
+
+### maint
+
+* cleaned up nuke-docker logic and printing ([8f2fa83](https://github.com/vladdoster/dotfiles/commit/8f2fa83665c90daac0b6f4ea26469b33c23f68d2))
+
 # [1.38.0](https://github.com/vladdoster/dotfiles/compare/v1.37.0...v1.38.0) (2022-07-30)
 
 
