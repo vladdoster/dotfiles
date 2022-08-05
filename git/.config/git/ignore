@@ -139,3 +139,4 @@ dmypy.json
 .pyre/        # pyre type checker
 .pytype/      # pytype static type analyzer
 cython_debug/ # cython debug symbols
+zhistory
