@@ -1,3 +1,14 @@
+# [1.40.0](https://github.com/vladdoster/dotfiles/compare/v1.39.0...v1.40.0) (2022-08-06)
+
+
+### fix
+
+* remove alacritty configuration ([5574e51](https://github.com/vladdoster/dotfiles/commit/5574e510e554742af2fd98febd5b5b80f051c3d7))
+
+### maint
+
+* global git ignores zhistory file ([b7b8193](https://github.com/vladdoster/dotfiles/commit/b7b81932ebde4ffc96b21ddbdb4579fc3c2ec09f))
+
 # [1.39.0](https://github.com/vladdoster/dotfiles/compare/v1.38.0...v1.39.0) (2022-08-05)
 
 
