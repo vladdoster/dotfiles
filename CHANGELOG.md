@@ -1,3 +1,10 @@
+# [1.41.0](https://github.com/vladdoster/dotfiles/compare/v1.40.0...v1.41.0) (2022-08-14)
+
+
+### feat
+
+* add ranger configuration ([ee03064](https://github.com/vladdoster/dotfiles/commit/ee03064cc1e4ce4cff16b6d82150e217aaaf083b))
+
 # [1.40.0](https://github.com/vladdoster/dotfiles/compare/v1.39.0...v1.40.0) (2022-08-06)
 
 
