@@ -117,8 +117,7 @@ alias gen-passwd='openssl rand -base64 24'
 alias get-my-ip='curl ifconfig.co'
 alias tmp-md='$EDITOR $(mktemp -t scratch.XXX.md)'
 alias ps-grep="ps aux | grep -v grep | grep -i -e VSZ -e"
-# +────────+
-# │ PYTHON │
+path-info() { printf "%s\n" $path | sort; printf "\n--- \$PATH contains %s items" $(print -l $path | sort  | wc -l); }
 # +────────+
 alias http-serve='python3 -m http.server'
 alias p='python3'

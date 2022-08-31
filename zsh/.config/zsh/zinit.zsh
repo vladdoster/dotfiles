@@ -58,18 +58,7 @@ eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"',
 # export MODE_INDICATOR_{'V'{'IINS=%F{15}%F{8}INSERT%f','ICMD=%F{10}%F{2}NORMAL%f','LINE="%F{12}%F{4}V-LINE%f"','VISUAL=%F{12}%F{4}VISUAL%f'},'REPLACE=%F{9}%F{1}REPLACE%f'}
 #=== ANNEXES ==========================================
 for ANNEX (bin-gem-node binary-symlink submods readurl); do zi load @zdharma-continuum/zinit-annex-${ANNEX}; done
-zi ice ver'fix/correct-logic-bug'; zi load @zdharma-continuum/zinit-annex-patch-dl
-zinit ice \
-    as"command" \
-    atclone"./configure --prefix=$ZPFX" \
-    atpull"%atclone" \
-    dl"https://aur.archlinux.org/cgit/aur.git/plain/0001-Fix-build-with-gcc-6.patch?h=fbterm-git" \
-    dl"https://bugs.archlinux.org/task/46860?getfile=13513 -> ins.patch" \
-    make"install" \
-    patch"ins.patch;0001-Fix-build-with-gcc-6.patch" \
-    pick"$ZPFX/bin/fbterm" \
-    reset
-zinit load izmntuk/fbterm
+# zi ice ver'fix/correct-logic-bug'; zi load @zdharma-continuum/zinit-annex-patch-dl
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' lbin'!' nocompile for \
   @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck','pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'}} \

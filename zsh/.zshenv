@@ -1,11 +1,10 @@
 #!/usr/bin/env zsh
 # Author: Vladislav D.
 # GitHub: vladdoster
-#   Repo: https://dotfiles.vdoster.com
+# Repo: https://dotfiles.vdoster.com
 #
 # Open an issue in https://github.com/vladdoster/dotfiles if
 # you find a bug, have a feature request, or a question.
-#
 # +─────────────────+
 # │ SYSTEM SPECIFIC │
 # +─────────────────+
@@ -21,7 +20,7 @@ path_append() {
   done
 }
 activate_brew() {
-  LOCATIONS=( '$HOME/.linuxbrew/Homebrew' '/home/linuxbrew/.linuxbrew' '/opt/homebrew' '/usr/local' )
+  LOCATIONS=( '${$HOME}/.linuxbrew/Homebrew' '/home/linuxbrew/.linuxbrew' '/opt/homebrew' '/usr/local' )
   for F_PATH in $LOCATIONS; do
     if [[ -e "${F_PATH}/bin/brew"  ]] {
       _echo "%F{blue}[INFO]%f: %F{cyan}OS%f @ %F{green}${OSTYPE} [$(uname -m)]%f"
@@ -38,44 +37,49 @@ activate_brew
 # +────────────────────+
 # │ RESERVED VARIABLES │
 # +────────────────────+
-local usr_path="/usr/local/opt" brew_path="$(brew --prefix)"
+typeset -aU path
+local USR_PATH="/usr/local/opt" BREW_PATH="$(brew --prefix)"
 path_append \
-  "${HOME}/.cargo/bin" \
-  "${HOME}/.local/bin" \
-  "${HOME}/Library/Python/3.9/bin" \
-  "${HOME}/go/bin" \
-  "${brew_path}/lib/ruby/gems/3.1.0/bin" \
-  "${brew_path}/llvm/bin" \
-  "${brew_path}/make/libexec/gnubin" \
-  "${brew_path}/opt/libtool/libexec/gnubin" \
-  "${brew_path}/opt/ruby/bin" \
-  "${brew_path}/opt/texinfo/bin"
-# +─────────────────+
-# │ # ENV VARIABLES │
-# +─────────────────+
+  "${BREW_PATH}"/lib/ruby/gems/3.1.0/bin \
+  "${BREW_PATH}"/{'llvm','opt/ruby','opt/texinfo'}/bin \
+  "${BREW_PATH}"/{'opt/libtool','make'}/libexec/gnubin \
+  "${HOME}"/Library/Python/3.{'8','9','10'}/bin \
+  "${HOME}"/{'.cargo','.local','.tfenv','go'}/bin \
+  "${USR_PATH}"/binutils/bin \
+  "${USR_PATH}"/{'coreutils','gnu-sed','gnu-tar'}/libexec/gnubin
+# +──────────────+
+# │ CONFIG PATHS │
+# +──────────────+
 (( ${+LANGUAGE} )) || export LANGUAGE="$LANG"
 (( ${+USER} )) || export USER="$USERNAME"
 (( ${+XDG_CACHE_HOME} )) || export XDG_CACHE_HOME="$HOME/.cache"
 (( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="$HOME/.config"
 (( ${+XDG_DATA_HOME} )) || export XDG_DATA_HOME="$HOME/.local/share"
-export CLICOLOR=1
-export XML_CATALOG_FILES=/opt/homebrew/etc/xml/catalog # asciidoc related
 export AZURE_CONFIG_DIR="$XDG_DATA_HOME"/azure
+export CLICOLOR=1
 export DOTFILES="$XDG_CONFIG_HOME"/dotfiles
 export GIT_CONFIG="$XDG_CONFIG_HOME"/git/config
 export PIP_CONFIG="$XDG_CONFIG_HOME"/pip
 export PYTHONSTARTUP="$XDG_CONFIG_HOME"/python/init-repl.py
 export SUBVERSION_HOME="$XDG_CONFIG_HOME"/subversion
+export TFENV_INSTALL_DIR="${XDG_DATA_HOME}"/.tfenv
 export VIMDOTDIR="$XDG_CONFIG_HOME"/vim
+export XML_CATALOG_FILES=/opt/homebrew/etc/xml/catalog # asciidoc related
 export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
-
+# +───────────────+
+# │ ENV VARIABLES │
+# +───────────────+
 export ARCHPREFERENCE="arm64e,arm64,x86_64"
-export COMPOSE_DOCKER_CLI_BUILD=0
+export COMPOSE_DOCKER_CLI_BUILD=1
 export DISABLE_MAGIC_FUNCTIONS=true
-export DOCKER_BUILDKIT=0
-export HOMEBREW_NO_AUTO_UPDATE=1
+export DOCKER_BUILDKIT=1
 export HOMEBREW_FORCE_BREWED_CURL=1
+export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 export LESS='-F -g -i -M -R -S -w -X -z-4'
+
+local GO_PROXY="releases.hashicorp.com/*,releases.hashicorp.com/terraform/*,proxy.golang.org/,hashicorp.com*,hashicorp.com/*,releases.hashicorp.com/*"
+for ENV_VAR in GOINSECURE GONOSUMDB GOPRIVATE ; do export $ENV_VAR="${GO_PROXY}" ;done
+
 # vim:ft=zsh:sw=2:sts=2

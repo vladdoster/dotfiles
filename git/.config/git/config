@@ -1,145 +1,101 @@
 [init]
-  defaultBranch = main
+  defaultBranch = "master"
+
 [advice]
-    skippedCherryPicks = false
+  skippedCherryPicks = false
+
 [user]
-    email    = "mvdoster@gmail.com"
-    name     = "Vladislav Doster"
-    username = "vladdoster"
+  email    = "mvdoster@gmail.com"
+  name     = "Vladislav Doster"
+  username = "vladdoster"
+
 [credential]
-    helper   = cache --timeout=86400
+  helper = cache --timeout=86400
+
 [core]
-	autocrlf = false
-    editor       = nvim
-	eol = lf
-    excludesfile = ~/.config/git/ignore
-    pager        = delta
-    whitespace   = fix,-indent-with-non-tab,trailing-space,cr-at-eol
-[url "github.com"]
-    insteadOf=vdoster.com
-[url "https://github.com/vladdoster"]
-  insteadOf = https://vdoster
+  editor = nvim
+  eol = lf
+  excludesfile = ~/.config/git/ignore
+  pager = delta
+  whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+
 [color]
-    ui            = auto
+  ui = true
+
 [diff]
-    colorMoved    = default
-    tool          = delta
+  colorMoved = default
+  tool = delta
+
 [merge]
-    conflictstyle = diff3
+  conflictstyle = diff3
+
 [commit]
-    template   = ~/.config/git/commit-template
+  template = ~/.config/git/commit-template
+
 [pull]
-    rebase     = true
+  rebase = true
+
 [push]
-    default    = current
-    followTags = true
+  default = current
+  followTags = true
+
 [rerere]
-    enabled    = 1
-    autoupdate = 1
+  enabled = 1
+  autoupdate = 1
+
 [interactive]
-    diffFilter = delta --color-only --features=interactive
+  diffFilter = "delta --color-only --features=interactive"
+
 [delta]
-  features = line-numbers decorations
+  features = "line-numbers decorations"
+  commit-decoration-style = "blue ol"
+  commit-style = "raw"
+  file-style = "omit"
+  hunk-header-decoration-style = "blue box"
+  hunk-header-file-style = "red"
+  hunk-header-style = "file line-number syntax"
   line-numbers = true
   navigate = true
-[delta "interactive"]
   keep-plus-minus-markers = false
-[delta "decorations"]
-  commit-decoration-style       = blue ol
-  commit-style                  = raw
-  file-style                    = omit
-  hunk-header-decoration-style  = blue box
-  hunk-header-file-style        = red
   hunk-header-line-number-style = "#067a00"
-  hunk-header-style             = file line-number syntax
+
 [homebrew]
-	analyticsmessage = false
-	caskanalyticsmessage = false
+  analyticsmessage = false
+  caskanalyticsmessage = false
+
 [http]
   sslVerify = false
+
 [https]
   sslVerify = false
+
 [github]
-  user = vladdoster
-[remote "origin"]
-	gh-resolved = base
-[gitflow "prefix"]
-  versiontag = v
+  user = "vladdoster"
+
 [alias]
-  aliases   = !git config -l | grep alias | cut -c 7-
-  bump      = !sh -c 'git commit -am \"Version bump v$1\" && git psuoc && git release $1' -
-  merged    = !sh -c 'git o master && git plom && git bd $1 && git rpo' -
-  a  = add --all
-  ai = add -i
   au = add -u
   b   = branch
-  ba  = branch -a
   bc  = rev-parse --abbrev-ref HEAD
-  bd  = branch -d
-  bdd = branch -D
-  br  = branch -r
-  bs  = !git-branch-status
   bu  = !git rev-parse --abbrev-ref --symbolic-full-name "@{u}"
   o   = checkout
   om  = checkout master
   ob  = checkout -b
   opr = !sh -c 'git fo pull/$1/head:pr-$1 && git o pr-$1'
-  cp = cherry-pick
-  cpa = cherry-pick --abort
-  cpc = cherry-pick --continue
   cl   = clone
-  cld  = clone --depth 1
   clg  = !sh -c 'git clone https://github.com/$1' -
   clgp = !sh -c 'git clone git@github.com:$1 $(basename $1)' -
   clgu = !sh -c 'git clone https://github.com/$(git config --get user.username)/$1 $1' -
   c   = commit --signoff
-  ca  = commit -a
-  cm  = commit -m
-  cam = commit -am
+  cm  = commit --message
   cem = commit --allow-empty -m
   cd  = commit --amend
-  cdne = commit --amend --no-edit
-  cad = commit -a --amend
-  ced = commit --allow-empty --amend
+  cdne = 'commit --amend --no-edit'
   d = diff
   ds = diff --staged
-  f  = fetch
-  fo = fetch origin
-  fu = fetch upstream
-  l  = log --oneline
-  lg = log --oneline --graph --decorate
-  ls  = ls-files
-  lsf = !git ls-files | grep -i
   pl = pull
-  pb = pull --rebase
-  plo  = pull origin
-  pbo  = pull --rebase origin
-  plom = pull origin master
-  ploc = !git pull origin $(git bc)
-  pbom = pull --rebase origin master
-  pboc = !git pull --rebase origin $(git bc)
-  plu  = pull upstream
-  plum = pull upstream master
-  pluc = !git pull upstream $(git bc)
-  pbum = pull --rebase upstream master
-  pbuc = !git pull --rebase upstream $(git bc)
   ps  = push
-  psf = push -f
-  psu = push -u
-  pst = push --tags
-  psao = push --all origin
+  psf = push --force
   psfo = push -f origin
-  pso  = push origin
-  psuo = push -u origin
-  psom  = push origin master
-  psaom = push --all origin master
-  psfom = push -f origin master
-  psuom = push -u origin master
-  psoc  = !git push origin $(git bc)
-  psaoc = !git push --all origin $(git bc)
-  psfoc = !git push -f origin $(git bc)
-  psuoc = !git push -u origin $(git bc)
-  psdc  = !git push origin :$(git bc)
   rv = remote --verbose
   ru = restore
   rs = restore --staged
@@ -160,10 +116,3 @@
   subpull = !git submodule foreach git pull --tags origin master
   subrm   = !sh -c 'git submodule deinit -f -- $1 && rm -rf .git/modules/$1 && git rm -f $1' -
   subup   = submodule update --init --recursive
-  t  = tag
-  td = tag -d
-  release   = !sh -c 'git tag v$1 && git pst' -
-  unrelease = !sh -c 'git tag -d v$1 && git pso :v$1' -
-  w  = show
-# vim:ft=toml:sw=2:sts=2
-
