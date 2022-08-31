@@ -1,3 +1,17 @@
+# [1.42.0](https://github.com/vladdoster/dotfiles/compare/v1.41.0...v1.42.0) (2022-08-31)
+
+
+### feat
+
+* add global luaformatter configuration ([0a0d077](https://github.com/vladdoster/dotfiles/commit/0a0d077e8b6005b4e7b4af71c9b545eda36fa80c))
+
+### maint
+
+* add release triggers `style` & `maint` ([defe9ec](https://github.com/vladdoster/dotfiles/commit/defe9ecb93123b925f53ac77a8a49844e312a01a))
+* misc. zsh, kitty, git config updates ([26a861b](https://github.com/vladdoster/dotfiles/commit/26a861b10f4ffe5ba249190be51fa89736749bdb))
+* remove ssh config ([0c88678](https://github.com/vladdoster/dotfiles/commit/0c8867819a049f3a2b2a8e87f5ebff2372a82129))
+* update xdg dir aliases & zshenv ([d71de04](https://github.com/vladdoster/dotfiles/commit/d71de0453738e7e3cc026da4f0355cd93f3b10ee))
+
 # [1.41.0](https://github.com/vladdoster/dotfiles/compare/v1.40.0...v1.41.0) (2022-08-14)
 
 
