@@ -73,10 +73,10 @@ unsetopt bgnice autoparamslash
 # for f in "$files[@]"; do
 #   . "${ZDOTDIR:-$HOME/.config/zsh}/${f}".zsh
 # done
-source $HOME/.config/zsh/fzf.zsh
-source $HOME/.config/zsh/util.sh
 source $HOME/.config/zsh/aliases.zsh
-source $HOME/.config/zsh/zinit.zsh
+source $HOME/.config/zsh/fzf.zsh
+source $HOME/.config/zsh/rld.zsh
+source $HOME/.config/zsh/zinit.zsh;
 # +───────────────────────+
 # │ Zsh Line Editor (ZLE) │
 # +───────────────────────+
@@ -96,7 +96,6 @@ setopt NO_NOMATCH # If a pattern has no matches, don't print an error, leave it 
 ## │ Completion │
 ## +────────────+
 zstyle ':completion:*:*:make:*' tag-order 'targets'
-
 PROMPT_EOL_MARK='%K{red} %k'   # mark the missing \n at the end of a comand output with a red block
 WORDCHARS=''                   # only alphanums make up words in word-based zle widgets
 ZLE_REMOVE_SUFFIX_CHARS=''     # don't eat space when typing '|' after a tab completion

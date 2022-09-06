@@ -104,6 +104,7 @@ alias g="git" # GIT ALIASES DEFINED IN $HOME/.config/git/config
 # +───────────────────+
 # │ COMMAND SHORTCUTS │
 # +───────────────────+
+alias -- +x="chmod +x"
 alias rm-ds-store='find "$PWD" -type f -name "*.DS[_-]Store" -print -delete'
 alias rshfmt="shfmt -i 4 -s -ln bash -sr -bn -ci -w"
 alias zc='zinit compile'

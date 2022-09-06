@@ -31,12 +31,12 @@ if [[ -e $ZI[BIN_DIR]/zinit.zsh ]] {
 } else { error 'failed to find zinit installation' }
 #=== STATIC ZSH BINARY =======================================
 # #=== OH-MY-ZSH & PREZTO PLUGINS =======================
-zi nocompletions is-snippet for OMZL::{'compfix','completion','git'}.zsh
-zi nocompletions is-snippet for PZT::modules/{'environment','history','rsync'}
+zi nocompletions is-snippet light-mode for OMZL::{'compfix','completion','git'}.zsh
+zi nocompletions is-snippet light-mode for PZT::modules/{'environment','history','rsync'}
 zi as'completion' for OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
-znippet() { zi for as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
+znippet() { zi for light-mode as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
 znippet 'brew' 'Homebrew/brew/master/completions/zsh'
 znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
 znippet 'exa' 'ogham/exa/master/completions/zsh'
@@ -60,22 +60,23 @@ eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"',
 for ANNEX (bin-gem-node binary-symlink submods readurl); do zi load @zdharma-continuum/zinit-annex-${ANNEX}; done
 # zi ice ver'fix/correct-logic-bug'; zi load @zdharma-continuum/zinit-annex-patch-dl
 #=== GITHUB BINARIES ==================================
-zi from'gh-r' lbin'!' nocompile for \
-  @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck','pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'}} \
-  lbin'!* -> checkmake' @mrtazz/checkmake \
-  lbin'!* -> jq'     @stedolan/jq \
-  lbin'!* -> shfmt'  @mvdan/sh \
-  lbin'!**/rg'       @BurntSushi/ripgrep \
-  lbin'!**/exa' atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
-  @ogham/exa
-  zinit ice from'gh-r' ver'nightly' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' nocompile lbin'!**/nvim -> nvim'
+zbin(){ zi ice from'gh-r' lbin"!* -> $(basename ${1})" nocompile && zi load "@${1}"; }
+for program in "mrtazz/checkmake" "stedolan/jq"; do zbin "${program}"; done
+
+zi from'gh-r' lbin'!' nocompile light-mode for \
+  @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck','pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'},'rsteube/carapace-spec'} \
+  lbin'!**/rg' @BurntSushi/ripgrep \
+
+zi ice from'gh-r' lbin'!**/exa' nocompile atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'"
+zi load @ogham/exa
+zinit ice from'gh-r' ver'nightly' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' nocompile lbin'!**/nvim -> nvim'
 zinit load @neovim/neovim
 #=== UNIT TESTING =====================================
 zi ice as'command' atclone'./build.zsh' pick'zunit'; zi load @zdharma-continuum/zunit
-zi ice nocompile atinit'bindkey -M vicmd "^v" edit-command-line'; zi light @softmoth/zsh-vim-mode
+zi ice wait lucid nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line'; zi light @softmoth/zsh-vim-mode
 #=== MISC. ============================================
+# @thewtex/tmux-mem-cpu-load \
 zi lucid wait load for \
-  @thewtex/tmux-mem-cpu-load \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
   @OMZ::plugins/history-substring-search \
   svn submods'zsh-users/zsh-completions -> external' \
