@@ -1,3 +1,10 @@
+## [1.43.2](https://github.com/vladdoster/dotfiles/compare/v1.43.1...v1.43.2) (2022-09-06)
+
+
+### fix
+
+* zsh reload script ([89a01b5](https://github.com/vladdoster/dotfiles/commit/89a01b5cbaca8d968bd11ae3263b93adadb4457c))
+
 ## [1.43.1](https://github.com/vladdoster/dotfiles/compare/v1.43.0...v1.43.1) (2022-09-06)
 
 
