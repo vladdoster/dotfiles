@@ -29,10 +29,9 @@ if [[ -e $ZI[BIN_DIR]/zinit.zsh ]] {
     && (( ${+_comps} )) \
     && _comps[zinit]=_zinit
 } else { error 'failed to find zinit installation' }
-#=== STATIC ZSH BINARY =======================================
-# #=== OH-MY-ZSH & PREZTO PLUGINS =======================
-zi nocompletions is-snippet light-mode for OMZL::{'compfix','completion','diagnostics','git','key-bindings'}.zsh
-zi nocompletions is-snippet light-mode for PZT::modules/{'environment','history','rsync'}
+#=== OH-MY-ZSH & PREZTO PLUGINS =======================
+zi nocompletions is-snippet for PZT::modules/{'environment','history','rsync'}
+zi is-snippet for OMZL::{'compfix','completion','git','key-bindings'}.zsh
 zi as'completion' for OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
@@ -41,6 +40,7 @@ znippet 'brew' 'Homebrew/brew/master/completions/zsh'
 znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
 znippet 'exa' 'ogham/exa/master/completions/zsh'
 znippet 'fd' 'sharkdp/fd/master/contrib/completion'
+zi for light-mode as'completion' has"git" nocompile is-snippet "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh"
 # znippet 'brew_services' 'Homebrew/homebrew-services/master/completions/zsh'
 #=== PROMPT ===========================================
 zi ice as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
@@ -57,10 +57,10 @@ zi light @sindresorhus/pure
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
 # export MODE_INDICATOR_{'V'{'IINS=%F{15}%F{8}INSERT%f','ICMD=%F{10}%F{2}NORMAL%f','LINE="%F{12}%F{4}V-LINE%f"','VISUAL=%F{12}%F{4}VISUAL%f'},'REPLACE=%F{9}%F{1}REPLACE%f'}
 #=== ANNEXES ==========================================
-for ANNEX (bin-gem-node binary-symlink submods readurl); do zi load @zdharma-continuum/zinit-annex-${ANNEX}; done
+for ANNEX (bin-gem-node binary-symlink submods); do zi light @zdharma-continuum/zinit-annex-${ANNEX}; done
 # zi ice ver'fix/correct-logic-bug'; zi load @zdharma-continuum/zinit-annex-patch-dl
 #=== GITHUB BINARIES ==================================
-zbin(){ zi ice from'gh-r' lbin"!* -> $(basename ${1})" nocompile && zi load "@${1}"; }
+zbin(){ zi ice from'gh-r' lbin"!* -> $(basename ${1})" nocompile && zi light "@${1}"; }
 for program in "mrtazz/checkmake" "stedolan/jq"; do zbin "${program}"; done
 
 zi from'gh-r' lbin'!' nocompile light-mode for \
@@ -70,18 +70,20 @@ zi from'gh-r' lbin'!' nocompile light-mode for \
   lbin'!**/rg' @BurntSushi/ripgrep \
 
 zi ice from'gh-r' lbin'!**/exa' nocompile atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'"
-zi load @ogham/exa
+zi light @ogham/exa
 zinit ice from'gh-r' ver'nightly' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' nocompile lbin'!**/nvim -> nvim'
-zinit load @neovim/neovim
+zinit light @neovim/neovim
 #=== UNIT TESTING =====================================
-zi ice as'command' atclone'./build.zsh' pick'zunit'; zi load @zdharma-continuum/zunit
+zi ice as'command' atclone'./build.zsh' pick'zunit'; zi light @zdharma-continuum/zunit
 zi ice wait lucid nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line'; zi light @softmoth/zsh-vim-mode
 #=== MISC. ============================================
-zi lucid wait load for \
+zi lucid wait light-mode for \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
   @OMZ::plugins/history-substring-search \
   atpull'zinit creinstall -q .' blockf \
   zsh-users/zsh-completions \
+  svn submods'zsh-users/zsh-completions -> external' \
+  @PZTM::completion \
   atload'_zsh_autosuggest_start' atinit'\
   ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50
   bindkey "^_" autosuggest-execute
