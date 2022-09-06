@@ -1,3 +1,18 @@
+# [1.44.0](https://github.com/vladdoster/dotfiles/compare/v1.43.2...v1.44.0) (2022-09-06)
+
+
+### feat
+
+* automatically clone if git URL zsh widget ([2dc68b7](https://github.com/vladdoster/dotfiles/commit/2dc68b7a3a2b7c51a5d45c78d4d43233913c1d4e))
+
+### fix
+
+* font settings in kitty.conf ([18d0162](https://github.com/vladdoster/dotfiles/commit/18d01621a8492d9524e9168818eba7d773ebe1e4))
+
+### maint
+
+* add widget.zsh to files for sourcing ([37a231c](https://github.com/vladdoster/dotfiles/commit/37a231c7b41103bfa6801f50dc164a989a5cc850))
+
 ## [1.43.2](https://github.com/vladdoster/dotfiles/compare/v1.43.1...v1.43.2) (2022-09-06)
 
 
