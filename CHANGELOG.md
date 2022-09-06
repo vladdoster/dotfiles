@@ -1,3 +1,14 @@
+# [1.43.0](https://github.com/vladdoster/dotfiles/compare/v1.42.0...v1.43.0) (2022-09-06)
+
+
+### feat
+
+* add shell reload script ([481c3f0](https://github.com/vladdoster/dotfiles/commit/481c3f09822c30d39e52979702007ad8bf20b1fc))
+
+### maint
+
+* zsh configuration ([67fdd4a](https://github.com/vladdoster/dotfiles/commit/67fdd4a593f8d075a9e7bb0344581df89249bba4))
+
 # [1.42.0](https://github.com/vladdoster/dotfiles/compare/v1.41.0...v1.42.0) (2022-08-31)
 
 
