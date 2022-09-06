@@ -6,14 +6,13 @@
       {
         "preset": "eslint",
         "releaseRules": [
-          { "tag": "build", "release": "patch" },
           { "tag": "chore", "release": "patch" },
           { "tag": "docs", "release": "patch" },
           { "tag": "fix", "release": "patch" },
           { "tag": "feat", "release": "minor" },
-          { "tag": "maint", "release": "minor" },
+          { "tag": "maint", "release": "patch" },
           { "tag": "new", "release": "minor" },
-          { "tag": "style", "release": "minor" },
+          { "tag": "style", "release": "patch" },
           { "tag": "refactor", "release": "major" },
           { "tag": "update", "release": "minor" }
         ]
