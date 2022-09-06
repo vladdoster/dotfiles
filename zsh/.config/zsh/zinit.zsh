@@ -31,7 +31,7 @@ if [[ -e $ZI[BIN_DIR]/zinit.zsh ]] {
 } else { error 'failed to find zinit installation' }
 #=== STATIC ZSH BINARY =======================================
 # #=== OH-MY-ZSH & PREZTO PLUGINS =======================
-zi nocompletions is-snippet light-mode for OMZL::{'compfix','completion','git'}.zsh
+zi nocompletions is-snippet light-mode for OMZL::{'compfix','completion','diagnostics','git','key-bindings'}.zsh
 zi nocompletions is-snippet light-mode for PZT::modules/{'environment','history','rsync'}
 zi as'completion' for OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
 #=== COMPLETIONS ======================================
@@ -64,7 +64,9 @@ zbin(){ zi ice from'gh-r' lbin"!* -> $(basename ${1})" nocompile && zi load "@${
 for program in "mrtazz/checkmake" "stedolan/jq"; do zbin "${program}"; done
 
 zi from'gh-r' lbin'!' nocompile light-mode for \
-  @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck','pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'},'rsteube/carapace-spec'} \
+  @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck'} \
+  @{'pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'}} \
+  @rsteube/carapace-spec \
   lbin'!**/rg' @BurntSushi/ripgrep \
 
 zi ice from'gh-r' lbin'!**/exa' nocompile atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'"
@@ -75,13 +77,11 @@ zinit load @neovim/neovim
 zi ice as'command' atclone'./build.zsh' pick'zunit'; zi load @zdharma-continuum/zunit
 zi ice wait lucid nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line'; zi light @softmoth/zsh-vim-mode
 #=== MISC. ============================================
-# @thewtex/tmux-mem-cpu-load \
 zi lucid wait load for \
   svn submods'zsh-users/zsh-history-substring-search -> external' \
   @OMZ::plugins/history-substring-search \
-  svn submods'zsh-users/zsh-completions -> external' \
   atpull'zinit creinstall -q .' blockf \
-  @PZTM::completion \
+  zsh-users/zsh-completions \
   atload'_zsh_autosuggest_start' atinit'\
   ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50
   bindkey "^_" autosuggest-execute
