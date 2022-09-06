@@ -1,3 +1,10 @@
+## [1.43.1](https://github.com/vladdoster/dotfiles/compare/v1.43.0...v1.43.1) (2022-09-06)
+
+
+### maint
+
+* change release type prefixes ([52a2619](https://github.com/vladdoster/dotfiles/commit/52a261927d25c208ff6ed7af93abc3ef11f78c7e))
+
 # [1.43.0](https://github.com/vladdoster/dotfiles/compare/v1.42.0...v1.43.0) (2022-09-06)
 
 
