@@ -1,3 +1,17 @@
+## [1.44.1](https://github.com/vladdoster/dotfiles/compare/v1.44.0...v1.44.1) (2022-09-06)
+
+
+### fix
+
+* `_accept-line-with-url` widget ([06466e2](https://github.com/vladdoster/dotfiles/commit/06466e23f64fbefe56f56e45210c2c51b4ec8e8a))
+* OMZL config for history searching ([4cca437](https://github.com/vladdoster/dotfiles/commit/4cca437d705ad928ef9e1f8ccced9266c11d619a))
+
+### maint
+
+* remove executable bit from zsh config files ([93580c1](https://github.com/vladdoster/dotfiles/commit/93580c1211f9f4b48eb04d80c82bdf781e888ddd))
+* update `htop` config ([1dd2550](https://github.com/vladdoster/dotfiles/commit/1dd255066344421ecf971f208980cfb1d576b72d))
+* update git zsh completion ([1bcbed6](https://github.com/vladdoster/dotfiles/commit/1bcbed6476652fa63fb738554a306fc8649bf6d9))
+
 # [1.44.0](https://github.com/vladdoster/dotfiles/compare/v1.43.2...v1.44.0) (2022-09-06)
 
 
