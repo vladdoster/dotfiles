@@ -1,20 +1,8 @@
 # Overridable env vars
-DOCKER_CLI_MOUNTS ?= -v "$(CURDIR)":/go/src/github.com/docker/cli
-DOCKER_CLI_CONTAINER_NAME ?=
-
 CONFIGS := hammerspoon neovim
+CONTAINTER_NAME = docker
 GH_URL = https://github.com/vladdoster
 HOMEBREW_URL := https://raw.githubusercontent.com/Homebrew/install/HEAD
-#
-# Sets the name of the company that produced the windows binary.
-PACKAGER_NAME ?=
-
-DEV_DOCKER_IMAGE_NAME = docker-cli-dev$(IMAGE_TAG)
-CACHE_VOLUME_NAME := docker-cli-dev-cache
-ifeq ($(DOCKER_CLI_GO_BUILD_CACHE),y)
-DOCKER_CLI_MOUNTS += -v "$(CACHE_VOLUME_NAME):/root/.cache/go-build"
-endif
-
 test:
 	$(CURDIR)
 
@@ -31,26 +19,17 @@ $(CONFIGS): ## clone configuration repository
 dotfiles: | clean ## Deploy dotfiles via GNU install
 	find * -maxdepth 0 -mindepth 0 -type d -exec stow --verbose 1 --stow --target $${HOME} {} \;
 
-# Some Dockerfiles use features that are only supported with BuildKit enabled
-export DOCKER_BUILDKIT=1
 
-# build docker image (dockerfiles/Dockerfile.build)
-.PHONY: build_docker_image
-build_docker_image:
-	# build dockerfile from stdin so that we don't send the build-context; source is bind-mounted in the development environment
-	cat ./Dockerfile | docker build ${DOCKER_BUILD_ARGS} --load -t $(DEV_DOCKER_IMAGE_NAME) -
-
-DOCKER_RUN_NAME_OPTION := $(if $(DOCKER_CLI_CONTAINER_NAME),--name $(DOCKER_CLI_CONTAINER_NAME),)
-DOCKER_RUN := docker run --rm $(ENVVARS) $(DOCKER_CLI_MOUNTS) $(DOCKER_RUN_NAME_OPTION)
-
-.PHONY: dev
-dev: build_docker_image ## start a build container in interactive mode for in-container development
-	$(DOCKER_RUN) -it \
-		--mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
-		$(DEV_DOCKER_IMAGE_NAME)
+build: ## Build docker image
+	docker build \
+		--tag $(CONTAINTER_NAME):latest \
+		.
 
 .PHONY: shell
-shell: dev ## alias for dev
+shell: ## alias for dev
+	docker run --interactive --tty \
+		--volume "$(CURDIR)/$(CONTAINTER_NAME)":"/home/$(CONTAINTER_NAME)/code" \
+		$(CONTAINTER_NAME):latest
 
 .PHONY: brew
 brew: ## (Un)install Homebrew
@@ -122,6 +101,5 @@ clean: clean/nvim clean/dotfiles  ## Remove installed dotfiles
 %:
 	@true
 
-.PHONY: help
 help: ## print this help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z0-9_-]+:.*?## / {gsub("\\\\n",sprintf("\n%22c",""), $$2);printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
