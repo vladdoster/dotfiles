@@ -69,14 +69,9 @@ unsetopt bgnice autoparamslash
 # +─────────────────────+
 # │ LOAD CONFIGURATIONS │
 # +─────────────────────+
-# local files=(aliases fzf zinit)
-# for f in "$files[@]"; do
-#   . "${ZDOTDIR:-$HOME/.config/zsh}/${f}".zsh
-# done
-source $HOME/.config/zsh/aliases.zsh
-source $HOME/.config/zsh/fzf.zsh
-source $HOME/.config/zsh/rld.zsh
-source $HOME/.config/zsh/zinit.zsh;
+for f in fzf aliases zinit rld widget; do
+  source ${ZDOTDIR:-$HOME/.config/zsh}/${f}.zsh
+done
 # +───────────────────────+
 # │ Zsh Line Editor (ZLE) │
 # +───────────────────────+
@@ -100,22 +95,3 @@ PROMPT_EOL_MARK='%K{red} %k'   # mark the missing \n at the end of a comand outp
 WORDCHARS=''                   # only alphanums make up words in word-based zle widgets
 ZLE_REMOVE_SUFFIX_CHARS=''     # don't eat space when typing '|' after a tab completion
 zle_highlight=('paste:none')   # disable highlighting of text pasted into the command line
-#!/bin/zsh
-
-# if ! (( $+commands[jq] )) ; then
-#   echo "jq is not installed"
-#   exit 1
-# fi
-#
-# kegs=$(brew info --installed --json | jq 'map(select(.keg_only == true))[]["name"]' | tr -d '"')
-#
-# kegs=(${(f)kegs})
-#
-# path_str="$PKG_CONFIG_PATH"
-#
-# for keg in $kegs; do
-#   keg_pc_dir="/usr/local/opt/$keg/lib/pkgconfig"
-#   [[ -d $keg_pc_dir ]] && ! (pkg-config --exists "$keg") && path_str="$path_str:$keg_pc_dir"
-# done
-#
-# echo -n "$path_str"
