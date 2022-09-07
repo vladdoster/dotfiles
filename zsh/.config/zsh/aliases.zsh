@@ -70,7 +70,7 @@ home_alias 'zec' '.zshenv'
 # +─────────────────+
 # │ RELOAD COMMANDS │
 # +─────────────────+
-alias nvcln="command rm -rf $HOME/.{local/share/nvim,config/nvim/plugin}"
+alias nvcln="command rm -rf $HOME/.{local/share/nvim,config/nvim/plugin/packer_compiled.lua}"
 alias zcln="command rm -rf ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
 alias zreset="builtin cd ${HOME} && ( zcln && zrld ) && cd -"
 alias zicln="zi delete --all --yes; ( exec zsh -il );"
