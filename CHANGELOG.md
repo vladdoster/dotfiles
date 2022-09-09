@@ -1,3 +1,18 @@
+## [1.44.2](https://github.com/vladdoster/dotfiles/compare/v1.44.1...v1.44.2) (2022-09-09)
+
+
+### fix
+
+* only delete plugins/packer_compiled.lua ([10b0ef7](https://github.com/vladdoster/dotfiles/commit/10b0ef7a7d56257b4bc79bbdeccf10b52832722c))
+* vimrc works without warnings ([8373091](https://github.com/vladdoster/dotfiles/commit/83730914e0634e6a99898d60380dbdf2dd4ea551))
+
+### maint
+
+* remove vim alias to neovim ([4a24afd](https://github.com/vladdoster/dotfiles/commit/4a24afd8879b13da5df9ab7c980d71b4c7d608d4))
+* update docker related Make targets ([7df62e8](https://github.com/vladdoster/dotfiles/commit/7df62e8516ee56dde434a6faa2c8c0292c14cd5a))
+* update Dockerfile ([5b5cb92](https://github.com/vladdoster/dotfiles/commit/5b5cb922f424dcf7d31e6c936507a2972305c1d2))
+* vimrc yak shaving ([ada0982](https://github.com/vladdoster/dotfiles/commit/ada09826e72e95ea2ca9f52dad72a8b79f8a8911))
+
 ## [1.44.1](https://github.com/vladdoster/dotfiles/compare/v1.44.0...v1.44.1) (2022-09-06)
 
 
