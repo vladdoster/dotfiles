@@ -40,8 +40,10 @@ znippet 'brew' 'Homebrew/brew/master/completions/zsh'
 znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
 znippet 'exa' 'ogham/exa/master/completions/zsh'
 znippet 'fd' 'sharkdp/fd/master/contrib/completion'
-zi for light-mode as'completion' has"git" nocompile is-snippet "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh"
-# znippet 'brew_services' 'Homebrew/homebrew-services/master/completions/zsh'
+zi light-mode as'completion' nocompile is-snippet for \
+	"${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh" \
+        "${GH_RAW_URL}/oven-sh/bun/main/completions/bun.zsh" \
+        "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
 #=== PROMPT ===========================================
 zi ice as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
 PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
@@ -67,12 +69,14 @@ zi from'gh-r' lbin'!' nocompile light-mode for \
   @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck'} \
   @{'pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'}} \
   @rsteube/carapace-spec \
+  lbin'!**/bun* -> bun' @oven-sh/bun \
   lbin'!**/rg' @BurntSushi/ripgrep \
 
 zi ice from'gh-r' lbin'!**/exa' nocompile atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'"
 zi light @ogham/exa
-zinit ice from'gh-r' ver'nightly' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' nocompile lbin'!**/nvim -> nvim'
-zinit light @neovim/neovim
+for i (v vi); do alias $i="nvim"; done
+# zinit ice from'gh-r' ver'nightly' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' nocompile lbin'!**/nvim -> nvim'
+# zinit light @neovim/neovim
 #=== UNIT TESTING =====================================
 zi ice as'command' atclone'./build.zsh' pick'zunit'; zi light @zdharma-continuum/zunit
 zi ice wait lucid nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line'; zi light @softmoth/zsh-vim-mode
