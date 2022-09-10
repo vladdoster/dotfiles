@@ -19,9 +19,7 @@ fzfp() { #fzf with preview options
     || cat {} 2> /dev/null | head -500' \
     --reverse \
     --tabstop=1
-
 }
-
 gli() {
   local filter
   if [ -n "$@" ] && [ -f "$@" ]; then
@@ -37,7 +35,6 @@ gli() {
                 xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
                 {}
                 FZF-EOF"
-
 }
 fgco() { # checkout git branch (including remote branches) with FZF
   local branches=$(
@@ -125,3 +122,5 @@ fcode() { # search code repositories
 #     for index ({1..9}) alias "$index"="cd +${index}"; unset index
 #     d | fzf --height="20%" | cut -f 1 | source /dev/stdin
 # }
+
+# vim:ft=zsh:sw=2:sts=2

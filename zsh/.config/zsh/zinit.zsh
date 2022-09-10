@@ -64,14 +64,12 @@ for ANNEX (bin-gem-node binary-symlink submods); do zi light @zdharma-continuum/
 #=== GITHUB BINARIES ==================================
 zbin(){ zi ice from'gh-r' lbin"!* -> $(basename ${1})" nocompile && zi light "@${1}"; }
 for program in "mrtazz/checkmake" "stedolan/jq"; do zbin "${program}"; done
-
 zi from'gh-r' lbin'!' nocompile light-mode for \
   @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck'} \
   @{'pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'}} \
   @rsteube/carapace-spec \
   lbin'!**/bun* -> bun' @oven-sh/bun \
   lbin'!**/rg' @BurntSushi/ripgrep \
-
 zi ice from'gh-r' lbin'!**/exa' nocompile atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'"
 zi light @ogham/exa
 for i (v vi); do alias $i="nvim"; done
@@ -99,3 +97,5 @@ zi lucid wait light-mode for \
   atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
   compile'.*fast*~*.zwc' nocompletions \
   $ZI_REPO/fast-syntax-highlighting
+
+# vim:ft=zsh:sw=2:sts=2

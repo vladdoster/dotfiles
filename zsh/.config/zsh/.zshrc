@@ -95,3 +95,5 @@ PROMPT_EOL_MARK='%K{red} %k'   # mark the missing \n at the end of a comand outp
 WORDCHARS=''                   # only alphanums make up words in word-based zle widgets
 ZLE_REMOVE_SUFFIX_CHARS=''     # don't eat space when typing '|' after a tab completion
 zle_highlight=('paste:none')   # disable highlighting of text pasted into the command line
+
+# vim:ft=zsh:sw=2:sts=2

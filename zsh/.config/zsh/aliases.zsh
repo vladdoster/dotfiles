@@ -171,3 +171,5 @@ alias cp-nvim="rsync -azP $XDG_CONFIG_HOME/nvim/ devcloud:~/nvim"
 disappointed() { command echo -n " ಠ_ಠ " | tee /dev/tty | $_copy_cmd; }
 flip() { command echo -n "（╯°□°）╯ ┻━┻" | tee /dev/tty | $_copy_cmd; }
 shrug() { command echo -n "¯\_(ツ)_/¯" | tee /dev/tty | $_copy_cmd; }
+
+# vim:ft=zsh:sw=2:sts=2
