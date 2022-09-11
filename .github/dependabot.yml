@@ -1,0 +1,23 @@
+version: 2
+
+updates:
+  - package-ecosystem: "docker"
+    commit-message:
+      prefix: "maint"
+      include: "scope"
+    directory: "/"
+    labels:
+      - "dependencies"
+      - "bot"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "github-actions"
+    commit-message:
+      prefix: "maint"
+      include: "scope"
+    directory: "/"
+    labels:
+      - "dependencies"
+      - "bot"
+    schedule:
+      interval: "daily"
