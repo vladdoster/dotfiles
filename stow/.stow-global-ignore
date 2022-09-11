@@ -1,0 +1,13 @@
+\.DS_Store
+\.lesshst
+\.zsh_history
+\.\#.+
+\.cvsignore
+\.git*
+^/.github
+\.hg
+\.svn
+^/LICENSE.*
+^/READMVE.*
+/.local/share
+/.local/state
