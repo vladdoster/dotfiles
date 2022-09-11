@@ -1,6 +1,11 @@
 # Overridable env vars
+#
+#
+ZSH := $(shell command -v zsh 2> /dev/null)
+.DEFAULT_SHELL := $(ZSH)
+.ONESHELL:
 CONFIGS := hammerspoon neovim
-CONTAINTER_NAME = docker
+CONTAINTER_NAME = dotfiles
 GH_URL = https://github.com/vladdoster
 HOMEBREW_URL := https://raw.githubusercontent.com/Homebrew/install/HEAD
 test:
@@ -22,13 +27,17 @@ dotfiles: | clean ## Deploy dotfiles via GNU install
 
 build: ## Build docker image
 	docker build \
+		--build-arg USER=$(CONTAINTER_NAME) \
+		--file $(CURDIR)/Dockerfile \
 		--tag $(CONTAINTER_NAME):latest \
-		.
+		$(CURDIR)
 
 .PHONY: shell
 shell: ## alias for dev
-	docker run --interactive --tty \
-		--volume "$(CURDIR)/$(CONTAINTER_NAME)":"/home/$(CONTAINTER_NAME)/code" \
+	@docker run \
+		--interactive \
+		--tty \
+		--mount source=dotfiles-vol,destination=/home/$(CONTAINTER_NAME) \
 		$(CONTAINTER_NAME):latest
 
 .PHONY: brew

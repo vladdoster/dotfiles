@@ -20,7 +20,7 @@ path_append() {
   done
 }
 activate_brew() {
-  LOCATIONS=( '${$HOME}/.linuxbrew/Homebrew' '/home/linuxbrew/.linuxbrew' '/opt/homebrew' '/usr/local' )
+  LOCATIONS=( '${HOME}/.linuxbrew/Homebrew' '/home/linuxbrew/.linuxbrew' '/opt/homebrew' '/usr/local' )
   for F_PATH in $LOCATIONS; do
     if [[ -e "${F_PATH}/bin/brew"  ]] {
       _echo "%F{blue}[INFO]%f: %F{cyan}OS%f @ %F{green}${OSTYPE} [$(uname -m)]%f"
@@ -79,7 +79,7 @@ export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 
-local GO_PROXY="releases.hashicorp.com/*,releases.hashicorp.com/terraform/*,proxy.golang.org/,hashicorp.com*,hashicorp.com/*,releases.hashicorp.com/*"
-for ENV_VAR in GOINSECURE GONOSUMDB GOPRIVATE ; do export $ENV_VAR="${GO_PROXY}" ;done
+# local GO_PROXY="releases.hashicorp.com/*,releases.hashicorp.com/terraform/*,proxy.golang.org/,hashicorp.com*,hashicorp.com/*,releases.hashicorp.com/*"
+# for ENV_VAR in GOINSECURE GONOSUMDB GOPRIVATE ; do export $ENV_VAR="${GO_PROXY}" ;done
 
 # vim:ft=zsh:sw=2:sts=2

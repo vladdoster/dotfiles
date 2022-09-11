@@ -116,3 +116,5 @@
   subpull = !git submodule foreach git pull --tags origin master
   subrm   = !sh -c 'git submodule deinit -f -- $1 && rm -rf .git/modules/$1 && git rm -f $1' -
   subup   = submodule update --init --recursive
+[lfs]
+	repositoryformatversion = 0
