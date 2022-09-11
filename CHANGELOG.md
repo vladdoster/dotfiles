@@ -1,3 +1,10 @@
+# [1.45.0](https://github.com/vladdoster/dotfiles/compare/v1.44.2...v1.45.0) (2022-09-11)
+
+
+### feat
+
+* add dependabot configuration ([59a1186](https://github.com/vladdoster/dotfiles/commit/59a1186484c8ed7e5e92986669e4acbaa4e7f003))
+
 ## [1.44.2](https://github.com/vladdoster/dotfiles/compare/v1.44.1...v1.44.2) (2022-09-09)
 
 
