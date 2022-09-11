@@ -27,7 +27,7 @@ RUN <<INSTALL-DEPS bash
   apt-get update
   apt-get -y install --no-install-recommends \
     ca-certificates curl cmake \
-    file \
+    file figlet \
     g++ gcc git \
     less libz-dev locales \
     make \
@@ -37,6 +37,7 @@ RUN <<INSTALL-DEPS bash
     vim \
     xz-utils \
     zsh
+
 INSTALL-DEPS
 
 RUN <<CREATE-USER bash
@@ -50,7 +51,6 @@ RUN <<CREATE-USER bash
   passwd --delete ${USER_NAME}
   chown -R ${USER_NAME} ${USER_HOME}
 CREATE-USER
-  # mkdir -p -- $USER_HOME/.config
 
 RUN <<INSTALL-HOMEBREW bash
   rm -rf ${BREW_PREFIX}
@@ -73,6 +73,8 @@ RUN <<DOTFILES bash
 DOTFILES
 
 WORKDIR ${USER_HOME}
+
+RUN figlet "user: ${USER_NAME}"
 
 ENTRYPOINT ["zsh"]
 CMD ["-l"]
