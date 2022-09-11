@@ -61,11 +61,8 @@ alias -g M='|more'
 alias -g H='|head'
 alias -g T='|tail'
 
-setopt   notify globdots correct pushdtohome cdablevars autolist
-setopt   correctall autocd recexact longlistjobs
-setopt   autoresume histignoredups pushdsilent noclobber
-setopt   autopushd pushdminus extendedglob rcquotes mailwarning
-unsetopt bgnice autoparamslash
+setopt nocorrectall
+setopt correct
 # +─────────────────────+
 # │ LOAD CONFIGURATIONS │
 # +─────────────────────+

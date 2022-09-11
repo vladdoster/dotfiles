@@ -8,12 +8,12 @@ function _accept-line-with-url {
         zle .kill-whole-line
         BUFFER=$BUFFERz
         zle .accept-line
-    elif [[ $BUFFER =~ ^([[:space:]]|)$ .* .*git ]]
+      elif [[ $BUFFER =~ ^[[:space:]]?\$[[:space:]] ]]
     then
         echo $BUFFER >> $HISTFILE
         fc -R
-        BUFFERz="git clone $BUFFER && cd $(basename $BUFFER .git)"
-        zle .kill-whole-line
+	BUFFERz="$(echo ${BUFFER/\$/} | xargs)"
+        # zle .kill-whole-line
         BUFFER=$BUFFERz
         zle .accept-line
     else

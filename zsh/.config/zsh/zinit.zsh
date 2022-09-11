@@ -67,9 +67,7 @@ for program in "mrtazz/checkmake" "stedolan/jq"; do zbin "${program}"; done
 zi from'gh-r' lbin'!' nocompile light-mode for \
   @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck'} \
   @{'pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'}} \
-  @rsteube/carapace-spec \
-  lbin'!**/bun* -> bun' @oven-sh/bun \
-  lbin'!**/rg' @BurntSushi/ripgrep \
+  lbin'!**/rg' @BurntSushi/ripgrep
 zi ice from'gh-r' lbin'!**/exa' nocompile atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'"
 zi light @ogham/exa
 for i (v vi); do alias $i="nvim"; done
