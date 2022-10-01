@@ -8,8 +8,8 @@
 #yabai -m config window_border_width 6
 #yabai -m config active_window_border_color 0xffff0000
 
-sudo yabai --load-sa
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
 
 # global settings
 yabai -m config mouse_follows_focus off
