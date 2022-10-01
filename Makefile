@@ -61,6 +61,11 @@ install-gnu-stow: ## Install GNU stow
 	cd ./bin/.local/bin && make stow
 	$(info --- installed GNU Stow)
 
+safari-extensions:
+	brew install mas
+	# 1password, vimari, grammarly
+	mas install 1569813296 1480933944 1462114288
+
 python-prog: ## Install useful Python programs
 	@python3 -m pip install --upgrade pip
 	@python3 -m pip install --upgrade --trusted-host pypi.org --trusted-host files.pythonhosted.org --no-compile \
