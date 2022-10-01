@@ -71,8 +71,8 @@ zi from'gh-r' lbin'!' nocompile light-mode for \
 zi ice from'gh-r' lbin'!**/exa' nocompile atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'"
 zi light @ogham/exa
 for i (v vi); do alias $i="nvim"; done
-# zinit ice from'gh-r' ver'nightly' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' nocompile lbin'!**/nvim -> nvim'
-# zinit light @neovim/neovim
+zinit ice from'gh-r' ver'nightly' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' nocompile lbin'!**/nvim -> nvim'
+zinit light @neovim/neovim
 #=== UNIT TESTING =====================================
 zi ice as'command' atclone'./build.zsh' pick'zunit'; zi light @zdharma-continuum/zunit
 zi ice wait lucid nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line'; zi light @softmoth/zsh-vim-mode
