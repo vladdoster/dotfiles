@@ -16,14 +16,11 @@ _info() { _log $1; }
 # +────────────────+
 _clone_if_absent() { [[ ! -d $1 ]] && git clone "$1" "$2/$(basename "$1" .git)"; }
 _edit() { ${EDITOR:-nvim} "$1"; }
-_export() {
-  [[ -d $1 ]] && export PATH="${1}${PATH+:$PATH}"
-  return $?
-}
-_goto() { [[ -e $1 ]] && cd "$1" && $(which exa) --all --long || ls -lGo; }
-_mkfile() { builtin echo "#!/usr/bin/env ${2}" > "${3}.${1}" && chmod +x "${3}.${1}"; }
+_export() { [[ -d $1 ]] && export PATH="${1}${PATH+:$PATH}"; return $?; }
+_mkfile() { builtin echo "#!/usr/bin/env ${2}" > "$3.$1" && chmod +x "$3.$1"; rehash; nvim "$3.$1"; }
 _sys_update() { "$1" update && "$1" upgrade; }
 has() { command -v "$1" 1> /dev/null 2>&1; }
+_goto() { [[ -e $1 ]] && cd "$1" && has exa && exa --all --long || ls -lGo; }
 # +────────────────+
 # │ CODE DIRECTORY │
 # +────────────────+
@@ -140,6 +137,7 @@ alias mkpy='_mkfile py "python3"'
 alias mksh='_mkfile sh "bash"'
 alias mktxt='{ F_NAME="$(cat -).txt"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
 alias mkzsh='_mkfile zsh "zsh"'
+alias mkcmd='{ F_NAME="$(cat -)"; touch "$F_NAME"; chmod +x $F_NAME; rehash; nvim $F_NAME }<<<'
 mkcd() { command mkdir -p -- "$1" && cd -P -- "$1"; }
 # +─────────────────+
 # │ FILE FORMATTING │
