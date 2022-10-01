@@ -1,3 +1,26 @@
+# [1.46.0](https://github.com/vladdoster/dotfiles/compare/v1.45.0...v1.46.0) (2022-10-01)
+
+
+### feat
+
+* Make target to install safari ext via mas-cli ([974e100](https://github.com/vladdoster/dotfiles/commit/974e100923d7ed33a214f09ddf4fa3d9cdeb1422))
+
+### fix
+
+* quoting for possible Homebrew location ([5b567c8](https://github.com/vladdoster/dotfiles/commit/5b567c8106085ccbb5e3eccf3ead6df032f40936))
+
+### maint
+
+* add mkcmd & mk* cmds opens file in editor ([40d0008](https://github.com/vladdoster/dotfiles/commit/40d00088e63fa11292871ca2850ef3f414a60973))
+* add nvim state dir to gitignore ([3df58d7](https://github.com/vladdoster/dotfiles/commit/3df58d7c6bb4685211b5924a390dcfc2f3816a8e))
+* chmod 775 & add vim modeline to zsh files ([a8f47e2](https://github.com/vladdoster/dotfiles/commit/a8f47e267c6f92cbb0c2bf24d4a61fe1fe30b6f2))
+* rm sys.sh & rename osx setup script ([862a567](https://github.com/vladdoster/dotfiles/commit/862a567b41c7b329e01066b9388d12e9b72acb84))
+* un-comment neovim nightly zinit install cmd ([d72c9d4](https://github.com/vladdoster/dotfiles/commit/d72c9d4df9a34f562ea10d04148518be31feddff))
+* update Dockerfile logic ([225d454](https://github.com/vladdoster/dotfiles/commit/225d454e6772186a0f4499ecd6abdb93370f25f0))
+* update Makefile logic ([a9ab655](https://github.com/vladdoster/dotfiles/commit/a9ab655c9d9c53898ee1b9f26cea0ebd55efe0b4))
+* update permissions and zsh files ([e2f2838](https://github.com/vladdoster/dotfiles/commit/e2f28380219709008c27e363851f5d3bc8b3bbed))
+* update stow to ignore ~/.local/s{hare,tate} ([1b6b7ad](https://github.com/vladdoster/dotfiles/commit/1b6b7ad750df496a39126630d9f18fa073156337))
+
 # [1.45.0](https://github.com/vladdoster/dotfiles/compare/v1.44.2...v1.45.0) (2022-09-11)
 
 
