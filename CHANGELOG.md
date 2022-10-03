@@ -1,3 +1,10 @@
+## [1.46.1](https://github.com/vladdoster/dotfiles/compare/v1.46.0...v1.46.1) (2022-10-03)
+
+
+### maint
+
+* fix script addition loading order in yabai ([cbd5e9d](https://github.com/vladdoster/dotfiles/commit/cbd5e9dfbc88eaa463c4beaf8ed87e3ff556d269))
+
 # [1.46.0](https://github.com/vladdoster/dotfiles/compare/v1.45.0...v1.46.0) (2022-10-01)
 
 
