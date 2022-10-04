@@ -10,12 +10,12 @@
 # +─────────────────+
 # $- includes i if bash is interactive, allowing a shell script or startup file to test this state
 _def() { [[ ! -z "${(tP)1}" ]]; }
-_echo() { [[ $- == *i* ]] && print -P "${1}"; }
+_log() { [[ $- == *i* ]] && print -P "%F{white}[INFO]%f %F{cyan}${1}%f -> %F{green}${2}%f"; }
 path_append() {
   for ARG in "$@"; do
     if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
       PATH="${PATH:+"$PATH:"}$ARG"
-      _echo "%F{blue}[INFO]%f: %F{cyan}Appended to PATH%f -> %F{green}${ARG}%f"
+      _log "Appended to PATH" "${ARG}"
     fi
   done
 }
@@ -23,11 +23,10 @@ activate_brew() {
   LOCATIONS=( "${HOME}/.linuxbrew/Homebrew" '/home/linuxbrew/.linuxbrew' '/opt/homebrew' '/usr/local' )
   for F_PATH in $LOCATIONS; do
     if [[ -e "${F_PATH}/bin/brew"  ]] {
-      _echo "%F{white}[INFO]%f: %F{cyan}OS%f @ %F{green}${OSTYPE} [$(uname -m)]%f"
+      _log "OS" "${OSTYPE} - $(uname -m)"
       if eval "${F_PATH}/bin/brew shellenv" &>/dev/null; then
         export PATH="${PATH:+"$PATH:"}${F_PATH}/bin"
-        # export PATH="${F_PATH}/bin:$PATH"
-        _echo "%F{white}[INFO]%f: %F{cyan}Homebrew%f @ %F{green}${F_PATH}/bin/brew%f"
+	_log "Homebrew" "${F_PATH}/bin/brew"
         break
       fi
     }
