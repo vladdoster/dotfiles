@@ -1,3 +1,10 @@
+## [1.47.2](https://github.com/vladdoster/dotfiles/compare/v1.47.1...v1.47.2) (2022-10-04)
+
+
+### maint
+
+* add --autostash to git pull alias and sort aliases ([e5e3e9a](https://github.com/vladdoster/dotfiles/commit/e5e3e9af9c31803c5a2d9cfe992ca4e564ad6ca3))
+
 ## [1.47.1](https://github.com/vladdoster/dotfiles/compare/v1.47.0...v1.47.1) (2022-10-04)
 
 
