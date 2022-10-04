@@ -1,3 +1,17 @@
+# [1.47.0](https://github.com/vladdoster/dotfiles/compare/v1.46.1...v1.47.0) (2022-10-04)
+
+
+### feat
+
+* add edit-function & find-replace functions ([0a38e6f](https://github.com/vladdoster/dotfiles/commit/0a38e6f8f09e2c14dc72f4faeb11a50288f9630d))
+* add pritty-env function ([62b6012](https://github.com/vladdoster/dotfiles/commit/62b60128785ba0bebf01e0a98e3310b67cb6415c))
+
+### maint
+
+* clean up zshrc cruft ([f2d1e71](https://github.com/vladdoster/dotfiles/commit/f2d1e7121150d13f7a7f7b57174f1c7169e0cc84))
+* condense exports and update log colors ([f741312](https://github.com/vladdoster/dotfiles/commit/f741312bdd7557801ba249745708272fac18f46a))
+* update log colors ([f7e28f7](https://github.com/vladdoster/dotfiles/commit/f7e28f7193be439702aad787b6f80aaa65e79a92))
+
 ## [1.46.1](https://github.com/vladdoster/dotfiles/compare/v1.46.0...v1.46.1) (2022-10-03)
 
 
