@@ -1,3 +1,10 @@
+## [1.47.1](https://github.com/vladdoster/dotfiles/compare/v1.47.0...v1.47.1) (2022-10-04)
+
+
+### maint
+
+* improve cohesion of logging function ([7e40322](https://github.com/vladdoster/dotfiles/commit/7e40322a5fa74c4b27745314b236ef20eab5c489))
+
 # [1.47.0](https://github.com/vladdoster/dotfiles/compare/v1.46.1...v1.47.0) (2022-10-04)
 
 
