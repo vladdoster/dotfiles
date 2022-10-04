@@ -1,3 +1,10 @@
+# [2.0.0](https://github.com/vladdoster/dotfiles/compare/v1.47.4...v2.0.0) (2022-10-04)
+
+
+### refactor
+
+* kitty config overhaul ([c7d9625](https://github.com/vladdoster/dotfiles/commit/c7d9625cf2cb02c184e9edadc05bf15eaa0c3f55))
+
 ## [1.47.4](https://github.com/vladdoster/dotfiles/compare/v1.47.3...v1.47.4) (2022-10-04)
 
 
