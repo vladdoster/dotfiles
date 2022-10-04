@@ -66,7 +66,7 @@ setopt correct
 # +─────────────────────+
 # │ LOAD CONFIGURATIONS │
 # +─────────────────────+
-for f in fzf aliases zinit rld widget; do
+for f in edit fzf aliases zinit rld widget; do
   source ${ZDOTDIR:-$HOME/.config/zsh}/${f}.zsh
 done
 # +───────────────────────+
