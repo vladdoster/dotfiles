@@ -111,6 +111,7 @@ alias ziclnplg="$(command rm -rf $ZINIT[PLUGINS_DIR])"
 # +───────+
 # │ MISC. │
 # +───────+
+alias pretty-env='print -C 1 $(env | sort | xargs)'
 alias gen-passwd='openssl rand -base64 24'
 alias get-my-ip='curl ifconfig.co'
 alias tmp-md='$EDITOR $(mktemp -t scratch.XXX.md)'
