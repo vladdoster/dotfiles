@@ -14,7 +14,7 @@ _log() { [[ $- == *i* ]] && print -P "%F{white}[INFO]%f %F{cyan}${1}%f -> %F{gre
 path_append() {
   for ARG in "$@"; do
     if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
-      PATH="${PATH:+"$PATH:"}$ARG"
+      export PATH="${ARG}:${PATH}"
       _log "Appended to PATH" "${ARG}"
     fi
   done
