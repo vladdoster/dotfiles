@@ -1,3 +1,14 @@
+## [1.47.3](https://github.com/vladdoster/dotfiles/compare/v1.47.2...v1.47.3) (2022-10-04)
+
+
+### fix
+
+* prepend paths to $PATH ([e40efc5](https://github.com/vladdoster/dotfiles/commit/e40efc59783347425cb9b4d2b93f3fc2e26f6081))
+
+### maint
+
+* add homebrew sbin to $PATH ([75ffe75](https://github.com/vladdoster/dotfiles/commit/75ffe7560a068ac8e71e3157131cc4f5ad9df8eb))
+
 ## [1.47.2](https://github.com/vladdoster/dotfiles/compare/v1.47.1...v1.47.2) (2022-10-04)
 
 
