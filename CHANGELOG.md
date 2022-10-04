@@ -1,3 +1,10 @@
+## [1.47.4](https://github.com/vladdoster/dotfiles/compare/v1.47.3...v1.47.4) (2022-10-04)
+
+
+### fix
+
+* prepend BREW path to $PATH & update log msg ([4ef1bf0](https://github.com/vladdoster/dotfiles/commit/4ef1bf0a825aae3bf51d80cfe497193cff49416d))
+
 ## [1.47.3](https://github.com/vladdoster/dotfiles/compare/v1.47.2...v1.47.3) (2022-10-04)
 
 
