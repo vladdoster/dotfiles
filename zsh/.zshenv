@@ -10,7 +10,7 @@
 # +─────────────────+
 # $- includes i if bash is interactive, allowing a shell script or startup file to test this state
 _def() { [[ ! -z "${(tP)1}" ]]; }
-_log() { [[ $- == *i* ]] && print -P "%F{white}[INFO]%f %F{cyan}${1}%f -> %F{green}${2}%f"; }
+_log() { [[ $- == *i* ]] && print -P "%F{white}[INFO]%f %F{cyan}${1}%f ⮕ %F{green}${2}%f"; }
 path_append() {
   for ARG in "$@"; do
     if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
@@ -25,8 +25,8 @@ activate_brew() {
     if [[ -e "${F_PATH}/bin/brew"  ]] {
       _log "OS" "${OSTYPE} - $(uname -m)"
       if eval "${F_PATH}/bin/brew shellenv" &>/dev/null; then
-        export PATH="${PATH:+"$PATH:"}${F_PATH}/bin"
-	_log "Homebrew" "${F_PATH}/bin/brew"
+	export PATH="${F_PATH}/bin:${PATH}"
+	_log "Homebrew" "$(brew --repository)"
         break
       fi
     }
