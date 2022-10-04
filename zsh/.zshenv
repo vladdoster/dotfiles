@@ -39,7 +39,7 @@ activate_brew
 typeset -aU path
 local USR_PATH="/usr/local/opt" BREW_PATH="$(brew --prefix)"
 path_append \
-  "${BREW_PATH}"/lib/ruby/gems/3.1.0/bin \
+  "${BREW_PATH}"/sbin \
   "${BREW_PATH}"/{'llvm','opt/ruby','opt/texinfo'}/bin \
   "${BREW_PATH}"/{'opt/libtool','make'}/libexec/gnubin \
   "${HOME}"/Library/Python/3.{'8','9','10'}/bin \
