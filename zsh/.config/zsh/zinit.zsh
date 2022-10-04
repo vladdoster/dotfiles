@@ -6,7 +6,7 @@
 #
 #=== HELPER METHODS ===================================
 error() { builtin print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && return 1; }
-info() { builtin print -P "%F{blue}[INFO]%f: %F{cyan}$1%f"; }
+info() { builtin print -P "%F{white}[INFO]%f: %F{cyan}$1%f"; }
 #=== ZINIT ============================================
 typeset -gAH ZI=(HOME_DIR "$HOME/.local/share/zinit")
 ZI+=(
