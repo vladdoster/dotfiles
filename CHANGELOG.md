@@ -1,3 +1,14 @@
+## [2.0.1](https://github.com/vladdoster/dotfiles/compare/v2.0.0...v2.0.1) (2022-10-04)
+
+
+### fix
+
+* open URLs on click and text selection in Kitty ([524efc0](https://github.com/vladdoster/dotfiles/commit/524efc06c75ef48c1b67436b5ba608b4886980dd))
+
+### maint
+
+* add FireCode and Victor fonts to Brewwfile ([35a67f7](https://github.com/vladdoster/dotfiles/commit/35a67f746e8f7206eb55f25e6349405cbbed322e))
+
 # [2.0.0](https://github.com/vladdoster/dotfiles/compare/v1.47.4...v2.0.0) (2022-10-04)
 
 
