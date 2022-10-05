@@ -72,7 +72,7 @@ python-prog: ## Install useful Python programs
 		autopep8 \
 		beautysh black bpytop \
 		flake8 \
-		isort \
+		isort instaloader \
 		mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc \
 		pynvim \
 		reorder-python-imports

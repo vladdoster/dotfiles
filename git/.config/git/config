@@ -1,13 +1,7 @@
-[init]
-  defaultBranch = "master"
-
-[advice]
-  skippedCherryPicks = false
-
 [user]
-  email    = "mvdoster@gmail.com"
+  email    = mvdoster@gmail.com
   name     = "Vladislav Doster"
-  username = "vladdoster"
+  username = vladdoster
 
 [credential]
   helper = cache --timeout=86400
@@ -17,8 +11,18 @@
   pager = delta
   excludesfile = ~/.config/git/ignore
 
+[commit]
+  template = ~/.config/git/commit-template
+
+[advice]
+  skippedCherryPicks = false
+
+[init]
+  defaultBranch = "master"
+
 [interactive]
-  diffFilter = delta --color-only
+  diffFilter = delta --color-only --features=interactive
+
 [add.interactive]
   useBuiltin = false # required for git 2.37.0
 
@@ -32,18 +36,15 @@
   hunk-header-line-number-style = "#067a00"
   hunk-header-style = "file line-number syntax"
   keep-plus-minus-markers = false
-  light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+  light = false
   line-numbers = true
-  navigate = true    # use n and N to move between diff sections
-
-[merge]
-  conflictstyle = diff3
+  navigate = true
 
 [diff]
   colorMoved = default
 
-[commit]
-  template = ~/.config/git/commit-template
+[merge]
+  conflictstyle = diff3
 
 [pull]
   rebase = true
@@ -56,9 +57,6 @@
   enabled = 1
   autoupdate = 1
 
-[interactive]
-  diffFilter = "delta --color-only --features=interactive"
-
 [homebrew]
   analyticsmessage = false
   caskanalyticsmessage = false
@@ -70,7 +68,7 @@
   sslVerify = false
 
 [github]
-  user = "vladdoster"
+  user = vladdoster
 
 [alias]
   au = add -u
@@ -116,5 +114,3 @@
   subrm   = !sh -c 'git submodule deinit -f -- $1 && rm -rf .git/modules/$1 && git rm -f $1' -
   subup   = submodule update --init --recursive
   sw  = stash show
-[lfs]
-	repositoryformatversion = 0

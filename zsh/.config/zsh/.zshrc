@@ -51,4 +51,10 @@ WORDCHARS=""                   # only alphanums make up words in word-based zle 
 ZLE_REMOVE_SUFFIX_CHARS=""     # don't eat space when typing '|' after a tab completion
 zle_highlight=('paste:none')   # disable highlighting of text pasted into the command line
 
-# vim:ft=zsh:sw=2:sts=2
+# Local Variables:
+# mode: Shell-Script
+# sh-indentation: 2
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# End:
+# vim: ft=zsh sw=2 ts=2 et

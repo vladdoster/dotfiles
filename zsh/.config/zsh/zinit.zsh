@@ -33,6 +33,38 @@ if [[ -e $ZI[BIN_DIR]/zinit.zsh ]] {
 zi nocompletions is-snippet for PZT::modules/{'environment','history','rsync'}
 zi is-snippet for OMZL::{'compfix','completion','git','key-bindings'}.zsh
 zi as'completion' for OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
+zinit wait lucid for \
+	OMZL::clipboard.zsh \
+	OMZL::compfix.zsh \
+	OMZL::completion.zsh \
+	OMZL::correction.zsh \
+    atload'
+        alias ..="cd .."
+        alias ...="cd ../.."
+        alias ....="cd ../../.."
+        alias .....="cd ../../../.."
+        function take() {
+            mkdir -p $@ && cd ${@:$#}
+        }
+        alias rm="rm -rf"
+    ' \
+	OMZL::directories.zsh \
+	OMZL::git.zsh \
+	OMZL::grep.zsh \
+	OMZL::key-bindings.zsh \
+	OMZL::spectrum.zsh \
+	OMZL::termsupport.zsh \
+    atload"
+        alias gcd='git checkout dev'
+        alias gce='git commit -a -e'
+    " \
+	OMZP::git \
+	OMZP::docker-compose \
+	as"completion" OMZP::docker/_docker \
+    djui/alias-tips \
+    https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh \
+    https://github.com/junegunn/fzf/blob/master/shell/completion.zsh
+
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
 znippet() { zi for light-mode as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
@@ -64,10 +96,12 @@ for ANNEX (bin-gem-node binary-symlink submods); do zi light @zdharma-continuum/
 #=== GITHUB BINARIES ==================================
 zbin(){ zi ice from'gh-r' lbin"!* -> $(basename ${1})" nocompile && zi light "@${1}"; }
 for program in "mrtazz/checkmake" "stedolan/jq"; do zbin "${program}"; done
+
 zi from'gh-r' lbin'!' nocompile light-mode for \
-  @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck'} \
+  @{'dandavison/delta','junegunn/fzf','numToStr/zenv','koalaman/shellcheck'} \
   @{'pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'}} \
   lbin'!**/rg' @BurntSushi/ripgrep
+
 zi ice from'gh-r' lbin'!**/exa' nocompile atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'"
 zi light @ogham/exa
 for i (v vi); do alias $i="nvim"; done
@@ -96,4 +130,10 @@ zi lucid wait light-mode for \
   compile'.*fast*~*.zwc' nocompletions \
   $ZI_REPO/fast-syntax-highlighting
 
-# vim:ft=zsh:sw=2:sts=2
+# Local Variables:
+# mode: Shell-Script
+# sh-indentation: 2
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# End:
+# vim: ft=zsh sw=2 ts=2 et

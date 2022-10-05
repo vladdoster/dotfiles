@@ -123,4 +123,10 @@ fcode() { # search code repositories
 #     d | fzf --height="20%" | cut -f 1 | source /dev/stdin
 # }
 
-# vim:ft=zsh:sw=2:sts=2
+# Local Variables:
+# mode: Shell-Script
+# sh-indentation: 2
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# End:
+# vim: ft=zsh sw=2 ts=2 et

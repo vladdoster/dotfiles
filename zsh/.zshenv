@@ -40,7 +40,7 @@ typeset -aU path
 local USR_PATH="/usr/local/opt" BREW_PATH="$(brew --prefix)"
 path_append \
   "${BREW_PATH}"/sbin \
-  "${BREW_PATH}"/{'llvm','opt/ruby','opt/texinfo'}/bin \
+  "${BREW_PATH}"/{'llvm','opt/ruby','opt/ncurses','opt/texinfo'}/bin \
   "${BREW_PATH}"/{'opt/libtool','make'}/libexec/gnubin \
   "${HOME}"/Library/Python/3.{'8','9','10'}/bin \
   "${HOME}"/{'.cargo','.local','.tfenv','go'}/bin \
@@ -77,4 +77,10 @@ export \
   HOMEBREW_NO_ENV_HINTS=1 \
   HOMEBREW_NO_INSTALL_CLEANUP=1
 
-# vim:ft=zsh:sw=2:sts=2
+# Local Variables:
+# mode: Shell-Script
+# sh-indentation: 2
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# End:
+# vim: ft=zsh sw=2 ts=2 et
