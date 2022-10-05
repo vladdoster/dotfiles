@@ -1,3 +1,15 @@
+# [2.1.0](https://github.com/vladdoster/dotfiles/compare/v2.0.1...v2.1.0) (2022-10-05)
+
+
+### feat
+
+* add zprofile to ensure the env is defined ([7dc0007](https://github.com/vladdoster/dotfiles/commit/7dc000794644127b8ecc51bbaa48f9ff78d97268))
+
+### maint
+
+* add vim mode lines, rm cruft, misc. fixes ([f362222](https://github.com/vladdoster/dotfiles/commit/f362222a6bf070703ba93447b8f7cb57bee312a6))
+* adjust tab fade for kitty ([d393ad6](https://github.com/vladdoster/dotfiles/commit/d393ad6f607b2cf67b3c5a2c6e17930323c35acb))
+
 ## [2.0.1](https://github.com/vladdoster/dotfiles/compare/v2.0.0...v2.0.1) (2022-10-04)
 
 
