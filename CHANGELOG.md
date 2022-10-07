@@ -1,3 +1,20 @@
+# [2.2.0](https://github.com/vladdoster/dotfiles/compare/v2.1.0...v2.2.0) (2022-10-07)
+
+
+### feat
+
+* add zsh precmd to fix broken term output ([dbc9614](https://github.com/vladdoster/dotfiles/commit/dbc9614bc44b60ab8afdf9fa5f356330ed35cb82))
+* use new yabai 5.0.0 options ([735f54b](https://github.com/vladdoster/dotfiles/commit/735f54b206c37b6871173996eacb6a763a623d18))
+
+### fix
+
+* set rehash completion zstyle ([75f93ab](https://github.com/vladdoster/dotfiles/commit/75f93ab12f612ed2d53e4867dfcf53c9280590f5))
+
+### maint
+
+* add bdfr and best-of to py-prog Make target ([8a5787f](https://github.com/vladdoster/dotfiles/commit/8a5787f6251acce505bf90d4318a809db973ee69))
+* update htop configuration ([8feea84](https://github.com/vladdoster/dotfiles/commit/8feea842e1f974df51678ca68b792d4ebd341c75))
+
 # [2.1.0](https://github.com/vladdoster/dotfiles/compare/v2.0.1...v2.1.0) (2022-10-05)
 
 
