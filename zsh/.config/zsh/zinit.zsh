@@ -33,38 +33,6 @@ if [[ -e $ZI[BIN_DIR]/zinit.zsh ]] {
 zi nocompletions is-snippet for PZT::modules/{'environment','history','rsync'}
 zi is-snippet for OMZL::{'compfix','completion','git','key-bindings'}.zsh
 zi as'completion' for OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
-zinit wait lucid for \
-	OMZL::clipboard.zsh \
-	OMZL::compfix.zsh \
-	OMZL::completion.zsh \
-	OMZL::correction.zsh \
-    atload'
-        alias ..="cd .."
-        alias ...="cd ../.."
-        alias ....="cd ../../.."
-        alias .....="cd ../../../.."
-        function take() {
-            mkdir -p $@ && cd ${@:$#}
-        }
-        alias rm="rm -rf"
-    ' \
-	OMZL::directories.zsh \
-	OMZL::git.zsh \
-	OMZL::grep.zsh \
-	OMZL::key-bindings.zsh \
-	OMZL::spectrum.zsh \
-	OMZL::termsupport.zsh \
-    atload"
-        alias gcd='git checkout dev'
-        alias gce='git commit -a -e'
-    " \
-	OMZP::git \
-	OMZP::docker-compose \
-	as"completion" OMZP::docker/_docker \
-    djui/alias-tips \
-    https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh \
-    https://github.com/junegunn/fzf/blob/master/shell/completion.zsh
-
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
 znippet() { zi for light-mode as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
@@ -105,7 +73,7 @@ zi from'gh-r' lbin'!' nocompile light-mode for \
 zi ice from'gh-r' lbin'!**/exa' nocompile atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'"
 zi light @ogham/exa
 for i (v vi); do alias $i="nvim"; done
-zinit ice from'gh-r' ver'nightly' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' nocompile lbin'!**/nvim -> nvim'
+zinit ice from'gh-r' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' nocompile lbin'!**/nvim -> nvim'
 zinit light @neovim/neovim
 #=== UNIT TESTING =====================================
 zi ice as'command' atclone'./build.zsh' pick'zunit'; zi light @zdharma-continuum/zunit
