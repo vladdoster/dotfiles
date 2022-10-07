@@ -1,3 +1,16 @@
+## [2.2.2](https://github.com/vladdoster/dotfiles/compare/v2.2.1...v2.2.2) (2022-10-07)
+
+
+### fix
+
+* open new kitty window in current working dir ([ab823e2](https://github.com/vladdoster/dotfiles/commit/ab823e27534981c26ad722b4623145d4a2dd2dc1))
+
+### maint
+
+* aliases use EDITOR instead of hardcoded vari ([65682b7](https://github.com/vladdoster/dotfiles/commit/65682b72c0ec96fdeed71ee7259eeb58821880cc))
+* set EDITOR based on if neovim is available ([5875f8b](https://github.com/vladdoster/dotfiles/commit/5875f8bc6265aec940cc61a018d8c202d5a1133f))
+* tweak kitty window border style ([4ba7bee](https://github.com/vladdoster/dotfiles/commit/4ba7bee6232b63e4151bf15993a63f82c3e69434))
+
 ## [2.2.1](https://github.com/vladdoster/dotfiles/compare/v2.2.0...v2.2.1) (2022-10-07)
 
 
