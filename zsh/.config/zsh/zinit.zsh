@@ -41,9 +41,9 @@ znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
 znippet 'exa' 'ogham/exa/master/completions/zsh'
 znippet 'fd' 'sharkdp/fd/master/contrib/completion'
 zi light-mode as'completion' nocompile is-snippet for \
-	"${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh" \
-        "${GH_RAW_URL}/oven-sh/bun/main/completions/bun.zsh" \
-        "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
+  "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh" \
+  "${GH_RAW_URL}/oven-sh/bun/main/completions/bun.zsh" \
+  "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
 #=== PROMPT ===========================================
 zi ice as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
 PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
@@ -55,12 +55,9 @@ zstyle ':prompt:pure:path' color 'cyan'
 zstyle ':prompt:pure:prompt:success' color 'green'"
 zi light @sindresorhus/pure
 #=== zsh-vim-mode cursor configuration [[[
-#
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
-# export MODE_INDICATOR_{'V'{'IINS=%F{15}%F{8}INSERT%f','ICMD=%F{10}%F{2}NORMAL%f','LINE="%F{12}%F{4}V-LINE%f"','VISUAL=%F{12}%F{4}VISUAL%f'},'REPLACE=%F{9}%F{1}REPLACE%f'}
 #=== ANNEXES ==========================================
-for ANNEX (bin-gem-node binary-symlink submods); do zi light @zdharma-continuum/zinit-annex-${ANNEX}; done
-# zi ice ver'fix/correct-logic-bug'; zi load @zdharma-continuum/zinit-annex-patch-dl
+for ANNEX (bin-gem-node patch-dl binary-symlink submods); do zi light @zdharma-continuum/zinit-annex-${ANNEX}; done
 #=== GITHUB BINARIES ==================================
 zbin(){ zi ice from'gh-r' lbin"!* -> $(basename ${1})" nocompile && zi light "@${1}"; }
 for program in "mrtazz/checkmake" "stedolan/jq"; do zbin "${program}"; done
@@ -70,11 +67,12 @@ zi from'gh-r' lbin'!' nocompile light-mode for \
   @{'pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'}} \
   lbin'!**/rg' @BurntSushi/ripgrep
 
-zi ice from'gh-r' lbin'!**/exa' nocompile atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'"
-zi light @ogham/exa
-for i (v vi); do alias $i="nvim"; done
-zinit ice from'gh-r' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' nocompile lbin'!**/nvim -> nvim'
-zinit light @neovim/neovim
+# for i (v vi); do alias $i="nvim"; done
+zi light-mode from'gh-r' nocompile for \
+    lbin'!**/exa' atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
+  @ogham/exa \
+    lbin'!**/nvim -> nvim' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' \
+  @neovim/neovim
 #=== UNIT TESTING =====================================
 zi ice as'command' atclone'./build.zsh' pick'zunit'; zi light @zdharma-continuum/zunit
 zi ice wait lucid nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line'; zi light @softmoth/zsh-vim-mode
@@ -98,10 +96,4 @@ zi lucid wait light-mode for \
   compile'.*fast*~*.zwc' nocompletions \
   $ZI_REPO/fast-syntax-highlighting
 
-# Local Variables:
-# mode: Shell-Script
-# sh-indentation: 2
-# indent-tabs-mode: nil
-# sh-basic-offset: 2
-# End:
-# vim: ft=zsh sw=2 ts=2 et
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

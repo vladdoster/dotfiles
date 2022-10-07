@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
+
 FZF_COMPLETION_OPTS='--preview "bat --color=always --line-range :50 {} 2> /dev/null || head -50 {}"'
 FZF_COMPLETION_TRIGGER='**'
 FZF_DEFAULT_OPTS='--height 40% --color fg:38,hl:191,fg+:81,bg+:16,info:197,prompt:197,spinner:197,pointer:197,marker:191,header:15'
 FZF_TMUX=1
 FZF_TMUX_OPTS='-p -w70% -h50% -xC -yC'
+
 dots() { # quick lookup for my config files
-  find ${DOTFILES:-$HOME/.config/dotfiles} | awk '!/git|plugged|autoload|.DS_Store/ && gsub("//", "/")' | fzfp | xargs $EDITOR
+  find "${DOTFILES:-$HOME/.config/dotfiles/}" -type f \
+  | fzfp \
+  | xargs "$EDITOR"
 }
+
 fzfp() { #fzf with preview options
   fzf \
     --ansi
@@ -20,14 +25,15 @@ fzfp() { #fzf with preview options
     --reverse \
     --tabstop=1
 }
+
 gli() {
   local filter
   if [ -n "$@" ] && [ -f "$@" ]; then
     filter="-- $@"
   fi
   git log \
-    --graph --color=always --abbrev=7 --format='%C(auto)%h %an %C(blue)%s %C(yellow)%cr' "$@" \
-    | fzf \
+    --graph --color=always --abbrev=7 --format='%C(auto)%h %an %C(blue)%s %C(yellow)%cr' "$@" |
+    fzf \
       --ansi --no-sort --reverse --tiebreak=index --height 80% --preview-window=right:60% \
       --preview "f() { set -- \$(echo -- \$@ | grep -o '[a-f0-9]\{7\}'); [ \$# -eq 0 ] || git show --color=always \$1 $filter; }; f {}" \
       --bind "j:down,k:up,alt-j:preview-down,alt-k:preview-up,ctrl-f:preview-page-down,ctrl-b:preview-page-up,q:abort,ctrl-m:execute:
@@ -36,19 +42,21 @@ gli() {
                 {}
                 FZF-EOF"
 }
+
 fgco() { # checkout git branch (including remote branches) with FZF
   local branches=$(
     git branch --all | grep -v HEAD
-  ) \
-    && local branch=$(echo "$branches" | fzf-tmux -d $((2 + $(wc -l <<< "$branches"))) +m) \
-    && git checkout $(
+  ) &&
+    local branch=$(echo "$branches" | fzf-tmux -d $((2 + $(wc -l <<< "$branches"))) +m) &&
+    git checkout $(
       echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##"
     )
 }
+
 fglog() { # git log browser with FZF
   git log --graph --color=always \
-    --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" \
-    | fzf \
+    --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+    fzf \
       --ansi \
       --bind=ctrl-s:toggle-sort \
       --no-sort \
@@ -69,8 +77,8 @@ fglog() { # git log browser with FZF
 fstash() {
   local out q k sha
   while out=$(
-    git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" \
-      | fzf --ansi --no-sort --query="$q" --print-query \
+    git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
+      fzf --ansi --no-sort --query="$q" --print-query \
         --expect=ctrl-d,ctrl-b
   ); do
     mapfile -t out <<< "$out"
@@ -89,11 +97,13 @@ fstash() {
     fi
   done
 }
+
 fmux() {
   set -euo pipefail
   prj=$(find $XDG_CONFIG_HOME/tmuxp/ -execdir bash -c 'basename "${0%.*}"' {} ';' | sort | uniq | nl | fzf | cut -f 2)
   tmuxp load $prj
 }
+
 ftmux() { # ftmux - help you choose tmux sessions
   if [[ -z $TMUX ]]; then
     # get the IDs
@@ -114,6 +124,7 @@ ftmux() { # ftmux - help you choose tmux sessions
     fi
   fi
 }
+
 fcode() { # search code repositories
   cd ~/code/$(find ~/code/* -type d -prune -exec basename {} ';' | sort | uniq | nl | fzf | cut -f 2)
 }
@@ -123,10 +134,4 @@ fcode() { # search code repositories
 #     d | fzf --height="20%" | cut -f 1 | source /dev/stdin
 # }
 
-# Local Variables:
-# mode: Shell-Script
-# sh-indentation: 2
-# indent-tabs-mode: nil
-# sh-basic-offset: 2
-# End:
-# vim: ft=zsh sw=2 ts=2 et
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

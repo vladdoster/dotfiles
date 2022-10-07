@@ -1,6 +1,6 @@
+#!/usr/bin/env zsh
 rld() {
   # validate dotfiles & safely restart Zsh
-  # args: --
   print 'Validating dotfiles...'
   # These need to be two separate statements or we won't get the right `$?`.
   private msg=
@@ -23,10 +23,4 @@ rld() {
   fi
 }
 
-# Local Variables:
-# mode: Shell-Script
-# sh-indentation: 2
-# indent-tabs-mode: nil
-# sh-basic-offset: 2
-# End:
-# vim: ft=zsh sw=2 ts=2 et
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
