@@ -1,6 +1,5 @@
-" vim-bootstrap 2022-09-07 18:57:22
 "*****************************************************************************
-"" Vim-Plug core
+" Plugins
 "*****************************************************************************
 let vimplug=expand('~/.vim/autoload/plug.vim')
 let curl=expand('curl')
@@ -17,25 +16,24 @@ if !filereadable(vimplug)
 endif
 " Required:
 call plug#begin(expand('~/.vim/plugged'))
+Plug 'tomasiser/vim-code-dark'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/grep.vim'
-Plug 'vim-scripts/CSApprox'
-Plug 'Raimondi/delimitMate'
 Plug 'Yggdroot/indentLine'
+Plug 'Raimondi/delimitMate'
 Plug 'editor-bootstrap/vim-bootstrap-updater'
-Plug 'tomasiser/vim-code-dark'
 "" Vim-Session
 Plug 'xolox/vim-misc'
 call plug#end()
 " Required:
 filetype plugin indent on
 "*****************************************************************************
-"" Basic Setup
-"*****************************************************************************"
+" Options
+"*****************************************************************************
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
@@ -59,7 +57,7 @@ else
     set shell=/bin/bash
 endif
 "*****************************************************************************
-"" Visual Settings
+" Visual Settings
 "*****************************************************************************
 syntax on
 set ruler
@@ -92,9 +90,9 @@ if exists("*fugitive#statusline")
   set statusline+=%{fugitive#statusline()}
 endif
 "*****************************************************************************
-"" Abbreviations
+" Abbreviations
 "*****************************************************************************
-"" no one is really happy until you have this shortcuts
+" no one is really happy until you have this shortcuts
 cnoreabbrev W! w!
 cnoreabbrev Q! q!
 cnoreabbrev Qall! qall!
@@ -105,7 +103,7 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
-"" NERDTree configuration
+" NERDTree configuration
 let g:NERDTreeChDirMode=2
 let g:NERDTreeIgnore=['node_modules','\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
 let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
@@ -131,33 +129,33 @@ if !exists('*s:setupWrapping')
     set textwidth=79
   endfunction
 endif
-"" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
+" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
 augroup vimrc-sync-fromstart
   autocmd!
   autocmd BufEnter * :syntax sync maxlines=3000
 augroup END
-"" Remember cursor position
+" Remember cursor position
 augroup vimrc-remember-cursor-position
   autocmd!
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
-"" txt
+" txt
 augroup vimrc-wrapping
   autocmd!
   autocmd BufRead,BufNewFile *.txt call s:setupWrapping()
 augroup END
 set autoread
 "*****************************************************************************
-"" Mappings
+" Mappings
 "*****************************************************************************
-"" Split
+" Split
 noremap <Leader>h :<C-u>split<CR>
 noremap <Leader>v :<C-u>vsplit<CR>
-"" Tabs
+" Tabs
 nnoremap <Tab> gt
 nnoremap <S-Tab> gT
 nnoremap <silent> <S-t> :tabnew<CR>
-"" Set working directory
+" Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
 cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent> <leader>b :Buffers<CR>
@@ -169,7 +167,7 @@ set noerrorbells visualbell t_vb=
 if has('autocmd')
   autocmd GUIEnter * set visualbell t_vb=
 endif
-"" Copy/Paste/Cut
+" Copy/Paste/Cut
 if has('unnamedplus')
   set clipboard=unnamed,unnamedplus
 endif
@@ -181,16 +179,16 @@ if has('macunix')
   vmap <C-x> :!pbcopy<CR>
   vmap <C-c> :w !pbcopy<CR><CR>
 endif
-"" Buffer nav
+" Buffer nav
 noremap <leader>z :bp<CR>
 noremap <leader>q :bp<CR>
 noremap <leader>x :bn<CR>
 noremap <leader>w :bn<CR>
-"" Close buffer
+" Close buffer
 noremap <leader>c :bd<CR>
-"" Clean search (highlight)
+" Clean search (highlight)
 nnoremap <silent> <leader><space> :noh<cr>
-"" Switching windows
+" Switching windows
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
@@ -201,3 +199,5 @@ vmap > >gv
 "" Move visual block
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+
+" vim: ft=vim sw=2 ts=2 et :
