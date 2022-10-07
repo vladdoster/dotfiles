@@ -15,7 +15,7 @@ _info() { _log $1; }
 # │ UTIL FUNCTIONS │
 # +────────────────+
 _clone_if_absent() { [[ ! -d $1 ]] && git clone "$1" "$2/$(basename "$1" .git)"; }
-_edit() { ${EDITOR:-nvim} "$1"; }
+_edit() { $EDITOR $1; }
 _export() { [[ -d $1 ]] && export PATH="${1}${PATH+:$PATH}"; return $?; }
 _mkfile() { builtin echo "#!/usr/bin/env ${2}" > "$3.$1" && chmod +x "$3.$1"; rehash; nvim "$3.$1"; }
 _sys_update() { "$1" update && "$1" upgrade; }
@@ -41,12 +41,11 @@ alias bashly_edge='docker run --rm -it --user $(id -u):$(id -g) --volume "$PWD:/
 alias b="cd -"
 alias rmr="rm -rf --"
 alias tailf="less +F -R"
-has nvim && EDITOR='nvim'
 has python3 && alias python='python3'
 # +──────────────────+
 # │ CONFIG SHORTCUTS │
 # +──────────────────+
-cfg_alias() { builtin alias ${1}="nvim ${XDG_CONFIG_HOME}/${2}"; }
+cfg_alias() { builtin alias ${1}="_edit ${XDG_CONFIG_HOME}/${2}"; }
 cfg_alias 'ealiases' 'zsh/aliases.zsh'
 cfg_alias 'gignore' 'git/ignore'
 cfg_alias 'gcfg' 'git/config'
@@ -60,7 +59,7 @@ alias zinstall='_edit $ZINIT[BIN_DIR]/zinit-install.zsh'
 # +────────────────+
 # │ HOME SHORTCUTS │
 # +────────────────+
-home_alias() { builtin alias ${1}="nvim ${HOME}/${2}"; }
+home_alias() { builtin alias ${1}="_edit ${HOME}/${2}"; }
 home_alias 'hscfg' '.hammerspoon/init.lua'
 home_alias 'sshrc' '.ssh/config'
 home_alias 'zec' '.zshenv'
