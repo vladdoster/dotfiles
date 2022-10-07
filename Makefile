@@ -70,7 +70,7 @@ python-prog: ## Install useful Python programs
 	@python3 -m pip install --upgrade pip
 	@python3 -m pip install --upgrade --trusted-host pypi.org --trusted-host files.pythonhosted.org --no-compile \
 		autopep8 \
-		beautysh black bpytop \
+		bdfr best-of beautysh black bpytop \
 		flake8 \
 		isort instaloader \
 		mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc \
@@ -117,3 +117,4 @@ clean: clean/nvim clean/dotfiles  ## Remove installed dotfiles
 
 help: ## print this help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z0-9_-]+:.*?## / {gsub("\\\\n",sprintf("\n%22c",""), $$2);printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+
