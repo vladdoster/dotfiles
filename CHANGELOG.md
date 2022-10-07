@@ -1,3 +1,16 @@
+## [2.2.1](https://github.com/vladdoster/dotfiles/compare/v2.2.0...v2.2.1) (2022-10-07)
+
+
+### fix
+
+* check correct path to zprofile check ([0f143f6](https://github.com/vladdoster/dotfiles/commit/0f143f617c0bf220371d1c201d45f45dc5f5fabc))
+
+### maint
+
+* delete nord.conf kitty colorscheme ([89356b4](https://github.com/vladdoster/dotfiles/commit/89356b4387be8eb8e0175ef284c3d68c02a29dbd))
+* fix kitty shortcuts ([b4ba260](https://github.com/vladdoster/dotfiles/commit/b4ba2609fd797a7fdd8ebc045baa92fdb5fdb4b7))
+* remove duplicate OMZ plugins ([6cabf88](https://github.com/vladdoster/dotfiles/commit/6cabf88d89865b129bda7b1dea83d61f87b47346))
+
 # [2.2.0](https://github.com/vladdoster/dotfiles/compare/v2.1.0...v2.2.0) (2022-10-07)
 
 
