@@ -15,11 +15,6 @@ setenv() { typeset -x "${1}${1:+=}${(@)argv[2,$#]}" }  # csh compatibility
 freload() { while (( $# )); do; unfunction $1; autoload -U $1; shift; done }
 # Where to look for autoloaded function definitions
 fpath=($fpath)
-
-# Autoload all shell functions from all directories in $fpath (following
-# symlinks) that have the executable bit on (the executable bit is not
-# necessary, but gives you an easy way to stop the autoloading of a
-# particular shell function). $fpath should not be empty for this to work.
 for func in $^fpath/*(N-.x:t); autoload $func
 
 # automatically remove duplicates from these arrays
@@ -32,6 +27,18 @@ alias -g M='|more' H='|head' T='|tail'
 for f in edit fzf aliases zinit rld widget; do
   source ${ZDOTDIR:-$HOME/.config/zsh}/${f}.zsh
 done
+# +──────────────+
+# │ SETUP EDITOR │
+# +──────────────+
+_log() { [[ $- == *i* ]] && print -P "%F{white}[INFO]%f %F{cyan}${1}%f ⮕  %F{green}${2}%f"; }
+if has nvim && { nvim --headless -c ':qall' }; then
+  EDITOR="nvim"
+else
+  EDITOR="vim"
+fi
+_log 'Editor' "$EDITOR"
+export EDITOR=$EDITOR
+for i (v vi vim); do alias $i="$EDITOR"; done
 # +───────────────────────+
 # │ Zsh Line Editor (ZLE) │
 # +───────────────────────+
