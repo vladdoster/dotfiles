@@ -1,3 +1,15 @@
+# [2.3.0](https://github.com/vladdoster/dotfiles/compare/v2.2.2...v2.3.0) (2022-10-14)
+
+
+### feat
+
+* redo zinit zsh completion ([0ba4601](https://github.com/vladdoster/dotfiles/commit/0ba4601e504d656379313254f4d1fb1364b8c84e))
+
+### maint
+
+* clean up vimrc ([856b1f1](https://github.com/vladdoster/dotfiles/commit/856b1f170694a0213b363e6bb713f29bab91b0bf))
+* re-add function notation to widgets ([4dcbe4a](https://github.com/vladdoster/dotfiles/commit/4dcbe4ab112f2ff1ef6134a071f207c4d22d3da8))
+
 ## [2.2.2](https://github.com/vladdoster/dotfiles/compare/v2.2.1...v2.2.2) (2022-10-07)
 
 
