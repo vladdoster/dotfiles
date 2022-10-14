@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-_accept-line-with-url {
+function _accept-line-with-url {
   if [[ $BUFFER =~ ^https.*git ]]; then
     echo $BUFFER >> $HISTFILE
     fc -R
@@ -21,7 +21,7 @@ _accept-line-with-url {
 zle -N accept-line _accept-line-with-url
 
 
-reset_broken_terminal() {
+function reset_broken_terminal() {
   printf '%b' '\e[0m\e(B\e)0\017\e[?5l\e7\e[0;0r\e8'
 }
 autoload -Uz add-zsh-hook
