@@ -1,3 +1,11 @@
+## [2.3.1](https://github.com/vladdoster/dotfiles/compare/v2.3.0...v2.3.1) (2022-10-15)
+
+
+### fix
+
+* kitty utilizes built-in macOS fullscreen ([bf43d0d](https://github.com/vladdoster/dotfiles/commit/bf43d0d70ff717dab271459e80f3e0545c5a2953))
+* Makefile target names && GNU stow install target ([e72e9ff](https://github.com/vladdoster/dotfiles/commit/e72e9ff2bdf987ddb0eee56c41b6e8f7be19143f))
+
 # [2.3.0](https://github.com/vladdoster/dotfiles/compare/v2.2.2...v2.3.0) (2022-10-14)
 
 
