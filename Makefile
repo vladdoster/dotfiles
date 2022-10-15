@@ -17,13 +17,12 @@ hammerspoon: destination:=$${HOME}/.hammerspoon
 .PHONY: neovim
 neovim: destination := $${HOME}/.config/nvim
 
-$(CONFIGS): ## clone configuration repository
+$(CONFIGS): ## Clone configuration repository
 	sh -c "[ ! -d $(destination) ] && git clone $(GH_URL)/$@-configuration $(destination)"
 
 .PHONY: dotfiles
-dotfiles: | clean ## Deploy dotfiles via GNU install
+install: | clean ## Install dotfiles via GNU stow
 	find * -maxdepth 0 -mindepth 0 -type d -exec stow --verbose 1 --stow --target $${HOME} {} \;
-
 
 build: ## Build docker image
 	docker build \
@@ -33,7 +32,7 @@ build: ## Build docker image
 		$(CURDIR)
 
 .PHONY: shell
-shell: ## alias for dev
+shell: ## Alias for dev
 	@docker run \
 		--interactive \
 		--tty \
@@ -54,11 +53,15 @@ brew-fix: ## Re-install Linuxbrew taps homebrew-core & homebrew-cask
 	@git -C "/home/linuxbrew/.linuxbrew/Homebrew" remote add origin https://github.com/Homebrew/brew
 	brew tap homebrew/core homebrew/cask
 
-install-all: python/prog rust/prog ## Install Python & Rust programs
+install-all: py-prog rust-prog ## Install Python & Rust programs
 
-install-gnu-stow: ## Install GNU stow
+dirs:
+	mkdir -p ~/code
+
+stow: dirs ## Install GNU stow
 	$(info --- installing GNU Stow)
-	cd ./bin/.local/bin && make stow
+	if [ -d ~/code/stow ]; then echo "[stow]: code/stow already found"; else git clone https://github.com/aspiers/stow ~/code/stow; fi
+	cd ~/code/stow/ && autoreconf -ivf && ./configure && make -j2 -s --no-print-directory && sudo make install -s
 	$(info --- installed GNU Stow)
 
 safari-extensions:
@@ -66,9 +69,9 @@ safari-extensions:
 	# 1password, vimari, grammarly
 	mas install 1569813296 1480933944 1462114288
 
-python-prog: ## Install useful Python programs
+py-prog: ## Install useful Python programs
 	@python3 -m pip install --upgrade pip
-	@python3 -m pip install --upgrade --trusted-host pypi.org --trusted-host files.pythonhosted.org --no-compile \
+	@python3 -m pip install --no-compile --trusted-host files.pythonhosted.org --trusted-host pypi.org --upgrade --user \
 		autopep8 \
 		bdfr best-of beautysh black bpytop \
 		flake8 \
@@ -78,7 +81,7 @@ python-prog: ## Install useful Python programs
 		reorder-python-imports
 	$(info --- py packages installed)
 
-python-update: ## Update installed Python3 packages
+py-update: ## Update installed Python3 packages
 	@pip3 list --user \
 	| cut -d" " -f 1 \
 	| tail -n +3 \
@@ -102,19 +105,15 @@ clean-nvim:
 	rm -rf $${HOME}/.{cache,config/nvim/lua/plugins,local/share/nvim}
 	$(info --- removed nvim artifacts)
 
-clean-dotfiles:
+uninstall: Un-stow dotfiles
 	find * -maxdepth 0 -mindepth 0 -type d -exec stow --verbose 1 --target $${HOME} --delete {} \;
 	$(info --- uninstalled dotfiles)
 
-.PHONY: clean
-clean: clean/nvim clean/dotfiles  ## Remove installed dotfiles
-	find $$PWD -type f -name ".DS_Store" -print -delete
-	$(info --- cleaned .DS_Store files)
+help: ## Print help message
+	@ # Thanks tweekmonster ;) Saw this in your gist, too.
+	@echo "$$(grep -hE '^[a-zA-Z0-9_-]+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\033[36m\1\\033[m:\2/' | column -c2 -t -s : | sort)"
 
-# A catch-all target to make fake targets
-%:
+%: ## A catch-all target to make fake targets
 	@true
 
-help: ## print this help
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z0-9_-]+:.*?## / {gsub("\\\\n",sprintf("\n%22c",""), $$2);printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
-
+# vim: set sw=2 sts=2 et ft=make et:
