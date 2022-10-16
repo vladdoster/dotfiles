@@ -58,6 +58,7 @@ install-all: py-prog rust-prog ## Install Python & Rust programs
 dirs:
 	mkdir -p ~/code
 
+.PHONY: stow
 stow: dirs ## Install GNU stow
 	$(info --- installing GNU Stow)
 	if [ -d ~/code/stow ]; then echo "[stow]: code/stow already found"; else git clone https://github.com/aspiers/stow ~/code/stow; fi
