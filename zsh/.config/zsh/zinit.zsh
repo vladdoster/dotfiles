@@ -63,7 +63,7 @@ zbin(){ zi ice from'gh-r' lbin"!* -> $(basename ${1})" nocompile && zi light "@$
 for program in "mrtazz/checkmake" "stedolan/jq"; do zbin "${program}"; done
 
 zi from'gh-r' lbin'!' nocompile light-mode for \
-  @{'dandavison/delta','junegunn/fzf','numToStr/zenv','koalaman/shellcheck'} \
+  @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck'} \
   @{'pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'}} \
   lbin'!**/rg' @BurntSushi/ripgrep
 
@@ -71,7 +71,7 @@ zi from'gh-r' lbin'!' nocompile light-mode for \
 zi light-mode from'gh-r' nocompile for \
     lbin'!**/exa' atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa \
-    lbin'!**/nvim -> nvim' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' \
+    lbin'!**/nvim -> nvim' ver'nightly' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' \
   @neovim/neovim
 #=== UNIT TESTING =====================================
 zi ice as'command' atclone'./build.zsh' pick'zunit'; zi light @zdharma-continuum/zunit
