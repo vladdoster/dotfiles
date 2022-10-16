@@ -25,8 +25,8 @@ activate_brew() {
     if [[ -e "${F_PATH}/bin/brew"  ]] {
       _log "OS" "${OSTYPE} - $(uname -m)"
       if eval "${F_PATH}/bin/brew shellenv" &>/dev/null; then
-	export PATH="${F_PATH}/bin:${PATH}"
-	_log "Homebrew" "$(brew --repository)"
+          export PATH="${F_PATH}/bin:${PATH}"
+          _log "Homebrew" "$(brew --repository)"
         break
       fi
     }
