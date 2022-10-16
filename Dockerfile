@@ -21,6 +21,7 @@ ENV BREW_PREFIX "/home/$USER/.linuxbrew"
 RUN <<INSTALL-DEPS bash
   apt-get update
   apt-get -y install --no-install-recommends \
+    automake \
     build-essential \
     ca-certificates cmake curl \
     figlet file \
@@ -64,7 +65,8 @@ WORKDIR ${HOME}
 
 RUN <<DOTFILES bash
   pushd dotfiles/
-  make -j1 stow install
+  make -j4 stow
+  make install
   figlet "============="
   figlet "user: ${USER}"
   figlet "============="
