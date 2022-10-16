@@ -21,13 +21,14 @@ ENV BREW_PREFIX "/home/$USER/.linuxbrew"
 RUN <<INSTALL-DEPS bash
   apt-get update
   apt-get -y install --no-install-recommends \
-    ca-certificates curl cmake \
-    file figlet \
+    build-essential \
+    ca-certificates cmake curl \
+    figlet file \
     g++ gcc git \
     less libz-dev locales \
     make \
-    stow sudo subversion \
-    tar tzdata tree \
+    stow subversion sudo \
+    tar texinfo texlive tree tzdata \
     unzip \
     vim \
     wget \
@@ -55,17 +56,21 @@ ADD --keep-git-dir=true https://github.com/zdharma-continuum/zinit.git#main $HOM
 RUN <<INSTALL-HOMEBREW bash
   # ln -s ${BREW_PREFIX}/Homebrew/bin/brew ${BREW_PREFIX}/bin
   chown -R ${USER} ${HOME}
-INSTALL-HOMEBREW
-
-
-RUN <<DOTFILES bash
-  make --directory "${HOME}/dotfiles" dotfiles
-  figlet "user: ${USER}"
   chown -R "${USER}" "${HOME}"
-DOTFILES
+INSTALL-HOMEBREW
 
 USER ${USER}
 WORKDIR ${HOME}
+
+RUN <<DOTFILES bash
+  pushd dotfiles/
+  make -j1 stow install
+  figlet "============="
+  figlet "user: ${USER}"
+  figlet "============="
+DOTFILES
+
+
 ENTRYPOINT ["zsh"]
 CMD ["-l"]
 
