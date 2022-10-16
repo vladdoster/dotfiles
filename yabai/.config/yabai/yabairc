@@ -27,7 +27,7 @@ yabai -m config \
   window_border off \
   window_border_blur off \
   window_border_hidpi on \
-  window_border_radius 12 \
+  window_border_radius 1 \
   window_border_width 4 \
   window_gap 06 \
   window_opacity off \
