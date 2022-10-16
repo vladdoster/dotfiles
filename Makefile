@@ -21,7 +21,7 @@ $(CONFIGS): ## Clone configuration repository
 	sh -c "[ ! -d $(destination) ] && git clone $(GH_URL)/$@-configuration $(destination)"
 
 .PHONY: dotfiles
-install: | clean ## Install dotfiles via GNU stow
+install: | uninstall ## Install dotfiles via GNU stow
 	find * -maxdepth 0 -mindepth 0 -type d -exec stow --verbose 1 --stow --target $${HOME} {} \;
 
 build: ## Build docker image
