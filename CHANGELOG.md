@@ -1,3 +1,29 @@
+# [3.0.0](https://github.com/vladdoster/dotfiles/compare/v2.3.1...v3.0.0) (2022-11-01)
+
+
+### fix
+
+* add dotfiles deps to install via apt ([42a066b](https://github.com/vladdoster/dotfiles/commit/42a066bc1ceb99cf9d310bf2d24ee2860ce799d7))
+* correct Make target names ([57c3d55](https://github.com/vladdoster/dotfiles/commit/57c3d55156a92e5884bc52863dedcf8bb150164b))
+* indentation && quoting of zsh variable ([fa03799](https://github.com/vladdoster/dotfiles/commit/fa03799bf2360234c84a80dcf2588f7be7128e73))
+
+### maint
+
+* +x alias for chmod +x ([ce84f2f](https://github.com/vladdoster/dotfiles/commit/ce84f2f55270aec451d2854afc89b59c61a0362a))
+* install automake via apt ([3b9f025](https://github.com/vladdoster/dotfiles/commit/3b9f02538a7bb1bbfca94893be697a612ce4fb6d))
+* make Make target stow PHONY ([0244a75](https://github.com/vladdoster/dotfiles/commit/0244a75633dcafb4a961442dbf590004deb7f885))
+* remove zenv plugin && specify neovim nightly ([36f9df9](https://github.com/vladdoster/dotfiles/commit/36f9df92bd753ffad6625287ac8d357f21ed435a))
+* resolve zinit.zsh conflicts ([f04c079](https://github.com/vladdoster/dotfiles/commit/f04c0798f16b977f3c2ce11a7a03f8223ed9d55e))
+* tweak yabai window border width ([5d8a651](https://github.com/vladdoster/dotfiles/commit/5d8a651e6b6c9126e649c36ebc7d48121dc0da4a))
+
+### refactor
+
+* reduce duplicate code for easy grokking ([ed9911e](https://github.com/vladdoster/dotfiles/commit/ed9911ee185ce078eccb86f08e154974eb2e5e79))
+
+### style
+
+* tweak kitty colorscheme values ([cc98c71](https://github.com/vladdoster/dotfiles/commit/cc98c71380d89588ee1554dd8125ff778367db10))
+
 ## [2.3.1](https://github.com/vladdoster/dotfiles/compare/v2.3.0...v2.3.1) (2022-10-15)
 
 
