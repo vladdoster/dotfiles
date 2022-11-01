@@ -16,7 +16,8 @@ ZI+=(
 ZI_FORK='vladdoster'; ZI_REPO='zdharma-continuum'; ZPFX=$ZI[HOME_DIR]/polaris
 if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]] {
   info 'downloading zinit' \
-    && command git clone "https://github.com/$ZI_REPO/zinit.git" $ZI[BIN_DIR]
+    && command git clone "https://github.com/$ZI_REPO/zinit.git" $ZI[BIN_DIR] \
+    && command git checkout 5fffd4f6b076f7cae26d729bb71f8092c1328563
   info 'setting up zinit' \
     && command chmod g-rwX $ZI[HOME_DIR] \
     && zcompile $ZI[BIN_DIR]/zinit.zsh \
