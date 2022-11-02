@@ -1,3 +1,17 @@
+## [3.0.3](https://github.com/vladdoster/dotfiles/compare/v3.0.2...v3.0.3) (2022-11-02)
+
+
+### fix
+
+* logger colors and logic ([5e8c1ef](https://github.com/vladdoster/dotfiles/commit/5e8c1effcbf9a24a918c9285ede07fbc0b456f21))
+
+### maint
+
+* add .zprofile & fix zr{ld,eset} aliases ([1c218ed](https://github.com/vladdoster/dotfiles/commit/1c218ed576db41d1c7d1bd5dd48785737d049ffb))
+* cleanup .gitignore cruft ([f2ebc36](https://github.com/vladdoster/dotfiles/commit/f2ebc36f6ad99377e8413065f7d719ab0ae32f29))
+* do not expire git credentials ([dbffeab](https://github.com/vladdoster/dotfiles/commit/dbffeab150ee2ec0a6b494bbeb089b36599aef15))
+* improve logic for setting locale ([5358acf](https://github.com/vladdoster/dotfiles/commit/5358acfe96e536b1f0f1a37ac653d3c70ac76ca3))
+
 ## [3.0.2](https://github.com/vladdoster/dotfiles/compare/v3.0.1...v3.0.2) (2022-11-02)
 
 
