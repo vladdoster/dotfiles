@@ -12,30 +12,19 @@ typeset -gAH ZI=(HOME_DIR $HOME/.local/share/zinit)
  ZI+=(
    BIN_DIR "$ZI[HOME_DIR]/zinit.git" COMPLETIONS_DIR "$ZI[HOME_DIR]/completions" OPTIMIZE_OUT_OF_DISK_ACCESSES "1"
    PLUGINS_DIR "$ZI[HOME_DIR]/plugins" SNIPPETS_DIR "$ZI[HOME_DIR]/snippets" ZCOMPDUMP_PATH "$ZI[HOME_DIR]/zcompdump"
-   ZPFX "$ZI[HOME_DIR]/polaris"
+   ZPFX "$ZI[HOME_DIR]/polaris" REPO 'zdharma-continuum'
  )
-ZI_FORK='vladdoster'; ZI_REPO='zdharma-continuum';
- if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]] {
-   info 'downloading zinit' && \
-   command git clone "https://github.com/$ZI_REPO/zinit.git" $ZI[BIN_DIR] \
-   info 'setting up zinit' && \
-   command chmod g-rwX $ZI[HOME_DIR] && \
-   zcompile $ZI[BIN_DIR]/zinit.zsh && \
-   info 'sucessfully installed zinit'
-ZI+=(
-  BIN_DIR "$ZI[HOME_DIR]/zinit.git" COMPLETIONS_DIR "$ZI[HOME_DIR]/completions" OPTIMIZE_OUT_OF_DISK_ACCESSES "1"
-  PLUGINS_DIR "$ZI[HOME_DIR]/plugins" SNIPPETS_DIR "$ZI[HOME_DIR]/snippets" ZCOMPDUMP_PATH "$ZI[HOME_DIR]/zcompdump"
-)
-ZI_FORK='vladdoster'; ZI_REPO='zdharma-continuum'; ZPFX=$ZI[HOME_DIR]/polaris
+
 if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]] {
-  info 'downloading zinit' \
-    && command git clone "https://github.com/$ZI_REPO/zinit.git" $ZI[BIN_DIR] \
-    && command git checkout 5fffd4f6b076f7cae26d729bb71f8092c1328563
-  info 'setting up zinit' \
-    && command chmod g-rwX $ZI[HOME_DIR] \
-    && zcompile $ZI[BIN_DIR]/zinit.zsh \
-    && info 'sucessfully installed zinit'
-}
+  { 
+    info 'downloading zinit' && \
+    command git clone https://github.com/$ZI[REPO]/zinit.git $ZI[BIN_DIR] && \
+    info 'setting up zinit' && \
+    command chmod g-rwX $ZI[HOME_DIR] && \
+    zcompile $ZI[BIN_DIR]/zinit.zsh && \
+    info 'sucessfully installed zinit'
+  } || error 'failed to download zinit'
+} 
 if [[ -e $ZI[BIN_DIR]/zinit.zsh ]] {
   typeset -gAH ZINIT=( ${(kv)ZI} ) \
     && builtin source $ZINIT[BIN_DIR]/zinit.zsh \
@@ -104,10 +93,10 @@ zi lucid wait light-mode for \
   bindkey "^ " autosuggest-accept' \
   zsh-users/zsh-autosuggestions \
   atinit'bindkey "^R" history-search-multi-word' \
-  $ZI_REPO/history-search-multi-word \
+  $ZI[REPO]/history-search-multi-word \
   atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
   atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
   compile'.*fast*~*.zwc' nocompletions \
-  $ZI_REPO/fast-syntax-highlighting
+  $ZI[REPO]/fast-syntax-highlighting
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
