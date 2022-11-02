@@ -31,7 +31,7 @@ done
 # │ SETUP EDITOR │
 # +──────────────+
 _log() { [[ $- == *i* ]] && print -P "%F{white}[INFO]%f %F{cyan}${1}%f ⮕  %F{green}${2}%f"; }
-if has nvim && { nvim --headless -c ':qall' }; then
+if has nvim && { nvim --headless --noplugin -c ':qall' }; then
   EDITOR="nvim"
 else
   EDITOR="vim"
