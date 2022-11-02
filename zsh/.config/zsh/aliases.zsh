@@ -54,14 +54,15 @@ home_alias() { builtin alias ${1}="_edit ${HOME}/${2}"; }
 home_alias 'hscfg' '.hammerspoon/init.lua'
 home_alias 'sshrc' '.ssh/config'
 home_alias 'zec' '.zshenv'
+home_alias 'zpc' '.zprofile'
 # +─────────────────+
 # │ RELOAD COMMANDS │
 # +─────────────────+
 alias nvcln="command rm -rf $HOME/.{local/share/nvim,config/nvim/plugin/packer_compiled.lua}"
 alias zcln="command rm -rf ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}"
-alias zreset="builtin cd ${HOME} && ( zcln && zrld ) && cd -"
+alias zreset="builtin cd ${HOME} && unset $_comp; rm $_comp_dumpfile && ( zcln && zrld ) && cd -"
 alias zicln="zi delete --all --yes; ( exec zsh -il );"
-alias zrld="builtin exec zsh -il"
+alias zrld="builtin exec zsh -l"
 # +────────────+
 # │ NAVIGATION │
 # +────────────+
