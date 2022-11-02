@@ -1,3 +1,10 @@
+## [3.0.2](https://github.com/vladdoster/dotfiles/compare/v3.0.1...v3.0.2) (2022-11-02)
+
+
+### fix
+
+* zinit installation logic ([532a34a](https://github.com/vladdoster/dotfiles/commit/532a34a1b0180fa647584078341e1751695de6d5))
+
 ## [3.0.1](https://github.com/vladdoster/dotfiles/compare/v3.0.0...v3.0.1) (2022-11-02)
 
 
