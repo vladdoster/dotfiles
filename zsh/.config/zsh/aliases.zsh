@@ -1,16 +1,7 @@
 # #!/usr/bin/env zsh
-if builtin echo "$-" | grep i > /dev/null; then export IS_TTY="${IS_TTY:=false}"; fi
-LOG_LEVEL="error"
-_log() {
-  if $IS_TTY; then
-    case $LOG_LEVEL in
-      error*) builtin echo "--- ERROR: $1" ;;
-      info*) builtin echo "--- INFO: $1" ;;
-    esac
-  fi
-}
-_error() { _log $1; }
-_info() { _log $1; }
+if builtin echo "$-" | grep i > /dev/null; then export IS_TTY='1'; fi
+_error() { [[ -v $IS_TTY ]] && print -P "%F{red}[ERROR]%f %F{white}${1}%f" >&2; }
+_info() { [[ -v $IS_TTY ]] && print -P "%F{white}[INFO]%f %F{cyan}${1}%f"; }
 # +────────────────+
 # │ UTIL FUNCTIONS │
 # +────────────────+
@@ -20,7 +11,7 @@ _export() { [[ -d $1 ]] && export PATH="${1}${PATH+:$PATH}"; return $?; }
 _mkfile() { builtin echo "#!/usr/bin/env ${2}" > "$3.$1" && chmod +x "$3.$1"; rehash; nvim "$3.$1"; }
 _sys_update() { "$1" update && "$1" upgrade; }
 has() { command -v "$1" 1> /dev/null 2>&1; }
-_goto() { [[ -e $1 ]] && cd "$1" && has exa && exa --all --long || ls -lGo; }
+_goto() { [[ -e $1 ]] && { cd "$1" && has exa && exa --all --long || ls -lGo } || _error "${1} not found"; }
 # +────────────────+
 # │ CODE DIRECTORY │
 # +────────────────+
