@@ -5,7 +5,7 @@
   username = vladdoster
 
 [credential]
-  helper = cache --timeout=86400
+  helper = store --file ~/.config/git/credentials
 
 [core]
   editor = nvim
@@ -25,7 +25,7 @@
   diffFilter = delta --color-only --features=interactive
 
 [add.interactive]
-  useBuiltin = false # required for git 2.37.0
+  useBuiltin = false
 
 [delta]
   commit-decoration-style = "blue ol"
@@ -67,9 +67,6 @@
 
 [https]
   sslVerify = false
-
-[github]
-  user = vladdoster
 
 [alias]
   au = add -u
