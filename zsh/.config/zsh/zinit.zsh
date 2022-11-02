@@ -9,6 +9,19 @@ error() { builtin print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && return 1; }
 info() { builtin print -P "%F{white}[INFO]%f: %F{cyan}$1%f"; }
 #=== ZINIT ============================================
 typeset -gAH ZI=(HOME_DIR $HOME/.local/share/zinit)
+ ZI+=(
+   BIN_DIR "$ZI[HOME_DIR]/zinit.git" COMPLETIONS_DIR "$ZI[HOME_DIR]/completions" OPTIMIZE_OUT_OF_DISK_ACCESSES "1"
+   PLUGINS_DIR "$ZI[HOME_DIR]/plugins" SNIPPETS_DIR "$ZI[HOME_DIR]/snippets" ZCOMPDUMP_PATH "$ZI[HOME_DIR]/zcompdump"
+   ZPFX "$ZI[HOME_DIR]/polaris"
+ )
+ZI_FORK='vladdoster'; ZI_REPO='zdharma-continuum';
+ if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]] {
+   info 'downloading zinit' && \
+   command git clone "https://github.com/$ZI_REPO/zinit.git" $ZI[BIN_DIR] \
+   info 'setting up zinit' && \
+   command chmod g-rwX $ZI[HOME_DIR] && \
+   zcompile $ZI[BIN_DIR]/zinit.zsh && \
+   info 'sucessfully installed zinit'
 ZI+=(
   BIN_DIR "$ZI[HOME_DIR]/zinit.git" COMPLETIONS_DIR "$ZI[HOME_DIR]/completions" OPTIMIZE_OUT_OF_DISK_ACCESSES "1"
   PLUGINS_DIR "$ZI[HOME_DIR]/plugins" SNIPPETS_DIR "$ZI[HOME_DIR]/snippets" ZCOMPDUMP_PATH "$ZI[HOME_DIR]/zcompdump"
