@@ -1,3 +1,16 @@
+## [3.0.1](https://github.com/vladdoster/dotfiles/compare/v3.0.0...v3.0.1) (2022-11-02)
+
+
+### fix
+
+* add --noplugin flag when checking nvim binary ([8e519b5](https://github.com/vladdoster/dotfiles/commit/8e519b5444f28089cbcda1e3f3e511e2f49763ab))
+* new window flags for kitty keymap ([105e9de](https://github.com/vladdoster/dotfiles/commit/105e9deb21e51e195fc5921a8ea1715e115bacc9))
+* zinit cloning logic ([c47045f](https://github.com/vladdoster/dotfiles/commit/c47045f385b163fe95c5a1ecfd187c00232dd42c))
+
+### maint
+
+* path helper functions ([89e5cfe](https://github.com/vladdoster/dotfiles/commit/89e5cfefc6ad622700b079646c4ad403bdb27515))
+
 # [3.0.0](https://github.com/vladdoster/dotfiles/compare/v2.3.1...v3.0.0) (2022-11-01)
 
 
