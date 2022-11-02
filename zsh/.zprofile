@@ -79,6 +79,11 @@ path_append \
 # 
 # unfunction _prepath
 # unfunction _postpaths
+# +────────+
+# │ LOCALE │
+# +────────+
+(( $+commands[locale] )) && local loc=(${(@M)$(locale -a):#*.(utf|UTF)(-|)8})
+(( $#loc )) && export LC_ALL=${loc[(r)(#i)C.UTF(-|)8]:-${loc[(r)(#i)en_US.UTF(-|)8]:-$loc[1]}}
 # +──────────────+
 # │ CONFIG PATHS │
 # +──────────────+
