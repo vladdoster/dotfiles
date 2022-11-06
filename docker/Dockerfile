@@ -1,15 +1,7 @@
 # syntax=docker/dockerfile-upstream:master-labs
-# ARCH
-#
-ARG ARCH=amd64
-ARG TARGETPLATFORM
-FROM ${ARCH}/debian:stable-slim
-# FROM --platform=$BUILDPLATFORM debian:stable-slim AS build
-# ARG TARGETPLATFORM
-# ARG BUILDPLATFORM
-# ARG ARCH=amd64
-# ARG TARGETPLATFORM
-# FROM ${ARCH}/ubuntu:latest
+
+ARG TARGETPLATFORM=amd64
+FROM --platform=${TARGETPLATFORM} ubuntu:latest
 
 ARG USER
 
@@ -21,15 +13,13 @@ ENV BREW_PREFIX "/home/$USER/.linuxbrew"
 RUN <<INSTALL-DEPS bash
   apt-get update
   apt-get -y install --no-install-recommends \
-    automake \
-    build-essential \
-    ca-certificates cmake curl \
-    figlet file \
+    ca-certificates curl cmake \
+    file figlet \
     g++ gcc git \
     less libz-dev locales \
     make \
-    stow subversion sudo \
-    tar texinfo texlive tree tzdata \
+    stow sudo subversion \
+    tar tzdata tree \
     unzip \
     vim \
     wget \
@@ -57,21 +47,17 @@ ADD --keep-git-dir=true https://github.com/zdharma-continuum/zinit.git#main $HOM
 RUN <<INSTALL-HOMEBREW bash
   # ln -s ${BREW_PREFIX}/Homebrew/bin/brew ${BREW_PREFIX}/bin
   chown -R ${USER} ${HOME}
-  chown -R "${USER}" "${HOME}"
 INSTALL-HOMEBREW
+
+
+RUN <<DOTFILES bash
+  make --directory "${HOME}/dotfiles" dotfiles
+  figlet "user: ${USER}"
+  chown -R "${USER}" "${HOME}"
+DOTFILES
 
 USER ${USER}
 WORKDIR ${HOME}
-
-RUN <<DOTFILES bash
-  pushd dotfiles/
-  make -j4 stow
-  make install
-  figlet "============="
-  figlet "user: ${USER}"
-  figlet "============="
-DOTFILES
-
 ENTRYPOINT ["zsh"]
 CMD ["-l"]
 
