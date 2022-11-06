@@ -11,3 +11,4 @@
 ^/READMVE.*
 /.local/share
 /.local/state
+/.local/bin/stow

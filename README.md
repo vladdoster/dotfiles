@@ -16,8 +16,7 @@ Install and set everything up, run:
 ```zsh
 mkdir $HOME/.config \
 && git clone https://github.com/vladdoster/dotfiles $HOME/.config/dotfiles \
-&& make stow-install \
-&& make install
+&& make stow install
 
 # Reload Zsh process
 exec zsh
@@ -25,28 +24,25 @@ exec zsh
 
 ## Makefile targets
 
-| TARGET           | DESCRIPTION                                                   |
-| ---------------- | ------------------------------------------------------------- |
-| brew             | (Un)install Homebrew                                          |
-| brew/bundle      | Install programs defined in `$HOME/.config/dotfiles/Brewfile` |
-| brew/fix         | Re-install taps homebrew-core & homebrew-cask                 |
-| clean            | Remove installed dotfiles                                     |
-| container/build  | Build container && install dotfiles                           |
-| container/run    | Run containerized dockerfiles env                             |
-| help             | Display all Makfile targets                                   |
-| install          | Deploy dotfiles via GNU install                               |
-| install/all      | Install Python & Rust programs                                |
-| install/gnu-stow | Install GNU stow                                              |
-| python/prog      | Install useful Python programs                                |
-| python/update    | Update installed Python3 packages                             |
-| rust/install     | Install Rust & Cargo pkg manager via Rustup                   |
-| rust/prog        | Install useful Rust programs                                  |
-| rust/uninstall   | Uninstall Rust via rustup                                     |
+| TARGET      | DESCRIPTION                          |
+| ----------- | ------------------------------------ |
+| brew        | (Un)install Homebrew                 |
+| brew-bundle | Install programs defined in Brewfile |
+| build       | Build docker image                   |
+| chsh        | Set user shell to ZSH                |
+| clean       | Un-stow dotfiles                     |
+| help        | Display available Make targets       |
+| install     | Install dotfiles via GNU stow        |
+| py-install  | Install pip                          |
+| py-pkgs     | Install Python pkgs                  |
+| py-update   | Update Python packages               |
+| rust-instal | Install Rust & Cargo                 |
+| rust-pkgs   | Install Rust programs                |
+| shell       | Start shell in Docker container      |
+| stow        | Install GNU stow                     |
 
 ## Change shell to ZSH
 
-##### Linux
-
 ```zsh
-sudo chsh --shell "$(which zsh)" "$USER"
+make chsh
 ```

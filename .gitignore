@@ -1,3 +1,5 @@
 .DS_Store
 .zcompdump
 git/**/credentials
+stow.git
+**/bin/*stow
