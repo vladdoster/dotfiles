@@ -1,3 +1,18 @@
+# [4.0.0](https://github.com/vladdoster/dotfiles/compare/v3.0.3...v4.0.0) (2022-11-06)
+
+
+### feat
+
+* Build mult-arch Docker images ([eefdd2c](https://github.com/vladdoster/dotfiles/commit/eefdd2c58f89a7dd656eaee2535fd7d2bd3d0c01))
+
+### fix
+
+* kitty fonts and misc. options ([83d3873](https://github.com/vladdoster/dotfiles/commit/83d3873145f7485319b2ec345ae4ae707edfee6d))
+
+### refactor
+
+* Makefile improvements ([ed1d40d](https://github.com/vladdoster/dotfiles/commit/ed1d40d2248f5f531aa8612b1ae2516b6458d6f8))
+
 ## [3.0.3](https://github.com/vladdoster/dotfiles/compare/v3.0.2...v3.0.3) (2022-11-02)
 
 
