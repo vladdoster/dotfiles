@@ -18,9 +18,15 @@ jobs:
       - name: Fetch dependencies
         run: |
           npm install --no-package-lock \
-            @google/semantic-release-replace-plugin \
-            @semantic-release/changelog @semantic-release/git \
-            conventional-changelog-eslint
+            @semantic-release/changelog @semantic-release-plus/docker @semantic-release/exec @semantic-release/git \
+            conventional-changelog-eslint @google/semantic-release-replace-plugin
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # - name: Build Docker image
+      #   run: docker buildx --load build --tag vladdoster/dotfiles:latest .
+
       - name: Generate release
         run: npx semantic-release --ci --
         env:

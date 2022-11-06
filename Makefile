@@ -9,7 +9,7 @@ GH_URL = https://github.com/vladdoster
 HOMEBREW_URL := https://raw.githubusercontent.com/Homebrew/install/HEAD
 PIP_OPTS := --no-compile --trusted-host files.pythonhosted.org --trusted-host pypi.org --upgrade --user
 PY_PKGS := bdfr beautysh best-of black bpytop flake8 instaloader isort mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pynvim reorder-python-imports pip
-STOW_OPTS := --target=~ --verbose=1
+STOW_OPTS := --target=$$HOME --verbose=1
 
 .PHONY: all brew brew-bundle clean dotfiles hammerspoon neovim shell stow test
 .SILENT: all brew brew-bundle clean dotfiles hammerspoon help neovim py-install py-pkgs py-update shell stow test
