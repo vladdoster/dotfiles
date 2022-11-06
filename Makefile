@@ -62,13 +62,13 @@ safari-extensions:
 	mas install 1569813296 1480933944 1462114288 # 1password, vimari, grammarly
 
 py-install: ## Install pip
-	python -m ensurepip --upgrade
+	python3 -m ensurepip --upgrade
 
-py-pkgs: ## Install Python pkgs
+py-pkgs: py-install ## Install Python pkgs
 	python3 -m pip install $(PIP_OPTS) $(PY_PKGS)
 	$(info --- py packages installed)
 
-py-update: ## Update Python packages
+py-update: py-pkgs ## Update Python packages
 	python3 -m pip list --user | cut -d" " -f 1 | tail -n +3 | xargs python3 -m pip install $(PIP_OPTS)
 
 rust-install: ## Install Rust & Cargo
