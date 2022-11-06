@@ -1,3 +1,10 @@
+## [4.0.1](https://github.com/vladdoster/dotfiles/compare/v4.0.0...v4.0.1) (2022-11-06)
+
+
+### fix
+
+* specify python3 in py-install Make target ([1d6e906](https://github.com/vladdoster/dotfiles/commit/1d6e906f23c86d620acbf7f92120b4011c23b3d0))
+
 # [4.0.0](https://github.com/vladdoster/dotfiles/compare/v3.0.3...v4.0.0) (2022-11-06)
 
 
