@@ -30,7 +30,7 @@ uninstall: ## Un-stow dotfiles
 	$(info --- uninstalled dotfiles)
 
 build: ## Build docker image
-	docker build --build-arg USER=$(CONTAINTER_NAME) --tag $(CONTAINTER_NAME):latest $(CURDIR)
+	docker build --build-arg USER=$(CONTAINTER_NAME) --file docker/Dockerfile --tag $(CONTAINTER_NAME):latest $(CURDIR)
 
 shell: ## Start shell in Docker container
 	@docker run --interactive --mount source=dotfiles-vol,destination=/home/$(CONTAINTER_NAME) --tty $(CONTAINTER_NAME):latest

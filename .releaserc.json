@@ -46,12 +46,6 @@
       }
     ],
     [
-      "@semantic-release/exec",
-      {
-        "prepareCmd": "docker buildx build --load --tag vladdoster/dotfiles:${nextRelease.version} ."
-      }
-    ],
-    [
       "@google/semantic-release-replace-plugin",
       {
         "replacements": [
@@ -69,13 +63,6 @@
             ]
           }
         ]
-      }
-    ],
-    [
-      "@semantic-release-plus/docker",
-      {
-        "name": "ghcr.io/vladdoster/dotfiles:${nextRelease.version}",
-        "skipLogin": true
       }
     ],
     [
