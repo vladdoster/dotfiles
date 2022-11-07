@@ -1,3 +1,26 @@
+# [4.1.0](https://github.com/vladdoster/dotfiles/compare/v4.0.1...v4.1.0) (2022-11-07)
+
+
+### ci
+
+* add weekly-digest report ([e403916](https://github.com/vladdoster/dotfiles/commit/e403916e5f0e192d97593d69355f41b408c61ee6))
+
+### feat
+
+* release will publish new docker image to ghcr ([3c7079b](https://github.com/vladdoster/dotfiles/commit/3c7079b0ef89fbfbf1069a60661ece12e85ec436))
+
+### maint
+
+* pause building new docker image per release ([08398bd](https://github.com/vladdoster/dotfiles/commit/08398bdac42ee36cb470b48cb66df346aa587d15))
+
+### release
+
+* v4.0.1 → v4.1.0 ([20692d7](https://github.com/vladdoster/dotfiles/commit/20692d7b077049e23dc6ea7873e0f4ec52666e24))
+
+### revert
+
+* "release: v4.0.1 → v4.1.0" ([f6f55ed](https://github.com/vladdoster/dotfiles/commit/f6f55ed43c4c24e7a79acb65d51fa51365c7276a))
+
 ## [4.0.1](https://github.com/vladdoster/dotfiles/compare/v4.0.0...v4.0.1) (2022-11-06)
 
 
