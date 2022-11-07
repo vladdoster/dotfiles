@@ -1,10 +1,3 @@
-# [4.1.0](https://github.com/vladdoster/dotfiles/compare/v4.0.1...v4.1.0) (2022-11-06)
-
-
-### feat
-
-* release will publish new docker image to ghcr ([3c7079b](https://github.com/vladdoster/dotfiles/commit/3c7079b0ef89fbfbf1069a60661ece12e85ec436))
-
 ## [4.0.1](https://github.com/vladdoster/dotfiles/compare/v4.0.0...v4.0.1) (2022-11-06)
 
 
