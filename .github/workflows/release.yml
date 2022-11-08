@@ -6,8 +6,8 @@ jobs:
     name: release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           cache-dependency-path: '**/.github/workflows/release.yml'          
           cache: 'npm'
@@ -16,8 +16,10 @@ jobs:
       - name: Fetch dependencies
         run: |
           npm install --no-package-lock \
-            @google/semantic-release-replace-plugin \
-            @semantic-release/changelog @semantic-release/git \
+            @semantic-release/changelog \
+            @semantic-release/git \
+            @semantic-release-plus/docker \
+            @semantic-release/exec \
             conventional-changelog-eslint
       - name: Generate release
         run: npx semantic-release --ci --
