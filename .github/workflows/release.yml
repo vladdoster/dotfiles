@@ -11,16 +11,9 @@ jobs:
         with:
           cache-dependency-path: '**/.github/workflows/release.yml'
           cache: 'npm'
-          check-latest: true
           node-version: '16'
       - name: Fetch dependencies
-        run: |
-          npm install --no-package-lock \
-            @semantic-release/changelog \
-            @semantic-release/git \
-            @semantic-release-plus/docker \
-            @semantic-release/exec \
-            conventional-changelog-eslint
+        run: npm install --no-package-lock @semantic-release{/{'changelog','git','exec'},'-plus/docker'}
       - name: Generate release
         run: npx semantic-release --ci --
         env:
