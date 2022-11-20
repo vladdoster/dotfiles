@@ -1,3 +1,13 @@
+## [4.1.1](https://github.com/vladdoster/dotfiles/compare/v4.1.0...v4.1.1) (2022-11-20)
+
+
+### Bug Fixes
+
+* branch names for lint workflow triggers ([207278d](https://github.com/vladdoster/dotfiles/commit/207278d243b156607362e60fa76703d6af732526))
+* json syntax in release config ([b29cd22](https://github.com/vladdoster/dotfiles/commit/b29cd22e100969fe3bba677cf99795f1416ca832))
+* single quote zinit aliases ([b27443e](https://github.com/vladdoster/dotfiles/commit/b27443ebf4984cea92f8a9a6f7d338e013296d72))
+* stow ignores .zcompdump ([fc57655](https://github.com/vladdoster/dotfiles/commit/fc576553fdeac3111c7c4ed5a4aaf4b814ad5d9b))
+
 # [4.1.0](https://github.com/vladdoster/dotfiles/compare/v4.0.1...v4.1.0) (2022-11-07)
 
 
