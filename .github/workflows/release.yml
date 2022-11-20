@@ -13,7 +13,7 @@ jobs:
           cache: 'npm'
           node-version: '16'
       - name: Fetch dependencies
-        run: npm install --no-package-lock @semantic-release{/{'changelog','git','exec'},'-plus/docker'}
+        run: npm install --no-package-lock @semantic-release{/{'changelog','git','exec'},'-plus/docker'}  @google/semantic-release-replace-plugin
       - name: Generate release
         run: npx semantic-release --ci --
         env:
