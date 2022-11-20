@@ -33,9 +33,9 @@ if [[ -e $ZI[BIN_DIR]/zinit.zsh ]] {
     && _comps[zinit]=_zinit
 } else { error 'failed to find zinit installation' }
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
-zi nocompletions is-snippet for PZT::modules/{'environment','history','rsync'}
-zi is-snippet for OMZL::{'compfix','completion','git','key-bindings'}.zsh
-zi as'completion' for OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
+zi is-snippet light-mode nocompletions for {PZT::modules/{'environment','history'},OMZL::{'compfix','completion','git','key-bindings'}.zsh}
+# zi is-snippet light-mode nocompletions for OMZL::{'compfix','completion','git','key-bindings'}.zsh
+zi as'completion' for OMZP::{'golang/_golang','pip/_pip'}
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
 znippet() { zi for light-mode as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
@@ -60,9 +60,10 @@ zi light @sindresorhus/pure
 #=== zsh-vim-mode cursor configuration [[[
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
 #=== ANNEXES ==========================================
-for ANNEX (bin-gem-node patch-dl binary-symlink submods); do zi light @zdharma-continuum/zinit-annex-${ANNEX}; done
+# for ANNEX (bin-gem-node patch-dl binary-symlink submods); do zi light @zdharma-continuum/zinit-annex-${ANNEX}; done
+zi ver'style/rename-funcs' light-mode for @zdharma-continuum/zinit-annex-{'patch-dl','binary-symlink','submods'}
 #=== GITHUB BINARIES ==================================
-zbin(){ zi ice from'gh-r' lbin"!* -> $(basename ${1})" nocompile && zi light "@${1}"; }
+zbin(){ zi for from'gh-r' lbin"!* -> $(basename ${1})" nocompile light-mode "@${1}"; }
 for program in "mrtazz/checkmake" "stedolan/jq"; do zbin "${program}"; done
 
 zi from'gh-r' lbin'!' nocompile light-mode for \
