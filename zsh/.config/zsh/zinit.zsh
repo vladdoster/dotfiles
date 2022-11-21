@@ -48,30 +48,26 @@ zi light-mode as'completion' nocompile is-snippet for \
   "${GH_RAW_URL}/oven-sh/bun/main/completions/bun.zsh" \
   "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
 #=== PROMPT ===========================================
-zi ice as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' atinit"
-PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
-PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
-zstyle ':prompt:pure:git:action' color 'yellow'
-zstyle ':prompt:pure:git:branch' color 'blue'
-zstyle ':prompt:pure:git:dirty' color 'red'
-zstyle ':prompt:pure:path' color 'cyan'
-zstyle ':prompt:pure:prompt:success' color 'green'"
-zi light @sindresorhus/pure
+# eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
+zi for as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' light-mode atinit"
+    PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
+    PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
+    zstyle ':prompt:pure:git:action' color 'yellow'
+    zstyle ':prompt:pure:git:branch' color 'blue'
+    zstyle ':prompt:pure:git:dirty' color 'red'
+    zstyle ':prompt:pure:path' color 'cyan'
+    zstyle ':prompt:pure:prompt:success' color 'green'" \
+  @sindresorhus/pure
 #=== zsh-vim-mode cursor configuration [[[
-eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
 #=== ANNEXES ==========================================
-# for ANNEX (bin-gem-node patch-dl binary-symlink submods); do zi light @zdharma-continuum/zinit-annex-${ANNEX}; done
 zi ver'style/rename-funcs' light-mode for @zdharma-continuum/zinit-annex-{'patch-dl','binary-symlink','submods'}
 #=== GITHUB BINARIES ==================================
 zbin(){ zi for from'gh-r' lbin"!* -> $(basename ${1})" nocompile light-mode "@${1}"; }
-for program in "mrtazz/checkmake" "stedolan/jq"; do zbin "${program}"; done
+zbin "stedolan/jq"
 
 zi from'gh-r' lbin'!' nocompile light-mode for \
-  @{'dandavison/delta','junegunn/fzf','koalaman/shellcheck'} \
-  @{'pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'}} \
-  lbin'!**/rg' @BurntSushi/ripgrep
+  @{'dandavison/delta','pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'}}
 
-# for i (v vi); do alias $i="nvim"; done
 zi light-mode from'gh-r' nocompile for \
     lbin'!**/exa' atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa \
@@ -93,8 +89,6 @@ zi lucid wait light-mode for \
   bindkey "^_" autosuggest-execute
   bindkey "^ " autosuggest-accept' \
   zsh-users/zsh-autosuggestions \
-  atinit'bindkey "^R" history-search-multi-word' \
-  $ZI[REPO]/history-search-multi-word \
   atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
   atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
   compile'.*fast*~*.zwc' nocompletions \
