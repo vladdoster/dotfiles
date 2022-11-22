@@ -1,3 +1,17 @@
+## [4.1.2](https://github.com/vladdoster/dotfiles/compare/v4.1.1...v4.1.2) (2022-11-22)
+
+
+### Bug Fixes
+
+* remove bitrot in docker Makefile ([85fd289](https://github.com/vladdoster/dotfiles/commit/85fd28936da2add9caeacb0d0e98a333d0f6f356))
+* remove bitrot in zinit config ([5723ad0](https://github.com/vladdoster/dotfiles/commit/5723ad0b42a87977599edc678b56dfc91fb301db))
+* remove bitrot in zinit config ([7de426f](https://github.com/vladdoster/dotfiles/commit/7de426f1bdee3ff0516c2254e267a021c904494d))
+
+
+### Performance Improvements
+
+* improve zinit setup/install speed ([02a26ed](https://github.com/vladdoster/dotfiles/commit/02a26ed0d7da32c0d85cf520adfb2a622f1794f3))
+
 ## [4.1.1](https://github.com/vladdoster/dotfiles/compare/v4.1.0...v4.1.1) (2022-11-20)
 
 
