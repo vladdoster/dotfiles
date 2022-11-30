@@ -1,3 +1,15 @@
+## [4.1.3](https://github.com/vladdoster/dotfiles/compare/v4.1.2...v4.1.3) (2022-11-30)
+
+
+### Bug Fixes
+
+* aliases use single quotes to avoid expansion ([8ee0806](https://github.com/vladdoster/dotfiles/commit/8ee0806245476dda0a5feb79187211d712634e61))
+
+
+### Performance Improvements
+
+* remove cruft from zinit configuration ([0ae6e6b](https://github.com/vladdoster/dotfiles/commit/0ae6e6bc84ce4daf7fb2c2984dd09c228411f84c))
+
 ## [4.1.2](https://github.com/vladdoster/dotfiles/compare/v4.1.1...v4.1.2) (2022-11-22)
 
 
