@@ -24,22 +24,23 @@ exec zsh
 
 ## Makefile targets
 
-| TARGET      | DESCRIPTION                          |
-| ----------- | ------------------------------------ |
-| brew        | (Un)install Homebrew                 |
-| brew-bundle | Install programs defined in Brewfile |
-| build       | Build docker image                   |
-| chsh        | Set user shell to ZSH                |
-| clean       | Un-stow dotfiles                     |
-| help        | Display available Make targets       |
-| install     | Install dotfiles via GNU stow        |
-| py-install  | Install pip                          |
-| py-pkgs     | Install Python pkgs                  |
-| py-update   | Update Python packages               |
-| rust-instal | Install Rust & Cargo                 |
-| rust-pkgs   | Install Rust programs                |
-| shell       | Start shell in Docker container      |
-| stow        | Install GNU stow                     |
+| TARGET         | DESCRIPTION                          |
+| -------------- | ------------------------------------ |
+| brew-bundle    | Install programs defined in Brewfile |
+| brew-install   | Install Homebrew                     |
+| brew-uninstall | Uninstall Homebrew                   |
+| build          | Build docker image                   |
+| chsh           | Set user shell to ZSH                |
+| help           | Display available Make targets       |
+| install        | Install dotfiles via GNU stow        |
+| py-install     | Install pip                          |
+| py-pkgs        | Install Python pkgs                  |
+| py-update      | Update Python packages               |
+| rust-install   | Install Rust & Cargo                 |
+| rust-pkgs      | Install Rust programs                |
+| shell          | Start shell in Docker container      |
+| stow           | Install GNU stow                     |
+| uninstall      | Un-stow dotfiles                     |
 
 ## Change shell to ZSH
 
