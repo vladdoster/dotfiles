@@ -31,6 +31,7 @@ fi
 alias bashly_edge='docker run --rm -it --user $(id -u):$(id -g) --volume "$PWD:/app" dannyben/bashly:edge'
 alias b="cd -"
 alias rmr="rm -rf --"
+function rmp() { _info "$(command rm -vf $(which $1))"; }
 alias tailf="less +F -R"
 has python3 && alias python='python3'
 # +──────────────────+
@@ -63,6 +64,11 @@ alias zcln='command rm -rf ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit
 alias zreset='builtin cd ${HOME} && unset _comp{_{assocs,dumpfile,options,setup},{auto,}s} && ( zcln && zrld ) && cd -'
 alias zicln='zi delete --all --yes; ( exec zsh -il );'
 alias zrld='builtin exec zsh -l'
+alias nvcln='command rm -rf $HOME/.{local/share/nvim,config/nvim/plugin/packer_compiled.lua}'
+alias zcln='command rm -rf ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}'
+alias zreset='builtin cd ${HOME} && unset $_comp; rm $_comp_dumpfile && ( zcln && zrld ) && cd -'
+alias zicln='zi delete --all && ( exec zsh -il );'
+alias zrld="builtin exec zsh -l"
 # +────────────+
 # │ NAVIGATION │
 # +────────────+
@@ -92,13 +98,13 @@ alias g="git" # GIT ALIASES DEFINED IN $HOME/.config/git/config
 # +───────────────────+
 # │ COMMAND SHORTCUTS │
 # +───────────────────+
-alias -- +x="chmod +x"
+alias -- +x='chmod +x'
 alias rm-ds-store='find "$PWD" -type f -name "*.DS[_-]Store" -print -delete'
 alias rshfmt="shfmt -i 4 -s -ln bash -sr -bn -ci -w"
 alias zc='zinit compile'
 alias zp='zinit times'
 alias zt='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
-alias ziclnplg="$(command rm -rf $ZINIT[PLUGINS_DIR])"
+alias ziclnplg='command rm -rf $ZINIT[PLUGINS_DIR]'
 # +───────+
 # │ MISC. │
 # +───────+
@@ -153,9 +159,9 @@ alias yum-sys-update="_sys_update 'sudo yum -y'"
 # +────────+
 # │ REMOTE │
 # +────────+
-alias cp-dotfiles="rsync -azP $XDG_CONFIG_HOME/dotfiles/ devcloud:~/dotfiles"
-alias cp-hammerspoon="rsync -azP $HOME/.hammerspoon/ devcloud:~/hammerspoon"
-alias cp-nvim="rsync -azP $XDG_CONFIG_HOME/nvim/ devcloud:~/nvim"
+alias cp-dotfiles='rsync -azP $XDG_CONFIG_HOME/dotfiles/ devcloud:~/dotfiles'
+alias cp-hammerspoon='rsync -azP $HOME/.hammerspoon/ devcloud:~/hammerspoon'
+alias cp-nvim='rsync -azP $XDG_CONFIG_HOME/nvim/ devcloud:~/nvim'
 # +────────+
 # │ EMOJIS │
 # +────────+
