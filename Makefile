@@ -35,9 +35,11 @@ build: ## Build docker image
 shell: ## Start shell in Docker container
 	@docker run --interactive --mount source=dotfiles-vol,destination=/home/$(CONTAINTER_NAME) --tty $(CONTAINTER_NAME):latest
 
-brew: ## (Un)install Homebrew
-	$(info Preparing to $(filter-out $@, $(MAKECMDGOALS)) homebrew)
-	@/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/$(filter-out $@, $(MAKECMDGOALS)).sh)"
+brew-install: ## Install Homebrew
+	@/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/install.sh)"
+
+brew-uninstall: ## Uninstall Homebrew
+	@/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/uninstall.sh)"
 
 brew-bundle: ## Install programs defined in Brewfile
 	@brew bundle --cleanup --file Brewfile --force --no-lock --zap
@@ -64,12 +66,12 @@ safari-extensions:
 py-install: ## Install pip
 	python3 -m ensurepip --upgrade
 
-py-pkgs: py-install ## Install Python pkgs
-	python3 -m pip install $(PIP_OPTS) $(PY_PKGS)
+py-pkgs: ## Install Python pkgs
+	pip3 install $(PIP_OPTS) $(PY_PKGS)
 	$(info --- py packages installed)
 
 py-update: py-pkgs ## Update Python packages
-	python3 -m pip list --user | cut -d" " -f 1 | tail -n +3 | xargs python3 -m pip install $(PIP_OPTS)
+	pip3 list --user | cut -d" " -f 1 | tail -n +3 | xargs python3 -m pip install $(PIP_OPTS)
 
 rust-install: ## Install Rust & Cargo
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
