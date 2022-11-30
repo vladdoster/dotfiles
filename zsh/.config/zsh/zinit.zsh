@@ -66,7 +66,14 @@ zbin(){ zi for from'gh-r' lbin"!* -> $(basename ${1})" nocompile light-mode "@${
 zbin "stedolan/jq"
 
 zi from'gh-r' lbin'!' nocompile light-mode for \
-    @{'dandavison/delta','pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'}}
+    as'command' \
+    dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
+    from'gh-r' \
+    null \
+    pick'fzf' \
+    src'key-bindings.zsh' \
+  @junegunn/fzf \
+  @{'dandavison/delta','pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'}}
 
 zi light-mode from'gh-r' nocompile for \
     lbin'!**/exa' atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
@@ -90,5 +97,11 @@ zi lucid wait light-mode for \
     atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
     compile'.*fast*~*.zwc' nocompletions \
     $ZI[REPO]/fast-syntax-highlighting
+
+# for i in $ZINIT[PLUGINS_DIR]/*; do
+#      q=${${i:t}##*---}
+#      q=${q%/}
+#      hash -d $q=$i
+#  done
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
