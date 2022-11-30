@@ -1,3 +1,10 @@
+## [4.1.4](https://github.com/vladdoster/dotfiles/compare/v4.1.3...v4.1.4) (2022-11-30)
+
+
+### Bug Fixes
+
+* docker container volume preserves linuxbrew install ([e58a543](https://github.com/vladdoster/dotfiles/commit/e58a543edd5b35133fdbfc62d707a1568812baae))
+
 ## [4.1.3](https://github.com/vladdoster/dotfiles/compare/v4.1.2...v4.1.3) (2022-11-30)
 
 
