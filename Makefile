@@ -30,19 +30,21 @@ uninstall: ## Un-stow dotfiles
 	$(info --- uninstalled dotfiles)
 
 build: ## Build docker image
-	docker build --build-arg USER=$(CONTAINTER_NAME) --file docker/Dockerfile --tag $(CONTAINTER_NAME):latest $(CURDIR)
+	docker build --file docker/Dockerfile --tag $(CONTAINTER_NAME):latest $(CURDIR)
 
 shell: ## Start shell in Docker container
-	@docker run --interactive --mount source=dotfiles-vol,destination=/home/$(CONTAINTER_NAME) --tty $(CONTAINTER_NAME):latest
-
-brew-install: ## Install Homebrew
-	@/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/install.sh)"
-
-brew-uninstall: ## Uninstall Homebrew
-	@/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/uninstall.sh)"
+	@docker run --interactive --mount source=dotfiles-vol,destination=/home/ --tty $(CONTAINTER_NAME):latest
 
 brew-bundle: ## Install programs defined in Brewfile
 	@brew bundle --cleanup --file Brewfile --force --no-lock --zap
+
+brew-install: ## Install Homebrew
+	$(info Preparing to install Homebrew)
+	@/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/install.sh)"
+
+brew-uninstall: ## Uninstall Homebrew
+	$(info Preparing to uninstall brew)
+	@/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/uninstall.sh)"
 
 chsh: ## Set user shell to ZSH
 	echo "$$(which zsh)" | sudo tee -a /etc/shells
@@ -78,8 +80,6 @@ rust-install: ## Install Rust & Cargo
 
 rust-pkgs: ## Install Rust programs
 	cargo install bat cargo-update exa topgrade
-
-
 
 help: ## Display available Make targets
 	@ # Thanks tweekmonster ;) Saw this in your gist, too.
