@@ -31,7 +31,7 @@ build: ## Build docker image
 	docker build --file=Dockerfile --tag=$(CONTAINTER_NAME):latest --progress=plain $(CURDIR)
 
 shell: ## Start shell in docker container
-	@docker run --interactive --mount source=dotfiles-vol,destination=/home/ --tty $(CONTAINTER_NAME):latest
+	@docker run --interactive --mount source=dotfiles-volume,destination=/home --tty $(CONTAINTER_NAME):latest
 
 brew-bundle: ## Install programs defined in Brewfile
 	@brew bundle --cleanup --file Brewfile --force --no-lock --zap
