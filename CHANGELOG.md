@@ -1,3 +1,20 @@
+# [4.4.0](https://github.com/vladdoster/dotfiles/compare/v4.3.0...v4.4.0) (2022-12-01)
+
+
+### Bug Fixes
+
+* install neovim config and rm brew gen-man-comp ([dad3760](https://github.com/vladdoster/dotfiles/commit/dad3760ddcb5d7528f52bb4729ae359e04df1194))
+
+
+### Features
+
+* alias pretty-path to print paths in $PATH ([1b6e0e7](https://github.com/vladdoster/dotfiles/commit/1b6e0e75afa906a348ed61b1df6f2af7c27f9ea3))
+
+
+### Performance Improvements
+
+* remove unused scripts in ~/.local/bin/ ([e640122](https://github.com/vladdoster/dotfiles/commit/e64012266422eb85c55ddb855db7c5438b5b1c37))
+
 # [4.3.0](https://github.com/vladdoster/dotfiles/compare/v4.2.0...v4.3.0) (2022-12-01)
 
 
