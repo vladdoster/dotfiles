@@ -1,7 +1,8 @@
 # Dotfiles
 
 ![Release Version](https://img.shields.io/github/v/release/vladdoster/dotfiles)
-[![Release Status](https://github.com/vladdoster/dotfiles/actions/workflows/release.yml/badge.svg)](https://github.com/vladdoster/dotfiles/actions/workflows/release.yml)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/vladdoster/dotfiles/Release?label=Release)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/vdoster/dotfiles)
 
 ## Features
 
