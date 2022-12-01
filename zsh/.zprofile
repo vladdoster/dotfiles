@@ -40,12 +40,12 @@ typeset -aU path
 local USR_PATH="/usr/local/opt" BREW_PATH="$(brew --prefix)"
 path_append \
   "${BREW_PATH}"/sbin \
-  "${BREW_PATH}"/{'llvm','opt/ruby','opt/ncurses','opt/texinfo'}/bin \
-  "${BREW_PATH}"/{'opt/libtool','make'}/libexec/gnubin \
+  "${BREW_PATH}"/{'llvm',opt/{'ruby','ncurses','texinfo'}}/bin \
+  "${BREW_PATH}"/{opt{'libtool','findutils'},'make'}/libexec/gnubin \
   "${HOME}"/Library/Python/3.{'8','9','10'}/bin \
-  "${HOME}"/{'.cargo','.local','.tfenv','go'}/bin \
+  "${HOME}"/{.{'cargo','local','tfenv'},'go'}/bin \
   "${USR_PATH}"/binutils/bin \
-  "${USR_PATH}"/{'coreutils','gnu-sed','gnu-tar'}/libexec/gnubin
+  "${USR_PATH}"/{'coreutils',gnu-{'sed','tar'}}/libexec/gnubin
 # typeset -U path  # No duplicates
 # path=()
 # 
