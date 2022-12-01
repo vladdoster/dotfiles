@@ -29,7 +29,7 @@ RUN apt-get update \
    debianutils \
    figlet file \
    g++ gcc git \
-   less libevent-dev libz-dev locales \
+   less libevent-dev libz-dev locales lua5.3 luarocks \
    make man-db \
    ncurses-base ncurses-bin ncurses-dev ncurses-term \
    pkg-config python3-pip python3.8 python3.8-dev \
@@ -39,8 +39,7 @@ RUN apt-get update \
    vim \
    wget \
    xz-utils \
-   zsh \
- && rm -rf /var/lib/apt/lists/*
+   zsh
 
 RUN useradd \
   --create-home \
