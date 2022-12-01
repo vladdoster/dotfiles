@@ -1,3 +1,20 @@
+# [4.2.0](https://github.com/vladdoster/dotfiles/compare/v4.1.4...v4.2.0) (2022-12-01)
+
+
+### Bug Fixes
+
+* docker container username ([ee902da](https://github.com/vladdoster/dotfiles/commit/ee902da6cde6041b18dc3fd329985516b1caa56f))
+
+
+### Features
+
+* alias rm-docker to docker system prune --all ([b0fa9a7](https://github.com/vladdoster/dotfiles/commit/b0fa9a760943e1a48d443f0e8150bdd06ccaf179))
+
+
+### Performance Improvements
+
+* alias "me" to "whoami" command ([617cd92](https://github.com/vladdoster/dotfiles/commit/617cd92c830a677824c3d0da4e38ef0f012ef8d5))
+
 ## [4.1.4](https://github.com/vladdoster/dotfiles/compare/v4.1.3...v4.1.4) (2022-11-30)
 
 
