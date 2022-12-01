@@ -12,31 +12,35 @@ LABEL org.label-schema.docker.cmd="docker run --interactive --mount source=dotfi
 
 ARG USER
 
+ENV USER ${USER:-dotfiles}
+ENV HOME /home/${USER}
+ENV BREW_PREFIX ${HOME}/.linuxbrew
+
+ENV CLICOLOR 1
 ENV DEBIAN_FRONTEND noninteractive
-ENV USER ${USER:-"dotfiles"}
-ENV HOME "/home/${USER}"
-ENV BREW_PREFIX "/home/${USER}/.linuxbrew"
-ENV HOMEBREW_INSTALL_FROM_API "true"
+ENV HOMEBREW_INSTALL_FROM_API true
+ENV TERM xterm-256color
 
 RUN apt-get update \
- && apt-get --yes --fix-missing install --no-install-recommends \
-    apt-utils autoconf automake \
-    bsdmainutils bsdutils build-essential \
-    ca-certificates cmake curl \
-    debianutils \
-    figlet file \
-    g++ gcc git \
-    less libevent-dev libz-dev locales \
-    make \
-    ncurses-base ncurses-bin ncurses-dev \
-    pkg-config python3-pip python3.8 python3.8-dev \
-    stow subversion sudo \
-    tar tree tzdata \
-    unzip util-linux-locales \
-    vim \
-    wget \
-    xz-utils \
-    zsh
+ && apt-get --yes install --no-install-recommends \
+   apt-utils autoconf automake \
+   bsdmainutils bsdutils build-essential \
+   ca-certificates cmake curl \
+   debianutils \
+   figlet file \
+   g++ gcc git \
+   less libevent-dev libz-dev locales \
+   make man-db \
+   ncurses-base ncurses-bin ncurses-dev ncurses-term \
+   pkg-config python3-pip python3.8 python3.8-dev \
+   stow subversion sudo \
+   tar tree tzdata \
+   unzip util-linux-locales \
+   vim \
+   wget \
+   xz-utils \
+   zsh \
+ && rm -rf /var/lib/apt/lists/*
 
 RUN useradd \
   --create-home \
@@ -49,8 +53,9 @@ RUN useradd \
 
 RUN mkdir --parents ${HOME}/.config \
  && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
- && make --directory ${HOME}/.config/dotfiles make install neovim \
- && chown --recursive "${USER}" "${HOME}" \
+ && make --directory=${HOME}/.config/dotfiles make install neovim \
+ && chown --recursive ${USER} ${HOME} \
+ && sudo --user=${USER} --login zsh --interactive -c -- '@zinit-scheduler burst' \
  && figlet "user: ${USER}"
 
 USER ${USER}
