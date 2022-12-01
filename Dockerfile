@@ -61,6 +61,7 @@ RUN useradd \
  && passwd --delete ${USER}
 
 WORKDIR ${HOME}
+USER ${USER}
 RUN mkdir --parents ${BREW_PREFIX} \
  && git clone --progress https://github.com/Homebrew/brew ${BREW_PREFIX}/Homebrew \
  && git -C "${BREW_PREFIX}/Homebrew" remote set-url origin https://github.com/Homebrew/brew \
@@ -84,6 +85,7 @@ RUN mkdir --parents ${BREW_PREFIX} \
 # INSTALL-HOMEBREW
 #== WIP ==
 
+USER root
 RUN mkdir --parents ${HOME}/.config \
  && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
  && make --directory ${HOME}/.config/dotfiles make install \
