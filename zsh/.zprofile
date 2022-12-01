@@ -106,7 +106,7 @@ export \
 # │ ENV VARIABLES │
 # +───────────────+
 export \
-  ARCHPREFERENCE="arm64e,arm64,x86_64" \
+  ARCHPREFERENCE="x86_64,arm64e,arm64" \
   COMPOSE_DOCKER_CLI_BUILD=1 \
   DISABLE_MAGIC_FUNCTIONS=true \
   DOCKER_BUILDKIT=1 \

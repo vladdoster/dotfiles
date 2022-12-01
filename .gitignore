@@ -3,3 +3,4 @@
 git/**/credentials
 stow.git
 **/bin/*stow
+bin/.local/s*

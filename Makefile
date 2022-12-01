@@ -1,5 +1,3 @@
-# vim: set fenc=utf8 ffs=unix ft=make list noet sw=4 ts=4 tw=72:
-
 .DEFAULT_SHELL := $(shell command -v zsh 2> /dev/null)
 .ONESHELL:
 
@@ -22,17 +20,17 @@ neovim: destination := $${HOME}/.config/nvim
 $(CONFIGS): ## Clone configuration repository
 	sh -c "[ ! -d $(destination) ] && git clone $(GH_URL)/$@-configuration $(destination)"
 
-install: | uninstall ## Install dotfiles via GNU stow
+install: | uninstall ## Install dotfiles
 	find * -maxdepth 0 -mindepth 0 -type d -exec stow $(STOW_OPTS) --stow {} \;
 
-uninstall: ## Un-stow dotfiles
+uninstall: ## Uninstall dotfiles
 	find * -maxdepth 0 -mindepth 0 -type d -exec stow $(STOW_OPTS) --delete {} \;
 	$(info --- uninstalled dotfiles)
 
 build: ## Build docker image
-	docker build --file docker/Dockerfile --tag $(CONTAINTER_NAME):latest $(CURDIR)
+	docker build --file=Dockerfile --tag=$(CONTAINTER_NAME):latest --progress=plain $(CURDIR)
 
-shell: ## Start shell in Docker container
+shell: ## Start shell in docker container
 	@docker run --interactive --mount source=dotfiles-vol,destination=/home/ --tty $(CONTAINTER_NAME):latest
 
 brew-bundle: ## Install programs defined in Brewfile
@@ -46,7 +44,7 @@ brew-uninstall: ## Uninstall Homebrew
 	$(info Preparing to uninstall brew)
 	@/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/uninstall.sh)"
 
-chsh: ## Set user shell to ZSH
+chsh: ## Set shell to ZSH
 	echo "$$(which zsh)" | sudo tee -a /etc/shells
 	chsh -s "$$(which zsh)" $$USER
 
@@ -61,29 +59,31 @@ stow: ## Install GNU stow
 	$(info --- installed GNU Stow)
 	[ -d stow/stow.git ] && rm -rf stow/stow.git
 
-safari-extensions:
+safari-extensions: ## Install 1password, vimari, grammarly safari extensions
 	brew install mas
 	mas install 1569813296 1480933944 1462114288 # 1password, vimari, grammarly
 
 py-install: ## Install pip
 	python3 -m ensurepip --upgrade
 
-py-pkgs: ## Install Python pkgs
+py-pkgs: ## Install python pkgs
 	pip3 install $(PIP_OPTS) $(PY_PKGS)
 	$(info --- py packages installed)
 
-py-update: py-pkgs ## Update Python packages
+py-update: py-pkgs ## Update python packages
 	pip3 list --user | cut -d" " -f 1 | tail -n +3 | xargs python3 -m pip install $(PIP_OPTS)
 
-rust-install: ## Install Rust & Cargo
+rust-install: ## Install rust & cargo
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-rust-pkgs: ## Install Rust programs
+rust-pkgs: ## Install rust programs
 	cargo install bat cargo-update exa topgrade
 
 help: ## Display available Make targets
-	@ # Thanks tweekmonster ;) Saw this in your gist, too.
+	@ # credit: tweekmonster github gist
 	echo "$$(grep -hE '^[a-zA-Z0-9_-]+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\033[36m\1\\033[m:\2/' | column -c2 -t -s : | sort)"
 
 %: ## A catch-all target to make fake targets
 	@true
+
+# vim: set fenc=utf8 ffs=unix ft=make list noet sw=4 ts=4 tw=72:

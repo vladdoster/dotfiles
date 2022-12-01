@@ -22,13 +22,13 @@ container: check-env init-docker-buildx
 	@for platform in $(PLATFORMS); do \
 		echo "Starting build for $${platform} platform"; \
 		docker buildx build \
-			--file ./Dockerfile \
+			--file ../Dockerfile \
 			--load \
 			--platform $${platform} \
 			--progress plain \
 			--tag $(IMAGE)-$${platform##*/}:$(TAG) \
 			--tag $(IMAGE)-$${platform##*/}:latest \
-			.; \
+			..; \
 	done
 
 push: container
