@@ -2,7 +2,7 @@
 .ONESHELL:
 
 CONFIGS := hammerspoon neovim
-CONTAINTER_NAME = dotfiles
+CONTAINTER_NAME = vdoster/dotfiles
 GH_URL = https://github.com/vladdoster
 HOMEBREW_URL := https://raw.githubusercontent.com/Homebrew/install/HEAD
 PIP_OPTS := --no-compile --trusted-host files.pythonhosted.org --trusted-host pypi.org --upgrade --user
