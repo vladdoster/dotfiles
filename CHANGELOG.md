@@ -1,3 +1,21 @@
+# [4.3.0](https://github.com/vladdoster/dotfiles/compare/v4.2.0...v4.3.0) (2022-12-01)
+
+
+### Bug Fixes
+
+* install brew as non-root user in docker env ([d9a27e5](https://github.com/vladdoster/dotfiles/commit/d9a27e5ffd29e08205532624eacef32576874bb1))
+
+
+### Features
+
+* install Homebrew in docker env ([fccea7f](https://github.com/vladdoster/dotfiles/commit/fccea7fbe9f0b7bc0c3091c7903fe66d3fc07538))
+
+
+### Performance Improvements
+
+* increase http.postBuffer size in git config ([d27aeea](https://github.com/vladdoster/dotfiles/commit/d27aeeac54dd14367a5ff157df318a0a23b9e5a1))
+* set HOMEBREW_INSTALL_FROM_API in Dockerfile ([659a252](https://github.com/vladdoster/dotfiles/commit/659a252ca3e6d6fefcae5d3db09758c0335e2f35))
+
 # [4.2.0](https://github.com/vladdoster/dotfiles/compare/v4.1.4...v4.2.0) (2022-12-01)
 
 
