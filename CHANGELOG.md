@@ -1,3 +1,10 @@
+## [4.4.3](https://github.com/vladdoster/dotfiles/compare/v4.4.2...v4.4.3) (2022-12-01)
+
+
+### Bug Fixes
+
+* mv global .editorconfig to "$HOME" ([6ea10ae](https://github.com/vladdoster/dotfiles/commit/6ea10ae40f93a7ac94c8df177a8514ad772d5049))
+
 ## [4.4.2](https://github.com/vladdoster/dotfiles/compare/v4.4.1...v4.4.2) (2022-12-01)
 
 
