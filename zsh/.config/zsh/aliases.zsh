@@ -62,8 +62,8 @@ home_alias 'zpc' '.zprofile'
 alias nvcln='command rm -rf $HOME/.{local/share/nvim,config/nvim/plugin/packer_compiled.lua}'
 alias zicln='command rm -rf ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}'
 alias ziprune='zi delete --all --yes; ( exec zsh -il );'
-alias zirld='builtin exec zsh -l'
-alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},{auto,}s}; ziprune; zirld; cd -'
+alias zrld='builtin exec zsh -l'
+alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},{auto,}s}; ziprune; zrld; cd -'
 # +────────────+
 # │ NAVIGATION │
 # +────────────+
