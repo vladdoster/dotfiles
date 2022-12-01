@@ -110,6 +110,7 @@ alias me='whoami'
 # │ MISC. │
 # +───────+
 alias pretty-env='print -C 1 $(env | sort | xargs)'
+alias pretty-path='print ${PATH} | tr ":" "\n"'
 alias gen-passwd='openssl rand -base64 24'
 alias get-my-ip='curl ifconfig.co'
 alias tmp-md='$EDITOR $(mktemp -t scratch.XXX.md)'
