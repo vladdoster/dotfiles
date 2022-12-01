@@ -105,6 +105,7 @@ alias zc='zinit compile'
 alias zp='zinit times'
 alias zt='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
 alias ziclnplg='command rm -rf $ZINIT[PLUGINS_DIR]'
+alias me='whoami'
 # +───────+
 # │ MISC. │
 # +───────+
