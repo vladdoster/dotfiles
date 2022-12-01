@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """3.0.1 John Eikenberry <jae@zhar.net> GPL-3+ http://zhar.net/projects/
 
 Copyright
@@ -225,9 +224,15 @@ class term16(object):
         8
         """
         if options.foreground:
-            esc = lambda n: fg_escape % n
+
+            def esc(n):
+                return fg_escape % n
+
         else:
-            esc = lambda n: bg_escape % n + fg_escape % (15 if n < 9 else 0)
+
+            def esc(n):
+                return bg_escape % n + fg_escape % (15 if n < 9 else 0)
+
         return [
             [term16.label(n, esc) + clear for n in range(8)],
             [term16.label(n, esc) + clear for n in range(8, 16)],
@@ -368,11 +373,21 @@ class term256(term16):
     def _render(palette):
         """compact 256 color info"""
         if options.foreground:
-            esc = lambda n: fg_escape % n
-            render = lambda n: term256.label(n, esc) + clear
+
+            def esc(n):
+                return fg_escape % n
+
+            def render(n):
+                return term256.label(n, esc) + clear
+
         else:
-            esc = lambda n: fg_escape % (16 if term256._to_rgb(n).is_light() else 255)
-            render = lambda n: bg_escape % n + term256.label(n, esc) + clear
+
+            def esc(n):
+                return fg_escape % (16 if term256._to_rgb(n).is_light() else 255)
+
+            def render(n):
+                return bg_escape % n + term256.label(n, esc) + clear
+
         return [[render(n) for n in i] for i in iter(palette)]
 
     def _compact_display():
@@ -461,11 +476,21 @@ class term88(term16):
     def _render(palette):
         """88 color info"""
         if options.foreground:
-            esc = lambda n: fg_escape % n
-            render = lambda n: term88.label(n, esc) + clear
+
+            def esc(n):
+                return fg_escape % n
+
+            def render(n):
+                return term88.label(n, esc) + clear
+
         else:
-            esc = lambda n: fg_escape % (16 if term88._to_rgb(n).is_light() else 87)
-            render = lambda n: bg_escape % n + term88.label(n, esc) + clear
+
+            def esc(n):
+                return fg_escape % (16 if term88._to_rgb(n).is_light() else 87)
+
+            def render(n):
+                return bg_escape % n + term88.label(n, esc) + clear
+
         return [[render(n) for n in i] for i in iter(palette)]
 
     def _colors():
