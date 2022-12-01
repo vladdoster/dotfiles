@@ -1,3 +1,10 @@
+## [4.4.1](https://github.com/vladdoster/dotfiles/compare/v4.4.0...v4.4.1) (2022-12-01)
+
+
+### Performance Improvements
+
+* disable global compinit call on Ubuntu ([d4e9443](https://github.com/vladdoster/dotfiles/commit/d4e9443d947f9893190fbd24083780ef7a50a802))
+
 # [4.4.0](https://github.com/vladdoster/dotfiles/compare/v4.3.0...v4.4.0) (2022-12-01)
 
 
