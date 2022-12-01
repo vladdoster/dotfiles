@@ -18,38 +18,24 @@ ENV HOME "/home/${USER}"
 ENV BREW_PREFIX "/home/${USER}/.linuxbrew"
 ENV HOMEBREW_INSTALL_FROM_API "true"
 
-# RUN apt-get update \
-#  && apt-get --yes --fix-missing install --no-install-recommends \
-#     apt-utils autoconf automake \
-#     bsdmainutils bsdutils build-essential \
-#     ca-certificates cmake curl \
-#     debianutils \
-#     figlet file \
-#     g++ gcc git \
-#     less libevent-dev libz-dev locales \
-#     make \
-#     ncurses-base ncurses-bin ncurses-dev \
-#     pkg-config python3-pip python3.8 python3.8-dev \
-#     stow subversion sudo \
-#     tar tree tzdata \
-#     unzip util-linux-locales \
-#     vim \
-#     wget \
-#     xz-utils \
-#     zsh
-#
-
 RUN apt-get update \
  && apt-get --yes --fix-missing install --no-install-recommends \
+    apt-utils autoconf automake \
     bsdmainutils bsdutils build-essential \
     ca-certificates cmake curl \
-    figlet \
-    git \
+    debianutils \
+    figlet file \
+    g++ gcc git \
+    less libevent-dev libz-dev locales \
     make \
     ncurses-base ncurses-bin ncurses-dev \
-    sudo stow \
+    pkg-config python3-pip python3.8 python3.8-dev \
+    stow subversion sudo \
     tar tree tzdata \
+    unzip util-linux-locales \
+    vim \
     wget \
+    xz-utils \
     zsh
 
 RUN useradd \
@@ -61,8 +47,6 @@ RUN useradd \
   ${USER} \
  && passwd --delete ${USER}
 
-WORKDIR ${HOME}
-
 RUN mkdir --parents ${HOME}/.config \
  && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
  && make --directory ${HOME}/.config/dotfiles make install \
@@ -70,6 +54,8 @@ RUN mkdir --parents ${HOME}/.config \
  && figlet "user: ${USER}"
 
 USER ${USER}
+WORKDIR ${HOME}
+
 RUN mkdir --parents ${BREW_PREFIX} \
  && git clone --progress https://github.com/Homebrew/brew ${BREW_PREFIX}/Homebrew \
  && git -C "${BREW_PREFIX}/Homebrew" remote set-url origin https://github.com/Homebrew/brew \
@@ -78,20 +64,8 @@ RUN mkdir --parents ${BREW_PREFIX} \
  && eval $(${BREW_PREFIX}/bin/brew shellenv) \
  && rm -rf "${BREW_PREFIX}/Homebrew/Library/Taps/homebrew/homebrew-core" \
  && brew tap --repair --verbose homebrew/core \
- && brew help
-
-#== WIP ==
-# ADD --keep-git-dir=true --chown=${USER}:${USER} https://github.com/Homebrew/homebrew-core.git#master $BREW_PREFIX/Homebrew/Library/Taps/homebrew/homebrew-core
-# ADD --keep-git-dir=true --chown=${USER}:${USER} https://github.com/Homebrew/brew.git#master $BREW_PREFIX/Homebrew
-
-# ADD --keep-git-dir=true https://github.com/vladdoster/dotfiles.git#master $HOME/dotfiles
-# ADD --keep-git-dir=true https://github.com/zdharma-continuum/zinit.git#main $HOME/.local/share/zinit/zinit.git
-
-# RUN <<INSTALL-HOMEBREW bash
-#   # ln -s ${BREW_PREFIX}/Homebrew/bin/brew ${BREW_PREFIX}/bin
-#   chown -R ${USER} ${HOME}
-# INSTALL-HOMEBREW
-#== WIP ==
+ && brew completions link \
+ && brew generate-man-completions
 
 ENTRYPOINT ["zsh"]
 CMD ["-l"]
