@@ -45,7 +45,6 @@ znippet 'exa' 'ogham/exa/master/completions/zsh'
 znippet 'fd' 'sharkdp/fd/master/contrib/completion'
 zi light-mode as'completion' nocompile is-snippet for \
     "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh" \
-    "${GH_RAW_URL}/oven-sh/bun/main/completions/bun.zsh" \
     "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
 #=== PROMPT ===========================================
 # eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
@@ -87,15 +86,11 @@ zi ice wait lucid nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-comm
 zi lucid wait light-mode for \
     svn submods'zsh-users/zsh-history-substring-search -> external' \
     @OMZ::plugins/history-substring-search \
-    atpull'zinit creinstall -q .' blockf \
-    zsh-users/zsh-completions \
-    svn submods'zsh-users/zsh-completions -> external' \
+    atpull'zinit creinstall -q .' svn submods'zsh-users/zsh-completions -> external' \
     @PZTM::completion \
-    atload'!_zsh_autosuggest_start' atinit'ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50; bindkey "^_" autosuggest-execute; bindkey "^ " autosuggest-accept;' \
+    atload'_zsh_autosuggest_start' atinit'ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50; bindkey "^_" autosuggest-execute; bindkey "^ " autosuggest-accept;' \
     zsh-users/zsh-autosuggestions \
-    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
-    atload'FAST_HIGHLIGHT[chroma-man]=' atpull'%atclone' \
-    compile'.*fast*~*.zwc' nocompletions \
+    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc' nocompletions \
     $ZI[REPO]/fast-syntax-highlighting
 
 # for i in $ZINIT[PLUGINS_DIR]/*; do
