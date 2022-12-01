@@ -10,7 +10,6 @@ indent_style = space
 indent_style = tab
 
 [*.sh]
-# like -i=4
 indent_style = space
 indent_size = 2
 
@@ -22,6 +21,5 @@ keep_padding       = true  # like -kp
 function_next_line = true  # like -fn
 never_split        = true  # like -ns
 
-# Ignore the entire "third_party" directory.
 [third_party/**]
 ignore = true
