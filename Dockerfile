@@ -16,6 +16,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV USER ${USER:-"dotfiles"}
 ENV HOME "/home/${USER}"
 ENV BREW_PREFIX "/home/${USER}/.linuxbrew"
+ENV HOMEBREW_INSTALL_FROM_API "true"
 
 # RUN apt-get update \
 #  && apt-get --yes --fix-missing install --no-install-recommends \
@@ -61,6 +62,13 @@ RUN useradd \
  && passwd --delete ${USER}
 
 WORKDIR ${HOME}
+
+RUN mkdir --parents ${HOME}/.config \
+ && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
+ && make --directory ${HOME}/.config/dotfiles make install \
+ && chown --recursive "${USER}" "${HOME}" \
+ && figlet "user: ${USER}"
+
 USER ${USER}
 RUN mkdir --parents ${BREW_PREFIX} \
  && git clone --progress https://github.com/Homebrew/brew ${BREW_PREFIX}/Homebrew \
@@ -85,15 +93,6 @@ RUN mkdir --parents ${BREW_PREFIX} \
 # INSTALL-HOMEBREW
 #== WIP ==
 
-USER root
-RUN mkdir --parents ${HOME}/.config \
- && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
- && make --directory ${HOME}/.config/dotfiles make install \
- && chown --recursive "${USER}" "${HOME}" \
- && figlet "user: ${USER}"
-
-USER ${USER}
-WORKDIR ${HOME}
 ENTRYPOINT ["zsh"]
 CMD ["-l"]
 
