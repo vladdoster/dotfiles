@@ -49,7 +49,7 @@ RUN useradd \
 
 RUN mkdir --parents ${HOME}/.config \
  && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
- && make --directory ${HOME}/.config/dotfiles make install \
+ && make --directory ${HOME}/.config/dotfiles make install neovim \
  && chown --recursive "${USER}" "${HOME}" \
  && figlet "user: ${USER}"
 
@@ -64,8 +64,7 @@ RUN mkdir --parents ${BREW_PREFIX} \
  && eval $(${BREW_PREFIX}/bin/brew shellenv) \
  && rm -rf "${BREW_PREFIX}/Homebrew/Library/Taps/homebrew/homebrew-core" \
  && brew tap --repair --verbose homebrew/core \
- && brew completions link \
- && brew generate-man-completions
+ && brew completions link
 
 ENTRYPOINT ["zsh"]
 CMD ["-l"]
