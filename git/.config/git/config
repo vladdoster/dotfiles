@@ -64,9 +64,11 @@
 
 [http]
   sslVerify = false
+  postBuffer = 524288000
 
 [https]
   sslVerify = false
+  postBuffer = 524288000
 
 [alias]
   au = add -u
