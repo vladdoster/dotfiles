@@ -1,3 +1,16 @@
+## [4.4.2](https://github.com/vladdoster/dotfiles/compare/v4.4.1...v4.4.2) (2022-12-01)
+
+
+### Bug Fixes
+
+* set TERM env var & zi install cmd ([b3bb239](https://github.com/vladdoster/dotfiles/commit/b3bb2391d7f267fa818a9e65191365d16e368874))
+* zinit alias syntax & rm duplicate aliases ([770db09](https://github.com/vladdoster/dotfiles/commit/770db095ba1fe5ce91c57d6bb150b188eaa986ed))
+
+
+### Performance Improvements
+
+* faster zinit install for zsh-completions ([dfba7cd](https://github.com/vladdoster/dotfiles/commit/dfba7cd2c19a9e6bbc2782d7bb8c2f46c449d1c8))
+
 ## [4.4.1](https://github.com/vladdoster/dotfiles/compare/v4.4.0...v4.4.1) (2022-12-01)
 
 
