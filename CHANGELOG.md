@@ -1,3 +1,17 @@
+## [4.4.4](https://github.com/vladdoster/dotfiles/compare/v4.4.3...v4.4.4) (2022-12-02)
+
+
+### Bug Fixes
+
+* install lua5.3 & luarocks in Dockerfile ([f438d23](https://github.com/vladdoster/dotfiles/commit/f438d23c432aee7c8be7c36fbd064cbc32c0f7c8))
+
+
+### Performance Improvements
+
+* compress docker build & add clean Make target ([c678cac](https://github.com/vladdoster/dotfiles/commit/c678cac1fdeabc500e427e4b8f82ca7d887edc45))
+* remove cruft programs in Brewfile ([c6e7c14](https://github.com/vladdoster/dotfiles/commit/c6e7c144b5c8401d32e3ebd2444ca650c1d549ed))
+* rm cruft && reorder steps order in Dockerfile ([3bcb2af](https://github.com/vladdoster/dotfiles/commit/3bcb2af0190ffd0ff74b9a0451486963113cefdf))
+
 ## [4.4.3](https://github.com/vladdoster/dotfiles/compare/v4.4.2...v4.4.3) (2022-12-01)
 
 
