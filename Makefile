@@ -28,7 +28,7 @@ uninstall: ## Uninstall dotfiles
 	$(info --- uninstalled dotfiles)
 
 build: ## Build docker image
-	docker build --file=Dockerfile --tag=$(CONTAINTER_NAME):latest --progress=plain $(CURDIR)
+	docker build --file=Dockerfile --compress --tag=$(CONTAINTER_NAME):latest --progress=plain $(CURDIR)
 
 shell: ## Start shell in docker container
 	@docker run --interactive --mount source=dotfiles-volume,destination=/home --tty $(CONTAINTER_NAME):latest
@@ -82,6 +82,9 @@ rust-pkgs: ## Install rust programs
 help: ## Display available Make targets
 	@ # credit: tweekmonster github gist
 	echo "$$(grep -hE '^[a-zA-Z0-9_-]+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\033[36m\1\\033[m:\2/' | column -c2 -t -s : | sort)"
+
+clean:
+	docker system prune --all --force --volumes
 
 %: ## A catch-all target to make fake targets
 	@true
