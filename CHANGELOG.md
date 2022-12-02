@@ -1,3 +1,11 @@
+## [4.4.5](https://github.com/vladdoster/dotfiles/compare/v4.4.4...v4.4.5) (2022-12-02)
+
+
+### Bug Fixes
+
+* find-replace handles sed/gsed and hidden dirs ([ec38075](https://github.com/vladdoster/dotfiles/commit/ec380751681743abbd2c6794e060efddceba4bc9))
+* find-replace() checks if gsed is installed ([513148c](https://github.com/vladdoster/dotfiles/commit/513148c7958f2294d887e19b123e2097bf230c2c))
+
 ## [4.4.4](https://github.com/vladdoster/dotfiles/compare/v4.4.3...v4.4.4) (2022-12-02)
 
 
