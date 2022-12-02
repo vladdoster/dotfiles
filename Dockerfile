@@ -32,11 +32,10 @@ RUN apt-get update \
    less libevent-dev libz-dev locales lua5.3 luarocks \
    make man-db \
    ncurses-base ncurses-bin ncurses-dev ncurses-term \
-   pkg-config python3-pip python3.8 python3.8-dev \
+   pkg-config python3-pip python3 python3-dev \
    stow subversion sudo \
    tar tree tzdata \
    unzip util-linux-locales \
-   vim \
    wget \
    xz-utils \
    zsh
@@ -50,13 +49,6 @@ RUN useradd \
   ${USER} \
  && passwd --delete ${USER}
 
-RUN mkdir --parents ${HOME}/.config \
- && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
- && make --directory=${HOME}/.config/dotfiles make install neovim \
- && chown --recursive ${USER} ${HOME} \
- && sudo --user=${USER} --login zsh --interactive -c -- '@zinit-scheduler burst' \
- && figlet "user: ${USER}"
-
 USER ${USER}
 WORKDIR ${HOME}
 
@@ -66,9 +58,15 @@ RUN mkdir --parents ${BREW_PREFIX} \
  && mkdir --parents ${BREW_PREFIX}/bin \
  && ln -s ${BREW_PREFIX}/Homebrew/bin/brew ${BREW_PREFIX}/bin \
  && eval $(${BREW_PREFIX}/bin/brew shellenv) \
- && rm -rf "${BREW_PREFIX}/Homebrew/Library/Taps/homebrew/homebrew-core" \
  && brew tap --repair --verbose homebrew/core \
  && brew completions link
+
+RUN mkdir --parents ${HOME}/.config \
+ && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
+ && make --directory=${HOME}/.config/dotfiles make install neovim \
+ && chown --recursive ${USER} ${HOME} \
+ && sudo --user=${USER} --login zsh --interactive -c -- '@zinit-scheduler burst' \
+ && figlet "user: ${USER}"
 
 ENTRYPOINT ["zsh"]
 CMD ["-l"]
