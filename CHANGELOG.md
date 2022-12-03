@@ -1,3 +1,10 @@
+## [4.4.6](https://github.com/vladdoster/dotfiles/compare/v4.4.5...v4.4.6) (2022-12-03)
+
+
+### Bug Fixes
+
+* zinit install error msg & plugin install order ([2debe31](https://github.com/vladdoster/dotfiles/commit/2debe31bca498eea6a6888aaef99e9f71cdedd0b))
+
 ## [4.4.5](https://github.com/vladdoster/dotfiles/compare/v4.4.4...v4.4.5) (2022-12-02)
 
 
