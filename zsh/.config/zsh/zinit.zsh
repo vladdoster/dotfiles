@@ -15,7 +15,7 @@ ZI+=(
     ZPFX "$ZI[HOME_DIR]/polaris" SRC 'zdharma-continuum'
 )
 
-[[ ! -e $ZI[BIN_DIR]/zinit.zsh ]] && {
+if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]]; then
   {
     info 'downloading zinit'
     command git clone \
@@ -27,18 +27,18 @@ ZI+=(
     zcompile "${ZI[BIN_DIR]}/zinit.zsh"
     info 'sucessfully installed zinit'
   } || error 'failed to download zinit'
-}
-[[ -e ${ZI[BIN_DIR]}/zinit.zsh ]] && {
-  {
+fi
+if [[ -e ${ZI[BIN_DIR]}/zinit.zsh ]]; then
     typeset -gAH ZINIT=( ${(kv)ZI} )
-    builtin source ${ZI[BIN_DIR]}/zinit.zsh && \
+    builtin source ${ZINIT[BIN_DIR]}/zinit.zsh && \
     autoload +X -Uz _zinit && \
     (( ${+_comps} )) && \
     _comps[zinit]=_zinit
-  } || error 'failed to find zinit installation'
-}
+else 
+  error 'failed to find zinit installation' 
+fi
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
-zi is-snippet light-mode nocompletions for {PZTM::/{'environment','history'},OMZL::{'compfix','completion','git','key-bindings'}.zsh}
+zi is-snippet light-mode nocompletions for {PZTM::{environment,history},OMZL::{compfix,completion,git,key-bindings}.zsh}
 zi as'completion' for OMZP::{'golang/_golang','pip/_pip'}
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
@@ -62,7 +62,8 @@ zi for as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' light-mode 
     zstyle ':prompt:pure:prompt:success' color 'green'" \
   @sindresorhus/pure
 #=== ANNEXES ==========================================
-zi ver'style/rename-funcs' light-mode for @${ZI[SRC]}/zinit-annex-{'patch-dl','binary-symlink','submods'}
+zi light-mode for @${ZI[SRC]}/zinit-annex-{patch-dl,binary-symlink,submods}
+# zi ver'style/rename-funcs' light-mode for @${ZI[SRC]}/zinit-annex-{'patch-dl','binary-symlink','submods'}
 #=== GITHUB BINARIES ==================================
 zbin(){ zi for from'gh-r' lbin"!* -> $(basename ${1})" nocompile light-mode "@${1}"; }
 zbin "stedolan/jq"
@@ -75,31 +76,25 @@ zi from'gh-r' lbin'!' nocompile light-mode for \
     pick'fzf' \
     src'key-bindings.zsh' \
   @junegunn/fzf \
-  @{'dandavison/delta','pemistahl/grex','r-darwish/topgrade','sharkdp/'{'fd','hyperfine'}}
+  @{dandavison/delta,pemistahl/grex,r-darwish/topgrade,sharkdp/{fd,hyperfine}}
 
 zi light-mode from'gh-r' nocompile for \
     lbin'!**/exa' atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
-  @ogham/exa \
-    lbin'!**/nvim -> nvim' ver'nightly' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' \
-  @neovim/neovim
+  @ogham/exa
+    # lbin'!**/nvim -> nvim' ver'nightly' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' \
+  # @neovim/neovim
 #=== UNIT TESTING =====================================
-zi ice as'command' atclone'./build.zsh' pick'zunit'; zi light @${ZI[SRC]}/zunit
+# zi ice as'command' atclone'./build.zsh' pick'zunit'; zi light @${ZI[SRC]}/zunit
 zi ice wait lucid nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line'; zi light @softmoth/zsh-vim-mode
 #=== MISC. ============================================
 zi lucid wait light-mode for \
-  svn submods'zsh-users/zsh-history-substring-search -> external' \
-  @OMZ::plugins/history-substring-search \
-  atpull'zinit creinstall -q .' svn submods'zsh-users/zsh-completions -> external' \
-  @PZTM::completion \
-  atload'!_zsh_autosuggest_start' atinit'ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50; bindkey "^_" autosuggest-execute; bindkey "^ " autosuggest-accept;' \
+    svn submods'zsh-users/zsh-history-substring-search -> external' \
+  OMZ::plugins/history-substring-search \
+    atpull'zinit creinstall -q .' blockf \
+  zsh-users/zsh-completions \
+    atload'!_zsh_autosuggest_start' atinit'ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50; bindkey "^_" autosuggest-execute; bindkey "^ " autosuggest-accept;' \
   zsh-users/zsh-autosuggestions \
-  atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc' nocompletions \
-  $ZI[SRC]/fast-syntax-highlighting
-
-# for i in $ZINIT[PLUGINS_DIR]/*; do
-#      q=${${i:t}##*---}
-#      q=${q%/}
-#      hash -d $q=$i
-#  done
+    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc' nocompletions \
+  $ZINIT[SRC]/fast-syntax-highlighting
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
