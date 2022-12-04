@@ -34,8 +34,8 @@ if [[ -e ${ZI[BIN_DIR]}/zinit.zsh ]]; then
     autoload +X -Uz _zinit && \
     (( ${+_comps} )) && \
     _comps[zinit]=_zinit
-else 
-  error 'failed to find zinit installation' 
+else
+  error 'failed to find zinit installation'
 fi
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 zi is-snippet light-mode nocompletions for {PZTM::{environment,history},OMZL::{compfix,completion,git,key-bindings}.zsh}
@@ -76,6 +76,7 @@ zi from'gh-r' lbin'!' nocompile light-mode for \
     pick'fzf' \
     src'key-bindings.zsh' \
   @junegunn/fzf \
+  lbin'!* -> tree-sitter' tree-sitter/tree-sitter \
   @{dandavison/delta,pemistahl/grex,r-darwish/topgrade,sharkdp/{fd,hyperfine}}
 
 zi light-mode from'gh-r' nocompile for \
