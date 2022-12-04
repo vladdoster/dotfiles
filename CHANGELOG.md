@@ -1,3 +1,11 @@
+# [4.6.0](https://github.com/vladdoster/dotfiles/compare/v4.5.0...v4.6.0) (2022-12-04)
+
+
+### Features
+
+* add tree-sitter binary gh-r ([07f4e07](https://github.com/vladdoster/dotfiles/commit/07f4e0787d062c178fb977cf6305f15529a9374d))
+* set CORRECT IGNORE to [_|.]* ([c18aacc](https://github.com/vladdoster/dotfiles/commit/c18aaccb14ebc623dca0b130be6caa0a96b3cf4f))
+
 # [4.5.0](https://github.com/vladdoster/dotfiles/compare/v4.4.7...v4.5.0) (2022-12-04)
 
 
