@@ -28,10 +28,21 @@ uninstall: ## Uninstall dotfiles
 	$(info --- uninstalled dotfiles)
 
 build: ## Build docker image
-	docker build --file=Dockerfile --compress --tag=$(CONTAINTER_NAME):latest --progress=plain $(CURDIR)
+	docker build \
+		--compress \
+		--file=Dockerfile \
+		--progress=plain \
+		--rm \
+		--tag=$(CONTAINTER_NAME):latest \
+		.
 
 shell: ## Start shell in docker container
-	@docker run --interactive --mount source=dotfiles-volume,destination=/home --tty $(CONTAINTER_NAME):latest
+	@docker run \
+		--interactive \
+		--mount=source=dotfiles-volume,destination=/home \
+		--platform=linux/amd64 \
+		--tty \
+		$(CONTAINTER_NAME):latest
 
 brew-bundle: ## Install programs defined in Brewfile
 	@brew bundle --cleanup --file Brewfile --force --no-lock --zap
