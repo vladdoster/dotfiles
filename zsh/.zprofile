@@ -115,4 +115,7 @@ export \
   HOMEBREW_NO_ENV_HINTS=1 \
   HOMEBREW_NO_INSTALL_CLEANUP=1
 
+# Zsh variable ignore everything starting with _ or .
+CORRECT_IGNORE="[_|.]*"
+
 # vim: set sw=2 sts=2 et ft=zsh et:
