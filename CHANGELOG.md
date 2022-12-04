@@ -1,3 +1,16 @@
+## [4.4.7](https://github.com/vladdoster/dotfiles/compare/v4.4.6...v4.4.7) (2022-12-04)
+
+
+### Bug Fixes
+
+* add missing backslash in zinit.zsh ([f61191a](https://github.com/vladdoster/dotfiles/commit/f61191a4793389a4e0d5b93d7f6e0615b7984d8b))
+* specify amd64 platform in shell Make target ([e93152e](https://github.com/vladdoster/dotfiles/commit/e93152efd24fb0c1c26112076b95428317fec833))
+
+
+### Reverts
+
+* disable neovim install via zinit ([c3f437e](https://github.com/vladdoster/dotfiles/commit/c3f437ef9b95aa25abef4d4d8af84fdcc2a757cd))
+
 ## [4.4.6](https://github.com/vladdoster/dotfiles/compare/v4.4.5...v4.4.6) (2022-12-03)
 
 
