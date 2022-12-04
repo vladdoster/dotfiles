@@ -80,7 +80,7 @@ zi from'gh-r' lbin'!' nocompile light-mode for \
 
 zi light-mode from'gh-r' nocompile for \
     lbin'!**/exa' atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
-  @ogham/exa
+  @ogham/exa \
     lbin'!**/nvim -> nvim' ver'nightly' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' \
   @neovim/neovim
 #=== UNIT TESTING =====================================
