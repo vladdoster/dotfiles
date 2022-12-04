@@ -1,3 +1,16 @@
+# [4.5.0](https://github.com/vladdoster/dotfiles/compare/v4.4.7...v4.5.0) (2022-12-04)
+
+
+### Bug Fixes
+
+* add ~/.local/include to .gitignore ([82c4328](https://github.com/vladdoster/dotfiles/commit/82c43285ae815c63cb9d45220e1e2c2050ee25f7))
+* add npm & rm dupes in Brewfile ([b8f2f3e](https://github.com/vladdoster/dotfiles/commit/b8f2f3ea339d38a0feb0115716d56455c360682f))
+
+
+### Features
+
+* script to easily update license headers ([26d5d72](https://github.com/vladdoster/dotfiles/commit/26d5d7224e9cb7041a4cf2004ea6210eaed42535))
+
 ## [4.4.7](https://github.com/vladdoster/dotfiles/compare/v4.4.6...v4.4.7) (2022-12-04)
 
 
