@@ -14,11 +14,12 @@ ARG USER
 
 ENV USER ${USER:-dotfiles}
 ENV HOME /home/${USER}
-ENV BREW_PREFIX ${HOME}/.linuxbrew
+ENV BREW_PREFIX ${HOME}/.homebrew
 
 ENV CLICOLOR 1
 ENV DEBIAN_FRONTEND noninteractive
-ENV HOMEBREW_INSTALL_FROM_API true
+ENV HOMEBREW_INSTALL_FROM_API 1
+ENV NONINTERACTIVE 1
 ENV TERM xterm-256color
 
 RUN apt-get update \
@@ -52,17 +53,32 @@ RUN useradd \
 USER ${USER}
 WORKDIR ${HOME}
 
-RUN mkdir --parents ${BREW_PREFIX} \
- && git clone --progress https://github.com/Homebrew/brew ${BREW_PREFIX}/Homebrew \
- && git -C "${BREW_PREFIX}/Homebrew" remote set-url origin https://github.com/Homebrew/brew \
- && mkdir --parents ${BREW_PREFIX}/bin \
- && ln -s ${BREW_PREFIX}/Homebrew/bin/brew ${BREW_PREFIX}/bin \
- && eval $(${BREW_PREFIX}/bin/brew shellenv) \
- && brew tap --repair --verbose homebrew/core \
+RUN mkdir homebrew \
+ && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew \
+ && eval "$(${BREW_PREFIX}} shellenv)" \
+ && brew update --force --quiet \
+ && chmod -R go-w "$(brew --prefix)/share/zsh" \
  && brew completions link
+
+
+# RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+ # && eval $(${BREW_PREFIX}/bin/brew shellenv) \
+ # && brew completions link
+
+# RUN mkdir --parents ${BREW_PREFIX} \
+#  && git clone --progress https://github.com/Homebrew/brew ${BREW_PREFIX}/Homebrew \
+#  && git -C "${BREW_PREFIX}/Homebrew" remote set-url origin https://github.com/Homebrew/brew \
+#  && mkdir --parents ${BREW_PREFIX}/bin \
+#  && ln -s ${BREW_PREFIX}/Homebrew/bin/brew ${BREW_PREFIX}/bin \
+#  && eval $(${BREW_PREFIX}/bin/brew shellenv) \
+#  && brew tap --repair --verbose homebrew/core \
+#  && brew update-reset \
+#  && brew completions link
 
 RUN mkdir --parents ${HOME}/.config \
  && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
+ && eval "$(${BREW_PREFIX}} shellenv)" \
+ && make --directory=${HOME}/.config/dotfiles make brew-bundle \
  && make --directory=${HOME}/.config/dotfiles make install neovim \
  && chown --recursive ${USER} ${HOME} \
  && sudo --user=${USER} --login zsh --interactive -c -- '@zinit-scheduler burst' \
