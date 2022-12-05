@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile-upstream:master-labs
 
 ARG TARGETPLATFORM=amd64
-FROM --platform=${TARGETPLATFORM} ubuntu:20.04
+FROM --platform=${TARGETPLATFORM} debian:stable-slim
 
 LABEL org.label-schema.schema-version="1.0"
 LABEL org.label-schema.name="vladdoster/dotfiles"
