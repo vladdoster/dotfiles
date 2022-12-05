@@ -1,3 +1,10 @@
+## [4.6.1](https://github.com/vladdoster/dotfiles/compare/v4.6.0...v4.6.1) (2022-12-05)
+
+
+### Bug Fixes
+
+* append homebrew to $PATH & condense env var ([d10c002](https://github.com/vladdoster/dotfiles/commit/d10c002a6a8687cd3bb699d59865835279a76194))
+
 # [4.6.0](https://github.com/vladdoster/dotfiles/compare/v4.5.0...v4.6.0) (2022-12-04)
 
 
