@@ -1,3 +1,11 @@
+## [4.6.18](https://github.com/vladdoster/dotfiles/compare/v4.6.17...v4.6.18) (2022-12-05)
+
+
+### Bug Fixes
+
+* add ripgrep & fzf to Dockerfile ([c22008b](https://github.com/vladdoster/dotfiles/commit/c22008bb9605c046053ecdb8226164bbadddfbf7))
+* install stable neovim version in zinit ([a8a8571](https://github.com/vladdoster/dotfiles/commit/a8a8571b77dfb21c7d9c58e4cae7a8372ca369aa))
+
 ## [4.6.17](https://github.com/vladdoster/dotfiles/compare/v4.6.16...v4.6.17) (2022-12-05)
 
 
