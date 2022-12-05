@@ -18,6 +18,7 @@ ENV BREW_PREFIX ${HOME}/homebrew
 
 ENV CLICOLOR 1
 ENV DEBIAN_FRONTEND noninteractive
+ENV HOMEBREW_INSTALL_FROM_API 1
 ENV TERM xterm-256color
 
 RUN apt-get update \
