@@ -32,7 +32,7 @@ docker-build: ## Build docker image
 		--compress \
 		--file=Dockerfile \
 		--progress=plain \
-		--rm \
+		--force-rm \
 		--tag=$(CONTAINTER_NAME):latest \
 		.
 
@@ -40,7 +40,6 @@ docker-shell: ## Start shell in docker container
 	@docker run \
 		--interactive \
 		--mount=source=dotfiles-volume,destination=/home \
-		--platform=linux/amd64 \
 		--tty \
 		$(CONTAINTER_NAME):latest
 
