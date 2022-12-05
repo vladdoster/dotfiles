@@ -6,7 +6,8 @@ IMAGE = $(REGISTRY)/$(IMGNAME)
 TAG ?= $(shell git describe --tags --always --dirty)
 export DOCKER_CLI_EXPERIMENTAL=enabled
 
-PLATFORMS ?= linux/amd64 linux/arm32v5 linux/arm32v7 linux/arm64v8 linux/i386 linux/mips64le linux/ppc64le linux/riscv64 linux/s390x
+# PLATFORMS ?= linux/amd64 linux/arm32v5 linux/arm32v7 linux/arm64v8 linux/i386 linux/mips64le linux/ppc64le linux/riscv64 linux/s390x
+PLATFORMS ?= linux/amd64
 ARCHS = $(patsubst linux/%,%,$(PLATFORMS))
 
 check-env:
