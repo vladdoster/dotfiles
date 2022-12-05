@@ -1,3 +1,10 @@
+## [4.6.6](https://github.com/vladdoster/dotfiles/compare/v4.6.5...v4.6.6) (2022-12-05)
+
+
+### Bug Fixes
+
+* homebrew install in dockerfile ([6cffe46](https://github.com/vladdoster/dotfiles/commit/6cffe46d754b072775615cebd4f7a5557f64589a))
+
 ## [4.6.5](https://github.com/vladdoster/dotfiles/compare/v4.6.4...v4.6.5) (2022-12-05)
 
 
