@@ -1,3 +1,10 @@
+## [4.6.2](https://github.com/vladdoster/dotfiles/compare/v4.6.1...v4.6.2) (2022-12-05)
+
+
+### Bug Fixes
+
+* zsh-completions & history-substring-search ([9879695](https://github.com/vladdoster/dotfiles/commit/9879695183c1f4a8f532135c3a4c71ddc1b87712))
+
 ## [4.6.1](https://github.com/vladdoster/dotfiles/compare/v4.6.0...v4.6.1) (2022-12-05)
 
 
