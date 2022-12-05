@@ -1,3 +1,10 @@
+## [4.6.17](https://github.com/vladdoster/dotfiles/compare/v4.6.16...v4.6.17) (2022-12-05)
+
+
+### Bug Fixes
+
+* chown $USER home dir as root ([23bbdf5](https://github.com/vladdoster/dotfiles/commit/23bbdf564ef45b51cc088da3f94f9b2989f0f6c2))
+
 ## [4.6.16](https://github.com/vladdoster/dotfiles/compare/v4.6.15...v4.6.16) (2022-12-05)
 
 
