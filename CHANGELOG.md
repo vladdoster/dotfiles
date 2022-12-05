@@ -1,3 +1,11 @@
+## [4.6.14](https://github.com/vladdoster/dotfiles/compare/v4.6.13...v4.6.14) (2022-12-05)
+
+
+### Bug Fixes
+
+* install deps via apt instead of Brew ([1c6b6af](https://github.com/vladdoster/dotfiles/commit/1c6b6af539921a7eed623f1dcc1690fa603d5d3c))
+* only build linux/amd64 docker image ([def74f8](https://github.com/vladdoster/dotfiles/commit/def74f862121a60f95b1d453949f56f73cafda9e))
+
 ## [4.6.13](https://github.com/vladdoster/dotfiles/compare/v4.6.12...v4.6.13) (2022-12-05)
 
 
