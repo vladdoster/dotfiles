@@ -65,7 +65,7 @@ RUN mkdir --parents ${BREW_PREFIX} \
  RUN mkdir --parents ${HOME}/.config \
   && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
   && make --directory=${HOME}/.config/dotfiles make install neovim \
-  && chown --recursive ${USER} ${HOME} \
+  && sudo chown --recursive ${USER} ${HOME} \
   && sudo --user=${USER} zsh --interactive --login -c -- '@zinit-scheduler burst' \
   && figlet "user: ${USER}"
 
