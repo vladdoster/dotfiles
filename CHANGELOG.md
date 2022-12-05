@@ -1,3 +1,10 @@
+## [4.6.10](https://github.com/vladdoster/dotfiles/compare/v4.6.9...v4.6.10) (2022-12-05)
+
+
+### Bug Fixes
+
+* run chown as sudo in Dockerfile ([ad2299c](https://github.com/vladdoster/dotfiles/commit/ad2299c64739feaf4a29ec19e0067a8900291893))
+
 ## [4.6.9](https://github.com/vladdoster/dotfiles/compare/v4.6.8...v4.6.9) (2022-12-05)
 
 
