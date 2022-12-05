@@ -1,3 +1,10 @@
+## [4.6.8](https://github.com/vladdoster/dotfiles/compare/v4.6.7...v4.6.8) (2022-12-05)
+
+
+### Bug Fixes
+
+* set BREW_PREFIX ~/.linuxbrew in dockerfile ([da3651d](https://github.com/vladdoster/dotfiles/commit/da3651d9b2cd18f689097a82209ecd451e3043ca))
+
 ## [4.6.7](https://github.com/vladdoster/dotfiles/compare/v4.6.6...v4.6.7) (2022-12-05)
 
 
