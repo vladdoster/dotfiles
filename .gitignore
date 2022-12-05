@@ -4,3 +4,4 @@
 bin/.local/[si]*
 git/**/credentials
 stow.git
+init-buildx
