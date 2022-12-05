@@ -1,3 +1,10 @@
+## [4.6.12](https://github.com/vladdoster/dotfiles/compare/v4.6.11...v4.6.12) (2022-12-05)
+
+
+### Bug Fixes
+
+* base image ubuntu 22.04 to debian:stabe-slim ([83d7872](https://github.com/vladdoster/dotfiles/commit/83d7872b1578122845feb0f26b321e10198e69cc))
+
 ## [4.6.11](https://github.com/vladdoster/dotfiles/compare/v4.6.10...v4.6.11) (2022-12-05)
 
 
