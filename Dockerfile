@@ -51,7 +51,6 @@ USER ${USER}
 WORKDIR ${HOME}
 
 ENV BREW_PREFIX ${HOME}/.linuxbrew
-ENV HOMEBREW_INSTALL_FROM_API true
 
 RUN mkdir --parents ${BREW_PREFIX} \
  && git clone --progress https://github.com/Homebrew/brew ${BREW_PREFIX}/Homebrew \
