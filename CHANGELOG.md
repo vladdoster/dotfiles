@@ -1,3 +1,10 @@
+## [4.6.4](https://github.com/vladdoster/dotfiles/compare/v4.6.3...v4.6.4) (2022-12-05)
+
+
+### Bug Fixes
+
+* homebrew/core tap install in dockerfile ([6c46a15](https://github.com/vladdoster/dotfiles/commit/6c46a151c96c8162208acc7763b47228bcded67c))
+
 ## [4.6.3](https://github.com/vladdoster/dotfiles/compare/v4.6.2...v4.6.3) (2022-12-05)
 
 
