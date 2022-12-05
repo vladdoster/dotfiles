@@ -14,11 +14,9 @@ ARG USER
 
 ENV USER ${USER:-dotfiles}
 ENV HOME /home/${USER}
-ENV BREW_PREFIX ${HOME}/.linuxbrew
 
 ENV CLICOLOR 1
 ENV DEBIAN_FRONTEND noninteractive
-ENV HOMEBREW_INSTALL_FROM_API 1
 ENV TERM xterm-256color
 
 RUN apt-get update \
@@ -51,6 +49,9 @@ RUN useradd \
 
 USER ${USER}
 WORKDIR ${HOME}
+
+ENV BREW_PREFIX ${HOME}/.linuxbrew
+ENV HOMEBREW_INSTALL_FROM_API 1
 
 RUN mkdir --parents ${BREW_PREFIX} \
  && git clone --progress https://github.com/Homebrew/brew ${BREW_PREFIX}/Homebrew \
