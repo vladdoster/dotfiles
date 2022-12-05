@@ -57,7 +57,8 @@ RUN useradd \
   --uid 1001 \
   ${USER} \
  && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers \
- && passwd --delete ${USER}
+ && passwd --delete ${USER} \
+ && chown --recursive ${USER} ${HOME}
 
 USER ${USER}
 WORKDIR ${HOME}
@@ -65,7 +66,6 @@ WORKDIR ${HOME}
 RUN mkdir --parents ${HOME}/.config \
  && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
  && make --directory=${HOME}/.config/dotfiles make install neovim py-update \
- && chown --recursive ${USER} ${HOME} \
  && sudo --user=${USER} --login zsh --interactive --login -c -- '@zinit-scheduler burst' \
  && figlet "user: ${USER}"
 
