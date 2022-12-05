@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile-upstream:master-labs
 
 ARG TARGETPLATFORM=amd64
-FROM --platform=${TARGETPLATFORM} ubuntu:rolling
+FROM ubuntu:rolling
 
 LABEL org.label-schema.schema-version="1.0"
 LABEL org.label-schema.name="vladdoster/dotfiles"
