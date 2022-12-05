@@ -1,3 +1,10 @@
+## [4.6.3](https://github.com/vladdoster/dotfiles/compare/v4.6.2...v4.6.3) (2022-12-05)
+
+
+### Bug Fixes
+
+* docker related Make targets & README.md ([834809f](https://github.com/vladdoster/dotfiles/commit/834809f747d6dc602ea0aba8670384cc607c715e))
+
 ## [4.6.2](https://github.com/vladdoster/dotfiles/compare/v4.6.1...v4.6.2) (2022-12-05)
 
 
