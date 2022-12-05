@@ -1,3 +1,10 @@
+## [4.6.13](https://github.com/vladdoster/dotfiles/compare/v4.6.12...v4.6.13) (2022-12-05)
+
+
+### Bug Fixes
+
+* remove HOMEBREW_INSTALL_FROM_API env var ([7f7e718](https://github.com/vladdoster/dotfiles/commit/7f7e71820fc9af093b757920dbf0f44d0153fb89))
+
 ## [4.6.12](https://github.com/vladdoster/dotfiles/compare/v4.6.11...v4.6.12) (2022-12-05)
 
 
