@@ -86,13 +86,12 @@ zi light-mode from'gh-r' nocompile for \
   @neovim/neovim
 #=== UNIT TESTING =====================================
 # zi ice as'command' atclone'./build.zsh' pick'zunit'; zi light @${ZI[SRC]}/zunit
-zi ice wait lucid nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line'; zi light @softmoth/zsh-vim-mode
+zi ice wait'!' lucid nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line'; zi light @softmoth/zsh-vim-mode
 #=== MISC. ============================================
 zi lucid wait light-mode for \
-    svn submods'zsh-users/zsh-history-substring-search -> external' \
-  OMZ::plugins/history-substring-search \
-    atpull'zinit creinstall -q .' blockf \
-  zsh-users/zsh-completions \
+  svn submods'zsh-users/zsh-history-substring-search -> external' OMZP::history-substring-search \
+  atpull'zinit creinstall -q .' blockf zsh-users/zsh-completions \
+  svn submods'zsh-users/zsh-completions -> external' PZTM::completion \
     atload'!_zsh_autosuggest_start' atinit'ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50; bindkey "^_" autosuggest-execute; bindkey "^ " autosuggest-accept;' \
   zsh-users/zsh-autosuggestions \
     atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc' nocompletions \
