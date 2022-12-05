@@ -1,3 +1,10 @@
+## [4.6.7](https://github.com/vladdoster/dotfiles/compare/v4.6.6...v4.6.7) (2022-12-05)
+
+
+### Bug Fixes
+
+* set HOMEBREW_INSTALL_FROM_API in dockerfile ([cf74b19](https://github.com/vladdoster/dotfiles/commit/cf74b19a536ba030058f32bf0f8175534ffe6790))
+
 ## [4.6.6](https://github.com/vladdoster/dotfiles/compare/v4.6.5...v4.6.6) (2022-12-05)
 
 
