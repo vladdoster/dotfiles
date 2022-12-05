@@ -1,3 +1,10 @@
+## [4.6.11](https://github.com/vladdoster/dotfiles/compare/v4.6.10...v4.6.11) (2022-12-05)
+
+
+### Bug Fixes
+
+* change base image ubuntu 22.04 to 20.04 ([e2b6a35](https://github.com/vladdoster/dotfiles/commit/e2b6a35e50057a57c2919de8ea991db6eca1d989))
+
 ## [4.6.10](https://github.com/vladdoster/dotfiles/compare/v4.6.9...v4.6.10) (2022-12-05)
 
 
