@@ -39,13 +39,13 @@ activate_brew
 typeset -aU path
 local USR_PATH="/usr/local/opt" BREW_PATH="$(brew --prefix)"
 path_append \
-  "${BREW_PATH}"/sbin \
   "${BREW_PATH}"/{'llvm',opt/{'ruby','ncurses','texinfo'}}/bin \
   "${BREW_PATH}"/{opt{'libtool','findutils'},'make'}/libexec/gnubin \
   "${HOME}"/Library/Python/3.{'8','9','10'}/bin \
   "${HOME}"/{.{'cargo','local','tfenv'},'go'}/bin \
   "${USR_PATH}"/binutils/bin \
-  "${USR_PATH}"/{'coreutils',gnu-{'sed','tar'}}/libexec/gnubin
+  "${USR_PATH}"/{'coreutils',gnu-{'sed','tar'}}/libexec/gnubin \
+  "${BREW_PATH}"/{sbin,bin}
 # typeset -U path  # No duplicates
 # path=()
 # 
@@ -106,14 +106,11 @@ export \
 # │ ENV VARIABLES │
 # +───────────────+
 export \
-  ARCHPREFERENCE="x86_64,arm64e,arm64" \
+  ARCHPREFERENCE="arm64,arm64e,x86_64" \
   COMPOSE_DOCKER_CLI_BUILD=1 \
   DISABLE_MAGIC_FUNCTIONS=true \
   DOCKER_BUILDKIT=1 \
-  HOMEBREW_FORCE_BREWED_CURL=1 \
-  HOMEBREW_NO_AUTO_UPDATE=1 \
-  HOMEBREW_NO_ENV_HINTS=1 \
-  HOMEBREW_NO_INSTALL_CLEANUP=1
+  HOMEBREW_{FORCE_BREWED_CURL,NO_{AUTO_UPDATE,ENV_HINTS,INSTALL_CLEANUP}}=1 \
 
 # Zsh variable ignore everything starting with _ or .
 CORRECT_IGNORE="[_|.]*"
