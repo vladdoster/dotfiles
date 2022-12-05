@@ -1,3 +1,10 @@
+## [4.6.15](https://github.com/vladdoster/dotfiles/compare/v4.6.14...v4.6.15) (2022-12-05)
+
+
+### Bug Fixes
+
+* rm buildx flags in Docker Make targets ([c64a928](https://github.com/vladdoster/dotfiles/commit/c64a928bbaf920d1702dd35be893f72a2dbc72b4))
+
 ## [4.6.14](https://github.com/vladdoster/dotfiles/compare/v4.6.13...v4.6.14) (2022-12-05)
 
 
