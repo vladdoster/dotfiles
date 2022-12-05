@@ -1,3 +1,10 @@
+## [4.6.9](https://github.com/vladdoster/dotfiles/compare/v4.6.8...v4.6.9) (2022-12-05)
+
+
+### Bug Fixes
+
+* move homebrew env vars to avoid breaking cache ([43e83c6](https://github.com/vladdoster/dotfiles/commit/43e83c6e816dccfd4aa83e40b473d8eba63b7a84))
+
 ## [4.6.8](https://github.com/vladdoster/dotfiles/compare/v4.6.7...v4.6.8) (2022-12-05)
 
 
