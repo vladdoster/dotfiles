@@ -29,7 +29,7 @@ RUN apt-get update \
   ca-certificates cmake curl \
   curl \
   debianutils \
-  figlet file \
+  figlet file fzf \
   g++ gcc git golang gawk \
   jq \
   less libevent-dev libtree-sitter-dev libz-dev locales lua5.1 luarocks \
@@ -37,6 +37,7 @@ RUN apt-get update \
   ncurses-base ncurses-bin ncurses-dev ncurses-term netbase \
   openssh-client \
   patch pkg-config python3 python3-dev python3-pip \
+  ripgrep \
   stow subversion sudo \
   tar tree tzdata \
   unzip util-linux-locales uuid-runtime \
