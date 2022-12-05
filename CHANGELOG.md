@@ -1,3 +1,11 @@
+## [4.6.19](https://github.com/vladdoster/dotfiles/compare/v4.6.18...v4.6.19) (2022-12-05)
+
+
+### Bug Fixes
+
+* add init-buildx artifact to .gitignore ([0ba0d88](https://github.com/vladdoster/dotfiles/commit/0ba0d88796586b6a3bc6905649d3301a220c17de))
+* rm docker buildx flag for Dockerfile backward compatability ([51c31c1](https://github.com/vladdoster/dotfiles/commit/51c31c14e7bfe2905c3552d2c1a9841ed4322341))
+
 ## [4.6.18](https://github.com/vladdoster/dotfiles/compare/v4.6.17...v4.6.18) (2022-12-05)
 
 
