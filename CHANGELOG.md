@@ -1,3 +1,10 @@
+## [4.6.16](https://github.com/vladdoster/dotfiles/compare/v4.6.15...v4.6.16) (2022-12-05)
+
+
+### Bug Fixes
+
+* add apt pkgs to Dockerfile ([b96d148](https://github.com/vladdoster/dotfiles/commit/b96d148eac985b35ce50b5ff51b70c42247427f5))
+
 ## [4.6.15](https://github.com/vladdoster/dotfiles/compare/v4.6.14...v4.6.15) (2022-12-05)
 
 
