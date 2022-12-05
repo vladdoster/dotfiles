@@ -1,16 +1,15 @@
 # Dotfiles
 
-![Release Version](https://img.shields.io/github/v/release/vladdoster/dotfiles)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/vladdoster/dotfiles/Release?label=Release)
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/vdoster/dotfiles)
-
-## Features
+[![Release Version](https://img.shields.io/github/v/release/vladdoster/dotfiles)](https://github.com/vladdoster/dotfiles/releases/latest)
+[![Release Status](https://img.shields.io/github/workflow/status/vladdoster/dotfiles/Release?label=build)](https://github.com/vladdoster/dotfiles/actions/workflows/release.yml)
+[![Docker Build Status](https://img.shields.io/docker/cloud/build/vdoster/dotfiles)](https://hub.docker.com/repository/docker/vdoster/dotfiles)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/vladdoster/dotfiles)
 
 Program configuration files are managed by GNU Stow.
 
-Supports GNU Linux && macOS (Apple silicon, Intel)
+Supports x86\_64/ARM64 vaiants of GNU Linux & macOS.
 
-## Install
+## Usage
 
 Install and set everything up, run:
 
@@ -20,7 +19,7 @@ mkdir $HOME/.config \
 && make stow install
 
 # Reload Zsh process
-exec zsh
+exec zsh -l
 ```
 
 ## Makefile targets
@@ -44,9 +43,3 @@ exec zsh
 | safari-extensions | Install 1password, vimari, grammarly safari extensions |
 | stow              | Install GNU stow                                       |
 | uninstall         | Uninstall dotfiles                                     |
-
-## Change shell to ZSH
-
-```zsh
-make chsh
-```
