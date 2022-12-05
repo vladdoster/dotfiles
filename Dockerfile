@@ -14,7 +14,7 @@ ARG USER
 
 ENV USER ${USER:-dotfiles}
 ENV HOME /home/${USER}
-ENV BREW_PREFIX ${HOME}/homebrew
+ENV BREW_PREFIX ${HOME}/.linuxbrew
 
 ENV CLICOLOR 1
 ENV DEBIAN_FRONTEND noninteractive
@@ -65,7 +65,7 @@ RUN mkdir --parents ${BREW_PREFIX} \
   && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
   && make --directory=${HOME}/.config/dotfiles make install neovim \
   && chown --recursive ${USER} ${HOME} \
-  && sudo --user=${USER} --login zsh --interactive -c -- '@zinit-scheduler burst' \
+  && sudo --user=${USER} zsh --interactive --login -c -- '@zinit-scheduler burst' \
   && figlet "user: ${USER}"
 
 ENTRYPOINT ["zsh"]
