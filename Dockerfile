@@ -14,7 +14,7 @@ ARG USER
 
 ENV USER ${USER:-dotfiles}
 ENV HOME /home/${USER}
-ENV BREW_PREFIX ${HOME}/.homebrew
+ENV BREW_PREFIX ${HOME}/homebrew
 
 ENV CLICOLOR 1
 ENV DEBIAN_FRONTEND noninteractive
@@ -54,21 +54,18 @@ WORKDIR ${HOME}
 RUN mkdir --parents ${BREW_PREFIX} \
  && git clone --progress https://github.com/Homebrew/brew ${BREW_PREFIX}/Homebrew \
  && git -C "${BREW_PREFIX}/Homebrew" remote set-url origin https://github.com/Homebrew/brew \
- && mkdir --parents ${BREW_PREFIX}/bin \
- && ln -s ${BREW_PREFIX}/Homebrew/bin/brew ${BREW_PREFIX}/bin \
- && eval $(${BREW_PREFIX}/bin/brew shellenv) \
- && brew tap --repair --verbose homebrew/core \
- && brew update-reset \
- && brew completions link
+  && mkdir --parents ${BREW_PREFIX}/bin \
+  && ln -s ${BREW_PREFIX}/Homebrew/bin/brew ${BREW_PREFIX}/bin \
+  && eval $(${BREW_PREFIX}/bin/brew shellenv) \
+  && brew tap --repair --verbose homebrew/core \
+  && brew completions link
 
-RUN mkdir --parents ${HOME}/.config \
- && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
- && eval "$(${BREW_PREFIX}} shellenv)" \
- && make --directory=${HOME}/.config/dotfiles make brew-bundle \
- && make --directory=${HOME}/.config/dotfiles make install neovim \
- && chown --recursive ${USER} ${HOME} \
- && sudo --user=${USER} --login zsh --interactive -c -- '@zinit-scheduler burst' \
- && figlet "user: ${USER}"
+ RUN mkdir --parents ${HOME}/.config \
+  && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
+  && make --directory=${HOME}/.config/dotfiles make install neovim \
+  && chown --recursive ${USER} ${HOME} \
+  && sudo --user=${USER} --login zsh --interactive -c -- '@zinit-scheduler burst' \
+  && figlet "user: ${USER}"
 
 ENTRYPOINT ["zsh"]
 CMD ["-l"]
