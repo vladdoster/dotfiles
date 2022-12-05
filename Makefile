@@ -31,7 +31,6 @@ docker-build: ## Build docker image
 	docker build \
 		--compress \
 		--file=Dockerfile \
-		--progress=plain \
 		--force-rm \
 		--tag=$(CONTAINTER_NAME):latest \
 		.
@@ -41,7 +40,8 @@ docker-shell: ## Start shell in docker container
 		--interactive \
 		--mount=source=dotfiles-volume,destination=/home \
 		--tty \
-		$(CONTAINTER_NAME):latest
+		--security-opt seccomp=unconfined \
+		$(CONTAINTER_NAME):release-$$(cat VERSION)
 
 docker-push: docker-clean ## Build and push dotfiles docker image
 	@make --directory=docker/ manifest
