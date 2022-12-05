@@ -25,23 +25,25 @@ exec zsh
 
 ## Makefile targets
 
-| TARGET         | DESCRIPTION                          |
-| -------------- | ------------------------------------ |
-| brew-bundle    | Install programs defined in Brewfile |
-| brew-install   | Install Homebrew                     |
-| brew-uninstall | Uninstall Homebrew                   |
-| build          | Build docker image                   |
-| chsh           | Set user shell to ZSH                |
-| help           | Display available Make targets       |
-| install        | Install dotfiles via GNU stow        |
-| py-install     | Install pip                          |
-| py-pkgs        | Install Python pkgs                  |
-| py-update      | Update Python packages               |
-| rust-install   | Install Rust & Cargo                 |
-| rust-pkgs      | Install Rust programs                |
-| shell          | Start shell in Docker container      |
-| stow           | Install GNU stow                     |
-| uninstall      | Un-stow dotfiles                     |
+| TARGET            | DESCRIPTION                                            |
+| ----------------- | ------------------------------------------------------ |
+| brew-bundle       | Install programs defined in Brewfile                   |
+| brew-install      | Install Homebrew                                       |
+| brew-uninstall    | Uninstall Homebrew                                     |
+| chsh              | Set shell to ZSH                                       |
+| docker-build      | Build docker image                                     |
+| docker-push       | Build and push dotfiles docker image                   |
+| docker-shell      | Start shell in docker container                        |
+| help              | Display available Make targets                         |
+| install           | Install dotfiles                                       |
+| py-install        | Install pip                                            |
+| py-pkgs           | Install python pkgs                                    |
+| py-update         | Update python packages                                 |
+| rust-install      | Install rust & cargo                                   |
+| rust-pkgs         | Install rust programs                                  |
+| safari-extensions | Install 1password, vimari, grammarly safari extensions |
+| stow              | Install GNU stow                                       |
+| uninstall         | Uninstall dotfiles                                     |
 
 ## Change shell to ZSH
 

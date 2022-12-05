@@ -27,7 +27,7 @@ uninstall: ## Uninstall dotfiles
 	find * -maxdepth 0 -mindepth 0 -type d -exec stow $(STOW_OPTS) --delete {} \;
 	$(info --- uninstalled dotfiles)
 
-build: ## Build docker image
+docker-build: ## Build docker image
 	docker build \
 		--compress \
 		--file=Dockerfile \
@@ -36,13 +36,19 @@ build: ## Build docker image
 		--tag=$(CONTAINTER_NAME):latest \
 		.
 
-shell: ## Start shell in docker container
+docker-shell: ## Start shell in docker container
 	@docker run \
 		--interactive \
 		--mount=source=dotfiles-volume,destination=/home \
 		--platform=linux/amd64 \
 		--tty \
 		$(CONTAINTER_NAME):latest
+
+docker-push: docker-clean ## Build and push dotfiles docker image
+	@make --directory=docker/ manifest
+
+docker-clean:
+	docker system prune --all --force
 
 brew-bundle: ## Install programs defined in Brewfile
 	@brew bundle --cleanup --file Brewfile --force --no-lock --zap
@@ -93,9 +99,6 @@ rust-pkgs: ## Install rust programs
 help: ## Display available Make targets
 	@ # credit: tweekmonster github gist
 	echo "$$(grep -hE '^[a-zA-Z0-9_-]+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\033[36m\1\\033[m:\2/' | column -c2 -t -s : | sort)"
-
-clean:
-	docker system prune --all --force --volumes
 
 %: ## A catch-all target to make fake targets
 	@true
