@@ -1,3 +1,10 @@
+## [4.6.23](https://github.com/vladdoster/dotfiles/compare/v4.6.22...v4.6.23) (2022-12-06)
+
+
+### Bug Fixes
+
+* rm gem & add ruby pkg to Dockerfile ([0bb8e97](https://github.com/vladdoster/dotfiles/commit/0bb8e9738b5441cce95ed9ad250b12a7f13d1298))
+
 ## [4.6.22](https://github.com/vladdoster/dotfiles/compare/v4.6.21...v4.6.22) (2022-12-06)
 
 
