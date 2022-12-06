@@ -30,14 +30,14 @@ RUN apt-get update \
   curl \
   debianutils dialog \
   figlet file fzf \
-  g++ gcc gem git golang gawk \
+  g++ gcc git golang gawk \
   jq \
   less libevent-dev libreadline-dev libtree-sitter-dev libz-dev locales lua5.1 luarocks \
   make man-db \
   ncurses-base ncurses-bin ncurses-dev ncurses-term netbase npm \
   openssh-client \
   patch pkg-config python3 python3-dev python3-pip \
-  readline-common ripgrep \
+  readline-common ripgrep ruby ruby-dev \
   stow subversion sudo \
   tar tree tzdata \
   unzip util-linux-locales uuid-runtime \
