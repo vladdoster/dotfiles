@@ -41,7 +41,7 @@ docker-shell: ## Start shell in docker container
 		--mount=source=dotfiles-volume,destination=/home \
 		--tty \
 		--security-opt seccomp=unconfined \
-		$(CONTAINTER_NAME):release-$$(cat VERSION)
+		$(CONTAINTER_NAME):latest
 
 docker-push: docker-clean ## Build and push dotfiles docker image
 	@make --directory=docker/ manifest
