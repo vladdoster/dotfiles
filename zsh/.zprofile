@@ -20,7 +20,7 @@ path_append() {
   done
 }
 activate_brew() {
-  LOCATIONS=( "${HOME}/.linuxbrew/Homebrew" '/home/linuxbrew/.linuxbrew' '/opt/homebrew' '/usr/local' )
+  LOCATIONS=( $HOME/homebrew ${HOME}/.linuxbrew/Homebrew /home/linuxbrew/.linuxbrew /opt/homebrew /usr/local )
   for F_PATH in $LOCATIONS; do
     if [[ -e "${F_PATH}/bin/brew"  ]] {
       _log "OS" "${OSTYPE} - $(uname -m)"
@@ -37,15 +37,18 @@ activate_brew
 # │ RESERVED VARIABLES │
 # +────────────────────+
 typeset -aU path
-local USR_PATH="/usr/local/opt" BREW_PATH="$(brew --prefix)"
+local USR_PATH="/usr/local/opt" 
+if (( $+commands[brew] )) {
+  local BREW_PATH="$(brew --prefix)"
+  path_append \
+    ${BREW_PATH}{'',/{llvm,opt/{ruby,ncurses,texinfo}}}/bin \
+    ${BREW_PATH}/{opt{libtool,findutils},make}/libexec/gnubin \
+    ${BREW_PATH}/{sbin,bin}
+}
 path_append \
-  "${BREW_PATH}"/{'llvm',opt/{'ruby','ncurses','texinfo'}}/bin \
-  "${BREW_PATH}"/{opt{'libtool','findutils'},'make'}/libexec/gnubin \
-  "${HOME}"/Library/Python/3.{'8','9','10'}/bin \
-  "${HOME}"/{.{'cargo','local','tfenv'},'go'}/bin \
-  "${USR_PATH}"/binutils/bin \
-  "${USR_PATH}"/{'coreutils',gnu-{'sed','tar'}}/libexec/gnubin \
-  "${BREW_PATH}"/{sbin,bin}
+  ${HOME}/{.{cargo,local,tfenv},go,Library/Python/3.{8,9,10}}/bin \
+  ${USR_PATH}/binutils/bin \
+  ${USR_PATH}/{coreutils,gnu-{sed,tar}}/libexec/gnubin \
 # typeset -U path  # No duplicates
 # path=()
 # 
@@ -110,7 +113,7 @@ export \
   COMPOSE_DOCKER_CLI_BUILD=1 \
   DISABLE_MAGIC_FUNCTIONS=true \
   DOCKER_BUILDKIT=1 \
-  HOMEBREW_{FORCE_BREWED_CURL,NO_{AUTO_UPDATE,ENV_HINTS,INSTALL_CLEANUP}}=1 \
+  HOMEBREW_{FORCE_BREWED_CURL,NO_{AUTO_UPDATE,ENV_HINTS,INSTALL_CLEANUP}}= \
 
 # Zsh variable ignore everything starting with _ or .
 CORRECT_IGNORE="[_|.]*"
