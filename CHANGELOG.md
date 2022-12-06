@@ -1,3 +1,10 @@
+## [4.6.20](https://github.com/vladdoster/dotfiles/compare/v4.6.19...v4.6.20) (2022-12-06)
+
+
+### Bug Fixes
+
+* create paths brace expansion in zprofile ([9407a85](https://github.com/vladdoster/dotfiles/commit/9407a85e38e208d224a5b7bbb518b2757c7b9454))
+
 ## [4.6.19](https://github.com/vladdoster/dotfiles/compare/v4.6.18...v4.6.19) (2022-12-05)
 
 
