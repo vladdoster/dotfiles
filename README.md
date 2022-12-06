@@ -7,7 +7,7 @@
 
 Program configuration files are managed by GNU Stow.
 
-Supports x86\_64/ARM64 vaiants of GNU Linux & macOS.
+Supports x86_64/ARM64 vaiants of GNU Linux & macOS.
 
 ## Usage
 
