@@ -30,7 +30,7 @@ RUN apt-get update \
   curl \
   debianutils dialog \
   figlet file fzf \
-  g++ gcc git golang gawk \
+  g++ gcc gem git golang gawk \
   jq \
   less libevent-dev libreadline-dev libtree-sitter-dev libz-dev locales lua5.1 luarocks \
   make man-db \
