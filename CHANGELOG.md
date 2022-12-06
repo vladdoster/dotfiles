@@ -1,3 +1,10 @@
+## [4.6.21](https://github.com/vladdoster/dotfiles/compare/v4.6.20...v4.6.21) (2022-12-06)
+
+
+### Bug Fixes
+
+* use latest tag in docker-shell Make target ([325bd3b](https://github.com/vladdoster/dotfiles/commit/325bd3b2ca2026ea0c7bc7d07387e9955a3cd21a))
+
 ## [4.6.20](https://github.com/vladdoster/dotfiles/compare/v4.6.19...v4.6.20) (2022-12-06)
 
 
