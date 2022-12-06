@@ -1,3 +1,10 @@
+## [4.6.24](https://github.com/vladdoster/dotfiles/compare/v4.6.23...v4.6.24) (2022-12-06)
+
+
+### Bug Fixes
+
+* add default-jre pkg to Dockerfile ([ee8d9ef](https://github.com/vladdoster/dotfiles/commit/ee8d9ef6061afcc78dbd40ab73c512a887fe8311))
+
 ## [4.6.23](https://github.com/vladdoster/dotfiles/compare/v4.6.22...v4.6.23) (2022-12-06)
 
 
