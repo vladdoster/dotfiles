@@ -28,7 +28,7 @@ RUN apt-get update \
   bsdmainutils bsdutils build-essential bzip2 \
   ca-certificates cmake curl \
   curl \
-  debianutils dialog \
+  debianutils default-jre dialog \
   figlet file fzf \
   g++ gcc git golang gawk \
   jq \
