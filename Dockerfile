@@ -32,12 +32,12 @@ RUN apt-get update \
   figlet file fzf \
   g++ gcc git golang gawk \
   jq \
-  less libevent-dev libtree-sitter-dev libz-dev locales lua5.1 luarocks \
+  less libevent-dev libreadline-dev libtree-sitter-dev libz-dev locales lua5.1 luarocks \
   make man-db \
   ncurses-base ncurses-bin ncurses-dev ncurses-term netbase npm \
   openssh-client \
   patch pkg-config python3 python3-dev python3-pip \
-  readline ripgrep \
+  readline-common ripgrep \
   stow subversion sudo \
   tar tree tzdata \
   unzip util-linux-locales uuid-runtime \
