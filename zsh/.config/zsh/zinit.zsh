@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #
 # Open an issue in https://github.com/vladdoster/dotfiles if you find a bug,
-# have a feature request, or a question. A zinit-continuum configuration for
+# have a feature request, or a question. A-zinit-continuum configuration for
 # macOS and Linux.
 #
 #=== HELPER METHODS ===================================
@@ -62,8 +62,8 @@ zi for as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' light-mode 
     zstyle ':prompt:pure:prompt:success' color 'green'" \
   @sindresorhus/pure
 #=== ANNEXES ==========================================
-zi light-mode for @${ZI[SRC]}/zinit-annex-{patch-dl,binary-symlink,submods}
-# zi ver'style/rename-funcs' light-mode for @${ZI[SRC]}/zinit-annex-{'patch-dl','binary-symlink','submods'}
+zi light-mode for @${ZI[SRC]}-zinit-annex-{patch-dl,binary-symlink,submods}
+# zi ver'style/rename-funcs' light-mode for @${ZI[SRC]}-zinit-annex-{'patch-dl','binary-symlink','submods'}
 #=== GITHUB BINARIES ==================================
 zbin(){ zi for from'gh-r' lbin"!* -> $(basename ${1})" nocompile light-mode "@${1}"; }
 zbin "stedolan/jq"

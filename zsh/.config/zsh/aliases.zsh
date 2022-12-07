@@ -47,7 +47,7 @@ cfg_alias 'skhdrc' 'skhd/skhdrc'
 cfg_alias 'tmuxrc' 'tmux/tmux.conf'
 cfg_alias 'zic' 'zsh/zinit.zsh'
 cfg_alias 'zsc' 'zsh/.zshrc'
-alias zinstall='_edit $ZINIT[BIN_DIR]/zinit-install.zsh'
+alias zinstall='_edit $ZINIT[BIN_DIR]-zinit-install.zsh'
 # +────────────────+
 # │ HOME SHORTCUTS │
 # +────────────────+
