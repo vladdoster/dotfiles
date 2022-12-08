@@ -2,15 +2,15 @@
 .ONESHELL:
 
 CONFIGS := hammerspoon neovim
-CONTAINTER_NAME = vdoster/dotfiles
+CONTAINER_NAME = vdoster/dotfiles
 GH_URL = https://github.com/vladdoster
 HOMEBREW_URL := https://raw.githubusercontent.com/Homebrew/install/HEAD
 PIP_OPTS := --no-compile --trusted-host files.pythonhosted.org --trusted-host pypi.org --upgrade --user
 PY_PKGS := bdfr beautysh best-of black bpytop flake8 instaloader isort mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pynvim reorder-python-imports pip
 STOW_OPTS := --target=$$HOME --verbose=1
 
-.PHONY: all brew brew-bundle clean dotfiles hammerspoon neovim shell stow test
-.SILENT: all brew brew-bundle clean dotfiles hammerspoon help neovim py-install py-pkgs py-update shell stow test
+.PHONY: all brew-install brew-bundle clean dotfiles hammerspoon neovim shell stow test docker-shell docker-build
+.SILENT: all brew-install brew-bundle clean dotfiles hammerspoon neovim shell stow test docker-shell docker-build
 
 all: help
 
@@ -32,7 +32,7 @@ docker-build: ## Build docker image
 		--compress \
 		--file=Dockerfile \
 		--force-rm \
-		--tag=$(CONTAINTER_NAME):latest \
+		--tag=$(CONTAINER_NAME):latest \
 		.
 
 docker-shell: ## Start shell in docker container
@@ -41,24 +41,32 @@ docker-shell: ## Start shell in docker container
 		--mount=source=dotfiles-volume,destination=/home \
 		--tty \
 		--security-opt seccomp=unconfined \
-		$(CONTAINTER_NAME):latest
+		$(CONTAINER_NAME):latest
+
+docker-save: ## Create tarball of docker image
+	$(info --- saving $(CONTAINER_NAME):latest)
+	docker save $(CONTAINER_NAME):latest | gzip > "$$(basename $(CONTAINER_NAME))-latest.tar.gz"
+
+docker-load: ## Create tarball of docker image
+	$(info --- loading $(CONTAINER_NAME):latest)
+	docker load --input "$$(basename $(CONTAINER_NAME))-latest.tar.gz"
 
 docker-push: docker-clean ## Build and push dotfiles docker image
-	@make --directory=docker/ manifest
+	make --directory=docker/ manifest
 
-docker-clean:
+docker-clean: ## Clean docker resources
 	docker system prune --all --force
 
 brew-bundle: ## Install programs defined in Brewfile
-	@brew bundle --cleanup --file Brewfile --force --no-lock --zap
+	brew bundle --cleanup --file Brewfile --force --no-lock --zap
 
 brew-install: ## Install Homebrew
 	$(info Preparing to install Homebrew)
-	@/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/install.sh)"
+	/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/install.sh)"
 
 brew-uninstall: ## Uninstall Homebrew
 	$(info Preparing to uninstall brew)
-	@/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/uninstall.sh)"
+	/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/uninstall.sh)"
 
 chsh: ## Set shell to ZSH
 	echo "$$(which zsh)" | sudo tee -a /etc/shells
