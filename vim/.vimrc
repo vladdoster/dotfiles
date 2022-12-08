@@ -16,46 +16,45 @@ if !filereadable(vimplug)
 endif
 " Required:
 call plug#begin(expand('~/.vim/plugged'))
-Plug 'tomasiser/vim-code-dark'
 Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-sensible'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/grep.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'Raimondi/delimitMate'
 Plug 'editor-bootstrap/vim-bootstrap-updater'
-"" Vim-Session
-Plug 'xolox/vim-misc'
+Plug 'tomasiser/vim-code-dark'
 call plug#end()
 " Required:
 filetype plugin indent on
 "*****************************************************************************
 " Options
 "*****************************************************************************
+let mapleader=','
+set backspace=indent,eol,start
 set encoding=utf-8
+set expandtab
 set fileencoding=utf-8
 set fileencodings=utf-8
-set ttyfast
-set backspace=indent,eol,start
-set tabstop=4
-set softtabstop=0
-set shiftwidth=2
-set expandtab
-let mapleader=','
+set fileformats=unix,dos,mac
 set hidden
 set hlsearch
-set incsearch
 set ignorecase
+set incsearch
+set shiftwidth=2
 set smartcase
-set fileformats=unix,dos,mac
+set softtabstop=0
+set tabstop=4
+set ttyfast
 let zsh=expand('zsh')
 if !executable(zsh)
     set shell=zsh
 else
     set shell=/bin/bash
 endif
+let g:indentLine_char_list = '|'
 "*****************************************************************************
 " Visual Settings
 "*****************************************************************************
@@ -180,10 +179,8 @@ if has('macunix')
   vmap <C-c> :w !pbcopy<CR><CR>
 endif
 " Buffer nav
-noremap <leader>z :bp<CR>
-noremap <leader>q :bp<CR>
-noremap <leader>x :bn<CR>
-noremap <leader>w :bn<CR>
+nnoremap <silent> <S-h> :bprevious<CR>
+nnoremap <silent> <S-l> :bnext<CR>
 " Close buffer
 noremap <leader>c :bd<CR>
 " Clean search (highlight)
