@@ -48,7 +48,7 @@ if (( $+commands[brew] )) {
 path_append \
   ${HOME}/{.{cargo,local,tfenv},go,Library/Python/3.{8,9,10}}/bin \
   ${USR_PATH}/binutils/bin \
-  ${USR_PATH}/{coreutils,gnu-{sed,tar}}/libexec/gnubin \
+  ${USR_PATH}/{coreutils,gnu-{sed,tar}}/libexec/gnubin
 # typeset -U path  # No duplicates
 # path=()
 # 
@@ -113,9 +113,9 @@ export \
   COMPOSE_DOCKER_CLI_BUILD=1 \
   DISABLE_MAGIC_FUNCTIONS=true \
   DOCKER_BUILDKIT=1 \
-  HOMEBREW_{FORCE_BREWED_CURL,NO_{AUTO_UPDATE,ENV_HINTS,INSTALL_CLEANUP}}= \
+  HOMEBREW_{FORCE_BREWED_CURL,NO_{AUTO_UPDATE,ENV_HINTS,INSTALL_CLEANUP}}=1
 
 # Zsh variable ignore everything starting with _ or .
 CORRECT_IGNORE="[_|.]*"
 
-# vim: set sw=2 sts=2 et ft=zsh et:
+# vim: set fenc=utf8 ffs=unix ft=zsh list et sts=2 sw=2 ts=2 tw=100:
