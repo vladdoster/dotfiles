@@ -1,3 +1,17 @@
+# [4.7.0](https://github.com/vladdoster/dotfiles/compare/v4.6.24...v4.7.0) (2022-12-08)
+
+
+### Bug Fixes
+
+* set vim to git editor ([6f08401](https://github.com/vladdoster/dotfiles/commit/6f08401905fae2817c53aea495e1cd83a4b3a8a7))
+* vim modeline & trailing backslashes in .zprofile ([a30e8ae](https://github.com/vladdoster/dotfiles/commit/a30e8ae89492d51ca947dad7906bb14fb6ed1b03))
+
+
+### Features
+
+* docker-load & docker-save Make targets ([9858c48](https://github.com/vladdoster/dotfiles/commit/9858c48da1786b51ec774817dcb5f3571c6a554d))
+* vim buffer navigation keymap & add/rm plugin ([16fa469](https://github.com/vladdoster/dotfiles/commit/16fa4695a17c7e60b8339d8921ceae0bd6a0325d))
+
 ## [4.6.24](https://github.com/vladdoster/dotfiles/compare/v4.6.23...v4.6.24) (2022-12-06)
 
 
