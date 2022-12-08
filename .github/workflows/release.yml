@@ -4,8 +4,11 @@ on:
     branches: [master]
   workflow_dispatch:
 jobs:
+  lint:
+    uses: vladdoster/dotfiles/.github/workflows/linting.yml@master
   release:
     name: release
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
