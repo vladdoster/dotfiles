@@ -8,7 +8,7 @@
   helper = store --file ~/.config/git/credentials
 
 [core]
-  editor = nvim
+  editor = vim
   pager = delta
   excludesfile = ~/.config/git/ignore
 
