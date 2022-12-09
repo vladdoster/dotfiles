@@ -1,3 +1,10 @@
+## [4.7.1](https://github.com/vladdoster/dotfiles/compare/v4.7.0...v4.7.1) (2022-12-09)
+
+
+### Bug Fixes
+
+* change to personal fork ([465029d](https://github.com/vladdoster/dotfiles/commit/465029d502185762c092271523a9ab5304eaee32))
+
 # [4.7.0](https://github.com/vladdoster/dotfiles/compare/v4.6.24...v4.7.0) (2022-12-09)
 
 
