@@ -38,11 +38,11 @@ else
   error 'failed to find zinit installation'
 fi
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
-zi is-snippet light-mode nocompletions for {PZTM::{environment,history},OMZL::{compfix,completion,git,key-bindings}.zsh}
+zi is-snippet light-mode id-as nocompletions for {PZTM::{environment,history},OMZL::{compfix,completion,git,key-bindings}.zsh}
 zi as'completion' for OMZP::{'golang/_golang','pip/_pip'}
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
-znippet() { zi for light-mode as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
+znippet() { zi for id-as light-mode as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
 znippet 'brew' 'Homebrew/brew/master/completions/zsh'
 znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
 znippet 'exa' 'ogham/exa/master/completions/zsh'
@@ -62,30 +62,26 @@ zi for as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' light-mode 
     zstyle ':prompt:pure:prompt:success' color 'green'" \
   @sindresorhus/pure
 #=== ANNEXES ==========================================
-zi light-mode for @${ZI[SRC]}/zinit-annex-{patch-dl,binary-symlink,submods}
+zi id-as light-mode for @${ZI[SRC]}/zinit-annex-{patch-dl,binary-symlink,bin-gem-node,submods}
 # zi ver'style/rename-funcs' light-mode for @${ZI[SRC]}/zinit-annex-{'patch-dl','binary-symlink','submods'}
 #=== GITHUB BINARIES ==================================
-zbin(){ zi for from'gh-r' lbin"!* -> $(basename ${1})" nocompile light-mode "@${1}"; }
-zbin "stedolan/jq"
+# zbin(){ zi from'gh-r' completions lbin"!* -> $(basename ${1})" null nocompile for load "@${1}"; }
+# zbin 'stedolan/jq'
+#
+zi for as'completions' id-as atclone'./buildx* completion zsh > _buildx' from"gh-r" nocompile lbin'!b* -> buildx' @docker/buildx
 
-zi from'gh-r' lbin'!' nocompile light-mode for \
-    as'command' \
+zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
+  @{stedolan/jq,tree-sitter/tree-sitter,lindell/multi-gitter,dandavison/delta,pemistahl/grex,r-darwish/topgrade,sharkdp/{fd,hyperfine}} \
     dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
-    from'gh-r' \
-    null \
-    pick'fzf' \
     src'key-bindings.zsh' \
   @junegunn/fzf \
-  lbin'!* -> tree-sitter' tree-sitter/tree-sitter \
-  @{dandavison/delta,pemistahl/grex,r-darwish/topgrade,sharkdp/{fd,hyperfine}}
-
-zi light-mode from'gh-r' nocompile for \
-    lbin'!**/exa' atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
-  @ogham/exa \
-    lbin'!**/nvim -> nvim' nocompletions atinit'for i (v vi vim); do alias $i="nvim"; done' \
-  @neovim/neovim
+    atinit'for i (v vi vim); do alias $i="nvim"; done' \
+    lbin'!**/nvim -> nvim' \
+  @neovim/neovim \
+    atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
+  @ogham/exa
 #=== UNIT TESTING =====================================
-# zi ice as'command' atclone'./build.zsh' pick'zunit'; zi light @${ZI[SRC]}/zunit
+zi ice as'command' atclone'./build.zsh' pick'zunit'; zi light @${ZI[SRC]}/zunit
 zi ice wait'!' lucid nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line'; zi light @softmoth/zsh-vim-mode
 #=== MISC. ============================================
 zi lucid wait light-mode for \
