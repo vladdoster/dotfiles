@@ -20,6 +20,24 @@ function _accept-line-with-url {
 }
 zle -N accept-line _accept-line-with-url
 
+# Bind <alt>+s to `git status`
+function _git-status {
+    zle .kill-whole-line
+    BUFFER="git status"
+    zle .accept-line
+}
+zle -N _git-status
+bindkey '\es' _git-status
+
+# Bind <alt>+d to `git diff`
+function _git-diff {
+    zle .kill-whole-line
+    BUFFER="git diff"
+    zle .accept-line
+}
+zle -N _git-diff
+bindkey '\ed' _git-diff
+
 
 function reset_broken_terminal() {
   printf '%b' '\e[0m\e(B\e)0\017\e[?5l\e7\e[0;0r\e8'
