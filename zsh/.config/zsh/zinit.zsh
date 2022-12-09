@@ -63,11 +63,7 @@ zi for as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' light-mode 
   @sindresorhus/pure
 #=== ANNEXES ==========================================
 zi id-as light-mode for @${ZI[SRC]}/zinit-annex-{patch-dl,binary-symlink,bin-gem-node,submods}
-# zi ver'style/rename-funcs' light-mode for @${ZI[SRC]}/zinit-annex-{'patch-dl','binary-symlink','submods'}
 #=== GITHUB BINARIES ==================================
-# zbin(){ zi from'gh-r' completions lbin"!* -> $(basename ${1})" null nocompile for load "@${1}"; }
-# zbin 'stedolan/jq'
-#
 zi for as'completions' id-as atclone'./buildx* completion zsh > _buildx' from"gh-r" nocompile lbin'!b* -> buildx' @docker/buildx
 
 zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
@@ -81,8 +77,13 @@ zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
     atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 #=== UNIT TESTING =====================================
-zi ice as'command' atclone'./build.zsh' pick'zunit'; zi light @${ZI[SRC]}/zunit
-zi ice wait'!' lucid nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line'; zi light @softmoth/zsh-vim-mode
+zi wait'!' lucid light-mode for \
+    as'command' atclone'./build.zsh' pick'zunit' \
+  @zdharma-continuum/zunit \
+    make"PREFIX=${ZPFX} install" \
+  @zdharma-continuum/zshelldoc \
+    nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line' \
+  @softmoth/zsh-vim-mode
 #=== MISC. ============================================
 zi lucid wait light-mode for \
   svn submods'zsh-users/zsh-history-substring-search -> external' OMZP::history-substring-search \
