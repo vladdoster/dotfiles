@@ -12,7 +12,7 @@ typeset -gAH ZI=(HOME_DIR $HOME/.local/share/zinit)
 ZI+=(
     BIN_DIR "$ZI[HOME_DIR]/zinit.git" COMPLETIONS_DIR "$ZI[HOME_DIR]/completions" OPTIMIZE_OUT_OF_DISK_ACCESSES "1"
     PLUGINS_DIR "$ZI[HOME_DIR]/plugins" SNIPPETS_DIR "$ZI[HOME_DIR]/snippets" ZCOMPDUMP_PATH "$ZI[HOME_DIR]/zcompdump"
-    ZPFX "$ZI[HOME_DIR]/polaris" SRC 'zdharma-continuum'
+    ZPFX "$ZI[HOME_DIR]/polaris" SRC 'zdharma-continuum' BRANCH 'style/rename-funcs' FORK 'vladdoster'
 )
 
 if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]]; then
@@ -62,7 +62,7 @@ zi for as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' light-mode 
     zstyle ':prompt:pure:prompt:success' color 'green'" \
   @sindresorhus/pure
 #=== ANNEXES ==========================================
-zi id-as light-mode for @${ZI[SRC]}/zinit-annex-{patch-dl,binary-symlink,bin-gem-node,submods}
+zi id-as ver'style/rename-funcs' light-mode for @${ZI[FORK]}/zinit-annex-{patch-dl,binary-symlink,bin-gem-node,submods}
 #=== GITHUB BINARIES ==================================
 zi for as'completions' id-as atclone'./buildx* completion zsh > _buildx' from"gh-r" nocompile lbin'!b* -> buildx' @docker/buildx
 
@@ -92,6 +92,7 @@ zi lucid wait light-mode for \
     atload'!_zsh_autosuggest_start' atinit'ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50; bindkey "^_" autosuggest-execute; bindkey "^ " autosuggest-accept;' \
   zsh-users/zsh-autosuggestions \
     atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc' nocompletions \
-  $ZINIT[SRC]/fast-syntax-highlighting
+    ver'style/rename-funcs' \
+  $ZINIT[FORK]/fast-syntax-highlighting
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
