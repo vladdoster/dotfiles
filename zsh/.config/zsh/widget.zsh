@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+zmodload -i zsh/parameter
+
 function _accept-line-with-url {
   if [[ $BUFFER =~ ^https.*git ]]; then
     echo $BUFFER >> $HISTFILE
@@ -26,18 +28,19 @@ function _git-status {
     BUFFER="git status"
     zle .accept-line
 }
-zle -N _git-status
-bindkey '\es' _git-status
+zle -N _git-status && bindkey '\es' _git-status
 
-# Bind <alt>+d to `git diff`
-# function _git-diff {
-#     zle .kill-whole-line
-#     BUFFER="git diff"
-#     zle .accept-line
-# }
-# zle -N _git-diff
-# bindkey '\ed' _git-diff
+function insert-last-command-output() {
+  LBUFFER+="$(eval $history[$((HISTCMD-1))])"
+}
+zle -N insert-last-command-output && bindkey "\ei\eo" insert-last-command-output
 
+function prepend-sudo {
+  if [[ $BUFFER != "sudo "* ]]; then
+    BUFFER="sudo $BUFFER"; CURSOR+=5
+  fi
+}
+zle -N prepend-sudo && bindkey -M vicmd s prepend-sudo
 
 function reset_broken_terminal() {
   printf '%b' '\e[0m\e(B\e)0\017\e[?5l\e7\e[0;0r\e8'
