@@ -1,3 +1,15 @@
+# [4.9.0](https://github.com/vladdoster/dotfiles/compare/v4.8.1...v4.9.0) (2022-12-16)
+
+
+### Bug Fixes
+
+* apply id-as ice to all zi commands ([84dbfbf](https://github.com/vladdoster/dotfiles/commit/84dbfbfcc1ea92b836d11ab48f3f3b995ce267ed))
+
+
+### Features
+
+* insert-last-command-output & prepend-sudo keybinds ([5f2a3c1](https://github.com/vladdoster/dotfiles/commit/5f2a3c1e1b26f2aa345b757669598ede1ecc2774))
+
 ## [4.8.1](https://github.com/vladdoster/dotfiles/compare/v4.8.0...v4.8.1) (2022-12-16)
 
 
