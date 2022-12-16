@@ -67,7 +67,7 @@ WORKDIR ${HOME}
 RUN mkdir --parents ${HOME}/.config \
  && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
  && make --directory=${HOME}/.config/dotfiles make install neovim py-update \
- && sudo --user=${USER} --login zsh --interactive --login -c -- '@zinit-scheduler burst' \
+ && sudo --user=${USER} --login zsh --interactive --login -c -- '@zi::scheduler burst' \
  && figlet "user: ${USER}"
 
 ENTRYPOINT ["zsh"]
