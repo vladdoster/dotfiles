@@ -1,3 +1,10 @@
+## [4.10.1](https://github.com/vladdoster/dotfiles/compare/v4.10.0...v4.10.1) (2022-12-16)
+
+
+### Bug Fixes
+
+* rm --user pip option in py-* make targets ([ae27e6a](https://github.com/vladdoster/dotfiles/commit/ae27e6a0e04dc8eb04da620fafc92dcb2a3f7932))
+
 # [4.10.0](https://github.com/vladdoster/dotfiles/compare/v4.9.1...v4.10.0) (2022-12-16)
 
 
