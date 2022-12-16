@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 
 zmodload -i zsh/parameter
+autoload -Uz zkbd
 
 function _accept-line-with-url {
   if [[ $BUFFER =~ ^https.*git ]]; then
@@ -30,10 +31,10 @@ function _git-status {
 }
 zle -N _git-status && bindkey '\es' _git-status
 
-function insert-last-command-output() {
+insert-last-command-output() {
   LBUFFER+="$(eval $history[$((HISTCMD-1))])"
 }
-zle -N insert-last-command-output && bindkey "\ei\eo" insert-last-command-output
+zle -N insert-last-command-output && bindkey -M vicmd '\ew' insert-last-command-output
 
 function prepend-sudo {
   if [[ $BUFFER != "sudo "* ]]; then
