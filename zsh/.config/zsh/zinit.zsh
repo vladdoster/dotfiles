@@ -52,7 +52,7 @@ zi light-mode as'completion' nocompile is-snippet for \
   "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
 #=== PROMPT ===========================================
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
-zi for as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' light-mode atinit"
+zi for id-as as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' light-mode atinit"
     PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
     PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
     zstyle ':prompt:pure:git:action' color 'yellow'
@@ -62,11 +62,10 @@ zi for as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' light-mode 
     zstyle ':prompt:pure:prompt:success' color 'green'" \
   @sindresorhus/pure
 #=== ANNEXES ==========================================
-zi id-as ver"${ZI[BRANCH]}" light-mode for @${ZI[FORK]}/zinit-annex-{patch-dl,binary-symlink,bin-gem-node,submods}
+zi id-as ver"${ZI[BRANCH]}" light-mode for @${ZI[FORK]}/zinit-annex-{bin-gem-node,binary-symlink,patch-dl,pull,submods}
 #=== GITHUB BINARIES ==================================
 zi for as'completions' id-as atclone'./buildx* completion zsh > _buildx' from"gh-r" nocompile lbin'!b* -> buildx' @docker/buildx
 
-  # @{stedolan/jq,tree-sitter/tree-sitter,lindell/multi-gitter,dandavison/delta,pemistahl/grex,r-darwish/topgrade,sharkdp/{fd,hyperfine}} \
 zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
   @{stedolan/jq,tree-sitter/tree-sitter,lindell/multi-gitter,dandavison/delta,pemistahl/grex,r-darwish/topgrade,sharkdp/{fd,hyperfine}}
 
@@ -83,12 +82,12 @@ zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
 zi id-as light-mode lucid wait'!' for \
     as'command' atclone'./build.zsh' pick'zunit' \
   @zdharma-continuum/zunit \
-    make"PREFIX=${ZPFX} install" \
+    make"PREFIX=${ZI[ZPFX]} install" \
   @zdharma-continuum/zshelldoc \
     nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line' \
   @softmoth/zsh-vim-mode
 #=== MISC. ============================================
-zi lucid wait light-mode for \
+zi lucid wait light-mode id-as for \
   svn submods'zsh-users/zsh-history-substring-search -> external' OMZP::history-substring-search \
   atpull'zinit creinstall -q .' blockf zsh-users/zsh-completions \
   svn submods'zsh-users/zsh-completions -> external' PZTM::completion \
