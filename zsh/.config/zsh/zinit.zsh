@@ -66,8 +66,11 @@ zi id-as ver'style/rename-funcs' light-mode for @${ZI[FORK]}/zinit-annex-{patch-
 #=== GITHUB BINARIES ==================================
 zi for as'completions' id-as atclone'./buildx* completion zsh > _buildx' from"gh-r" nocompile lbin'!b* -> buildx' @docker/buildx
 
+  # @{stedolan/jq,tree-sitter/tree-sitter,lindell/multi-gitter,dandavison/delta,pemistahl/grex,r-darwish/topgrade,sharkdp/{fd,hyperfine}} \
+zi as'completions' from'gh-r' id-as sbin'' light-mode null for \
+  @{stedolan/jq,tree-sitter/tree-sitter,lindell/multi-gitter,dandavison/delta,pemistahl/grex,r-darwish/topgrade,sharkdp/{fd,hyperfine}}
+
 zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
-  @{stedolan/jq,tree-sitter/tree-sitter,lindell/multi-gitter,dandavison/delta,pemistahl/grex,r-darwish/topgrade,sharkdp/{fd,hyperfine}} \
     dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
     src'key-bindings.zsh' \
   @junegunn/fzf \
@@ -77,7 +80,7 @@ zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
     atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 #=== UNIT TESTING =====================================
-zi wait'!' lucid light-mode for \
+zi id-as light-mode lucid wait'!' for \
     as'command' atclone'./build.zsh' pick'zunit' \
   @zdharma-continuum/zunit \
     make"PREFIX=${ZPFX} install" \
