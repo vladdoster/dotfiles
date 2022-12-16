@@ -2,6 +2,7 @@
 .DS_Store
 .zcompdump
 bin/.local/[si]*
+default_config.cfg
 dotfiles-latest.tar.gz
 git/**/credentials
 init-buildx
