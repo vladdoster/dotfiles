@@ -1,3 +1,11 @@
+## [4.9.1](https://github.com/vladdoster/dotfiles/compare/v4.9.0...v4.9.1) (2022-12-16)
+
+
+### Bug Fixes
+
+* [@zi](https://github.com/zi)::scheduler call in Dockerfile RUN cmd ([04e64da](https://github.com/vladdoster/dotfiles/commit/04e64dabe0b751085e84b2c31f514573123bb9c7))
+* insert-last-command-output vicmd keybind ([56d388b](https://github.com/vladdoster/dotfiles/commit/56d388be6cc630647d39bab05806f0da15fc79c8))
+
 # [4.9.0](https://github.com/vladdoster/dotfiles/compare/v4.8.1...v4.9.0) (2022-12-16)
 
 
