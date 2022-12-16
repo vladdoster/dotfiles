@@ -1,3 +1,15 @@
+# [4.10.0](https://github.com/vladdoster/dotfiles/compare/v4.9.1...v4.10.0) (2022-12-16)
+
+
+### Bug Fixes
+
+* flags in docker-build make target ([9fc4982](https://github.com/vladdoster/dotfiles/commit/9fc4982c9947ca10a2c92a283e3bc07c4af30909))
+
+
+### Features
+
+* add watch to Brewfile ([0f3b403](https://github.com/vladdoster/dotfiles/commit/0f3b40346b765d10939a04d4f168d71ecba078e4))
+
 ## [4.9.1](https://github.com/vladdoster/dotfiles/compare/v4.9.0...v4.9.1) (2022-12-16)
 
 
