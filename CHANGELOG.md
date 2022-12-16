@@ -1,3 +1,15 @@
+# [4.8.0](https://github.com/vladdoster/dotfiles/compare/v4.7.1...v4.8.0) (2022-12-16)
+
+
+### Bug Fixes
+
+* use updated sbin logic ([b82bc4d](https://github.com/vladdoster/dotfiles/commit/b82bc4dbd7bec5cc4d34f1bee7f6d3e3d406d1ba))
+
+
+### Features
+
+* print functions in file via list-functions ([c241661](https://github.com/vladdoster/dotfiles/commit/c24166164fabde35f2be4a3e0f18e12fdf8f85ef))
+
 ## [4.7.1](https://github.com/vladdoster/dotfiles/compare/v4.7.0...v4.7.1) (2022-12-09)
 
 
