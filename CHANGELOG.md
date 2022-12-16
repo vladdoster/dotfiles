@@ -1,3 +1,10 @@
+## [4.10.2](https://github.com/vladdoster/dotfiles/compare/v4.10.1...v4.10.2) (2022-12-16)
+
+
+### Bug Fixes
+
+* add bdfr default config to .gitignore ([9af434a](https://github.com/vladdoster/dotfiles/commit/9af434a59c5cab81bca752e6cdddd91748a0cfff))
+
 ## [4.10.1](https://github.com/vladdoster/dotfiles/compare/v4.10.0...v4.10.1) (2022-12-16)
 
 
