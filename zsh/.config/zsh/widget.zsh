@@ -30,13 +30,13 @@ zle -N _git-status
 bindkey '\es' _git-status
 
 # Bind <alt>+d to `git diff`
-function _git-diff {
-    zle .kill-whole-line
-    BUFFER="git diff"
-    zle .accept-line
-}
-zle -N _git-diff
-bindkey '\ed' _git-diff
+# function _git-diff {
+#     zle .kill-whole-line
+#     BUFFER="git diff"
+#     zle .accept-line
+# }
+# zle -N _git-diff
+# bindkey '\ed' _git-diff
 
 
 function reset_broken_terminal() {
