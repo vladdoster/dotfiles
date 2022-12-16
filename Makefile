@@ -30,8 +30,10 @@ uninstall: ## Uninstall dotfiles
 docker-build: ## Build docker image
 	docker build \
 		--compress \
-		--file=Dockerfile \
 		--force-rm \
+		--no-cache \
+		--pull \
+		--rm \
 		--tag=$(CONTAINER_NAME):latest \
 		.
 
