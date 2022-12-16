@@ -5,7 +5,7 @@ CONFIGS := hammerspoon neovim
 CONTAINER_NAME = vdoster/dotfiles
 GH_URL = https://github.com/vladdoster
 HOMEBREW_URL := https://raw.githubusercontent.com/Homebrew/install/HEAD
-PIP_OPTS := --no-compile --trusted-host files.pythonhosted.org --trusted-host pypi.org --upgrade --user
+PIP_OPTS := --no-compile --trusted-host files.pythonhosted.org --trusted-host pypi.org --upgrade
 PY_PKGS := bdfr beautysh best-of black bpytop flake8 instaloader isort mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pynvim reorder-python-imports pip
 STOW_OPTS := --target=$$HOME --verbose=1
 
@@ -93,11 +93,11 @@ py-install: ## Install pip
 	python3 -m ensurepip --upgrade
 
 py-pkgs: ## Install python pkgs
-	pip3 install $(PIP_OPTS) $(PY_PKGS)
+	python3 -m pip install $(PIP_OPTS) $(PY_PKGS)
 	$(info --- py packages installed)
 
 py-update: py-pkgs ## Update python packages
-	pip3 list --user | cut -d" " -f 1 | tail -n +3 | xargs python3 -m pip install $(PIP_OPTS)
+	python3 -m pip list | cut -d" " -f 1 | tail -n +3 | xargs python3 -m pip install $(PIP_OPTS)
 
 rust-install: ## Install rust & cargo
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
