@@ -1,3 +1,11 @@
+## [4.8.1](https://github.com/vladdoster/dotfiles/compare/v4.8.0...v4.8.1) (2022-12-16)
+
+
+### Bug Fixes
+
+* comment out broken git zle widgets ([5c64310](https://github.com/vladdoster/dotfiles/commit/5c643105c60257d52fa12eb583486251bc1f131a))
+* zinit ver'' & lbin'' ices ([3bf7040](https://github.com/vladdoster/dotfiles/commit/3bf70400ef3afe01106c76d3ade0944b45a2e5db))
+
 # [4.8.0](https://github.com/vladdoster/dotfiles/compare/v4.7.1...v4.8.0) (2022-12-16)
 
 
