@@ -1,3 +1,12 @@
+## [4.10.3](https://github.com/vladdoster/dotfiles/compare/v4.10.2...v4.10.3) (2022-12-17)
+
+
+### Bug Fixes
+
+* add hadolint & rm id-as ice ([397043b](https://github.com/vladdoster/dotfiles/commit/397043b77d908712695aa47ff69f36b62a07c8c7))
+* add meson & rm apt cleanup in Dockerfile ([42d35e1](https://github.com/vladdoster/dotfiles/commit/42d35e1aec6e4cdd30c471b46895133defd8a9e6))
+* add platform flag in docker-build Make target ([fdbf5f0](https://github.com/vladdoster/dotfiles/commit/fdbf5f0065644f08e74e55212e098b56bc521a9f))
+
 ## [4.10.2](https://github.com/vladdoster/dotfiles/compare/v4.10.1...v4.10.2) (2022-12-16)
 
 
