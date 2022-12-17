@@ -62,12 +62,12 @@ zi for id-as as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' light
     zstyle ':prompt:pure:prompt:success' color 'green'" \
   @sindresorhus/pure
 #=== ANNEXES ==========================================
-zi id-as ver"${ZI[BRANCH]}" light-mode for @${ZI[FORK]}/zinit-annex-{bin-gem-node,binary-symlink,patch-dl,pull,submods}
+zi ver"${ZI[BRANCH]}" light-mode for @${ZI[FORK]}/zinit-annex-{bin-gem-node,binary-symlink,patch-dl,pull,readurl,submods}
 #=== GITHUB BINARIES ==================================
-zi for as'completions' id-as atclone'./buildx* completion zsh > _buildx' from"gh-r" nocompile lbin'!b* -> buildx' @docker/buildx
+# zi for as'completions' id-as atclone'./buildx* completion zsh > _buildx' from"gh-r" nocompile lbin'!b* -> buildx' @docker/buildx
 
 zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
-  @{stedolan/jq,tree-sitter/tree-sitter,lindell/multi-gitter,dandavison/delta,pemistahl/grex,r-darwish/topgrade,sharkdp/{fd,hyperfine}}
+  @{dandavison/delta,hadolint/hadolint,lindell/multi-gitter,pemistahl/grex,r-darwish/topgrade,stedolan/jq,tree-sitter/tree-sitter,sharkdp/{fd,hyperfine}}
 
 zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
     dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
@@ -79,7 +79,7 @@ zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
     atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 #=== UNIT TESTING =====================================
-zi id-as light-mode lucid wait'!' for \
+zi light-mode lucid wait'!' for \
     as'command' atclone'./build.zsh' pick'zunit' \
   @zdharma-continuum/zunit \
     make"PREFIX=${ZI[ZPFX]} install" \
@@ -87,14 +87,17 @@ zi id-as light-mode lucid wait'!' for \
     nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line' \
   @softmoth/zsh-vim-mode
 #=== MISC. ============================================
-zi lucid wait light-mode id-as for \
+zi lucid wait light-mode for \
   svn submods'zsh-users/zsh-history-substring-search -> external' OMZP::history-substring-search \
   atpull'zinit creinstall -q .' blockf zsh-users/zsh-completions \
   svn submods'zsh-users/zsh-completions -> external' PZTM::completion \
     atload'!_zsh_autosuggest_start' atinit'ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50; bindkey "^_" autosuggest-execute; bindkey "^ " autosuggest-accept;' \
-  zsh-users/zsh-autosuggestions \
-    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc' nocompletions \
-    ver"${ZI[BRANCH]}" \
-  $ZI[FORK]/fast-syntax-highlighting
+  zsh-users/zsh-autosuggestions
+
+zinit wait'0a' lucid \
+  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" ver"${ZI[BRANCH]}" \
+  light-mode for @vladdoster/fast-syntax-highlighting
+  #   atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc' nocompletions \
+  # $ZI[FORK]/fast-syntax-highlighting
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
