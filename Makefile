@@ -41,8 +41,9 @@ docker-shell: ## Start shell in docker container
 	@docker run \
 		--interactive \
 		--mount=source=dotfiles-volume,destination=/home \
-		--tty \
+		--platform=linux/x86_64 \
 		--security-opt seccomp=unconfined \
+		--tty \
 		$(CONTAINER_NAME):latest
 
 docker-save: ## Create tarball of docker image
