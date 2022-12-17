@@ -30,10 +30,10 @@ RUN apt-get update \
   curl \
   debianutils default-jre dialog \
   figlet file fzf \
-  g++ gcc git golang gawk \
+  g++ gawk gcc git golang gosu gpg \
   jq \
   less libevent-dev libreadline-dev libtree-sitter-dev libz-dev locales lua5.1 luarocks \
-  make man-db \
+  make man-db meson \
   ncurses-base ncurses-bin ncurses-dev ncurses-term netbase npm \
   openssh-client \
   patch pkg-config python3 python3-dev python3-pip \
@@ -44,10 +44,6 @@ RUN apt-get update \
   wget \
   xz-utils \
   zsh \
- && if [ "$(. /etc/lsb-release; echo "${DISTRIB_RELEASE}" | cut -d. -f1)" -ge 18 ]; then apt-get install gpg; fi \
- && apt-get remove --purge -y software-properties-common \
- && apt-get autoremove --purge -y \
- && rm -rf /var/lib/apt/lists/* \
  && localedef -i en_US -f UTF-8 en_US.UTF-8
 
 RUN useradd \
@@ -67,7 +63,7 @@ WORKDIR ${HOME}
 RUN mkdir --parents ${HOME}/.config \
  && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
  && make --directory=${HOME}/.config/dotfiles make install neovim py-update \
- && sudo --user=${USER} --login zsh --interactive --login -c -- '@zi::scheduler burst' \
+ && gosu --user=${USER} --login zsh --interactive --login -c -- '@zi::scheduler burst' \
  && figlet "user: ${USER}"
 
 ENTRYPOINT ["zsh"]
