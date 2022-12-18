@@ -1,15 +1,3 @@
-# [4.11.0](https://github.com/vladdoster/dotfiles/compare/v4.10.3...v4.11.0) (2022-12-18)
-
-
-### Bug Fixes
-
-* dockerfile structure & logic ([7eb02b7](https://github.com/vladdoster/dotfiles/commit/7eb02b7c7a8c8efc617f9114382205bca96938f1))
-
-
-### Features
-
-* run container images workflow after release ([1633f97](https://github.com/vladdoster/dotfiles/commit/1633f97815f3b995360d3a264c0cea6be0b0f93c))
-
 ## [4.10.3](https://github.com/vladdoster/dotfiles/compare/v4.10.2...v4.10.3) (2022-12-17)
 
 
