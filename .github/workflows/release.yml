@@ -31,3 +31,6 @@ jobs:
           GIT_AUTHOR_NAME: 'Vladislav Doster'
           GIT_COMMITTER_EMAIL: 'mvdoster@gmail.com'
           GIT_COMMITTER_NAME: 'Vladislav Doster'
+  containers:
+     needs: [commit,lint,release]
+     uses: vladdoster/.github/.github/workflows/containers.yml@main
