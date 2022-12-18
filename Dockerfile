@@ -1,7 +1,6 @@
-# syntax=docker/dockerfile-upstream:master-labs
+# syntax=docker/dockerfile:1
 
-ARG TARGETPLATFORM=amd64
-FROM ${TARGETPLATFORM}/ubuntu:rolling
+FROM bitnami/minideb:buster
 
 LABEL org.label-schema.schema-version="1.0"
 LABEL org.label-schema.name="vladdoster/dotfiles"
@@ -20,9 +19,6 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm-256color
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends software-properties-common gnupg-agent \
- && add-apt-repository -y ppa:git-core/ppa \
- && apt-get update \
  && apt-get install -y --no-install-recommends \
   acl apt-utils autoconf automake \
   bsdmainutils bsdutils build-essential bzip2 \
@@ -30,9 +26,9 @@ RUN apt-get update \
   curl \
   debianutils default-jre dialog \
   figlet file fzf \
-  g++ gawk gcc git golang gosu gpg \
+  g++ gawk gcc git golang gosu \
   jq \
-  less libevent-dev libreadline-dev libtree-sitter-dev libz-dev locales lua5.1 luarocks \
+  less libevent-dev libreadline-dev libz-dev locales lua5.1 luarocks \
   make man-db meson \
   ncurses-base ncurses-bin ncurses-dev ncurses-term netbase npm \
   openssh-client \
@@ -62,8 +58,8 @@ WORKDIR ${HOME}
 
 RUN mkdir --parents ${HOME}/.config \
  && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
- && make --directory=${HOME}/.config/dotfiles make install neovim py-update \
- && gosu --user=${USER} --login zsh --interactive --login -c -- '@zi::scheduler burst' \
+ && make --directory=${HOME}/.config/dotfiles install neovim \
+ && sudo --user=${USER} --login zsh --interactive --login -c -- '@zi::scheduler burst' \
  && figlet "user: ${USER}"
 
 ENTRYPOINT ["zsh"]
