@@ -1,3 +1,11 @@
+## [4.13.2](https://github.com/vladdoster/dotfiles/compare/v4.13.1...v4.13.2) (2022-12-19)
+
+
+### Bug Fixes
+
+* add docker-ssh make target to README.md ([50c7be3](https://github.com/vladdoster/dotfiles/commit/50c7be3e1125ea04fa5cf90216a8d04edcf4ccd0))
+* dockerfile log msg  &  pkg python3-bdist-nsi ([4d10eba](https://github.com/vladdoster/dotfiles/commit/4d10eba3775d048552ede20e3ca9a47c55ba1492))
+
 ## [4.13.1](https://github.com/vladdoster/dotfiles/compare/v4.13.0...v4.13.1) (2022-12-19)
 
 
