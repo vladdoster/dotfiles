@@ -33,7 +33,7 @@ RUN apt-get update \
   make man-db meson \
   ncurses-base ncurses-bin ncurses-dev ncurses-term netbase npm \
   openssh-client openssh-server openssh-sftp-server \
-  patch pkg-config python3 python3-dev python3-pip \
+  patch pkg-config python3 python3-dev python3-pip python3-setuptools \
   readline-common ripgrep ruby ruby-dev \
   stow subversion sudo ssh \
   tar tree tzdata \

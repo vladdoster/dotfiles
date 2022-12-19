@@ -1,3 +1,5 @@
+MAKEFLAGS += --silent
+
 .DEFAULT_SHELL := $(shell command -v zsh 2> /dev/null)
 .ONESHELL:
 
@@ -10,9 +12,8 @@ PIP_OPTS := --no-compile --trusted-host files.pythonhosted.org --trusted-host py
 PY_PKGS := bdfr beautysh best-of black bpytop flake8 instaloader isort mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pynvim reorder-python-imports pip
 STOW_OPTS := --target=$$HOME --verbose=1
 
-TARGETS := all brew-bundle brew-install clean docker-build docker-shell docker-ssh dotfiles hammerspoon neovim shell stow test update-readme help
+TARGETS := all brew-bundle brew-install clean docker-build docker-shell docker-ssh dotfiles hammerspoon help neovim shell stow targets-table test update-readme
 .PHONY: $(TARGETS)
-.SILENT: $(TARGETS)
 
 all: help
 
@@ -57,7 +58,7 @@ docker-push: docker-clean ## Build and push dotfiles docker image
 DOCKER_OPTS := --interactive --mount=source=dotfiles-volume,destination=/home --security-opt seccomp=unconfined
 
 docker-ssh: ## Start docker container running SSH
-	@docker run \
+	docker run \
 		$(DOCKER_OPTS) \
 		--detach \
         --publish 2222:22 \
@@ -133,10 +134,10 @@ targets-table:
 	| awk 'BEGIN {FS = ":.*?## "}; {printf "| %s| %s |\n", $$1, $$2}'
 
 update-readme: ## Update Make targets table in README
-	sed  -i '/^|/d' README.md
+	sed -i '' -e '/^|/d' README.md
 	make targets-table | mdformat - >> README.md
 
 %: ## A catch-all target to make fake targets
-	@true
+	true
 
 # vim: set fenc=utf8 ffs=unix ft=make list noet sw=4 ts=4 tw=72:
