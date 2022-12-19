@@ -36,6 +36,7 @@ exec zsh -l
 | docker-push       | Build and push dotfiles docker image                   |
 | docker-save       | Create tarball of docker image                         |
 | docker-shell      | Start shell in docker container                        |
+| docker-ssh        | Start docker container running SSH                     |
 | hammerspoon       | Install hammerspoon configuration                      |
 | help              | Display all Makfile targets                            |
 | install           | Install dotfiles                                       |
