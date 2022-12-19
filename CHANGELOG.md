@@ -1,3 +1,10 @@
+# [4.13.0](https://github.com/vladdoster/dotfiles/compare/v4.12.0...v4.13.0) (2022-12-19)
+
+
+### Features
+
+* connect to docker container via ssh ([6ce3810](https://github.com/vladdoster/dotfiles/commit/6ce3810dd7ba5120acd4f8e442515daa615f78d3))
+
 # [4.12.0](https://github.com/vladdoster/dotfiles/compare/v4.11.0...v4.12.0) (2022-12-19)
 
 
