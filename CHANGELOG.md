@@ -1,3 +1,10 @@
+# [4.12.0](https://github.com/vladdoster/dotfiles/compare/v4.11.0...v4.12.0) (2022-12-19)
+
+
+### Features
+
+* update-readme make target ([6947273](https://github.com/vladdoster/dotfiles/commit/69472734bb0a54e709a4ab6bc1ea3c6cb312e1df))
+
 # [4.11.0](https://github.com/vladdoster/dotfiles/compare/v4.10.3...v4.11.0) (2022-12-18)
 
 
