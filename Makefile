@@ -10,8 +10,9 @@ PIP_OPTS := --no-compile --trusted-host files.pythonhosted.org --trusted-host py
 PY_PKGS := bdfr beautysh best-of black bpytop flake8 instaloader isort mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pynvim reorder-python-imports pip
 STOW_OPTS := --target=$$HOME --verbose=1
 
-.PHONY: all brew-install brew-bundle clean dotfiles hammerspoon neovim shell stow test docker-shell docker-build table
-.SILENT: all brew-install brew-bundle clean dotfiles hammerspoon neovim shell stow test docker-shell docker-build table
+TARGETS := all brew-bundle brew-install clean docker-build docker-shell docker-ssh dotfiles hammerspoon neovim shell stow test update-readme help
+.PHONY: $(TARGETS)
+.SILENT: $(TARGETS)
 
 all: help
 
@@ -29,11 +30,12 @@ uninstall: ## Uninstall dotfiles
 	$(info --- uninstalled dotfiles)
 
 docker-build: ## Build docker image
+	cp ~/.ssh/id_rsa.pub .
 	docker build \
 		--compress \
 		--force-rm \
 		--no-cache \
-		--pull \
+		--progress plain \
 		--rm \
 		--tag=$(CONTAINER_NAME):latest \
 		.
@@ -42,8 +44,8 @@ docker-clean: ## Clean docker resources
 	docker system prune --all --force
 
 docker-save: ## Create tarball of docker image
-	docker save $(CONTAINER_NAME):latest | gzip > "$$(basename $(CONTAINER_NAME))-latest.tar.gz"
-	$(info --- saved $(CONTAINER_NAME):latest)
+	docker save $(CONTAINER_NAME):$(CONTAINER_TAG) | gzip > "$$(basename $(CONTAINER_NAME))-$(CONTAINER_TAG).tar.gz"
+	$(info --- saved $(CONTAINER_NAME):$(CONTAINER_TAG))
 
 docker-load: ## Create tarball of docker image
 	$(info --- loading $(CONTAINER_NAME):latest)
@@ -52,14 +54,26 @@ docker-load: ## Create tarball of docker image
 docker-push: docker-clean ## Build and push dotfiles docker image
 	make --directory=docker/ manifest
 
-docker-shell: ## Start shell in docker container
+DOCKER_OPTS := --interactive --mount=source=dotfiles-volume,destination=/home --security-opt seccomp=unconfined
+
+docker-ssh: ## Start docker container running SSH
 	@docker run \
+		$(DOCKER_OPTS) \
+		--detach \
+        --publish 2222:22 \
+		$(CONTAINER_NAME):$(CONTAINER_TAG)
+	docker exec \
+		--detach \
 		--interactive \
-		--mount=source=dotfiles-volume,destination=/home \
-		--platform=linux/x86_64 \
-		--security-opt seccomp=unconfined \
+		$$(docker container ls --latest --quiet) \
+		sudo service ssh start
+	$(info --- to ssh into container. run: ssh --port 2222 $$(basename $(CONTAINER_NAME)).localhost)
+
+docker-shell: ## Start shell in docker container
+	docker run \
+		$(DOCKER_OPTS) \
 		--tty \
-		$(CONTAINER_NAME)
+		$(CONTAINER_NAME):$(CONTAINER_TAG)
 
 brew-bundle: ## Install programs defined in brewfile
 	brew bundle --cleanup --file Brewfile --force --no-lock --zap
@@ -108,18 +122,18 @@ rust-pkgs: ## Install rust programs
 	cargo install bat cargo-update exa topgrade
 
 help: ## Display all Makfile targets
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
+	grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	| sort \
-	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-10s\033[0m %s\n", $$1, $$2}'
+	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 targets-table:
-	@printf "|Target|Descripton|\n|---|---|\n"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
+	printf "|Target|Descripton|\n|---|---|\n"
+	grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	| sort \
 	| awk 'BEGIN {FS = ":.*?## "}; {printf "| %s| %s |\n", $$1, $$2}'
 
 update-readme: ## Update Make targets table in README
-	sed -i -E '/^|/d' README.md
+	sed  -i '/^|/d' README.md
 	make targets-table | mdformat - >> README.md
 
 %: ## A catch-all target to make fake targets

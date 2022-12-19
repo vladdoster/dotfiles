@@ -26,21 +26,27 @@ RUN apt-get update \
   curl \
   debianutils default-jre dialog \
   figlet file fzf \
-  g++ gawk gcc git golang gosu \
+  g++ gawk gcc gettext git golang gosu \
+  iproute2 \
   jq \
-  less libevent-dev libreadline-dev libz-dev locales lua5.1 luarocks \
+  less libevent-dev libreadline-dev libtool libtool-bin libz-dev locales lua5.1 luarocks \
   make man-db meson \
   ncurses-base ncurses-bin ncurses-dev ncurses-term netbase npm \
-  openssh-client \
+  openssh-client openssh-server openssh-sftp-server \
   patch pkg-config python3 python3-dev python3-pip \
   readline-common ripgrep ruby ruby-dev \
-  stow subversion sudo \
+  stow subversion sudo ssh \
   tar tree tzdata \
   unzip util-linux-locales uuid-runtime \
   wget \
   xz-utils \
   zsh \
  && localedef -i en_US -f UTF-8 en_US.UTF-8
+
+RUN apt install openssh-server \
+ && echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config \
+ && service ssh start \
+ && figlet "$(service ssh status)"
 
 RUN useradd \
   --create-home \
@@ -56,13 +62,28 @@ RUN useradd \
 USER ${USER}
 WORKDIR ${HOME}
 
-RUN mkdir --parents ${HOME}/.config \
- && git clone https://github.com/vladdoster/dotfiles ${HOME}/.config/dotfiles \
- && make --directory=${HOME}/.config/dotfiles install neovim \
- && sudo --user=${USER} --login zsh --interactive --login -c -- '@zi::scheduler burst' \
- && figlet "user: ${USER}"
+COPY id_rsa.pub ${HOME}/.ssh/authorized_keys
 
-ENTRYPOINT ["zsh"]
-CMD ["-i", "-l"]
+RUN mkdir --parents code .config \
+ && sudo chown --recursive ${USER}:root .ssh \
+ && sudo chmod 600 .ssh/authorized_keys
+
+RUN git clone https://github.com/neovim/neovim \
+ && make --directory=neovim --jobs=4 \
+ && sudo make --directory=neovim --jobs=4 install \
+ && rm -rf neovim
+
+RUN git clone https://github.com/vladdoster/dotfiles .config/dotfiles \
+ && make --directory=.config/dotfiles install neovim \
+ && sudo --user=${USER} --login zsh --interactive --login -c -- '@zi::scheduler burst'
+
+RUN printf "\n %s \n" '------------------------' \
+ && printf "user: %s \n" ${USER} \
+ && printf "host: %s \n" $(hostname -f) \
+ && printf "\n %s \n" '------------------------' \
+
+EXPOSE 22
+
+ENTRYPOINT ["zsh", "-l"]
 
 # vim:syn=dockerfile:ft=dockerfile:fo=croql:sw=2:sts=2
