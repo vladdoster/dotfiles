@@ -1,3 +1,10 @@
+## [4.13.1](https://github.com/vladdoster/dotfiles/compare/v4.13.0...v4.13.1) (2022-12-19)
+
+
+### Bug Fixes
+
+* silence all make targets ([f8cb924](https://github.com/vladdoster/dotfiles/commit/f8cb92472a76094af49a450c826168d6eaa0d538))
+
 # [4.13.0](https://github.com/vladdoster/dotfiles/compare/v4.12.0...v4.13.0) (2022-12-19)
 
 
