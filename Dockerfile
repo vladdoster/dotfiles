@@ -33,7 +33,7 @@ RUN apt-get update \
   make man-db meson \
   ncurses-base ncurses-bin ncurses-dev ncurses-term netbase npm \
   openssh-client openssh-server openssh-sftp-server \
-  patch pkg-config python3 python3-dev python3-pip python3-setuptools \
+  patch pkg-config python3 python3-dev python3-pip python3-setuptools python3-bdist-nsi \
   readline-common ripgrep ruby ruby-dev \
   stow subversion sudo ssh \
   tar tree tzdata \
@@ -74,13 +74,14 @@ RUN git clone https://github.com/neovim/neovim \
  && rm -rf neovim
 
 RUN git clone https://github.com/vladdoster/dotfiles .config/dotfiles \
- && make --directory=.config/dotfiles install neovim \
+ && make --directory=.config/dotfiles --jobs=1 py-pkgs install neovim \
  && sudo --user=${USER} --login zsh --interactive --login -c -- '@zi::scheduler burst'
 
-RUN printf "\n %s \n" '------------------------' \
- && printf "user: %s \n" ${USER} \
- && printf "host: %s \n" $(hostname -f) \
- && printf "\n %s \n" '------------------------' \
+RUN echo "==================================" \
+ && echo " Container details                " \
+ && echo "  - user: ${USER}                 " \
+ && echo "  - host: $(hostname -f)          " \
+ && echo "=================================="
 
 EXPOSE 22
 
