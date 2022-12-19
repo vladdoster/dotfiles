@@ -3,19 +3,20 @@
 
 CONFIGS := hammerspoon neovim
 CONTAINER_NAME = vdoster/dotfiles
+CONTAINER_TAG = latest
 GH_URL = https://github.com/vladdoster
 HOMEBREW_URL := https://raw.githubusercontent.com/Homebrew/install/HEAD
 PIP_OPTS := --no-compile --trusted-host files.pythonhosted.org --trusted-host pypi.org --upgrade
 PY_PKGS := bdfr beautysh best-of black bpytop flake8 instaloader isort mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pynvim reorder-python-imports pip
 STOW_OPTS := --target=$$HOME --verbose=1
 
-.PHONY: all brew-install brew-bundle clean dotfiles hammerspoon neovim shell stow test docker-shell docker-build
-.SILENT: all brew-install brew-bundle clean dotfiles hammerspoon neovim shell stow test docker-shell docker-build
+.PHONY: all brew-install brew-bundle clean dotfiles hammerspoon neovim shell stow test docker-shell docker-build table
+.SILENT: all brew-install brew-bundle clean dotfiles hammerspoon neovim shell stow test docker-shell docker-build table
 
 all: help
 
-hammerspoon: destination:=$${HOME}/.hammerspoon
-neovim: destination := $${HOME}/.config/nvim
+hammerspoon: destination:=$${HOME}/.hammerspoon ## Install hammerspoon configuration
+neovim: destination := $${HOME}/.config/nvim ## Install neovim configuration
 
 $(CONFIGS): ## Clone configuration repository
 	sh -c "[ ! -d $(destination) ] && git clone $(GH_URL)/$@-configuration $(destination)"
@@ -37,18 +38,12 @@ docker-build: ## Build docker image
 		--tag=$(CONTAINER_NAME):latest \
 		.
 
-docker-shell: ## Start shell in docker container
-	@docker run \
-		--interactive \
-		--mount=source=dotfiles-volume,destination=/home \
-		--platform=linux/x86_64 \
-		--security-opt seccomp=unconfined \
-		--tty \
-		$(CONTAINER_NAME):latest
+docker-clean: ## Clean docker resources
+	docker system prune --all --force
 
 docker-save: ## Create tarball of docker image
-	$(info --- saving $(CONTAINER_NAME):latest)
 	docker save $(CONTAINER_NAME):latest | gzip > "$$(basename $(CONTAINER_NAME))-latest.tar.gz"
+	$(info --- saved $(CONTAINER_NAME):latest)
 
 docker-load: ## Create tarball of docker image
 	$(info --- loading $(CONTAINER_NAME):latest)
@@ -57,10 +52,16 @@ docker-load: ## Create tarball of docker image
 docker-push: docker-clean ## Build and push dotfiles docker image
 	make --directory=docker/ manifest
 
-docker-clean: ## Clean docker resources
-	docker system prune --all --force
+docker-shell: ## Start shell in docker container
+	@docker run \
+		--interactive \
+		--mount=source=dotfiles-volume,destination=/home \
+		--platform=linux/x86_64 \
+		--security-opt seccomp=unconfined \
+		--tty \
+		$(CONTAINER_NAME)
 
-brew-bundle: ## Install programs defined in Brewfile
+brew-bundle: ## Install programs defined in brewfile
 	brew bundle --cleanup --file Brewfile --force --no-lock --zap
 
 brew-install: ## Install Homebrew
@@ -90,7 +91,7 @@ safari-extensions: ## Install 1password, vimari, grammarly safari extensions
 	brew install mas
 	mas install 1569813296 1480933944 1462114288 # 1password, vimari, grammarly
 
-py-install: ## Install pip
+py-pip-install: ## Install pip
 	python3 -m ensurepip --upgrade
 
 py-pkgs: ## Install python pkgs
@@ -106,9 +107,20 @@ rust-install: ## Install rust & cargo
 rust-pkgs: ## Install rust programs
 	cargo install bat cargo-update exa topgrade
 
-help: ## Display available Make targets
-	@ # credit: tweekmonster github gist
-	echo "$$(grep -hE '^[a-zA-Z0-9_-]+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\033[36m\1\\033[m:\2/' | column -c2 -t -s : | sort)"
+help: ## Display all Makfile targets
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
+	| sort \
+	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-10s\033[0m %s\n", $$1, $$2}'
+
+targets-table:
+	@printf "|Target|Descripton|\n|---|---|\n"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
+	| sort \
+	| awk 'BEGIN {FS = ":.*?## "}; {printf "| %s| %s |\n", $$1, $$2}'
+
+update-readme: ## Update Make targets table in README
+	sed -i -E '/^|/d' README.md
+	make targets-table | mdformat - >> README.md
 
 %: ## A catch-all target to make fake targets
 	@true

@@ -24,18 +24,23 @@ exec zsh -l
 
 ## Makefile targets
 
-| TARGET            | DESCRIPTION                                            |
+| Target            | Descripton                                             |
 | ----------------- | ------------------------------------------------------ |
-| brew-bundle       | Install programs defined in Brewfile                   |
+| brew-bundle       | Install programs defined in brewfile                   |
 | brew-install      | Install Homebrew                                       |
 | brew-uninstall    | Uninstall Homebrew                                     |
 | chsh              | Set shell to ZSH                                       |
 | docker-build      | Build docker image                                     |
+| docker-clean      | Clean docker resources                                 |
+| docker-load       | Create tarball of docker image                         |
 | docker-push       | Build and push dotfiles docker image                   |
+| docker-save       | Create tarball of docker image                         |
 | docker-shell      | Start shell in docker container                        |
-| help              | Display available Make targets                         |
+| hammerspoon       | Install hammerspoon configuration                      |
+| help              | Display all Makfile targets                            |
 | install           | Install dotfiles                                       |
-| py-install        | Install pip                                            |
+| neovim            | Install neovim configuration                           |
+| py-pip-install    | Install pip                                            |
 | py-pkgs           | Install python pkgs                                    |
 | py-update         | Update python packages                                 |
 | rust-install      | Install rust & cargo                                   |
@@ -43,3 +48,4 @@ exec zsh -l
 | safari-extensions | Install 1password, vimari, grammarly safari extensions |
 | stow              | Install GNU stow                                       |
 | uninstall         | Uninstall dotfiles                                     |
+| update-readme     | Update Make targets table in README                    |
