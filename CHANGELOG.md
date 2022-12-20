@@ -1,3 +1,11 @@
+## [4.13.3](https://github.com/vladdoster/dotfiles/compare/v4.13.2...v4.13.3) (2022-12-20)
+
+
+### Bug Fixes
+
+* remove docker-clean in docker-push make target ([85a4276](https://github.com/vladdoster/dotfiles/commit/85a427657d60ad9ec505b34e8c85602e3ee24b5e))
+* remove ssh -> docker from dockerfile ([6aba856](https://github.com/vladdoster/dotfiles/commit/6aba85633cf488e0445ea4d170846672fb55977e))
+
 ## [4.13.2](https://github.com/vladdoster/dotfiles/compare/v4.13.1...v4.13.2) (2022-12-19)
 
 
