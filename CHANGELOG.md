@@ -1,3 +1,10 @@
+## [4.13.4](https://github.com/vladdoster/dotfiles/compare/v4.13.3...v4.13.4) (2022-12-20)
+
+
+### Bug Fixes
+
+* use minideb:bullseye base docker image ([2243776](https://github.com/vladdoster/dotfiles/commit/2243776ea3724bbc9f41eee74e039be74731f8cc))
+
 ## [4.13.3](https://github.com/vladdoster/dotfiles/compare/v4.13.2...v4.13.3) (2022-12-20)
 
 
