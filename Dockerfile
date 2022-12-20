@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM bitnami/minideb:unstable AS build
+FROM bitnami/minideb:bullseye AS build
 
 LABEL org.label-schema.name="vladdoster/dotfiles" \
  org.label-schema.description="Containerized dotfiles environment" \ 
