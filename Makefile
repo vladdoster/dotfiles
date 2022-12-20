@@ -52,7 +52,7 @@ docker-load: ## Create tarball of docker image
 	$(info --- loading $(CONTAINER_NAME):latest)
 	docker load --input "$$(basename $(CONTAINER_NAME))-latest.tar.gz"
 
-docker-push: docker-clean ## Build and push dotfiles docker image
+docker-push: ## Build and push dotfiles docker image
 	make --directory=docker/ manifest
 
 DOCKER_OPTS := --interactive --mount=source=dotfiles-volume,destination=/home --security-opt seccomp=unconfined
