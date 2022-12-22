@@ -31,7 +31,6 @@ uninstall: ## Uninstall dotfiles
 	$(info --- uninstalled dotfiles)
 
 docker-build: ## Build docker image
-	cp ~/.ssh/id_rsa.pub .
 	docker build \
 		--compress \
 		--force-rm \
@@ -72,8 +71,8 @@ docker-ssh: ## Start docker container running SSH
 
 docker-shell: ## Start shell in docker container
 	docker run \
-		$(DOCKER_OPTS) \
 		--tty \
+		$(DOCKER_OPTS) \
 		$(CONTAINER_NAME):$(CONTAINER_TAG)
 
 brew-bundle: ## Install programs defined in brewfile
