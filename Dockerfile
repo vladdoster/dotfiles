@@ -23,8 +23,8 @@ RUN apt-get update \
   acl apt-utils autoconf automake \
   bsdmainutils bsdutils build-essential bzip2 \
   ca-certificates cmake cpanminus curl \
-  curl \
-  debianutils default-jre dialog \
+  debianutils default-jre delta dialog \
+  exa \
   figlet file fzf \
   g++ gawk gcc gettext git golang gosu \
   iproute2 \
