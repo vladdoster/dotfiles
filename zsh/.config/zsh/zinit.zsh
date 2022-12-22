@@ -39,17 +39,17 @@ else
 fi
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 zi is-snippet light-mode id-as nocompletions for {PZTM::{environment,history},OMZL::{compfix,completion,git,key-bindings}.zsh}
-zi as'completion' for OMZP::{'golang/_golang','pip/_pip'}
-#=== COMPLETIONS ======================================
-local GH_RAW_URL='https://raw.githubusercontent.com'
-znippet() { zi for id-as light-mode as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
-znippet 'brew' 'Homebrew/brew/master/completions/zsh'
-znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
-znippet 'exa' 'ogham/exa/master/completions/zsh'
-znippet 'fd' 'sharkdp/fd/master/contrib/completion'
-zi light-mode as'completion' nocompile is-snippet for \
-  "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh" \
-  "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
+# zi as'completion' for OMZP::{'golang/_golang','pip/_pip'}
+# #=== COMPLETIONS ======================================
+# local GH_RAW_URL='https://raw.githubusercontent.com'
+# znippet() { zi for id-as light-mode as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
+# znippet 'brew' 'Homebrew/brew/master/completions/zsh'
+# znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
+# znippet 'exa' 'ogham/exa/master/completions/zsh'
+# znippet 'fd' 'sharkdp/fd/master/contrib/completion'
+# zi light-mode as'completion' nocompile is-snippet for \
+#   "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh" \
+#   "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
 #=== PROMPT ===========================================
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
 zi for id-as as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' light-mode atinit"
@@ -79,19 +79,20 @@ zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
     atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 #=== UNIT TESTING =====================================
-zi light-mode lucid wait'!' for \
-    as'command' atclone'./build.zsh' pick'zunit' \
-  @zdharma-continuum/zunit \
-    make"PREFIX=${ZI[ZPFX]} install" \
-  @zdharma-continuum/zshelldoc \
-    nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line' \
-  @softmoth/zsh-vim-mode
+# zi light-mode lucid wait'!' for \
+#     as'command' atclone'./build.zsh' pick'zunit' \
+#   @zdharma-continuum/zunit \
+#     make"PREFIX=${ZI[ZPFX]} install" \
+#   @zdharma-continuum/zshelldoc \
+#     nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line' \
+#   @softmoth/zsh-vim-mode
 #=== MISC. ============================================
+# ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 zi lucid wait light-mode for \
   svn submods'zsh-users/zsh-history-substring-search -> external' OMZP::history-substring-search \
   atpull'zinit creinstall -q .' blockf zsh-users/zsh-completions \
   svn submods'zsh-users/zsh-completions -> external' PZTM::completion \
-    atload'!_zsh_autosuggest_start' atinit'ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50; bindkey "^_" autosuggest-execute; bindkey "^ " autosuggest-accept;' \
+    atload'!_zsh_autosuggest_start' atinit'ZSH_AUTOSUGGEST_MANUAL_REBIND=1;ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50;bindkey "^_" autosuggest-execute;bindkey "^ " autosuggest-accept;' \
   zsh-users/zsh-autosuggestions \
     atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc' nocompletions \
   $ZI[SRC]/fast-syntax-highlighting
