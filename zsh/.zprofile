@@ -37,51 +37,13 @@ activate_brew
 # │ RESERVED VARIABLES │
 # +────────────────────+
 typeset -aU path
-local USR_PATH="/usr/local/opt" 
+local USR_PATH="/usr/local/opt"
 if (( $+commands[brew] )) {
   local BREW_PATH="$(brew --prefix)"
-  path_append \
-    ${BREW_PATH}{'',/{llvm,opt/{ruby,ncurses,texinfo}}}/bin \
-    ${BREW_PATH}/{opt{libtool,findutils},make}/libexec/gnubin \
-    ${BREW_PATH}/{sbin,bin}
+  path_append ${BREW_PATH}/{sbin,bin}
+} else {
+  path_append ${HOME}/.local/bin
 }
-path_append \
-  ${HOME}/{.{cargo,local,tfenv},go,Library/Python/3.{8,9,10}}/bin \
-  ${USR_PATH}/binutils/bin \
-  ${USR_PATH}/{coreutils,gnu-{sed,tar}}/libexec/gnubin
-# typeset -U path  # No duplicates
-# path=()
-# 
-# _prepath() {
-#     for dir in "$@"; do
-#         dir=${dir:A}
-#         [[ ! -d "$dir" ]] && return
-#         path=("$dir" $path[@])
-#     done
-# }
-# _postpath() {
-#     for dir in "$@"; do
-#         dir=${dir:A}
-#         [[ ! -d "$dir" ]] && return
-#         path=($path[@] "$dir")
-#     done
-# }
-# 
-# _prepath /bin /sbin /usr/bin /usr/sbin /usr/games
-# _prepath /usr/pkg/bin   /usr/pkg/sbin   # NetBSD
-# _prepath /usr/X11R6/bin /usr/X11R6/sbin # OpenBSD
-# _prepath /usr/local/bin /usr/local/sbin
-# 
-# _prepath "$HOME/go/bin"                # Go
-# _prepath "$HOME/.local/bin"            # My local stuff.
-# if [[ -d "$HOME/.gem/ruby" ]]; then    # Ruby
-#     for d in "$HOME/.gem/ruby/"*; do
-#         _postpath "$d/bin";
-#     done
-# fi
-# 
-# unfunction _prepath
-# unfunction _postpaths
 # +────────+
 # │ LOCALE │
 # +────────+
@@ -109,11 +71,9 @@ export \
 # │ ENV VARIABLES │
 # +───────────────+
 export \
-  ARCHPREFERENCE="arm64,arm64e,x86_64" \
   COMPOSE_DOCKER_CLI_BUILD=1 \
   DISABLE_MAGIC_FUNCTIONS=true \
-  DOCKER_BUILDKIT=1 \
-  HOMEBREW_{FORCE_BREWED_CURL,NO_{AUTO_UPDATE,ENV_HINTS,INSTALL_CLEANUP}}=1
+  DOCKER_BUILDKIT=1
 
 # Zsh variable ignore everything starting with _ or .
 CORRECT_IGNORE="[_|.]*"
