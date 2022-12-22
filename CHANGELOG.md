@@ -1,3 +1,14 @@
+## [4.13.5](https://github.com/vladdoster/dotfiles/compare/v4.13.4...v4.13.5) (2022-12-22)
+
+
+### Bug Fixes
+
+* disable zinit config cruft ([7c79be5](https://github.com/vladdoster/dotfiles/commit/7c79be54153c44b7ccd40d89a342131e40232617))
+* docker-build & docker-shell Make targets ([e89b7c0](https://github.com/vladdoster/dotfiles/commit/e89b7c0ebae8868bd8f6ead514058e736b19c478))
+* Dockerfile base image & CMD ([715f322](https://github.com/vladdoster/dotfiles/commit/715f3229a94a8ecb846b68364a3500af154dcee2))
+* PATH and env variables ([443ba60](https://github.com/vladdoster/dotfiles/commit/443ba60b088113fa626113e74c65cf9341037412))
+* zinit plugin repository ([fe158d9](https://github.com/vladdoster/dotfiles/commit/fe158d90fae4dba388b1e783e811c55f1ba50d90))
+
 ## [4.13.4](https://github.com/vladdoster/dotfiles/compare/v4.13.3...v4.13.4) (2022-12-20)
 
 
