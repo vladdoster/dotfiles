@@ -12,7 +12,7 @@ typeset -gAH ZI=(HOME_DIR $HOME/.local/share/zinit)
 ZI+=(
     BIN_DIR "$ZI[HOME_DIR]/zinit.git" COMPLETIONS_DIR "$ZI[HOME_DIR]/completions" OPTIMIZE_OUT_OF_DISK_ACCESSES "1"
     PLUGINS_DIR "$ZI[HOME_DIR]/plugins" SNIPPETS_DIR "$ZI[HOME_DIR]/snippets" ZCOMPDUMP_PATH "$ZI[HOME_DIR]/zcompdump"
-    ZPFX "$ZI[HOME_DIR]/polaris" SRC 'zdharma-continuum' BRANCH 'refactor/zinit-function-names' FORK 'vladdoster'
+    ZPFX "$ZI[HOME_DIR]/polaris" SRC 'zdharma-continuum' BRANCH 'main'
 )
 
 if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]]; then
@@ -62,7 +62,7 @@ zi for id-as as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' light
     zstyle ':prompt:pure:prompt:success' color 'green'" \
   @sindresorhus/pure
 #=== ANNEXES ==========================================
-zi ver"${ZI[BRANCH]}" light-mode for @${ZI[FORK]}/zinit-annex-{bin-gem-node,binary-symlink,patch-dl,pull,readurl,submods}
+zi light-mode for @${ZI[SRC]}/zinit-annex-{bin-gem-node,binary-symlink,patch-dl,pull,readurl,submods}
 #=== GITHUB BINARIES ==================================
 # zi for as'completions' id-as atclone'./buildx* completion zsh > _buildx' from"gh-r" nocompile lbin'!b* -> buildx' @docker/buildx
 
@@ -92,12 +92,8 @@ zi lucid wait light-mode for \
   atpull'zinit creinstall -q .' blockf zsh-users/zsh-completions \
   svn submods'zsh-users/zsh-completions -> external' PZTM::completion \
     atload'!_zsh_autosuggest_start' atinit'ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50; bindkey "^_" autosuggest-execute; bindkey "^ " autosuggest-accept;' \
-  zsh-users/zsh-autosuggestions
-
-zinit wait'0a' lucid \
-  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" ver"${ZI[BRANCH]}" \
-  light-mode for @vladdoster/fast-syntax-highlighting
-  #   atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc' nocompletions \
-  # $ZI[FORK]/fast-syntax-highlighting
+  zsh-users/zsh-autosuggestions \
+    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc' nocompletions \
+  $ZI[SRC]/fast-syntax-highlighting
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
