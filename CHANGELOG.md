@@ -1,3 +1,10 @@
+## [4.13.6](https://github.com/vladdoster/dotfiles/compare/v4.13.5...v4.13.6) (2022-12-22)
+
+
+### Bug Fixes
+
+* add exa & delta to Dockerfile ([9dc5d65](https://github.com/vladdoster/dotfiles/commit/9dc5d652deb65b04495e2d2aba33c7a3b63d8d60))
+
 ## [4.13.5](https://github.com/vladdoster/dotfiles/compare/v4.13.4...v4.13.5) (2022-12-22)
 
 
