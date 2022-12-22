@@ -8,3 +8,4 @@ if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${HOME}/.zprofile" ]]; then
 fi
 
 # vim: set sw=2 sts=2 et ft=zsh et:
+. "$HOME/.cargo/env"

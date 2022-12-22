@@ -3,7 +3,7 @@
 FROM bitnami/minideb:latest
 
 LABEL org.label-schema.name="vladdoster/dotfiles" \
- org.label-schema.description="Containerized dotfiles environment" \ 
+ org.label-schema.description="Containerized dotfiles environment" \
  org.label-schema.docker.cmd="docker run --interactive --mount source=dotfiles-volume,destination=/home/ --tty vladdoster/dotfiles" \
  org.label-schema.schema-version="1.0" \
  org.label-schema.url="http://dotfiles.vdoster.com/" \
@@ -22,7 +22,7 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends \
   acl apt-utils autoconf automake \
   bsdmainutils bsdutils build-essential bzip2 \
-  ca-certificates cmake curl \
+  ca-certificates cmake cpanminus curl \
   curl \
   debianutils default-jre dialog \
   figlet file fzf \
@@ -32,10 +32,10 @@ RUN apt-get update \
   less libevent-dev libreadline-dev libtool libtool-bin libz-dev locales lua5.1 luarocks \
   make man-db meson \
   ncurses-base ncurses-bin ncurses-dev ncurses-term netbase npm \
-  patch pkg-config python3 python3-dev python3-pip python3-setuptools python3-bdist-nsi \
+  patch pkg-config python3 python3-dev python3-pip python3-setuptools python3-bdist-nsi perl \
   readline-common ripgrep ruby ruby-dev \
   stow subversion sudo \
-  tar tree tzdata \
+  tar texinfo texlive tree tzdata \
   unzip util-linux-locales uuid-runtime \
   wget \
   xz-utils \
@@ -62,8 +62,8 @@ RUN mkdir --parents code .config \
  && rm -rf neovim
 
 RUN git clone https://github.com/vladdoster/dotfiles .config/dotfiles \
- && make --directory=.config/dotfiles --jobs=1 py-pkgs install neovim \
- && sudo --user=${USER} --login zsh --interactive --login -c -- '@zi::scheduler burst'
+ && make --directory=.config/dotfiles --jobs=1 py-pkgs install neovim
+ # && sudo --user=${USER} --login zsh --interactive --login -c -- '@zi::scheduler burst'
 
 CMD ["zsh", "--login"]
 

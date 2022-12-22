@@ -72,6 +72,7 @@ docker-ssh: ## Start docker container running SSH
 docker-shell: ## Start shell in docker container
 	docker run \
 		--tty \
+		--platform=linux/arm64 \
 		$(DOCKER_OPTS) \
 		$(CONTAINER_NAME):$(CONTAINER_TAG)
 
@@ -95,8 +96,9 @@ stow: ## Install GNU stow
 	if [ -d stow/stow.git ]; then echo "--- stow already present"; else git clone https://github.com/aspiers/stow stow/stow.git; fi
 	cd stow/stow.git \
 		&& autoreconf -ivf \
-		&& ./configure \
-		&& make -j2 -s --no-print-directory bin/chkstow bin/stow \
+		&& eval $$(perl -V:siteprefix) \
+		&& ./configure --prefix=$$siteprefix \
+		&& make --jobs=4 --no-print-directory --silent \
 		&& cp bin/*stow ../../bin/.local/bin/
 	$(info --- installed GNU Stow)
 	[ -d stow/stow.git ] && rm -rf stow/stow.git

@@ -26,3 +26,4 @@ PS1="[$WHITE\u@\h\[\e[m\] $YELLOW\t] $BLUE\w $GREEN\$(parse_git_branch) $RED\$(g
 # sh-basic-offset: 2
 # End:
 # vim: ft=bash sw=2 ts=2 et
+. "$HOME/.cargo/env"
