@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM bitnami/minideb:bullseye AS build
+FROM bitnami/minideb:latest
 
 LABEL org.label-schema.name="vladdoster/dotfiles" \
  org.label-schema.description="Containerized dotfiles environment" \ 
@@ -65,13 +65,7 @@ RUN git clone https://github.com/vladdoster/dotfiles .config/dotfiles \
  && make --directory=.config/dotfiles --jobs=1 py-pkgs install neovim \
  && sudo --user=${USER} --login zsh --interactive --login -c -- '@zi::scheduler burst'
 
-RUN printf "==========================" \
- && printf "\n Container details      " \
- && printf "\n - user: ${USER}        " \
- && printf "\n - host: $(hostname -f) " \
- && printf "=========================="
-
-# CMD ["zsh", "--login"]
+CMD ["zsh", "--login"]
 
 # FROM build AS ssh_build
 
