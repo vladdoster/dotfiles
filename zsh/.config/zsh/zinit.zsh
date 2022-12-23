@@ -41,10 +41,10 @@ fi
 zi is-snippet light-mode id-as nocompletions for {PZTM::{environment,history},OMZL::{compfix,completion,git,key-bindings}.zsh}
 # zi as'completion' for OMZP::{'golang/_golang','pip/_pip'}
 # #=== COMPLETIONS ======================================
-# local GH_RAW_URL='https://raw.githubusercontent.com'
-# znippet() { zi for id-as light-mode as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
+local GH_RAW_URL='https://raw.githubusercontent.com'
+znippet() { zi for id-as light-mode as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
 # znippet 'brew' 'Homebrew/brew/master/completions/zsh'
-# znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
+znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
 # znippet 'exa' 'ogham/exa/master/completions/zsh'
 # znippet 'fd' 'sharkdp/fd/master/contrib/completion'
 # zi light-mode as'completion' nocompile is-snippet for \
@@ -62,30 +62,31 @@ zi for id-as as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' light
     zstyle ':prompt:pure:prompt:success' color 'green'" \
   @sindresorhus/pure
 #=== ANNEXES ==========================================
-zi light-mode for @${ZI[SRC]}/zinit-annex-{bin-gem-node,binary-symlink,patch-dl,pull,readurl,submods}
+zi light-mode for @${ZI[SRC]}/zinit-annex-{bin-gem-node,binary-symlink,linkman,patch-dl,pull,readurl,submods}
 #=== GITHUB BINARIES ==================================
 # zi for as'completions' id-as atclone'./buildx* completion zsh > _buildx' from"gh-r" nocompile lbin'!b* -> buildx' @docker/buildx
 
-zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
-  @{dandavison/delta,hadolint/hadolint,lindell/multi-gitter,pemistahl/grex,r-darwish/topgrade,stedolan/jq,tree-sitter/tree-sitter,sharkdp/{fd,hyperfine}}
+# zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
+#   @{dandavison/delta,hadolint/hadolint,lindell/multi-gitter,pemistahl/grex,r-darwish/topgrade,stedolan/jq,tree-sitter/tree-sitter,sharkdp/{fd,hyperfine}}
 
-zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
-    dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
-    src'key-bindings.zsh' \
-  @junegunn/fzf \
-    atinit'for i (v vi vim); do alias $i="nvim"; done' \
-    lbin'!**/nvim -> nvim' \
-  @neovim/neovim \
-    atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
-  @ogham/exa
+# zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
+#     dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
+#     src'key-bindings.zsh' \
+#   @junegunn/fzf \
+#     atinit'for i (v vi vim); do alias $i="nvim"; done' \
+#     lbin'!**/nvim -> nvim' \
+#   @neovim/neovim \
+alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'
+#     atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
+#   @ogham/exa
 #=== UNIT TESTING =====================================
-# zi light-mode lucid wait'!' for \
-#     as'command' atclone'./build.zsh' pick'zunit' \
-#   @zdharma-continuum/zunit \
-#     make"PREFIX=${ZI[ZPFX]} install" \
-#   @zdharma-continuum/zshelldoc \
-#     nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line' \
-#   @softmoth/zsh-vim-mode
+zi light-mode lucid wait'!' nocompile for \
+    as'command' atclone'./build.zsh' pick'zunit' \
+  @zdharma-continuum/zunit \
+    make"--silent PREFIX=${ZI[ZPFX]} install" \
+  @zdharma-continuum/zshelldoc \
+    nocompletions nocompile atinit'bindkey -M vicmd "^v" edit-command-line' \
+  @softmoth/zsh-vim-mode
 #=== MISC. ============================================
 # ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 zi lucid wait light-mode for \

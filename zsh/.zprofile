@@ -41,9 +41,8 @@ local USR_PATH="/usr/local/opt"
 if (( $+commands[brew] )) {
   local BREW_PATH="$(brew --prefix)"
   path_append ${BREW_PATH}/{sbin,bin}
-} else {
-  path_append ${HOME}/.local/bin
 }
+path_append ${HOME}/.local/bin
 # +────────+
 # │ LOCALE │
 # +────────+
