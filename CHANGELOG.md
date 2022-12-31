@@ -1,3 +1,10 @@
+## [4.13.7](https://github.com/vladdoster/dotfiles/compare/v4.13.6...v4.13.7) (2022-12-31)
+
+
+### Bug Fixes
+
+* add system info to "me" alias ([8874a93](https://github.com/vladdoster/dotfiles/commit/8874a93ecb7f30429b2fd419c239b2f59c8c8546))
+
 ## [4.13.6](https://github.com/vladdoster/dotfiles/compare/v4.13.5...v4.13.6) (2022-12-22)
 
 
