@@ -9,7 +9,7 @@ on:
 
 jobs:
   commit:
-    uses: vladdoster/.github/.github/workflows/commit.yml@main
+    uses: vladdoster/.github/.github/workflows/commit.yml@fix/commit-lint-config
   lint:
     uses: vladdoster/.github/.github/workflows/lint.yml@main
   release:
