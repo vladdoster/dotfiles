@@ -100,7 +100,7 @@ alias zc='zinit compile'
 alias zp='zinit times'
 alias zt='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
 alias ziclnplg='command rm -rf $ZINIT[PLUGINS_DIR]'
-alias me='whoami'
+alias me='builtin print -P "%F{blue}$(whoami)%f @ %F{cyan}$(uname -a)%f"'
 load-completion(){ autoload -U compinit; compinit; source <(${1} completion zsh); compdef _${1} ${1}; }
 # +───────+
 # │ MISC. │
