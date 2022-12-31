@@ -9,4 +9,4 @@ on:
 
 jobs:
   release:
-    uses: vladdoster/.github/.github/workflows/release@fix/commit-lint-config
+    uses: vladdoster/.github/.github/workflows/release.yml@fix/commit-lint-config
