@@ -54,7 +54,7 @@ znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
 zi for id-as as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' light-mode atinit"
     PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
-    PURE_PROMPT_SYMBOL='ᐳ'; PURE_PROMPT_VICMD_SYMBOL='ᐸ'
+    PURE_PROMPT_SYMBOL='$(hostname -s) ᐳ'; PURE_PROMPT_VICMD_SYMBOL='$(hostname -s) ᐸ'
     zstyle ':prompt:pure:git:action' color 'yellow'
     zstyle ':prompt:pure:git:branch' color 'blue'
     zstyle ':prompt:pure:git:dirty' color 'red'
@@ -66,8 +66,7 @@ zi light-mode for @${ZI[SRC]}/zinit-annex-{bin-gem-node,binary-symlink,linkman,p
 #=== GITHUB BINARIES ==================================
 # zi for as'completions' id-as atclone'./buildx* completion zsh > _buildx' from"gh-r" nocompile lbin'!b* -> buildx' @docker/buildx
 
-# zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
-#   @{dandavison/delta,hadolint/hadolint,lindell/multi-gitter,pemistahl/grex,r-darwish/topgrade,stedolan/jq,tree-sitter/tree-sitter,sharkdp/{fd,hyperfine}}
+zi from'gh-r' id-as lbin'!' nocompile for @{dandavison/delta,r-darwish/topgrade}
 
 # zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
 #     dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
@@ -93,7 +92,7 @@ zi lucid wait light-mode for \
   svn submods'zsh-users/zsh-history-substring-search -> external' OMZP::history-substring-search \
   atpull'zinit creinstall -q .' blockf zsh-users/zsh-completions \
   svn submods'zsh-users/zsh-completions -> external' PZTM::completion \
-    atload'!_zsh_autosuggest_start' atinit'ZSH_AUTOSUGGEST_MANUAL_REBIND=1;ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50;bindkey "^_" autosuggest-execute;bindkey "^ " autosuggest-accept;' \
+    atload'!_zsh_autosuggest_start' atinit'ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50;bindkey "^_" autosuggest-execute;bindkey "^ " autosuggest-accept;' \
   zsh-users/zsh-autosuggestions \
     atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc' nocompletions \
   $ZI[SRC]/fast-syntax-highlighting
