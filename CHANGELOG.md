@@ -1,3 +1,10 @@
+## [4.13.8](https://github.com/vladdoster/dotfiles/compare/v4.13.7...v4.13.8) (2023-01-01)
+
+
+### Bug Fixes
+
+* add zinit gh-r progs & hostname to prompt ([a81cbf0](https://github.com/vladdoster/dotfiles/commit/a81cbf0d5020a3c11487ecad4426da638328964b))
+
 ## [4.13.7](https://github.com/vladdoster/dotfiles/compare/v4.13.6...v4.13.7) (2022-12-31)
 
 
