@@ -56,12 +56,11 @@ jobs:
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
-        timeout-minutes: 60
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
-          cache-to: type=gha
+          cache-to: type=gha,max
           platforms: linux/amd64,linux/arm64
