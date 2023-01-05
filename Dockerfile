@@ -2,10 +2,10 @@
 
 FROM bitnami/minideb:latest
 
-LABEL org.label-schema.name="vladdoster/dotfiles" \
-  org.opencontainers.image.title="dotfiles" \
-  org.opencontainers.image.source="http://dotfiles.vdoster.com/" \
-  org.opencontainers.image.description="Containerized dotfiles environment"
+LABEL org.label-schema.name="vladdoster/dotfiles"
+LABEL org.opencontainers.image.title="dotfiles"
+LABEL org.opencontainers.image.source="http://dotfiles.vdoster.com/"
+LABEL org.opencontainers.image.description="Containerized dotfiles environment"
 
 ARG USER
 
