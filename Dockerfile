@@ -59,11 +59,11 @@ RUN mkdir --parents code .config \
  && git clone https://github.com/neovim/neovim \
  && make --directory=neovim --jobs=4 \
  && sudo make --directory=neovim --jobs=4 install \
- && rm -rf neovim
+ && sudo rm -rf neovim
 
 RUN git clone https://github.com/vladdoster/dotfiles .config/dotfiles \
- && make --directory=.config/dotfiles --jobs=1 py-pkgs install neovim
- # && sudo --user=${USER} --login zsh --interactive --login -c -- '@zi::scheduler burst'
+ && make --directory=.config/dotfiles --jobs=1 py-pkgs install neovim \
+ && sudo --user=${USER} --login zsh --interactive --login -c -- '@zinit-scheduler burst'
 
 CMD ["zsh", "--login"]
 
