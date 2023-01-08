@@ -72,7 +72,6 @@ docker-ssh: ## Start docker container running SSH
 docker-shell: ## Start shell in docker container
 	docker run \
 		--tty \
-		--platform=linux/arm64 \
 		$(DOCKER_OPTS) \
 		$(CONTAINER_NAME):$(CONTAINER_TAG)
 

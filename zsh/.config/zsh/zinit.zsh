@@ -1,8 +1,7 @@
 #!/usr/bin/env zsh
 #
-# Open an issue in https://github.com/vladdoster/dotfiles if you find a bug,
-# have a feature request, or a question. A zinit-continuum configuration for
-# macOS and Linux.
+# zdharma/continuum/zinit configuration
+# https://github.com/vladdoster/dotfiles
 #
 #=== HELPER METHODS ===================================
 error() { builtin print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && return 1; }
@@ -14,7 +13,6 @@ ZI+=(
     PLUGINS_DIR "$ZI[HOME_DIR]/plugins" SNIPPETS_DIR "$ZI[HOME_DIR]/snippets" ZCOMPDUMP_PATH "$ZI[HOME_DIR]/zcompdump"
     ZPFX "$ZI[HOME_DIR]/polaris" SRC 'zdharma-continuum' BRANCH 'main'
 )
-
 if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]]; then
   {
     info 'downloading zinit'
@@ -38,18 +36,14 @@ else
   error 'failed to find zinit installation'
 fi
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
-zi is-snippet light-mode id-as nocompletions for {PZTM::{environment,history},OMZL::{compfix,completion,git,key-bindings}.zsh}
-# zi as'completion' for OMZP::{'golang/_golang','pip/_pip'}
-# #=== COMPLETIONS ======================================
+zi is-snippet light-mode nocompletions for {PZTM::{environment,history},OMZL::{compfix,completion,git,key-bindings}.zsh}
+#=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
 znippet() { zi for id-as light-mode as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
-# znippet 'brew' 'Homebrew/brew/master/completions/zsh'
+znippet 'brew' 'Homebrew/brew/master/completions/zsh'
 znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
-# znippet 'exa' 'ogham/exa/master/completions/zsh'
-# znippet 'fd' 'sharkdp/fd/master/contrib/completion'
-# zi light-mode as'completion' nocompile is-snippet for \
-#   "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh" \
-#   "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
+zi light-mode as'completion' nocompile is-snippet for \
+  "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh"
 #=== PROMPT ===========================================
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
 zi for id-as as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' light-mode atinit"
@@ -62,22 +56,20 @@ zi for id-as as'null' compile'(pure|async).zsh' multisrc'(pure|async).zsh' light
     zstyle ':prompt:pure:prompt:success' color 'green'" \
   @sindresorhus/pure
 #=== ANNEXES ==========================================
-zi light-mode for @${ZI[SRC]}/zinit-annex-{bin-gem-node,binary-symlink,linkman,patch-dl,pull,readurl,submods}
+zi for "${ZI[SRC]}"/zinit-annex-{bin-gem-node,binary-symlink,linkman,patch-dl,readurl,submods}
 #=== GITHUB BINARIES ==================================
-# zi for as'completions' id-as atclone'./buildx* completion zsh > _buildx' from"gh-r" nocompile lbin'!b* -> buildx' @docker/buildx
+zi from'gh-r' lman lbin'!' nocompile for @{dandavison/delta,r-darwish/topgrade}
 
-zi from'gh-r' id-as lbin'!' nocompile for @{dandavison/delta,r-darwish/topgrade}
-
-# zi as'completions' from'gh-r' id-as lbin'!' light-mode null for \
-#     dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
-#     src'key-bindings.zsh' \
-#   @junegunn/fzf \
-#     atinit'for i (v vi vim); do alias $i="nvim"; done' \
-#     lbin'!**/nvim -> nvim' \
-#   @neovim/neovim \
-alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'
-#     atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
-#   @ogham/exa
+zi as'completions' from'gh-r' lbin'!' lman light-mode null for \
+    dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
+    src'key-bindings.zsh' \
+  @junegunn/fzf \
+    atinit'for i (v vi vim); do alias $i="nvim"; done' \
+    lbin'!**/nvim -> nvim' \
+  @neovim/neovim \
+    atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
+  @ogham/exa
+# alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'
 #=== UNIT TESTING =====================================
 zi light-mode lucid wait'!' nocompile for \
     as'command' atclone'./build.zsh' pick'zunit' \
