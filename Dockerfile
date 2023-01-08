@@ -17,8 +17,6 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm-256color
 
 RUN apt-get update \
- && add-apt-repository ppa:neovim-ppa/stable \
-  && sudo apt-get update \
  && apt-get install --assume-yes --no-install-recommends \
   acl apt-utils autoconf automake \
   bsdmainutils bsdutils build-essential bzip2 \
@@ -31,7 +29,7 @@ RUN apt-get update \
   jq \
   less libevent-dev libreadline-dev libtool libtool-bin libz-dev locales lua5.1 luarocks \
   make man-db meson \
-  ncurses-base ncurses-bin ncurses-dev ncurses-term neovim netbase npm \
+  ncurses-base ncurses-bin ncurses-dev ncurses-term netbase npm \
   patch pkg-config python3 python3-dev python3-pip python3-setuptools python3-bdist-nsi perl \
   readline-common ripgrep ruby ruby-dev \
   stow subversion sudo software-properties-common \
@@ -40,6 +38,10 @@ RUN apt-get update \
   wget \
   xz-utils \
   zsh
+
+RUN add-apt-repository ppa:neovim-ppa/stable \
+ && apt-get update \
+ && apt-get install neovim
 
 RUN useradd \
   --create-home \
