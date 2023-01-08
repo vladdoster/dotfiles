@@ -9,6 +9,13 @@ jobs:
   lint:
     uses: vladdoster/.github/.github/workflows/lint.yml@master
   release:
+    needs: [commit,lint]
     uses: vladdoster/.github/.github/workflows/release.yml@master
     secrets:
+       github-token: ${{ secrets.GITHUB_TOKEN }}
+  docker-image:
+    needs: [release]
+    uses: vladdoster/.github/.github/workflows/containers.yml@master
+    secrets:
+       dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
        github-token: ${{ secrets.GITHUB_TOKEN }}
