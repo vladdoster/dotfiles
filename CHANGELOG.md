@@ -1,3 +1,17 @@
+## [4.13.9](https://github.com/vladdoster/dotfiles/compare/v4.13.8...v4.13.9) (2023-01-08)
+
+
+### Bug Fixes
+
+* add qemu step to docker workflow ([31495d6](https://github.com/vladdoster/dotfiles/commit/31495d6067dc535774a33f391b5c4e7569bacf1e))
+* dockerfile labels ([82bc81c](https://github.com/vladdoster/dotfiles/commit/82bc81c4a473315cf7400617f2e7d6a1050aed58))
+* format dockerfile labels ([61cb5ef](https://github.com/vladdoster/dotfiles/commit/61cb5ef3a31e942d383b0ff1fc2f2bb1f747cef2))
+* install apt prerequisites for neovim ppa ([47efe57](https://github.com/vladdoster/dotfiles/commit/47efe57c132d10ade986567c8c591beb9cc5620e))
+* install apt recommended ([3a341f2](https://github.com/vladdoster/dotfiles/commit/3a341f2002c0d576b6d4832dd651716c09184bad))
+* remove ncurses-bin package ([44a7ad9](https://github.com/vladdoster/dotfiles/commit/44a7ad9b3f2350b0ef59ae943f50e67ab4f17b36))
+* remove neovim src with sudo ([f6c4cdc](https://github.com/vladdoster/dotfiles/commit/f6c4cdc8b9d0253d87d492e439e22661818a02ce))
+* use nightly apt repo instead of compiling nvim ([8161f71](https://github.com/vladdoster/dotfiles/commit/8161f71ae7bf5f66431426ce4099ecdb532fa56f))
+
 ## [4.13.8](https://github.com/vladdoster/dotfiles/compare/v4.13.7...v4.13.8) (2023-01-01)
 
 
