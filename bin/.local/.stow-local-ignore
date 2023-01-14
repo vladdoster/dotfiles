@@ -9,7 +9,6 @@
 \.svn
 ^/LICENSE.*
 ^/READMVE.*
-# /.local/share
-# /.local/state
 share/
 state/
+**/python/

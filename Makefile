@@ -8,7 +8,9 @@ CONTAINER_NAME = vdoster/dotfiles
 CONTAINER_TAG = latest
 GH_URL = https://github.com/vladdoster
 HOMEBREW_URL := https://raw.githubusercontent.com/Homebrew/install/HEAD
-PIP_OPTS := --no-compile --trusted-host files.pythonhosted.org --trusted-host pypi.org --upgrade
+
+DOCKER_OPTS := --interactive --mount=source=dotfiles-volume,destination=/home --security-opt seccomp=unconfined
+PIP_OPTS := --trusted-host files.pythonhosted.org --trusted-host pypi.org --upgrade
 PY_PKGS := bdfr beautysh best-of black bpytop flake8 instaloader isort mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pynvim reorder-python-imports pip
 STOW_OPTS := --target=$$HOME --verbose=1
 
@@ -34,7 +36,6 @@ docker-build: ## Build docker image
 	docker build \
 		--compress \
 		--force-rm \
-		--no-cache \
 		--progress plain \
 		--rm \
 		--tag=$(CONTAINER_NAME):latest \
@@ -53,21 +54,6 @@ docker-load: ## Create tarball of docker image
 
 docker-push: ## Build and push dotfiles docker image
 	make --directory=docker/ manifest
-
-DOCKER_OPTS := --interactive --mount=source=dotfiles-volume,destination=/home --security-opt seccomp=unconfined
-
-docker-ssh: ## Start docker container running SSH
-	docker run \
-		$(DOCKER_OPTS) \
-		--detach \
-        --publish 2222:22 \
-		$(CONTAINER_NAME):$(CONTAINER_TAG)
-	docker exec \
-		--detach \
-		--interactive \
-		$$(docker container ls --latest --quiet) \
-		sudo service ssh start
-	$(info --- to ssh into container. run: ssh --port 2222 $$(basename $(CONTAINER_NAME)).localhost)
 
 docker-shell: ## Start shell in docker container
 	docker run \
@@ -110,7 +96,7 @@ py-pip-install: ## Install pip
 	python3 -m ensurepip --upgrade
 
 py-pkgs: ## Install python pkgs
-	python3 -m pip install $(PIP_OPTS) $(PY_PKGS)
+	python3 -m pip install --prefix $$HOME/.local/bin/python $(PIP_OPTS) $(PY_PKGS)
 	$(info --- py packages installed)
 
 py-update: py-pkgs ## Update python packages

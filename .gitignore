@@ -2,6 +2,7 @@
 .DS_Store
 .zcompdump
 bin/.local/[si]*
+bin/.local/**/python
 default_config.cfg
 dotfiles-latest.tar.gz
 git/**/credentials
