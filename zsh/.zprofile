@@ -9,13 +9,12 @@
 # +──────────────────+
 -def() { [[ ! -z "${(tP)1}" ]]; }
 # $- includes i if bash is interactive, allowing a shell script or startup file to test this state
--log() { [[ "{$-}" == *i* ]] && print -Pr -- "[INFO] %F{cyan}$1%f → %F{green}${2}%f"; }
+-log() { [[ "{$-}" == *i* ]] && print -Pr -- "%F{green}==>%f %F{white}$1 → ${2}%f"; }
 -path-append() {
-  local path
-  for path in "${@}"; do
-    if [[ -d $path ]] && [[ :$PATH: != *:$path:* ]]; then
-      export PATH="${path}:${PATH}"
-      _log "$path" 'prepend to PATH'
+  for arg in "$@"; do
+    if [ -d "${arg}" ] && [[ ":$PATH:" != *":${arg}:"* ]]; then
+      export PATH="${arg}:${PATH}"
+      -log "Appended to PATH" "${arg}"
     fi
   done
 }
@@ -24,11 +23,15 @@
 # +──────────+
 zprofile::initialize-homebrew() {
   for repo in /{opt,usr,home/.linuxbrew/linuxbrew}/{h,H}omebrew; do
-    [[ -d $repo ]] && { eval "${repo}/bin/brew shellenv" &>/dev/null } && {
-      for dir ( '' 's' ); do export PATH="${repo}/${dir}bin:$PATH"; done
-      -log homebrew $(brew --repository)
-    }
-    break
+    if [[ -d $repo ]]; then
+      eval "${repo}/bin/brew shellenv &>/dev/null"
+      for dir in '' 's'; do
+        export PATH="${repo}/${dir}bin:$PATH"
+      done
+      -log "homebrew" "$(brew --repository)"
+      FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+      break
+    fi
   done
 }
 # +──────+
@@ -36,7 +39,8 @@ zprofile::initialize-homebrew() {
 # +──────+
 zprofile::update-path(){
   typeset -aU path
-  -path-append "${HOME}/."{local,luarocks}"/bin"
+  -path-append "${HOME}/.local/bin"{'',/python/bin}
+  # -path-append $HOME/.{'local','luarocks'}/bin
 }
 # +────────+
 # │ LOCALE │
@@ -66,9 +70,9 @@ zprofile::env-variables(){
 }
 
 -log "OS" ${OSTYPE}' - '$(uname -m)
-zprofile::initialize-homebrew
-zprofile::update-path
 zprofile::locale
 zprofile::env-variables
+zprofile::initialize-homebrew
+zprofile::update-path
 
 # vim: set fenc=utf8 ffs=unix ft=zsh list et sts=2 sw=2 ts=2 tw=100:
