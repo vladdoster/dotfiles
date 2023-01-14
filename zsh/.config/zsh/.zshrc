@@ -30,7 +30,7 @@ done
 # +──────────────+
 # │ SETUP EDITOR │
 # +──────────────+
-_log() { [[ $- == *i* ]] && print -P "%F{white}[INFO]%f %F{cyan}${1}%f ⮕  %F{green}${2}%f"; }
+_log() { [[ $- == *i* ]] && print -P "%F{green}==>%f %F{white}${1} ⮕  ${2}%f"; }
 if has nvim && { nvim --headless --noplugin -c ':qall' }; then
   EDITOR="nvim"
 else
@@ -45,6 +45,7 @@ for i (v vi vim); do alias $i="$EDITOR"; done
 typeset -g zle_highlight=(region:bg=black) # Highlight the background of the text when selecting.
 bindkey -M menuselect 'h' vi-backward-char; bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char;  bindkey -M menuselect 'j' vi-down-line-or-history;
+bindkey " " magic-space
 # +──────────────────────+
 # │ Changing Directories │
 # +──────────────────────+
