@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM bitnami/minideb:latest
+FROM ubuntu:latest
 
 LABEL org.label-schema.name="vladdoster/dotfiles"
 LABEL org.opencontainers.image.title="dotfiles"
@@ -24,10 +24,10 @@ RUN apt-get update \
   debianutils default-jre delta dialog \
   exa \
   figlet file fzf \
-  g++ gawk gcc gettext git golang gosu \
+  g++ gawk gcc gettext git golang gosu gnupg \
   iproute2 \
   jq \
-  less libevent-dev libreadline-dev libtool libtool-bin libz-dev locales lua5.1 luarocks \
+  less libevent-dev libreadline-dev libtool libtool-bin libz-dev locales lua5.1 luajit luarocks \
   make man-db meson \
   ncurses-base ncurses-bin ncurses-dev ncurses-term netbase npm \
   patch pkg-config python3 python3-dev python3-pip python3-setuptools python3-bdist-nsi perl \
@@ -39,9 +39,9 @@ RUN apt-get update \
   xz-utils \
   zsh
 
-RUN add-apt-repository ppa:neovim-ppa/stable \
- && apt-get update \
- && apt-get install neovim
+RUN add-apt-repository ppa:neovim-ppa/unstable \
+ && apt update \
+ && apt-get install --assume-yes neovim
 
 RUN useradd \
   --create-home \
@@ -59,7 +59,7 @@ WORKDIR ${HOME}
 
 RUN mkdir --parents code .config \
  && git clone https://github.com/vladdoster/dotfiles .config/dotfiles \
- && make --directory=.config/dotfiles --jobs=1 py-pkgs install neovim \
+ && make --directory=.config/dotfiles --jobs=1 install neovim \
  && sudo --user=${USER} --login zsh --interactive --login -c -- '@zinit-scheduler burst'
 
 CMD ["zsh", "--login"]
