@@ -1,7 +1,7 @@
 # #!/usr/bin/env zsh
 if builtin echo "$-" | grep i > /dev/null; then export IS_TTY='1'; fi
 _error() { [[ -v $IS_TTY ]] && print -P "%F{red}[ERROR]%f %F{white}${1}%f" >&2; }
-_info() { [[ -v $IS_TTY ]] && print -P "%F{white}[INFO]%f %F{cyan}${1}%f"; }
+_info() { [[ -v $IS_TTY ]] && print -P "%F{green}==>%f %F{white}${1}%f"; }
 # +────────────────+
 # │ UTIL FUNCTIONS │
 # +────────────────+
