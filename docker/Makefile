@@ -7,7 +7,7 @@ IMAGE = $(REGISTRY)/$(IMGNAME)
 TAG ?= $(shell git describe --tags --always --dirty)
 export DOCKER_CLI_EXPERIMENTAL=enabled
 
-# PLATFORMS ?= linux/amd64 linux/arm32v5 linux/arm32v7 linux/arm64v8 linux/i386 linux/mips64le linux/ppc64le linux/riscv64 linux/s390x
+# Supported platforms: linux/{amd64,arm32v5,arm32v7,arm64v8,i386,mips64le,ppc64le,riscv64,s390x}
 PLATFORMS ?= linux/amd64 linux/arm64
 ARCHS = $(patsubst linux/%,%,$(PLATFORMS))
 
@@ -22,15 +22,15 @@ init-docker-buildx:
 container: check-env init-docker-buildx
 	echo "Building $(IMGNAME) for the following platforms: $(PLATFORMS)"
 	@for platform in $(PLATFORMS); do \
-		echo "Starting build for $${platform} platform"; \
-		docker buildx build \
-			--file ../Dockerfile \
-			--load \
-			--platform $${platform} \
-			--progress plain \
-			--tag $(IMAGE)-$${platform##*/}:$(TAG) \
-			--tag $(IMAGE)-$${platform##*/}:latest \
-			..; \
+	echo "Starting build for $${platform} platform"; \
+	docker buildx build \
+		--file ../Dockerfile \
+		--load \
+		--platform $${platform} \
+		--progress plain \
+		--tag $(IMAGE)-$${platform##*/}:$(TAG) \
+		--tag $(IMAGE)-$${platform##*/}:latest \
+		..; \
 	done
 
 push: container
@@ -48,3 +48,5 @@ manifest: push
 
 .PHONY: check-env container init-docker-buildx manifest push
 .SILENT: check-env container init-docker-buildx manifest push
+
+# vim: set fenc=utf8 ffs=unix ft=make list noet sw=2 ts=2 tw=90:

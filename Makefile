@@ -9,7 +9,7 @@ CONTAINER_TAG = latest
 GH_URL = https://github.com/vladdoster
 HOMEBREW_URL := https://raw.githubusercontent.com/Homebrew/install/HEAD
 
-DOCKER_OPTS := --interactive --mount=source=dotfiles-volume,destination=/home --security-opt seccomp=unconfined
+DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-volume,destination=/home --security-opt seccomp=unconfined
 PIP_OPTS := --trusted-host files.pythonhosted.org --trusted-host pypi.org --upgrade
 PY_PKGS := bdfr beautysh best-of black bpytop flake8 instaloader isort mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pynvim reorder-python-imports pip
 STOW_OPTS := --target=$$HOME --verbose=1
@@ -33,12 +33,10 @@ uninstall: ## Uninstall dotfiles
 	$(info --- uninstalled dotfiles)
 
 docker-build: ## Build docker image
-	docker build \
-		--compress \
-		--force-rm \
+	docker buildx build \
+		--load \
 		--progress plain \
-		--rm \
-		--tag=$(CONTAINER_NAME):latest \
+		--tag $(CONTAINER_NAME):$(CONTAINER_TAG) \
 		.
 
 docker-clean: ## Clean docker resources
