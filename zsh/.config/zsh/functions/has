@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+command -v "$1" 1> /dev/null 2>&1
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

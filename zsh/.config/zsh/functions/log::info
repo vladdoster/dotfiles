@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+if [[ $- == *i* ]]; then
+  print -P -- "%F{green}==>%f %F{white}${@}%f"
+fi
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

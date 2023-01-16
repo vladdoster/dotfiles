@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+
+log::info 'Validating dotfiles...'
+private msg=
+msg="$(exec zsh -ilc exit 2>&1 > /dev/null)"
+private err=$?
+if [[ err -ne 0 || -n $msg ]]
+then
+  print -nu2 'Validation failed with '
+  if [[ -z $msg ]]
+  then
+    print -Pu2 "exit status %F{red}$err%f."
+  else
+    print -nPu2 'the following errors:\n%F{red}'
+    print -nru2 -- "$msg"
+    print -P '%f'
+  fi
+  print -u2 'Restart aborted.'
+  return err
+else
+  log::info 'Restarting Zsh...'
+  exec zsh -l
+fi
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

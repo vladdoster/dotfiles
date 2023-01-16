@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+$EDITOR $(type "${1}" | grep -oE '[^[:space:]]+$')
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

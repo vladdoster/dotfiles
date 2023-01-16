@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+print "$1 contains functions:\n--------------------"
+for f in $(grep -E '^.*\(\).\{$' $(realpath ${1}) | tr -d \{\(\) | awk '{print $1}' | sort)
+do
+  echo "- $f"
+done
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
