@@ -1,3 +1,30 @@
+# [4.14.0](https://github.com/vladdoster/dotfiles/compare/v4.13.9...v4.14.0) (2023-01-16)
+
+
+### Bug Fixes
+
+* .zshrc logging ([d348eb6](https://github.com/vladdoster/dotfiles/commit/d348eb663f99798657edf2a7b6d8196070c7740e))
+* add .DS_Store to .dockerignore ([2c4fa6c](https://github.com/vladdoster/dotfiles/commit/2c4fa6c378212156029d170e32485f90e63b1555))
+* add dockutil to bootstrap-macos ([96ba56e](https://github.com/vladdoster/dotfiles/commit/96ba56ef9c882d97f08c2363642f64da374bf4b2))
+* consolidate zshenv logic into zprofile ([0306f77](https://github.com/vladdoster/dotfiles/commit/0306f7744a757db128e79df2b32e308d32148248))
+* docker, brew-install, & python make targets ([289f19f](https://github.com/vladdoster/dotfiles/commit/289f19fbfd314da143741929623ad1c8789095df))
+* dockerfile & docker related make target logic ([5275136](https://github.com/vladdoster/dotfiles/commit/5275136f70e33fcd4d9f70436cc83dd049681065))
+* dockerfile build time & copy dotfile repo ([35f823a](https://github.com/vladdoster/dotfiles/commit/35f823ab9f23b11d781116edd133ff17796f1774))
+* dockerfile neovim installation ([19a753a](https://github.com/vladdoster/dotfiles/commit/19a753aa5ffc0f65fa76578e4a44386f544b50a8))
+* logging in aliases.zsh ([d26de89](https://github.com/vladdoster/dotfiles/commit/d26de89b7255b75ada86dd878473409abfb0fff5))
+* path modification logic & logging ([ba4bd35](https://github.com/vladdoster/dotfiles/commit/ba4bd35667f7f58ef82791d5a8b0902c53abcdec))
+* remove git config cruft ([8ba4909](https://github.com/vladdoster/dotfiles/commit/8ba49097b434114fda0efc09ed02de42196808e3))
+* remove sourcing rust cargo env ([7f27112](https://github.com/vladdoster/dotfiles/commit/7f271123d36807c613add78272ecface11145cc8))
+* rm docker-ssh & update py-pkgs Makefile target ([55422e2](https://github.com/vladdoster/dotfiles/commit/55422e212d8f04c32a0de1ccaee3e65579514a00))
+* styling & gadd zsh func to aliases ([48340e4](https://github.com/vladdoster/dotfiles/commit/48340e470c6bd4ac734d12bc82cd9e603abd6bff))
+* use autoload logging & test zinit styling ([36eaf8e](https://github.com/vladdoster/dotfiles/commit/36eaf8e669e8972654269399e8dd3d5ddd42c7c1))
+* zinit.zsh logging & update misc. plugins ([fd2662f](https://github.com/vladdoster/dotfiles/commit/fd2662ff5ddd76c422c5ca917607b71c2bf8c398))
+
+
+### Features
+
+* run docker image workflow after release ([2cef205](https://github.com/vladdoster/dotfiles/commit/2cef20594f75dc4f7337ce36b024d37945ce7a50))
+
 ## [4.13.9](https://github.com/vladdoster/dotfiles/compare/v4.13.8...v4.13.9) (2023-01-08)
 
 
