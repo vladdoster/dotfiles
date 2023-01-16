@@ -16,8 +16,8 @@ ENV CLICOLOR 1
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm-256color
 
-RUN apt-get update \
- && apt-get install --assume-yes --no-install-recommends \
+RUN apt-get update --quiet=2 \
+ && apt-get install --assume-yes --no-install-recommends --quiet=2 \
   acl apt-utils autoconf automake \
   bsdmainutils bsdutils build-essential bzip2 \
   ca-certificates cmake cpanminus curl \
@@ -39,16 +39,12 @@ RUN apt-get update \
   xz-utils \
   zsh
 
-RUN add-apt-repository ppa:neovim-ppa/unstable \
- && apt update \
- && apt-get install --assume-yes neovim
-
-# configure locale
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     echo 'LANG="en_US.UTF-8"'>/etc/default/locale && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=en_US.UTF-8
 
+# Setup non-root user
 RUN useradd \
   --create-home \
   --gid root --groups sudo \
@@ -63,12 +59,17 @@ RUN useradd \
 USER ${USER}
 WORKDIR ${HOME}
 
-RUN mkdir --parents code .config/dotfiles
-COPY --chown=${USER}:1001 . ${HOME}/.config/dotfiles/
-RUN make --directory=.config/dotfiles --jobs=1 install neovim \
- && sudo --user=${USER} --login zsh --interactive --login -c -- '@zinit-scheduler burst'
+# Buiild neovim from source
+RUN git clone --quiet https://github.com/neovim/neovim \
+ && make --directory=neovim --jobs --quiet --silent \
+ && sudo make --directory=neovim --jobs --quiet --silent install \
+ && sudo rm -rf neovim
 
- # && git clone https://github.com/vladdoster/dotfiles .config/dotfiles \
-CMD ["zsh", "--login"]
+COPY --chown=${USER}:1001 . ${HOME}/.config/dotfiles/
+
+RUN zsh --interactive --login -c 'make --directory=.config/dotfiles --jobs=1 install neovim' \
+ && zsh --interactive --login -c -- '@zinit-scheduler burst'
+
+CMD ["zsh","--interactive","--login"]
 
 # vim:syn=dockerfile:ft=dockerfile:fo=croql:sw=2:sts=2
