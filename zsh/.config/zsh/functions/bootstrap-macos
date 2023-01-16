@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-
 set -Eeuxo pipefail
 # Some of these changes still require a logout/restart to take effect.
 # Close any open System Preferences panes, to prevent them from overriding
@@ -16,6 +15,8 @@ HOST_UUID=$(ioreg -d2 -c IOPlatformExpertDevice | awk -F\" '/IOPlatformUUID/{pri
 # Raw list of permission names:
 #   ❯ strings /System/Library/PrivateFrameworks/TCC.framework/Versions/Current/Resources/tccd | grep "^kTCCService[A-Z a-z]" | sort | uniq
 # Ask for the administrator password upfront
+
+
 sudo -v
 # Remove the auto-hiding Dock delay
 defaults write com.apple.dock autohide-delay -int 0
@@ -147,5 +148,69 @@ defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 defaults write com.apple.finder WarnOnEmptyTrash -bool false
 # Enable AirDrop over Ethernet and on unsupported Macs running Lion
 defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
+###############################################################################
+# Screen                                                                      #
+###############################################################################
+# Save screenshots to the desktop
+defaults write com.apple.screencapture location -string "${HOME}/Desktop"
+# Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
+defaults write com.apple.screencapture type -string "png"
+# Disable shadow in screenshots
+defaults write com.apple.screencapture disable-shadow -bool true
+# Enable subpixel font rendering on non-Apple LCDs
+# Reference: https://github.com/kevinSuttle/macOS-Defaults/issues/17#issuecomment-266633501
+defaults write NSGlobalDomain AppleFontSmoothing -int 1
+defaults write NSGlobalDomain CGFontRenderingFontSmoothingDisabled -bool false
+# Enable HiDPI display modes (requires restart)
+sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+# Remove apps I don't use from the dock.
 
+for shortcut_label (
+  "Contacts"
+  "FaceTime"
+  "Launchpad"
+  "Mail"
+  "Maps"
+  "Photos"
+  "Podcasts"
+  "Reminders"
+  "TV"
+  ); do
+  dockutil --remove "${shortcut_label}" --allhomes --no-restart || true
+done
+
+# Add new app shortcuts to the dock.
+for app (
+  "Messages"
+  "Mail"
+  "kitty"
+  "Music"
+  "Preview"
+  ); do
+  # if [[ $(dockutil --find "${app}" > /dev/null; echo $?) -ne 0 ]]; then
+  dockutil --add "/Applications/${app}.app" --replacing "${app}" --no-restart
+  # fi
+done
+for app (
+  "Activity Monitor"
+  "Address Book"
+  "Calendar"
+  "cfprefsd"
+  "Contacts"
+  "Dock"
+  "Finder"
+  "iCal"
+  "Mail"
+  "Messages"
+  "Photos"
+  "Safari"
+  "SystemUIServer"
+  "Transmission"
+  # Kill terminal last
+  "Terminal"
+  ); do
+  killall "${app}" &> /dev/null || true
+done
+
+#
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
