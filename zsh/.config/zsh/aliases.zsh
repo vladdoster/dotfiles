@@ -8,9 +8,8 @@ _info() { [[ -v $IS_TTY ]] && print -P "%F{green}==>%f %F{white}${1}%f"; }
 _clone_if_absent() { [[ ! -d $1 ]] && git clone "$1" "$2/$(basename "$1" .git)"; }
 _edit() { $EDITOR $1; }
 _export() { [[ -d $1 ]] && export PATH="${1}${PATH+:$PATH}"; return $?; }
-_mkfile() { builtin echo "#!/usr/bin/env ${2}" > "$3.$1" && chmod +x "$3.$1"; rehash; nvim "$3.$1"; }
+_mkfile() { builtin echo "#!/usr/bin/env ${2}" > "$3.$1" && chmod +x "$3.$1"; rehash; $EDITOR "$3.$1"; }
 _sys_update() { "$1" update && "$1" upgrade; }
-has() { command -v "$1" 1> /dev/null 2>&1; }
 _goto() { [[ -e $1 ]] && { cd "$1" && has exa && exa --all --long || ls -lGo } || _error "${1} not found"; }
 # +────────────────+
 # │ CODE DIRECTORY │
@@ -83,6 +82,7 @@ cd_alias 'hs' '$HOME/.hammerspoon'
 cd_alias 'rr' '$(git rev-parse --show-toplevel)'
 cd_alias 'vd' '$XDG_CONFIG_HOME/nvim'
 cd_alias 'zd' '$ZDOTDIR'
+cd_alias 'zfd' '$ZDOTDIR/functions'
 cd_alias 'zid' '$ZINIT[HOME_DIR]'
 cd_alias 'zigd' '$ZINIT[BIN_DIR]'
 # +─────+
@@ -115,10 +115,12 @@ alias -- +x='chmod +x'
 alias rm-docker='docker system prune --all --force'
 path-info() { printf "%s\n" $path | sort; printf "\n--- \$PATH contains %s items" $(print -l $path | sort  | wc -l); }
 # +────────+
+# │ PYTHON │
+# +────────+
 alias http-serve='python3 -m http.server'
-alias p='python3'
+alias pip3='python3 -m pip'
+alias py3='python3'
 alias pip-requirements='pip3 install -r requirements.txt || _error "no requirements.txt found"'
-alias ppip='python3 -m pip'
 alias venv-activate='source ./.venv/bin/activate'
 alias venv-create='python3 -m venv ./.venv'
 alias venv-setup='venv-create && venv-activate && pip-requirements'
