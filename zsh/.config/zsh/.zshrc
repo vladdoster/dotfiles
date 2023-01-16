@@ -1,63 +1,53 @@
 #!/usr/bin/env zsh
+# Use hard limits, except for a smaller stack and no core dumps
+unlimit
+limit stack 8192
+limit core 0
+limit -s
+umask 022
 
-# Search path for the cd command
-cdpath=(..)
-# Fix common locale issues (e.g. less, tmux).
-export LC_CTYPE="${LC_CTYPE:-en_US.UTF-8}"
-export LC_LANG="${LC_LANG:-en_US.UTF-8}"
-export LESSCHARSET="${LESSCHARSET:-utf-8}"
-[[ $(uname) =~ 'Linux' ]] && export LC_TIME="${LC_TIME:-C.UTF-8}"
-
-# Enable colorized otput (e.g. for `ls`).
-alias lsd='ls -ld *(-/DN)' lsa='ls -ld .*'
-# Shell functions
-setenv() { typeset -x "${1}${1:+=}${(@)argv[2,$#]}" }  # csh compatibility
-freload() { while (( $# )); do; unfunction $1; autoload -U $1; shift; done }
-# Where to look for autoloaded function definitions
-fpath=($fpath)
-for func in $^fpath/*(N-.x:t); autoload $func
-
-# automatically remove duplicates from these arrays
-typeset -U path cdpath fpath manpath
-# Global aliases -- These do not have to be at the beginning of the command line.
-alias -g M='|more' H='|head' T='|tail'
-# +─────────────────────+
-# │ LOAD CONFIGURATIONS │
-# +─────────────────────+
-for f in edit fzf aliases zinit rld widget; do
+HISTSIZE=2000
+DIRSTACKSIZE=20
+# +─────────────+
+# │ COMPLETIONS │
+# +─────────────+
+# case insensitive
+zstyle ':completion:*' matcher-list 'r:|=*' 'l:|=* r:|=*'
+# complete . and .. special directories
+zstyle ':completion:*' special-dirs false
+# disable named-directories autocompletion
+zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
+# use caching so that commands like apt and dpkg complete are useable
+zstyle ':completion:*' use-cache yes
+zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
+# +──────────+
+# │ AUTOLOAD │
+# +──────────+
+# zsh modules
+for module in 'stat' 'zpty' 'zprof'; do
+  zmodload -a zsh/$module $module
+done
+zmodload -a -p zsh/mapfile mapfile
+# personal functions
+fpath=( ${ZDOTDIR:-~/.config/zsh}/functions $fpath )
+autoload -U $fpath[1]/*(.:t)
+# bash completion functions
+autoload -U +X bashcompinit && bashcompinit
+# +───────+
+# │ MISC. │
+# +───────+
+for f in aliases zinit widget; do
   source ${ZDOTDIR:-$HOME/.config/zsh}/${f}.zsh
 done
-# +──────────────+
-# │ SETUP EDITOR │
-# +──────────────+
-_log() { [[ $- == *i* ]] && print -P "%F{green}==>%f %F{white}${1} ⮕  ${2}%f"; }
+
 if has nvim && { nvim --headless --noplugin -c ':qall' }; then
-  EDITOR="nvim"
+  EDITOR='nvim'
+elif has vim; then
+  EDITOR='vim'
 else
-  EDITOR="vim"
+  EDITOR='vi'
 fi
-_log 'Editor' "$EDITOR"
 export EDITOR=$EDITOR
 for i (v vi vim); do alias $i="$EDITOR"; done
-# +───────────────────────+
-# │ Zsh Line Editor (ZLE) │
-# +───────────────────────+
-typeset -g zle_highlight=(region:bg=black) # Highlight the background of the text when selecting.
-bindkey -M menuselect 'h' vi-backward-char; bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char;  bindkey -M menuselect 'j' vi-down-line-or-history;
-bindkey " " magic-space
-# +──────────────────────+
-# │ Changing Directories │
-# +──────────────────────+
-setopt GLOB_DOTS MARK_DIRS NOCORRECTALL NO_BEEP NO_NOMATCH VI
-# +────────────+
-# │ Completion │
-# +────────────+
-zstyle ':completion:*:*:make:*' tag-order 'targets'
-zstyle ':completion:*' rehash true
-PROMPT_EOL_MARK='%K{red} %k'   # mark the missing \n at the end of a comand output with a red block
-WORDCHARS=''                   # only alphanums make up words in word-based zle widgets
-ZLE_REMOVE_SUFFIX_CHARS=''     # don't eat space when typing '|' after a tab completion
-zle_highlight=('paste:none')   # disable highlighting of text pasted into the command line
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
