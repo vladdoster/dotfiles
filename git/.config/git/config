@@ -8,7 +8,7 @@
   helper = store --file ~/.config/git/credentials
 
 [core]
-  editor = vim
+  editor = nvim
   pager = delta
   excludesfile = ~/.config/git/ignore
 	eol = lf
@@ -116,14 +116,3 @@
   subrm   = !sh -c 'git submodule deinit -f -- $1 && rm -rf .git/modules/$1 && git rm -f $1' -
   subup   = submodule update --init --recursive
   sw  = stash show
-[lfs]
-	repositoryformatversion = 0
-[fsck]
-	zeroPaddedFilemode = ignore
-[fetch "fsck"]
-	zeroPaddedFilemode = ignore
-[receive "fsck"]
-	zeroPaddedFilemode = ignore
-[oh-my-zsh]
-	remote = origin
-	branch = master
