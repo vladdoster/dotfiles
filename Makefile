@@ -4,13 +4,17 @@ MAKEFLAGS += --silent
 .ONESHELL:
 
 CONFIGS := hammerspoon neovim
-CONTAINER_NAME = vdoster/dotfiles
-CONTAINER_TAG = latest
 GH_URL = https://github.com/vladdoster
 HOMEBREW_URL := https://raw.githubusercontent.com/Homebrew/install/HEAD
 
+
+CONTAINER_NAME := vdoster/dotfiles
+CONTAINER_LABEL ?= $(shell git rev-parse --short HEAD)$(and $(shell git status -s),-dirty-$(shell id -u -n))
+CONTAINER_TAG ?= $(CONTAINER_NAME):$(CONTAINER_LABEL)
+BUILD_DATE := $(shell date -u +%FT%TZ) # https://github.com/opencontainers/image-spec/blob/master/annotations.md
+
 DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-volume,destination=/home --security-opt seccomp=unconfined
-PIP_OPTS := --trusted-host files.pythonhosted.org --trusted-host pypi.org --upgrade
+PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --target=$$HOME/.local/bin/python
 PY_PKGS := bdfr beautysh best-of black bpytop flake8 instaloader isort mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pynvim reorder-python-imports pip
 STOW_OPTS := --target=$$HOME --verbose=1
 
@@ -33,38 +37,43 @@ uninstall: ## Uninstall dotfiles
 	$(info --- uninstalled dotfiles)
 
 docker-build: ## Build docker image
-	docker buildx build \
+	docker buildx \
+		build \
+		--label org.opencontainers.image.created="$(BUILD_DATE)" \
 		--load \
+		--no-cache \
 		--progress plain \
-		--tag $(CONTAINER_NAME):$(CONTAINER_TAG) \
+		--pull \
+		--tag $(CONTAINER_TAG) \
 		.
 
 docker-clean: ## Clean docker resources
 	docker system prune --all --force
 
-docker-save: ## Create tarball of docker image
-	docker save $(CONTAINER_NAME):$(CONTAINER_TAG) | gzip > "$$(basename $(CONTAINER_NAME))-$(CONTAINER_TAG).tar.gz"
-	$(info --- saved $(CONTAINER_NAME):$(CONTAINER_TAG))
-
 docker-load: ## Create tarball of docker image
-	$(info --- loading $(CONTAINER_NAME):latest)
-	docker load --input "$$(basename $(CONTAINER_NAME))-latest.tar.gz"
+	$(info --- loading $(CONTAINER_TAG))
+	docker load --input "$$(basename $(CONTAINER_NAME))-$(CONTAINER_LABEL).tar.gz"
 
 docker-push: ## Build and push dotfiles docker image
 	make --directory=docker/ manifest
+
+docker-save: ## Create tarball of docker image
+	docker save $(CONTAINER_TAG) | gzip > "$$(basename $(CONTAINER_NAME))-$(CONTAINER_LABEL).tar.gz"
+	$(info --- saved $(CONTAINER_TAG))
 
 docker-shell: ## Start shell in docker container
 	docker run \
 		--tty \
 		$(DOCKER_OPTS) \
-		$(CONTAINER_NAME):$(CONTAINER_TAG)
+		$(CONTAINER_TAG)
 
 brew-bundle: ## Install programs defined in brewfile
 	brew bundle --cleanup --file Brewfile --force --no-lock --zap
 
 brew-install: ## Install Homebrew
 	$(info Preparing to install Homebrew)
-	/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/install.sh)"
+	GIT_CONFIG := $(shell echo $$GIT_CONFIG)
+	/bin/bash -c "unset GIT_CONFIG && $$(curl -fsSL $(HOMEBREW_URL)/install.sh)"
 
 brew-uninstall: ## Uninstall Homebrew
 	$(info Preparing to uninstall brew)
@@ -94,7 +103,7 @@ py-pip-install: ## Install pip
 	python3 -m ensurepip --upgrade
 
 py-pkgs: ## Install python pkgs
-	python3 -m pip install --prefix $$HOME/.local/bin/python $(PIP_OPTS) $(PY_PKGS)
+	python3 -m pip install $(PIP_OPTS) $(PY_PKGS)
 	$(info --- py packages installed)
 
 py-update: py-pkgs ## Update python packages
