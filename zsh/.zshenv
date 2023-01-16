@@ -1,10 +1,10 @@
 #!/usr/bin/env zsh
 
-# disable ubunutu calling compinit
 skip_global_compinit=1
 
-if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${HOME}/.zprofile" ]]; then
-  source "${HOME}/.zprofile"
-fi
+[[ "$OSTYPE" == darwin* ]] && export SHELL_SESSIONS_DISABLE=1
 
+# if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${HOME}/.zprofile" ]] {
+source "${HOME}/.zprofile"
+# }
 # vim: set sw=2 sts=2 et ft=zsh et:
