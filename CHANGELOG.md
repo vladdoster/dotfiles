@@ -1,3 +1,15 @@
+# [4.15.0](https://github.com/vladdoster/dotfiles/compare/v4.14.0...v4.15.0) (2023-01-17)
+
+
+### Bug Fixes
+
+* simplify git & zinit aliases ([48e5ff8](https://github.com/vladdoster/dotfiles/commit/48e5ff855cd1b1e66ffd923642c50dcd64e373b6))
+
+
+### Features
+
+* `rld::file` function to source a file  ([0d89fc4](https://github.com/vladdoster/dotfiles/commit/0d89fc42bce9327c738a8baeb5f9dd2676489415))
+
 # [4.14.0](https://github.com/vladdoster/dotfiles/compare/v4.13.9...v4.14.0) (2023-01-16)
 
 
