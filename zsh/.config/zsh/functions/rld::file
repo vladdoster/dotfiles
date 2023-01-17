@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+source "$(find ${DOTFILES:-${HOME}/.config/dotfiles/} -print0 | fzf --read0)"
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
