@@ -84,12 +84,14 @@ cd_alias 'vd' '$XDG_CONFIG_HOME/nvim'
 cd_alias 'zd' '$ZDOTDIR'
 cd_alias 'zfd' '$ZDOTDIR/functions'
 cd_alias 'zid' '$ZINIT[HOME_DIR]'
-cd_alias 'zigd' '$ZINIT[BIN_DIR]'
+cd_alias 'zgd' '$ZINIT[BIN_DIR]'
 # +─────+
 # │ GIT │
 # +─────+
-alias g-submodule-update='git submodule update --merge --remote'
-alias g="git" # GIT ALIASES DEFINED IN $HOME/.config/git/config
+alias g='git' # GIT ALIASES DEFINED IN $HOME/.config/git/config
+alias gd='g d'
+alias gs='g s'
+alias gsu='g submodule update --merge --remote'
 # +───────────────────+
 # │ COMMAND SHORTCUTS │
 # +───────────────────+
