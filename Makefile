@@ -14,7 +14,7 @@ CONTAINER_TAG ?= $(CONTAINER_NAME):$(CONTAINER_LABEL)
 BUILD_DATE := $(shell date -u +%FT%TZ) # https://github.com/opencontainers/image-spec/blob/master/annotations.md
 
 DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-volume,destination=/home --security-opt seccomp=unconfined
-PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --target=$$HOME/.local/bin/python
+PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --target=$$HOME/.local/bin/python --quiet
 PY_PKGS := bdfr beautysh best-of black bpytop flake8 instaloader isort mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pynvim reorder-python-imports pip
 STOW_OPTS := --target=$$HOME --verbose=1
 
@@ -34,24 +34,26 @@ install: | uninstall ## Install dotfiles
 
 uninstall: ## Uninstall dotfiles
 	find * -maxdepth 0 -mindepth 0 -type d -exec stow $(STOW_OPTS) --delete {} \;
-	$(info --- uninstalled dotfiles)
+	$(info ==> uninstalled dotfiles)
 
 docker-build: ## Build docker image
-	docker buildx \
-		build \
-		--label org.opencontainers.image.created="$(BUILD_DATE)" \
-		--load \
-		--no-cache \
-		--progress plain \
-		--pull \
-		--tag $(CONTAINER_TAG) \
-		.
+	docker --debug \
+		buildx \
+			build \
+			--label org.opencontainers.image.created="$(BUILD_DATE)" \
+			--load \
+			--no-cache \
+			--platform linux/amd64 \
+			--progress plain \
+			--pull \
+			--tag "$(CONTAINER_TAG)" \
+			.
 
 docker-clean: ## Clean docker resources
 	docker system prune --all --force
 
 docker-load: ## Create tarball of docker image
-	$(info --- loading $(CONTAINER_TAG))
+	$(info ==> loading $(CONTAINER_TAG))
 	docker load --input "$$(basename $(CONTAINER_NAME))-$(CONTAINER_LABEL).tar.gz"
 
 docker-push: ## Build and push dotfiles docker image
@@ -59,7 +61,7 @@ docker-push: ## Build and push dotfiles docker image
 
 docker-save: ## Create tarball of docker image
 	docker save $(CONTAINER_TAG) | gzip > "$$(basename $(CONTAINER_NAME))-$(CONTAINER_LABEL).tar.gz"
-	$(info --- saved $(CONTAINER_TAG))
+	$(info ==> saved $(CONTAINER_TAG))
 
 docker-shell: ## Start shell in docker container
 	docker run \
@@ -84,15 +86,15 @@ chsh: ## Set shell to ZSH
 	chsh -s "$$(which zsh)" $$USER
 
 stow: ## Install GNU stow
-	$(info --- installing GNU Stow)
-	if [ -d stow/stow.git ]; then echo "--- stow already present"; else git clone https://github.com/aspiers/stow stow/stow.git; fi
+	$(info ==> installing GNU Stow)
+	if [ -d stow/stow.git ]; then echo "==> stow already present"; else git clone https://github.com/aspiers/stow stow/stow.git; fi
 	cd stow/stow.git \
 		&& autoreconf -ivf \
 		&& eval $$(perl -V:siteprefix) \
 		&& ./configure --prefix=$$siteprefix \
 		&& make --jobs=4 --no-print-directory --silent \
-		&& cp bin/*stow ../../bin/.local/bin/
-	$(info --- installed GNU Stow)
+		&& cp bin/*stow ../../bin/.local/bin/ \
+		&& $(info ==> installed GNU Stow)
 	[ -d stow/stow.git ] && rm -rf stow/stow.git
 
 safari-extensions: ## Install 1password, vimari, grammarly safari extensions
@@ -103,11 +105,15 @@ py-pip-install: ## Install pip
 	python3 -m ensurepip --upgrade
 
 py-pkgs: ## Install python pkgs
-	python3 -m pip install $(PIP_OPTS) $(PY_PKGS)
-	$(info --- py packages installed)
+	$(info ==> installing py pkgs)
+	python3 -m pip install $(PIP_OPTS) $(PY_PKGS) \
+	&& echo '==> py packages installed'
 
 py-update: py-pkgs ## Update python packages
-	python3 -m pip list | cut -d" " -f 1 | tail -n +3 | xargs python3 -m pip install $(PIP_OPTS)
+	$(info ==> updating py pkgs)
+	python3 -m pip install $(PIP_OPTS) --no-cache-dir --upgrade pip \
+		&& python3 -m pip list | cut -d" " -f 1 | tail -n +3 | xargs python3 -m pip install $(PIP_OPTS) \
+		&& echo '==> py packages updated'
 
 rust-install: ## Install rust & cargo
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
