@@ -1,0 +1,32 @@
+#!/usr/bin/env zsh
+#
+# Remove all Docker related resources
+#
+
+n=0
+until [ ${n} -eq 4 ]; do
+  if docker system info &>/dev/null; then
+    NUM_CONTAINERS=$(docker container ls --all --quiet | wc -l)
+    log::info "found $(docker container ls --all --quiet | wc -l | xargs) containers"
+    {
+      docker container stop $(docker container ls --quiet);
+      log::info "stopped running containers"
+      docker image rm --force $(docker image ls --quiet);
+      log::info "removed images"
+      docker volume rm $(docker volumels --quiet);
+      log::info "removed volumes"
+      docker system prune --all --force --volumes;
+      log::info "cleaned system resources"
+    } 2>/dev/null
+    log::info "successfully nuked docker"
+    break
+  else
+    ((n++))
+    if [[ $n -eq 4 ]]; then
+      log::error "docker daemon not running, aborting"
+    else
+      log::info "docker daemon unavailable, retrying $n/3 times"
+      sleep 5
+    fi
+  fi
+done
