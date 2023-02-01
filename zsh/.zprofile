@@ -19,19 +19,13 @@ zprofile::initialize-homebrew() {
 # │ PATH │
 # +──────+
 zprofile::update-path() {
-  path=(
-    $HOME/.local/bin{,/python/bin}(N)
-    /usr/local/{,s}bin(N)
-    /opt/{homebrew,local}/{,s}bin(N)
-    $path
-  )
+  path=( {$HOME/.local,/{usr/local,opt/homebrew}}/{,s,bin/python/}bin(N) $path )
 }
 # +────────+
 # │ LOCALE │
 # +────────+
 zprofile::locale() {
-  (( $+commands[locale] )) && local loc=(${(@M)$(locale -a):#*.(utf|UTF)(-|)8})
-  (( $#loc )) && export LC_ALL=${loc[(r)(#i)C.UTF(-|)8]:-${loc[(r)(#i)en_US.UTF(-|)8]:-$loc[1]}}
+  export L{ANG{,GUAGE},C_ALL}='en_US.UTF-8'
 }
 # +───────────────+
 # │ ENV VARIABLES │
@@ -50,7 +44,7 @@ zprofile::env-variables() {
   export \
     COMPOSE_DOCKER_CLI_BUILD=1 CORRECT_IGNORE="[_|.]*" \
     DISABLE_MAGIC_FUNCTIONS=1 DOCKER_BUILDKIT=1 \
-    HOMEBREW_NO_ENV_HINTS=1 HOMEBREW_NO_INSTALL_CLEANUP=1
+    HOMEBREW_NO_{ENV_HINTS,INSTALL_CLEANUP}=1
 }
 # +──────+
 # │ MAIN │
