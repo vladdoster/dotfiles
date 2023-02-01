@@ -1,3 +1,16 @@
+# [4.16.0](https://github.com/vladdoster/dotfiles/compare/v4.15.0...v4.16.0) (2023-02-01)
+
+
+### Bug Fixes
+
+* disable homebrew env hints & auto cleanup ([09876af](https://github.com/vladdoster/dotfiles/commit/09876afccf2ea4fbb62c812f8fbf13007a3df33d))
+* set executable bit on rld::file zsh function ([1717a35](https://github.com/vladdoster/dotfiles/commit/1717a35fbecce4ff48248b1ca6674244cb9bbe73))
+
+
+### Features
+
+* add docker::nuke func via zsh autoloading ([82a451c](https://github.com/vladdoster/dotfiles/commit/82a451c28251651cdec52cb0b5aaa297da84e17d))
+
 # [4.15.0](https://github.com/vladdoster/dotfiles/compare/v4.14.0...v4.15.0) (2023-01-17)
 
 
