@@ -40,7 +40,7 @@ zi id-as is-snippet light-mode nocompletions for {PZTM::{environment,history},OM
 # #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
 znippet() { zi for id-as light-mode as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
-# znippet 'exa' 'ogham/exa/master/completions/zsh'
+znippet 'exa' 'ogham/exa/master/completions/zsh'
 # # znippet 'fd' 'sharkdp/fd/master/contrib/completion'
 znippet 'brew' 'Homebrew/brew/master/completions/zsh'
 znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
@@ -63,6 +63,7 @@ zi light-mode ver'style/logging' for @${ZI[SRC]}/zinit-annex-{linkman,binary-sym
 zi light-mode for @${ZI[SRC]}/zinit-annex-submods
 #=== GITHUB BINARIES ==================================
 zi lman light-mode from'gh-r' id-as lbin'!' nocompile for @{trufflesecurity/trufflehog,dandavison/delta,r-darwish/topgrade}
+# zi from'gh-r' nocompile id-as lbin for Swordfish90/cool-retro-term
 zi lman as'completions' from'gh-r' id-as lbin'!' light-mode null for \
     dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
     src'key-bindings.zsh' \
@@ -77,8 +78,10 @@ zi lman as'completions' from'gh-r' id-as lbin'!' light-mode null for \
 #   lbin'!zsd*' make"install" \
   # @zdharma-continuum/zshelldoc \
 zi light-mode lucid wait'!' for \
+    null make"PREFIX=$ZPFX install" \
+  @zdharma-continuum/zshelldoc \
     as'command' atclone'./build.zsh' lbin'!' ver'main' \
-    @zdharma-continuum/zunit \
+  @zdharma-continuum/zunit \
     atinit'bindkey -M vicmd "^v" edit-command-line' \
   @softmoth/zsh-vim-mode \
   #     null lbin'!bin/tig' configure make'install' \
