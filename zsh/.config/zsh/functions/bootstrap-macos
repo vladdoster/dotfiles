@@ -1,11 +1,11 @@
 #!/usr/bin/env zsh
-set -Eeuxo pipefail
+#
 # Some of these changes still require a logout/restart to take effect.
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
 osascript -e 'tell application "System Preferences" to quit'
 # Extract hardware UUID to reconstruct host-dependent plists.
-HOST_UUID=$(ioreg -d2 -c IOPlatformExpertDevice | awk -F\" '/IOPlatformUUID/{print $(NF-1)}')
+local HOST_UUID=$(ioreg -d2 -c IOPlatformExpertDevice | awk -F\" '/IOPlatformUUID/{print $(NF-1)}')
 ###############################################################################
 # Permissions and Access                                                      #
 ###############################################################################
@@ -29,7 +29,7 @@ sudo nvram SystemAudioVolume=" "
 # defaults write com.apple.universalaccess NSWindowShouldDragOnGesture -string "YES"
 # Enable auto dark mode
 defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
-defaults write NSGlobalDomain AppleInterfaceStyleSwitchesAutomatically -bool true
+defaults write NSGlobalDomain AppleInterfaceStyleSwitchesAutomatically -bool false
 # Disable the crash reporter
 defaults write com.apple.CrashReporter DialogType -string "none"
 # Play user interface sound effects
@@ -128,8 +128,8 @@ defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 # After configuring preferred view style, clear all `.DS_Store` files
 # to ensure settings are applied for every directory
-# sudo command find / -name ".DS_Store" -print -delete || true
-# sudcceo find / -name ".DS_Store" -type f -print -exec sudo rm -f {} \;
+# sudo command find ~/ -name ".DS_Store" -print -delete || true
+# sudo find ~/ -name ".DS_Store" -type f -print -exec sudo rm -f {} \;
 /usr/libexec/PlistBuddy \
   -c "Delete :StandardViewOptions:ColumnViewOptions:ColumnShowIcons"    \
   -c "Delete :StandardViewOptions:ColumnViewOptions:FontSize"           \
@@ -139,7 +139,7 @@ defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
   ~/Library/Preferences/com.apple.finder.plist || true
 /usr/libexec/PlistBuddy \
   -c "Add :StandardViewOptions:ColumnViewOptions:ColumnShowIcons    bool    true" \
-  -c "Add :StandardViewOptions:ColumnViewOptions:FontSize           integer 11"   \
+  -c "Add :StandardViewOptions:ColumnViewOptions:FontSize           integer 16"   \
   -c "Add :StandardViewOptions:ColumnViewOptions:ShowPreview        bool    true" \
   -c "Add :StandardViewOptions:ColumnViewOptions:ShowIconThumbnails bool    true" \
   -c "Add :StandardViewOptions:ColumnViewOptions:ArrangeBy          string  dnam" \
@@ -152,7 +152,8 @@ defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
 # Screen                                                                      #
 ###############################################################################
 # Save screenshots to the desktop
-defaults write com.apple.screencapture location -string "${HOME}/Desktop"
+mkdir -p -- $HOME/screenshots || true
+defaults write com.apple.screencapture location -string "${HOME}/screenshots"
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
 defaults write com.apple.screencapture type -string "png"
 # Disable shadow in screenshots
@@ -163,54 +164,47 @@ defaults write NSGlobalDomain AppleFontSmoothing -int 1
 defaults write NSGlobalDomain CGFontRenderingFontSmoothingDisabled -bool false
 # Enable HiDPI display modes (requires restart)
 sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
-# Remove apps I don't use from the dock.
+# remove apps i don't use from the dock.
+# for app in $(find /Applications -name '*.app' -maxdepth 1 -type d | xargs); do
+#   dockutil --remove "${app}" --allhomes --no-restart &> /dev/null || true
+# done
 
-for shortcut_label (
-  "Contacts"
-  "FaceTime"
-  "Launchpad"
-  "Mail"
-  "Maps"
-  "Photos"
-  "Podcasts"
-  "Reminders"
-  "TV"
-  ); do
-  dockutil --remove "${shortcut_label}" --allhomes --no-restart || true
+# for app in $(dockutil --list | awk '{print $1}' | xargs); do
+#   dockutil --remove "${app}" --allhomes --restart &> /dev/null || true
+# done
+# add new app shortcuts to the dock.
+for app in "Safari" "Vivaldi Snapshot" "kitty"; do
+  [[ -e /Applications/${app}.app ]] && {
+    dockutil --remove "${app}" --allhomes --no-restart
+    dockutil --add "/Applications/${app}.app" --allhomes --no-restart --position end --section apps
+  } && echo "==> ${app} added to dock" || \
+    echo "Error: ${app} not found"
 done
-
-# Add new app shortcuts to the dock.
-for app (
-  "Messages"
-  "Mail"
-  "kitty"
-  "Music"
-  "Preview"
-  ); do
-  # if [[ $(dockutil --find "${app}" > /dev/null; echo $?) -ne 0 ]]; then
-  dockutil --add "/Applications/${app}.app" --replacing "${app}" --no-restart
-  # fi
+for app in "Messages" "Mail" "Music" "Preview" "Utilities/Activity Monitor" "System Settings"; do
+  [[ -e /System/Applications/${app}.app ]] && {
+    dockutil --remove "$(basename ${app})" --allhomes --no-restart
+    dockutil --add "/System/Applications/${app}.app" --allhomes --no-restart --section apps
+  } &> /dev/null && echo "==> ${app} added to dock" || \
+    echo "Error: ${app} not found"
 done
 for app (
   "Activity Monitor"
   "Address Book"
   "Calendar"
-  "cfprefsd"
   "Contacts"
   "Dock"
   "Finder"
-  "iCal"
   "Mail"
   "Messages"
   "Photos"
   "Safari"
   "SystemUIServer"
-  "Transmission"
-  # Kill terminal last
   "Terminal"
+  "Transmission"
+  "cfprefsd"
+  "iCal"
   ); do
   killall "${app}" &> /dev/null || true
 done
 
-#
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
