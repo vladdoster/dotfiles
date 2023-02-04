@@ -60,16 +60,19 @@ zi for id-as null compile'(pure|async).zsh' multisrc'(pure|async).zsh' light-mod
   @sindresorhus/pure
 #=== ANNEXES ==========================================
 zi light-mode ver'style/logging' for @${ZI[SRC]}/zinit-annex-{linkman,binary-symlink,patch-dl}
-zi light-mode for @${ZI[SRC]}/zinit-annex-submods
+zi light-mode for @${ZI[SRC]}/zinit-annex-{submods,default-ice}
 #=== GITHUB BINARIES ==================================
-zi lman light-mode from'gh-r' id-as lbin'!' nocompile for @{trufflesecurity/trufflehog,dandavison/delta,r-darwish/topgrade}
+zi default-ice --quiet from"gh-r" id-as lbin"!" nocompile
+zi null light-mode for @{dandavison/delta,r-darwish/topgrade}
+# zi lman light-mode from'gh-r' id-as lbin'!' nocompile for @{trufflesecurity/trufflehog,dandavison/delta,r-darwish/topgrade}
 # zi from'gh-r' nocompile id-as lbin for Swordfish90/cool-retro-term
-zi lman as'completions' from'gh-r' id-as lbin'!' light-mode null for \
+zi light-mode lman as'completions' for \
     dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
     src'key-bindings.zsh' \
   @junegunn/fzf \
     atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa
+zi default-ice --clear --quiet
 #   atinit'for i (v vi vim); do alias $i="nvim"; done' \
   #   lbin'!**/nvim -> nvim' \
   # @neovim/neovim \
@@ -78,25 +81,26 @@ zi lman as'completions' from'gh-r' id-as lbin'!' light-mode null for \
 #   lbin'!zsd*' make"install" \
   # @zdharma-continuum/zshelldoc \
 zi light-mode lucid wait'!' for \
-    null make"PREFIX=$ZPFX install" \
+    null make"PREFIX=${ZPFX} install" \
   @zdharma-continuum/zshelldoc \
     as'command' atclone'./build.zsh' lbin'!' ver'main' \
   @zdharma-continuum/zunit \
     atinit'bindkey -M vicmd "^v" edit-command-line' \
-  @softmoth/zsh-vim-mode \
+  @softmoth/zsh-vim-mode 
   #     null lbin'!bin/tig' configure make'install' \
   #   @jonas/tig \
   #=== MISC. ============================================
-zi light-mode lucid wait nocompile for \
+zi lucid wait light-mode nocompile for \
     svn submods'zsh-users/zsh-history-substring-search -> external' \
   OMZP::history-substring-search \
-    atpull'zinit creinstall -q .' blockf \
+    atpull'zinit creinstall -q .' blockf null \
   zsh-users/zsh-completions \
     svn submods'zsh-users/zsh-completions -> external' \
   PZTM::completion \
     atload'!_zsh_autosuggest_start' atinit'bindkey "^_" autosuggest-execute;bindkey "^ " autosuggest-accept;' \
-  zsh-users/zsh-autosuggestions \
-    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc' nocompletions \
-  $ZI[SRC]/fast-syntax-highlighting
+  zsh-users/zsh-autosuggestions
+
+zi ice lucid wait atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc'
+zi light $ZI[SRC]/fast-syntax-highlighting
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
