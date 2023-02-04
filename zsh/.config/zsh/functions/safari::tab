@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+
+osascript -e 'tell application "Safari" to activate
+tell application "System Events"
+tell process "Safari"
+click menu item "New Tab" of menu "File" of menu bar 1
+end tell
+end tell'
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
