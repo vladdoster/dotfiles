@@ -1,3 +1,23 @@
+# [4.17.0](https://github.com/vladdoster/dotfiles/compare/v4.16.0...v4.17.0) (2023-02-04)
+
+
+### Bug Fixes
+
+* bootstrap macos options & dockutil logic ([1bb5d56](https://github.com/vladdoster/dotfiles/commit/1bb5d562b3eeba0c7dce3022679000e7e002a215))
+* condense .zprofile $PATH & env var logic ([35be3cb](https://github.com/vladdoster/dotfiles/commit/35be3cb88daf170f5419665bc5797ff16623c40c))
+* makefile logging & misc. target logic ([aa154fd](https://github.com/vladdoster/dotfiles/commit/aa154fd02f13851e4f8872e5ea7614ddb8f7b731))
+* mv emoji functions to be autoloaded via zsh ([23e758f](https://github.com/vladdoster/dotfiles/commit/23e758f11126b707bcdf7ff48f2ef10332ca02f7))
+* use default-ice in zinit ([74ada21](https://github.com/vladdoster/dotfiles/commit/74ada21b225a2f637cc9b9df0072a88fa8c67196))
+* zinit make ice prefix & formatting ([0c6e402](https://github.com/vladdoster/dotfiles/commit/0c6e402690bd373238f4c1c0d6d557cb088a7de0))
+* zprofile & zshenv logic ([8b2e880](https://github.com/vladdoster/dotfiles/commit/8b2e880f2863e44f827100de10a1258c80133db3))
+
+
+### Features
+
+* add safari::tab command to new safari tab ([3399f46](https://github.com/vladdoster/dotfiles/commit/3399f46989624d4160eb41098339f991267798cc))
+* alias ? to "which" command ([f65dea6](https://github.com/vladdoster/dotfiles/commit/f65dea65e181b0cb2f959f41b9daefd2380bd92d))
+* watch::file-count cmd prints # files in dir ([fcf2d28](https://github.com/vladdoster/dotfiles/commit/fcf2d2886049fc820741e761e7375f4c201518b5))
+
 # [4.16.0](https://github.com/vladdoster/dotfiles/compare/v4.15.0...v4.16.0) (2023-02-01)
 
 
