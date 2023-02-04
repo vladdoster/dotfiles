@@ -107,14 +107,15 @@ load-completion(){ autoload -U compinit; compinit; source <(${1} completion -s z
 # +───────+
 # │ MISC. │
 # +───────+
-alias pretty-env='print -C 1 $(env | sort | xargs)'
-alias pretty-path='print ${PATH} | tr ":" "\n"'
+alias -- +x='chmod +x'
+alias -- \?='which'
 alias gen-passwd='openssl rand -base64 24'
 alias get-my-ip='curl ifconfig.co'
-alias tmp-md='$EDITOR $(mktemp -t scratch.XXX.md)'
+alias get-env='print -C 1 $(env | sort | xargs)'
+alias get-path='print ${PATH} | tr ":" "\n"'
 alias ps-grep="ps aux | grep -v grep | grep -i -e VSZ -e"
-alias -- +x='chmod +x'
 alias rm-docker='docker system prune --all --force'
+alias tmp-md='$EDITOR $(mktemp -t scratch.XXX.md)'
 path-info() { printf "%s\n" $path | sort; printf "\n--- \$PATH contains %s items" $(print -l $path | sort  | wc -l); }
 # +────────+
 # │ PYTHON │
@@ -165,11 +166,5 @@ alias yum-sys-update="_sys_update 'sudo yum -y'"
 alias cp-dotfiles='rsync -azP $XDG_CONFIG_HOME/dotfiles/ devcloud:~/dotfiles'
 alias cp-hammerspoon='rsync -azP $HOME/.hammerspoon/ devcloud:~/hammerspoon'
 alias cp-nvim='rsync -azP $XDG_CONFIG_HOME/nvim/ devcloud:~/nvim'
-# +────────+
-# │ EMOJIS │
-# +────────+
-disappointed() { command echo -n " ಠ_ಠ " | tee /dev/tty | $_copy_cmd; }
-flip() { command echo -n "（╯°□°）╯ ┻━┻" | tee /dev/tty | $_copy_cmd; }
-shrug() { command echo -n "¯\_(ツ)_/¯" | tee /dev/tty | $_copy_cmd; }
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
