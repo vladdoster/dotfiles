@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+builtin echo -n 'ಠ_ಠ' | command pbcopy
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
