@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+#
+# Remove all Docker related resources
+#
+
+local DOTFILES=${DOTFILES:-$HOME/.config/dotfiles}
+
+make -C "${DOTFILES}" $@
