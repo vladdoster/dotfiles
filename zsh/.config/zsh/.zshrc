@@ -1,6 +1,11 @@
 #!/usr/bin/env zsh
 
+
 zshrc::autoload() {
+  typeset -U m
+  m=()
+  for md ($module_path) m=($m $md/**/*(*e:'REPLY=${REPLY#$md/}'::r))
+  zmodload -i $m
   # zsh modules
   for module in 'stat' 'zpty' 'zprof'; zmodload -a zsh/$module $module
   zmodload -a -p zsh/mapfile mapfile
@@ -23,6 +28,7 @@ zshrc::completion() {
   # cache command (i.e., apt, dpkg) completions
   zstyle ':completion:*' use-cache yes
   # zstyle ':completion:*' cache-path ${ZINIT[CACHE_DIR]:-${ZSH_CACHE_DIR:-$
+  zstyle ':completion:*:cd:*' ignore-parents parent pwd
 }
 
 zshrc::misc() {
