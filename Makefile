@@ -1,5 +1,6 @@
 MAKEFLAGS += --silent
 
+# SHELL := $(shell command -v zsh 2> /dev/null)
 .DEFAULT_SHELL := $(shell command -v zsh 2> /dev/null)
 .ONESHELL:
 
@@ -74,8 +75,7 @@ brew-bundle: ## Install programs defined in brewfile
 
 brew-install: ## Install Homebrew
 	$(info Preparing to install Homebrew)
-	GIT_CONFIG := $(shell echo $$GIT_CONFIG)
-	/bin/bash -c "unset GIT_CONFIG && $$(curl -fsSL $(HOMEBREW_URL)/install.sh)"
+	/bin/bash -c "unset GIT_CONFIG;  $$(curl -fsSL $(HOMEBREW_URL)/install.sh)"
 
 brew-uninstall: ## Uninstall Homebrew
 	$(info Preparing to uninstall brew)
