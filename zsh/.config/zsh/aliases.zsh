@@ -7,7 +7,6 @@ _info() { [[ -v $IS_TTY ]] && print -P "%F{green}==>%f %F{white}${1}%f"; }
 # +────────────────+
 _clone_if_absent() { [[ ! -d $1 ]] && git clone "$1" "$2/$(basename "$1" .git)"; }
 _edit() { $EDITOR $1; }
-_export() { [[ -d $1 ]] && export PATH="${1}${PATH+:$PATH}"; return $?; }
 _mkfile() { builtin echo "#!/usr/bin/env ${2}" > "$3.$1" && chmod +x "$3.$1"; rehash; $EDITOR "$3.$1"; }
 _sys_update() { "$1" update && "$1" upgrade; }
 _goto() { [[ -e $1 ]] && { cd "$1" && has exa && exa --all --long || ls -lGo } || _error "${1} not found"; }
