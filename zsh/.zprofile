@@ -14,7 +14,7 @@ zprofile::env-variables() {
     VIMDOTDIR="${XDG_CONFIG_HOME}/vim" ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
   # program options
   export \
-    COMPOSE_DOCKER_CLI_BUILD=1 CORRECT_IGNORE="[_|.]*" \
+    COMPOSE_DOCKER_CLI_BUILD=1 CORRECT_IGNORE="*zinit[-]*" \
     DISABLE_MAGIC_FUNCTIONS=1 DOCKER_BUILDKIT=1 \
     HOMEBREW_NO_{ENV_HINTS,INSTALL_CLEANUP}=1 \
     SHELL_SESSIONS_DISABLE=1
@@ -23,16 +23,20 @@ zprofile::env-variables() {
 # │ HOMEBREW │
 # +──────────+
 zprofile::initialize-homebrew() {
-  (( ! $+commands[brew] )) && {
-    if [[ -x /opt/homebrew/bin/brew ]]; then BREW_LOCATION="/opt/homebrew/bin/brew"
-    elif [[ -x /usr/local/bin/brew ]]; then BREW_LOCATION="/usr/local/bin/brew"
-    elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then BREW_LOCATION="/home/linuxbrew/.linuxbrew/bin/brew"
-    elif [[ -x "$HOME/.linuxbrew/bin/brew" ]]; then BREW_LOCATION="$HOME/.linuxbrew/bin/brew"
-    else return
+  # export PATH="/opt/homebrew/bin:$PATH"
+  # (( ! $+commands[brew] )) && {
+    if [[ -e /opt/homebrew/bin/brew ]]; then 
+      BREW_LOCATION="/opt/homebrew/bin/brew"
+      break
+    elif [[ -e /usr/local/bin/brew ]]; then 
+      BREW_LOCATION="/usr/local/bin/brew"
+      break
+    elif [[ -e /home/linuxbrew/.linuxbrew/bin/brew ]]; then 
+      BREW_LOCATION="/home/linuxbrew/.linuxbrew/bin/brew"
+      breal
     fi
-    eval "$("$BREW_LOCATION" shellenv)"
-    unset BREW_LOCATION
-  }
+    print "$(${BREW_LOCATION} shellenv)"
+  # }
 }
 # +────────+
 # │ LOCALE │
@@ -44,7 +48,9 @@ zprofile::locale() {
 # │ PATH │
 # +──────+
 zprofile::update-path() {
-  path=( {$HOME/.local,/{usr/local,opt/homebrew}}/{,s,bin/python/}bin(N) $path )
+  typeset -aU path
+  path=('~/.local/bin' $path)
+  export PATH
 }
 # +──────+
 # │ MAIN │
