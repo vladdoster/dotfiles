@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+
+local -a files=( $(find . -name '.DS_Store' -print0) )
+
+if command rm -fP ${(@)files}; then
+  log::info "Deleted ${#files} .DS_Store files"
+  return 0
+fi
+
+log::error "Failed to delete ${#files} .DS_Store files"
+return 1
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
