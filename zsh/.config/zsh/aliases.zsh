@@ -88,14 +88,12 @@ cd_alias 'zgd' '$ZINIT[BIN_DIR]'
 # │ GIT │
 # +─────+
 alias g='git' # GIT ALIASES DEFINED IN $HOME/.config/git/config
-alias gd='g d'
-alias gs='g s'
-alias gsu='g submodule update --merge --remote'
+alias gd='git diff'
+alias gs='git status'
+alias gsu='git submodule update --merge --remote'
 # +───────────────────+
 # │ COMMAND SHORTCUTS │
 # +───────────────────+
-alias -- +x='chmod +x'
-alias rm-ds-store='find "$PWD" -type f -name "*.DS[_-]Store" -print -delete'
 alias rshfmt="shfmt -i 4 -s -ln bash -sr -bn -ci -w"
 alias zc='zinit compile'
 alias zp='zinit times'
