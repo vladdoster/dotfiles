@@ -23,20 +23,15 @@ zprofile::env-variables() {
 # │ HOMEBREW │
 # +──────────+
 zprofile::initialize-homebrew() {
-  # export PATH="/opt/homebrew/bin:$PATH"
-  # (( ! $+commands[brew] )) && {
-    if [[ -e /opt/homebrew/bin/brew ]]; then 
-      BREW_LOCATION="/opt/homebrew/bin/brew"
-      break
-    elif [[ -e /usr/local/bin/brew ]]; then 
-      BREW_LOCATION="/usr/local/bin/brew"
-      break
-    elif [[ -e /home/linuxbrew/.linuxbrew/bin/brew ]]; then 
-      BREW_LOCATION="/home/linuxbrew/.linuxbrew/bin/brew"
-      breal
-    fi
-    print "$(${BREW_LOCATION} shellenv)"
-  # }
+  if [[ -e /opt/homebrew/bin/brew ]]; then 
+    BREW_LOCATION="/opt/homebrew/bin"
+  elif [[ -e /usr/local/bin/brew ]]; then 
+    BREW_LOCATION="/usr/local/bin"
+  elif [[ -e /home/linuxbrew/.linuxbrew/bin/brew ]]; then 
+    BREW_LOCATION="/home/linuxbrew/.linuxbrew/bin"
+  fi
+  eval "$("$BREW_LOCATION"/brew shellenv)"
+  export PATH="${BREW_LOCATION}:${PATH}"
 }
 # +────────+
 # │ LOCALE │
@@ -48,9 +43,8 @@ zprofile::locale() {
 # │ PATH │
 # +──────+
 zprofile::update-path() {
-  typeset -aU path
-  path=('~/.local/bin' $path)
-  export PATH
+  typeset -agU path
+  path+=($HOME/.local/bin)
 }
 # +──────+
 # │ MAIN │
