@@ -1,33 +1,22 @@
 #!/usr/bin/env zsh
 
-
 zshrc::autoload() {
-  typeset -U m
-  m=()
-  for md ($module_path) m=($m $md/**/*(*e:'REPLY=${REPLY#$md/}'::r))
-  zmodload -i $m
-  # zsh modules
-  for module in 'stat' 'zpty' 'zprof'; zmodload -a zsh/$module $module
-  zmodload -a -p zsh/mapfile mapfile
-  # personal functions
   fpath=( ${ZDOTDIR:-~/.config/zsh}/functions $fpath )
-  # autoload +X -Uz $fpath[1]/*(.:t)
   autoload -U +X $fpath[1]/*(.:t)
-  # bash auto-completion
   autoload -U +X bashcompinit && bashcompinit
-  for f in aliases zinit widget; . "${ZDOTDIR:-$HOME/.config/zsh}/${f}.zsh"
+  for f in aliases zinit widget; . "${ZDOTDIR:-$HOME/.config/zsh}/${f}.zsh";
 }
 
 zshrc::completion() {
+  # cache command completions (i.e., apt, dpkg)
+  zstyle ':completion:*' use-cache yes
+  zstyle ':completion:*' cache-path ${XDG_CACHE_DIR:-$HOME/.cache}
   # case insensitive
   zstyle ':completion:*' matcher-list 'r:|=*' 'l:|=* r:|=*'
-  # complete . and .. special directories
+  # disable . and .. special directories completion
   zstyle ':completion:*' special-dirs false
   # disable named-directories autocompletion
   zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
-  # cache command (i.e., apt, dpkg) completions
-  zstyle ':completion:*' use-cache yes
-  # zstyle ':completion:*' cache-path ${ZINIT[CACHE_DIR]:-${ZSH_CACHE_DIR:-$
   zstyle ':completion:*:cd:*' ignore-parents parent pwd
 }
 
