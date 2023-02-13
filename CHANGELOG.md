@@ -1,3 +1,23 @@
+# [4.18.0](https://github.com/vladdoster/dotfiles/compare/v4.17.0...v4.18.0) (2023-02-13)
+
+
+### Bug Fixes
+
+* brew-install make target ([27a9acd](https://github.com/vladdoster/dotfiles/commit/27a9acd6d0ad700d695537a7bbfd2eac49d772b5))
+* load all zsh modules & add completion option ([88c288b](https://github.com/vladdoster/dotfiles/commit/88c288b58ac573361fdd833b40387f67a89ccc12))
+* logic to set homebrew and path ([f0f67f0](https://github.com/vladdoster/dotfiles/commit/f0f67f03f5a0ace98a990ccfa0898cdca703378e))
+* remove duplicate aliases ([bd16e38](https://github.com/vladdoster/dotfiles/commit/bd16e380a68e35e2aa5152a8b3dc0d518f66c64d))
+* remove loading all zsh modules ([53ae248](https://github.com/vladdoster/dotfiles/commit/53ae248411fa478d941fb1ef5fd562d69d2d41d5))
+* rm cruft & simplify $path values ([7483b17](https://github.com/vladdoster/dotfiles/commit/7483b17a6cbc6a45ea8af2e79d2f68213964a349))
+* rm unused _export helper function ([d729483](https://github.com/vladdoster/dotfiles/commit/d729483c0e92502696f8196c5a6448062dc3835e))
+* zinit recipes & use personal fork ([7c40e50](https://github.com/vladdoster/dotfiles/commit/7c40e5090ed1668ea118b0a2d84a89d6bd7e61db))
+
+
+### Features
+
+* add & optimize zsh autoload functions ([81c36a7](https://github.com/vladdoster/dotfiles/commit/81c36a7657a9a4d41da6b8d36edf1d01db80474d))
+* run make target anywhere via dotfiles::make ([155d9a9](https://github.com/vladdoster/dotfiles/commit/155d9a9161113cc7a0a95895ae1c9733349b68cb))
+
 # [4.17.0](https://github.com/vladdoster/dotfiles/compare/v4.16.0...v4.17.0) (2023-02-04)
 
 
