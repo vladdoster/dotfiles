@@ -1,3 +1,10 @@
+## [4.18.1](https://github.com/vladdoster/dotfiles/compare/v4.18.0...v4.18.1) (2023-02-18)
+
+
+### Bug Fixes
+
+* pure prompt and syntax highlighting repo var ([4fa91f8](https://github.com/vladdoster/dotfiles/commit/4fa91f8b27d74e94051dbb3ab6379fd375201ce0))
+
 # [4.18.0](https://github.com/vladdoster/dotfiles/compare/v4.17.0...v4.18.0) (2023-02-13)
 
 
