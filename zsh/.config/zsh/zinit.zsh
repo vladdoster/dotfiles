@@ -59,11 +59,7 @@ zi null compile'(pure|async).zsh' multisrc'(pure|async).zsh' light-mode atinit"
     zstyle ':prompt:pure:path' color 'magenta'
     zstyle ':prompt:pure:prompt:success' color 'green'" for \
   @sindresorhus/pure
-# PROMPT="\033[48:2:255:165:0m%s\033[m\n%m "$PROMPT
-setopt PROMPTSUBST
-PROMPT=$(print "\e[38;5;208m%m\e[0m\e[1m${PROMPT}\e[22m")
-# PROMPT="$(print '\e[38;5;208m%m'$PROMPT)"
-#\033[48:2:255:165:0m%s\033[m\n
+PROMPT=$'\e[38;5;208m%m\e[0m'${PROMPT}
 #=== ANNEXES ==========================================
 zi light-mode ver'style/logging' for @${ZI[SRC]}/zinit-annex-{linkman,binary-symlink,patch-dl}
 zi light-mode for @${ZI[SRC]}/zinit-annex-{submods,default-ice}
