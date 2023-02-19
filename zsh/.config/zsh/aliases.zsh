@@ -35,25 +35,22 @@ has python3 && alias python='python3'
 # +──────────────────+
 # │ CONFIG SHORTCUTS │
 # +──────────────────+
-cfg_alias() { builtin alias ${1}="_edit ${XDG_CONFIG_HOME}/${2}"; }
-cfg_alias 'ealiases' 'zsh/aliases.zsh'
-cfg_alias 'gignore' 'git/ignore'
-cfg_alias 'gcfg' 'git/config'
-cfg_alias 'kittyrc' 'kitty/kitty.conf'
-cfg_alias 'nvplg' "nvim/lua/plugins.lua"
-cfg_alias 'skhdrc' 'skhd/skhdrc'
-cfg_alias 'tmuxrc' 'tmux/tmux.conf'
-cfg_alias 'zic' 'zsh/zinit.zsh'
-cfg_alias 'zsc' 'zsh/.zshrc'
+typeset -A pairs=(
+  ealiases 'zsh/aliases.zsh'  gignore 'git/ignore'           gcfg   'git/config'  \
+  kittyrc  'kitty/kitty.conf' nvplg   "nvim/lua/plugins.lua" skhdrc 'skhd/skhdrc' \
+  tmuxrc   'tmux/tmux.conf'   zic     'zsh/zinit.zsh'        zrc    'zsh/.zshrc'
+  zsc      'zsh/.zshrc'
+)
+for k v in ${(kv)pairs[@]}; do
+  builtin alias $k="_edit $XDG_CONFIG_HOME/$v" || true
+done
 alias zinstall='_edit $ZINIT[BIN_DIR]/zinit-install.zsh'
 # +────────────────+
 # │ HOME SHORTCUTS │
 # +────────────────+
-home_alias() { builtin alias ${1}="_edit ${HOME}/${2}"; }
-home_alias 'hscfg' '.hammerspoon/init.lua'
-home_alias 'sshrc' '.ssh/config'
-home_alias 'zec' '.zshenv'
-home_alias 'zpc' '.zprofile'
+for k v in hscfg '.hammerspoon/init.lua' sshrc '.ssh/config' zec '.zshenv' zpc '.zprofile'; do
+  builtin alias $k="_edit $HOME/$v" || true
+done
 # +─────────────────+
 # │ RELOAD COMMANDS │
 # +─────────────────+
@@ -65,41 +62,35 @@ alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},
 # +────────────+
 # │ NAVIGATION │
 # +────────────+
-cd_alias() { builtin alias ${1}="_goto ${2}"; }
-cd_alias '..' '..'
-cd_alias '...' '../..'
-cd_alias '....' '../../..'
-cd_alias '.....' '../../../..'
-cd_alias 'bin' '$HOME/.local/bin'
-cd_alias 'c' '$CODE_DIR'
-cd_alias 'xch' '$XDG_CONFIG_HOME'
-cd_alias 'xdh' '$XDG_DATA_HOME'
-cd_alias 'df' '$XDG_CONFIG_HOME/dotfiles'
-cd_alias 'dl' '$HOME/Downloads'
-cd_alias 'h' '$HOME'
-cd_alias 'hs' '$HOME/.hammerspoon'
-cd_alias 'rr' '$(git rev-parse --show-toplevel)'
-cd_alias 'vd' '$XDG_CONFIG_HOME/nvim'
-cd_alias 'zd' '$ZDOTDIR'
-cd_alias 'zfd' '$ZDOTDIR/functions'
-cd_alias 'zid' '$ZINIT[HOME_DIR]'
-cd_alias 'zgd' '$ZINIT[BIN_DIR]'
+typeset -A pairs=(
+  ..   '..'                               ...   '../..' \
+  ....   '../../..'                       ..... '../../../..' \
+  bin  '$HOME/.local/bin'                 c     '$CODE_DIR' \
+  df   '$XDG_CONFIG_HOME/dotfiles'        dl    '$HOME/Downloads' \
+  h    '$HOME'                            hs    '$HOME/.hammerspoon' \
+  rr   '$(git rev-parse --show-toplevel)' vd    '$XDG_CONFIG_HOME/nvim' \
+  xch  '$XDG_CONFIG_HOME'                 xdh   '$XDG_DATA_HOME' \
+  zd   '$ZDOTDIR'                         zfd   '$ZDOTDIR/functions' \
+  zgd  '$ZINIT[BIN_DIR]'                  zid   '$ZINIT[HOME_DIR]'
+)
+for k v in ${(kv)pairs[@]}; do
+  builtin alias -- "$k"="_goto $v" || true
+done
 # +─────+
 # │ GIT │
 # +─────+
-alias g='git' # GIT ALIASES DEFINED IN $HOME/.config/git/config
-alias gd='git diff'
-alias gs='git status'
-alias gsu='git submodule update --merge --remote'
+for k v in g 'git' gd 'git diff' gs 'git status' gsu 'git submodule update --merge --remote'; do
+  builtin alias -- $k="$v" || true
+done
 # +───────────────────+
 # │ COMMAND SHORTCUTS │
 # +───────────────────+
+alias me='builtin print -P "%F{blue}$(whoami)%f @ %F{cyan}$(uname -a)%f"'
 alias rshfmt="shfmt -i 4 -s -ln bash -sr -bn -ci -w"
 alias zc='zinit compile'
+alias ziclnplg='command rm -rf $ZINIT[PLUGINS_DIR]'
 alias zp='zinit times'
 alias zt='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
-alias ziclnplg='command rm -rf $ZINIT[PLUGINS_DIR]'
-alias me='builtin print -P "%F{blue}$(whoami)%f @ %F{cyan}$(uname -a)%f"'
 load-completion(){ autoload -U compinit; compinit; source <(${1} completion -s zsh); compdef _${1} ${1}; }
 # +───────+
 # │ MISC. │
@@ -108,19 +99,18 @@ alias -- +x='chmod +x'
 alias -- \?='which'
 alias gen-passwd='openssl rand -base64 24'
 alias get-my-ip='curl ifconfig.co'
-alias get-env='print -C 1 $(env | sort | xargs)'
-alias get-path='print ${PATH} | tr ":" "\n"'
+alias get-env='print -lio $(env)'
+alias get-path='print -l ${(@s[:])PATH}'
 alias ps-grep="ps aux | grep -v grep | grep -i -e VSZ -e"
 alias rm-docker='docker system prune --all --force'
 alias tmp-md='$EDITOR $(mktemp -t scratch.XXX.md)'
-path-info() { printf "%s\n" $path | sort; printf "\n--- \$PATH contains %s items" $(print -l $path | sort  | wc -l); }
 # +────────+
 # │ PYTHON │
 # +────────+
 alias http-serve='python3 -m http.server'
 alias pip3='python3 -m pip'
 alias py3='python3'
-alias pip-requirements='pip3 install -r requirements.txt || _error "no requirements.txt found"'
+alias pip-requirements='python3 -m pip3 install -r requirements.txt || _error "no requirements.txt found"'
 alias venv-activate='source ./.venv/bin/activate'
 alias venv-create='python3 -m venv ./.venv'
 alias venv-setup='venv-create && venv-activate && pip-requirements'
@@ -142,7 +132,7 @@ mkcd() { command mkdir -p -- "$1" && cd -P -- "$1"; }
 # +─────────────────+
 # │ FILE FORMATTING │
 # +─────────────────+
-alias fmtbtysh='beautysh --indent-size=2 --force-function-style=paronly'
+alias fmtbtysh='python3 -m beautysh --indent-size=2 --force-function-style=paronly'
 alias fmtlua='stylua -i'
 alias fmtmd='mdformat --number --wrap 100'
 alias fmtpy='python3 -m black'
