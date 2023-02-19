@@ -1,3 +1,16 @@
+## [4.18.2](https://github.com/vladdoster/dotfiles/compare/v4.18.1...v4.18.2) (2023-02-19)
+
+
+### Bug Fixes
+
+* add local python bin to path in zprofile ([05f12bc](https://github.com/vladdoster/dotfiles/commit/05f12bcc9494d01339d8d56e198dad4aa934feef))
+* cmd & rm zsh plugins install in dockerfile ([d0b4cbd](https://github.com/vladdoster/dotfiles/commit/d0b4cbdf034c623754d17c662813e96f203dfbc7))
+* docker tag in docker-shell make target ([c8e36fe](https://github.com/vladdoster/dotfiles/commit/c8e36fe95108413d8cbbe90a7bca14f8be0d0381))
+* hide title bar in kitty config ([ee10675](https://github.com/vladdoster/dotfiles/commit/ee10675ae5206712fbfbf32cb9e430dae015acca))
+* misc. plugins & snippets in zinit config ([637d2a9](https://github.com/vladdoster/dotfiles/commit/637d2a9c0ae01ee198ab041895c7998a7be6368c))
+* rm cruft & simplify prompt logic ([78439e9](https://github.com/vladdoster/dotfiles/commit/78439e9f9300c910b853d23413a0a312be24f084))
+* zsh history & cache paths in zshrc ([fcd190b](https://github.com/vladdoster/dotfiles/commit/fcd190b44476c4af03d410b425276cb798fb9df9))
+
 ## [4.18.1](https://github.com/vladdoster/dotfiles/compare/v4.18.0...v4.18.1) (2023-02-18)
 
 
