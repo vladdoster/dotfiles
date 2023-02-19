@@ -67,9 +67,9 @@ RUN git clone --quiet https://github.com/neovim/neovim \
 
 COPY --chown=${USER}:1001 . ${HOME}/.config/dotfiles/
 
-RUN zsh --interactive --login -c 'make --directory=.config/dotfiles --jobs=1 install neovim' \
- && zsh --interactive --login -c -- '@zinit-scheduler burst'
+RUN zsh --interactive --login -c 'make --directory=.config/dotfiles --jobs=1 install neovim'
+ # && zsh --interactive --login -c -- '@zinit-scheduler burst'
 
-CMD ["zsh","--interactive","--login"]
+CMD ["zsh","--login"]
 
 # vim:syn=dockerfile:ft=dockerfile:fo=croql:sw=2:sts=2
