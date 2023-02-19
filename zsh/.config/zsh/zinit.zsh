@@ -8,9 +8,11 @@
 typeset -gAH ZI=(HOME_DIR $HOME/.local/share/zinit)
 ZI+=(
   BIN_DIR "$ZI[HOME_DIR]/zinit.git" COMPLETIONS_DIR "$ZI[HOME_DIR]/completions" OPTIMIZE_OUT_OF_DISK_ACCESSES "0"
-  PLUGINS_DIR "$ZI[HOME_DIR]/plugins" SNIPPETS_DIR "$ZI[HOME_DIR]/snippets" ZCOMPDUMP_PATH "${ZDOTDIR:-$HOME/.config/zsh}/zcompdump"
+  PLUGINS_DIR "$ZI[HOME_DIR]/plugins" SNIPPETS_DIR "$ZI[HOME_DIR]/snippets" ZCOMPDUMP_PATH "${XDG_CACHE_DIR:-$HOME/.cache}/zsh/zcompdump"
   ZPFX "$ZI[HOME_DIR]/polaris" SRC 'zdharma-continuum' BRANCH 'main'
 )
+
+ZSH_CACHE_DIR=$ZINIT[ZCOMPDUMP_PATH]
 
 if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]]; then
   {
@@ -35,7 +37,7 @@ else
   log::error 'failed to find zinit installation'
 fi
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
-zi id-as is-snippet light-mode nocompletions compile for {PZTM::{environment,history},OMZL::{compfix,completion,git,key-bindings}.zsh}
+zi id-as is-snippet light-mode nocompletions compile for {PZTM::environment,OMZL::{compfix,completion,git,key-bindings}.zsh}
 # zi as'completion' for OMZP::{'golang/_golang','pip/_pip'}
 # #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
@@ -44,22 +46,20 @@ znippet 'exa' 'ogham/exa/master/completions/zsh'
 # # znippet 'fd' 'sharkdp/fd/master/contrib/completion'
 znippet 'brew' 'Homebrew/brew/master/completions/zsh'
 znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
-# zi light-mode as'completion' nocompile is-snippet for \
-  #   "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh"
-#   "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
+zi light-mode as'completion' nocompile is-snippet for \
+  "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh" \
+  "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
 #=== PROMPT ===========================================
-zmodload zsh/nearcolor; colors
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
 zi null compile'(pure|async).zsh' multisrc'(pure|async).zsh' light-mode atinit"
     PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
-    PURE_PROMPT_SYMBOL=' ᐳ'; PURE_PROMPT_VICMD_SYMBOL=' ᐸ'
+    PURE_PROMPT_SYMBOL='$(hostname -s) ᐳ'; PURE_PROMPT_VICMD_SYMBOL='$(hostname -s) ᐸ'
     zstyle ':prompt:pure:git:action' color 'yellow'
-    zstyle ':prompt:pure:git:branch' color 'cyan'
+    zstyle ':prompt:pure:git:branch' color 'blue'
     zstyle ':prompt:pure:git:dirty' color 'red'
-    zstyle ':prompt:pure:path' color 'magenta'
+    zstyle ':prompt:pure:path' color 'cyan'
     zstyle ':prompt:pure:prompt:success' color 'green'" for \
   @sindresorhus/pure
-PROMPT=$'\e[38;5;208m%m\e[0m'${PROMPT}
 #=== ANNEXES ==========================================
 zi light-mode ver'style/logging' for @${ZI[SRC]}/zinit-annex-{linkman,binary-symlink,patch-dl}
 zi light-mode for @${ZI[SRC]}/zinit-annex-{submods,default-ice}
@@ -100,8 +100,9 @@ zi lucid wait'0b' light-mode nocompile for \
     svn submods'zsh-users/zsh-completions -> external' \
   PZTM::completion \
     atload'!_zsh_autosuggest_start' atinit'bindkey "^_" autosuggest-execute;bindkey "^ " autosuggest-accept;' \
-  zsh-users/zsh-autosuggestions \
-    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc' \
-  @${ZI[FORK]:-zdharma-continuum}/fast-syntax-highlighting
+  zsh-users/zsh-autosuggestions
+
+zi ice lucid wait'0c' atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc'
+zi light "${ZI[FORK]:-${ZI[SRC]}}"/fast-syntax-highlighting
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
