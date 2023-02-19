@@ -44,14 +44,14 @@ zprofile::locale() {
 # +──────+
 zprofile::update-path() {
   typeset -agU path
-  path+=($HOME/.local/bin)
+  path+=( $(print $HOME/.local/bin/{,python}) )
 }
 # +──────+
 # │ MAIN │
 # +──────+
 zprofile::env-variables
 zprofile::locale
-zprofile::initialize-homebrew
 zprofile::update-path
+zprofile::initialize-homebrew
 
 # vim: set fenc=utf8 ffs=unix ft=zsh list et sts=2 sw=2 ts=2 tw=100:
