@@ -10,7 +10,7 @@ HOMEBREW_URL := https://raw.githubusercontent.com/Homebrew/install/HEAD
 
 
 CONTAINER_NAME := vdoster/dotfiles
-CONTAINER_LABEL ?= $(shell git rev-parse --short HEAD)$(and $(shell git status -s),-dirty-$(shell id -u -n))
+CONTAINER_LABEL ?= $(shell git rev-parse --short HEAD)
 CONTAINER_TAG ?= $(CONTAINER_NAME):$(CONTAINER_LABEL)
 BUILD_DATE := $(shell date -u +%FT%TZ) # https://github.com/opencontainers/image-spec/blob/master/annotations.md
 
