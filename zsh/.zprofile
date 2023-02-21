@@ -1,6 +1,4 @@
-# +───────────────+
-# │ ENV VARIABLES │
-# +───────────────+
+#!/usr/bin/env zsh
 zprofile::env-variables() {
   (( ${+TERM} )) || export TERM="xterm-256color"; COLORTERM="truecolor"
   (( ${+USER} )) || export USER="${USERNAME}"
@@ -19,39 +17,25 @@ zprofile::env-variables() {
     HOMEBREW_NO_{ENV_HINTS,INSTALL_CLEANUP}=1 \
     SHELL_SESSIONS_DISABLE=1
 }
-# +──────────+
-# │ HOMEBREW │
-# +──────────+
 zprofile::initialize-homebrew() {
-  if [[ -e /opt/homebrew/bin/brew ]]; then 
+  if [[ -e /opt/homebrew/bin/brew ]]; then
     BREW_LOCATION="/opt/homebrew/bin"
-  elif [[ -e /usr/local/bin/brew ]]; then 
+  elif [[ -e /usr/local/bin/brew ]]; then
     BREW_LOCATION="/usr/local/bin"
-  elif [[ -e /home/linuxbrew/.linuxbrew/bin/brew ]]; then 
+  elif [[ -e /home/linuxbrew/.linuxbrew/bin/brew ]]; then
     BREW_LOCATION="/home/linuxbrew/.linuxbrew/bin"
   fi
   eval "$("$BREW_LOCATION"/brew shellenv)"
   export PATH="${BREW_LOCATION}:${PATH}"
 }
-# +────────+
-# │ LOCALE │
-# +────────+
 zprofile::locale() {
   export L{ANG{,UAGE},C_ALL}='en_US.UTF-8'
-}
-# +──────+
-# │ PATH │
-# +──────+
-zprofile::update-path() {
-  typeset -agU path
-  path+=( $(print $HOME/.local/bin/{,python}) )
 }
 # +──────+
 # │ MAIN │
 # +──────+
 zprofile::env-variables
 zprofile::locale
-zprofile::update-path
 zprofile::initialize-homebrew
 
 # vim: set fenc=utf8 ffs=unix ft=zsh list et sts=2 sw=2 ts=2 tw=100:
