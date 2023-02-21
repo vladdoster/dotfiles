@@ -88,7 +88,6 @@ alias me='builtin print -P "%F{blue}$(whoami)%f @ %F{cyan}$(uname -a)%f"'
 alias rshfmt="shfmt -i 4 -s -ln bash -sr -bn -ci -w"
 alias zc='zinit compile'
 alias zht='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
-load-completion(){ autoload -u compinit; compinit; source <(${1} completion -s zsh); compdef _${1} ${1}; }
 # +───────+
 # │ MISC. │
 # +───────+
