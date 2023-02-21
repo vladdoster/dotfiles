@@ -1,7 +1,7 @@
 # vim:set et fenc=utf-8 ff=unix ft=conf sts=2 sw=2 tabstop=2:
 [user]
   email    = mvdoster@gmail.com
-  name     = "Vladislav Doster"
+  name     = Vladislav Doster
   username = vladdoster
 
 [credential]

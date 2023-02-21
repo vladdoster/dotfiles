@@ -1,11 +1,11 @@
 #!/usr/bin/env zsh
 
-local -a files=( $(find . -name '.DS_Store' -print0) )
-
-if command rm -fP ${(@)files}; then
-  log::info "Deleted ${#files} .DS_Store files"
-  return 0
-fi
+local -a files=( $(find $HOME -name ".DS_Store" -ls -print0 >/dev/null) )
+print -l ${#files[@]}
+# if rm -frP "${files[@]}"; then
+#   log::info "Deleted ${#files} .DS_Store files"
+#   return 0
+# fi
 
 log::error "Failed to delete ${#files} .DS_Store files"
 return 1

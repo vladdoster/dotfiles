@@ -8,18 +8,18 @@
 
 zshrc::autoload() {
   fpath=( ${ZDOTDIR:-~/.config/zsh}/functions $fpath )
-  autoload -U +X $fpath[1]/*(.:t)
-  #autoload -U +X bashcompinit && bashcompinit
+  builtin autoload -Uz $fpath[1]/*(.:t)
   for f in aliases zinit widget; . "${ZDOTDIR:-$HOME/.config/zsh}/${f}.zsh";
 }
 
 zshrc::completion() {
-  zstyle ':completion:*' use-cache yes
-  zstyle ':completion:*' cache-path ${ZSH_CACHE_DIR:-${XDG_CACHE_DIR:-$HOME/.cache}}/zsh/
+  zstyle ':completion:*' cache-path ${ZSH_CACHE_DIR:-${ZDOTDIR:-$HOME/.config/zsh}}/.zcompdump
   zstyle ':completion:*' matcher-list 'r:|=*' 'l:|=* r:|=*'
   zstyle ':completion:*' special-dirs false
+  zstyle ':completion:*' use-cache yes
   zstyle ':completion:*:cd:*' ignore-parents parent pwd
   zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
+  # zstyle ':completion:*:functions' ignored-patterns '_*'
 }
 
 zshrc::history(){
@@ -51,14 +51,52 @@ zshrc::misc() {
 # +──────+
 # │ MAIN │
 # +──────+
-zshrc::autoload
-zshrc::completion
-zshrc::misc
-zshrc::history
+# zshrc::compinit() {
+#   () {
+#     setopt local_options
+#     setopt extendedglob
+
+#     local zcd=${1}
+#     local zcomp_hours=${2:-24} # how often to regenerate the file
+#     local lock_timeout=${2:-1} # change this if compinit normally takes longer to run
+#     local lockfile=${zcd}.lock
+
+#     if [ -f ${lockfile} ]; then
+#       if [[ -f ${lockfile}(#qN.mm+${lock_timeout}) ]]; then
+#         (
+#           echo "${lockfile} has been held by $(< ${lockfile}) for longer than ${lock_timeout} minute(s)."
+#           echo "This may indicate a problem with compinit"
+#         ) >&2
+#       fi
+#       # Exit if there's a lockfile; another process is handling things
+#       return
+#     else
+#       # Create the lockfile with this shell's PID for debugging
+#       echo $$ > ${lockfile}
+#       # Ensure the lockfile is removed
+#       trap "rm -f ${lockfile}" EXIT
+#     fi
+
+#     autoload -Uz compinit
+
+#     if [[ -n ${zcd}(#qN.mh+${zcomp_hours}) ]]; then
+#       # The file is old and needs to be regenerated
+#       compinit
+#     else
+#       # The file is either new or does not exist. Either way, -C will handle it correctly
+#       compinit -C
+#     fi
+#   } ${ZDOTDIR:-$HOME}/.zcompdump
+# }
 
 [[ ! -z $PROFILE_ZSH ]] && {
   unsetopt xtrace
   exec 2>&3 3>&-
 }
+zshrc::autoload
+zshrc::completion
+# zshrc::compinit
+zshrc::misc
+zshrc::history
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
