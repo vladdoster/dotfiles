@@ -89,14 +89,21 @@ zshrc::misc() {
 #   } ${ZDOTDIR:-$HOME}/.zcompdump
 # }
 
+zshrc::update-path() {
+  typeset -gU PATH path
+  path=( $(print -r $HOME/.local/bin/{,python/bin}) "${path[@]}" )
+}
+
 [[ ! -z $PROFILE_ZSH ]] && {
   unsetopt xtrace
   exec 2>&3 3>&-
 }
+
 zshrc::autoload
 zshrc::completion
 # zshrc::compinit
 zshrc::misc
 zshrc::history
+zshrc::update-path
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
