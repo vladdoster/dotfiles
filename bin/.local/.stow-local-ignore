@@ -9,6 +9,7 @@
 \.svn
 ^/LICENSE.*
 ^/READMVE.*
-share/
+share/nvim/
 state/
-**/python/
+bin/python
+
