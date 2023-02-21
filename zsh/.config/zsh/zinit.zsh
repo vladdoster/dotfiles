@@ -78,11 +78,10 @@ zi lman as'completions' id-as light-mode for \
 zi default-ice --clear --quiet
 # alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'
 #=== UNIT TESTING =====================================
+zi for null atpull'./build.zsh' as'command' pick'zunit' id-as ver'main' @zdharma-continuum/zunit
 zi lucid wait'0a' id-as light-mode completions for \
     null make"PREFIX=${ZPFX} install" \
   @zdharma-continuum/zshelldoc \
-    as'command' atclone'./build.zsh' lbin'!' ver'main' \
-  @zdharma-continuum/zunit \
     atinit'bindkey -M vicmd "^v" edit-command-line' \
   @softmoth/zsh-vim-mode \
   @vladdoster/plugin-zinit-aliases
