@@ -63,15 +63,14 @@ alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},
 # │ NAVIGATION │
 # +────────────+
 typeset -A pairs=(
-  ..   '..'                               ...   '../..' \
-  ....   '../../..'                       ..... '../../../..' \
-  bin  '$HOME/.local/bin'                 c     '$CODE_DIR' \
-  df   '$XDG_CONFIG_HOME/dotfiles'        dl    '$HOME/Downloads' \
-  h    '$HOME'                            hs    '$HOME/.hammerspoon' \
+  ..   '..'                               ...   '../..'                 \
+  .... '../../..'                         ..... '../../../..'           \
+  bin  '$HOME/.local/bin'                 c     '$CODE_DIR'             \
+  df   '$XDG_CONFIG_HOME/dotfiles'        dl    '$HOME/Downloads'       \
+  h    '$HOME'                            hs    '$HOME/.hammerspoon'    \
   rr   '$(git rev-parse --show-toplevel)' vd    '$XDG_CONFIG_HOME/nvim' \
-  xch  '$XDG_CONFIG_HOME'                 xdh   '$XDG_DATA_HOME' \
-  zd   '$ZDOTDIR'                         zfd   '$ZDOTDIR/functions' \
-  zgd  '$ZINIT[BIN_DIR]'                  zid   '$ZINIT[HOME_DIR]'
+  xch  '$XDG_CONFIG_HOME'                 xdh   '$XDG_DATA_HOME'        \
+  zdd  '$ZDOTDIR'                         zfd   '$ZDOTDIR/functions'    \
 )
 for k v in ${(kv)pairs[@]}; do
   builtin alias -- "$k"="_goto $v" || true
@@ -88,10 +87,8 @@ done
 alias me='builtin print -P "%F{blue}$(whoami)%f @ %F{cyan}$(uname -a)%f"'
 alias rshfmt="shfmt -i 4 -s -ln bash -sr -bn -ci -w"
 alias zc='zinit compile'
-alias ziclnplg='command rm -rf $ZINIT[PLUGINS_DIR]'
-alias zp='zinit times'
-alias zt='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
-load-completion(){ autoload -U compinit; compinit; source <(${1} completion -s zsh); compdef _${1} ${1}; }
+alias zht='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
+load-completion(){ autoload -u compinit; compinit; source <(${1} completion -s zsh); compdef _${1} ${1}; }
 # +───────+
 # │ MISC. │
 # +───────+
