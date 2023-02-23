@@ -1,15 +1,17 @@
 #!/usr/bin/env zsh
 
-[[ ! -z $PROFILE_ZSH ]] && {
+[[ -n $PROFILE_ZSH ]] && {
   PS4=$'\\\011%D{%s%6.}\011%x\011%I\011%N\011%e\011'
-  exec 3>&2 2> "${HOME}/zshstart.$$.log"
+  exec 3>&2 2>"${HOME}/zshstart.$$.log"
   setopt xtrace prompt_subst
 }
 
 zshrc::autoload() {
-  fpath=( ${ZDOTDIR:-~/.config/zsh}/functions $fpath )
+  fpath=(${ZDOTDIR:-~/.config/zsh}/functions $fpath)
   builtin autoload -Uz $fpath[1]/*(.:t)
-  for f in aliases zinit widget; . "${ZDOTDIR:-$HOME/.config/zsh}/${f}.zsh";
+  for f in aliases zinit widget; do
+    . "${ZDOTDIR:-$HOME/.config/zsh}/${f}.zsh"
+  done
 }
 
 zshrc::completion() {
@@ -22,7 +24,7 @@ zshrc::completion() {
   # zstyle ':completion:*:functions' ignored-patterns '_*'
 }
 
-zshrc::history(){
+zshrc::history() {
   export HISTFILE="$HOME/.local/share/zsh/zsh_history"
   [ "$HISTSIZE" -lt 50000 ] && HISTSIZE=50000
   [ "$SAVEHIST" -lt 10000 ] && SAVEHIST=10000
@@ -36,72 +38,36 @@ zshrc::history(){
 
 zshrc::misc() {
   # if [[ $EDITOR = nvim || $((has nvim && nvim --headless --noplugin -c ':qall' )) ]]; then
-  if [[ $EDITOR = nvim ]] || ( has nvim ); then
+  if [[ $EDITOR == nvim ]] || (has nvim); then
     export EDITOR='nvim'
   elif has vim; then
     export EDITOR='vim'
   else
     export EDITOR='vi'
   fi
-  for a in v vi vim; alias $a="$EDITOR"
+  # for a in v vi vim; alias $a="$EDITOR"
   # set hard limits, smaller stack, and no core dumps
-  unlimit; limit stack 8192; limit core 0; limit -s; umask 022
+  unlimit
+  limit stack 8192
+  limit core 0
+  limit -s
+  umask 022
   setopt AUTOCD
+}
+
+zshrc::update-path() {
+  typeset -gU PATH path
+  path=($(print -r $HOME/.local/bin/{,python/bin}) "${path[@]}")
 }
 # +──────+
 # │ MAIN │
 # +──────+
-# zshrc::compinit() {
-#   () {
-#     setopt local_options
-#     setopt extendedglob
-
-#     local zcd=${1}
-#     local zcomp_hours=${2:-24} # how often to regenerate the file
-#     local lock_timeout=${2:-1} # change this if compinit normally takes longer to run
-#     local lockfile=${zcd}.lock
-
-#     if [ -f ${lockfile} ]; then
-#       if [[ -f ${lockfile}(#qN.mm+${lock_timeout}) ]]; then
-#         (
-#           echo "${lockfile} has been held by $(< ${lockfile}) for longer than ${lock_timeout} minute(s)."
-#           echo "This may indicate a problem with compinit"
-#         ) >&2
-#       fi
-#       # Exit if there's a lockfile; another process is handling things
-#       return
-#     else
-#       # Create the lockfile with this shell's PID for debugging
-#       echo $$ > ${lockfile}
-#       # Ensure the lockfile is removed
-#       trap "rm -f ${lockfile}" EXIT
-#     fi
-
-#     autoload -Uz compinit
-
-#     if [[ -n ${zcd}(#qN.mh+${zcomp_hours}) ]]; then
-#       # The file is old and needs to be regenerated
-#       compinit
-#     else
-#       # The file is either new or does not exist. Either way, -C will handle it correctly
-#       compinit -C
-#     fi
-#   } ${ZDOTDIR:-$HOME}/.zcompdump
-# }
-
-zshrc::update-path() {
-  typeset -gU PATH path
-  path=( $(print -r $HOME/.local/bin/{,python/bin}) "${path[@]}" )
-}
-
-[[ ! -z $PROFILE_ZSH ]] && {
+[[ -n $PROFILE_ZSH ]] && {
   unsetopt xtrace
   exec 2>&3 3>&-
 }
-
 zshrc::autoload
 zshrc::completion
-# zshrc::compinit
 zshrc::misc
 zshrc::history
 zshrc::update-path
