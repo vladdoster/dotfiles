@@ -8,7 +8,6 @@ CONFIGS := hammerspoon neovim
 GH_URL = https://github.com/vladdoster
 HOMEBREW_URL := https://raw.githubusercontent.com/Homebrew/install/HEAD
 
-
 CONTAINER_NAME := vdoster/dotfiles
 CONTAINER_LABEL ?= $(shell git rev-parse --short HEAD)
 CONTAINER_TAG ?= $(CONTAINER_NAME):$(CONTAINER_LABEL)
