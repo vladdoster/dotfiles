@@ -37,16 +37,17 @@ else
   log::error 'failed to find zinit installation'
 fi
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
-zi id-as is-snippet  nocompletions compile light-mode for {PZTM::environment,OMZL::{compfix,completion,git,key-bindings}.zsh}
+zi id-as is-snippet nocompletions light-mode compile light-mode for \
+  {PZTM::environment,OMZL::{compfix,git,key-bindings,completion}.zsh}
 # zi as'completion' for OMZP::{'golang/_golang','pip/_pip'}
 # #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
-znippet() { zi for  as'completion' has"${1}" nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
+znippet() { zi for  as'completion' has"${1}" depth'1' light-mode nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
 znippet 'exa' 'ogham/exa/master/completions/zsh'
 # # znippet 'fd' 'sharkdp/fd/master/contrib/completion'
 znippet 'brew' 'Homebrew/brew/master/completions/zsh'
 znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
-zi  as'completion' nocompile is-snippet for \
+zi  as'completion' light-mode nocompile is-snippet for \
   "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh" \
   "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
 #=== PROMPT ===========================================
@@ -61,13 +62,13 @@ zi null compile'(pure|async).zsh' id-as multisrc'(pure|async).zsh'  atinit"
     zstyle ':prompt:pure:prompt:success' color 'green'" for \
   @sindresorhus/pure
 #=== ANNEXES ==========================================
-zi id-as ver'style/logging' light-mode for @${ZI[SRC]}/zinit-annex-{linkman,binary-symlink,patch-dl}
-zi id-as for @${ZI[SRC]}/zinit-annex-{submods,default-ice}
+zi id-as ver'style/logging' light-mode depth'1' for @${ZI[SRC]}/zinit-annex-{linkman,binary-symlink,patch-dl}
+zi id-as depth'1' for @${ZI[SRC]}/zinit-annex-{submods,default-ice}
 #=== GITHUB BINARIES ==================================
-zi default-ice --quiet from"gh-r" id-as lbin"!" nocompile
-zi null id-as for @{dandavison/delta,r-darwish/topgrade,sharkdp/fd}
+zi default-ice --quiet from'gh-r' light-mode lbin'!' nocompile
+zi null id-as light-mode for @{dandavison/delta,r-darwish/topgrade,sharkdp/fd}
 # zi lman  from'gh-r' id-as lbin'!' nocompile for @{trufflesecurity/trufflehog,dandavison/delta,r-darwish/topgrade}
-zi lman as'completions' id-as light-mode for \
+zi lman completions id-as lbin'!' light-mode as'program' for \
     dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
     src'key-bindings.zsh' \
   @junegunn/fzf \
@@ -76,17 +77,19 @@ zi lman as'completions' id-as light-mode for \
     atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 zi default-ice --clear --quiet
+zi default-ice --quiet light-mode depth'1'
 # alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'
 #=== UNIT TESTING =====================================
-zi for null atpull'./build.zsh' as'command' pick'zunit' id-as ver'main' @zdharma-continuum/zunit
-zi lucid wait'0a' id-as light-mode completions for \
-    null make"PREFIX=${ZPFX} install" \
+zi ice id-as null make lbin'!'; zi light vladdoster/zunit
+zi ice id-as nocompile mv'*completion -> _revolver' lbin'!'; zi light molovo/revolver
+zi lucid wait'0a' light-mode id-as completions for \
+    null make'PREFIX=${ZI[PLUGINS_DIR]}/zshelldoc --always-make' lbin'!build/zsd*' \
   @zdharma-continuum/zshelldoc \
     atinit'bindkey -M vicmd "^v" edit-command-line' \
   @softmoth/zsh-vim-mode \
   @vladdoster/plugin-zinit-aliases
 #=== MISC. ============================================
-zi lucid wait'0b' load for \
+zi lucid wait'0b' id-as light-mode depth'1' for \
     svn submods'zsh-users/zsh-history-substring-search -> external' \
   OMZP::history-substring-search \
     atpull'zinit creinstall -q .' blockf null \
@@ -96,7 +99,7 @@ zi lucid wait'0b' load for \
     atload'!_zsh_autosuggest_start' atinit'bindkey "^_" autosuggest-execute;bindkey "^ " autosuggest-accept;' \
   zsh-users/zsh-autosuggestions
 
-zi ice lucid wait'0c' atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc'
+zi ice lucid wait'0c' depth'1' atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc'
 zi light "${ZI[FORK]:-${ZI[SRC]}}"/fast-syntax-highlighting
 
 autoload select-word-style
