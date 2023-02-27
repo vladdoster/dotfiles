@@ -1,3 +1,31 @@
+# [4.19.0](https://github.com/vladdoster/dotfiles/compare/v4.18.2...v4.19.0) (2023-02-27)
+
+
+### Bug Fixes
+
+* add homebrew to path in zprofile ([e8f89da](https://github.com/vladdoster/dotfiles/commit/e8f89daedd283bf4a2ba9b29df134108a52a40e5))
+* autoload personal completions in zshrc ([4b541a8](https://github.com/vladdoster/dotfiles/commit/4b541a830b29760d1172c49dd1af011429db81d6))
+* autoloading  & completion in zshrc ([9968449](https://github.com/vladdoster/dotfiles/commit/996844942c72c87ccd3a97a1c4cc84031a8c04a5))
+* cleanup zshrc ([add34c7](https://github.com/vladdoster/dotfiles/commit/add34c7da9d99812fd553e8b9e108f805fd92444))
+* history configuration in .zshrc ([9e45615](https://github.com/vladdoster/dotfiles/commit/9e45615ef3a72f132442011d4d6fd4a142a71825))
+* move update-path logic from zprofile to zshrc ([88938e5](https://github.com/vladdoster/dotfiles/commit/88938e58eb80d59213266d07f3ec39bd39ec16a2))
+* optimize plugin ices in zinit.zsh ([9ca2a91](https://github.com/vladdoster/dotfiles/commit/9ca2a917758c9f4af6566847da8d6cb2062e6f53))
+* remove python, c, h, and df aliases ([0b0fc16](https://github.com/vladdoster/dotfiles/commit/0b0fc163bbbb3771654e4f9511f5f65b89e816cf))
+* remove zinit aliases ([ee62042](https://github.com/vladdoster/dotfiles/commit/ee62042442ffff9c5863960ede977c3e647ab4da))
+* simplify spaghetti logic in aliases.zsh ([affb3bb](https://github.com/vladdoster/dotfiles/commit/affb3bb7c955d2309fc4aa0ce7ab6fb8e5298f81))
+* style & rm update path func in zprofile ([b2ce5e5](https://github.com/vladdoster/dotfiles/commit/b2ce5e5ad4d91707fb8eba82235953218d14c3db))
+* update files in gnu stow ignore files ([cc99063](https://github.com/vladdoster/dotfiles/commit/cc99063bcc7b2b4ebba3237c978aef10ee74a60d))
+* zunit install recipe in zinit ([258cccb](https://github.com/vladdoster/dotfiles/commit/258cccb9c964ce7a933093f5a6a5191d9cc932a3))
+
+
+### Features
+
+* add diagrams to py-pkgs in makefile ([e643851](https://github.com/vladdoster/dotfiles/commit/e6438516c7e11d6469e20e0734d7a8c5e688109d))
+* add h,c,df functions & completions ([33321eb](https://github.com/vladdoster/dotfiles/commit/33321ebe5ea463ba73436b52df90bd75ef74cc04))
+* add symlinks to zshrc, zshenv, and zprofile ([55e4819](https://github.com/vladdoster/dotfiles/commit/55e48198144f4724ed699c231c3954b9a84adc73))
+* compile zsh functions via zsh::compile cmd ([25a16ff](https://github.com/vladdoster/dotfiles/commit/25a16ffcb0097900f8e4be0fdca0921e4b8051b5))
+* completion loading func zsh::load-completion ([86dd924](https://github.com/vladdoster/dotfiles/commit/86dd92497a9f5026a27ec5b4895ab07e5b392b47))
+
 ## [4.18.2](https://github.com/vladdoster/dotfiles/compare/v4.18.1...v4.18.2) (2023-02-19)
 
 
