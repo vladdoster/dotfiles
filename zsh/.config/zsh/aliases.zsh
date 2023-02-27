@@ -31,7 +31,6 @@ alias b="cd -"
 alias rmr="rm -rf --"
 function rmp() { _info "$(command rm -vf $(which $1))"; }
 alias tailf="less +F -R"
-has python3 && alias python='python3'
 # +──────────────────+
 # │ CONFIG SHORTCUTS │
 # +──────────────────+
@@ -65,9 +64,8 @@ alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},
 typeset -A pairs=(
   ..   '..'                               ...   '../..'                 \
   .... '../../..'                         ..... '../../../..'           \
-  bin  '$HOME/.local/bin'                 c     '$CODE_DIR'             \
-  df   '$XDG_CONFIG_HOME/dotfiles'        dl    '$HOME/Downloads'       \
-  h    '$HOME'                            hs    '$HOME/.hammerspoon'    \
+  bin  '$HOME/.local/bin'                 \
+  dl   '$HOME/Downloads'                  hs    '$HOME/.hammerspoon'    \
   rr   '$(git rev-parse --show-toplevel)' vd    '$XDG_CONFIG_HOME/nvim' \
   xch  '$XDG_CONFIG_HOME'                 xdh   '$XDG_DATA_HOME'        \
   zdd  '$ZDOTDIR'                         zfd   '$ZDOTDIR/functions'    \
