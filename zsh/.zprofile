@@ -19,14 +19,14 @@ zprofile::env-variables() {
 }
 zprofile::initialize-homebrew() {
   if [[ -e /opt/homebrew/bin/brew ]]; then
-    BREW_LOCATION="/opt/homebrew/bin"
+    BREW_LOCATION="/opt/homebrew"
   elif [[ -e /usr/local/bin/brew ]]; then
-    BREW_LOCATION="/usr/local/bin"
+    BREW_LOCATION="/usr/local"
   elif [[ -e /home/linuxbrew/.linuxbrew/bin/brew ]]; then
-    BREW_LOCATION="/home/linuxbrew/.linuxbrew/bin"
+    BREW_LOCATION="/home/linuxbrew/.linuxbrew"
   fi
-  eval "$("$BREW_LOCATION"/brew shellenv)"
-  export PATH="${BREW_LOCATION}:${PATH}"
+  eval "$("$BREW_LOCATION"/bin/brew shellenv)"
+  path+=( ${BREW_LOCATION}/(s|)bin path)
 }
 zprofile::locale() {
   export L{ANG{,UAGE},C_ALL}='en_US.UTF-8'
