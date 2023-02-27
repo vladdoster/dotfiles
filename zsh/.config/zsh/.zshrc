@@ -7,18 +7,24 @@
 }
 
 zshrc::autoload() {
-  fpath=(${ZDOTDIR:-~/.config/zsh}/functions $fpath)
-  builtin autoload -Uz $fpath[1]/*(.:t)
+  autoload -U compinit add-zsh-hook
+  fpath=(${ZDOTDIR:-~/.config/zsh}/*tions $fpath)
+  for func in ~/.config/zsh/functions/*(:t); autoload -U $func
+  builtin autoload -U $fpath[1]/*(.:t)
+  compinit
   for f in aliases zinit widget; do
-    . "${ZDOTDIR:-$HOME/.config/zsh}/${f}.zsh"
+    source "${ZDOTDIR:-$HOME/.config/zsh}/${f}.zsh"
   done
 }
 
 zshrc::completion() {
+  zstyle ':completion:*' use-cache on
+  # zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/.zcompcache"
   zstyle ':completion:*' cache-path ${ZSH_CACHE_DIR:-${ZDOTDIR:-$HOME/.config/zsh}}/.zcompdump
   zstyle ':completion:*' matcher-list 'r:|=*' 'l:|=* r:|=*'
   zstyle ':completion:*' special-dirs false
-  zstyle ':completion:*' use-cache yes
+  zstyle ':completion::complete:make::' tag-order targets variable
+  # zstyle ':completion:*' use-cache yes
   zstyle ':completion:*:cd:*' ignore-parents parent pwd
   zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
   # zstyle ':completion:*:functions' ignored-patterns '_*'
