@@ -1,0 +1,2 @@
+#compdef df
+_files -W $HOME/.config/dotfiles -/
