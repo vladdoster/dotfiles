@@ -1,4 +1,4 @@
-# #!/usr/bin/env zsh
+#!/usr/bin/env zsh
 if builtin echo "$-" | grep i > /dev/null; then export IS_TTY='1'; fi
 _error() { [[ -v $IS_TTY ]] && print -P "%F{red}[ERROR]%f %F{white}${1}%f" >&2; }
 _info() { [[ -v $IS_TTY ]] && print -P "%F{green}==>%f %F{white}${1}%f"; }
@@ -62,13 +62,12 @@ alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},
 # │ NAVIGATION │
 # +────────────+
 typeset -A pairs=(
-  ..   '..'                               ...   '../..'                 \
-  .... '../../..'                         ..... '../../../..'           \
-  bin  '$HOME/.local/bin'                 \
-  dl   '$HOME/Downloads'                  hs    '$HOME/.hammerspoon'    \
-  rr   '$(git rev-parse --show-toplevel)' vd    '$XDG_CONFIG_HOME/nvim' \
-  xch  '$XDG_CONFIG_HOME'                 xdh   '$XDG_DATA_HOME'        \
-  zdd  '$ZDOTDIR'                         zfd   '$ZDOTDIR/functions'    \
+  ..   '..'               ...   '../..'                            \
+  .... '../../..'         ..... '../../../..'                      \
+  bin  '$HOME/.local/bin' rr    '$(git rev-parse --show-toplevel)' \
+  dl   '$HOME/Downloads'  hs    '$HOME/.hammerspoon'               \
+  xch  '$XDG_CONFIG_HOME' xdh   '$XDG_DATA_HOME'                   \
+  zdd  '$ZDOTDIR'         zfd   '$ZDOTDIR/functions'               \
 )
 for k v in ${(kv)pairs[@]}; do
   builtin alias -- "$k"="_goto $v" || true
@@ -102,11 +101,9 @@ alias tmp-md='$EDITOR $(mktemp -t scratch.XXX.md)'
 # │ PYTHON │
 # +────────+
 alias http-serve='python3 -m http.server'
-alias pip3='python3 -m pip'
-alias py3='python3'
-alias pip-requirements='python3 -m pip3 install -r requirements.txt || _error "no requirements.txt found"'
-alias venv-activate='source ./.venv/bin/activate'
-alias venv-create='python3 -m venv ./.venv'
+alias pip-requirements='python3 -m pip install -r requirements.txt || _error "no requirements.txt found"'
+alias venv-activate='source ./venv/bin/activate'
+alias venv-create='python3 -m venv ./venv'
 alias venv-setup='venv-create && venv-activate && pip-requirements'
 # +──────────────+
 # │ NETWORK INFO │
