@@ -1,13 +1,14 @@
 #!/usr/bin/env zsh
 
-[[ -n $PROFILE_ZSH ]] && {
-  PS4=$'\\\011%D{%s%6.}\011%x\011%I\011%N\011%e\011'
-  exec 3>&2 2>"${HOME}/zshstart.$$.log"
-  setopt xtrace prompt_subst
-}
+
+# [[ -n $PROFILE_ZSH ]] && {
+#   PS4=$'\\\011%D{%s%6.}\011%x\011%I\011%N\011%e\011'
+#   exec 3>&2 2>"${HOME}/zshstart.$$.log"
+#   setopt xtrace prompt_subst
+# }
 
 zshrc::autoload() {
-  autoload -U compinit add-zsh-hook
+  autoload -U compinit
   fpath=(${ZDOTDIR:-~/.config/zsh}/*tions $fpath)
   for func in ~/.config/zsh/functions/*(:t); autoload -U $func
   builtin autoload -U $fpath[1]/*(.:t)
@@ -32,14 +33,9 @@ zshrc::completion() {
 
 zshrc::history() {
   export HISTFILE="$HOME/.local/share/zsh/zsh_history"
-  [ "$HISTSIZE" -lt 50000 ] && HISTSIZE=50000
-  [ "$SAVEHIST" -lt 10000 ] && SAVEHIST=10000
-  setopt extended_history       # record timestamp of command in HISTFILE
-  setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
-  setopt hist_ignore_dups       # ignore duplicated commands history list
-  setopt hist_ignore_space      # ignore commands that start with space
-  setopt hist_verify            # show command with history expansion to user before running it
-  setopt share_history          # share command history data
+  HISTSIZE=50000
+  SAVEHIST=10000
+  setopt extended_history hist_expire_dups_first hist_ignore_dups hist_ignore_space hist_verify share_history
 }
 
 zshrc::misc() {
@@ -54,10 +50,6 @@ zshrc::misc() {
   # for a in v vi vim; alias $a="$EDITOR"
   # set hard limits, smaller stack, and no core dumps
   unlimit
-  limit stack 8192
-  limit core 0
-  limit -s
-  umask 022
   setopt AUTOCD
 }
 
@@ -68,10 +60,11 @@ zshrc::update-path() {
 # +──────+
 # │ MAIN │
 # +──────+
-[[ -n $PROFILE_ZSH ]] && {
-  unsetopt xtrace
-  exec 2>&3 3>&-
-}
+# [[ -n $PROFILE_ZSH ]] && {
+#   unsetopt xtrace
+#   exec 2>&3 3>&-
+# }
+source ~/you-the-champ.zsh || return 0#
 zshrc::autoload
 zshrc::completion
 zshrc::misc
