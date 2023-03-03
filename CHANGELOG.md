@@ -1,3 +1,18 @@
+# [4.20.0](https://github.com/vladdoster/dotfiles/compare/v4.19.0...v4.20.0) (2023-03-03)
+
+
+### Bug Fixes
+
+* python venv and remove unused aliases ([594fb76](https://github.com/vladdoster/dotfiles/commit/594fb76f0bc2e9439504bca91a2ed134a3136f17))
+* remove .zshrc cruft ([99e093d](https://github.com/vladdoster/dotfiles/commit/99e093da52ddf5106b7435da0e27aa44a88911e2))
+* remove zsh completions dir ([5820595](https://github.com/vladdoster/dotfiles/commit/58205955ffe4cd2f43961f3ec3f682d8ee9cb083))
+
+
+### Features
+
+* async compile zsh files in .zlogin ([b68ce96](https://github.com/vladdoster/dotfiles/commit/b68ce967bd0106a279aa539df874efab700727c9))
+* function & completion for c, df, h, vd, zgd ([c714382](https://github.com/vladdoster/dotfiles/commit/c7143821e193c0dcc807f35eba3f84336a112d6f))
+
 # [4.19.0](https://github.com/vladdoster/dotfiles/compare/v4.18.2...v4.19.0) (2023-02-27)
 
 
