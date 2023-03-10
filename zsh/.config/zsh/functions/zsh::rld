@@ -1,4 +1,5 @@
-#!/usr/bin/env zsh
+#autoload
+builtin emulate -LR zsh -o EXTENDED_GLOB
 
 log::info 'Validating dotfiles...'
 private msg=

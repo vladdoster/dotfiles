@@ -1,4 +1,5 @@
-#!/usr/bin/env zsh
+#autoload
+builtin emulate -LR zsh -o EXTENDED_GLOB
 
 find . -type f -not -path '*/\.*' -print0 | xargs -0 gsed -i "s/${1}/${2}/g"
 

@@ -1,4 +1,5 @@
-#!/usr/bin/env zsh
+#autoload
+builtin emulate -LR zsh -o EXTENDED_GLOB
 
 print "$1 contains functions:\n--------------------"
 for f in $(grep -E '^.*\(\).\{$' $(realpath ${1}) | tr -d \{\(\) | awk '{print $1}' | sort)

@@ -29,6 +29,10 @@ Plug 'tomasiser/vim-code-dark'
 call plug#end()
 " Required:
 filetype plugin indent on
+let fzf=expand('fzf')
+  if !executable(fzf)
+  set rtp+=/opt/homebrew/opt/fzf
+endif
 "*****************************************************************************
 " Options
 "*****************************************************************************

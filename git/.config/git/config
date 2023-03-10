@@ -1,21 +1,30 @@
 # vim:set et fenc=utf-8 ff=unix ft=conf sts=2 sw=2 tabstop=2:
 [user]
-  email    = mvdoster@gmail.com
-  name     = Vladislav Doster
+  email = mvdoster@gmail.com
+  name = Vladislav Doster
   username = vladdoster
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG3u+PMqyzm3mSBVEJTAFq7PlQC7qk0DGftQudUMDwHq
+
+
+[commit]
+  template = ~/.config/git/commit-template
+  gpgsign = true
 
 [credential]
   helper = store --file ~/.config/git/credentials
 
-[core]
-  editor = nvim
-  pager = delta
-  excludesfile = ~/.config/git/ignore
-	eol = lf
-	autocrlf = false
+[gpg]
+  format = ssh
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 
-[commit]
-  template = ~/.config/git/commit-template
+[core]
+	autocrlf = false
+	eol = lf
+  editor = nvim
+  excludesfile = ~/.config/git/ignore
+  pager = delta
+	hooksPath = .husky
 
 [advice]
   skippedCherryPicks = false
@@ -116,3 +125,12 @@
   subrm   = !sh -c 'git submodule deinit -f -- $1 && rm -rf .git/modules/$1 && git rm -f $1' -
   subup   = submodule update --init --recursive
   sw  = stash show
+[gitflow "branch"]
+	master = main
+	develop = develop
+[gitflow "prefix"]
+	feature = feature/
+	release = release/
+	hotfix = hotfix/
+	support = support/
+	versiontag = 

@@ -1,1 +1,5 @@
+#autoload
+
+builtin emulate -L zsh -o EXTENDED_GLOB
+
 cd ~/code/$1

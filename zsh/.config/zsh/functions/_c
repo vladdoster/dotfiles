@@ -1,3 +1,0 @@
-#compdef c
-
-_directories -W ~/code

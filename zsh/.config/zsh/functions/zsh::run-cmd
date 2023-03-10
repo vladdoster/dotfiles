@@ -1,4 +1,5 @@
-#!/usr/bin/env zsh
+#autoload
+builtin emulate -L zsh -o EXTENDED_GLOB
 
 autoload -Uz colors; colors
 autoload -Uz is-at-least; is-at-least

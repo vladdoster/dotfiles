@@ -1,3 +1,0 @@
-#compdef zgd
-
-_files -W ~/.local/share/zinit/zinit.git

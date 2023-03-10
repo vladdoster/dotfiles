@@ -1,0 +1,3 @@
+#compdef df
+
+_arguments "1:directory:_files -W $HOME/.config/dotfiles -g '*'"

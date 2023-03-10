@@ -1,3 +1,0 @@
-#compdef h
-
-_files -W $HOME

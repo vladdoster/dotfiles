@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#autoload
 
 find "${DOTFILES:-$HOME/.config/dotfiles/}" -type f | fzfp | xargs "$EDITOR"
 

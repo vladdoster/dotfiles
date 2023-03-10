@@ -1,3 +1,0 @@
-#compdef _vd
-
-_files -W ~/.config/nvim

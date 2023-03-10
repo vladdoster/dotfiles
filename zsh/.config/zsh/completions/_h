@@ -1,0 +1,3 @@
+#compdef h
+
+_arguments "1:directory:_files -W $HOME -g '*'"

@@ -1,4 +1,6 @@
-#!/usr/bin/env zsh
+#autoload
+builtin emulate -L zsh -o EXTENDED_GLOB
+
 $EDITOR "$1"
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

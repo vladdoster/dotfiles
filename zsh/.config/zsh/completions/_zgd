@@ -1,0 +1,3 @@
+#compdef zgd
+
+_arguments "1:directory:_files -W $HOME/local/share/zinit/zinit.git -g '*'"

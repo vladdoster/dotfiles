@@ -1,4 +1,5 @@
-#!/usr/bin/env zsh
+#autoload
+builtin emulate -LR zsh -o EXTENDED_GLOB
 
 local -a files=( $(find $HOME -name ".DS_Store" -ls -print0 >/dev/null) )
 print -l ${#files[@]}

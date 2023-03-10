@@ -1,0 +1,3 @@
+#compdef vd
+
+_arguments "1:directory:_files -W $HOME/.config/nvim -g '*'"

@@ -1,4 +1,5 @@
-#!/usr/bin/env zsh
+#autoload
+builtin emulate -LR zsh -o EXTENDED_GLOB
 
 if [[ $- == *i* ]]; then
   print -P -- "%F{red}Error:%f ${1}" >&2

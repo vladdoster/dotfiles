@@ -1,18 +1,18 @@
-#!/usr/bin/env zsh
+#autoload
+builtin emulate -LR zsh -o EXTENDED_GLOB
 
-autoload -Uz compinit && compinit
-
-if source <(${1} completion -s zsh); then
-  compdef _${1} ${1}
-  log::info "$1 completion loaded"
-  return 0
-fi
-
+# autoload -Uz compinit && compinit
 if source <(${1} completion zsh); then
   compdef _${1} ${1}
   log::info "$1 completion loaded"
   return 0
+elif source <(${1} completion -s zsh); then
+  compdef _${1} ${1}
+  log::info "$1 completion loaded"
+  return 0
+else
+  log::error "Unable to generate $1 completion"
+  return 1
 fi
 
-log::error "Unable to generate $1 completion"
-return 1
+#

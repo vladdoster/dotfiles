@@ -1,4 +1,6 @@
-#!/usr/bin/env zsh
+#autoload
+
+builtin emulate -L zsh -o EXTENDED_GLOB
 
 builtin echo -n  '（╯°□°）╯ ┻━┻' | command pbcopy
 
