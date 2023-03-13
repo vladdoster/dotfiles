@@ -1,0 +1,3 @@
+#compdef xdah
+
+_arguments "1:directory:_files -W ${XDG_DATA_HOME:-~/.local/share} -g '*'"

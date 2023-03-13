@@ -1,0 +1,3 @@
+#compdef xcoh
+
+_arguments "1:directory:_files -W ${XDG_CONFIG_HOME:-~/.config} -g '*'"

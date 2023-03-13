@@ -1,0 +1,3 @@
+#compdef xsth
+
+_arguments "1:directory:_files -W ${XDG_STATE_HOME:-~/.local/state} -g '*'"

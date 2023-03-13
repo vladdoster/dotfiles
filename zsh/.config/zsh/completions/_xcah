@@ -1,0 +1,3 @@
+#compdef xcah
+
+_arguments "1:directory:_files -W ${XDG_CACHE_HOME:-~/.cache} -g '*'"
