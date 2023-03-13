@@ -1,3 +1,22 @@
+# [4.21.0](https://github.com/vladdoster/dotfiles/compare/v4.20.0...v4.21.0) (2023-03-13)
+
+
+### Bug Fixes
+
+* add zsh_history to repo .gitignore ([e9c3d91](https://github.com/vladdoster/dotfiles/commit/e9c3d91d601e6e2c7c0ba6604a269feb06889ad5))
+* c zsh function logic ([2091d38](https://github.com/vladdoster/dotfiles/commit/2091d38b8b54c09f1bfa58ca25aca23c4444f7f1))
+* makefile pip opts uses cache and --target-dir ([a6517d9](https://github.com/vladdoster/dotfiles/commit/a6517d9f38836176ec14336003a3b782302a6b2a))
+* remove cruft in global git ignore ([cadd984](https://github.com/vladdoster/dotfiles/commit/cadd98445e039a652a3b34db51ee21c8e82cdbc0))
+* rm code and comments in .zshrc and .zprofile ([f76895e](https://github.com/vladdoster/dotfiles/commit/f76895ee9e346651c602582d94f62b4fbf9928a2))
+* vd command and _vd completion ([d27ca7b](https://github.com/vladdoster/dotfiles/commit/d27ca7b775780d586ede89fa13eca0a73f343725))
+* zsh rc files load order and logic ([7b1b525](https://github.com/vladdoster/dotfiles/commit/7b1b52516f7d9cb497c2dc06a1ff904064ddb144))
+
+
+### Features
+
+* wezterm configuration ([0866d18](https://github.com/vladdoster/dotfiles/commit/0866d1818d7269054c15e283ae74578d1887bbd8))
+* xdg dir navigation functions and completions ([ffa91e9](https://github.com/vladdoster/dotfiles/commit/ffa91e92bdbeecadd74223197eb0430d01afc0d8))
+
 # [4.20.0](https://github.com/vladdoster/dotfiles/compare/v4.19.0...v4.20.0) (2023-03-03)
 
 
