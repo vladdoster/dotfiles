@@ -14,7 +14,7 @@ CONTAINER_TAG ?= $(CONTAINER_NAME):$(CONTAINER_LABEL)
 BUILD_DATE := $(shell date -u +%FT%TZ) # https://github.com/opencontainers/image-spec/blob/master/annotations.md
 
 DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-volume,destination=/home --security-opt seccomp=unconfined
-PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --user
+PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --target=$$HOME/.local/bin/python
 PY_PKGS := bdfr beautysh best-of black bpytop diagrams flake8 instaloader isort mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pynvim reorder-python-imports pip
 STOW_OPTS := --target=$$HOME --verbose=1
 
@@ -110,7 +110,7 @@ py-pkgs: ## Install python pkgs
 
 py-update: py-pkgs ## Update python packages
 	$(info ==> updating py pkgs)
-	python3 -m pip install $(PIP_OPTS) --no-cache-dir --upgrade pip \
+	python3 -m pip install $(PIP_OPTS) --upgrade pip \
 		&& python3 -m pip list | cut -d" " -f 1 | tail -n +3 | xargs python3 -m pip install $(PIP_OPTS) \
 		&& echo '==> py packages updated'
 
