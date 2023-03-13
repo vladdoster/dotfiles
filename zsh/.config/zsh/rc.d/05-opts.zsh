@@ -17,3 +17,4 @@ setopt HASH_EXECUTABLES_ONLY
 setopt GLOB_STAR_SHORT
 # sort numbers numerically, not lexicographically.
 setopt NUMERIC_GLOB_SORT
+zstyle ':completion:*' rehash true

@@ -14,7 +14,8 @@
 #   /   to go to the root dir
 setopt AUTO_CD
 # Type '-' to return to your previous dir.
-alias -- -='cd -'
+alias -- -='cd -q -'
+alias -- b='-'
 # '--' signifies the end of options. Otherwise, '-=...' would be interpreted as
 # a flag.
 # These aliases enable us to paste example code into the terminal without the
@@ -40,9 +41,8 @@ alias -s gz='gzip -l'
 alias -s {log,out}='tail -F'
 # Use `< file` to quickly view the contents of any text file.
 READNULLCMD=$PAGER  # Set the program to use for this.
-if builtin echo "$-" | command grep i > /dev/null; then export IS_TTY='1'; fi
-_error() { [[ -v $IS_TTY ]] && builtin print -P "%F{red}[ERROR]%f %F{white}${1}%f" >&2; }
-_info() { [[ -v $IS_TTY ]] && builtin print -P "%F{green}==>%f %F{white}${1}%f"; }
+_error() { builtin print -P "%F{red}[ERROR]%f %F{white}${1}%f" >&2; }
+_info() { builtin print -P "%F{green}==>%f %F{white}${1}%f"; }
 # +────────────────+
 # │ UTIL FUNCTIONS │
 # +────────────────+
@@ -50,7 +50,7 @@ _clone_if_absent() { [[ ! -d $1 ]] && git clone "$1" "$2/$(basename "$1" .git)";
 _edit() { ${EDITOR:-nvim} $1 }
 _mkfile() { builtin echo "#!/usr/bin/env ${2}" > "$3.$1" && chmod +x "$3.$1"; rehash; $EDITOR "$3.$1"; }
 _sys_update() { "$1" update && "$1" upgrade; }
-_goto() { [[ -e $1 ]] && { builtin cd "$1" && { has exa && exa --all --long } || command ls -lGo } || _error "${1} not found"; }
+_goto() { [[ -e $1 ]] && builtin cd "$1" && { exa --all --long 2> /dev/null || command ls -lGo  || _error "${1} not found" } }
 # +────────────────+
 # │ CODE DIRECTORY │
 # +────────────────+
@@ -70,13 +70,16 @@ alias bashly_edge='docker run --rm -it --user $(id -u):$(id -g) --volume "$PWD:/
 alias rmr="rm -rf --"
 function rmp() { _info "$(command rm -vf $(which $1))"; }
 alias tailf="less +F -R"
+alias auld="builtin autoload"
+alias zmld="builtin zmodload"
 # +──────────────────+
 # │ CONFIG SHORTCUTS │
 # +──────────────────+
 typeset -A pairs=(
-  ealiases 'zsh/rc.d/07-commands.zsh' gignore 'git/ignore' gcfg 'git/config' \
-  kittyrc 'kitty/kitty.conf' nvplg "nvim/lua/plugins.lua" skhdrc 'skhd/skhdrc' \
-  tmuxrc 'tmux/tmux.conf' zic 'zsh/rc.d/03-zinit.zsh' zrc 'zsh/.zshrc'
+  ealiases 'zsh/rc.d/0[0-9]-commands.zsh' gignore 'git/ignore'                gcfg   'git/config'
+  kittyrc  'kitty/kitty.conf'             nvplg   "nvim/lua/plugins.lua"      skhdrc 'skhd/skhdrc'
+  tmuxrc   'tmux/tmux.conf'               zic     'zsh/rc.d/0[0-9]-zinit.zsh' zrc    'zsh/.zshrc'
+  rcenv    'zsh/rc.d/0[0-9]-env.zsh'
 )
 for k v in ${(kv)pairs[@]}; do
   builtin alias $k="_edit ${XDG_CONFIG_HOME:-${HOME}/.config}/${v}" || true
@@ -94,19 +97,18 @@ done
 alias nvcln='command rm -rf $HOME/.{local/share/nvim,config/nvim/plugin/packer_compiled.lua}'
 alias zicln='command rm -rf ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}'
 alias ziprune='zi delete --all --yes; ( exec zsh -il );'
-alias zrld='builtin exec zsh -il'
+alias zrld='builtin exec $(which zsh) -il'
 alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},{auto,}s}; ziprune; zrld; cd -'
 # +────────────+
 # │ NAVIGATION │
 # +────────────+
 typeset -A pairs=(
-  ..   '..'               ...   '../..'                            \
-  .... '../../..'         ..... '../../../..'                      \
-  bin  '$HOME/.local/bin' rr    '$(git rev-parse --show-toplevel)' \
-  dl   '$HOME/Downloads'  hs    '$HOME/.hammerspoon'               \
-  xch  '$XDG_CONFIG_HOME' xdh   '$XDG_DATA_HOME'                   \
-  zdd  '$ZDOTDIR'         zfd   '$ZDOTDIR/functions'               \
+  bin '~/.local/bin'
+  dl  '~/Downloads'
+  xch '~/.config'    xdh  '${XDG_DATA_HOME:-~/.local/share}'
+  zd  '$ZDOTDIR'     zfd '$ZDOTDIR/functions'
 )
+# rr  '$(git rev-parse --show-toplevel)' zs  '   '
 for k v in ${(kv)pairs[@]}; do
   builtin alias -- "$k"="_goto $v" || true
 done
@@ -132,7 +134,6 @@ alias gen-passwd='openssl rand -base64 24'
 alias get-my-ip='curl ifconfig.co'
 alias get-env='print -lio $(env)'
 alias get-path='print -l ${(@s[:])PATH}'
-alias ps-grep="ps aux | grep -v grep | grep -i -e VSZ -e"
 alias rm-docker='docker system prune --all --force'
 alias tmp-md='$EDITOR $(mktemp -t scratch.XXX.md)'
 # +────────+

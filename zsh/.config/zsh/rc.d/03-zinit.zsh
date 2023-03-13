@@ -7,7 +7,7 @@
 #=== ZINIT ============================================
 typeset -gAH ZI=(HOME_DIR $HOME/.local/share/zinit)
 ZI+=(
-  BIN_DIR "$ZI[HOME_DIR]/zinit.git" COMPLETIONS_DIR "$ZI[HOME_DIR]/completions" OPTIMIZE_OUT_OF_DISK_ACCESSES "0"
+  BIN_DIR "$ZI[HOME_DIR]/zinit.git" COMPLETIONS_DIR "$ZI[HOME_DIR]/completions" OPTIMIZE_OUT_OF_DISK_ACCESSES "1"
   PLUGINS_DIR "$ZI[HOME_DIR]/plugins" SNIPPETS_DIR "$ZI[HOME_DIR]/snippets" ZCOMPDUMP_PATH "${ZDOTDIR:-$HOME/.config/zsh}/.zcompdump"
   ZPFX "$ZI[HOME_DIR]/polaris" SRC 'zdharma-continuum' BRANCH 'main'
 )
@@ -51,29 +51,29 @@ zi  as'completion' light-mode nocompile is-snippet for \
 #=== PROMPT ===========================================
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
 zinit for compile'(pure|async).zsh' multisrc'(pure|async).zsh'  atinit"
-    PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
-    PURE_PROMPT_SYMBOL='$(hostname -s) ᐳ'; PURE_PROMPT_VICMD_SYMBOL='$(hostname -s) ᐸ'
-    zstyle ':prompt:pure:git:action' color 'yellow'
-    zstyle ':prompt:pure:git:branch' color 'blue'
-    zstyle ':prompt:pure:git:dirty' color 'red'
-    zstyle ':prompt:pure:path' color 'cyan'
-    zstyle ':prompt:pure:prompt:success' color 'green'" load \
+PURE_GIT_DOWN_ARROW='↓'; PURE_GIT_UP_ARROW='↑'
+PURE_PROMPT_SYMBOL='$(hostname -s) ᐳ'; PURE_PROMPT_VICMD_SYMBOL='$(hostname -s) ᐸ'
+zstyle ':prompt:pure:git:action' color 'yellow'
+zstyle ':prompt:pure:git:branch' color 'blue'
+zstyle ':prompt:pure:git:dirty' color 'red'
+zstyle ':prompt:pure:path' color 'cyan'
+zstyle ':prompt:pure:prompt:success' color 'green'" load \
   @sindresorhus/pure
 #=== ANNEXES ==========================================
 zi light-mode for @${ZI[SRC]}/zinit-annex-{binary-symlink,default-ice,linkman,patch-dl,submods,bin-gem-node}
 #=== GITHUB BINARIES ==================================
 # zinit wait lucid from"gh-r" as"command" for sbin"**/bin/nvim" ver"nightly" neovim/neovim
-zi default-ice from"gh-r" light-mode lbin'!' nocompile
+zi default-ice --quiet from"gh-r" light-mode lbin'!' nocompile
 # zi null id-as light-mode for @{dandavison/delta,r-darwish/topgrade}
 # zi null id-as light-mode ver'v8.6.0' for @sharkdp/fd
 # # zi lman  from'gh-r' id-as lbin'!' nocompile for @{trufflesecurity/trufflehog,dandavison/delta,r-darwish/topgrade}
-zi lman completions id-as lbin'!' light-mode as'program' for \
-    dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
-    src'key-bindings.zsh' \
+zi lman lbin'!' light-mode for \
+  dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
+  src'key-bindings.zsh' \
   @junegunn/fzf \
-  blockf ver'nightly' atinit'for i (v vi vim); do alias $i="nvim"; done' lbin'!**/nvim -> nvim' \
-    @neovim/neovim \
-    atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
+  as'null' ver'nightly' atinit'for i (v vi vim); do alias $i="nvim"; done' lbin'!**/nvim -> nvim' \
+  @neovim/neovim \
+  lbin'!**/exa -> exa' atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa
 zi default-ice --clear --quiet
 zi default-ice --quiet light-mode depth'1'
@@ -82,26 +82,32 @@ for i (v vi vim); do alias $i="nvim"; done
 #=== UNIT TESTING =====================================
 # zinit as'program' atpull'./build.zsh' src'zunit' for @vladdoster/zunit
 zi ice nocompile mv'*completion -> _revolver' lbin'!'; zi light molovo/revolver
-zi lucid wait'0a' light-mode completions for \
-    null make'PREFIX=${ZI[PLUGINS_DIR]}/zshelldoc --always-make' lbin'!build/zsd*' \
+zi lucid wait'!' light-mode completions for \
+  null make'PREFIX=${ZI[PLUGINS_DIR]}/zshelldoc --always-make' lbin'!build/zsd*' \
   @zdharma-continuum/zshelldoc \
-    atinit'bindkey -M vicmd "^v" edit-command-line' \
+  atinit'bindkey -M vicmd "^v" edit-command-line' \
   @softmoth/zsh-vim-mode \
   @vladdoster/plugin-zinit-aliases
 #=== MISC. ============================================
-zi lucid wait'0b' light-mode depth'1' for \
-    svn submods'zsh-users/zsh-history-substring-search -> external' \
+# zinit wait lucid for \
+  #   atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+  #   zdharma-continuum/fast-syntax-highlighting \
+  #   blockf \
+  #   zsh-users/zsh-completions \
+  #   atload"!_zsh_autosuggest_start" \
+  #   zsh-users/zsh-autosuggestions
+zi lucid wait light-mode depth'1' for \
+  svn submods'zsh-users/zsh-history-substring-search -> external' \
   OMZP::history-substring-search \
-    atpull'zinit creinstall -q .' blockf null \
+  atpull'zinit creinstall -q .' blockf null \
   zsh-users/zsh-completions \
-    svn submods'zsh-users/zsh-completions -> external' \
+  svn submods'zsh-users/zsh-completions -> external' \
   PZTM::completion \
-    atload'!_zsh_autosuggest_start' atinit'bindkey "^_" autosuggest-execute;bindkey "^ " autosuggest-accept;' \
+  atload'!_zsh_autosuggest_start' atinit'bindkey "^_" autosuggest-execute;bindkey "^ " autosuggest-accept;' \
   zsh-users/zsh-autosuggestions
 zi ice lucid wait'0c' depth'1' atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc'
 zi light "${ZI[FORK]:-${ZI[SRC]}}"/fast-syntax-highlighting
 autoload select-word-style
 select-word-style normal
-# these characters do _not_ separate words but are part of words
 zstyle ':zle:*' word-chars '*?[]~;!#$%^(){}<>'
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

@@ -21,7 +21,7 @@ if [[ $VENDOR == apple ]]; then
   # (OL): Sort by size, descending.
   local -a files=( $HISTFILE(|\ <->)(OL) )
   [[ -r $files[1] ]] &&
-      mv $files[1] $HISTFILE
+  mv $files[1] $HISTFILE
 else
   # := assigns the variable and then substitutes the expression with its value.
   HISTFILE=${XDG_DATA_HOME:=~/.local/share}/zsh/history
