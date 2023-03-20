@@ -1,3 +1,10 @@
+## [4.21.1](https://github.com/vladdoster/dotfiles/compare/v4.21.0...v4.21.1) (2023-03-20)
+
+
+### Bug Fixes
+
+* remove docker hub token parameter ([65f6dcc](https://github.com/vladdoster/dotfiles/commit/65f6dccd010d70aca413f3ed93a087582e8bd1b2))
+
 # [4.21.0](https://github.com/vladdoster/dotfiles/compare/v4.20.0...v4.21.0) (2023-03-13)
 
 
