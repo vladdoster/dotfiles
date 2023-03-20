@@ -1,3 +1,13 @@
+## [4.21.2](https://github.com/vladdoster/dotfiles/compare/v4.21.1...v4.21.2) (2023-03-20)
+
+
+### Bug Fixes
+
+* .zshenv conditionally sources .zprofile ([7db7025](https://github.com/vladdoster/dotfiles/commit/7db70256a27a7228a877e4ae5dc5656538ed3b3b))
+* compile completions in .zlogin ([543681f](https://github.com/vladdoster/dotfiles/commit/543681fc490cc0a1ed7ea392f785dd75d2af65b5))
+* misc. zsh rc.d changes ([4ef9c81](https://github.com/vladdoster/dotfiles/commit/4ef9c81b95c4c7ce4563aaea5400769d15831ee8))
+* personal zsh completions ([2756af2](https://github.com/vladdoster/dotfiles/commit/2756af2c169b38711153f3268f23180a0b73c4e7))
+
 ## [4.21.1](https://github.com/vladdoster/dotfiles/compare/v4.21.0...v4.21.1) (2023-03-20)
 
 
