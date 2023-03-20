@@ -1,34 +1,38 @@
-#
-# source: https://github.com/Eriner/zim
-# startup file read in interactive login shells
-#
-# The following code helps us by optimizing the existing framework.
-# This includes zcompile, zcompdump, etc.
-#
+{
 
-(
-  # Function to determine the need of a zcompile. If the .zwc file
-  # does not exist, or the base file is newer, we need to compile.
-  # These jobs are asynchronous, and will not impact the interactive shell
+  emulate -L zsh
+  setopt nullglob typesetsilent nowarncreateglobal globsubst
 
-  zcompare() {
-    if [[ -s ${1} && ( ! -s ${1}.zwc || ${1} -nt ${1}.zwc) ]]; then
-      zcompile ${1}
+  local -aU m
+  local md
+  for md ($module_path); do
+    m=($m $md/**/*(*e:'REPLY=${REPLY#$md/}'::r))
+    zmodload -i $m
+  done
+
+  # Compile the completion dump to increase startup speed.
+  zcompdump="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/zcompdump"
+  if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
+    if command mkdir "${zcompdump}.zwc.lock" 2>/dev/null; then
+      zcompile "$zcompdump"
+      command rmdir  "${zcompdump}.zwc.lock" 2>/dev/null
     fi
-  }
+  fi
 
-  setopt EXTENDED_GLOB
-
-  # zcompile the completion cache; siginificant speedup
-  for file in ${ZDOTDIR:-${HOME}/.config/zsh}/.zcomp^(*.zwc)(.); do
-    zcompare ${file}
+  autoload -U zrecompile
+  for ((i=1; i <= $#fpath; ++i)); do
+    dir=$fpath[i]
+    zwc=${dir:t}.zwc
+    if [[ $dir == (.|..) || $dir == (.|..)/* ]]; then
+      continue
+    fi
+    files=($dir/*(N-.))
+    if [[ -w $dir:h && -n $files ]]; then
+      files=(${${(M)files%/*/*}#/})
+      if ( cd $dir:h &&
+        zrecompile -p -U -z $zwc $files ); then
+        fpath[i]=$fpath[i].zwc
+      fi
+    fi
   done
-
-  # zcompile .zshrc
-  zcompare ${ZDOTDIR:-${HOME}}/.zshrc
-
-  # zcompile all autoloaded functions
-  for file in ${ZDOTDIR:-${HOME}/.config/zsh}/functions/^(*.zwc)(.); do
-    zcompare ${file}
-  done
-) &!
+} &!
