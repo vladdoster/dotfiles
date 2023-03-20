@@ -42,7 +42,6 @@ docker-build: ## Build docker image
 			build \
 			--label org.opencontainers.image.created="$(BUILD_DATE)" \
 			--load \
-			--no-cache \
 			--platform linux/amd64 \
 			--progress plain \
 			--pull \
