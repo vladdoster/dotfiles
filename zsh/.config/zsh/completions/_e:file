@@ -1,0 +1,5 @@
+#compdef e:file
+#
+_arguments "1:directory:_files -W . -g '*'"
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

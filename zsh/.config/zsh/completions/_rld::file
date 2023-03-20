@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+_arguments "1:directory:_files -W ${DOTFILES:-${HOME}/.config/dotfiles} -g '*'"
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

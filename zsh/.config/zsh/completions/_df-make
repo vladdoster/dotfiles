@@ -1,0 +1,8 @@
+#compdef df-make
+#
+# Remove all Docker related resources
+#
+
+local DOTFILES=${DOTFILES:-$HOME/.config/dotfiles}
+
+make -C "${DOTFILES}" $@

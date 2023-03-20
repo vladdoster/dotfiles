@@ -1,0 +1,614 @@
+#compdef airflow
+
+typeset -A opt_args
+
+_arguments -C \
+  '1:subcommand:->subcommands' \
+  '2:argument:->arguments' \
+  '*:: :->args' \
+&& ret=0
+
+
+case "$state" in
+  subcommands )
+    local subcommands; subcommands=(
+        "resetdb:Burn down and rebuild the metadata database"
+        "render:Render a task instance's template(s)"
+        "variables:CRUD operations on variables"
+        "delete_user:Delete an account for the Web UI"
+        "connections:List/Add/Delete connections"
+        "create_user:Create an account for the Web UI (FAB-based)"
+        "pause:Pause a DAG"
+        "sync_perm:Update existing role's permissions"
+        "task_failed_deps:Returns the unmet dependencies for a task instance from the perspective of the scheduler"
+        "version:Show the version"
+        "trigger_dag:Trigger a DAG run"
+        "initdb:Initialize the metadata database"
+        "test:Test a task instance"
+        "unpause:Resume a paused DAG"
+        "list_dag_runs:List dag runs given a DAG id"
+        "dag_state:Get the status of a dag run"
+        "run:Run a single task instance"
+        "list_tasks:List the tasks within a DAG"
+        "backfill:Run subsections of a DAG for a specified date range"
+        "list_dags:List all the DAGs"
+        "kerberos:Start a kerberos ticket renewer"
+        "worker:Start a Celery worker node"
+        "webserver:Start a Airflow webserver instance"
+        "flower:Start a Celery Flower"
+        "scheduler:Start a scheduler instance"
+        "task_state:Get the status of a task instance"
+        "pool:CRUD operations on pools"
+        "serve_logs:Serve logs generate by worker"
+        "clear:Clear a set of task instance, as if they never ran"
+        "list_users:List accounts for the Web UI"
+        "next_execution:Get the next execution datetime of a DAG"
+        "upgradedb:Upgrade the metadata database to latest version"
+        "delete_dag:Delete all DB records related to the specified DAG"
+      )
+
+      _describe -t subcommands 'subcommand' subcommands && ret=0
+    ;;
+  arguments )
+    case $line[1] in
+      resetdb ) _resetdb ;;
+      render ) _render ;;
+      variables ) _variables ;;
+      delete_user ) _delete_user ;;
+      connections ) _connections ;;
+      create_user ) _create_user ;;
+      pause ) _pause ;;
+      sync_perm ) _sync_perm ;;
+      task_failed_deps ) _task_failed_deps ;;
+      version ) _version ;;
+      trigger_dag ) _trigger_dag ;;
+      initdb ) _initdb ;;
+      test ) _test ;;
+      unpause ) _unpause ;;
+      list_dag_runs ) _list_dag_runs ;;
+      dag_state ) _dag_state ;;
+      run ) _run ;;
+      list_tasks ) _list_tasks ;;
+      backfill ) _backfill ;;
+      list_dags ) _list_dags ;;
+      kerberos ) _kerberos ;;
+      worker ) _worker ;;
+      webserver ) _webserver ;;
+      flower ) _flower ;;
+      scheduler ) _scheduler ;;
+      task_state ) _task_state ;;
+      pool ) _pool ;;
+      serve_logs ) _serve_logs ;;
+      clear ) _clear ;;
+      list_users ) _list_users ;;
+      next_execution ) _next_execution ;;
+      upgradedb ) _upgradedb ;;
+      delete_dag ) _delete_dag ;;
+    esac
+    ;;
+esac
+
+
+function _resetdb() {
+  local resetdb; resetdbs=(
+      "-h:Show help"
+      "--help:Show help"
+      "-y:Do not prompt to confirm reset. Use with care!"
+      "--yes:Do not prompt to confirm reset. Use with care!"
+    )
+    _describe -t resetdbs 'resetdb' resetdbs && ret=0
+}
+
+function _render() {
+  local render; renders=(
+      "-h:Show help"
+      "--help:Show help"
+      "-sd:File location or directory from which to look for the dag"
+      "--subdir:File location or directory from which to look for the dag"
+    )
+    _describe -t renders 'render' renders && ret=0
+}
+
+function _variables() {
+  local variables; variables=(
+      "-h:Show help"
+      "--help:Show help"
+      "-s:Set a variable"
+      "--set:Set a variable"
+      "-g:Get value of a variable"
+      "--get:Get value of a variable"
+      "-j:Deserialize JSON variable"
+      "--json:Deserialize JSON variable"
+      "-d:Default value returned if variable does not exist"
+      "--default:Default value returned if variable does not exist"
+      "-i:Import variables from JSON file"
+      "--import:Import variables from JSON file"
+      "-e:Export variables to JSON file"
+      "--export:Export variables to JSON file"
+      "-x:Delete a variable"
+      "--delete:Delete a variable"
+    )
+    _describe -t variables 'variables' variables && ret=0
+}
+
+function _delete_user() {
+  local delete_user; delete_users=(
+      "-h:Show help"
+      "--help:Show help"
+      "-u:Username of the user"
+      "--username:Username of the user"
+    )
+    _describe -t delete_users 'delete_user' delete_users && ret=0
+}
+
+function _connections() {
+  local connections; connections=(
+      "-h:Show help"
+      "--help:Show help"
+      "-l:List all connections"
+      "--list:List all connections"
+      "-a:Add a connection"
+      "--add:Add a connection"
+      "-d:Delete a connection"
+      "--delete:Delete a connection"
+      "--conn_id:Connection id, required to add/delete a connection"
+      "--conn_uri:Connection URI, required to add a connection without conn_type"
+      "--conn_extra:Connection Extra field, optional when adding a connection"
+      "--conn_type:Connection type, required to add a connection without conn_uri"
+      "--conn_host:Connection host, optional when adding a connection"
+      "--conn_login:Connection login, optional when adding a connection"
+      "--conn_password:Connection password, optional when adding a connection"
+      "--conn_schema:Connection schema, optional when adding a connection"
+      "--conn_port:Connection port, optional when adding a connection"
+    )
+    _describe -t connections 'connections' connections && ret=0
+}
+
+function _create_user() {
+  local create_user; create_users=(
+      "-h:Show help"
+      "--help:Show help"
+      "-r:Role of the user. Existing roles include Admin, User, Op, Viewer, and Public"
+      "--role:Role of the user. Existing roles include Admin, User, Op, Viewer, and Public"
+      "-u:Username of the user"
+      "--username:Username of the user"
+      "-e:Email of the user"
+      "--email:Email of the user"
+      "-f:First name of the user"
+      "--firstname:First name of the user"
+      "-l:Last name of the user"
+      "--lastname:Last name of the user"
+      "-p:Password of the user"
+      "--password:Password of the user"
+      "--use_random_password:Do not prompt for password. Use random string instead"
+    )
+    _describe -t create_users 'create_user' create_users && ret=0
+}
+
+function _pause() {
+  local pause; pauses=(
+      "-h:Show help"
+      "--help:Show help"
+      "-sd:File location or directory from which to look for the dag"
+      "--subdir:File location or directory from which to look for the dag"
+    )
+    _describe -t pauses 'pause' pauses && ret=0
+}
+
+function _sync_perm() {
+  local sync_perm; sync_perms=(
+      "-h:Show help"
+      "--help:Show help"
+    )
+    _describe -t sync_perms 'sync_perm' sync_perms && ret=0
+}
+
+function _task_failed_deps() {
+  local task_failed_deps; task_failed_deps=(
+      "-h:Show help"
+      "--help:Show help"
+      "-sd:File location or directory from which to look for the dag"
+      "--subdir:File location or directory from which to look for the dag"
+    )
+    _describe -t task_failed_deps 'task_failed_deps' task_failed_deps && ret=0
+}
+
+function _version() {
+  local version; versions=(
+      "-h:Show help"
+      "--help:Show help"
+    )
+    _describe -t versions 'version' versions && ret=0
+}
+
+function _trigger_dag() {
+  local trigger_dag; trigger_dags=(
+      "-h:Show help"
+      "--help:Show help"
+      "-sd:File location or directory from which to look for the dag"
+      "--subdir:File location or directory from which to look for the dag"
+      "-r:Helps to identify this run"
+      "--run_id:Helps to identify this run"
+      "-c:JSON string that gets pickled into the DagRun's conf attribute"
+      "--conf:JSON string that gets pickled into the DagRun's conf attribute"
+      "-e:The execution date of the DAG"
+      "--exec_date:The execution date of the DAG"
+    )
+    _describe -t trigger_dags 'trigger_dag' trigger_dags && ret=0
+}
+
+function _initdb() {
+  local initdb; initdbs=(
+      "-h:Show help"
+      "--help:Show help"
+    )
+    _describe -t initdbs 'initdbs' initdbs && ret=0
+}
+
+function _test() {
+  local test; tests=(
+      "-h:Show help"
+      "--help:Show help"
+      "-sd:File location or directory from which to look for the dag"
+      "--subdir:File location or directory from which to look for the dag"
+      "-dr:Perform a dry run"
+      "--dry_run:Perform a dry run"
+      "-tp:Sends a JSON params dict to the task"
+      "--task_params:Sends a JSON params dict to the task"
+    )
+    _describe -t tests 'test' tests && ret=0
+}
+
+function _unpause() {
+  local unpause; unpauses=(
+      "-h:Show help"
+      "--help:Show help"
+      "-sd:File location or directory from which to look for the dag"
+      "--subdir:File location or directory from which to look for the dag"
+    )
+    _describe -t unpauses 'unpause' unpauses && ret=0
+}
+
+function _list_dag_runs() {
+  local list_dag_runs; list_dag_runs=(
+      "-h:Show help"
+      "--help:Show help"
+      "--no_backfill:Filter all the backfill dagruns given the dag id"
+      "--state:Only list the dag runs corresponding to the state"
+    )
+    _describe -t list_dag_runs 'list_dag_runs' list_dag_runs && ret=0
+}
+
+function _dag_state() {
+  local dag_state; dag_states=(
+      "-h:Show help"
+      "--help:Show help"
+      "-sd:File location or directory from which to look for the dag"
+      "--subdir:File location or directory from which to look for the dag"
+    )
+    _describe -t dag_states 'dag_state' dag_states && ret=0
+}
+
+function _run() {
+  local run; runs=(
+      "-h:Show help"
+      "--help:Show help"
+      "-sd:File location or directory from which to look for the dag"
+      "--subdir:File location or directory from which to look for the dag"
+      "-m:Mark jobs as succeeded without running them"
+      "--mark_success:Mark jobs as succeeded without running them"
+      "-f:Ignore previous task instance state, rerun regardless if task already succeeded/failed"
+      "--force:Ignore previous task instance state, rerun regardless if task already succeeded/failed"
+      "--pool:Resource pool to use"
+      "--cfg_path:Path to config file to use instead of airflow.cfg"
+      "-l:Run the task using the LocalExecutor"
+      "--local:Run the task using the LocalExecutor"
+      "-A:Ignores all non-critical dependencies, including ignore_ti_state and ignore_task_deps"
+      "--ignore_all_dependencies:Ignores all non-critical dependencies, including ignore_ti_state and ignore_task_deps"
+      "-i:Ignore task-specific dependencies, e.g. upstream, depends_on_past, and retry delay dependencies"
+      "--ignore_dependencies:Ignore task-specific dependencies, e.g. upstream, depends_on_past, and retry delay dependencies"
+      "-I:Ignore depends_on_past dependencies (but respect upstream dependencies)"
+      "--ignore_depends_on_past:Ignore depends_on_past dependencies (but respect upstream dependencies)"
+      "--ship_dag:Pickles (serializes) the DAG and ships it to the worker"
+      "-p:Serialized pickle object of the entire dag (used internally)"
+      "--pickle:Serialized pickle object of the entire dag (used internally)"
+      "-int:Do not capture standard output and error streams (useful for interactive debugging)"
+      "--interactive:Do not capture standard output and error streams (useful for interactive debugging)"
+    )
+    _describe -t runs 'run' runs && ret=0
+}
+
+function _list_tasks() {
+  # To get dag_id from DAG's file
+  # grep -oP '[^#]*with DAG\((dag\s*=\s*)?[\x27\x22]\K\w+' path/to/file/DAG/*.py
+  # or using sed
+  # sed -n '/^[^#]*dag_id *= *[[:punct:]]\([[:alnum:]_]*\).*/s//\1/p' path/to/file/DAG/*.py
+  local list_tasks; list_tasks=(
+      "-h:Show help"
+      "--help:Show help"
+      "-t:Tree view"
+      "--tree:Tree view"
+      "-sd:File location or directory from which to look for the dag"
+      "--subdir:File location or directory from which to look for the dag"
+    )
+    _describe -t list_tasks 'list_tasks' list_tasks && ret=0
+}
+
+function _backfill() {
+  local backfill; backfills=(
+      "-h:Show help"
+      "--help:Show help"
+      "-t:The regex to filter specific task_ids to backfill (optional)"
+      "--task_regex:The regex to filter specific task_ids to backfill (optional)"
+      "-s:Override start_date YYYY-MM-DD"
+      "--start_date:Override start_date YYYY-MM-DD"
+      "-e:Override end_date YYYY-MM-DD"
+      "--end_date:Override end_date YYYY-MM-DD"
+      "-m:Mark jobs as succeeded without running them"
+      "--mark_success:Mark jobs as succeeded without running them"
+      "-l:Run the task using the LocalExecutor"
+      "--local:Run the task using the LocalExecutor"
+      "-x:Do not attempt to pickle the DAG object to send over to the workers"
+      "--donot_pickle:Do not attempt to pickle the DAG object to send over to the workers"
+      "-i:Skip upstream tasks, run only the tasks matching the regexp"
+      "--ignore_dependencies:Skip upstream tasks, run only the tasks matching the regexp"
+      "-I:Ignores depends_on_past dependencies for the first set of tasks only"
+      "--ignore_first_depends_on_past:Ignores depends_on_past dependencies for the first set of tasks only"
+      "-sd:File location or directory from which to look for the dag"
+      "--subdir:File location or directory from which to look for the dag"
+      "--pool:Resource pool to use"
+      "--delay_on_limit:Amount of time in seconds to wait when the limit on maximum active dag runs (max_active_runs) has been reached before trying to execute a dag run again"
+      "-dr:Perform a dry run"
+      "--dry_run:Perform a dry run"
+      "-v:Make logging output more verbose"
+      "--verbose:Make logging output more verbose"
+      "-c:JSON string that gets pickled into the DagRun’s conf attribute"
+      "--conf:JSON string that gets pickled into the DagRun’s conf attribute"
+      "--reset_dagruns:If set, the backfill will delete existing backfill-related DAG runs and start anew with fresh, running DAG runs"
+      "--rerun_failed_tasks:If set, the backfill will auto-rerun all the failed tasks for the backfill date range instead of throwing exceptions"
+    )
+    _describe -t backfills 'backfill' backfills && ret=0
+}
+
+function _list_dags() {
+  local list_dags; list_dags=(
+    "-h:Show help"
+    "--help:Show help"
+    "-sd:File location or directory from which to look for the dag"
+    "--subdir:File location or directory from which to look for the dag"
+    "-r:Show DagBag loading report"
+    "--report:Show DagBag loading report"
+  )
+  _describe -t list_dags 'list_dags' list_dags && ret=0
+}
+
+function _kerberos() {
+  local kerberos; kerberoses=(
+      "-h:Show help"
+      "--help:Show help"
+      "-kt:Keytab"
+      "--keytab:Keytab"
+      "--pid:PID file location"
+      "-D:Daemonize instead of running in the foreground"
+      "--daemon:Daemonize instead of running in the foreground"
+      "--stdout:Redirect stdout to this file"
+      "--stderr:Redirect stderr to this file"
+      "-l:Location of the log file"
+      "--log-file:Location of the log file"
+    )
+    _describe -t kerberoses 'kerberos' kerberoses && ret=0
+}
+
+function _worker() {
+  local worker; workers=(
+      "-h:Show help"
+      "--help:Show help"
+      "-p:Attempt to pickle the DAG object to send over to the workers, instead of letting workers run their version of the code"
+      "--do_pickle:Attempt to pickle the DAG object to send over to the workers, instead of letting workers run their version of the code"
+      "-q:Comma delimited list of queues to serve"
+      "--queues:Comma delimited list of queues to serve"
+      "-c:The number of worker processes"
+      "--concurrency:The number of worker processes"
+      "-cn:Set the hostname of celery worker if you have multiple workers on a single machine"
+      "--celery_hostname:Set the hostname of celery worker if you have multiple workers on a single machine"
+      "--pid:PID file location"
+      "-D:Daemonize instead of running in the foreground"
+      "--daemon:Daemonize instead of running in the foreground"
+      "--stdout:Redirect stdout to this file"
+      "--stderr:Redirect stderr to this file"
+      "-l:Location of the log file"
+      "--log-file:Location of the log file"
+    )
+    _describe -t workers 'worker' workers && ret=0
+}
+
+function _webserver() {
+  local webserver; webservers=(
+      "-h:Show help"
+      "--help:Show help"
+      "-p:The port on which to run the server"
+      "--port:The port on which to run the server"
+      "-w:Number of workers to run the webserver on"
+      "--workers:Number of workers to run the webserver on"
+      "-k:Possible choices: sync, eventlet, gevent, tornado. The worker class to use for Gunicorn"
+      "--workerclass:Possible choices: sync, eventlet, gevent, tornado. The worker class to use for Gunicorn"
+      "-t:The timeout for waiting on webserver workers"
+      "--worker_timeout:The timeout for waiting on webserver workers"
+      "-hn:Set the hostname on which to run the web server"
+      "--hostname:Set the hostname on which to run the web server"
+      "--pid:PID file location"
+      "-D:Daemonize instead of running in the foreground"
+      "--daemon:Daemonize instead of running in the foreground"
+      "--stdout:Redirect stdout to this file"
+      "--stderr:Redirect stderr to this file"
+      "-A:The logfile to store the webserver access log. Use '-' to print to stderr"
+      "--access_logfile:The logfile to store the webserver access log. Use '-' to print to stderr"
+      "-E:The logfile to store the webserver error log. Use '-' to print to stderr"
+      "--error_logfile:The logfile to store the webserver error log. Use '-' to print to stderr"
+      "-l:Location of the log file"
+      "--log-file:Location of the log file"
+      "--ssl_cert:Path to the SSL certificate for the webserver"
+      "--ssl_key:Path to the key to use with the SSL certificate"
+      "-d:Use the server that ships with Flask in debug mode"
+      "--debug:Use the server that ships with Flask in debug mode"
+    )
+    _describe -t webservers 'webserver' webservers && ret=0
+}
+
+function _flower() {
+  local flower; flowers=(
+      "-h:Show help"
+      "--help:Show help"
+      "-hn:Set the hostname on which to run the server"
+      "--hostname:Set the hostname on which to run the server"
+      "-p:The port on which to run the server"
+      "--port:The port on which to run the server"
+      "-fc:Configuration file for flower"
+      "--flower_conf:Configuration file for flower"
+      "-u:URL prefix for Flower"
+      "--url_prefix:URL prefix for Flower"
+      "-ba:Securing Flower with Basic Authentication. Accepts user:password pairs separated by a comma"
+      "--basic_auth:Securing Flower with Basic Authentication. Accepts user:password pairs separated by a comma"
+      "-a:Broker api"
+      "--broker_api:Broker api"
+      "--pid:PID file location"
+      "-D:Daemonize instead of running in the foreground"
+      "--daemon:Daemonize instead of running in the foreground"
+      "--stdout:Redirect stdout to this file"
+      "--stderr:Redirect stderr to this file"
+      "-l:Location of the log file"
+      "--log-file:Location of the log file"
+    )
+    _describe -t flowers 'flower' flowers && ret=0
+}
+
+function _scheduler() {
+  local scheduler; schedulers=(
+      "-h:Show help"
+      "--help:Show help"
+      "-d:The id of the dag to run"
+      "--dag_id:The id of the dag to run"
+      "-sd:File location or directory from which to look for the dag"
+      "--subdir:File location or directory from which to look for the dag"
+      "-r:Set number of seconds to execute before exiting"
+      "--run-duration:Set number of seconds to execute before exiting"
+      "-n:Set the number of runs to execute before exiting"
+      "--num_runs:Set the number of runs to execute before exiting"
+      "-p:Attempt to pickle the DAG object to send over to the workers, instead of letting workers run their version of the code"
+      "--do_pickle:Attempt to pickle the DAG object to send over to the workers, instead of letting workers run their version of the code"
+      "--pid:PID file location"
+      "-D:Daemonize instead of running in the foreground"
+      "--daemon:Daemonize instead of running in the foreground"
+      "--stdout:Redirect stdout to this file"
+      "--stderr:Redirect stderr to this file"
+      "-l:Location of the log file"
+      "--log-file:Location of the log file"
+    )
+    _describe -t schedulers 'scheduler' schedulers && ret=0
+}
+
+function _task_state() {
+  local task_state; task_states=(
+      "-h:Show help"
+      "--help:Show help"
+      "-sd:File location or directory from which to look for the dag"
+      "--subdir:File location or directory from which to look for the dag"
+    )
+    _describe -t task_states 'task_state' task_states && ret=0
+}
+
+function _pool() {
+  local pool; pools=(
+      "-h:Show help"
+      "--help:Show help"
+      "-s:Set pool slot count and description, respectively"
+      "--set:Set pool slot count and description, respectively"
+      "-g:Get pool info"
+      "--get:Get pool info"
+      "-x:Delete a pool"
+      "--delete:Delete a pool"
+      "-i:Import pool from JSON file"
+      "--import:Import pool from JSON file"
+      "-e:Export pool to JSON file"
+      "--export:Export pool to JSON file"
+    )
+    _describe -t pools 'pool' pools && ret=0
+}
+
+function _serve_logs() {
+  local serve_logs; serve_logs=(
+      "-h:Show help"
+      "--help:Show help"
+    )
+    _describe -t serve_logs 'serve_logs' serve_logs && ret=0
+}
+
+function _clear() {
+  local clear; clears=(
+      "-h:Show help"
+      "--help:Show help"
+      "-t:The regex to filter specific task_ids to backfill (optional)"
+      "--task_regex:The regex to filter specific task_ids to backfill (optional)"
+      "-s:Override start_date YYYY-MM-DD"
+      "--start_date:Override start_date YYYY-MM-DD"
+      "-e:Override end_date YYYY-MM-DD"
+      "--end_date:Override end_date YYYY-MM-DD"
+      "-sd:File location or directory from which to look for the dag"
+      "--subdir:File location or directory from which to look for the dag"
+      "-u:Include upstream tasks"
+      "--upstream:Include upstream tasks"
+      "-d:Include downstream tasks"
+      "--downstream:Include downstream tasks"
+      "-c:Do not request confirmation"
+      "--no_confirm:Do not request confirmation"
+      "-f:Only failed jobs"
+      "--only_failed:Only failed jobs"
+      "-r:Only running jobs"
+      "--only_running:Only running jobs"
+      "-x:Exclude subdags"
+      "--exclude_subdags:Exclude subdags"
+      "-xp:Exclude ParentDAGS if the task cleared is a part of a SubDAG"
+      "--exclude_parentdag:Exclude ParentDAGS if the task cleared is a part of a SubDAG"
+      "-dx:Search dag_id as regex instead of exact string"
+      "--dag_regex:Search dag_id as regex instead of exact string"
+    )
+    _describe -t clears 'clear' clears && ret=0
+}
+
+function _list_users() {
+  local list_users; list_users=(
+      "-h:Show help"
+      "--help:Show help"
+    )
+    _describe -t list_users 'list_users' list_users && ret=0
+}
+
+function _next_execution() {
+  local next_execution; next_executions=(
+      "-h:Show help"
+      "--help:Show help"
+      "-sd:File location or directory from which to look for the dag"
+      "--subdir:File location or directory from which to look for the dag"
+    )
+    _describe -t next_executions 'next_execution' next_executions && ret=0
+}
+
+function _upgradedb() {
+  local upgradedb; upgradedbs=(
+      "-h:Show help"
+      "--help:Show help"
+    )
+    _describe -t upgradedbs 'upgradedb' upgradedbs && ret=0
+}
+
+function _delete_dag() {
+  local delete_dag; delete_dags=(
+      "-h:Show help"
+      "--help:Show help"
+      "-y:Do not prompt to confirm reset. Use with care!"
+      "--yes:Do not prompt to confirm reset. Use with care!"
+    )
+    _describe -t delete_dags 'delete_dag' delete_dags && ret=0
+}
+
+return 1
