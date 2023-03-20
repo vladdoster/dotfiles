@@ -25,9 +25,9 @@ zle -N accept-line _accept-line-with-url
 
 # Bind <alt>+s to `git status`
 function _git-status {
-    zle .kill-whole-line
-    BUFFER="git status"
-    zle .accept-line
+  zle .kill-whole-line
+  BUFFER="git status"
+  zle .accept-line
 }
 zle -N _git-status && bindkey '\es' _git-status
 

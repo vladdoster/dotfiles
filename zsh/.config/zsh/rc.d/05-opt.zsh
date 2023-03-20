@@ -1,0 +1,50 @@
+# vim:ft=zsh
+#!/usr/bin/env zsh
+# Smart URLs
+autoload -Uz url-quote-magic
+zle -N self-insert url-quote-magic
+# General
+setopt brace_ccl          # Allow brace character class list expansion.
+setopt combining_chars    # Combine zero-length punctuation characters (accents) with the base character.
+setopt rc_quotes          # Allow 'Henry''s Garage' instead of 'Henry'\''s Garage'.
+setopt no_mail_warning    # Don't print a warning message if a mail file has been accessed.
+setopt no_sh_word_split   # Don't split value by words -- only on demand by http://zsh.sourceforge.net/FAQ/zshfaq03.html
+### history
+# USAGE:
+#   * zle keymap 'set-local-history' to toggle exclusive history movement
+#   * $ fc -RI $ NICE! manually import history from other terminals (only when you need it)
+setopt no_share_history          # Disable shared history between terminals / sessions (auto-importing)
+setopt no_inc_append_history     # Write to the history file immediately, not when the shell exits.
+setopt inc_append_history_time   # Write only after when command finishes (to have proper duration time)
+setopt extended_history          # Write the history file in the ':start:elapsed;command' format.
+setopt bang_hist                 # Treat the '!' character specially during expansion.
+setopt hist_expire_dups_first    # Expire a duplicate event first when trimming history.
+setopt hist_ignore_dups          # Do not record an event that was just recorded again.
+setopt hist_ignore_all_dups      # Delete an old recorded event if a new event is a duplicate.
+setopt hist_find_no_dups         # Do not display a previously found event.
+setopt hist_ignore_space         # Do not record an event starting with a space.
+setopt hist_save_no_dups         # Do not write a duplicate event to the history file.
+setopt hist_verify               # Do not execute immediately upon history expansion.
+setopt hist_beep                 # Beep when accessing non-existent history.
+# DFL: HISTFILE="${ZDOTDIR:-$HOME}/.zhistory"
+HISTFILE=${XDG_DATA_HOME:-$HOME/.local/share}/zsh/history
+# BET:(audit,transient): prevent frequently changing file to pollute BTRFS snapshots
+# HISTFILE=${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history
+# # INFO: <avg>=20000cmds/year OR: use logrotate-esque way to store old history in archive
+# # SRC: https://unix.stackexchange.com/questions/273861/unlimited-history-in-zsh
+# HISTSIZE=1000000                 # The maximum number of events to save in the internal history.
+# SAVEHIST=1000000                 # The maximum number of events to save in the history file.
+# Jobs
+# WARN: zsh you have running jobs
+# If I exit again, my jobs are killed. But zsh accept some useful option to overide this : nohup nocheckjobs
+setopt long_list_jobs     # List jobs on suspend in the long format by default.
+setopt auto_resume        # Attempt to resume existing job before creating a new process.
+setopt notify             # Report status of background jobs immediately.
+setopt no_bg_nice         # Don't run all background jobs at a lower priority.
+setopt no_hup             # Don't kill jobs on shell exit.
+setopt no_check_jobs      # Don't report on jobs when shell exit.
+setopt no_print_exit_value  # Alert if something failed
+{ # New options (may be unavailable)
+  setopt pipe_fail        # Exit pipe with rightmost non-zero code
+} 2>/dev/null
+FPATH="${HOME}"/.config/zsh/completions:${FPATH}

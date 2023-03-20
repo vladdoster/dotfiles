@@ -1,19 +1,9 @@
 #!/usr/bin/env zsh
 ##
 # Commands, funtions and aliases
-#
 # Always set aliases _last,_ so they don't get used in function definitions.
-#
-# This lets you change to any dir without having to type `cd`, that is, by just
-# typing its name. Be warned, though: This can misfire if there exists an alias,
-# function, builtin or command with the same name.
-# In general, I would recommend you use only the following without `cd`:
-#   ..  to go one dir up
-#   ~   to go to your home dir
-#   ~-2 to go to the 2nd mostly recently visited dir
-#   /   to go to the root dir
-setopt AUTO_CD
-# Type '-' to return to your previous dir.
+##
+# type '-' to return to your previous dir.
 alias -- -='cd -q -'
 alias -- b='-'
 # '--' signifies the end of options. Otherwise, '-=...' would be interpreted as
@@ -103,10 +93,10 @@ alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},
 # │ NAVIGATION │
 # +────────────+
 typeset -A pairs=(
-  bin '~/.local/bin'
+  bin '~/.local/bin' .. '../'
   dl  '~/Downloads'
   xch '~/.config'    xdh  '${XDG_DATA_HOME:-~/.local/share}'
-  zd  '$ZDOTDIR'     zfd '$ZDOTDIR/functions'
+  zdd  '$ZDOTDIR'    zfd '$ZDOTDIR/functions'
 )
 # rr  '$(git rev-parse --show-toplevel)' zs  '   '
 for k v in ${(kv)pairs[@]}; do
