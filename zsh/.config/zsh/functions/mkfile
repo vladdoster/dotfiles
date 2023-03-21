@@ -1,0 +1,36 @@
+#autoload
+
+local flag_help flag_verbose
+local -a arg_extension=()
+
+local -a usage=(
+  "zparseopts_demo [-h|--help]"
+  "zparseopts_demo [-v|--verbose] [-f|--extension=<extension>] [<filenames...>]"
+)
+
+# -D pulls parsed flags out of $@
+# -E allows flags/args and positionals to be mixed, which we don't want in this example
+# -F says fail if we find a flag that wasn't defined
+# -M allows us to map option aliases (ie: h=flag_help -help=h)
+# -K allows us to set default values without zparseopts overwriting them
+# Remember that the first dash is automatically handled, so long options are -opt, not --opt
+
+zmodload zsh/zutil
+zparseopts -D -F -K -- \
+  {h,-help}=flag_help \
+  {v,-verbose}=flag_verbose \
+  {e,-extension}:=arg_extension ||
+return 1
+
+[[ -z "$flag_help" ]] || { print -l $usage && return }
+if (( $#flag_verbose )); then
+  print "verbose mode"
+fi
+
+local f fname ext="$arg_extension[-1]"
+for f in $@; do
+  fname="${f}.${arg_extension[-1]}"
+  print -- "#!/usr/bin/env ${f}" > $fname
+  chmod +x $fname
+  print -- "==> created $fname"
+done
