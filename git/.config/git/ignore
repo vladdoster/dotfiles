@@ -20,6 +20,8 @@
 bin/.local/bin/zsh
 bin/.local/man
 bin/.local/share
+zcompcache/
+zcompdump
 #=======
 # macOS
 #=======
