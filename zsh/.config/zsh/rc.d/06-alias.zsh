@@ -93,10 +93,9 @@ alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},
 # │ NAVIGATION │
 # +────────────+
 typeset -A pairs=(
-  bin '~/.local/bin' .. '../'
-  dl  '~/Downloads'
+  bin '~/.local/bin' .. '../' dl  '~/Downloads'
   xch '~/.config'    xdh  '${XDG_DATA_HOME:-~/.local/share}'
-  zdd  '$ZDOTDIR'    zfd '$ZDOTDIR/functions'
+  zdd  '$ZDOTDIR'
 )
 # rr  '$(git rev-parse --show-toplevel)' zs  '   '
 for k v in ${(kv)pairs[@]}; do
