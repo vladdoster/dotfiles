@@ -2,8 +2,8 @@ local W = require('wezterm')
 
 return {
   default_prog={'zsh'},
-  enable_scroll_bar=false,
-  enable_tab_bar=false,
+  enable_scroll_bar=true,
+  enable_tab_bar=true,
   enable_csi_u_key_encoding=true,
   audible_bell='Disabled',
   check_for_updates=false,
