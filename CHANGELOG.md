@@ -1,3 +1,21 @@
+# [4.22.0](https://github.com/vladdoster/dotfiles/compare/v4.21.2...v4.22.0) (2023-03-22)
+
+
+### Bug Fixes
+
+* docker nuke function cleanup ([3f47d17](https://github.com/vladdoster/dotfiles/commit/3f47d175b39ccd40b38b5dc41f108d5a87751207))
+* enable wezterm scrollbar and tab bar ([74e17f7](https://github.com/vladdoster/dotfiles/commit/74e17f738109958ca3eb3c62e90ae563928345ff))
+* remove zfd alias ([176dfd2](https://github.com/vladdoster/dotfiles/commit/176dfd22c6b5787e8bad361380fba516e8de0338))
+* zdd zcompcache & zcompdump to global gitignore ([6586ebd](https://github.com/vladdoster/dotfiles/commit/6586ebd9a6e3d2eb899f917e48c725bdbe23b1ae))
+
+
+### Features
+
+* add dockerfile with arch linux base image ([9c0ea2a](https://github.com/vladdoster/dotfiles/commit/9c0ea2ac54aaf581e8ac6c5b80038fda4db4b2a5))
+* add-to-path func for easy path manipulation ([03f8754](https://github.com/vladdoster/dotfiles/commit/03f875460b5972d4e5c98d0a54778940e637385f))
+* mkfile func to easily create file(s) ([076c9c2](https://github.com/vladdoster/dotfiles/commit/076c9c2baaf2bc6c2cc72f1e5c5b0eec6e13cbe1))
+* zfd func to easily edit zsh functions ([81ba4be](https://github.com/vladdoster/dotfiles/commit/81ba4be9933e08804230ae3aab5e93d66f496652))
+
 ## [4.21.2](https://github.com/vladdoster/dotfiles/compare/v4.21.1...v4.21.2) (2023-03-20)
 
 
