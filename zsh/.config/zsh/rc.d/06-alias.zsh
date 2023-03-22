@@ -66,10 +66,10 @@ alias zmld="builtin zmodload"
 # │ CONFIG SHORTCUTS │
 # +──────────────────+
 typeset -A pairs=(
-  ealiases 'zsh/rc.d/0[0-9]-commands.zsh' gignore 'git/ignore'                gcfg   'git/config'
-  kittyrc  'kitty/kitty.conf'             nvplg   "nvim/lua/plugins.lua"      skhdrc 'skhd/skhdrc'
-  tmuxrc   'tmux/tmux.conf'               zic     'zsh/rc.d/0[0-9]-zinit.zsh' zrc    'zsh/.zshrc'
-  rcenv    'zsh/rc.d/0[0-9]-env.zsh'
+  ealiases 'zsh/rc.d/0[0-9]-alias.zsh' gignore 'git/ignore'                gcfg   'git/config'
+  kittyrc  'kitty/kitty.conf'          nvplg   "nvim/lua/plugins.lua"      skhdrc 'skhd/skhdrc'
+  rcenv    'zsh/rc.d/0[0-9]-env.zsh'   wezrc   'wezterm/wezterm.lua'
+  tmuxrc   'tmux/tmux.conf'            zic     'zsh/rc.d/0[0-9]-zinit.zsh' zrc    'zsh/.zshrc'
 )
 for k v in ${(kv)pairs[@]}; do
   builtin alias $k="_edit ${XDG_CONFIG_HOME:-${HOME}/.config}/${v}" || true
