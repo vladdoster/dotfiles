@@ -26,7 +26,7 @@ return {
   },
   leader={key='a', mods='CTRL'},
   keys={
-    {action=wezterm.action.SplitPane {direction='Down', size={Percent=50}}, mods='SUPER|SHIFT', key='S'},
+    {action=wezterm.action.SplitPane {direction='Down', size={Percent=50}}, mods='SUPER|SHIFT', key='Enter'},
     {action=wezterm.action.SplitPane {direction='Right', size={Percent=50}}, mods='SUPER', key='Enter'},
     {action=wezterm.action.ToggleFullScreen, mods='ALT|CTRL', key='f'},
     {key='w', mods='SUPER', action=wezterm.action.CloseCurrentPane {confirm=true}}
