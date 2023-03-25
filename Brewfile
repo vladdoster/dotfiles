@@ -1,7 +1,9 @@
+cask_args appdir: "/Applications"
+
 tap "homebrew/bundle"
-tap "homebrew/cask"
 tap "homebrew/cask-fonts"
-tap "homebrew/core"
+tap "wez/wezterm"
+
 brew "autoconf"
 brew "automake"
 brew "awk", link: true
@@ -36,8 +38,22 @@ brew "watch"
 brew "wget"
 brew "xz"
 brew "zsh"
+
+# Install GUI applications
 cask "1password"
+cask "docker"
 cask "font-blex-mono-nerd-font"
 cask "hammerspoon"
-cask "kitty"
-cask "vivaldi-snapshot"
+cask "monitorcontrol"
+cask "the-unarchiver"
+cask "transmission"
+cask "vivaldi"
+cask "vlc"
+cask "wezterm"
+
+# QuickLook plugins
+cask "qlcolorcode"
+cask "qlmarkdown"
+cask "qlstephen"
+cask "webpquicklook"
+
