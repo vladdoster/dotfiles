@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
-setopt extendedglob
+
+# emulate -L zsh -o EXTENDED_GLOB
+
 #
 # Environment variables
 #
@@ -10,13 +12,13 @@ setopt extendedglob
 (( ${+XDG_DATA_HOME} )) || export XDG_DATA_HOME="${HOME}/.local/share"
 # configuration directories
 export \
-  DOTFILES="${XDG_CONFIG_HOME}/dotfiles" GIT_CONFIG="${XDG_CONFIG_HOME}/git/config" \
-  PIP_CONFIG="${XDG_CONFIG_HOME}/pip" PYTHONSTARTUP="${XDG_CONFIG_HOME}/python/init-repl.py" \
-  VIMDOTDIR="${XDG_CONFIG_HOME}/vim" ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
+  DOTFILES="${XDG_CONFIG_HOME}/dotfiles" GIT_CONFIG="${XDG_CONFIG_HOME}/git/config"             \
+  PIP_CONFIG="${XDG_CONFIG_HOME}/pip"    PYTHONSTARTUP="${XDG_CONFIG_HOME}/python/init-repl.py" \
+  VIMDOTDIR="${XDG_CONFIG_HOME}/vim"     ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 # program options
 export \
   COMPOSE_DOCKER_CLI_BUILD=1 CORRECT_IGNORE="*zinit[-]*" \
-  DISABLE_MAGIC_FUNCTIONS=1 DOCKER_BUILDKIT=1 \
+  DISABLE_MAGIC_FUNCTIONS=1  DOCKER_BUILDKIT=1           \
   HOMEBREW_NO_{ENV_HINTS,INSTALL_CLEANUP}=1 \
   SHELL_SESSIONS_DISABLE=1
 export L{ANG{,UAGE},C_ALL}='en_US.UTF-8'
@@ -25,15 +27,14 @@ export L{ANG{,UAGE},C_ALL}='en_US.UTF-8'
 # Note that each value in an array is expanded separately. Thus, we can use ~
 # for $HOME in each $path entry.
 _comp_dumpfile="$ZDOTDIR/zcompdump"
-
-typeset -gU fpath FPATH path PATH
-path=( /opt/homebrew/bin(N) /usr/local/homebrew/bin(N) /home/linuxbrew/.linuxbrew/bin(N) $path )
-eval "$(brew shellenv)"
-fpath=( ~/.config/zsh/{func,comple}tions(N) ~/.config/zsh/completions(N) $fpath )
+typeset -gU FPATH PATH fpath path
+path=( /{opt,usr/local}/homebrew/bin(N) /home/linuxbrew/.linuxbrew/bin(N) $path )
+fpath=( ~/.config/zsh/(func|comple)tions(N) $fpath )
 autoload -Uz ~/.config/zsh/functions/**/*
-if command -v brew > /dev/null; then
+
+if (( $+commands[brew] )); then
   eval "$(brew shellenv)"
   path+=( ${HOMEBREW_PREFIX}/(s|)bin $path )
-  fpath+=( $HOMEBREW_PREFIX/share/zsh/site-functions(N) $fpath )
+  fpath+=( $HOMEBREW_PREFIX/share/zsh/site-functions(/N) $fpath )
 fi
 path=( ~/.local/bin(N) ~/.local/bin/python/bin(N) $path )
