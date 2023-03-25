@@ -1,5 +1,6 @@
 #autoload
-builtin emulate -LR zsh -o EXTENDED_GLOB
+
+builtin emulate -L zsh -o EXTENDED_GLOB
 
 source "$(find ${DOTFILES:-${HOME}/.config/dotfiles/} -print0 | fzf --read0)"
 

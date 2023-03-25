@@ -34,3 +34,5 @@ for f in $@; do
   chmod +x $fname
   print -- "==> created $fname"
 done
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

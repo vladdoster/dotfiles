@@ -1,4 +1,5 @@
 #autoload
+
 builtin emulate -L zsh -o EXTENDED_GLOB
 
 autoload +X -Uz colors; colors

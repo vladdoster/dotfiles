@@ -1,14 +1,11 @@
-#autoload
-builtin emulate -LR zsh -o EXTENDED_GLOB
+#!/usr/bin/env zsh
 
-local -a files=( $(find $HOME -name ".DS_Store" -ls -print0 >/dev/null) )
-print -l ${#files[@]}
-# if rm -frP "${files[@]}"; then
-#   log::info "Deleted ${#files} .DS_Store files"
-#   return 0
-# fi
+builtin emulate -L zsh
+setopt extendedglob
 
-log::error "Failed to delete ${#files} .DS_Store files"
+local -a files=( $(command find $HOME -name ".DS_Store" -ls -print0 >/dev/null) )
+
+(( ${#files} )) && print -Pr "%F{red}Error%f: Failed to delete ${#files} .DS_Store files"
 return 1
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

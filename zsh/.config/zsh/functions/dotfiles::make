@@ -7,4 +7,6 @@ builtin emulate -L zsh -o EXTENDED_GLOB
 
 local DOTFILES=${DOTFILES:-$HOME/.config/dotfiles}
 
-make -C "${DOTFILES}" $@
+command make -C "${DOTFILES}" $@
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

@@ -1,3 +1,5 @@
 #autoload
 
 builtin cd ${XDG_DATA_HOME:-~/.local/state}/$1
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

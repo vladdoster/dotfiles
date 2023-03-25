@@ -1,7 +1,8 @@
 #autoload
 
-emulate -LR zsh
+builtin emulate -L zsh
 setopt extendedglob globstarshort nullglob
+
 autoload -U zargs
 
 scripts=( ${ZDOTDIR:-~/.config/zsh}/.zshrc )
@@ -47,3 +48,5 @@ zargs -l 1 -- $autoloads -- zcompile -M
 #     fi
 #   } ${ZDOTDIR:-$HOME}/.zcompdump
 # }
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

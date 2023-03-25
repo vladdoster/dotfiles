@@ -1,0 +1,31 @@
+#autoload
+
+emulate -L zsh
+
+# cd ${0%/*}
+
+zdir=$ZDOTDIR
+[[ -d $zdir ]] || zdir=~/.cache/zsh
+[[ -d $zdir ]] || zdir=$HOME/.config/zsh
+ZDOTDIR=$zdir
+
+# Refresh commands list from PATH in current shell
+rehash
+
+zcompile ~/.zshenv
+zcompile ~/.zprofile
+# zcompile $zdir/zlogin $zdir/zlogin
+
+# Combine zshrc components into one file
+lst=()
+# lst+=( $zdir/.{zshrc,zprezto{rc,/init.zsh}} )
+# lst+=( ./{amer-{widgets,key-mix},filetypes,completion}.zsh )
+lst+=($zdir/.zshrc $zdir/functions/*)
+zcompile $zdir/.zshrc ${lst[@]}
+
+# Compile the completion dump
+zcd=$zdir/.zcompdump
+if [[ -s $zcd && (! -s ${zcd}.zwc || $zcd -nt ${zcd}.zwc) ]]
+then zcompile $zcd; fi
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

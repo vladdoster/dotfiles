@@ -1,5 +1,6 @@
 #autoload
-builtin emulate -LR zsh -o EXTENDED_GLOB
+
+builtin emulate -L zsh -o EXTENDED_GLOB
 
 local filter
 if [ -n "$@" ] && [ -f "$@" ]

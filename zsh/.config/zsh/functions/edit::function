@@ -1,5 +1,7 @@
 #autoload
-builtin emulate -LR zsh -o EXTENDED_GLOB
+
+builtin emulate -L zsh -o EXTENDED_GLOB
+
 $EDITOR $(type "${1}" | grep -oE '[^[:space:]]+$')
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

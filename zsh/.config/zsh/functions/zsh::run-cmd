@@ -1,4 +1,5 @@
 #autoload
+
 builtin emulate -L zsh -o EXTENDED_GLOB
 
 autoload -Uz colors; colors
@@ -10,16 +11,16 @@ local -a spinners=(⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏)
 
 tput civis
 while true; do
-    for spinner in "${spinners[@]}"; do
-        if [[ -f $TMPFILE ]]; then
-            rm -f $TMPFILE
-            tput cnorm
-            return 1
-        fi
-        sleep 0.05
-        printf " $fg[white]$spinner$reset_color  $before_msg\r" 2> /dev/null
-    done
-    echo "$jobstates" | awk '
+  for spinner in "${spinners[@]}"; do
+    if [[ -f $TMPFILE ]]; then
+      rm -f $TMPFILE
+      tput cnorm
+      return 1
+    fi
+    sleep 0.05
+    printf " $fg[white]$spinner$reset_color  $before_msg\r" 2> /dev/null
+  done
+  echo "$jobstates" | awk '
         /[0-9]+=/ {
           jobs[++job_count] = $0
         }
@@ -27,12 +28,12 @@ while true; do
             for (i = 1; i <= job_count; i++) {
               print(jobs[i])
             } exit job_count == 0
-        }' | xargs test -z && break
+  }' | xargs test -z && break
 done
 
 if [[ -n $after_msg ]]; then
-    printf "\033[2K"
-    printf " $fg_bold[blue]\U2714$reset_color  $after_msg\n"
+  printf "\033[2K"
+  printf " $fg_bold[blue]\U2714$reset_color  $after_msg\n"
 fi 2> /dev/null
 
 tput cnorm || true

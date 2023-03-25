@@ -1,4 +1,7 @@
 #autoload
-builtin emulate -LR zsh -o EXTENDED_GLOB
+
+builtin emulate -L zsh -o EXTENDED_GLOB
 
 cd ~/.local/share/zinit/zinit.git/$1
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

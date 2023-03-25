@@ -1,3 +1,5 @@
 #autoload
 
 builtin cd ${XDG_CACHE_HOME:-~/.cache}/$1
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

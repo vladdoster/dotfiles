@@ -23,3 +23,5 @@ function add-to-path {
     fi
   fi
 }
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

@@ -1,5 +1,6 @@
 #autoload
-builtin emulate -LR zsh -o EXTENDED_GLOB
+
+builtin emulate -L zsh -o EXTENDED_GLOB
 
 osascript -e 'tell application "Safari" to activate
 tell application "System Events"

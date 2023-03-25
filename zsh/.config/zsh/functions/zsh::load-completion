@@ -1,5 +1,6 @@
 #autoload
-builtin emulate -LR zsh -o EXTENDED_GLOB
+
+builtin emulate -L zsh -o EXTENDED_GLOB
 
 # autoload -Uz compinit && compinit
 if source <(${1} completion zsh); then
@@ -15,4 +16,4 @@ else
   return 1
 fi
 
-#
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

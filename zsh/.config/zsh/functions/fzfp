@@ -1,6 +1,6 @@
 #autoload
-builtin emulate -LR zsh -o EXTENDED_GLOB
 
+builtin emulate -L zsh -o EXTENDED_GLOB
 
 fzf --ansi --bind '?:toggle-preview' --inline-info --preview='\
   [[ $(file --mime {}) =~ binary ]] \

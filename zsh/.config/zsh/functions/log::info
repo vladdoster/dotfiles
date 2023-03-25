@@ -1,5 +1,6 @@
 #autoload
-builtin emulate -LR zsh -o EXTENDED_GLOB
+
+builtin emulate -L zsh -o EXTENDED_GLOB
 
 if [[ $- == *i* ]]; then
   print -P -- "%F{green}==>%f %F{white}${@}%f"
