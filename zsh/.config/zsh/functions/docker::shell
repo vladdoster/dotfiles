@@ -1,0 +1,46 @@
+#autoload
+
+docker buildx build --load --platform linux/x86_64 --tag simple:latest -<<'EOF'
+FROM amd64/ubuntu
+ENV USER docker-user
+ENV HOME /home/$USER
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update --quiet=2 \
+ && apt-get install --assume-yes --no-install-recommends --quiet=2 \
+    autoconf autogen automake \
+    build-essential \
+    ca-certificates cmake coreutils curl \
+    git \
+    make \
+    openssl \
+    stow subversion sudo \
+    texinfo \
+    wget \
+    zsh
+RUN useradd \
+  --create-home \
+  --gid root --groups sudo \
+  --home-dir /home/${USER} \
+  --shell "$(which zsh)" \
+  --uid 1001 \
+  ${USER} \
+ && mkdir -p /home/${USER}/.config \
+ && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers \
+ && passwd --delete ${USER} \
+ && chown --recursive ${USER} /home/${USER}
+USER ${USER}
+WORKDIR ${HOME}
+RUN git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
+ENTRYPOINT ["zsh"]
+CMD ["-l"]
+EOF
+
+docker run \
+  --hostname zinit-current-completion \
+  --interactive \
+  --mount source=zsh-volume,destination=/home \
+  --platform linux/x86_64 \
+  --tty \
+  simple:latest
+
+# vim:syn=dockerfile:ft=dockerfile:fo=croql:sw=2:sts=2
