@@ -1,0 +1,19 @@
+#autoload
+
+builtin emulate -L zsh -o EXTENDED_GLOB
+
+local flag_help flag_verbose
+local -a usage=( "banner [-h|--help] [message ...]" )
+
+zmodload zsh/zutil
+zparseopts -D -F -K -- {h,-help}=flag_help || return 1
+
+[[ -z "$flag_help" ]] || { print -l $usage && return }
+if (( $#@ )); then
+  echo -e "\e[1;96m $(figlet -c -w$COLUMNS $@) \e[0m"
+  return 0
+else
+  print -l $usage && return 1
+fi
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
