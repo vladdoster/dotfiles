@@ -1,3 +1,23 @@
+# [4.23.0](https://github.com/vladdoster/dotfiles/compare/v4.22.0...v4.23.0) (2023-03-26)
+
+
+### Bug Fixes
+
+* Brewfile taps, cask args, and casks ([555bb09](https://github.com/vladdoster/dotfiles/commit/555bb094d9aab8c863ae60b33d17ab5da90d8681))
+* misc. updates to zsh env, opts, and completion ([8c90a04](https://github.com/vladdoster/dotfiles/commit/8c90a047fd37f00055542ace9f6710d83aaa7253))
+* misc. updates to zsh functions ([815572c](https://github.com/vladdoster/dotfiles/commit/815572c4bb97f8b813066e17538207754a83d28f))
+* misc. wezterm keybinds and colorscheme ([5509eb2](https://github.com/vladdoster/dotfiles/commit/5509eb23ad845a6e32c77ed3a44882d35c639dff))
+* wezterm configuration ([696e79d](https://github.com/vladdoster/dotfiles/commit/696e79d84ac2eedb699a86edd1d7b7d6730371fe))
+* wezterm splitpane key map ([16577fb](https://github.com/vladdoster/dotfiles/commit/16577fb450c8bccd5b3742145dfdbf2d4fc8268a))
+* zsh alias to rc/06-alias.zsh ([21dfb60](https://github.com/vladdoster/dotfiles/commit/21dfb60da430dcd928679a418687d48fd926903e))
+
+
+### Features
+
+* print colorized figlet messages via banner ([eafcdff](https://github.com/vladdoster/dotfiles/commit/eafcdff3f2474635068e26e63ce61836f02703ac))
+* progress bar for curl via curl-progress ([19311aa](https://github.com/vladdoster/dotfiles/commit/19311aa399923f6af18e2780e5a3e111807082c5))
+* quick sandbox env via docker::shell function ([bd75b4e](https://github.com/vladdoster/dotfiles/commit/bd75b4e37197f132330e91293d29991a5a2e5327))
+
 # [4.22.0](https://github.com/vladdoster/dotfiles/compare/v4.21.2...v4.22.0) (2023-03-22)
 
 
