@@ -1,8 +1,7 @@
 # Dotfiles
 
+[![Release](https://github.com/vladdoster/dotfiles/actions/workflows/release.yml/badge.svg)](https://github.com/vladdoster/dotfiles/actions/workflows/release.yml)
 [![Release Version](https://img.shields.io/github/v/release/vladdoster/dotfiles)](https://github.com/vladdoster/dotfiles/releases/latest)
-[![Release Status](https://img.shields.io/github/workflow/status/vladdoster/dotfiles/Release?label=build)](https://github.com/vladdoster/dotfiles/actions/workflows/release.yml)
-[![Docker Build Status](https://img.shields.io/docker/cloud/build/vdoster/dotfiles)](https://hub.docker.com/repository/docker/vdoster/dotfiles)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/vladdoster/dotfiles)
 
 Program configuration files are managed by GNU Stow.
