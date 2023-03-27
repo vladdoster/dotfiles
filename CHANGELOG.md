@@ -1,3 +1,18 @@
+## [4.23.1](https://github.com/vladdoster/dotfiles/compare/v4.23.0...v4.23.1) (2023-03-27)
+
+
+### Bug Fixes
+
+* add --verbose & --tag opts to docker::shell ([47e1b16](https://github.com/vladdoster/dotfiles/commit/47e1b16bef2faffaf4a685defe5ed9f9b0a02b6f))
+* add file & unzip pkgs to base docker container ([c8bb512](https://github.com/vladdoster/dotfiles/commit/c8bb512ce584bf7620488a3aa0479867ee9b9879))
+* attempt to set locale in zlogin ([737591b](https://github.com/vladdoster/dotfiles/commit/737591b14a65acb8f3d48e3d62640c327d481e38))
+* remove extraneous characters ([0382ab7](https://github.com/vladdoster/dotfiles/commit/0382ab785476f21338046f5edf20f71d4fd43318))
+* set docker shell volume to container name ([a95ad02](https://github.com/vladdoster/dotfiles/commit/a95ad025d1b402c14c487d2d0429d31d6f9b0b05))
+* set explicit width of zsh prompt characters ([88a993f](https://github.com/vladdoster/dotfiles/commit/88a993ff665df412ad1d4a8762fbd344a9ca2f27))
+* source alias first in case of errors ([a4271eb](https://github.com/vladdoster/dotfiles/commit/a4271ebe606cba9dac1aa1e15eba6da6e739b2f3))
+* zinit config compinit calls ([ce055e4](https://github.com/vladdoster/dotfiles/commit/ce055e407566405360e484db1537115255b4d5fa))
+* zsh compinit calls ([b64a479](https://github.com/vladdoster/dotfiles/commit/b64a47955b1d9aab69fcc26433122ff0fc4c37ca))
+
 # [4.23.0](https://github.com/vladdoster/dotfiles/compare/v4.22.0...v4.23.0) (2023-03-26)
 
 
