@@ -1,48 +1,76 @@
 #autoload
 
-docker buildx build --load --platform linux/x86_64 --tag simple:latest -<<'EOF'
-FROM amd64/ubuntu
-ENV USER docker-user
-ENV HOME /home/$USER
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update --quiet=2 \
- && apt-get install --assume-yes --no-install-recommends --quiet=2 \
-    autoconf autogen automake \
-    build-essential \
-    ca-certificates cmake coreutils curl \
-    file \
-    git \
-    make \
-    openssl \
-    stow subversion sudo \
-    texinfo \
-    wget \
-    unzip \
-    zsh
-RUN useradd \
-  --create-home \
-  --gid root --groups sudo \
-  --home-dir /home/${USER} \
-  --shell "$(which zsh)" \
-  --uid 1001 \
-  ${USER} \
- && mkdir -p /home/${USER}/.config \
- && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers \
- && passwd --delete ${USER} \
- && chown --recursive ${USER} /home/${USER}
-USER ${USER}
-WORKDIR ${HOME}
-RUN git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
-ENTRYPOINT ["zsh"]
-CMD ["-l"]
+emulate -L zsh
+zmodload zsh/zutil || return
+
+local help \
+  docker_verbosity='auto' verbose \
+  tag=(dev-sandbox) container_tag
+
+zparseopts -D -F -K -- \
+  {h,-help}=help       \
+  {v,-verbose}=verbose \
+  {t,-tag}:=tag || return
+
+if (( $#help )); then
+  print -rC1 --      \
+    "$0 [-h|--help]" \
+    "$0 [-v|--verbose] [-t|--tag=<tag>] [<message...>]"
+  return
+fi
+
+if (( $#verbose )); then
+  docker_verbosity='plain'
+fi
+
+container_tag=${(q+)tag[-1]}
+
+print -P -- "%F{green}===>%f Building ${container_tag} container"
+
+docker buildx build --load --platform linux/x86_64 --progress=$docker_verbosity --tag ${container_tag}:latest -<<'EOF'
+  FROM amd64/ubuntu
+  ENV USER docker-user
+  ENV HOME /home/$USER
+  ENV DEBIAN_FRONTEND noninteractive
+  RUN apt-get update --quiet=2 \
+   && apt-get install --assume-yes --no-install-recommends --quiet=2 \
+      autoconf autogen automake \
+      build-essential \
+      ca-certificates cmake coreutils curl \
+      file \
+      git \
+      make \
+      openssl \
+      stow subversion sudo \
+      texinfo \
+      wget \
+      unzip \
+      zsh
+  RUN useradd \
+    --create-home \
+    --gid root --groups sudo \
+    --home-dir /home/${USER} \
+    --shell "$(which zsh)" \
+    --uid 1001 \
+    ${USER} \
+   && mkdir -p /home/${USER}/.config \
+   && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers \
+   && passwd --delete ${USER} \
+   && chown --recursive ${USER} /home/${USER}
+  USER ${USER}
+  WORKDIR ${HOME}
+  RUN git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
+  ENTRYPOINT ["zsh"]
+  CMD ["-l"]
 EOF
 
+print -P -- "%F{green}===>%f Starting shell in ${tag} container"
 docker run \
-  --hostname zinit-current-completion \
+  --hostname "$container_tag" \
   --interactive \
   --mount source=zsh-volume,destination=/home \
   --platform linux/x86_64 \
   --tty \
-  simple:latest
+  ${container_tag}:latest
 
-# vim:syn=dockerfile:ft=dockerfile:fo=croql:sw=2:sts=2
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
