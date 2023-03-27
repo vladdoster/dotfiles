@@ -1,5 +1,11 @@
 {
 
+  # Try in order: C.UTF-8, en_US.UTF-8, the first UTF-8 locale in lexicographical order.
+  (( $+commands[locale] )) || return
+  local loc=(${(@M)$(locale -a):#*.(utf|UTF)(-|)8})
+  (( $#loc )) || return
+  export LC_ALL=${loc[(r)(#i)C.UTF(-|)8]:-${loc[(r)(#i)en_US.UTF(-|)8]:-$loc[1]}}
+
   emulate -L zsh
   setopt nullglob typesetsilent nowarncreateglobal globsubst
 
@@ -36,3 +42,5 @@
     fi
   done
 } &!
+
+# vim: set fenc=utf8 ffs=unix ft=zsh list et sts=2 sw=2 ts=2 tw=100:
