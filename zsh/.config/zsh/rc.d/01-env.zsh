@@ -21,7 +21,6 @@ export \
   DISABLE_MAGIC_FUNCTIONS=1  DOCKER_BUILDKIT=1           \
   HOMEBREW_NO_{ENV_HINTS,INSTALL_CLEANUP}=1 \
   SHELL_SESSIONS_DISABLE=1
-export L{ANG{,UAGE},C_ALL}='en_US.UTF-8'
 # $PATH and $path (and also $FPATH and $fpath, etc.) are "tied" to each other.
 # Modifying one will also modify the other.
 # Note that each value in an array is expanded separately. Thus, we can use ~

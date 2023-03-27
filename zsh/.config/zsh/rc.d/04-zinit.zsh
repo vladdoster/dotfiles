@@ -51,7 +51,7 @@ zi is-snippet nocompletions light-mode compile light-mode for {OMZP::gnu-utils,O
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
 zinit for compile'(pure|async).zsh' multisrc'(pure|async).zsh'  atinit"
 PURE_GIT_DOWN_ARROW='%1{↓%}'; PURE_GIT_UP_ARROW='%1{↑%}'
-+PURE_PROMPT_SYMBOL='$(hostname -s)%2{ ᐳ%}'; PURE_PROMPT_VICMD_SYMBOL='$(hostname -s)%2{ ᐸ%}'
+PURE_PROMPT_SYMBOL='$(hostname -s)%2{ ᐳ%}'; PURE_PROMPT_VICMD_SYMBOL='$(hostname -s)%2{ ᐸ%}'
 zstyle ':prompt:pure:git:action' color 'yellow'
 zstyle ':prompt:pure:git:branch' color 'blue'
 zstyle ':prompt:pure:git:dirty' color 'red'
