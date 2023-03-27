@@ -35,8 +35,7 @@ else
   log::error 'failed to find zinit installation'
 fi
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
-zi is-snippet nocompletions light-mode compile light-mode for \
-  {PZTM::environment,OMZP::gnu-utils,OMZL::{compfix,git,key-bindings,completion}.zsh}
+zi is-snippet nocompletions light-mode compile light-mode for {OMZP::gnu-utils,OMZL::{git,key-bindings}.zsh}
 # zi as'completion' for OMZP::{'golang/_golang','pip/_pip'}
 # #=== COMPLETIONS ======================================
 # local GH_RAW_URL='https://raw.githubusercontent.com'
@@ -62,11 +61,13 @@ zstyle ':prompt:pure:prompt:success' color 'green'" load \
 #=== ANNEXES ==========================================
 zi light-mode compile nocompletions for @${ZI[SRC]}/zinit-annex-{binary-symlink,default-ice,linkman,patch-dl,submods,bin-gem-node}
 #=== GITHUB BINARIES ==================================
-# zinit wait lucid from"gh-r" as"command" for sbin"**/bin/nvim" ver"nightly" neovim/neovim
-zi default-ice --quiet from"gh-r" light-mode lbin'!' nocompile
-# zi null id-as light-mode for @{dandavison/delta,r-darwish/topgrade}
-# zi null id-as light-mode ver'v8.6.0' for @sharkdp/fd
-# # zi lman  from'gh-r' id-as lbin'!' nocompile for @{trufflesecurity/trufflehog,dandavison/delta,r-darwish/topgrade}
+zi default-ice --quiet from"gh-r" lbin'!' nocompile
+setopt extendedglob globstarshort nullglob
+autoload -U zargs
+scripts=( @{sharkdp/fd,trufflesecurity/trufflehog,dandavison/delta,r-darwish/topgrade} )
+zargs -P 4 -l 1 -- $scripts -- zinit light
+zi light-mode for @{sharkdp/fd,trufflesecurity/trufflehog,dandavison/delta,r-darwish/topgrade}
+
 zi lman lbin'!' light-mode for \
   dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
   src'key-bindings.zsh' \
@@ -80,15 +81,21 @@ zi default-ice --quiet light-mode
 for i (v vi vim); do alias $i="nvim"; done
 # alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'
 #=== UNIT TESTING =====================================
-# zinit as'program' atpull'./build.zsh' src'zunit' for @vladdoster/zunit
+zinit for \
+    as'command' \
+    atclone'./build.zsh' \
+    nocompile \
+    pick'zunit' \
+  @zdharma-continuum/zunit
+
 zi ice nocompile mv'*completion -> _revolver' lbin'!'; zi light molovo/revolver
 zi lucid wait'!' light-mode completions for \
   null make'PREFIX=${ZI[PLUGINS_DIR]}/zshelldoc --always-make' lbin'!build/zsd*' \
-  ver'style/logging' \
   @zdharma-continuum/zshelldoc \
   atinit'bindkey -M vicmd "^v" edit-command-line' \
   @softmoth/zsh-vim-mode \
   @vladdoster/plugin-zinit-aliases
+  # ver'style/logging' \
 #=== MISC. ============================================
 # zinit wait lucid for \
   #   atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
@@ -100,11 +107,14 @@ zi lucid wait'!' light-mode completions for \
 zi lucid wait light-mode for \
     svn submods'zsh-users/zsh-history-substring-search -> external' \
   OMZP::history-substring-search \
-    atpull'zinit creinstall -q .' blockf \
-  zsh-users/zsh-completions \
     atload'!_zsh_autosuggest_start' atinit'bindkey "^_" autosuggest-execute;bindkey "^ " autosuggest-accept;' \
   zsh-users/zsh-autosuggestions \
-    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' atpull'%atclone' compile'.*fast*~*.zwc' \
-  "${ZI[FORK]:-${ZI[SRC]}}"/fast-syntax-highlighting
+    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
+    atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+    atpull'%atclone' \
+    compile'.*fast*~*.zwc' \
+  "${ZI[FORK]:-${ZI[SRC]}}"/fast-syntax-highlighting \
+  atpull'zinit creinstall -q .' blockf \
+    zsh-users/zsh-completions
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

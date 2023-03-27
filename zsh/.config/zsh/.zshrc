@@ -4,14 +4,9 @@
 #   exec 3>&2 2>"${HOME}/zshstart.$$.log"
 #   setopt xtrace prompt_subst
 # }
-() {
   # `local` sets the variable's scope to this function and its descendendants.
-  local ZDOTDIR=~/.config/zsh
+  local ZDOTDIR=$HOME/.config/zsh
   # load all of the files in rc.d that start with <number>- and end in `.zsh`.
-  local file=
-  for file in $ZDOTDIR/rc.d/<->-*.zsh(n); do
-    . $file   # `.` is like `source`, but doesn't search your $path.
-  done
-} "$@"
+  for f in $ZDOTDIR/rc.d/<->-*zsh(n); source $f
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
