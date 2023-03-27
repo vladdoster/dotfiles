@@ -10,12 +10,14 @@ RUN apt-get update --quiet=2 \
     autoconf autogen automake \
     build-essential \
     ca-certificates cmake coreutils curl \
+    file \
     git \
     make \
     openssl \
     stow subversion sudo \
     texinfo \
     wget \
+    unzip \
     zsh
 RUN useradd \
   --create-home \
