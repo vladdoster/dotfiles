@@ -68,7 +68,7 @@ print -P -- "%F{green}===>%f Starting shell in ${tag} container"
 docker run \
   --hostname "$container_tag" \
   --interactive \
-  --mount source=zsh-volume,destination=/home \
+  --mount source=${container_tag},destination=/home \
   --platform linux/x86_64 \
   --tty \
   ${container_tag}:latest
