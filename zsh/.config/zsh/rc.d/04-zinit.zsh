@@ -104,17 +104,17 @@ zi lucid wait'!' light-mode completions for \
   #   zsh-users/zsh-completions \
   #   atload"!_zsh_autosuggest_start" \
   #   zsh-users/zsh-autosuggestions
+  # atpull'zinit creinstall -q .' blockf \
 zi lucid wait light-mode for \
     svn submods'zsh-users/zsh-history-substring-search -> external' \
   OMZP::history-substring-search \
+  zsh-users/zsh-completions \
     atload'!_zsh_autosuggest_start' atinit'bindkey "^_" autosuggest-execute;bindkey "^ " autosuggest-accept;' \
   zsh-users/zsh-autosuggestions \
     atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
-    atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+    atload"zicompinit" \
     atpull'%atclone' \
     compile'.*fast*~*.zwc' \
-  "${ZI[FORK]:-${ZI[SRC]}}"/fast-syntax-highlighting \
-  atpull'zinit creinstall -q .' blockf \
-    zsh-users/zsh-completions
+  "${ZI[FORK]:-${ZI[SRC]}}"/fast-syntax-highlighting
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
