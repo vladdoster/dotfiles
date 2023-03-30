@@ -129,10 +129,6 @@ alias tmp-md='$EDITOR $(mktemp -t scratch.XXX.md)'
 # │ PYTHON │
 # +────────+
 alias http-serve='python3 -m http.server'
-alias pip-requirements='python3 -m pip install -r requirements.txt || _error "no requirements.txt found"'
-alias venv-activate='source ./venv/bin/activate'
-alias venv-create='python3 -m venv ./venv'
-alias venv-setup='venv-create && venv-activate && pip-requirements'
 # +──────────────+
 # │ NETWORK INFO │
 # +──────────────+
