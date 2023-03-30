@@ -35,7 +35,7 @@ else
   log::error 'failed to find zinit installation'
 fi
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
-zi is-snippet nocompletions light-mode compile light-mode for {OMZP::gnu-utils,OMZL::{git,key-bindings}.zsh}
+zi is-snippet nocompletions light-mode compile for {OMZP::gnu-utils,OMZL::{git,key-bindings}.zsh}
 # zi as'completion' for OMZP::{'golang/_golang','pip/_pip'}
 # #=== COMPLETIONS ======================================
 # local GH_RAW_URL='https://raw.githubusercontent.com'
@@ -51,24 +51,23 @@ zi is-snippet nocompletions light-mode compile light-mode for {OMZP::gnu-utils,O
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
 zinit for compile'(pure|async).zsh' multisrc'(pure|async).zsh'  atinit"
 PURE_GIT_DOWN_ARROW='%1{↓%}'; PURE_GIT_UP_ARROW='%1{↑%}'
-PURE_PROMPT_SYMBOL='$(hostname -s)%2{ ᐳ%}'; PURE_PROMPT_VICMD_SYMBOL='$(hostname -s)%2{ ᐸ%}'
+PURE_PROMPT_SYMBOL='${HOST}%2{ ᐳ%}'; PURE_PROMPT_VICMD_SYMBOL='${HOST}%2{ ᐸ%}'
 zstyle ':prompt:pure:git:action' color 'yellow'
 zstyle ':prompt:pure:git:branch' color 'blue'
 zstyle ':prompt:pure:git:dirty' color 'red'
 zstyle ':prompt:pure:path' color 'cyan'
-zstyle ':prompt:pure:prompt:success' color 'green'" load \
+zstyle ':prompt:pure:prompt:success' color 'green'" light-mode \
   @sindresorhus/pure
 #=== ANNEXES ==========================================
-zi light-mode compile nocompletions for @${ZI[SRC]}/zinit-annex-{binary-symlink,default-ice,linkman,patch-dl,submods,bin-gem-node}
+zi light-mode for @${ZI[SRC]}/zinit-annex-{binary-symlink,linkman,patch-dl,submods,bin-gem-node}
 #=== GITHUB BINARIES ==================================
-zi default-ice --quiet from"gh-r" lbin'!' nocompile
-setopt extendedglob globstarshort nullglob
-autoload -U zargs
-scripts=( @{sharkdp/fd,trufflesecurity/trufflehog,dandavison/delta,r-darwish/topgrade} )
-zargs -P 4 -l 1 -- $scripts -- zinit light
-zi light-mode for @{sharkdp/fd,trufflesecurity/trufflehog,dandavison/delta,r-darwish/topgrade}
+# autoload -U zargs
+# scripts=( @{sharkdp/fd,trufflesecurity/trufflehog,dandavison/delta,r-darwish/topgrade} )
+# zi default-ice --quiet from"gh-r" lbin'!' nocompile
+# setopt localoptions extendedglob globstarshort nullglob
+zi light-mode from-gh-r lbin'!' null for light-mode @{dandavison/delta,r-darwish/topgrade}
 
-zi lman lbin'!' light-mode for \
+zi lman lbin'!' from'gh-r' null light-mode for \
   dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
   src'key-bindings.zsh' \
   @junegunn/fzf \
@@ -76,14 +75,13 @@ zi lman lbin'!' light-mode for \
   @neovim/neovim \
   lbin'!**/exa -> exa' atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa
-zi default-ice --clear --quiet
-zi default-ice --quiet light-mode
-for i (v vi vim); do alias $i="nvim"; done
+# for i (v vi vim); do alias $i="nvim"; done
 # alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'
 #=== UNIT TESTING =====================================
 zinit for \
     as'command' \
     atclone'./build.zsh' \
+    light-mode \
     nocompile \
     pick'zunit' \
   @zdharma-continuum/zunit
