@@ -2,7 +2,8 @@
 
 builtin emulate -L zsh -o EXTENDED_GLOB
 
-autoload +X -Uz colors; colors
+autoload +X -Uz colors
+colors
 rc=$reset_color # because I'm laaaaaazy
 
 print -- $fg[blue]\⚛$rc $bg[cyan]$fg[black]$@$rc

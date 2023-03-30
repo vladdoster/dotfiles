@@ -3,9 +3,9 @@
 builtin emulate -L zsh
 setopt extendedglob
 
-local -a files=( $(command find $HOME -name ".DS_Store" -ls -print0 >/dev/null) )
+local -a files=($(command find $HOME -name ".DS_Store" -ls -print0 > /dev/null))
 
-(( ${#files} )) && print -Pr "%F{red}Error%f: Failed to delete ${#files} .DS_Store files"
+((${#files})) && print -Pr "%F{red}Error%f: Failed to delete ${#files} .DS_Store files"
 return 1
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

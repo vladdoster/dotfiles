@@ -2,6 +2,6 @@
 
 builtin emulate -L zsh -o EXTENDED_GLOB
 
-local branches=$( git branch --all | grep -v HEAD)  && local branch=$(echo "$branches" | fzf-tmux -d $((2 + $(wc -l <<< "$branches"))) +m)  && git checkout $( echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##" )
+local branches=$(git branch --all | grep -v HEAD) && local branch=$(echo "$branches" | fzf-tmux -d $((2 + $(wc -l <<< "$branches"))) +m) && git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

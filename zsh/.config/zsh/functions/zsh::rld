@@ -6,11 +6,9 @@ log::info 'Validating dotfiles...'
 private msg=
 msg="$(exec zsh -ilc exit 2>&1 > /dev/null)"
 private err=$?
-if [[ err -ne 0 || -n $msg ]]
-then
+if [[ err -ne 0 || -n $msg ]]; then
   print -nu2 'Validation failed with '
-  if [[ -z $msg ]]
-  then
+  if [[ -z $msg ]]; then
     print -Pu2 "exit status %F{red}$err%f."
   else
     print -nPu2 'the following errors:\n%F{red}'

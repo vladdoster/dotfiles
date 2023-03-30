@@ -1,7 +1,5 @@
 #autoload
 
-emulate -L zsh
-
 # cd ${0%/*}
 
 zdir=$ZDOTDIR
@@ -25,7 +23,6 @@ zcompile $zdir/.zshrc ${lst[@]}
 
 # Compile the completion dump
 zcd=$zdir/.zcompdump
-if [[ -s $zcd && (! -s ${zcd}.zwc || $zcd -nt ${zcd}.zwc) ]]
-then zcompile $zcd; fi
+if [[ -s $zcd && (! -s ${zcd}.zwc || $zcd -nt ${zcd}.zwc) ]]; then zcompile $zcd; fi
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
