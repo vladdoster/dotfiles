@@ -1,169 +1,82 @@
-#autoload
-
-# Wraps curl with a custom-drawn progress bar. Use it just like curl:
-#
-#     $ curl-progress -O http://example.com/file.tar.gz
-#     $ curl-progress http://example.com/file.tar.gz > file.tar.gz
-#
-# All arguments to the program are passed directly to curl. Define your
-# custom progress bar in the `print_progress` function.
-#
-# (c) 2013 Sam Stephenson <sstephenson@gmail.com>
-# Released into the public domain 2013-01-21
-# At a high level, we will show our own progress bar by forking curl off
-# into the background, passing a temporary file to the `--trace-ascii`
-# option, filtering and parsing the trace output line by line, and then
-# drawing the progress bar to the screen when data is received.
-# Tell bash to abort if any command exits with a non-zero status code.
 emulate -L sh -o no_multi_byte -o extended_glob
-# emulate -L zsh -o no_prompt_bang -o prompt_subst -o prompt_percent
-# We want to print the progress bar to stderr, but only if stderr is a
-# terminal. To avoid a conditional every time we print something, we can
-# instead print everything to file descriptor 4, and then point that file
-# descriptor to the right place: stderr if it's a TTY, or /dev/null
-# otherwise.
 if [ -t 2 ]; then
   exec 4>&2
 else
   exec 4> /dev/null
 fi
-# Locate the path to the temporary directory.
 if [ -z "$TMPDIR" ]; then
   TMP="/tmp"
 else
   TMP="${TMPDIR%/}"
 fi
-# Compute names for our temporary files by joining the current date and
-# time with the current process ID. We will need two temporary files: one
-# for reading progress information from curl, and another for sending the
-# exit status of curl from the forked child process back to the parent.
-basename="${TMP}/$(date "+%Y%m%d%H%M%S").$$"
-tracefile="${basename}.trace"
-statusfile="${basename}.status"
-# Remove the temporary files if they somehow already exist.
+basename="$TMP/$(date "+%Y%m%d%H%M%S").$$"
+tracefile="$basename.trace"
+statusfile="$basename.status"
 rm -f "$tracefile" "$statusfile"
-# Define our `shutdown` function, which will be responsible for cleaning
-# up when the program terminates, either normally or abnormally.
 shutdown() {
-  # If we wrote an exit status to the temporary file, read it. Otherwise,
-  # we reached this trap function abnormally; assume a non-zero status.
   if [ -f "$statusfile" ]; then
     local status_file="$(cat "$statusfile")"
   else
     local status_file="1"
   fi
-  # If we are exiting normally, jump back to the beginning of the line
-  # and clear it. Otherwise, print a newline.
   if [ "$status_file" -eq 0 ]; then
     printf "\x1B[0G\x1B[0K" >&4
   else
     echo >&4
   fi
-  # Remove our temporary files if they exist.
   rm -f "$tracefile" "$statusfile"
-  # Kill the curl background process if it is still running.
   kill %+ 2> /dev/null
-  # Unregister our trap and exit with the given status code.
   trap - SIGINT SIGTERM ERR EXIT
   exit "$status_file"
 }
-# Register our `shutdown` function to be invoked when the process dies.
 trap "shutdown" SIGINT SIGTERM ERR EXIT
-# Create our temporary progress file as a FIFO.
 mkfifo "$tracefile"
-# Our program begins here. Fork off a background subshell to run curl and
-# record its exit status. We will pass our temporary progress FIFO to
-# curl's `--trace-ascii` option, along with the `-s` option, and then any
-# arguments passed to the program itself. Once curl terminates, write its
-# exit status to the appropriate temporary file. Then write a single line
-# to the FIFO so our loop below won't wait forever in cases where curl
-# doesn't write any progress information (like when it's invoked with
-# the `--help` or `--version` flag.)
 (
   set +e
   curl --trace-ascii "$tracefile" --output test -s "$@"
   echo "$?" > "$statusfile"
   echo >> "$tracefile"
-) &
-# By default, the operating system will buffer reads from the progress
-# FIFO into chunks. However, we want to process the progress updates as
-# soon as they are received. The `unbuffered_sed` function wraps sed with
-# the right options for bypassing buffering on the current platform.
+) \
+  &
 unbuffered_sed() {
-  # GNU sed supports a `-u` option for unbuffered reads.
   if echo | sed -u > /dev/null 2>&1; then
     sed -nu "$@"
-  # BSD sed supports a `-l` option for line-buffered reads.
   elif echo | sed -l > /dev/null 2>&1; then
     sed -nl "$@"
-  # If we don't have GNU or BSD sed, we can clumsily hack around the
-  # operating system's buffer by padding each line of output with a
-  # large number of trailing spaces.
   else
     local pad="$(printf "\n%512s" "")"
-    sed -ne "s/$/\\${pad}/" "$@"
+    sed -ne "s/$/\\$pad/" "$@"
   fi
 }
-# The `print_progress` function draws our progress bar to the screen. It
-# takes two arguments: the number of bytes read so far, and the total
-# number of bytes expected.
 print_progress() {
   local bytes="$1"
   local length="$2"
-  # If we are expecting less than 8 KB of data, don't bother drawing a
-  # progress bar. (This helps avoid a flicker when following redirects.)
   [ "$length" -gt 8192 ] || return 0
-  # Get the width of the terminal and reserve space for the percentage.
   local columns="$(tput cols)"
   columns=100
   local width=$((columns - 10))
-  # Calculate the progress percentage and the size of the filled and
-  # unfilled portions of the progress bar.
   local percent=$((bytes * 100 / length))
   local on=$((bytes * width / length))
   local off=$((width - on))
-  # Using ANSI escape sequences, first move the cursor to the beginning
-  # of the line, and then write the percentage. Switch to inverted text
-  # mode and print spaces to represent the filled part of the progress
-  # bar, then reset and print spaces for the remainder of the region.
-  # Finally, move the cursor back one character so it rests at the end of
-  # the progress bar.
   printf "\x1B[0G %-6s\x1B[7m%*s\x1B[0m%*s\x1B[27m" \
-    "${percent}%" "$on" "" "$off" "" | tee progress${$}.txt >&4
+    "$percent%" "$on" "" "$off" "" | tee progress$$.txt >&4
 }
-# The progress bar loop begins here. Our unbuffered `sed` will filter
-# progress information from the trace output in the temporary FIFO line
-# by line until curl terminates and closes the pipe. The progress
-# information is normalized and passed to a loop that parses it, keeps
-# track of the number of bytes received, and invokes the `print_progress`
-# function accordingly. When the FIFO is closed, the loop terminates and
-# bash invokes our `shutdown` exit trap.
 unbuffered_sed \
   -e 'y/ACDEGHLNORTV/acdeghlnortv/' \
   -e '/^0000: content-length:/p' \
   -e '/^<= recv data/p' \
-  "$tracefile" \
-  | {
-    length=0
-    bytes=0
-    # Read each line of filtered trace output into an array of space-
-    # separated words.
-    while IFS=" " read -A line; do
-      tag="${line[0]} ${line[1]}"
-      # If the first two words are `0000: content-length:`, extract and
-      # record the expected length. We must also set the bytes-received
-      # counter to zero in case we followed a redirect and this is not the
-      # first response.
-      if [ "$tag" = "0000: content-length:" ]; then
-        length="${line[2]}"
-        bytes=0
-      # Otherwise, if the first two words are `<= recv`, extract the number
-      # of bytes read and increment the bytes-received counter accordingly,
-      # then invoke `print_progress`.
-      elif [ "$tag" = "<= recv" ]; then
-        size="${line[3]}"
-        bytes=$((bytes + size))
-        print_progress "$bytes" "$length"
-      fi
-    done
-  }
+  "$tracefile" | {
+  length=0
+  bytes=0
+  while IFS=" " read -A line; do
+    tag="${line[0]} ${line[1]}"
+    if [ "$tag" = "0000: content-length:" ]; then
+      length="${line[2]}"
+      bytes=0
+    elif [ "$tag" = "<= recv" ]; then
+      size="${line[3]}"
+      bytes=$((bytes + size))
+      print_progress "$bytes" "$length"
+    fi
+  done
+}
