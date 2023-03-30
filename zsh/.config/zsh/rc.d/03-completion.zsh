@@ -16,6 +16,9 @@ builtin setopt AUTO_LIST           # Automatically list choices on ambiguous com
 builtin setopt AUTO_PARAM_SLASH    # If completed parameter is a directory, add a trailing slash.
 builtin unsetopt MENU_COMPLETE     # Do not autoselect the first completion entry.
 builtin unsetopt FLOW_CONTROL      # Disable start/stop characters in shell editor.
+
+builtin zstyle ':completion:*:*:-command-:*:*' group-order functions builtins commands
+# builtin zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 #
 # Styles
 #
@@ -23,7 +26,7 @@ builtin unsetopt FLOW_CONTROL      # Disable start/stop characters in shell edit
 builtin zstyle ':completion::complete:*' use-cache on
 builtin zstyle ':completion::complete:*' cache-path "${ZDOTDIR:-$HOME}/.zcompcache"
 # Disable case sensitivity
-builtin zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+builtin zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 builtin unsetopt CASE_GLOB
 # Group matches and describe.
 builtin zstyle ':completion:*:*:*:*:*' menu select
