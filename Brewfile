@@ -27,6 +27,7 @@ brew "go"
 brew "grep"
 brew "gzip"
 brew "htop"
+brew "jq"
 brew "less", link: true
 brew "libevent"
 brew "libunistring"
