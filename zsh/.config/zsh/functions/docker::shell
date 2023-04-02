@@ -1,33 +1,50 @@
 #autoload
 
-builtin emulate -L zsh
-builtin zmodload zsh/zutil || return
+emulate -L zsh
+zmodload zsh/zutil || return
 
 local help \
   docker_verbosity='auto' verbose \
+  file=() docker_file \
   tag=(dev-sandbox) container_tag
 
-builtin zparseopts -D -F -K -- \
-  {h,-help}=help       \
+zparseopts -D -F -K -- \
+  {h,-help}=help \
   {v,-verbose}=verbose \
+  {f,-file}:=file \
   {t,-tag}:=tag || return
 
-if (( $#help )); then
+(( ! $+commands[docker] )) && {
+  builtin print -P -- '%F{red}Error: docker command not found %f'
+  return 1
+}
+
+(( $#help )) && {
   builtin print -rC1 --      \
     "$0 [-h|--help]" \
-    "$0 [-v|--verbose] [-t|--tag=<tag>] [<message...>]"
-  return
-fi
+    "$0 [-f|--file] [-v|--verbose] [-t|--tag=<tag>]"
+  return 0
+}
 
-if (( $#verbose )); then
+(( $#verbose )) && {
   docker_verbosity='plain'
-fi
+}
 
 container_tag=${(q+)tag[-1]}
-
 builtin print -P -- "%F{green}===>%f Building ${container_tag} container"
 
-command docker buildx build --load --platform linux/x86_64 --progress=$docker_verbosity --tag ${container_tag}:latest -<<'EOF'
+print $file[-1]
+local docker_file=${file[-1]}
+(( $#docker_file )) && {
+  docker buildx build \
+    --file $docker_file \
+    --load \
+    --platform linux/x86_64 \
+    --progress=$docker_verbosity \
+    --tag ${container_tag}:latest \
+    $PWD
+} || {
+  docker buildx build --load --platform linux/x86_64 --progress=$docker_verbosity --tag ${container_tag}:latest -<<'EOF'
   FROM amd64/ubuntu
   ENV USER docker-user
   ENV HOME /home/$USER
@@ -63,9 +80,10 @@ command docker buildx build --load --platform linux/x86_64 --progress=$docker_ve
   ENTRYPOINT ["zsh"]
   CMD ["-l"]
 EOF
+}
 
 builtin print -P -- "%F{green}===>%f Starting shell in ${tag} container"
-command docker run \
+docker run \
   --hostname "$container_tag" \
   --interactive \
   --mount source=${container_tag},destination=/home \

@@ -1,0 +1,7 @@
+#compdef docker::shell
+
+_arguments -s \
+  '(- *)'{-h,--help}'[display this help and exit]' \
+  '(- *)'{-v,--verbose}'[Display a verbose log for error reporting]' \
+  {-g,--file=}'[use TEXT as the greeting message]:file:_files' \
+  {-t,--tag}'[use TEXT as the container tag]:TEXT'
