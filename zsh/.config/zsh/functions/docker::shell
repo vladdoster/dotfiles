@@ -1,19 +1,19 @@
 #autoload
 
-emulate -L zsh
-zmodload zsh/zutil || return
+builtin emulate -L zsh
+builtin zmodload zsh/zutil || return
 
 local help \
   docker_verbosity='auto' verbose \
   tag=(dev-sandbox) container_tag
 
-zparseopts -D -F -K -- \
+builtin zparseopts -D -F -K -- \
   {h,-help}=help       \
   {v,-verbose}=verbose \
   {t,-tag}:=tag || return
 
 if (( $#help )); then
-  print -rC1 --      \
+  builtin print -rC1 --      \
     "$0 [-h|--help]" \
     "$0 [-v|--verbose] [-t|--tag=<tag>] [<message...>]"
   return
@@ -25,9 +25,9 @@ fi
 
 container_tag=${(q+)tag[-1]}
 
-print -P -- "%F{green}===>%f Building ${container_tag} container"
+builtin print -P -- "%F{green}===>%f Building ${container_tag} container"
 
-docker buildx build --load --platform linux/x86_64 --progress=$docker_verbosity --tag ${container_tag}:latest -<<'EOF'
+command docker buildx build --load --platform linux/x86_64 --progress=$docker_verbosity --tag ${container_tag}:latest -<<'EOF'
   FROM amd64/ubuntu
   ENV USER docker-user
   ENV HOME /home/$USER
@@ -64,8 +64,8 @@ docker buildx build --load --platform linux/x86_64 --progress=$docker_verbosity 
   CMD ["-l"]
 EOF
 
-print -P -- "%F{green}===>%f Starting shell in ${tag} container"
-docker run \
+builtin print -P -- "%F{green}===>%f Starting shell in ${tag} container"
+command docker run \
   --hostname "$container_tag" \
   --interactive \
   --mount source=${container_tag},destination=/home \

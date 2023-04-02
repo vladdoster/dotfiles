@@ -35,7 +35,9 @@ else
   log::error 'failed to find zinit installation'
 fi
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
-zi is-snippet nocompletions light-mode compile for {OMZP::gnu-utils,OMZL::{git,key-bindings}.zsh}
+zi snippet OMZP::gnu-utils
+zi is-snippet for OMZL::{key-bindings,git}.zsh
+# zi is-snippet nocompletions light-mode compile for {OMZP::gnu-utils,OMZL::{key-bindings,git}.zsh}
 # zi as'completion' for OMZP::{'golang/_golang','pip/_pip'}
 # #=== COMPLETIONS ======================================
 # local GH_RAW_URL='https://raw.githubusercontent.com'
@@ -59,15 +61,15 @@ zstyle ':prompt:pure:path' color 'cyan'
 zstyle ':prompt:pure:prompt:success' color 'green'" light-mode \
   @sindresorhus/pure
 #=== ANNEXES ==========================================
-zi light-mode for @${ZI[SRC]}/zinit-annex-{binary-symlink,linkman,patch-dl,submods,bin-gem-node}
+zi light-mode for @${ZI[SRC]}/zinit-annex-{binary-symlink,linkman,patch-dl,submods,bin-gem-node,default-ice}
 #=== GITHUB BINARIES ==================================
 # autoload -U zargs
 # scripts=( @{sharkdp/fd,trufflesecurity/trufflehog,dandavison/delta,r-darwish/topgrade} )
 # zi default-ice --quiet from"gh-r" lbin'!' nocompile
 # setopt localoptions extendedglob globstarshort nullglob
-zi light-mode from-gh-r lbin'!' null for light-mode @{dandavison/delta,r-darwish/topgrade}
+zi light-mode from'gh-r' lbin'!' null for @{dandavison/delta,r-darwish/topgrade}
 
-zi lman lbin'!' from'gh-r' null light-mode for \
+zi lman lbin'!'  from'gh-r' null light-mode for \
   dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
   src'key-bindings.zsh' \
   @junegunn/fzf \
