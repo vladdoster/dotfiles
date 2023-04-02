@@ -40,11 +40,11 @@ zi is-snippet for OMZL::{key-bindings,git}.zsh
 # zi is-snippet nocompletions light-mode compile for {OMZP::gnu-utils,OMZL::{key-bindings,git}.zsh}
 # zi as'completion' for OMZP::{'golang/_golang','pip/_pip'}
 # #=== COMPLETIONS ======================================
-# local GH_RAW_URL='https://raw.githubusercontent.com'
-# znippet() { zi for  as'completion' has"${1}" depth'1' light-mode nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
+local GH_RAW_URL='https://raw.githubusercontent.com'
+znippet() { zi for  as'completion' has"${1}" depth'1' light-mode nocompile id-as"${1}-completion/_${1}" is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
 # znippet 'exa' 'ogham/exa/master/completions/zsh'
 # # znippet 'fd' 'sharkdp/fd/master/contrib/completion'
-# znippet 'brew' 'Homebrew/brew/master/completions/zsh'
+znippet 'brew' 'Homebrew/brew/master/completions/zsh'
 # znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
 # zi  as'completion' light-mode nocompile is-snippet for \
 #   "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh" \
