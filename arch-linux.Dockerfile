@@ -84,7 +84,7 @@ RUN git clone --quiet https://github.com/neovim/neovim \
  && sudo make --directory=neovim --jobs --quiet --silent install \
  && sudo rm -rf neovim
 
-COPY --chown=${USER}:1001 . ${HOME}/.config/dotfiles/
+# COPY --chown=${USER}:1001 . ${HOME}/.config/dotfiles/
 
 RUN mkdir -p $HOME/.config \
  && git clone --quiet https://github.com/vladdoster/dotfiles $HOME/.config/dotfiles

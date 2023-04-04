@@ -31,8 +31,8 @@ alias -s gz='gzip -l'
 alias -s {log,out}='tail -F'
 # Use `< file` to quickly view the contents of any text file.
 READNULLCMD=$PAGER  # Set the program to use for this.
-_error() { builtin print -P "%F{red}[ERROR]%f %F{white}${1}%f" >&2; }
-_info() { builtin print -P "%F{green}==>%f %F{white}${1}%f"; }
+_error() { builtin print -P -- "%F{red}Error%f: %F{white}${1}%f" >&2; }
+_info() { builtin print -P -- "%F{green}==>%f %F{white}${1}%f"; }
 # +────────────────+
 # │ UTIL FUNCTIONS │
 # +────────────────+
@@ -58,18 +58,14 @@ fi
 # +───────+
 alias bashly_edge='docker run --rm -it --user $(id -u):$(id -g) --volume "$PWD:/app" dannyben/bashly:edge'
 alias rmr="rm -rf --"
-function rmp() { _info "$(command rm -vf $(which $1))"; }
 alias tailf="less +F -R"
-alias auld="builtin autoload"
-alias zmld="builtin zmodload"
 # +──────────────────+
 # │ CONFIG SHORTCUTS │
 # +──────────────────+
 typeset -A pairs=(
-  ealiases 'zsh/rc.d/0[0-9]-alias.zsh' gignore 'git/ignore'                gcfg   'git/config'
-  kittyrc  'kitty/kitty.conf'          nvplg   "nvim/lua/plugins.lua"      skhdrc 'skhd/skhdrc'
-  rcenv    'zsh/rc.d/0[0-9]-env.zsh'   wezrc   'wezterm/wezterm.lua'
-  tmuxrc   'tmux/tmux.conf'            zic     'zsh/rc.d/0[0-9]-zinit.zsh' zrc    'zsh/.zshrc'
+  ealiases 'zsh/rc.d/.*-alias.zsh' gignore 'git/ignore'            gcfg  'git/config'
+  nvplg    "nvim/lua/plugins.lua"  rcenv   'zsh/rc.d/.*-env.zsh'   wezrc 'wezterm/wezterm.lua'
+  tmuxrc   'tmux/tmux.conf'        zic     'zsh/rc.d/.*-zinit.zsh' zrc   'zsh/.zshrc'
 )
 for k v in ${(kv)pairs[@]}; do
   builtin alias $k="_edit ${XDG_CONFIG_HOME:-${HOME}/.config}/${v}" || true
@@ -79,7 +75,7 @@ alias zinstall='_edit $ZINIT[BIN_DIR]/zinit-install.zsh'
 # │ HOME SHORTCUTS │
 # +────────────────+
 for k v in hscfg '.hammerspoon/init.lua' sshrc '.ssh/config' zec '.zshenv' zpc '.zprofile'; do
-  builtin alias $k="_edit $HOME/$v" || true
+  builtin alias -- $k="_edit ${HOME}/${v}" || true
 done
 # +─────────────────+
 # │ RELOAD COMMANDS │
@@ -93,9 +89,10 @@ alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},
 # │ NAVIGATION │
 # +────────────+
 typeset -A pairs=(
-  bin '~/.local/bin' ..  '../' dl '~/Downloads'
-  xch '~/.config'    xdh '~/.local/share'
-  zdd '$ZDOTDIR'     zcf '$ZDOTDIR/rc.d'
+  ..  '../'          ... '../../'         .... '../../../'
+  bin '~/.local/bin' dl  '~/Downloads'    hsd  '~/.hammerspoon'
+  xch '~/.config'    xdh '~/.local/share' zdd  '$ZDOTDIR'
+  zcf '$ZDOTDIR/rc.d'
 )
 # rr  '$(git rev-parse --show-toplevel)' zs  '   '
 for k v in ${(kv)pairs[@]}; do
@@ -110,10 +107,12 @@ done
 # +───────────────────+
 # │ COMMAND SHORTCUTS │
 # +───────────────────+
+alias auld="builtin autoload"
 alias me='builtin print -P "%F{blue}$(whoami)%f @ %F{cyan}$(uname -a)%f"'
 alias rshfmt="shfmt -i 4 -s -ln bash -sr -bn -ci -w"
 alias zc='zinit compile'
 alias zht='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
+alias zmld="builtin zmodload"
 # +───────+
 # │ MISC. │
 # +───────+
@@ -123,7 +122,6 @@ alias gen-passwd='openssl rand -base64 24'
 alias get-my-ip='curl ifconfig.co'
 alias get-env='print -lio $(env)'
 alias get-path='print -l ${(@s[:])PATH}'
-alias rm-docker='docker system prune --all --force'
 alias tmp-md='$EDITOR $(mktemp -t scratch.XXX.md)'
 # +────────+
 # │ PYTHON │
@@ -155,13 +153,7 @@ alias fmtsh='shfmt -bn -ci -i 2 -ln=bash -s -sr -w'
 # +─────+
 # │ SYS │
 # +─────+
-alias apt-sys-update="_sys_update 'sudo apt --yes'"
-alias brew-clean="brew cleanup --prune=all"
-alias brew-reset="brew update-reset"
-alias brew-sys-update="brew upgrade --greedy --force"
 alias wsys='echo OSTYPE=${OSTYPE} MACHTYPE=${MACHTYPE} CPUTYPE=${CPUTYPE} hardware=$(uname -m) processor=$(uname -p)'
-# alias cldf='command mkdir -p -- $HOME/.config; git clone https://github.com/vladdoster/dotfiles $HOME/.config/dotfiles; cd dotfiles'
-alias yum-sys-update="_sys_update 'sudo yum -y'"
 # +────────+
 # │ REMOTE │
 # +────────+
