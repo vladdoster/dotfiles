@@ -82,7 +82,8 @@ local docker_file=${file[-1]}
 EOF
 }
 
-builtin print -P -- "%F{green}===>%f Starting shell in ${tag} container"
+builtin print -P -- "%F{green}===>%f Starting shell in ${container_tag} container"
+return
 docker run \
   --hostname "$container_tag" \
   --interactive \
