@@ -1,3 +1,35 @@
+# [4.24.0](https://github.com/vladdoster/dotfiles/compare/v4.23.1...v4.24.0) (2023-04-10)
+
+
+### Bug Fixes
+
+* add /usr/local/bin to $PATH ([8a5a7b7](https://github.com/vladdoster/dotfiles/commit/8a5a7b7d1fee1c41f8cb67da97934bba3534b099))
+* add exa to brewfile ([9b54e35](https://github.com/vladdoster/dotfiles/commit/9b54e35f6d283e1f45112cf6926f8c86e3aa1fbe))
+* add jq to brewfile ([6c32e48](https://github.com/vladdoster/dotfiles/commit/6c32e4815b2a51343878caf30a710466b284558e))
+* aliases for zsh rc.d and $ZDOTDIR ([82cf830](https://github.com/vladdoster/dotfiles/commit/82cf830f65832bbe40909682c4508083c734bc22))
+* completion matching list ([f08433f](https://github.com/vladdoster/dotfiles/commit/f08433fc7530db5746e5c383e165fa551e1f0269))
+* docker shell edge cases and completion ([2e7a587](https://github.com/vladdoster/dotfiles/commit/2e7a5874ff5d5805dea4954bd6869d026e54086f))
+* format curl-progress ([a7e525e](https://github.com/vladdoster/dotfiles/commit/a7e525e90aea6ff32603dc8d033f0b6270084b3b))
+* format zsh autoloaded functions ([e63b5be](https://github.com/vladdoster/dotfiles/commit/e63b5be8d3655101cdb2ee8157270d2ba3dc8e16))
+* initializing homebrew ([e0ceff0](https://github.com/vladdoster/dotfiles/commit/e0ceff0fa2f56338119f277f25ff2d874a1fb65b))
+* log statments and container tag ([0d23e32](https://github.com/vladdoster/dotfiles/commit/0d23e32d745d7c88b2521ef77d1cd30dbcbe79e5))
+* remove default-ice annex usage ([cdb79c1](https://github.com/vladdoster/dotfiles/commit/cdb79c1ed7063c5bf7841b6d5cc7899fa59a67db))
+* remove git-fzf.zsh cruft ([016cf9e](https://github.com/vladdoster/dotfiles/commit/016cf9e517d1eabe29f3964718c6b39d1e7fba4d))
+* remove symlinks for misc. zsh login files ([1d8b152](https://github.com/vladdoster/dotfiles/commit/1d8b152fdcc04216cfa9827098fbbb495a5fd82b))
+* remove unused python aliases ([9dc4738](https://github.com/vladdoster/dotfiles/commit/9dc4738362a8628bde252b5e3c017e96fb5a5e06))
+* remove, add, update misc. aliases ([4ce5cdd](https://github.com/vladdoster/dotfiles/commit/4ce5cdd39d684da07168a7b2ba49653372adb964))
+* rename brew.link-all-keg to +brew-link-keg ([4378866](https://github.com/vladdoster/dotfiles/commit/43788661a0c5a1ae24d037c3249a9e13cfaca20b))
+* typos in zinit config ([1b588a7](https://github.com/vladdoster/dotfiles/commit/1b588a7267312117ca331bb1c085b9f8809338be))
+* update brewfile programs ([88afdf1](https://github.com/vladdoster/dotfiles/commit/88afdf15c6c1a714e5c73513c3b37b82d006299b))
+* zinit configuration ([c8be61d](https://github.com/vladdoster/dotfiles/commit/c8be61db3abaffa59be8ff2f019834ccf2660c5f))
+* zsh config file aliases ([67f9f93](https://github.com/vladdoster/dotfiles/commit/67f9f934f7d0e31805c89b0e5053b445c4bf183e))
+
+
+### Features
+
+* link all brew kegs via brew.link-all-keg ([ba489c2](https://github.com/vladdoster/dotfiles/commit/ba489c22a7a9dccb09c01995704b0aca19089aec))
+* new flags and completion for docker::sanbox & arch dockerfile ([24d4d34](https://github.com/vladdoster/dotfiles/commit/24d4d34e7b60e1858cb6796a10d15269d550a67c))
+
 ## [4.23.1](https://github.com/vladdoster/dotfiles/compare/v4.23.0...v4.23.1) (2023-03-27)
 
 
