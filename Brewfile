@@ -14,6 +14,7 @@ brew "cmake"
 brew "coreutils"
 brew "cpanminus", link: true
 brew "curl"
+brew "exa"
 brew "gcc"
 brew "gdbm"
 brew "gettext"
