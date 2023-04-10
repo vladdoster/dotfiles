@@ -79,9 +79,9 @@ RUN yay -Syu --noprogressbar --noconfirm --needed \
 RUN sudo sed -i '/en_US.UTF-8 UTF-8/s/^#//g' /etc/locale.gen \
  && sudo locale-gen
 
-RUN git clone --quiet https://github.com/neovim/neovim \
- && make --directory=neovim --jobs --quiet --silent \
- && sudo make --directory=neovim --jobs --quiet --silent install \
+RUN git clone --depth 1 --quiet https://github.com/neovim/neovim \
+ && make --directory=neovim -j16 --quiet --silent \
+ && sudo make --directory=neovim -j16 --quiet --silent install \
  && sudo rm -rf neovim
 
 # COPY --chown=${USER}:1001 . ${HOME}/.config/dotfiles/
@@ -94,16 +94,14 @@ RUN mkdir -p $HOME/.config \
 
 # COPY --chown=${USER}:1001 . ${HOME}/.config/dotfiles/
 
-RUN zsh --interactive --login -c "make --directory=$HOME/.config/dotfiles --jobs=1 install neovim"
+# RUN zsh --interactive --login -c "make --directory=$HOME/.config/dotfiles --jobs=1 install neovim"
  # && zsh --interactive --login -c -- '@zinit-scheduler burst'
 
-CMD ["zsh","--login"]
+# RUN zsh --interactive --login -c "make --directory=$HOME/.config/dotfiles --jobs=1 install neovim" \
+#  && zsh --interactive --login -c -- '@zinit-scheduler burst'
 
-RUN zsh --interactive --login -c "make --directory=$HOME/.config/dotfiles --jobs=1 install neovim" \
- && zsh --interactive --login -c -- '@zinit-scheduler burst'
+# ENV TERM="xterm-256color"
 
-ENV TERM="xterm-256color"
-
-CMD ["zsh","--login"]
+CMD ["zsh","--login","--interactive"]
 
 # vim: syn=dockerfile:ft=dockerfile:fo=croql:sw=2:sts=2:

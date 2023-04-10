@@ -20,9 +20,9 @@ zparseopts -D -F -K -- \
 }
 
 (( $#help )) && {
-  builtin print -rC1 --      \
+  builtin print -rC1 -- \
     "$0 [-h|--help]" \
-    "$0 [-f|--file] [-v|--verbose] [-t|--tag=<tag>]"
+    "$0 [-f|--file] [-t|--tag=<tag>] [-v|--verbose]"
   return 0
 }
 
@@ -33,17 +33,36 @@ zparseopts -D -F -K -- \
 container_tag=${(q+)tag[-1]}
 builtin print -P -- "%F{green}===>%f Building ${container_tag} container"
 
-print $file[-1]
-local docker_file=${file[-1]}
+docker_file=${(q+)file[-1]}
 (( $#docker_file )) && {
   docker buildx build \
-    --file $docker_file \
+    --build-arg "USER=${USER}" \
+    --file "$(realpath $docker_file)" \
     --load \
     --platform linux/x86_64 \
     --progress=$docker_verbosity \
     --tag ${container_tag}:latest \
-    $PWD
+    .
+} && {
+  builtin print -P -- "%F{green}===>%f Starting shell in ${tag} container"
+  docker run \
+    --hostname "$container_tag" \
+    --interactive \
+    --mount source=$container_tag,destination=/home \
+    --platform linux/x86_64 \
+    --tty \
+    --user $USER \
+    --security-opt seccomp=unconfined \
+    ${container_tag}:latest
 } || {
+  builtin print -P -- "%F{red}Error: Failed to build ${docker_file} %f"
+  return 1
+}
+
+local REPLY
+read -q ${(%):-"?%s%F{cyan}==>%f%s Build Ubuntu container? [y/N]: "} && REPLY=y
+print ''
+[[ $REPLY == y ]] && {
   docker buildx build --load --platform linux/x86_64 --progress=$docker_verbosity --tag ${container_tag}:latest -<<'EOF'
   FROM amd64/ubuntu
   ENV USER docker-user
@@ -80,16 +99,19 @@ local docker_file=${file[-1]}
   ENTRYPOINT ["zsh"]
   CMD ["-l"]
 EOF
+} && {
+  builtin print -P -- "%F{green}===>%f Starting shell in ${tag} container"
+  docker run \
+    --hostname "$container_tag" \
+    --interactive \
+    --mount source=${container_tag},destination=/home \
+    --platform linux/x86_64 \
+    --tty \
+    ${container_tag}:latest
+} || {
+  builtin print -P -- "%F{red}Error: Failed to build ${container_tag} %f"
+  return 1
 }
 
-builtin print -P -- "%F{green}===>%f Starting shell in ${container_tag} container"
-return
-docker run \
-  --hostname "$container_tag" \
-  --interactive \
-  --mount source=${container_tag},destination=/home \
-  --platform linux/x86_64 \
-  --tty \
-  ${container_tag}:latest
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
