@@ -1,11 +1,11 @@
 #autoload
 
-local flag_help flag_verbose
+local flag_help
 local -a arg_extension=()
 
 local -a usage=(
-  "zparseopts_demo [-h|--help]"
-  "zparseopts_demo [-v|--verbose] [-f|--extension=<extension>] [<filenames...>]"
+    "mkfile [-h|--help]"
+    "mkfile [-e|--extension=<extension>] [<filenames...>]"
 )
 
 # -D pulls parsed flags out of $@
@@ -17,22 +17,27 @@ local -a usage=(
 
 zmodload zsh/zutil
 zparseopts -D -F -K -- \
-  {h,-help}=flag_help \
-  {v,-verbose}=flag_verbose \
-  {e,-extension}:=arg_extension ||
-return 1
+    {e,-extension}:=arg_extension \
+    {h,-help}=flag_help \
+    || return 1
 
-[[ -z "$flag_help" ]] || { print -l $usage && return }
-if (( $#flag_verbose )); then
-  print "verbose mode"
-fi
+[[ -z "$flag_help" ]] || { print -l $usage; return 0 }
 
 local f fname ext="$arg_extension[-1]"
 for f in $@; do
-  fname="${f}.${arg_extension[-1]}"
-  print -- "#!/usr/bin/env ${f}" > $fname
-  chmod +x $fname
-  print -- "==> created $fname"
+    fname="${f}.${arg_extension[-1]}"
+    cat <<- EOF >! $fname
+#!/usr/bin/env $ext
+#
+# $fname
+#
+
+
+
+# vim: set expandtab filetype=$ext shiftwidth=2 softtabstop=2 tabstop=2:
+EOF
+    chmod +x -- "$fname"
+    print -P -- "%F{green}==>%f ${fname} created"
 done
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
