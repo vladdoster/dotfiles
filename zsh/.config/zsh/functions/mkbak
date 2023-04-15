@@ -1,0 +1,30 @@
+#autoload
+
+emulate -L zsh
+setopt extendedglob
+
+local flag_help
+local -a usage=(
+    "mkbak [-h|--help]"
+    "mkbak [<filenames...>]"
+)
+
+zmodload zsh/zutil
+zparseopts -D -F -K -- \
+    {h,-help}=flag_help \
+    || return 1
+
+(( $flag_help )) && { builtin print -l -- $usage; return 0; }
+
+(( !$# )) && {
+    builtin print -P -- "%F{red}Error%f mkbkp requires one or more arguments"
+    return 1
+}
+
+for f in $@; do
+    command cp ${f}{,.bak}
+    (( $? )) || { builtin print -P -- "%F{green}==>%f ${f}.bak created"; }
+done
+
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
