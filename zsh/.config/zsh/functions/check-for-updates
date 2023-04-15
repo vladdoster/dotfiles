@@ -1,0 +1,20 @@
+#autoload
+#
+# check-for-updates - check for changes from upstream repository
+#
+
+(){
+    if command git rev-parse --is-inside-work-tree &> /dev/null; then
+        if command git rev-parse --abbrev-ref @'{u}' &> /dev/null; then
+            local count="$(command git rev-list --left-right --count HEAD...@'{u}' 2> /dev/null)"
+            local down="$count[(w)2]"
+            if [[ $down -gt 0 ]]; then
+                builtin print -P -- "%F{green}Update available%f"
+                return
+            fi
+        fi
+        builtin print -P -- "%F{red}No update available%f"
+    fi
+}
+
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
