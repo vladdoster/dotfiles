@@ -1,3 +1,18 @@
+# [4.25.0](https://github.com/vladdoster/dotfiles/compare/v4.24.0...v4.25.0) (2023-04-17)
+
+
+### Bug Fixes
+
+* clean up .zshrc logic ([1c80e74](https://github.com/vladdoster/dotfiles/commit/1c80e74820a56af4bf66b58c018bb7fcbd124ff8))
+* mkfile logic and logging ([baeb62f](https://github.com/vladdoster/dotfiles/commit/baeb62f8059562286044ddd2efeff438c7d49e96))
+
+
+### Features
+
+* check for updates from upstream repo ([22c35b7](https://github.com/vladdoster/dotfiles/commit/22c35b71d75f2cc04373a69615cd6b525e1e1ea5))
+* easily backup file/dir via mkbak command ([018638c](https://github.com/vladdoster/dotfiles/commit/018638cb9637f14c60618145fbc8db924d69870a))
+* ton of misc. changes to zsh related files ([2783806](https://github.com/vladdoster/dotfiles/commit/27838061940d31f006c31437a995327b59bf9377))
+
 # [4.24.0](https://github.com/vladdoster/dotfiles/compare/v4.23.1...v4.24.0) (2023-04-10)
 
 
