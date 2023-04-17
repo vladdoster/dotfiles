@@ -3,12 +3,12 @@
 emulate -L zsh
 
 # touch "$1.$2" && \
-  #     chmod 775 $& "${EDITOR:-vim}"
+    #     chmod 775 $& "${EDITOR:-vim}"
 # log::info "created "
 () {
-  local -a optv
-  zparseopts -a optv - f: - e: z
-  print -r - ret: $?, optv: $optv, argv: $argv
+    local -a optv
+    zparseopts -a optv - f: - e: z
+    print -r - ret: $?, optv: $optv, argv: $argv
 } -f asd -e zsh
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

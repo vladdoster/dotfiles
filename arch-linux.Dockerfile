@@ -48,11 +48,11 @@ RUN useradd \
 USER $USER
 WORKDIR $HOME
 
-RUN git clone https://aur.archlinux.org/yay.git \
+RUN git clone --depth 1 -- https://aur.archlinux.org/yay.git \
  && cd yay \
  && makepkg -si --noprogressbar --noconfirm \
- && cd .. \
- && rm -Rf yay
+ && cd - \
+ && rm --force --recursive -- yay
 
 RUN yay -Syu --noprogressbar --noconfirm --needed \
   acl autoconf automake \
@@ -61,7 +61,7 @@ RUN yay -Syu --noprogressbar --noconfirm --needed \
   git-delta dialog \
   exa \
   figlet file fzf \
-  gawk gcc gettext git gnupg \
+  gawk gcc gettext git gnupg gosu \
   iproute2 \
   jq \
   less libtool luajit luarocks \
@@ -79,28 +79,22 @@ RUN yay -Syu --noprogressbar --noconfirm --needed \
 RUN sudo sed -i '/en_US.UTF-8 UTF-8/s/^#//g' /etc/locale.gen \
  && sudo locale-gen
 
-RUN git clone --depth 1 --quiet https://github.com/neovim/neovim \
- && make --directory=neovim -j16 --quiet --silent \
- && sudo make --directory=neovim -j16 --quiet --silent install \
- && sudo rm -rf neovim
+# RUN git clone --depth 1 --quiet https://github.com/neovim/neovim \
+#  && make --directory=neovim -j16 --quiet --silent \
+#  && sudo make --directory=neovim -j16 --quiet --silent install \
+#  && sudo rm -rf neovim
 
 # COPY --chown=${USER}:1001 . ${HOME}/.config/dotfiles/
 
 RUN mkdir -p $HOME/.config \
- && git clone --quiet https://github.com/vladdoster/dotfiles $HOME/.config/dotfiles
- # && make --directory=neovim --jobs --quiet --silent \
- # && sudo make --directory=neovim --jobs --quiet --silent install \
- # && sudo rm -rf neovim
+ && git clone --quiet -- https://github.com/vladdoster/dotfiles $HOME/.config/dotfiles
 
 # COPY --chown=${USER}:1001 . ${HOME}/.config/dotfiles/
 
-# RUN zsh --interactive --login -c "make --directory=$HOME/.config/dotfiles --jobs=1 install neovim"
- # && zsh --interactive --login -c -- '@zinit-scheduler burst'
+RUN zsh --interactive --login -c "make --directory=$HOME/.config/dotfiles --jobs=1 install neovim" \
+ && zsh --interactive --login -c -- '@zinit-scheduler burst'
 
-# RUN zsh --interactive --login -c "make --directory=$HOME/.config/dotfiles --jobs=1 install neovim" \
-#  && zsh --interactive --login -c -- '@zinit-scheduler burst'
-
-# ENV TERM="xterm-256color"
+ENV TERM="xterm-256color"
 
 CMD ["zsh","--login","--interactive"]
 

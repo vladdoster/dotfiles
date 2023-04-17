@@ -3,7 +3,7 @@
 builtin emulate -L zsh -o EXTENDED_GLOB
 
 if [[ $- == *i* ]]; then
-  print -P -- "%F{green}==>%f %F{white}${@}%f"
+    print -P -- "%F{green}==>%f %F{white}${@}%f"
 fi
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

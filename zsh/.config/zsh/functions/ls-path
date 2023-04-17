@@ -5,8 +5,8 @@ builtin emulate -L zsh -o EXTENDED_GLOB
 header='%F{green}==>%f %B%F{white}'
 
 if [[ $- == *i* ]]; then
-  builtin print -P -- "${header} path %f%b"
-  builtin print -l -- $(print $PATH | tr ':' ' ')
+    builtin print -P -- "${header} path %f%b"
+    builtin print -l -- $(print $PATH | tr ':' ' ')
 fi
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

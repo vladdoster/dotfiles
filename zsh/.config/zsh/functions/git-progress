@@ -1,4 +1,4 @@
-#autoload curl-progress
+#autoload git-progress
 #
 # Wraps curl with a custom-drawn progress bar. Use it just like curl:
 #
@@ -94,7 +94,7 @@ mkfifo "$tracefile"
 # the `--help` or `--version` flag.)
 (
     set +e
-    curl --trace-ascii "$tracefile" -s "$@"
+    git clone --verbose "$1" >> $tracefile
     echo "$?" > "$statusfile"
     echo >> "$tracefile"
 ) &
@@ -158,11 +158,13 @@ print_progress() {
 # information is normalized and passed to a loop that parses it, keeps
 # track of the number of bytes received, and invokes the `print_progress`
 # function accordingly. When the FIFO is closed, the loop terminates and
+# -e 'y/ACDEGHLNORTV/acdeghlnortv/' \
+#     -e '/^0000: content-length:/p' \
+#     -e '/^<= recv data/p' \
 # bash invokes our `shutdown` exit trap.
 unbuffered_sed \
-    -e 'y/ACDEGHLNORTV/acdeghlnortv/' \
-    -e '/^0000: content-length:/p' \
-    -e '/^<= recv data/p' \
+    -e '/^remote: Compressing objects/p' \
+    -e '/^Receiving objects:/p' \
     "$tracefile" \
     | {
         length=0
@@ -171,23 +173,22 @@ unbuffered_sed \
         # Read each line of filtered trace output into an array of space-
         # separated words.
         while IFS=" " read -a line; do
-            tag="${line[0]} ${line[1]}"
+            tag="${line[0]}"
 
             # If the first two words are `0000: content-length:`, extract and
             # record the expected length. We must also set the bytes-received
             # counter to zero in case we followed a redirect and this is not the
             # first response.
-            if [ "$tag" = "0000: content-length:" ]; then
-                length="${line[2]}"
-                bytes=0
+            # if [ "$tag" = "Receiving objects:" ]; then
+            #   length="${line[3]}"
+            #   bytes=0
 
-                # Otherwise, if the first two words are `<= recv`, extract the number
-                # of bytes read and increment the bytes-received counter accordingly,
-                # then invoke `print_progress`.
-            elif [ "$tag" = "<= recv" ]; then
-                size="${line[3]}"
-                bytes=$((bytes + size))
-                print_progress "$bytes" "$length"
-            fi
+            # Otherwise, if the first two words are `<= recv`, extract the number
+            # of bytes read and increment the bytes-received counter accordingly,
+            # then invoke `print_progress`.
+            # if[ "$tag" = "<= recv" ]; then
+            bytes="${line[5]}"
+            size="${line[6]}"
+            print_progress "$bytes" "$length"
         done
     }

@@ -3,7 +3,7 @@
 builtin emulate -L zsh -o EXTENDED_GLOB
 
 if [[ $- == *i* ]]; then
-  print -P -- "%F{red}Error:%f ${1}" >&2
+    print -P -- "%F{red}Error:%f ${1}" >&2
 fi
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

@@ -4,16 +4,16 @@ builtin emulate -L zsh -o EXTENDED_GLOB
 
 # autoload -Uz compinit && compinit
 if source <(${1} completion zsh); then
-  compdef _${1} ${1}
-  log::info "$1 completion loaded"
-  return 0
+    compdef _${1} ${1}
+    log::info "$1 completion loaded"
+    return 0
 elif source <(${1} completion -s zsh); then
-  compdef _${1} ${1}
-  log::info "$1 completion loaded"
-  return 0
+    compdef _${1} ${1}
+    log::info "$1 completion loaded"
+    return 0
 else
-  log::error "Unable to generate $1 completion"
-  return 1
+    log::error "Unable to generate $1 completion"
+    return 1
 fi
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

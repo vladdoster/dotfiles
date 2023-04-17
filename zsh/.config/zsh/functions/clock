@@ -4,14 +4,14 @@ builtin emulate -L zsh -o EXTENDED_GLOB
 
 print -- "==> initialising clock"
 while [ true ]; do
-  echo "=========="
-  date +"%r"
-  echo "=========="
-  sleep 1
-  for i in {1..3}; do
-    tput cuu1
-    tput el
-  done
+    echo "=========="
+    date +"%r"
+    echo "=========="
+    sleep 1
+    for i in {1..3}; do
+        tput cuu1
+        tput el
+    done
 done
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
