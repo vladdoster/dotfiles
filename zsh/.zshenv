@@ -2,13 +2,7 @@ skip_global_compinit=1
 
 ZDOTDIR=${XDG_CONFIG_HOME:=~/.config}/zsh
 
-ulimit -c unlimited
-ulimit -d unlimited
-ulimit -f unlimited
-ulimit -l unlimited
-ulimit -n unlimited
-ulimit -s unlimited
-ulimit -t unlimited
+ulimit -n 2560
 
 if [[ -o rcs && ! -o LOGIN && $SHLVL -eq 1 && -s ${ZDOTDIR:-$HOME}/.zprofile ]]; then
   print -- 'sourcing .zprofile'
