@@ -1,3 +1,12 @@
+## [4.25.1](https://github.com/vladdoster/dotfiles/compare/v4.25.0...v4.25.1) (2023-04-30)
+
+
+### Bug Fixes
+
+* fzf config conditional checks ([42fe9f3](https://github.com/vladdoster/dotfiles/commit/42fe9f31439e8940bbddaefcc7cb8953c19466d1))
+* limit file handles a process can have open ([37c183c](https://github.com/vladdoster/dotfiles/commit/37c183c2eef5b7d86a99dd266a8d73f1b36545c1))
+* zinit load times ([871eed4](https://github.com/vladdoster/dotfiles/commit/871eed458888b55bfeedc70f681660e83047edc8))
+
 # [4.25.0](https://github.com/vladdoster/dotfiles/compare/v4.24.0...v4.25.0) (2023-04-17)
 
 
