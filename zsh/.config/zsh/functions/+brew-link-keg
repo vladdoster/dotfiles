@@ -1,30 +1,23 @@
 #autoload
 
 emulate -L zsh
-zmodload zsh/zutil || return
+zmodload zsh/zutil || return 1
 
-local flag_help flag_verbose
-local -a arg_extension=()
+opt_help=
+cli_usage=("Usage: +brew-link-kegs [-h|--help]")
 
-local -a usage=(
-  "brew.link-kegs [-h|--help]"
-)
+zparseopts -D -F -K -- {h,-help}=opt_help || return 1
 
-zmodload zsh/zutil
-zparseopts -D -F -K -- {h,-help}=flag_help || return 1
+builtin print -- $opt_help
+[[ -z "$opt_help" ]] || { builtin print -l $cli_usage && return }
 
-[[ -z "$flag_help" ]] || { print -l $usage && return }
+brew_keg_only=( $(brew info --installed --json=v1 | jq --raw-output --compact-output  'map(select(.keg_only == true)) | map(.name) | @sh') )
 
-local -a brew_keg_only=(
-  $(
-    brew info --installed --json=v1 \
-      | jq --raw-output --compact-output  'map(select(.keg_only == true)) | map(.name) | @sh'
-  )
-)
-
-for keg in $brew_keg_only; do
-    export PATH="${HOMEBREW_PREFIX}/opt/${(Q)keg}/bin:${PATH}"
-    print -P -- "%F{green}==>%f ${keg} added to PATH"
+for keg in ${(@on)brew_keg_only}; do
+    PATH="${HOMEBREW_PREFIX}/opt/${(Q)keg}/bin:${PATH}"
+    builtin print -P -- "%F{green}==>%f [+] ${(Q)keg}"
 done
+typeset -Ugx PATH
+
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
