@@ -2,7 +2,7 @@
 
 builtin emulate -L zsh -o EXTENDED_GLOB
 local opt_help opt_copy fn
-local -a usage=("Usage: +fn [-h|--help] [-c|--copy] [function ...]")
+local -a usage=("Usage: fn [-h|--help] [-c|--copy] [function ...]")
 zmodload zsh/zutil
 zparseopts -D -F -K -- {h,-help}=opt_help {c,-copy}=opt_copy || return 1
 (( $#opt_help )) && {
@@ -22,7 +22,7 @@ if (( $#@ )); then
                 builtin functions -x4 -- "$fn"
             fi
         } || {
-            builtin print -P -- "%F{red}[-] Function $fn not defined"
+            builtin print -P -- "%F{red}Error%f: function $fn not defined"
             return 1
         }
     done
