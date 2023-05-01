@@ -98,16 +98,16 @@ zi light-mode lucid wait'!' for \
   @zdharma-continuum/zunit
 #=== MISC. ============================================
 zinit light-mode lucid wait for \
-    has'svn' svn submods'zsh-users/zsh-history-substring-search -> external' \
+    has'svn' submods'zsh-users/zsh-history-substring-search -> external' svn \
   OMZP::history-substring-search \
-    atload"!_zsh_autosuggest_start" \
+    atload'!_zsh_autosuggest_start' \
   @zsh-users/zsh-autosuggestions \
   @zsh-users/zsh-completions \
     atclone'(){ local f; cd -q →*; for f (*~*.zwc){zcompile -Uz -- $f} };' \
-    atload"zicompinit" \
+    atload'zicompinit' \
     atpull'%atclone' \
-    compile'.*fast*~*.zwc' \
+    compile".*fast*~*.zwc" \
     null \
-  zdharma-continuum/fast-syntax-highlighting
+  @zdharma-continuum/fast-syntax-highlighting
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
