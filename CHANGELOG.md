@@ -1,3 +1,12 @@
+## [4.26.1](https://github.com/vladdoster/dotfiles/compare/v4.26.0...v4.26.1) (2023-05-01)
+
+
+### Bug Fixes
+
+* quoting in zinit config ([#39](https://github.com/vladdoster/dotfiles/issues/39)) ([dc97ad1](https://github.com/vladdoster/dotfiles/commit/dc97ad15d4123f632aff1669c7ef8c9750eb63d5))
+* remove trailing `;` in zinit config ([1c06934](https://github.com/vladdoster/dotfiles/commit/1c06934dbe8f24107ffb8f1b4b36730c914b256a))
+* zinit config quoting  ([8cfab51](https://github.com/vladdoster/dotfiles/commit/8cfab51fc0708583575546794608083c11d02a67))
+
 # [4.26.0](https://github.com/vladdoster/dotfiles/compare/v4.25.1...v4.26.0) (2023-05-01)
 
 
