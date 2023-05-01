@@ -1,3 +1,19 @@
+# [4.26.0](https://github.com/vladdoster/dotfiles/compare/v4.25.1...v4.26.0) (2023-05-01)
+
+
+### Bug Fixes
+
+* +brew-link-keg logic ([aa6ad1e](https://github.com/vladdoster/dotfiles/commit/aa6ad1e9e649829756e14dcf6717d88d0d5f29de))
+* fn function usage message ([62d6bee](https://github.com/vladdoster/dotfiles/commit/62d6beefca38db012f2a0e6eddd4eceb6f24cad6))
+* kill zsh processes on exit ([bedbc33](https://github.com/vladdoster/dotfiles/commit/bedbc33e91a2acdb544662f684926c1be81dfe53))
+* show function count in list::functions ([afc55f5](https://github.com/vladdoster/dotfiles/commit/afc55f5854cef1195dd11d5a73a4a24803bf31fe))
+
+
+### Features
+
+* generate function boilerplate via mkfn ([82bc383](https://github.com/vladdoster/dotfiles/commit/82bc383e828f2a3f7c3ad5707ef76bac5781dbdd))
+* view or copy function(s) via fn ([c1d6c64](https://github.com/vladdoster/dotfiles/commit/c1d6c64f1237b08b05da68a6a7feccacb86d70a5))
+
 ## [4.25.1](https://github.com/vladdoster/dotfiles/compare/v4.25.0...v4.25.1) (2023-04-30)
 
 
