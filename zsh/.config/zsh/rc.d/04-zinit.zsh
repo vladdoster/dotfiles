@@ -106,7 +106,7 @@ zinit light-mode lucid wait for \
     atclone'(){local f; cd -q →*; for f (*~*.zwc){zcompile -Uz -- "$f"}}' \
     atload'zicompinit' \
     atpull'%atclone' \
-    compile".*fast*~*.zwc" \
+    compile'.*fast*~*.zwc' \
     null \
   @zdharma-continuum/fast-syntax-highlighting
 
