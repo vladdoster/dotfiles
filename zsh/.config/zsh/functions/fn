@@ -1,0 +1,35 @@
+#autoload
+
+builtin emulate -L zsh -o EXTENDED_GLOB
+local opt_help opt_copy fn
+local -a usage=("Usage: +fn [-h|--help] [-c|--copy] [function ...]")
+zmodload zsh/zutil
+zparseopts -D -F -K -- {h,-help}=opt_help {c,-copy}=opt_copy || return 1
+(( $#opt_help )) && {
+    builtin print -Pr -- "$usage" && return 0
+}
+if (( $#@ )); then
+    for fn in $@; do
+        (( $+functions[$fn] )) && {
+            if (( $#opt_copy )); then
+                local REPLY=
+                builtin read -q ${(%):-"?%s%F{cyan}==>%f%s Copy $fn? [y/N]: "} >/dev/null && REPLY=y
+                builtin print ''
+                [[ $REPLY == y ]] && {
+                    pbcopy < <(builtin functions -x4 -- "${fn}")
+                } || break
+            else
+                builtin functions -x4 -- "$fn"
+            fi
+        } || {
+            builtin print -P -- "%F{red}[-] Function $fn not defined"
+            return 1
+        }
+    done
+    return 0
+else
+    builtin print -Pr -- "$usage" && return 1
+fi
+
+
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
