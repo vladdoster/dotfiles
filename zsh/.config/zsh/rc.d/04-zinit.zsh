@@ -103,7 +103,7 @@ zinit light-mode lucid wait for \
     atload'!_zsh_autosuggest_start' \
   @zsh-users/zsh-autosuggestions \
   @zsh-users/zsh-completions \
-    atclone'(){ local f; cd -q →*; for f (*~*.zwc){zcompile -Uz -- $f} };' \
+    atclone'(){local f; cd -q →*; for f (*~*.zwc){zcompile -Uz -- "$f"}}' \
     atload'zicompinit' \
     atpull'%atclone' \
     compile".*fast*~*.zwc" \
