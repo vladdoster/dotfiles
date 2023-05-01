@@ -1,0 +1,25 @@
+#autoload
+
+(( $#@ )) && {
+    pushd -- ~/.config/zsh/functions && {
+        command touch $1
+        command chmod 755 $1
+        builtin print -- "#!autoload" > $1
+        builtin print -- "#" >> $1
+        builtin print -- "# $1" >> $1
+        builtin print -- "#" >> $1
+        builtin print -- "" >> $1
+        builtin print -- "" >> $1
+        builtin print -- "" >> $1
+        builtin print -- "# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:" >> $1
+        builtin print -- "==> created $1 function"
+    } always {
+        popd
+    }
+} || {
+    builtin print -P -- "%F{red}Error%f: $0 requires a function name"
+    return 1
+}
+return 0
+
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
