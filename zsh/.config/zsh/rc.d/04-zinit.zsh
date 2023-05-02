@@ -9,7 +9,7 @@ typeset -gAH ZI=(HOME_DIR $HOME/.local/share/zinit)
 ZI+=(
   BIN_DIR "$ZI[HOME_DIR]/zinit.git" COMPLETIONS_DIR "$ZI[HOME_DIR]/completions" OPTIMIZE_OUT_OF_DISK_ACCESSES "1"
   PLUGINS_DIR "$ZI[HOME_DIR]/plugins" SNIPPETS_DIR "$ZI[HOME_DIR]/snippets" ZCOMPDUMP_PATH "${ZINIT[HOME_DIR]}/zcompdump"
-  ZPFX "$ZI[HOME_DIR]/polaris" SRC 'zdharma-continuum' BRANCH 'main'
+  ZPFX "$ZI[HOME_DIR]/polaris" SRC 'zdharma-continuum' BRANCH 'main' COMPINIT_OPTS '-C'
 )
 ZSH_CACHE_DIR=$ZINIT[ZCOMPDUMP_PATH]
 if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]]; then
@@ -34,12 +34,7 @@ if [[ -e ${ZI[BIN_DIR]}/zinit.zsh ]]; then
 else
   log::error 'failed to find zinit installation'
 fi
-#=== OH-MY-ZSH & PREZTO PLUGINS =======================
-(( $+commands[svn] )) && (){
-  local -a f=({git,history,key-bindings}'.zsh')
-  zi ice atinit'typeset -grx HIST{FILE=$ZDOTDIR/zsh-history,SIZE=9999999}' compile'(k|g|h)*.zsh' light-mode multisrc'$f[@]' svn
-  zi snippet OMZ::lib
-}
+
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
 znippet() { zi for  as'completion' has"${1}" depth'1' light-mode nocompile is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
@@ -65,25 +60,31 @@ zi as'completion' is-snippet light-mode for \
 }
 #=== ANNEXES ==========================================
 zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink'}
+#=== OH-MY-ZSH & PREZTO PLUGINS =======================
+(( $+commands[svn] )) && (){
+  local -a f=({git,history,key-bindings}'.zsh')
+  zi ice atinit'typeset -grx HIST{FILE=$ZDOTDIR/zsh-history,SIZE=9999999}' compile'(k|g|h)*.zsh' light-mode multisrc'$f[@]' svn
+  zi snippet OMZ::lib
+
+  zi ice submods'zsh-users/zsh-history-substring-search -> external' svn load
+  zi snippet OMZP::history-substring-search
+}
 #=== GITHUB BINARIES ==================================
-zi from'gh-r' lbin'!' light-mode null for @{dandavison/delta,r-darwish/topgrade}
-zi from'gh-r' lbin'!' for \
-    as'null' \
+zi from'gh-r' lbin'!' light-mode as'null' for \
+  @{dandavison/delta,r-darwish/topgrade} \
     atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
-    light-mode \
   @ogham/exa \
     dl="$(builtin print -c -- https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
     compile'key-bindings.zsh' \
     src'key-bindings.zsh' \
   @junegunn/fzf \
-    as'null' \
     atinit'for i (v vi vim); do alias $i="nvim"; done' \
     lbin'!nvim' \
-    light-mode \
     ver'nightly' \
   @neovim/neovim
 #=== UNIT TESTING =====================================
-zi light-mode lucid wait'!' for \
+zi lucid wait'!' light-mode for \
+    compile \
   @vladdoster/plugin-zinit-aliases \
     atinit'bindkey -M vicmd "^v" edit-command-line' \
   @softmoth/zsh-vim-mode \
@@ -97,17 +98,12 @@ zi light-mode lucid wait'!' for \
     lbin'!' \
   @zdharma-continuum/zunit
 #=== MISC. ============================================
-zinit light-mode lucid wait for \
-    has'svn' submods'zsh-users/zsh-history-substring-search -> external' svn \
-  OMZP::history-substring-search \
-    atload'!_zsh_autosuggest_start' \
-  @zsh-users/zsh-autosuggestions \
-  @zsh-users/zsh-completions \
-    atclone'(){local f; cd -q →*; for f (*~*.zwc){zcompile -Uz -- "$f"}}' \
-    atload'zicompinit' \
-    atpull'%atclone' \
-    compile'.*fast*~*.zwc' \
-    null \
-  @zdharma-continuum/fast-syntax-highlighting
+  zinit depth'1' light-mode lucid wait for \
+ atinit" zpcompinit; zpcdreplay" \
+    zdharma-continuum/fast-syntax-highlighting \
+ atload"!_zsh_autosuggest_start" \
+    zsh-users/zsh-autosuggestions \
+ blockf \
+    zsh-users/zsh-completions
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
