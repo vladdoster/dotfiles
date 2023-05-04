@@ -1,23 +1,25 @@
 #autoload
 
 emulate -L zsh
+setopt extended_glob
+
 zmodload zsh/zutil || return 1
 
-opt_help=
-cli_usage=("Usage: +brew-link-kegs [-h|--help]")
+opt_help= 
+cli_usage=("Usage: +brew-link-kegs [-h|--help]") 
 
 zparseopts -D -F -K -- {h,-help}=opt_help || return 1
 
-builtin print -- $opt_help
-[[ -z "$opt_help" ]] || { builtin print -l $cli_usage && return }
+[[ -z "$opt_help" ]] || {
+    builtin print -l $cli_usage && return
+}
 
-brew_keg_only=( $(brew info --installed --json=v1 | jq --raw-output --compact-output  'map(select(.keg_only == true)) | map(.name) | @sh') )
-
+brew_keg_only=($(brew info --installed --json=v1 | jq --raw-output --compact-output  'map(select(.keg_only == true)) | map(.name) | @sh')) 
+local HOMEBREW_PREFIX="$(brew --prefix)" 
 for keg in ${(@on)brew_keg_only}; do
-    PATH="${HOMEBREW_PREFIX}/opt/${(Q)keg}/bin:${PATH}"
+    PATH="${HOMEBREW_PREFIX}/opt/${(Q)keg}/bin:${PATH}" 
     builtin print -P -- "%F{green}==>%f [+] ${(Q)keg}"
 done
 typeset -Ugx PATH
 
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
