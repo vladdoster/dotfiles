@@ -26,18 +26,18 @@ zparseopts -D -F -K -- \
 local f fname ext="$arg_extension[-1]"
 for f in $@; do
     fname="${f}.${arg_extension[-1]}"
-    cat <<- EOF >! $fname
-#!/usr/bin/env $ext
+    command cat <<- EOF >! $fname
+#!/usr/bin/env ${ext}
 #
 # $fname
 #
 
 
 
-# vim: set expandtab filetype=$ext shiftwidth=2 softtabstop=2 tabstop=2:
+# vim: set expandtab filetype=${ext} shiftwidth=4 softtabstop=4 tabstop=4:
 EOF
-    chmod +x -- "$fname"
-    print -P -- "%F{green}==>%f ${fname} created"
+    command chmod +x "${fname}"
+    builtin print -P -- "%F{green}==>%f $fname created"
 done
 
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
