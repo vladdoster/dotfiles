@@ -70,13 +70,15 @@ zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','bin
   zi snippet OMZP::history-substring-search
 }
 #=== GITHUB BINARIES ==================================
-zi from'gh-r' lbin'!' light-mode as'null' for \
-  @{dandavison/delta,r-darwish/topgrade} \
+zi from'gh-r' lbin'!' light-mode no'compile' for \
+  @dandavison/delta \
+  @r-darwish/topgrade \
+  @sharkdp/hyperfine \
     atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa \
-    dl="$(builtin print -c -- https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
-    compile'key-bindings.zsh' \
     src'key-bindings.zsh' \
+    compile'key-bindings.zsh' \
+    dl="$(builtin print -c -- https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
   @junegunn/fzf \
     atinit'for i (v vi vim); do alias $i="nvim"; done' \
     lbin'!nvim' \
@@ -90,15 +92,21 @@ zi lucid wait'!' light-mode for \
   @softmoth/zsh-vim-mode \
     lbin'!build/zsd*' \
     make'--always-make' \
-    null \
   @zdharma-continuum/zshelldoc \
+    as'command' \
+    lbin'!' \
+    nocompile \
+  @shellspec/shellmetrics \
+    as'command' \
+    lbin'!' \
+  @shellspec/altshfmt \
     as'null' \
     atclone'./build.zsh' \
     completions \
     lbin'!' \
   @zdharma-continuum/zunit
 #=== MISC. ============================================
-  zinit depth'1' light-mode lucid wait for \
+  zinit light-mode lucid wait for \
  atinit" zpcompinit; zpcdreplay" \
     zdharma-continuum/fast-syntax-highlighting \
  atload"!_zsh_autosuggest_start" \
