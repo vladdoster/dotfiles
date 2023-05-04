@@ -92,6 +92,7 @@ zi lucid wait'!' light-mode for \
   @softmoth/zsh-vim-mode \
     lbin'!build/zsd*' \
     make'--always-make' \
+    null \
   @zdharma-continuum/zshelldoc \
     as'command' \
     lbin'!' \
