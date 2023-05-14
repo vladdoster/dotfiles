@@ -5,13 +5,21 @@
 # macOS and Linux.
 #
 #=== ZINIT ============================================
-typeset -gAH ZI=(HOME_DIR $HOME/.local/share/zinit)
+# OPTIMIZE_OUT_OF_DISK_ACCESSES "1"
+typeset -gAH ZI=(HOME_DIR "$HOME/.local/share/zinit")
 ZI+=(
-  BIN_DIR "$ZI[HOME_DIR]/zinit.git" COMPLETIONS_DIR "$ZI[HOME_DIR]/completions" OPTIMIZE_OUT_OF_DISK_ACCESSES "1"
-  PLUGINS_DIR "$ZI[HOME_DIR]/plugins" SNIPPETS_DIR "$ZI[HOME_DIR]/snippets" ZCOMPDUMP_PATH "${ZINIT[HOME_DIR]}/zcompdump"
-  ZPFX "$ZI[HOME_DIR]/polaris" SRC 'zdharma-continuum' BRANCH 'main' COMPINIT_OPTS '-C'
+  BIN_DIR "$ZI[HOME_DIR]"/zinit.git
+  BRANCH 'main'
+  COMPINIT_OPTS '-C'
+  COMPLETIONS_DIR "$ZI[HOME_DIR]"/completions
+  PLUGINS_DIR "$ZI[HOME_DIR]"/plugins
+  SNIPPETS_DIR "$ZI[HOME_DIR]"/snippets
+  SRC 'zdharma-continuum'
+  ZCOMPDUMP_PATH "$ZI[HOME_DIR]"/zcompdump
+  ZPFX "$ZI[HOME_DIR]"/polaris
 )
-ZSH_CACHE_DIR=$ZINIT[ZCOMPDUMP_PATH]
+mkdir -p "$ZI[ZCOMPDUMP_PATH]" || true
+# ZSH_CACHE_DIR=$ZINIT[ZCOMPDUMP_PATH]
 if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]]; then
   {
     log::info 'downloading zinit'
@@ -26,7 +34,7 @@ if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]]; then
   } || log::error 'failed to download zinit'
 fi
 if [[ -e ${ZI[BIN_DIR]}/zinit.zsh ]]; then
-  typeset -gAH ZINIT=( ${(kv)ZI} )
+  typeset -gAH ZINIT=(${(kv)ZI})
   builtin source ${ZINIT[BIN_DIR]}/zinit.zsh && \
     autoload _zinit && \
     (( ${+_comps} )) && \
@@ -62,7 +70,7 @@ zi as'completion' is-snippet light-mode for \
 zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink'}
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 (( $+commands[svn] )) && (){
-  local -a f=({git,history,key-bindings}'.zsh')
+  local -a f=({functions,git,history,key-bindings,termsupport}'.zsh')
   zi ice atinit'typeset -grx HIST{FILE=$ZDOTDIR/zsh-history,SIZE=9999999}' compile'(k|g|h)*.zsh' light-mode multisrc'$f[@]' svn
   zi snippet OMZ::lib
 
