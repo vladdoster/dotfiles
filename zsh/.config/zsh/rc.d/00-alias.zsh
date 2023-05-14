@@ -110,9 +110,9 @@ done
 # +───────────────────+
 # │ COMMAND SHORTCUTS │
 # +───────────────────+
-alias auld="builtin autoload"
+alias auld='builtin autoload'
 alias me='builtin print -P "%F{blue}$(whoami)%f @ %F{cyan}$(uname -a)%f"'
-alias rshfmt="shfmt -i 4 -s -ln bash -sr -bn -ci -w"
+alias mk='make'
 alias zc='zinit compile'
 alias zht='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
 alias zmld="builtin zmodload"
