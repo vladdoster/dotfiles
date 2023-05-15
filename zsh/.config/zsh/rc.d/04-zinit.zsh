@@ -42,7 +42,10 @@ if [[ -e ${ZI[BIN_DIR]}/zinit.zsh ]]; then
 else
   log::error 'failed to find zinit installation'
 fi
-
+#=== STATIC ZSH BINARY ======================================
+# zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null" \
+#     atclone"./install -e no -d ~/.local" atinit"export PATH=$HOME/.local/bin:$PATH" \
+#   @romkatv/zsh-bin
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
 znippet() { zi for  as'completion' has"${1}" depth'1' light-mode nocompile is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
@@ -50,7 +53,7 @@ znippet 'brew'   'Homebrew/brew/master/completions/zsh'
 znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
 znippet 'exa'    'ogham/exa/master/completions/zsh'
 znippet 'fd'     'sharkdp/fd/master/contrib/completion'
-zi as'completion' is-snippet light-mode for \
+zi as'completion' id-as'auto' is-snippet light-mode for \
   "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh" \
   "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
 #=== PROMPT ===========================================
@@ -67,7 +70,7 @@ zi as'completion' is-snippet light-mode for \
   @sindresorhus/pure
 }
 #=== ANNEXES ==========================================
-zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink'}
+zi for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink','bin-gem-node'}
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 (( $+commands[svn] )) && (){
   local -a f=({functions,git,history,key-bindings,termsupport}'.zsh')
@@ -77,8 +80,11 @@ zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','bin
   zi ice submods'zsh-users/zsh-history-substring-search -> external' svn load
   zi snippet OMZP::history-substring-search
 }
+
+zinit ice as'null' id-as'remark' node'remark <- !remark-cli -> remark'
+zinit snippet /dev/null
 #=== GITHUB BINARIES ==================================
-zi from'gh-r' lbin'!' light-mode no'compile' for \
+zi from'gh-r' lbin'!' id-as'auto' light-mode no'compile' for \
   @dandavison/delta \
   @r-darwish/topgrade \
   @sharkdp/hyperfine \
@@ -93,34 +99,44 @@ zi from'gh-r' lbin'!' light-mode no'compile' for \
     ver'nightly' \
   @neovim/neovim
 #=== UNIT TESTING =====================================
-zi lucid wait'!' light-mode for \
+zinit light-mode id-as'auto'  for \
     compile \
   @vladdoster/plugin-zinit-aliases \
     atinit'bindkey -M vicmd "^v" edit-command-line' \
   @softmoth/zsh-vim-mode \
+    as'null' \
     lbin'!build/zsd*' \
     make'--always-make' \
-    null \
   @zdharma-continuum/zshelldoc \
-    as'command' \
-    lbin'!' \
-    nocompile \
-  @shellspec/shellmetrics \
-    as'command' \
-    lbin'!' \
-  @shellspec/altshfmt \
     as'null' \
     atclone'./build.zsh' \
-    completions \
     lbin'!' \
   @zdharma-continuum/zunit
 #=== MISC. ============================================
-  zinit light-mode lucid wait for \
- atinit" zpcompinit; zpcdreplay" \
-    zdharma-continuum/fast-syntax-highlighting \
- atload"!_zsh_autosuggest_start" \
-    zsh-users/zsh-autosuggestions \
- blockf \
-    zsh-users/zsh-completions
+zle_highlight=('paste:fg=white,bg=black')
+zinit wait'0' lucid for \
+    svn submods'zsh-users/zsh-history-substring-search -> external' \
+  @OMZ::plugins/history-substring-search \
+    atpull'zinit creinstall -q .' blockf \
+  @zsh-users/zsh-completions \
+    atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
+    atload"_zsh_autosuggest_start" \
+  @zsh-users/zsh-autosuggestions \
+    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
+    atpull'%atclone' \
+    compile'.*fast*~*.zwc' \
+    nocompletions \
+  @zdharma-continuum/fast-syntax-highlighting
+
+zi for \
+    as'null' \
+    atload'zicompinit; zicdreplay' \
+    id-as'init-zinit' \
+    light-mode
+    lucid \
+    nocd \
+    wait'2' \
+  @zdharma-continuum/null
+
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
