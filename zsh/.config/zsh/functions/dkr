@@ -1,0 +1,215 @@
+#!/usr/bin/env zsh
+
+#
+# sandbox commands
+#
+function _dkr_sandbox_run {
+  docker run \
+    --hostname "sandbox" \
+    --interactive \
+    --mount source=sandbox,destination=/home \
+    --platform linux/x86_64 \
+    --tty \
+    sandbox:latest
+}
+
+function _dkr_sandbox_build {
+  docker buildx build --load --platform linux/x86_64 --progress=plain --tag sandbox:latest -<<'EOF'
+    FROM amd64/ubuntu
+    ENV USER user
+    ENV HOME /home/$USER
+    ENV DEBIAN_FRONTEND noninteractive
+    RUN apt-get update --quiet=2 \
+    && apt-get install --assume-yes --no-install-recommends --quiet=2 \
+        autoconf autogen automake \
+        build-essential \
+        ca-certificates cmake coreutils curl \
+        file \
+        git \
+        make \
+        openssl \
+        stow subversion sudo \
+        texinfo \
+        wget \
+        unzip \
+        zsh
+    RUN useradd \
+      --create-home \
+      --gid root --groups sudo \
+      --home-dir /home/${USER} \
+      --shell "$(which zsh)" \
+      --uid 1001 \
+      ${USER} \
+    && mkdir -p /home/${USER}/.config \
+    && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers \
+    && passwd --delete ${USER} \
+    && chown --recursive ${USER} /home/${USER}
+    USER ${USER}
+    WORKDIR ${HOME}
+    RUN git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
+    ENTRYPOINT ["zsh"]
+    CMD ["-l"]
+EOF
+}
+
+#
+# nuke command
+#
+function _dkr_nuke() {
+    NUM_CONTAINERS=$(docker container ls --all --quiet | wc -l)
+    builtin emulate -L zsh -o EXTENDED_GLOB
+    # Remove all Docker related resources
+    local RUNNER=
+    local RUN_AS_SUDO
+    zmodload zsh/zutil
+    zparseopts -D -F -K -- {s,-run-as-sudo}=RUN_AS_SUDO || return 1
+    if [[ $# -gt 0 ]]; then
+      echo Unexpected arguments, aborting...
+      return 1
+    fi
+    if (( $#RUN_AS_SUDO )); then
+      RUNNER=sudo
+    fi
+    n=0
+    until [ ${n} -eq 4 ]; do
+      if docker system info &>/dev/null; then
+        builtin print -- "$(_dkr_color green 'Nuking docker...')"
+        NUM_CONTAINERS=$(docker container ls --all --quiet | wc -l | xargs)
+        builtin echo "Found $(_dkr_color green "$NUM_CONTAINERS") containers"
+        for resource in 'container' 'image' 'volume' 'network'; do
+          builtin print -- "$(_dkr_color green "Removing ${resource}s...")"
+          local resource_opts="${${(M)resource:#(container|image)}:+--all}"
+          for id in $(${RUNNER} docker "$resource" ls ${(Q)resource_opts} --quiet); do
+            "$RUNNER" docker  rm "$resource" --force "$id"
+          done
+          (( n++ ))
+        done
+        builtin print -- "$(_dkr_color green 'Pruning docker system resources...')"
+        ${RUNNER} docker system prune --all --force
+      fi
+    done
+}
+
+function _dkr_sandbox_usage {
+    builtin echo $(_dkr_color green "Usage:")
+    builtin echo "  dkr sandbox [options] <command>"
+    builtin echo
+    builtin echo $(_dkr_color green "Options:")
+    builtin echo "  -h, --help          Output this help text and exit"
+    builtin echo
+    builtin echo $(_dkr_color green "Commands:")
+    builtin echo "  run               Run ubuntu development sandbox"
+    builtin echo "  build             Remove all docker resources"
+}
+function _dkr_sandbox {
+  local cmd base help
+  autoload -Uz is-at-least
+  # Parse CLI options
+  builtin zparseopts -D h=help -help=help
+  # Print help
+  if [[ -n $help ]]; then
+    _dkr_usage
+    return
+  fi
+  cmd="$1"
+  if [[ -z $cmd || $cmd == ' ' ]]; then
+  _dkr_sandbox_usage
+  fi
+  # Check if the requested command exists
+  if (( ! $+functions[_dkr_sandbox_${cmd}] )); then
+    # If it doesn't, print usage information and exit
+    builtin echo $(_dkr_color red "Command '$cmd' can not be found.")
+    builtin echo
+    _dkr_sandbox_usage
+    return 1
+  fi
+  # Execute the requested command
+  _dkr_sandbox_${cmd} "${(@)@:2}"
+}
+
+
+
+function _dkr_color {
+  $(builtin type -p color 2>&1 > /dev/null)
+  if [[ $? -ne 0 && ! -x ${dkr_DIR:-"${ZDOTDIR:-$HOME}/bin/color"} ]]; then
+    local color=$1 style=$2 b=0
+    builtin shift
+    case $style in
+      bold|b)           b=1; builtin shift ;;
+      italic|i)         b=2; builtin shift ;;
+      underline|u)      b=4; builtin shift ;;
+      inverse|in)       b=7; builtin shift ;;
+      strikethrough|s)  b=9; builtin shift ;;
+    esac
+    case $color in
+      black|b)    builtin echo "\033[${b};30m${@}\033[0;m" ;;
+      red|r)      builtin echo "\033[${b};31m${@}\033[0;m" ;;
+      green|g)    builtin echo "\033[${b};32m${@}\033[0;m" ;;
+      yellow|y)   builtin echo "\033[${b};33m${@}\033[0;m" ;;
+      blue|bl)    builtin echo "\033[${b};34m${@}\033[0;m" ;;
+      magenta|m)  builtin echo "\033[${b};35m${@}\033[0;m" ;;
+      cyan|c)     builtin echo "\033[${b};36m${@}\033[0;m" ;;
+      white|w)    builtin echo "\033[${b};37m${@}\033[0;m" ;;
+    esac
+    return
+  fi
+  command color "$@"
+}
+function _dkr_usage() {
+  builtin echo $(_dkr_color green "Usage:")
+  builtin echo "  dkr [options] <command>"
+  builtin echo
+  builtin echo $(_dkr_color green "Options:")
+  builtin echo "  -h, --help          Output this help text and exit"
+  builtin echo
+  builtin echo $(_dkr_color green "Commands:")
+  builtin echo "  install <package>     Install a package"
+  builtin echo "  install <package>     Install a package"
+  builtin echo "  sandbox               Run ubuntu development sandbox"
+  builtin echo "  nuke                  Remove all docker resources"
+}
+###
+# The main dkr command. Loads and executes all other commands
+###
+function dkr() {
+  local cmd base help
+  autoload -Uz is-at-least
+  # Set up some source paths
+  base=${dkr_DIR:-"${ZDOTDIR:-$HOME}/.dkr"}
+  config=${dkr_CONFIG_DIR:-"${ZDOTDIR:-$HOME}/.config/dkr"}
+  # Parse CLI options
+  builtin zparseopts -D h=help -help=help
+  # Print help
+  if [[ -n $help ]]; then
+    _dkr_usage
+    return
+  fi
+  cmd="$1"
+  if [[ -z $cmd || $cmd == ' ' ]]; then
+    builtin print -Pr -- '     _____          ___           ___      '
+    builtin print -Pr -- '    /  /::\        /__/|         /  /\     '
+    builtin print -Pr -- '   /  /:/\:\      |  |:|        /  /::\    '
+    builtin print -Pr -- '  /  /:/  \:\     |  |:|       /  /:/\:\   '
+    builtin print -Pr -- ' /__/:/ \__\:|  __|  |:|      /  /:/~/:/   '
+    builtin print -Pr -- ' \  \:\ /  /:/ /__/\_|:|____ /__/:/ /:/___ '
+    builtin print -Pr -- '  \  \:\  /:/  \  \:\/:::::/ \  \:\/:::::/ '
+    builtin print -Pr -- '   \  \:\/:/    \  \::/~~~~   \  \::/~~~~  '
+    builtin print -Pr -- '    \  \::/      \  \:\        \  \:\      '
+    builtin print -Pr -- '     \__\/        \  \:\        \  \:\     '
+    builtin print -Pr -- '                   \__\/         \__\/     '
+    builtin print
+    _dkr_usage
+    return
+  fi
+  # Check if the requested command exists
+  if (( ! $+functions[_dkr_${cmd}] )); then
+    # If it doesn't, print usage information and exit
+    builtin echo $(_dkr_color red "Command '$cmd' can not be found.")
+    builtin echo
+    _dkr_usage
+    return 1
+  fi
+  # Execute the requested command
+  _dkr_${cmd} "${(@)@:2}"
+}
+dkr $@
