@@ -1,9 +1,57 @@
 #!/usr/bin/env zsh
+#
+# Collection of common docker tasks
+#
 
 #
-# sandbox commands
+# helper functions
 #
-function _dkr_sandbox_run {
+_dkr_is_running() {
+  for (( n = 0; n < 4; n += 1 )); do
+    if docker system info &>/dev/null; then
+      return 0
+    fi
+    _log "$(_color y 'docker system unavailable...') [retry attempt $n/4]"
+    sleep 5
+  done
+  return 1
+}
+
+_log() {
+  builtin print -Pr -- $@
+}
+
+_color() {
+  $(builtin type -p color 2>&1 > /dev/null)
+  if [[ $? -ne 0 ]]; then
+    local color=$1 style=$2 b=0
+    builtin shift
+    case $style in
+      bold|b)           b=1; builtin shift ;;
+      italic|i)         b=2; builtin shift ;;
+      underline|u)      b=4; builtin shift ;;
+      inverse|in)       b=7; builtin shift ;;
+      strikethrough|s)  b=9; builtin shift ;;
+    esac
+    case $color in
+      black|b)   builtin echo "\033[${b};30m${@}\033[0;m" ;;
+      blue|bl)   builtin echo "\033[${b};34m${@}\033[0;m" ;;
+      cyan|c)    builtin echo "\033[${b};36m${@}\033[0;m" ;;
+      green|g)   builtin echo "\033[${b};32m${@}\033[0;m" ;;
+      magenta|m) builtin echo "\033[${b};35m${@}\033[0;m" ;;
+      red|r)     builtin echo "\033[${b};31m${@}\033[0;m" ;;
+      white|w)   builtin echo "\033[${b};37m${@}\033[0;m" ;;
+      yellow|y)  builtin echo "\033[${b};33m${@}\033[0;m" ;;
+    esac
+    return
+  fi
+  command color "$@"
+}
+
+#
+# sandbox subcommands
+#
+_dkr_sandbox_run() {
   docker run \
     --hostname "sandbox" \
     --interactive \
@@ -13,7 +61,7 @@ function _dkr_sandbox_run {
     sandbox:latest
 }
 
-function _dkr_sandbox_build {
+_dkr_sandbox_build() {
   docker buildx build --load --platform linux/x86_64 --progress=plain --tag sandbox:latest -<<'EOF'
     FROM amd64/ubuntu
     ENV USER user
@@ -51,144 +99,103 @@ function _dkr_sandbox_build {
     CMD ["-l"]
 EOF
 }
-
 #
-# nuke command
+# sandbox command
 #
-function _dkr_nuke() {
-  NUM_CONTAINERS=$(docker container ls --all --quiet | wc -l)
-  builtin emulate -L zsh -o EXTENDED_GLOB
-  # Remove all Docker related resources
-  local RUNNER=
-  local RUN_AS_SUDO
-  zmodload zsh/zutil
-  zparseopts -D -F -K -- {s,-run-as-sudo}=RUN_AS_SUDO || return 1
-  if [[ $# -gt 0 ]]; then
-    echo Unexpected arguments, aborting...
-    return 1
-  fi
-  if (( $#RUN_AS_SUDO )); then
-    RUNNER='sudo'
-  fi
-  for (( n = 0; n < 4; n += 1 )); do
-    if docker system info &>/dev/null; then
-      NUM_CONTAINERS=$(docker image ls --all --quiet | wc -l | xargs)
-      if (( NUM_CONTAINERS > 0 )); then
-        builtin print -- "$(_dkr_color green 'Nuking docker...')"
-        builtin echo "Found $(_dkr_color green "$NUM_CONTAINERS") containers"
-        for resource in 'container' 'image' 'volume'; do
-          builtin print -- "$(_dkr_color green "Removing ${resource}s...")"
-          local resource_opts=${${(M)resource:#(container|image)}:+--all}
-          for id in $(${RUNNER} docker "$resource" ls ${(Q)resource_opts} --quiet); do
-            "$RUNNER" docker "$resource" rm --force "$id"
-          done
-        done
-        builtin print -- "$(_dkr_color green 'Pruning docker system resources...')"
-        "$RUNNER" docker system prune --all --force
-        "$RUNNER" docker network prune --force
-      else
-        builtin print -- "$(_dkr_color green 'No docker resources')"
-      fi
-      return 0
-    fi
-    builtin print -- "$(_dkr_color yellow 'docker system unavailable...') [retry attempt $n/4]"
-    sleep 5
-  done
+_dkr_sandbox_usage() {
+  _log $(_color green "Usage:")
+  _log "  dkr sandbox [options] <command>"
+  _log
+  _log $(_color green "Options:")
+  _log "  -h, --help          Output this help text and exit"
+  _log
+  _log $(_color green "Commands:")
+  _log "  build             Remove all docker resources"
+  _log "  run               Run ubuntu development sandbox"
 }
 
-function _dkr_sandbox_usage {
-  builtin echo $(_dkr_color green "Usage:")
-  builtin echo "  dkr sandbox [options] <command>"
-  builtin echo
-  builtin echo $(_dkr_color green "Options:")
-  builtin echo "  -h, --help          Output this help text and exit"
-  builtin echo
-  builtin echo $(_dkr_color green "Commands:")
-  builtin echo "  run               Run ubuntu development sandbox"
-  builtin echo "  build             Remove all docker resources"
-}
-function _dkr_sandbox {
+_dkr_sandbox() {
   local cmd base help
   autoload -Uz is-at-least
-  # Parse CLI options
   builtin zparseopts -D h=help -help=help
-  # Print help
   if [[ -n $help ]]; then
     _dkr_usage
-    return
+    return 0
   fi
   cmd="$1"
-  if [[ -z $cmd || $cmd == ' ' ]]; then
+  if [[ -z $cmd ]]; then
     _dkr_sandbox_usage
+    return 0
   fi
-  # Check if the requested command exists
   if (( ! $+functions[_dkr_sandbox_${cmd}] )); then
-    # If it doesn't, print usage information and exit
-    builtin echo $(_dkr_color red "Command '$cmd' can not be found.")
-    builtin echo
+    _log $(_color red "Command '$cmd' can not be found.")
     _dkr_sandbox_usage
     return 1
   fi
-  # Execute the requested command
   _dkr_sandbox_${cmd} "${(@)@:2}"
 }
 
 
+#
+# nuke command
+#
+_dkr_nuke_usage() {
+  _log $(_color green "Usage:")
+  _log "  dkr nuke [options]"
+  _log
+  _log $(_color green "Options:")
+  _log "  -h, --help          Output this help text and exit"
+}
 
-function _dkr_color {
-  $(builtin type -p color 2>&1 > /dev/null)
-  if [[ $? -ne 0 && ! -x ${dkr_DIR:-"${ZDOTDIR:-$HOME}/bin/color"} ]]; then
-    local color=$1 style=$2 b=0
-    builtin shift
-    case $style in
-      bold|b)           b=1; builtin shift ;;
-      italic|i)         b=2; builtin shift ;;
-      underline|u)      b=4; builtin shift ;;
-      inverse|in)       b=7; builtin shift ;;
-      strikethrough|s)  b=9; builtin shift ;;
-    esac
-    case $color in
-      black|b)    builtin echo "\033[${b};30m${@}\033[0;m" ;;
-      red|r)      builtin echo "\033[${b};31m${@}\033[0;m" ;;
-      green|g)    builtin echo "\033[${b};32m${@}\033[0;m" ;;
-      yellow|y)   builtin echo "\033[${b};33m${@}\033[0;m" ;;
-      blue|bl)    builtin echo "\033[${b};34m${@}\033[0;m" ;;
-      magenta|m)  builtin echo "\033[${b};35m${@}\033[0;m" ;;
-      cyan|c)     builtin echo "\033[${b};36m${@}\033[0;m" ;;
-      white|w)    builtin echo "\033[${b};37m${@}\033[0;m" ;;
-    esac
-    return
+_dkr_nuke() {
+  builtin emulate -L zsh -o EXTENDED_GLOB
+  local opt_help
+  zmodload zsh/zutil
+  builtin zparseopts -D h=opt_help -help=opt_help || return 1
+  if [[ -n $opt_help ]]; then
+    _dkr_nuke_usage
+    return 0
   fi
-  command color "$@"
+  if [[ $# -gt 0 ]]; then
+    _log $(_color red "Command 'nuke' command takes no arguments")
+    return 1
+  fi
+  _log "$(_color green 'Nuking docker...')"
+  for resource in 'container' 'image'; do
+    local -a resources=( $(docker "$resource" ls ${(Q)resource_opts} --quiet) )
+    if (( ${#resources} > 0 )); then
+      _log "$(_color cyan "Removing ${#resources} ${resource}s...")"
+      for id in $resources; docker "$resource" rm --force "$id"
+    fi
+  done
+  _log "$(_color cyan 'Pruning docker system resources...')"
+  docker system prune --all --force
 }
-function _dkr_usage() {
-  builtin echo $(_dkr_color green "Usage:")
-  builtin echo "  dkr [options] <command>"
-  builtin echo
-  builtin echo $(_dkr_color green "Options:")
-  builtin echo "  -h, --help          Output this help text and exit"
-  builtin echo
-  builtin echo $(_dkr_color green "Commands:")
-  builtin echo "  install <package>     Install a package"
-  builtin echo "  install <package>     Install a package"
-  builtin echo "  sandbox               Run ubuntu development sandbox"
-  builtin echo "  nuke                  Remove all docker resources"
+
+#
+# main dkr command
+#
+_dkr_usage() {
+  _log
+  _log $(_color green "Usage:")
+  _log "  dkr [options] <command>"
+  _log
+  _log $(_color green "Options:")
+  _log "  -h, --help          Output this help text and exit"
+  _log
+  _log $(_color green "Commands:")
+  _log "  sandbox               Run ubuntu development sandbox"
+  _log "  nuke                  Remove all docker resources"
 }
-###
-# The main dkr command. Loads and executes all other commands
-###
-function dkr() {
+
+_dkr() {
   local cmd base help
-  autoload -Uz is-at-least
-  # Set up some source paths
   base=${dkr_DIR:-"${ZDOTDIR:-$HOME}/.dkr"}
   config=${dkr_CONFIG_DIR:-"${ZDOTDIR:-$HOME}/.config/dkr"}
-  # Parse CLI options
   builtin zparseopts -D h=help -help=help
-  # Print help
   if [[ -n $help ]]; then
     _dkr_usage
-    return
+    return 0
   fi
   cmd="$1"
   if [[ -z $cmd || $cmd == ' ' ]]; then
@@ -203,19 +210,17 @@ function dkr() {
     builtin print -Pr -- '    \  \::/      \  \:\        \  \:\      '
     builtin print -Pr -- '     \__\/        \  \:\        \  \:\     '
     builtin print -Pr -- '                   \__\/         \__\/     '
-    builtin print
     _dkr_usage
-    return
+    return 0
   fi
-  # Check if the requested command exists
   if (( ! $+functions[_dkr_${cmd}] )); then
-    # If it doesn't, print usage information and exit
-    builtin echo $(_dkr_color red "Command '$cmd' can not be found.")
-    builtin echo
+    _log $(_color red "Command '$cmd' can not be found.")
     _dkr_usage
     return 1
   fi
-  # Execute the requested command
-  _dkr_${cmd} "${(@)@:2}"
+  if _dkr_is_running; then
+    _dkr_${cmd} "${(@)@:2}"
+  fi
 }
-dkr $@
+
+_dkr $@
