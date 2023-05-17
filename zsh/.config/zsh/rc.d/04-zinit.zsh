@@ -70,7 +70,7 @@ zi as'completion' id-as'auto' is-snippet light-mode for \
   @sindresorhus/pure
 }
 #=== ANNEXES ==========================================
-zi for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink','bin-gem-node'}
+zi id-as'auto' for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink','bin-gem-node'}
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 (( $+commands[svn] )) && (){
   local -a f=({functions,git,history,key-bindings,termsupport}'.zsh')
@@ -80,14 +80,12 @@ zi for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink
   zi ice submods'zsh-users/zsh-history-substring-search -> external' svn load
   zi snippet OMZP::history-substring-search
 }
-
-zinit ice as'null' id-as'remark' node'remark <- !remark-cli -> remark'
-zinit snippet /dev/null
 #=== GITHUB BINARIES ==================================
-zi from'gh-r' lbin'!' id-as'auto' light-mode no'compile' for \
+zi from'gh-r' lbin'!' light-mode no'compile' for \
   @dandavison/delta \
   @r-darwish/topgrade \
   @sharkdp/hyperfine \
+    cp'**/exa.zsh->_exa' \
     atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
   @ogham/exa \
     src'key-bindings.zsh' \
@@ -99,7 +97,7 @@ zi from'gh-r' lbin'!' id-as'auto' light-mode no'compile' for \
     ver'nightly' \
   @neovim/neovim
 #=== UNIT TESTING =====================================
-zinit light-mode id-as'auto'  for \
+zinit light-mode for \
     compile \
   @vladdoster/plugin-zinit-aliases \
     atinit'bindkey -M vicmd "^v" edit-command-line' \
@@ -114,8 +112,8 @@ zinit light-mode id-as'auto'  for \
   @zdharma-continuum/zunit
 #=== MISC. ============================================
 zle_highlight=('paste:fg=white,bg=black')
-zinit wait'0' lucid for \
-    svn submods'zsh-users/zsh-history-substring-search -> external' \
+zinit wait'0a' lucid for \
+    has'svn' svn submods'zsh-users/zsh-history-substring-search -> external' \
   @OMZ::plugins/history-substring-search \
     atpull'zinit creinstall -q .' blockf \
   @zsh-users/zsh-completions \
@@ -128,14 +126,10 @@ zinit wait'0' lucid for \
     nocompletions \
   @zdharma-continuum/fast-syntax-highlighting
 
-zi for \
-    as'null' \
-    atload'zicompinit; zicdreplay' \
+zi lucid wait'0b' for \
+    as'null' atload'zicompinit; zicdreplay' \
     id-as'init-zinit' \
-    light-mode
-    lucid \
     nocd \
-    wait'2' \
   @zdharma-continuum/null
 
 
