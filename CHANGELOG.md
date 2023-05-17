@@ -1,3 +1,27 @@
+# [4.27.0](https://github.com/vladdoster/dotfiles/compare/v4.26.1...v4.27.0) (2023-05-17)
+
+
+### Bug Fixes
+
+* add null ice to zshelldoc cfg ([cfee6be](https://github.com/vladdoster/dotfiles/commit/cfee6be4086e1f83bbefd25cd3db713022bd88ea))
+* dkr sandbox & nuke subcommands ([e4fd949](https://github.com/vladdoster/dotfiles/commit/e4fd949769875741eae6815096093f1dd96eb0ae))
+* mkfile fn fixes ([fb5dc55](https://github.com/vladdoster/dotfiles/commit/fb5dc55aeb4c753f4b70cd833da92934e9183ca5))
+* OMZ plugin load order ([f576eac](https://github.com/vladdoster/dotfiles/commit/f576eac227746503910e8d621dc3a1704e1454f4))
+* set brew prefix in +brew-link-keg ([2d80caf](https://github.com/vladdoster/dotfiles/commit/2d80cafa6bfe5704349a72e0af49bd37ee2cc4ae))
+* set path for zinit zcompdump ([27fe004](https://github.com/vladdoster/dotfiles/commit/27fe0045a47ece90923e122fdd2d1dcdea3d093c))
+* zinit cfg updates ([217d80b](https://github.com/vladdoster/dotfiles/commit/217d80b265abee5efd0a111ca54df511a1bf638c))
+* zinit config ([540b474](https://github.com/vladdoster/dotfiles/commit/540b4745feb0185b136d81b5deaadb5504399dbc))
+* zinit plugin ices ([b5c60d9](https://github.com/vladdoster/dotfiles/commit/b5c60d9a36a5479daea5dfb690863e0ae6769381))
+
+
+### Features
+
+* add alias "mk" for "make" ([b2de4c0](https://github.com/vladdoster/dotfiles/commit/b2de4c072cd49fff9ec56dd4c2490252b55e628c))
+* add gnu programs to PATH via +brew-link-kegs ([a2c3773](https://github.com/vladdoster/dotfiles/commit/a2c3773dc7d7027069bfef1ce3221d50f9a88e09))
+* dkr command for common docker related tasks ([3931f02](https://github.com/vladdoster/dotfiles/commit/3931f02061809fbc30f919ba4a262e2a943c765e))
+* help-zshglob lists common zsh globs ([0f1ccd4](https://github.com/vladdoster/dotfiles/commit/0f1ccd4b482761de2ee292d08ed8bbb79e3e8a7c))
+* moved docker::nuke to be a dkr subcommand ([dde0fa0](https://github.com/vladdoster/dotfiles/commit/dde0fa0d9d7f2b5ca0131d556a77a0000ee7b505))
+
 ## [4.26.1](https://github.com/vladdoster/dotfiles/compare/v4.26.0...v4.26.1) (2023-05-01)
 
 
