@@ -1,0 +1,24 @@
+#compdef dkr
+
+local curcontext="$curcontext" state line cmds ret=1
+
+_arguments -C \
+  '(- *)'{-h,--help}'[Display help message]' \
+  '1: :->cmds' && ret=0
+
+case $state in
+  cmds)
+    cmds=('nuke' 'sandbox')
+    _describe -t commands 'dkr command' cmds && ret=0
+    ;;
+esac
+
+return ret
+
+# Local Variables:
+# mode: Shell-Script
+# sh-indentation: 2
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# End:
+# vim: ft=zsh sw=2 ts=2 et
