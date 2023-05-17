@@ -132,7 +132,9 @@ _dkr_sandbox() {
     _dkr_sandbox_usage
     return 1
   fi
-  _dkr_sandbox_${cmd} "${(@)@:2}"
+  if _dkr_is_running; then
+    _dkr_sandbox_${cmd} "${(@)@:2}"
+  fi
 }
 
 
@@ -160,16 +162,18 @@ _dkr_nuke() {
     _log $(_color red "Command 'nuke' command takes no arguments")
     return 1
   fi
-  _log "$(_color green 'Nuking docker...')"
-  for resource in 'container' 'image'; do
-    local -a resources=( $(docker "$resource" ls ${(Q)resource_opts} --quiet) )
-    if (( ${#resources} > 0 )); then
-      _log "$(_color cyan "Removing ${#resources} ${resource}s...")"
-      for id in $resources; docker "$resource" rm --force "$id"
-    fi
-  done
-  _log "$(_color cyan 'Pruning docker system resources...')"
-  docker system prune --all --force
+  if _dkr_is_running; then
+    _log "$(_color green 'Nuking docker...')"
+    for resource in 'container' 'image'; do
+      local -a resources=( $(docker "$resource" ls ${(Q)resource_opts} --quiet) )
+      if (( ${#resources} > 0 )); then
+        _log "$(_color cyan "Removing ${#resources} ${resource}s...")"
+        for id in $resources; docker "$resource" rm --force "$id"
+      fi
+    done
+    _log "$(_color cyan 'Pruning docker system resources...')"
+    docker system prune --all --force
+  fi
 }
 
 #
@@ -188,7 +192,7 @@ _dkr_usage() {
   _log "  nuke                  Remove all docker resources"
 }
 
-_dkr() {
+__dkr() {
   local cmd base help
   base=${dkr_DIR:-"${ZDOTDIR:-$HOME}/.dkr"}
   config=${dkr_CONFIG_DIR:-"${ZDOTDIR:-$HOME}/.config/dkr"}
@@ -218,9 +222,7 @@ _dkr() {
     _dkr_usage
     return 1
   fi
-  if _dkr_is_running; then
-    _dkr_${cmd} "${(@)@:2}"
-  fi
+  _dkr_${cmd} "${(@)@:2}"
 }
 
-_dkr $@
+__dkr $@
