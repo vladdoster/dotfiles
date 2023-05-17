@@ -56,50 +56,56 @@ EOF
 # nuke command
 #
 function _dkr_nuke() {
-    NUM_CONTAINERS=$(docker container ls --all --quiet | wc -l)
-    builtin emulate -L zsh -o EXTENDED_GLOB
-    # Remove all Docker related resources
-    local RUNNER=
-    local RUN_AS_SUDO
-    zmodload zsh/zutil
-    zparseopts -D -F -K -- {s,-run-as-sudo}=RUN_AS_SUDO || return 1
-    if [[ $# -gt 0 ]]; then
-      echo Unexpected arguments, aborting...
-      return 1
-    fi
-    if (( $#RUN_AS_SUDO )); then
-      RUNNER=sudo
-    fi
-    n=0
-    until [ ${n} -eq 4 ]; do
-      if docker system info &>/dev/null; then
+  NUM_CONTAINERS=$(docker container ls --all --quiet | wc -l)
+  builtin emulate -L zsh -o EXTENDED_GLOB
+  # Remove all Docker related resources
+  local RUNNER=
+  local RUN_AS_SUDO
+  zmodload zsh/zutil
+  zparseopts -D -F -K -- {s,-run-as-sudo}=RUN_AS_SUDO || return 1
+  if [[ $# -gt 0 ]]; then
+    echo Unexpected arguments, aborting...
+    return 1
+  fi
+  if (( $#RUN_AS_SUDO )); then
+    RUNNER='sudo'
+  fi
+  for (( n = 0; n < 4; n += 1 )); do
+    if docker system info &>/dev/null; then
+      NUM_CONTAINERS=$(docker image ls --all --quiet | wc -l | xargs)
+      if (( NUM_CONTAINERS > 0 )); then
         builtin print -- "$(_dkr_color green 'Nuking docker...')"
-        NUM_CONTAINERS=$(docker container ls --all --quiet | wc -l | xargs)
         builtin echo "Found $(_dkr_color green "$NUM_CONTAINERS") containers"
-        for resource in 'container' 'image' 'volume' 'network'; do
+        for resource in 'container' 'image' 'volume'; do
           builtin print -- "$(_dkr_color green "Removing ${resource}s...")"
-          local resource_opts="${${(M)resource:#(container|image)}:+--all}"
+          local resource_opts=${${(M)resource:#(container|image)}:+--all}
           for id in $(${RUNNER} docker "$resource" ls ${(Q)resource_opts} --quiet); do
-            "$RUNNER" docker  rm "$resource" --force "$id"
+            "$RUNNER" docker "$resource" rm --force "$id"
           done
-          (( n++ ))
         done
         builtin print -- "$(_dkr_color green 'Pruning docker system resources...')"
-        ${RUNNER} docker system prune --all --force
+        "$RUNNER" docker system prune --all --force
+        "$RUNNER" docker network prune --force
+      else
+        builtin print -- "$(_dkr_color green 'No docker resources')"
       fi
-    done
+      return 0
+    fi
+    builtin print -- "$(_dkr_color yellow 'docker system unavailable...') [retry attempt $n/4]"
+    sleep 5
+  done
 }
 
 function _dkr_sandbox_usage {
-    builtin echo $(_dkr_color green "Usage:")
-    builtin echo "  dkr sandbox [options] <command>"
-    builtin echo
-    builtin echo $(_dkr_color green "Options:")
-    builtin echo "  -h, --help          Output this help text and exit"
-    builtin echo
-    builtin echo $(_dkr_color green "Commands:")
-    builtin echo "  run               Run ubuntu development sandbox"
-    builtin echo "  build             Remove all docker resources"
+  builtin echo $(_dkr_color green "Usage:")
+  builtin echo "  dkr sandbox [options] <command>"
+  builtin echo
+  builtin echo $(_dkr_color green "Options:")
+  builtin echo "  -h, --help          Output this help text and exit"
+  builtin echo
+  builtin echo $(_dkr_color green "Commands:")
+  builtin echo "  run               Run ubuntu development sandbox"
+  builtin echo "  build             Remove all docker resources"
 }
 function _dkr_sandbox {
   local cmd base help
@@ -113,7 +119,7 @@ function _dkr_sandbox {
   fi
   cmd="$1"
   if [[ -z $cmd || $cmd == ' ' ]]; then
-  _dkr_sandbox_usage
+    _dkr_sandbox_usage
   fi
   # Check if the requested command exists
   if (( ! $+functions[_dkr_sandbox_${cmd}] )); then
