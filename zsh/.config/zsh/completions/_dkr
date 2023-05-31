@@ -2,23 +2,46 @@
 
 local curcontext="$curcontext" state line cmds ret=1
 
+  # '(- 1 *)'{-v,--version}'[display version information]' \
 _arguments -C \
-  '(- *)'{-h,--help}'[Display help message]' \
-  '1: :->cmds' && ret=0
+  '(-h|--help)'{-h,--help}'[show help information]' \
+  '1: :->cmds' \
+  '*: :->args' && ret=0
 
-case $state in
-  cmds)
-    cmds=('nuke' 'sandbox')
-    _describe -t commands 'dkr command' cmds && ret=0
-    ;;
+case "$state" in
+  (cmds)
+    cmds=(
+      "nuke:nuke cmd"
+      "sandbox: sandbox cmd"
+    )
+    _describe -t commands 'gas command' cmds && ret=0
+  ;;
+  (args)
+    case "$line[1]" in
+      (nuke)
+        nuke_cmds=(
+          "filter:Pattern to match resources"
+        )
+        _describe -t commands 'nuke commands' nuke_cmds && ret=0
+        ;;
+      (sandbox)
+        sandbox_cmds=(
+          "build:Build a Dockerfile"
+          "run:Run ubuntu development sandbox"
+        )
+        _describe -t commands 'sandbox commands' sandbox_cmds && ret=0
+      ;;
+    esac
+  ;;
 esac
 
 return ret
 
+
 # Local Variables:
 # mode: Shell-Script
-# sh-indentation: 2
+# sh-indentation: 4
 # indent-tabs-mode: nil
-# sh-basic-offset: 2
+# sh-basic-offset: 4
 # End:
-# vim: ft=zsh sw=2 ts=2 et
+# vim: ft=zsh sw=4 ts=4 et
