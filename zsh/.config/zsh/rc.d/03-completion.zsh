@@ -33,6 +33,7 @@ builtin zstyle ':completion:*:*:*:*:*' menu select
 builtin zstyle ':completion:*:matches' group 'yes'
 builtin zstyle ':completion:*:options' description 'yes'
 builtin zstyle ':completion:*:options' auto-description '%d'
+builtin zstyle ':completion:*' rehash true
 builtin zstyle ':completion:*:corrections' format ' %F{green}-- %d (errors: %e) --%f'
 builtin zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
 builtin zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
