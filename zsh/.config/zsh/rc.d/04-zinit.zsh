@@ -112,6 +112,7 @@ zinit light-mode for \
   @zdharma-continuum/zunit
 #=== MISC. ============================================
 zle_highlight=('paste:fg=white,bg=black')
+(( MINIMAL )) && {
 zinit wait'0a' lucid for \
     has'svn' svn submods'zsh-users/zsh-history-substring-search -> external' \
   @OMZ::plugins/history-substring-search \
@@ -125,6 +126,7 @@ zinit wait'0a' lucid for \
     compile'.*fast*~*.zwc' \
     nocompletions \
   @zdharma-continuum/fast-syntax-highlighting
+}
 
 zi lucid wait'0b' for \
     as'null' atload'zicompinit; zicdreplay' \
