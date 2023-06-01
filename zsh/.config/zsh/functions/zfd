@@ -1,32 +1,32 @@
 #autoload
 
-local flag_help flag_verbose
-local -a arg_extension=()
+emulate -L zsh
+zmodload zsh/zutil || return
 
-local -a usage=(
-  "zfd [-h|--help]"
-  "zfd [<function>]"
-)
-
-# -D pulls parsed flags out of $@
-# -E allows flags/args and positionals to be mixed, which we don't want in this example
-# -F says fail if we find a flag that wasn't defined
-# -M allows us to map option aliases (ie: h=flag_help -help=h)
-# -K allows us to set default values without zparseopts overwriting them
-# Remember that the first dash is automatically handled, so long options are -opt, not --opt
-
-zmodload zsh/zutil
+local help verbose message file=(default)
 zparseopts -D -F -K -- \
-  {h,-help}=flag_help  ||
-return 1
+    {h,-help}=help       \
+    {v,-verbose}=verbose \
+    {f,-file}:=file || return
 
-[[ -z "$flag_help" ]] || { print -l $usage && return }
-if (( $#@ )); then
-  nvim $1
-  return 0
-else
-  cd $HOME/.config/zsh/functions
-  return 0
+if (( $#help )); then
+    print -rC1 --      \
+        "$0 [-h|--help]" \
+        "$0 [-v|--verbose] [-f|--file=<file>] [<message...>]"
+    return
 fi
 
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
+if (( $#verbose )); then
+    print verbose
+fi
+
+# print -r -- "file: ${(q+)file[-1]}"
+# print -rC1 -- "message: "${(q+)^@}
+cd -q "$ZDOTDIR/functions"
+if (( ${#${(q+)^@}} )); then
+    nvim -O ${(q+)^@}
+fi
+
+return 0
+
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:

@@ -1,3 +1,3 @@
 #compdef zfd
 
-_arguments "1:directory:_files -W $HOME/.config/zsh/functions -g '*'"
+_arguments "1:functions:_files -W $HOME/.config/zsh/functions -g '^*.zwc(N:t)'"
