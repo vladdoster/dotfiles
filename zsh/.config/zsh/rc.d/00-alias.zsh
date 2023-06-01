@@ -133,6 +133,7 @@ alias http-serve='python3 -m http.server'
 # +──────────────+
 # │ NETWORK INFO │
 # +──────────────+
+alias get-localnet-hosts='sudo arp-scan --format="\${Name;-30}\${ip}" --localnet --ignoredups --plain --resolve | sort --human-numeric-sort'
 alias get-open-ports='sudo lsof -i -n -P | grep TCP'
 alias ping='ping -c 10'
 # +───────────────+
