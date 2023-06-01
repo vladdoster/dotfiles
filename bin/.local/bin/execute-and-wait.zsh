@@ -17,8 +17,8 @@ local __resultvar=$3
 
 eval $1 > /tmp/execute-and-wait.log 2>&1 &
 pid=$!
-delay=0.05
-frames=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴' '⠦' '⠧' '⠇' '⠏')
+delay=0.08
+frames=(⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏)
 
 echo "$pid" > "/tmp/.spinner.pid"
 
@@ -27,15 +27,20 @@ tput civis
 index=0
 framesCount=${#frames[@]}
 while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+  lim=$(tput cols)
+   if [[ $index -eq 0 ]]; then
+    index+=1
+  fi
+  printf ' %.0s' {1..$lim}
+  echo -n "\r"
   builtin print -f "${YELLOW}${frames[$index]}${NC} ${GREEN}$2${NC}"
 
-  let index=index+1
-  if [ "$index" -ge "$framesCount" ]; then
-    index=0
-  fi
-
-  printf "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+  index=$(( $(( $index + 1 )) % $(( ${#frames} + 1 )) ))
+  # Calculate the screen width
+  # Clear the line and move the cursor to the start
   sleep $delay
+    # Return to the beginning of the line
+  echo -n "\r"
 done
 
 #
@@ -53,6 +58,6 @@ fi
 # Restore the cursor
 tput cnorm
 
-eval "$__resultvar=$exitCode"
+return $exitCode
 
 # vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
