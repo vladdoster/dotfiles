@@ -52,13 +52,22 @@ _color() {
 # sandbox subcommands
 #
 _dkr_sandbox_run() {
-  docker run \
-    --hostname "sandbox" \
-    --interactive \
-    --mount source=sandbox,destination=/home \
-    --platform linux/x86_64 \
-    --tty \
-    sandbox:latest
+    if [[ -n "$(docker image ls --filter=reference=sandbox --quiet)" ]]; then
+    docker run \
+      --hostname "sandbox" \
+      --interactive \
+      --mount source=sandbox,destination=/home \
+      --platform linux/x86_64 \
+      --tty \
+      sandbox:latest
+  else
+    if _dkr_sandbox_build; then
+      _dkr_sandbox_run
+    else
+      _log $(_color red "Error: Unable to run sandbox")
+      return 1
+    fi
+  fi
 }
 
 _dkr_sandbox_build() {
@@ -226,3 +235,5 @@ __dkr() {
 }
 
 __dkr $@
+
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
