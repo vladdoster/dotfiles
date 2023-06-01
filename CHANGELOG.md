@@ -1,3 +1,24 @@
+# [4.28.0](https://github.com/vladdoster/dotfiles/compare/v4.27.0...v4.28.0) (2023-06-01)
+
+
+### Bug Fixes
+
+* +brew-link-keg logging & check multiple paths ([beceb4c](https://github.com/vladdoster/dotfiles/commit/beceb4c33d61d5c4dbc05441d9b067b5d8b3aede))
+* dkr conflicting function name ([4c51d20](https://github.com/vladdoster/dotfiles/commit/4c51d209e68a8f46d9f5ae06cda3565dd63860be))
+* dkr sandbox run builds image if not present ([2c6ffed](https://github.com/vladdoster/dotfiles/commit/2c6ffed766382c64ea5d0aefd58f37297f744667))
+* dkr sub-command zsh completion ([5b4d611](https://github.com/vladdoster/dotfiles/commit/5b4d611fd91d1ab4dff949371a30faf160a3916b))
+* fzf config logic checks ([690835b](https://github.com/vladdoster/dotfiles/commit/690835b4d5d932d304ae01f2dee6a8ded70a2747))
+
+
+### Features
+
+* alias 'get-localnet-hosts' lists hosts on LAN via arp-scan ([52ad514](https://github.com/vladdoster/dotfiles/commit/52ad514594d74e464792f23b8b2f90dca565b6b3))
+* conditionally load zsh plugins if MININMAL set ([cb77198](https://github.com/vladdoster/dotfiles/commit/cb77198bb35db573d67326c9bb376a95855ca104))
+* dkr zsh completion ([1517b18](https://github.com/vladdoster/dotfiles/commit/1517b1856ecd71d02ba0b3404a898b0a5b167e23))
+* ls-containers shows containers indefinitely ([94a52b9](https://github.com/vladdoster/dotfiles/commit/94a52b9949dbd47c1cfd09f8ccfeee8cb9e85788))
+* misc scripts colors-demo.zsh & execute-and-wait.zsh ([d58ae4c](https://github.com/vladdoster/dotfiles/commit/d58ae4c4f7feda9514538330d9a103346c6a17ed))
+* set rehash to true for zsh completion ([6471328](https://github.com/vladdoster/dotfiles/commit/6471328aee455d5d81c6cad9d825c01c8a1774c1))
+
 # [4.27.0](https://github.com/vladdoster/dotfiles/compare/v4.26.1...v4.27.0) (2023-05-17)
 
 
