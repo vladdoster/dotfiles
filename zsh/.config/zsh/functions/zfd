@@ -4,20 +4,11 @@ emulate -L zsh
 zmodload zsh/zutil || return
 
 local help verbose message file=(default)
-zparseopts -D -F -K -- \
-    {h,-help}=help       \
-    {v,-verbose}=verbose \
-    {f,-file}:=file || return
+zparseopts -D -F -K -- {h,-help}=help || return
 
 if (( $#help )); then
-    print -rC1 --      \
-        "$0 [-h|--help]" \
-        "$0 [-v|--verbose] [-f|--file=<file>] [<message...>]"
+    print -rC1 -- "$0 [-h|--help] [file ...]"
     return
-fi
-
-if (( $#verbose )); then
-    print verbose
 fi
 
 # print -r -- "file: ${(q+)file[-1]}"
