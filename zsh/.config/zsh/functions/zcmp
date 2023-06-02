@@ -1,0 +1,23 @@
+#autoload
+
+emulate -L zsh
+zmodload zsh/zutil || return
+
+local help verbose message file=(default)
+zparseopts -D -F -K -- {h,-help}=help || return
+
+if (( $#help )); then
+    print -rC1 -- "$0 [-h|--help] [file ...]"
+    return
+fi
+
+# print -r -- "file: ${(q+)file[-1]}"
+# print -rC1 -- "message: "${(q+)^@}
+cd -q "$ZDOTDIR/completions"
+if (( ${#${(q+)^@}} )); then
+    nvim -O ${(q+)^@}
+fi
+
+return 0
+
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:

@@ -1,0 +1,3 @@
+#compdef zcmp
+
+_arguments -C "*:completions:_files -W ${ZDOTDIR:-HOME/.config/zsh}/completions -g '_*(N:t)'"
