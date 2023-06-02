@@ -1,3 +1,23 @@
+# [4.29.0](https://github.com/vladdoster/dotfiles/compare/v4.28.0...v4.29.0) (2023-06-02)
+
+
+### Bug Fixes
+
+* change zsh completion files to 644 ([ead2824](https://github.com/vladdoster/dotfiles/commit/ead28240281696c146e5b1d8a6c8ad1a1bf16354))
+* mkfn autoload shebang & options ([60d2d7b](https://github.com/vladdoster/dotfiles/commit/60d2d7bde350fc4a7130a02f0da3346ebfd950bf))
+* remove cruft from zfd ([91d8775](https://github.com/vladdoster/dotfiles/commit/91d8775fc1565d8e51e9e6e4af89a96926c0633a))
+* remove ssh signing from git config  ([81f2b03](https://github.com/vladdoster/dotfiles/commit/81f2b034df79c4d39e4c75419c6c7b97095def8e))
+* run `cleanup-runs.yml` workflow every sunday ([7dce754](https://github.com/vladdoster/dotfiles/commit/7dce75451a458ab2f2130dc239f4f1afd59635ce))
+* smooth execute-and-wait.zsh spinner animation ([8a8f2f4](https://github.com/vladdoster/dotfiles/commit/8a8f2f40f117d2bc5a7489658dfea5a10ab809eb))
+* zfd argument logic & zsh completion ([4d654c6](https://github.com/vladdoster/dotfiles/commit/4d654c6c6a9392838c4cd9293087586f99273f4c))
+* zfd function zsh completion ([dbaf538](https://github.com/vladdoster/dotfiles/commit/dbaf53808f3e831185259784c9cd5a6bc98406e3))
+
+
+### Features
+
+* edit zsh completions via zcmp ([279b0e0](https://github.com/vladdoster/dotfiles/commit/279b0e0b9dec2969968d432029795e4a8d677293))
+* interactively view git log via fzshow ([6ba463a](https://github.com/vladdoster/dotfiles/commit/6ba463ad7aae22c3ba1315986b85b242e478db4d))
+
 # [4.28.0](https://github.com/vladdoster/dotfiles/compare/v4.27.0...v4.28.0) (2023-06-01)
 
 
