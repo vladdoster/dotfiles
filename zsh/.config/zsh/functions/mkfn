@@ -1,25 +1,56 @@
 #autoload
 
-(( $#@ )) && {
-    pushd -- ~/.config/zsh/functions && {
-        command touch $1
-        command chmod 755 $1
-        builtin print -- "#!autoload" > $1
-        builtin print -- "#" >> $1
-        builtin print -- "# $1" >> $1
-        builtin print -- "#" >> $1
-        builtin print -- "" >> $1
-        builtin print -- "" >> $1
-        builtin print -- "" >> $1
-        builtin print -- "# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:" >> $1
-        builtin print -- "==> created $1 function"
-    } always {
-        popd
-    }
-} || {
-    builtin print -P -- "%F{red}Error%f: $0 requires a function name"
-    return 1
+emulate -L zsh
+setopt extended_glob pushd_silent
+
+zmodload zsh/zutil || return 1
+
+opt_help= opt_edit=
+cli_usage=("Usage: $0 [-h|--help] [-e|--edit] [function]")
+
+zparseopts -D -F -K -- \
+  {e,-edit}=opt_edit \
+  {h,-help}=opt_help \
+  || return 1
+[[ -z "$opt_help" ]] || {
+  builtin print -l $cli_usage && return
 }
+
+(( $#@ )) && {
+  pushd -- ~/.config/zsh/functions && {
+    command touch $1
+    command chmod 755 $1
+    cat << EOF > $1
+#autoload
+#
+# $1
+#
+$(builtin print -- '')
+emulate -L zsh
+setopt extended_glob
+zmodload zsh/zutil || return 1
+$(builtin print -- '')
+opt_help=
+cli_usage=("Usage: $1 [-h|--help]")
+zparseopts -D -F -K -- {h,-help}=opt_help || return 1
+[[ -z "\$opt_help" ]] || {
+  builtin print -l \$cli_usage && return 0
+}
+$(builtin print -- '')
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
+EOF
+    [[ -z "$opt_edit" ]] || {
+      nvim $1
+    }
+    builtin print -- "==> created $1 function"
+  } always {
+    popd
+  }
+} || {
+  builtin print -P -- "%F{red}Error%f: $0 requires a function name"
+  return 1
+}
+
 return 0
 
-# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
