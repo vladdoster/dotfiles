@@ -10,7 +10,6 @@ typeset -gAH ZI=(HOME_DIR "$HOME/.local/share/zinit")
 ZI+=(
   BIN_DIR "$ZI[HOME_DIR]"/zinit.git
   BRANCH 'main'
-  COMPINIT_OPTS '-C'
   COMPLETIONS_DIR "$ZI[HOME_DIR]"/completions
   PLUGINS_DIR "$ZI[HOME_DIR]"/plugins
   SNIPPETS_DIR "$ZI[HOME_DIR]"/snippets
@@ -112,27 +111,24 @@ zinit light-mode for \
   @zdharma-continuum/zunit
 #=== MISC. ============================================
 zle_highlight=('paste:fg=white,bg=black')
-(( MINIMAL )) && {
-zinit wait'0a' lucid for \
+(( MINIMAL )) || {
+zinit wait lucid for \
     has'svn' svn submods'zsh-users/zsh-history-substring-search -> external' \
   @OMZ::plugins/history-substring-search \
-    atpull'zinit creinstall -q .' blockf \
+    atpull'zinit creinstall -q .' blockf null \
   @zsh-users/zsh-completions \
     atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
     atload"_zsh_autosuggest_start" \
   @zsh-users/zsh-autosuggestions \
-    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
-    atpull'%atclone' \
-    compile'.*fast*~*.zwc' \
     nocompletions \
   @zdharma-continuum/fast-syntax-highlighting
 }
 
-zi lucid wait'0b' for \
-    as'null' atload'zicompinit; zicdreplay' \
-    id-as'init-zinit' \
-    nocd \
-  @zdharma-continuum/null
+zi lucid wait'0' for \
+  as'null' \
+  atload'zicompinit;zicdreplay' \
+  id-as'init-zinit' \
+@zdharma-continuum/null
 
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
