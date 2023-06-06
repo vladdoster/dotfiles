@@ -43,7 +43,11 @@ if (( $+commands[fzf] )); then
     fi
 
     if (( $+commands[brew] )) && [[ $- == *i* ]]; then
-        source "$(brew --prefix)/opt/fzf/shell/completion.zsh"
-        source "$(brew --prefix)/opt/fzf/shell/key-bindings.zsh"
+      if [[ -d $(brew --prefix)/opt/fzf/shell ]]; then
+        local f
+        for f in 'completion' 'key-bindings'; do
+          source "$(brew --prefix)/opt/fzf/shell/${f}.zsh"
+        done
+      fi
     fi
 fi
