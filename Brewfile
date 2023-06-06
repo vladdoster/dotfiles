@@ -43,7 +43,6 @@ brew "npm"
 brew "openssh"
 brew "pcre2"
 brew "perl", link: true
-brew "ssh"
 brew "stow"
 brew "subversion"
 brew "texinfo"
