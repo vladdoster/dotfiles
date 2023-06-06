@@ -1,0 +1,29 @@
+#autoload
+#
+# have-updates
+#
+
+emulate -L zsh
+setopt extended_glob pushdsilent
+
+zmodload zsh/zutil || return 1
+
+local opt_help=
+local -a cli_usage=("Usage: have-updates [-h|--help]")
+zparseopts -D -F -K -- {h,-help}=opt_help || return 1
+[[ -z "$opt_help" ]] || {
+    builtin print -l -- $cli_usage && return 0
+}
+
+local -a updates=()
+for d in $1/*(/); do
+    pushd "$d"
+    check-for-updates "$d" > /dev/null 2>&1
+    if (( $? == 0 )); then
+        updates+=("${d:t}")
+    fi
+    popd
+done
+print -l -- "${#updates} updates:" ${(@)updates}
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
