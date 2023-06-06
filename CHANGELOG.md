@@ -1,3 +1,20 @@
+# [4.30.0](https://github.com/vladdoster/dotfiles/compare/v4.29.0...v4.30.0) (2023-06-06)
+
+
+### Bug Fixes
+
+* check if zsh scripts exist in fzf config ([b044803](https://github.com/vladdoster/dotfiles/commit/b044803346bbf70ff7445c4aee9372ac8b894c09))
+* logic checks in zinit config  ([a47d2ed](https://github.com/vladdoster/dotfiles/commit/a47d2ed18fd785b809b503220329476bcd073740))
+* macos:rm-ds-store find command options ([21ad07d](https://github.com/vladdoster/dotfiles/commit/21ad07dca230aa3bf89eaa6bd805d07915727279))
+* rm invalid formula ssh from brewfile ([d83a558](https://github.com/vladdoster/dotfiles/commit/d83a55831e70dc58662de278f5736254324f6ef4))
+* zshrc indentation ([921475c](https://github.com/vladdoster/dotfiles/commit/921475c9360c1d40b8fa56d7021dead72a44b7e8))
+
+
+### Features
+
+* check for git repositories with new upstream commits ([0cd1eea](https://github.com/vladdoster/dotfiles/commit/0cd1eea4d810f570fa938c01010601cb85c6fec7))
+* rm all compiled zsh zwc files via zsh:rm-zwc ([dcf2f20](https://github.com/vladdoster/dotfiles/commit/dcf2f2001c129a9d7e73e27108f9a58c6a7d89ba))
+
 # [4.29.0](https://github.com/vladdoster/dotfiles/compare/v4.28.0...v4.29.0) (2023-06-02)
 
 
