@@ -5,6 +5,7 @@ local curcontext="$curcontext" state line cmds ret=1
   # '(- 1 *)'{-v,--version}'[display version information]' \
 _arguments -C \
   '(-h|--help)'{-h,--help}'[show help information]' \
+  '(-p|--platform)'{-p,--platform}'[select platform to use amd64 or amd64]' \
   '1: :->cmds' \
   '*: :->args' && ret=0
 

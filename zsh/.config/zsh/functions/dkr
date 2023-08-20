@@ -52,14 +52,14 @@ _color() {
 # sandbox subcommands
 #
 _dkr_sandbox_run() {
-    if [[ -n "$(docker image ls --filter=reference=sandbox --quiet)" ]]; then
+    if [[ -n "$(docker image ls --filter=reference=sandbox-${platform} --quiet)" ]]; then
     docker run \
-      --hostname "sandbox" \
+      --hostname "sandbox-${platform}" \
       --interactive \
-      --mount source=sandbox,destination=/home \
-      --platform linux/x86_64 \
+      --mount source=sandbox-${platform},destination=/home \
+      --platform linux/${platform} \
       --tty \
-      sandbox:latest
+      sandbox-${platform}:latest
   else
     if _dkr_sandbox_build; then
       _dkr_sandbox_run
@@ -71,8 +71,8 @@ _dkr_sandbox_run() {
 }
 
 _dkr_sandbox_build() {
-  docker buildx build --load --platform linux/x86_64 --progress=plain --tag sandbox:latest -<<'EOF'
-    FROM amd64/ubuntu
+  docker buildx build --load --platform linux/$platform --progress=plain --tag sandbox-$platform:latest -<<'EOF'
+    FROM ubuntu
     ENV USER user
     ENV HOME /home/$USER
     ENV DEBIAN_FRONTEND noninteractive
@@ -117,32 +117,76 @@ _dkr_sandbox_usage() {
   _log
   _log $(_color green "Options:")
   _log "  -h, --help          Output this help text and exit"
+  _log "  -p, --platform      Output this help text and exit"
   _log
   _log $(_color green "Commands:")
   _log "  build             Remove all docker resources"
   _log "  run               Run ubuntu development sandbox"
 }
 
+_dkr_sandbox () {
+    local cmd base help
+    local opt_platform=(amd64)
+    zmodload zsh/zutil
+    zparseopts -D -F -K -- \
+        {h,-help}=help \
+        {p,-platform}:=opt_platform \
+    || return 1
+    [[ -z "$help" ]] || {
+        _dkr_usage
+        return 0
+    }
+    local platform="$opt_platform[-1]"
+    if [[ -z $@ ]]; then
+        _dkr_sandbox_usage
+        return 0
+    fi
+    if (( ! $+functions[_dkr_sandbox_${@}] )); then
+        _log $(_color red "Command '$@' can not be found.")
+        _dkr_sandbox_usage
+        return 1
+    fi
+    if _dkr_is_running; then
+        _dkr_sandbox_${@}
+    fi
+}
 _dkr_sandbox() {
-  local cmd base help
+  local cmd base help opt_platform
+  local flag_help flag_verbose
+  local opt_platform=(amd64)  # set a default
+  local usage=(
+    "zparseopts_demo [-h|--help]"
+    "zparseopts_demo [-v|--verbose] [-f|--filename=<file>] [<message...>]"
+  )
+
+  # -D pulls parsed flags out of $@
+  # -E allows flags/args and positionals to be mixed, which we don't want in this example
+  # -F says fail if we find a flag that wasn't defined
+  # -M allows us to map option aliases (ie: h=flag_help -help=h)
+  # -K allows us to set default values without zparseopts overwriting them
+  # Remember that the first dash is automatically handled, so long options are -opt, not --opt
+  zmodload zsh/zutil
+  zparseopts -D -F -K -- \
+    {h,-help}=help \
+    {p,-platform}:=opt_platform ||
+    return 1
   autoload -Uz is-at-least
-  builtin zparseopts -D h=help -help=help
-  if [[ -n $help ]]; then
+  [[ -z "$help" ]] || {
     _dkr_usage
     return 0
-  fi
-  cmd="$1"
-  if [[ -z $cmd ]]; then
+  }
+  local platform="$opt_platform[-1]"
+  if [[ -z $@ ]]; then
     _dkr_sandbox_usage
     return 0
   fi
-  if (( ! $+functions[_dkr_sandbox_${cmd}] )); then
-    _log $(_color red "Command '$cmd' can not be found.")
+  if (( ! $+functions[_dkr_sandbox_${@}] )); then
+    _log $(_color red "Command '$@' can not be found.")
     _dkr_sandbox_usage
     return 1
   fi
   if _dkr_is_running; then
-    _dkr_sandbox_${cmd} "${(@)@:2}"
+    _dkr_sandbox_${@}
   fi
 }
 
