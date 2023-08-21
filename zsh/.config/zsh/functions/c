@@ -1,3 +1,10 @@
 #autoload
 
-builtin cd ~/code/$1
+if [[ -d $HOME/code ]]; then
+  builtin cd "$HOME/code/$1"
+  command ls
+  return 0
+else
+  print "Error: ${HOME}/code directory does not exist"
+  return 1
+fi
