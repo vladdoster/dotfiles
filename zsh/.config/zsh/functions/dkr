@@ -51,63 +51,116 @@ _color() {
 #
 # sandbox subcommands
 #
-_dkr_sandbox_run() {
-    if [[ -n "$(docker image ls --filter=reference=sandbox-${platform} --quiet)" ]]; then
+_dkr_sandbox_run(){
+    # if [[ -n "$(docker image ls --filter=reference=sandbox-${platform} --quiet)" ]]; then
     docker run \
-      --hostname "sandbox-${platform}" \
+      --hostname "sbox-${distro}-${platform}" \
       --interactive \
-      --mount source=sandbox-${platform},destination=/home \
+      --mount source=sbox-${distro}-${platform},destination=/home \
       --platform linux/${platform} \
       --tty \
-      sandbox-${platform}:latest
-  else
-    if _dkr_sandbox_build; then
-      _dkr_sandbox_run
-    else
-      _log $(_color red "Error: Unable to run sandbox")
-      return 1
-    fi
-  fi
+      sbox-${distro}-${platform}
+  # else
+  #   if _dkr_sandbox_build; then
+  #     _dkr_sandbox_run
+  #   else
+  #     _log $(_color red "Error: Unable to run sandbox")
+  #     return 1
+  #   fi
+  # fi
 }
 
 _dkr_sandbox_build() {
-  docker buildx build --load --platform linux/$platform --progress=plain --tag sandbox-$platform:latest -<<'EOF'
-    FROM ubuntu
+  docker buildx build \
+        --build-arg DISTRO="${distro}" \
+        --build-arg PLATFORM="${platform}" \
+        --load \
+        --platform linux/"${platform}" \
+        --progress=plain \
+        --tag sbox-"${distro}-${platform}":latest \
+        -<<'EOF'
+    ARG DISTRO=debian
+    ARG PLATFORM=amd64
+    FROM ${DISTRO}:latest
     ENV USER user
     ENV HOME /home/$USER
     ENV DEBIAN_FRONTEND noninteractive
-    RUN apt-get update --quiet=2 \
-    && apt-get install --assume-yes --no-install-recommends --quiet=2 \
+    RUN apt-get update \
+     && apt-get install -y --no-install-recommends \
         autoconf autogen automake \
-        build-essential \
+        build-essential bzip2 \
         ca-certificates cmake coreutils curl \
         file \
-        git \
+        g++ gawk git \
+        jq \
+        less libz-dev locales \
         make \
-        openssl \
-        stow subversion sudo \
-        texinfo \
-        wget \
+        sudo stow subversion \
+        tzdata \
         unzip \
+        wget \
+        xz-utils \
         zsh
     RUN useradd \
-      --create-home \
-      --gid root --groups sudo \
-      --home-dir /home/${USER} \
-      --shell "$(which zsh)" \
-      --uid 1001 \
-      ${USER} \
-    && mkdir -p /home/${USER}/.config \
-    && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers \
-    && passwd --delete ${USER} \
-    && chown --recursive ${USER} /home/${USER}
+          --create-home \
+          --gid root --groups sudo \
+          --home-dir /home/${USER} \
+          --shell "$(which zsh)" \
+          --uid 1001 \
+          ${USER} \
+     && mkdir -p /home/${USER}/.config \
+     && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
+     && passwd --delete ${USER} \
+     && chown --recursive ${USER} /home/${USER}
     USER ${USER}
     WORKDIR ${HOME}
-    RUN git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
+    RUN export GIT_SSL_NO_VERIFY=1 \
+     && git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
     ENTRYPOINT ["zsh"]
-    CMD ["-l"]
+    CMD ["-i"]
 EOF
 }
+  # docker buildx build --load --platform linux/"${platform}" --progress=plain --tag sandbox-"${platform}":latest -<<'EOF'
+  #   FROM alpine:latest
+  #   ARG HOSTNAME=zi@docker
+  #   ARG PUID=1000
+  #   ARG ZUSER=z-user
+  #   ARG ZI_BIN_DIR=/home/${ZUSER}/.zi/bin
+  #   ARG ZI_HOME_DIR=/home/${ZUSER}/.zi
+  #   ENV ZUSER=${ZUSER} PUID=${PUID}
+  #   RUN apk update --no-check-certificate \
+  #    && apk add --no-check-certificate curl bash \
+  #           autoconf \
+  #           bash build-base \
+  #           coreutils curl \
+  #           file \
+  #           git go \
+  #           jq \
+  #           libuser \
+  #           ncurses-dev \
+  #           pcre-dev \
+  #           rsync \
+  #           sudo stow \
+  #           vim \
+  #           xz \
+  #           zlib-dev zsh
+  #   RUN adduser --disabled-password \
+  #           --gecos "" \
+  #           --home "/home/${ZUSER}" \
+  #           --shell "$(which zsh)" \
+  #           --uid "${PUID}" \
+  #           ${ZUSER} \
+  #    && mkdir -p /home/${ZUSER}/.config \
+  #    && echo "${ZUSER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
+  #    && chown --recursive ${ZUSER} /home/${ZUSER}
+  #   USER ${ZUSER}
+  #   WORKDIR /home/${ZUSER}
+  #   RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/z-shell/zi-src/main/lib/sh/install.sh)" -- -i skip \
+  #    && export GIT_SSL_NO_VERIFY=1 \
+  #    && git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
+  #   ENTRYPOINT ["zsh"]
+  #   CMD ["-i"]
+
 #
 # sandbox command
 #
@@ -117,7 +170,8 @@ _dkr_sandbox_usage() {
   _log
   _log $(_color green "Options:")
   _log "  -h, --help          Output this help text and exit"
-  _log "  -p, --platform      Output this help text and exit"
+  _log "  -d, --distro        Set base image linux distro"
+  _log "  -p, --platform      Set target platform"
   _log
   _log $(_color green "Commands:")
   _log "  build             Remove all docker resources"
@@ -125,21 +179,21 @@ _dkr_sandbox_usage() {
 }
 
 _dkr_sandbox () {
-    local cmd base help
-    local opt_platform=(amd64)
+    local help
+    local opt_platform=(arm64) opt_distro=(debian)
     zmodload zsh/zutil
     zparseopts -D -F -K -- \
         {h,-help}=help \
+        {d,-distro}:=opt_distro \
         {p,-platform}:=opt_platform \
     || return 1
     [[ -z "$help" ]] || {
         _dkr_usage
         return 0
     }
-    local platform="$opt_platform[-1]"
     if [[ -z $@ ]]; then
-        _dkr_sandbox_usage
-        return 0
+        _dkr_sandbox_usage >&2
+        return 1
     fi
     if (( ! $+functions[_dkr_sandbox_${@}] )); then
         _log $(_color red "Command '$@' can not be found.")
@@ -147,49 +201,10 @@ _dkr_sandbox () {
         return 1
     fi
     if _dkr_is_running; then
+        distro="$opt_distro[-1]" platform="$opt_platform[-1]"
         _dkr_sandbox_${@}
     fi
 }
-_dkr_sandbox() {
-  local cmd base help opt_platform
-  local flag_help flag_verbose
-  local opt_platform=(amd64)  # set a default
-  local usage=(
-    "zparseopts_demo [-h|--help]"
-    "zparseopts_demo [-v|--verbose] [-f|--filename=<file>] [<message...>]"
-  )
-
-  # -D pulls parsed flags out of $@
-  # -E allows flags/args and positionals to be mixed, which we don't want in this example
-  # -F says fail if we find a flag that wasn't defined
-  # -M allows us to map option aliases (ie: h=flag_help -help=h)
-  # -K allows us to set default values without zparseopts overwriting them
-  # Remember that the first dash is automatically handled, so long options are -opt, not --opt
-  zmodload zsh/zutil
-  zparseopts -D -F -K -- \
-    {h,-help}=help \
-    {p,-platform}:=opt_platform ||
-    return 1
-  autoload -Uz is-at-least
-  [[ -z "$help" ]] || {
-    _dkr_usage
-    return 0
-  }
-  local platform="$opt_platform[-1]"
-  if [[ -z $@ ]]; then
-    _dkr_sandbox_usage
-    return 0
-  fi
-  if (( ! $+functions[_dkr_sandbox_${@}] )); then
-    _log $(_color red "Command '$@' can not be found.")
-    _dkr_sandbox_usage
-    return 1
-  fi
-  if _dkr_is_running; then
-    _dkr_sandbox_${@}
-  fi
-}
-
 
 #
 # nuke command
@@ -241,8 +256,8 @@ _dkr_usage() {
   _log "  -h, --help          Output this help text and exit"
   _log
   _log $(_color green "Commands:")
-  _log "  sandbox               Run ubuntu development sandbox"
   _log "  nuke                  Remove all docker resources"
+  _log "  sandbox               Run ubuntu development sandbox"
 }
 
 __dkr() {
