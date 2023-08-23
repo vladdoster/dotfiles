@@ -1,43 +1,56 @@
 #compdef dkr
 
-local curcontext="$curcontext" state line cmds ret=1
+local curcontext="$curcontext" state line ret=1
 
-  # '(- 1 *)'{-v,--version}'[display version information]' \
-_arguments -C \
-  '(-h|--help)'{-h,--help}'[show help information]' \
-  '(-p|--platform)'{-p,--platform}'[select platform to use amd64 or amd64]' \
-  '1: :->cmds' \
-  '*: :->args' && ret=0
-
-case "$state" in
-  (cmds)
-    cmds=(
-      "nuke:nuke cmd"
-      "sandbox: sandbox cmd"
+_dkr_commands() {
+    local -a commands=(
+        "sandbox:Create docker container suitable for development"
+        "nuke:Clean up sandbox container resources"
     )
-    _describe -t commands 'gas command' cmds && ret=0
-  ;;
-  (args)
-    case "$line[1]" in
-      (nuke)
-        nuke_cmds=(
-          "filter:Pattern to match resources"
-        )
-        _describe -t commands 'nuke commands' nuke_cmds && ret=0
+
+    _describe -t commands 'command' commands "$@"
+}
+
+_dkr_sandbox_subcommands() {
+    local subcommands
+    subcommands=(
+        "build:Build sandbox docker image"
+        "run:Start an shell session"
+    )
+    _describe -t subcommands 'subcommand' subcommands "$@"
+}
+
+_arguments -C \
+    '(-h --help)'{-h,--help}'[display help information]' \
+    '(-v --verbose)'{-V,--verbose}'[print out additional logging information]' \
+    '1: :_dkr_commands' \
+    '*:: :->args' && ret=0
+
+case $state in
+    args)
+        case $words[1] in
+            help)
+                local -a commands=('nuke' 'sandbox')
+                _arguments -C \
+                    '1: :($commands)' \
+                    && ret=0
+                ;;
+            nuke)
+                ret=0
+                ;;
+            sandbox)
+                local -a distros=('debian' 'ubuntu') platforms=('amd64' 'arm64')
+                _arguments -C \
+                    '(-d --distro)'{-d,--distro}"[specify the Linux distro for sbox]:arg:($distros)" \
+                    '(-p --platform)'{-p,--platform}"[specify the platform for sbox]:arg:($platforms)" \
+                    '1: :_dkr_sandbox_subcommands' \
+                    && ret=0
+                ;;
+        esac
         ;;
-      (sandbox)
-        sandbox_cmds=(
-          "build:Build a Dockerfile"
-          "run:Run ubuntu development sandbox"
-        )
-        _describe -t commands 'sandbox commands' sandbox_cmds && ret=0
-      ;;
-    esac
-  ;;
 esac
 
 return ret
-
 
 # Local Variables:
 # mode: Shell-Script
