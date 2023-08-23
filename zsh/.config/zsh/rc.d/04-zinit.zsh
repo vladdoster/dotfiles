@@ -42,12 +42,9 @@ else
   log::error 'failed to find zinit installation'
 fi
 #=== STATIC ZSH BINARY ======================================
-# zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null" \
-#     atclone"./install -e no -d ~/.local" atinit"export PATH=$HOME/.local/bin:$PATH" \
-#   @romkatv/zsh-bin
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
-znippet() { zi for  as'completion' has"${1}" depth'1' light-mode nocompile is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
+znippet() { zi for as'completion' has"${1}" depth'1' light-mode nocompile is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
 znippet 'brew'   'Homebrew/brew/master/completions/zsh'
 znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
 znippet 'exa'    'ogham/exa/master/completions/zsh'
@@ -58,7 +55,7 @@ zi as'completion' id-as'auto' is-snippet light-mode for \
 #=== PROMPT ===========================================
 (( MINIMAL )) || {
     eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
-    zinit for light-mode compile'(async|pure).zsh' multisrc'(async|pure).zsh' atinit"
+    zinit for compile'(async|pure).zsh' multisrc'(async|pure).zsh' atinit"
       PURE_GIT_DOWN_ARROW='%1{↓%}'; PURE_GIT_UP_ARROW='%1{↑%}'
       PURE_PROMPT_SYMBOL='${HOST}%2{ ᐳ%}'; PURE_PROMPT_VICMD_SYMBOL='${HOST}%2{ ᐸ%}'
       zstyle ':prompt:pure:git:action' color 'yellow'
@@ -73,11 +70,10 @@ zi id-as'auto' for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','bi
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 (( $+commands[svn] )) && (){
   local -a f=({functions,git,history,key-bindings,termsupport}'.zsh')
-  zi ice atinit'typeset -grx HIST{FILE=$ZDOTDIR/zsh-history,SIZE=9999999}' compile'(k|g|h)*.zsh' light-mode multisrc'$f[@]' svn
+  zi ice atinit'typeset -grx HIST{FILE=$ZDOTDIR/zsh-history,SIZE=9999999}' compile'(k|g|h)*.zsh' multisrc'$f[@]' svn
   zi snippet OMZ::lib
-
-  zi ice submods'zsh-users/zsh-history-substring-search -> external' svn load
-  zi snippet OMZP::history-substring-search
+  # zi for has'svn' svn submods'zsh-users/zsh-history-substring-search -> external' light-mode \
+  # @OMZ::plugins/history-substring-search
 }
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' lbin'!' light-mode no'compile' for \
@@ -111,21 +107,20 @@ zinit light-mode for \
   @zdharma-continuum/zunit
 #=== MISC. ============================================
 zle_highlight=('paste:fg=white,bg=black')
-(( MINIMAL )) || {
-zinit wait lucid for \
-    has'svn' svn submods'zsh-users/zsh-history-substring-search -> external' \
-  @OMZ::plugins/history-substring-search \
-    atpull'zinit creinstall -q .' blockf null \
-  @zsh-users/zsh-completions \
-    atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
-    atload"_zsh_autosuggest_start" \
-  @zsh-users/zsh-autosuggestions \
+# if (( ! MINIMAL )); then
+zi for \
+    submods'zsh-users/zsh-autosuggestions -> external' \
+    load \
+  PZTM::autosuggestions \
     nocompletions \
   @zdharma-continuum/fast-syntax-highlighting
-}
+zi submods"zsh-users/zsh-history-substring-search -> external" svn for load @OMZ::plugins/history-substring-search
+zi submods"zsh-users/zsh-completions -> external" for OMZL::completion.zsh
+# fi
 
-zi lucid wait'0' for \
-  as'null' \
+zi for lucid wait'0' \
+  nocompile \
+  atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
   atload'zicompinit;zicdreplay' \
   id-as'init-zinit' \
 @zdharma-continuum/null
