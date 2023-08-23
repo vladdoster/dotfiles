@@ -1,3 +1,18 @@
+# [4.31.0](https://github.com/vladdoster/dotfiles/compare/v4.30.0...v4.31.0) (2023-08-23)
+
+
+### Bug Fixes
+
+* pip install target dir path ([5fb5b0a](https://github.com/vladdoster/dotfiles/commit/5fb5b0a36c095938eb454c303860a8f6084a5e6e))
+
+
+### Features
+
+* --distro & --platform flags for dkr command ([600aa8c](https://github.com/vladdoster/dotfiles/commit/600aa8c2fbcae45bbf9e6b91b56c8bafc3b07f37))
+* add error handling to c function ([284c650](https://github.com/vladdoster/dotfiles/commit/284c650404522dd29e172e55db814138893ead83))
+* add new options to dkr sandbox completion ([bd606c2](https://github.com/vladdoster/dotfiles/commit/bd606c2f22cd589488423d61b46d469b860bd1c6))
+* dkr flag --platform to select amd64/arm64 ([1a66d2a](https://github.com/vladdoster/dotfiles/commit/1a66d2ad8cbab5bb5c321edd011fc9f50660876c))
+
 # [4.30.0](https://github.com/vladdoster/dotfiles/compare/v4.29.0...v4.30.0) (2023-06-06)
 
 
