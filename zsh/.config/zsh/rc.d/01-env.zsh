@@ -48,4 +48,4 @@ if (( ! $+commands[brew] )); then
   path+=( ${HOMEBREW_PREFIX}/(s|)bin $path )
   fpath+=( $HOMEBREW_PREFIX/share/zsh/site-functions(/N) $fpath )
 fi
-path=( ~/.local/bin(N) ~/.local/bin/python/bin(N) /usr/local/bin(N) $path )
+path=( ~/.local/bin(N) ~/.local/share/python/bin(N) /usr/local/bin(N) $path )
