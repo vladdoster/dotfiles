@@ -14,8 +14,8 @@ CONTAINER_TAG ?= $(CONTAINER_NAME):$(CONTAINER_LABEL)
 BUILD_DATE := $(shell date -u +%FT%TZ) # https://github.com/opencontainers/image-spec/blob/master/annotations.md
 
 DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-volume,destination=/home --security-opt seccomp=unconfined
-PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --no-cache-dir --target=$$HOME/.local/bin/python
-PY_PKGS := bdfr beautysh black bpytop instaloader isort linkify mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pip pynvim reorder-python-imports Linkify
+PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --no-cache-dir --target=$$HOME/.local/share/python
+PY_PKGS := autopep8 bdfr beautysh black bpytop instaloader isort linkify mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pip pycodestyle pylint pynvim reorder-python-imports
 STOW_OPTS := --target=$$HOME --verbose=1
 
 TARGETS := all brew-bundle brew-install clean docker-build docker-shell docker-ssh dotfiles hammerspoon help neovim shell stow targets-table test update-readme
@@ -99,10 +99,13 @@ safari-extensions: ## Install 1password, vimari, grammarly safari extensions
 	brew install mas
 	mas install 1569813296 1480933944 1462114288 # 1password, vimari, grammarly
 
-py-pip-install: ## Install pip
+py-version: ## Print python3 version
+	echo "==> Python3 version: $$(python3 -V)"
+
+py-pip-install: py-version ## Install pip
 	python3 -m ensurepip --upgrade
 
-py-pkgs: ## Install python pkgs
+py-pkgs: py-version ## Install python pkgs
 	$(info ==> installing py pkgs)
 	python3 -m pip install $(PIP_OPTS) $(PY_PKGS) \
 	&& echo '==> py packages installed'
