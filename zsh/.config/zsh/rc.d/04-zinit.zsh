@@ -68,15 +68,15 @@ zi as'completion' id-as'auto' is-snippet light-mode for \
 #=== ANNEXES ==========================================
 zi id-as'auto' for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink','bin-gem-node'}
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
-(( $+commands[svn] )) && (){
-  local -a f=({functions,git,history,key-bindings,termsupport}'.zsh')
-  zi ice atinit'typeset -grx HIST{FILE=$ZDOTDIR/zsh-history,SIZE=9999999}' compile'(k|g|h)*.zsh' multisrc'$f[@]' svn
-  zi snippet OMZ::lib
+# (( $+commands[svn] )) && (){
+#   local -a f=({functions,git,history,key-bindings,termsupport}'.zsh')
+#   zi ice atinit'typeset -grx HIST{FILE=$ZDOTDIR/zsh-history,SIZE=9999999}' compile'(k|g|h)*.zsh' multisrc'$f[@]' svn
+#   zi snippet OMZ::lib
   # zi for has'svn' svn submods'zsh-users/zsh-history-substring-search -> external' light-mode \
   # @OMZ::plugins/history-substring-search
-}
+# }
 #=== GITHUB BINARIES ==================================
-zi from'gh-r' lbin'!' light-mode no'compile' for \
+zi from'gh-r' lbin'!' light-mode nocompile for \
   @dandavison/delta \
   @r-darwish/topgrade \
   @sharkdp/hyperfine \
@@ -92,8 +92,13 @@ zi from'gh-r' lbin'!' light-mode no'compile' for \
     ver'nightly' \
   @neovim/neovim
 #=== UNIT TESTING =====================================
+# oh-my-zsh plugins
+zinit snippet OMZ::lib/git.zsh
+zinit snippet OMZP::git
+
+# https://github.com/zdharma/zinit-configs/blob/a60ff64823778969ce2b66230fd8cfb1a957fe89/psprint/zshrc.zsh#L277
+# Fast-syntax-highlighting & autosuggestions
 zinit light-mode for \
-    compile \
   @vladdoster/plugin-zinit-aliases \
     atinit'bindkey -M vicmd "^v" edit-command-line' \
   @softmoth/zsh-vim-mode \
@@ -105,25 +110,25 @@ zinit light-mode for \
     atclone'./build.zsh' \
     lbin'!' \
   @zdharma-continuum/zunit
+
+
+# GitHub Plugins
+zinit ice lucid wait'!'
+zinit light zsh-users/zsh-history-substring-search
+
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#586e75'
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=#00dd00,fg=#002b36,bold'
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=#dd0000=#002b36,bold'
+
+zinit nocd wait lucid for \
+ atload"zpcompinit;zpcdreplay" \
+    zdharma-continuum/fast-syntax-highlighting \
+ atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
+ atload"!_zsh_autosuggest_start" \
+    zsh-users/zsh-autosuggestions \
+ blockf \
+    zsh-users/zsh-completions
 #=== MISC. ============================================
 zle_highlight=('paste:fg=white,bg=black')
-# if (( ! MINIMAL )); then
-zi for \
-    submods'zsh-users/zsh-autosuggestions -> external' \
-    load \
-  PZTM::autosuggestions \
-    nocompletions \
-  @zdharma-continuum/fast-syntax-highlighting
-zi submods"zsh-users/zsh-history-substring-search -> external" svn for load @OMZ::plugins/history-substring-search
-zi submods"zsh-users/zsh-completions -> external" for OMZL::completion.zsh
-# fi
-
-zi for lucid wait'0' \
-  nocompile \
-  atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
-  atload'zicompinit;zicdreplay' \
-  id-as'init-zinit' \
-@zdharma-continuum/null
-
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
