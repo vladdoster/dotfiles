@@ -111,23 +111,19 @@ zinit light-mode for \
     lbin'!' \
   @zdharma-continuum/zunit
 
-
-# GitHub Plugins
-zinit ice lucid wait'!'
-zinit light zsh-users/zsh-history-substring-search
-
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#586e75'
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=#00dd00,fg=#002b36,bold'
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=#dd0000=#002b36,bold'
 
-zinit nocd wait lucid for \
- atload"zpcompinit;zpcdreplay" \
-    zdharma-continuum/fast-syntax-highlighting \
- atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
- atload"!_zsh_autosuggest_start" \
-    zsh-users/zsh-autosuggestions \
- blockf \
-    zsh-users/zsh-completions
+zinit wait lucid light-mode nocd for \
+  zsh-users/zsh-history-substring-search \
+  atinit"zicompinit; zicdreplay" \
+      zdharma-continuum/fast-syntax-highlighting \
+  atload"_zsh_autosuggest_start" \
+  atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
+      zsh-users/zsh-autosuggestions \
+  blockf atpull'zinit creinstall -q .' \
+      zsh-users/zsh-completions
 #=== MISC. ============================================
 zle_highlight=('paste:fg=white,bg=black')
 
