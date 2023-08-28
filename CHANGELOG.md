@@ -1,3 +1,20 @@
+# [4.32.0](https://github.com/vladdoster/dotfiles/compare/v4.31.0...v4.32.0) (2023-08-28)
+
+
+### Bug Fixes
+
+* reduce zinit load time for new prompt ([857d4fa](https://github.com/vladdoster/dotfiles/commit/857d4fad86fd0f1d5fcbcb88f68e65fa2d2bd2a5))
+* set $pythonpath env var & add it to $path ([fc37847](https://github.com/vladdoster/dotfiles/commit/fc3784763a3e0401873ee2ae62bdd8a8af892627))
+* update python pkg dir for $PATH ([0e1e513](https://github.com/vladdoster/dotfiles/commit/0e1e5131b59bc18cd292ebb733d9325498ba2879))
+* use submods annex for misc. plugins ([9344fe0](https://github.com/vladdoster/dotfiles/commit/9344fe00e53a84609b444b441f0aff0c6a2119b0))
+* zinit plugin load order  ([5731033](https://github.com/vladdoster/dotfiles/commit/5731033b3a2725621ec27fee957cc27f93bf2d99))
+
+
+### Features
+
+* maximize wezterm window when launched ([40d1585](https://github.com/vladdoster/dotfiles/commit/40d1585b294a5b3e06bcdb9c64b500c1e8175398))
+* search files with perl regex via zpgrep ([4cbc338](https://github.com/vladdoster/dotfiles/commit/4cbc338817b1298515557372d10a17bf854cd3c3))
+
 # [4.31.0](https://github.com/vladdoster/dotfiles/compare/v4.30.0...v4.31.0) (2023-08-23)
 
 
