@@ -1,8 +1,4 @@
 #!/usr/bin/env zsh
-
-emulate zsh
-setopt EXTENDED_GLOB
-
 #
 # Environment variables
 #
@@ -13,13 +9,13 @@ setopt EXTENDED_GLOB
 (( ${+XDG_DATA_HOME} )) || export XDG_DATA_HOME="${HOME}/.local/share"
 # configuration directories
 export \
-  DOTFILES="${XDG_CONFIG_HOME}/dotfiles" GIT_CONFIG="${XDG_CONFIG_HOME}/git/config"             \
-  PIP_CONFIG="${XDG_CONFIG_HOME}/pip"    PYTHONSTARTUP="${XDG_CONFIG_HOME}/python/init-repl.py" \
+  DOTFILES="${XDG_CONFIG_HOME}/dotfiles" GIT_CONFIG="${XDG_CONFIG_HOME}/git/config" \
+  PIP_CONFIG="${XDG_CONFIG_HOME}/pip"    PYTHONPATH="${XDG_DATA_HOME}/python" \
   VIMDOTDIR="${XDG_CONFIG_HOME}/vim"     ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 # program options
 export \
   COMPOSE_DOCKER_CLI_BUILD=1 CORRECT_IGNORE="*zinit[-]*" \
-  DISABLE_MAGIC_FUNCTIONS=1  DOCKER_BUILDKIT=1           \
+  DISABLE_MAGIC_FUNCTIONS=1  DOCKER_BUILDKIT=1 \
   HOMEBREW_NO_{ENV_HINTS,INSTALL_CLEANUP}=1 \
   SHELL_SESSIONS_DISABLE=1
 # $PATH and $path (and also $FPATH and $fpath, etc.) are "tied" to each other.
@@ -48,4 +44,4 @@ if (( ! $+commands[brew] )); then
   path+=( ${HOMEBREW_PREFIX}/(s|)bin $path )
   fpath+=( $HOMEBREW_PREFIX/share/zsh/site-functions(/N) $fpath )
 fi
-path=( ~/.local/bin(N) ~/.local/share/python/bin(N) /usr/local/bin(N) $path )
+path=( ~/.local/bin(N) ${PYTHONPATH}/bin(N) /usr/local/bin(N) $path )
