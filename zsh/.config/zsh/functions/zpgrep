@@ -1,0 +1,42 @@
+#autoload
+#
+# zpgrep
+#
+
+zmodload zsh/zutil || return
+opt_help=
+cli_usage=("Usage: zpgrep [-h|--help] <perl5-compatible regex> <file1> <file2> ... <fileN>")
+zparseopts -D -F -K -- {h,-help}=opt_help || return 1
+[[ -z "$opt_help" ]] || {
+  builtin print -l $cli_usage && return 0
+}
+
+local file pattern ret
+
+pattern=$1
+shift
+ret=1
+
+if ((! ARGC)) then
+	set -- -
+fi
+
+zmodload zsh/pcre || return
+pcre_compile -- "$pattern"
+pcre_study
+
+for file
+do
+	if [[ "$file" == - ]] then
+		while IFS= read -ru0 buf; do
+			pcre_match -- "$buf" && ret=0 && print -r -- "$buf"
+		done
+	else
+		while IFS= read -ru0 buf; do
+			pcre_match -- "$buf" && ret=0 && print -r -- "$buf"
+		done < "$file"
+	fi
+done
+return "$ret"
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
