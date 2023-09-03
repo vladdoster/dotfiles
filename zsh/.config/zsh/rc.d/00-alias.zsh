@@ -1,5 +1,3 @@
-#!/usr/bin/env zsh
-##
 # Commands, funtions and aliases
 # Always set aliases _last,_ so they don't get used in function definitions.
 ##
@@ -86,7 +84,7 @@ done
 alias nvcln='command rm -rf $HOME/.{local/share/nvim,config/nvim/plugin/packer_compiled.lua}'
 alias zicln='command rm -rf ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}'
 alias ziprune='zi delete --all --yes; ( exec zsh -il );'
-alias zrld='builtin exec $(which zsh) -il'
+alias zrld='builtin exec $(which zsh) -i'
 alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},{auto,}s}; ziprune; zrld; cd -'
 # +────────────+
 # │ NAVIGATION │
@@ -95,7 +93,7 @@ typeset -A pairs=(
   ..  '../'          ... '../../'         .... '../../../'
   bin '~/.local/bin' dl  '~/Downloads'    hsd  '~/.hammerspoon'
   xch '~/.config'    xdh '~/.local/share' zdd  '$ZDOTDIR'
-  zcf '$ZDOTDIR/rc.d'
+  zcf '$ZDOTDIR/rc.d' df '${DOTFILES:-~/.config/dotfiles}'
 )
 # rr  '$(git rev-parse --show-toplevel)' zs  '   '
 for k v in ${(kv)pairs[@]}; do
@@ -114,7 +112,10 @@ alias auld='builtin autoload'
 alias me='builtin print -P "%F{blue}$(whoami)%f @ %F{cyan}$(uname -a)%f"'
 alias mk='make'
 alias zc='zinit compile'
+alias zgd='cd $ZINIT[BIN_DIR]; ls'
+alias zhd='cd $ZINIT[HOME_DIR]; ls'
 alias zht='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
+alias zic='_edit $ZDOTDIR/rc.d/04-zinit.zsh'
 alias zmld="builtin zmodload"
 # +───────+
 # │ MISC. │
