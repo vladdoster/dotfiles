@@ -64,7 +64,7 @@ zi as'completion' id-as'auto' is-snippet light-mode for \
   @sindresorhus/pure
 }
 #=== ANNEXES ==========================================
-zi for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink','bin-gem-node'}
+zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink','bin-gem-node'}
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 # (( $+commands[svn] )) && (){
 #   local -a f=({functions,git,history,key-bindings,termsupport}'.zsh')
@@ -74,54 +74,116 @@ zi for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink
   # @OMZ::plugins/history-substring-search
 # }
 #=== GITHUB BINARIES ==================================
-zi from'gh-r' lbin'!' silent light-mode nocompile for \
-  @dandavison/delta \
-  @r-darwish/topgrade \
-  @sharkdp/hyperfine \
-    cp'**/exa.zsh->_exa' \
-    atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
-  @ogham/exa \
-    src'key-bindings.zsh' \
-    compile'key-bindings.zsh' \
-    dl="$(builtin print -c -- https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
-  @junegunn/fzf \
-    atinit'for i (v vi vim); do alias $i="nvim"; done' \
-    lbin'!nvim' \
-    ver'nightly' \
-  @neovim/neovim
-#=== UNIT TESTING =====================================
-# oh-my-zsh plugins
-zinit snippet OMZ::lib/git.zsh
-zinit snippet OMZP::git
+#
 
-zinit light-mode for \
-  @vladdoster/plugin-zinit-aliases \
-    atinit'bindkey -M vicmd "^v" edit-command-line' \
-  @softmoth/zsh-vim-mode \
-    as'null' \
-    lbin'!build/zsd*' \
-    make'--always-make' \
-  @zdharma-continuum/zshelldoc \
-    atclone'./build.zsh' \
-    completions \
-    as'null' \
-    lbin'!' \
-  @zdharma-continuum/zunit
+  zi from'gh-r' lbin'!' silent light-mode nocompile for \
+    @dandavison/delta \
+    @r-darwish/topgrade \
+    @sharkdp/hyperfine \
+      cp'**/exa.zsh->_exa' \
+      atinit"alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'" \
+    @ogham/exa \
+      src'key-bindings.zsh' \
+      compile'key-bindings.zsh' \
+      dl="$(builtin print -c -- https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},man/{'man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;','man1/fzf-tmux.1 -> $ZPFX/share/man/man1/fzf-tmux.1;'}})" \
+    @junegunn/fzf \
+      atinit'for i (v vi vim); do alias $i="nvim"; done' \
+      lbin'!nvim' \
+      ver'nightly' \
+    @neovim/neovim
+  #=== UNIT TESTING =====================================
+  # oh-my-zsh plugins
+  zinit snippet OMZ::lib/git.zsh
+  zinit snippet OMZP::git
 
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#586e75'
-export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=#00dd00,fg=#002b36,bold'
-export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=#dd0000=#002b36,bold'
+  # zinit light-mode for \
+  #   @vladdoster/plugin-zinit-aliases \
+  #     atinit'bindkey -M vicmd "^v" edit-command-line' \
+  #   @softmoth/zsh-vim-mode \
+  #     as'null' \
+  #     lbin'!build/zsd*' \
+  #     make'--always-make' \
+  #   @zdharma-continuum/zshelldoc \
+  #     atclone'./build.zsh' \
+  #     completions \
+  #     as'null' \
+  #     lbin'!' \
+  #   @zdharma-continuum/zunit
+  #
+  # export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#586e75'
+  # export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=#00dd00,fg=#002b36,bold'
+  # export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=#dd0000=#002b36,bold'
+  #
+  # zinit wait lucid light-mode for \
+  #   zsh-users/zsh-history-substring-search \
+  #   atinit"zicompinit; zicdreplay" \
+  #       zdharma-continuum/fast-syntax-highlighting \
+  #   atload"_zsh_autosuggest_start" \
 
-zinit wait lucid light-mode nocd for \
-  zsh-users/zsh-history-substring-search \
-  atinit"zicompinit; zicdreplay" \
-      zdharma-continuum/fast-syntax-highlighting \
-  atload"_zsh_autosuggest_start" \
-  atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
-      zsh-users/zsh-autosuggestions \
-  blockf atpull'zinit creinstall -q .' \
-      zsh-users/zsh-completions
-#=== MISC. ============================================
-zle_highlight=('paste:fg=white,bg=black')
+  #       zsh-users/zsh-autosuggestions \
+  #   blockf atpull'zinit creinstall -q .' \
+  #       zsh-users/zsh-completions
+  # #=== MISC. ============================================
+  # zle_highlight=('paste:fg=white,bg=black')
+
+  # zcompile doesn't support Unicode file names, planned on using compile'*handler' ice.
+  # https://www.zsh.org/mla/workers/2020/msg01057.html
+
+  ##################
+  # Wait'0a' block #
+  ##################
+  #
+
+  zinit light-mode for \
+      atinit'bindkey -M vicmd "^v" edit-command-line' \
+    @softmoth/zsh-vim-mode \
+      as'null' \
+      lbin'!build/zsd*' \
+      make'--always-make' \
+    @zdharma-continuum/zshelldoc \
+      atclone'./build.zsh' \
+      completions \
+      as'null' \
+      lbin'!' \
+    @zdharma-continuum/zunit
+  (){
+
+  builtin setopt localoptions no_aliases
+  zt(){ zinit depth'3' lucid "${@}"; }
+  zt light-mode for \
+      atload'FAST_HIGHLIGHT[chroma-man]=' \
+      atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
+      compile'.*fast*~*.zwc' nocompletions atpull'%atclone' \
+          zdharma-continuum/fast-syntax-highlighting \
+      atload'_zsh_autosuggest_start' \
+      atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
+          zsh-users/zsh-autosuggestions \
+      compile'h*~*.zwc' \
+          zdharma-continuum/history-search-multi-word \
+      as'completion' atpull'zinit cclear' blockf \
+          zsh-users/zsh-completions
+
+  ##################
+  # Wait'0b' block #
+  ##################
+
+  zt light-mode for \
+      atload'bindkey "^[[A" history-substring-search-up;bindkey "^[[B" history-substring-search-down' \
+    @zsh-users/zsh-history-substring-search
+
+  zt wait light-mode for @vladdoster/plugin-zinit-aliases
+  # @vladdoster/plugin-zinit-aliases \
+
+  ##################
+  # Wait'0c' block #
+  ##################
+    zt light-mode null for \
+      make lbin'build/*' \
+      zdharma-continuum/zshelldoc \
+      lbin from'gh-r' dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
+      junegunn/fzf \
+      id-as'Cleanup' nocd atinit'unset -f zt; zicompinit; zicdreplay; _zsh_highlight_bind_widgets; _zsh_autosuggest_bind_widgets' \
+      zdharma-continuum/null
+  }
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
