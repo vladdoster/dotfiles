@@ -26,6 +26,12 @@ function -init-homebrew() {
   fi
 }
 
+if [[ $OSTYPE == darwin* ]]; then
+  [[ -z $HOMEBREW_PREFIX ]] && -init-homebrew {/opt/homebrew,/usr/local}/bin/brew(N)
+elif [[ $OSTYPE == linux* && -z $HOMEBREW_PREFIX ]]; then
+  -init-homebrew {/home/linuxbrew/.linuxbrew,~/.linuxbrew}/bin/brew(N)
+fi
+
 fpath=(
   ${ZDOTDIR}/*tions(-/N)
   ${^${(M)fpath:#*/$ZSH_VERSION/functions}/%$ZSH_VERSION\/functions/site-functions}(-/N)
