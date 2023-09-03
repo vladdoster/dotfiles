@@ -10,7 +10,7 @@
 export \
   DOTFILES="${XDG_CONFIG_HOME}/dotfiles" GIT_CONFIG="${XDG_CONFIG_HOME}/git/config" \
   PIP_CONFIG="${XDG_CONFIG_HOME}/pip"    PYTHONPATH="${XDG_DATA_HOME}/python" \
-  VIMDOTDIR="${XDG_CONFIG_HOME}/vim"     ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
+  VIMDOTDIR="${XDG_CONFIG_HOME}/vim"
 # program options
 export \
   COMPOSE_DOCKER_CLI_BUILD=1 CORRECT_IGNORE="*zinit[-]*" \
