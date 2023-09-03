@@ -1,16 +1,14 @@
-emulate zsh
+#!/usr/bin/env zsh
+
 skip_global_compinit=1
 
-ZDOTDIR=$HOME/.config/zsh
+local ZDOTDIR=$HOME/.config/zsh
 
 setopt typeset_silent extended_glob prompt_subst
-# Set/unset  shell options
 
 zmodload zsh/{datetime,langinfo,parameter,system,terminfo,zutil} || return
 zmodload -F zsh/files b:{zf_mkdir,zf_mv,zf_rm,zf_rmdir,zf_ln}    || return
 zmodload -F zsh/stat b:zstat                                     || return
-
-# eval $_zsh_opt
 
 export -T MANPATH=${MANPATH:-:} manpath
 export -T INFOPATH=${INFOPATH:-:} infopath
