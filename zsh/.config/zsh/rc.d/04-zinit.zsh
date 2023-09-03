@@ -1,5 +1,3 @@
-#!/usr/bin/env zsh
-#
 # Open an issue in https://github.com/vladdoster/dotfiles if you find a bug,
 # have a feature request, or a question. A zinit-continuum configuration for
 # macOS and Linux.
@@ -66,7 +64,7 @@ zi as'completion' id-as'auto' is-snippet light-mode for \
   @sindresorhus/pure
 }
 #=== ANNEXES ==========================================
-zi id-as'auto' for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink','bin-gem-node'}
+zi for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink','bin-gem-node'}
 #=== OH-MY-ZSH & PREZTO PLUGINS =======================
 # (( $+commands[svn] )) && (){
 #   local -a f=({functions,git,history,key-bindings,termsupport}'.zsh')
@@ -76,7 +74,7 @@ zi id-as'auto' for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','bi
   # @OMZ::plugins/history-substring-search
 # }
 #=== GITHUB BINARIES ==================================
-zi from'gh-r' lbin'!' light-mode nocompile for \
+zi from'gh-r' lbin'!' silent light-mode nocompile for \
   @dandavison/delta \
   @r-darwish/topgrade \
   @sharkdp/hyperfine \
@@ -96,8 +94,6 @@ zi from'gh-r' lbin'!' light-mode nocompile for \
 zinit snippet OMZ::lib/git.zsh
 zinit snippet OMZP::git
 
-# https://github.com/zdharma/zinit-configs/blob/a60ff64823778969ce2b66230fd8cfb1a957fe89/psprint/zshrc.zsh#L277
-# Fast-syntax-highlighting & autosuggestions
 zinit light-mode for \
   @vladdoster/plugin-zinit-aliases \
     atinit'bindkey -M vicmd "^v" edit-command-line' \
@@ -106,8 +102,9 @@ zinit light-mode for \
     lbin'!build/zsd*' \
     make'--always-make' \
   @zdharma-continuum/zshelldoc \
-    as'null' \
     atclone'./build.zsh' \
+    completions \
+    as'null' \
     lbin'!' \
   @zdharma-continuum/zunit
 
