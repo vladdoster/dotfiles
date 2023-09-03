@@ -1,3 +1,15 @@
+## [4.32.1](https://github.com/vladdoster/dotfiles/compare/v4.32.0...v4.32.1) (2023-09-03)
+
+
+### Bug Fixes
+
+* call -init-homebrew for arm64 macOS & linux ([67beb86](https://github.com/vladdoster/dotfiles/commit/67beb8616491b6cbbf631e6a13ae6e4a2fca46ff))
+* do not set zdotdir env var in zsh rc.d config ([c946819](https://github.com/vladdoster/dotfiles/commit/c946819a4c9c0ec0208a8872dea2ff68ca06c093))
+* move {f,}path setup to zshenv & rm zwc cruft ([7d623cb](https://github.com/vladdoster/dotfiles/commit/7d623cbfe62cbedf068257122caeaefa294d8ae0))
+* re-add zinit & zsh config aliases ([5948f21](https://github.com/vladdoster/dotfiles/commit/5948f217be22d6468999417af1e18e83122d8a0b))
+* remove cruft in zshrc ([33e0ec9](https://github.com/vladdoster/dotfiles/commit/33e0ec946bf7f6b61d9289f69d2d28f7b37a1e65))
+* remove setting options in rc.d zsh config ([b63327e](https://github.com/vladdoster/dotfiles/commit/b63327ef6be20221e2d3b3f6759bf7bafeddc354))
+
 # [4.32.0](https://github.com/vladdoster/dotfiles/compare/v4.31.0...v4.32.0) (2023-08-28)
 
 
