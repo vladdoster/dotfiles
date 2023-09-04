@@ -4,6 +4,7 @@
 #
 #=== ZINIT ============================================
 # OPTIMIZE_OUT_OF_DISK_ACCESSES "1"
+#
 typeset -gAH ZI=(HOME_DIR "$HOME/.local/share/zinit")
 ZI+=(
   BIN_DIR "$ZI[HOME_DIR]"/zinit.git
@@ -15,7 +16,7 @@ ZI+=(
   ZCOMPDUMP_PATH "$ZI[HOME_DIR]"/zcompdump
   ZPFX "$ZI[HOME_DIR]"/polaris
 )
-mkdir -p "$ZI[ZCOMPDUMP_PATH]" || true
+# mkdir -p "$ZI[ZCOMPDUMP_PATH]" || true
 # ZSH_CACHE_DIR=$ZINIT[ZCOMPDUMP_PATH]
 if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]]; then
   {
@@ -73,21 +74,20 @@ zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','bin
   # @OMZ::plugins/history-substring-search
 # }
 #=== GITHUB BINARIES ==================================
-  zinit aliases is-snippet for OMZP::common-aliases
   zi from'gh-r' lbin'!' nocompile for \
     @dandavison/delta \
     @r-darwish/topgrade \
     @sharkdp/hyperfine \
       dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
     junegunn/fzf \
-      nocompile \
+      aliases \
+      atload"!(){setopt no_aliases;alias l='exa -blF';alias la='exa -abghilmu';alias ll='exa -al';alias ls='exa --git --group-directories-first';}" \
       cp'**/exa.zsh->_exa' \
-      atload"!(){ alias l='exa -blF'; alias la='exa -abghilmu'; alias ll='exa -al'; alias ls='exa --git --group-directories-first'; }" \
-      aliases \
     @ogham/exa \
-      atload"!(){ for i (v vi vim); do alias $i='nvim'; done; }" \
       aliases \
+      atload'!(){local i;for i (v vi vim);do alias $i="nvim";done; }' \
       lbin'!nvim' \
+      nocompletions \
       ver'nightly' \
     @neovim/neovim
 
@@ -97,6 +97,9 @@ zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','bin
   export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#586e75'
   export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=#00dd00,fg=#002b36,bold'
   export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=#dd0000=#002b36,bold'
+
+  # zi ice compile'*.zsh' as'null' load src'common-aliases/common-aliases.plugin.zsh' svn
+  # zi snippet OMZ::plugins
 
   zinit light-mode for \
       atinit'bindkey -M vicmd "^v" edit-command-line' \
@@ -132,7 +135,7 @@ zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','bin
 
     zi wait aliases lucid for @vladdoster/plugin-zinit-aliases
 
-    zi light-mode null for \
+    zi light-mode as'null' for \
       id-as'cleanup' nocd atinit'zicompinit; zicdreplay; _zsh_highlight_bind_widgets; _zsh_autosuggest_bind_widgets' \
       @zdharma-continuum/null
   }
