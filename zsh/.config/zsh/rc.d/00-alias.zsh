@@ -57,6 +57,9 @@ fi
 alias bashly_edge='docker run --rm -it --user $(id -u):$(id -g) --volume "$PWD:/app" dannyben/bashly:edge'
 alias rmr="rm -rf --"
 alias tailf="less +F -R"
+alias l='ls -a'
+alias la='ls -a'
+alias ll='ls -al'
 # +──────────────────+
 # │ CONFIG SHORTCUTS │
 # +──────────────────+
