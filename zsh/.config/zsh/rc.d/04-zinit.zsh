@@ -131,13 +131,13 @@ zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','bin
         compile'h*~*.zwc' \
       zdharma-continuum/history-search-multi-word \
         as'completion' atpull'zinit cclear' blockf \
-      zsh-users/zsh-completions
-
-    zi wait aliases lucid for @vladdoster/plugin-zinit-aliases
-
-    zi light-mode as'null' for \
-      id-as'cleanup' nocd atinit'zicompinit; zicdreplay; _zsh_highlight_bind_widgets; _zsh_autosuggest_bind_widgets' \
-      @zdharma-continuum/null
+      zsh-users/zsh-completions \
+        as'null' \
+        atinit'zicompinit; zicdreplay; _zsh_highlight_bind_widgets; _zsh_autosuggest_bind_widgets' \
+        id-as'cleanup' \
+        nocd \
+      zdharma-continuum/null
   }
+  zi aliases lucid wait for @vladdoster/plugin-zinit-aliases
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
