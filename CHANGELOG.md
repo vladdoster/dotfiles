@@ -1,3 +1,16 @@
+# [4.33.0](https://github.com/vladdoster/dotfiles/compare/v4.32.1...v4.33.0) (2023-09-04)
+
+
+### Bug Fixes
+
+* set history path only one and early ([98dc477](https://github.com/vladdoster/dotfiles/commit/98dc4778688831ffc8814098056f7f092f2a7481))
+* tweak zinit ices to improve load proces ([c337be8](https://github.com/vladdoster/dotfiles/commit/c337be8aaa5e89bc7bcbf58fb607345d2af224db))
+
+
+### Features
+
+* track exa, nvim & zi aliases via aliases ice ([9f15693](https://github.com/vladdoster/dotfiles/commit/9f15693f42656e42303462df4c42d688670012b3))
+
 ## [4.32.1](https://github.com/vladdoster/dotfiles/compare/v4.32.0...v4.32.1) (2023-09-03)
 
 
