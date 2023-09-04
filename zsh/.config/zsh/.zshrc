@@ -1,6 +1,16 @@
 #!/usr/bin/env zsh
 
-setopt extendedglob promptsubst
+ZDOTDIR=${XDG_CONFIG_HOME:-$HOME/.config}/zsh
+SAVEHIST=200000
+HISTSIZE=200000
+: ${HISTFILE=$ZDOTDIR/zsh_history}
+
+setopt extended_history
+setopt inc_append_history     share_history    hist_verify
+setopt hist_expire_dups_first hist_ignore_dups hist_ignore_space
+zstyle ':completion:*' range 1000:100 # Try 100 history words at a time; max 1000 words.
+
+setopt extendedglob promptsubst glob_dots
 
 [ -z "$ZPROF" ] || zmodload zsh/zprof
 
