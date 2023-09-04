@@ -1,3 +1,16 @@
+# [4.34.0](https://github.com/vladdoster/dotfiles/compare/v4.33.0...v4.34.0) (2023-09-04)
+
+
+### Bug Fixes
+
+* correct blex mono font name ([b787cf6](https://github.com/vladdoster/dotfiles/commit/b787cf67d6780212b9eccbd68a378f4ada7961d8))
+* tweak zinit ices to improve load proces ([547b82a](https://github.com/vladdoster/dotfiles/commit/547b82a7271ec032a50458d17e33f9beffee051d))
+
+
+### Features
+
+* l, la, & ls aliases for ls +- opts ([53a3afa](https://github.com/vladdoster/dotfiles/commit/53a3afa0c2ec251862dc2ea98181eb72c13bf776))
+
 # [4.33.0](https://github.com/vladdoster/dotfiles/compare/v4.32.1...v4.33.0) (2023-09-04)
 
 
