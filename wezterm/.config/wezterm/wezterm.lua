@@ -1,6 +1,6 @@
 local wezterm = require 'wezterm'
 local mux = wezterm.mux
-local config
+local config = {}
 
 wezterm.on('gui-startup', function(cmd)
   local tab, pane, window = mux.spawn_window(cmd or {})
@@ -17,7 +17,7 @@ config = {
   enable_scroll_bar=true,
   enable_tab_bar=true,
   exit_behavior='Close',
-  font=wezterm.font('BlexMono Nerd Font Mono', { weight = 'Bold', italic = true }),
+  font=wezterm.font('BlexMono Nerd Font Mono Complete', { weight = 'Text', italic = true }),
   font_size=18,
   force_reverse_video_cursor=true,
   hide_tab_bar_if_only_one_tab=true,
