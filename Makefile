@@ -15,7 +15,9 @@ BUILD_DATE := $(shell date -u +%FT%TZ) # https://github.com/opencontainers/image
 
 DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-volume,destination=/home --security-opt seccomp=unconfined
 PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --no-cache-dir --target=$$HOME/.local/share/python
-PY_PKGS := autopep8 bdfr beautysh black bpytop instaloader isort linkify mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pip pycodestyle pylint pynvim reorder-python-imports
+PY_PKGS := autopep8 bdfr beautysh black bpytop instaloader isort linkify mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pip pycodestyle pylint pynvim reorder-python-imports numpy matplotlib scipy
+PY_VER ?= python3 -c 'import sys; print(".".join(map(str, sys.version_info[0:2])))'
+PY_PIP := python$(PY_VER) -m pip
 STOW_OPTS := --target=$$HOME --verbose=1
 
 TARGETS := all brew-bundle brew-install clean docker-build docker-shell docker-ssh dotfiles hammerspoon help neovim shell stow targets-table test update-readme
@@ -100,21 +102,21 @@ safari-extensions: ## Install 1password, vimari, grammarly safari extensions
 	mas install 1569813296 1480933944 1462114288 # 1password, vimari, grammarly
 
 py-version: ## Print python3 version
-	echo "==> Python3 version: $$(python3 -V)"
+	$(info ==> Python3 version: $(PY_VER))
 
 py-pip-install: py-version ## Install pip
-	python3 -m ensurepip --upgrade
+	python$(PY_VER) -m ensurepip --upgrade
 
 py-pkgs: py-version ## Install python pkgs
 	$(info ==> installing py pkgs)
-	python3 -m pip install $(PIP_OPTS) $(PY_PKGS) \
-	&& echo '==> py packages installed'
+	$(PY_PIP) install $(PIP_OPTS) $(PY_PKGS)
+	$(info ==> py packages installed)
 
 py-update: py-pkgs ## Update python packages
 	$(info ==> updating py pkgs)
-	python3 -m pip install $(PIP_OPTS) --upgrade pip \
-		&& python3 -m pip list | cut -d" " -f 1 | tail -n +3 | xargs python3 -m pip install $(PIP_OPTS) \
-		&& echo '==> py packages updated'
+	$(PY_PIP) install $(PIP_OPTS) --upgrade pip
+	$(PY_PIP) list | cut -d" " -f 1 | tail -n +3 | xargs $(PY_PIP) install $(PIP_OPTS)
+	$(info ==> py packages updated)
 
 rust-install: ## Install rust & cargo
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
