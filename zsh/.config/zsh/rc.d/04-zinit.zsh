@@ -95,18 +95,13 @@ typeset -ga zle_highlight=(
   special:standout
   suffix:bold
 )
+
 zinit light-mode for \
     atinit'bindkey -M vicmd "^v" edit-command-line' \
   @softmoth/zsh-vim-mode \
-    as'null' \
-    lbin'!build/zsd*' \
-    make'--always-make' \
+    as'null' lbin'!build/zsd*' make'--always-make' \
   @zdharma-continuum/zshelldoc \
-    as'null' \
-    atclone'./build.zsh' \
-    completions \
-    lbin'!' \
-    ver'fix/build.zsh' \
+    as'null' atclone'./build.zsh' completions lbin'!' \
   @zdharma-continuum/zunit \
     atload'bindkey "^[[A" history-substring-search-up;bindkey "^[[B" history-substring-search-down' \
   @zsh-users/zsh-history-substring-search \
