@@ -7,9 +7,9 @@ typeset -gAH ZI=(HOME_DIR "$HOME/.local/share/zinit")
 ZI+=(
   BIN_DIR "$ZI[HOME_DIR]"/zinit.git
   BRANCH 'main'
-  COMPINIT_OPTIONS '-C'
+  COMPINIT_OPTS '-C'
   COMPLETIONS_DIR "$ZI[HOME_DIR]"/completions
-  OPTIMIZE_OUT_OF_DISK_ACCESSES "1"
+  OPTIMIZE_OUT_OF_DISK_ACCESSES '1'
   PLUGINS_DIR "$ZI[HOME_DIR]"/plugins
   SNIPPETS_DIR "$ZI[HOME_DIR]"/snippets
   SRC 'zdharma-continuum'
