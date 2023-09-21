@@ -49,7 +49,7 @@ manpath=($manpath '')
 
 () {
   path=(${@:|path} $path)
-} {~/.local/bin,${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/bin},${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/sbin},/opt/local/sbin,/opt/local/bin,/usr/local/sbin,/usr/local/bin}(-/N)
+} {~/.local/{,share/python/}bin,${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/bin},${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/sbin},/opt/local/sbin,/opt/local/bin,/usr/local/sbin,/usr/local/bin}(-/N)
 
 () {
   manpath=(${@:|manpath} $manpath '')
