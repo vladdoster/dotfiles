@@ -1,7 +1,7 @@
 MAKEFLAGS += --silent
 
-# SHELL := $(shell command -v zsh 2> /dev/null)
-.DEFAULT_SHELL := $(shell command -v zsh 2> /dev/null)
+SHELL := $(shell command -v zsh 2> /dev/null)
+# .DEFAULT_SHELL := command -v zsh 2> /dev/null)
 .ONESHELL:
 
 CONFIGS := hammerspoon neovim
@@ -16,7 +16,8 @@ BUILD_DATE := $(shell date -u +%FT%TZ) # https://github.com/opencontainers/image
 DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-volume,destination=/home --security-opt seccomp=unconfined
 PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --no-cache-dir --target=$$HOME/.local/share/python
 PY_PKGS := autopep8 bdfr beautysh black bpytop instaloader isort linkify mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pip pycodestyle pylint pynvim reorder-python-imports numpy matplotlib scipy
-PY_VER ?= python3 -c 'import sys; print(".".join(map(str, sys.version_info[0:2])))'
+VER ?= $(shell python3 -c 'import sys; print(".".join(map(str, sys.version_info[0:2])))')
+PY_VER != echo "$$(python$(VER) --version >/dev/null && echo "$(VER)" || echo "3")"
 PY_PIP := python$(PY_VER) -m pip
 STOW_OPTS := --target=$$HOME --verbose=1
 
@@ -87,15 +88,22 @@ chsh: ## Set shell to ZSH
 
 stow: ## Install GNU stow
 	$(info ==> installing GNU Stow)
-	if [ -d stow/stow.git ]; then echo "==> stow already present"; else git clone https://github.com/aspiers/stow stow/stow.git; fi
-	cd stow/stow.git \
-		&& autoreconf -ivf \
-		&& eval $$(perl -V:siteprefix) \
-		&& ./configure --prefix=$$siteprefix \
-		&& make --jobs=4 --no-print-directory --silent \
-		&& cp bin/*stow ../../bin/.local/bin/ \
-		&& $(info ==> installed GNU Stow)
-	[ -d stow/stow.git ] && rm -rf stow/stow.git
+	{ \
+        echo "== Creating new post";\
+        filename1=$$(echo "$$output"|awk '{print $$1}');\
+        filename2=$$(echo "$$output"|awk '{print $$2}');\
+        if [ ! -d "stow/stow-build" ]; then \
+            cd stow;\
+			mkdir stow-latest;\
+            curl -L http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz | tar xz --strip 1 -C stow-latest;\
+            cd stow-latest;\
+            ./configure;\
+            sudo make install;\
+            echo "==> installed GNU Stow";\
+        else \
+            echo "Something wrong";\
+        fi;\
+	}
 
 safari-extensions: ## Install 1password, vimari, grammarly safari extensions
 	brew install mas
