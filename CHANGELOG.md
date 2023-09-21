@@ -1,3 +1,23 @@
+# [4.35.0](https://github.com/vladdoster/dotfiles/compare/v4.34.0...v4.35.0) (2023-09-21)
+
+
+### Bug Fixes
+
+* add python binary dir to path ([c5dabf4](https://github.com/vladdoster/dotfiles/commit/c5dabf4b69d00c1306a908d994a9dcacc3986aac))
+* conflicting wezterm keybinds with tmux ([806a9c2](https://github.com/vladdoster/dotfiles/commit/806a9c2b0c7205f71fa5356a99e9b01ee0856d7a))
+* correct zinit key to compinit_opts ([6816e42](https://github.com/vladdoster/dotfiles/commit/6816e42c6c313e21cdbca1350c1107849a3b2bd0))
+* increase wezterm font size ([32e8c47](https://github.com/vladdoster/dotfiles/commit/32e8c47ff8837772f084aad5b0acdf7c72e2031d))
+* python package install targets ([d147fea](https://github.com/vladdoster/dotfiles/commit/d147feabb727f532a33af43027593995b888efba))
+* remove misc. programs in Brewfile ([0d62533](https://github.com/vladdoster/dotfiles/commit/0d625337351099023cc98e9a197031dc01186eb4))
+* remove pinned branch for zunit ([1d6503d](https://github.com/vladdoster/dotfiles/commit/1d6503d2377a8e80ae2bf18186d66a54c2d3d785))
+* remove resource intensive options in kitty config ([6e09a33](https://github.com/vladdoster/dotfiles/commit/6e09a33550aafcb361b97a0fa16519f82d2a8d46))
+* wezterm open url mouse binding ([399cfda](https://github.com/vladdoster/dotfiles/commit/399cfda79ff9e4a382c1fc31e599c57372699044))
+
+
+### Features
+
+* set python version in makefile ([66c1fee](https://github.com/vladdoster/dotfiles/commit/66c1fee18d3005259f5b4b17e4e88f645a314847))
+
 # [4.34.0](https://github.com/vladdoster/dotfiles/compare/v4.33.0...v4.34.0) (2023-09-04)
 
 
