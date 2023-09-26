@@ -21,6 +21,11 @@ alias zln='zmv -Lv'
 # `:` is a builtin command that does nothing. We use it here to stop Zsh from
 # evaluating the value of our $expansion as a command.
 : ${PAGER:=less}
+alias -g C='cat'  # pipe output to grep
+alias -g G='grep -R '  # pipe output to grep
+alias -g L='less'  # pipe output to less
+alias -g W='| wc -l' # pipe output to `wc` with option `-l`
+alias -g S='sort --unique' # pipe output to `wc` with option `-l`
 # Associate file name .extensions with programs to open them.
 # This lets you open a file just by typing its name and pressing enter.
 # Note that the dot is implicit; `gz` below stands for files ending in .gz
