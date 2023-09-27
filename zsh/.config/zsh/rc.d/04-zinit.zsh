@@ -9,6 +9,7 @@ ZI+=(
   BRANCH 'main'
   COMPINIT_OPTS '-C'
   COMPLETIONS_DIR "$ZI[HOME_DIR]"/completions
+  DEBUG "1"
   OPTIMIZE_OUT_OF_DISK_ACCESSES '1'
   PLUGINS_DIR "$ZI[HOME_DIR]"/plugins
   SNIPPETS_DIR "$ZI[HOME_DIR]"/snippets
@@ -70,7 +71,12 @@ zi from'gh-r' lbin'!' light-mode nocompile for \
   junegunn/fzf \
     aliases \
     atload"!(){setopt no_aliases;alias l='eza -blF';alias la='eza -abghilmu';alias ll='eza -al';alias ls='eza --git --group-directories-first';}" \
+    if'[[ $VENDOR != apple ]]' \
   @eza-community/eza \
+    aliases \
+    atload"!(){setopt no_aliases;alias l='exa -blF';alias la='exa -abghilmu';alias ll='exa -al';alias ls='exa --git --group-directories-first';}" \
+    if'[[ $VENDOR = apple ]]' \
+  @ogham/exa \
     aliases \
     atload'!(){local i;for i (v vi vim);do alias $i="nvim";done; }' \
     lbin'!nvim' \
