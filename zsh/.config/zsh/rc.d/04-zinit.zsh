@@ -42,7 +42,6 @@ local GH_RAW_URL='https://raw.githubusercontent.com'
 znippet() { zi for as'completion' has"${1}" depth'1' light-mode nocompile is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
 znippet 'brew'   'Homebrew/brew/master/completions/zsh'
 znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
-znippet 'exa'    'ogham/exa/master/completions/zsh'
 znippet 'fd'     'sharkdp/fd/master/contrib/completion'
 zi as'completion' id-as'auto' is-snippet light-mode for \
   "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh" \
@@ -65,14 +64,13 @@ zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','bin
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' lbin'!' light-mode nocompile for \
   @dandavison/delta \
-  @r-darwish/topgrade \
+  @topgrade-rs/topgrade \
   @sharkdp/hyperfine \
     dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
   junegunn/fzf \
     aliases \
-    atload"!(){setopt no_aliases;alias l='exa -blF';alias la='exa -abghilmu';alias ll='exa -al';alias ls='exa --git --group-directories-first';}" \
-    cp'**/exa.zsh->_exa' \
-  @ogham/exa \
+    atload"!(){setopt no_aliases;alias l='eza -blF';alias la='eza -abghilmu';alias ll='eza -al';alias ls='eza --git --group-directories-first';}" \
+  @eza-community/eza \
     aliases \
     atload'!(){local i;for i (v vi vim);do alias $i="nvim";done; }' \
     lbin'!nvim' \
