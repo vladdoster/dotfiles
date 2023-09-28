@@ -13,12 +13,12 @@ CONTAINER_LABEL ?= $(shell git rev-parse --short HEAD)
 CONTAINER_TAG ?= $(CONTAINER_NAME):$(CONTAINER_LABEL)
 BUILD_DATE := $(shell date -u +%FT%TZ) # https://github.com/opencontainers/image-spec/blob/master/annotations.md
 
-DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-volume,destination=/home --security-opt seccomp=unconfined
 PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --no-cache-dir --target=$$HOME/.local/share/python
-PY_PKGS := autopep8 bdfr beautysh black bpytop instaloader isort linkify mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pip pycodestyle pylint pynvim reorder-python-imports numpy matplotlib scipy
-VER ?= $(shell python3 -c 'import sys; print(".".join(map(str, sys.version_info[0:2])))')
-PY_VER != echo "$$(python$(VER) --version >/dev/null && echo "$(VER)" || echo "3")"
+PY_PKGS := beautysh black bpytop isort linkify mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pip pylint pynvim reorder-python-imports
+PY_VER ?= $(shell python3 --version | awk '{print $$2}' | cut -d "." -f 1-2)
 PY_PIP := python$(PY_VER) -m pip
+
+DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-volume,destination=/home --security-opt seccomp=unconfined
 STOW_OPTS := --target=$$HOME --verbose=1
 
 TARGETS := all brew-bundle brew-install clean docker-build docker-shell docker-ssh dotfiles hammerspoon help neovim shell stow targets-table test update-readme
@@ -110,21 +110,21 @@ safari-extensions: ## Install 1password, vimari, grammarly safari extensions
 	mas install 1569813296 1480933944 1462114288 # 1password, vimari, grammarly
 
 py-version: ## Print python3 version
-	$(info ==> Python3 version: $(PY_VER))
+	$(info ==> Python version: $(PY_VER))
 
 py-pip-install: py-version ## Install pip
-	python$(PY_VER) -m ensurepip --upgrade
+	$(PY_VER) -m ensurepip --upgrade
 
 py-pkgs: py-version ## Install python pkgs
 	$(info ==> installing py pkgs)
 	$(PY_PIP) install $(PIP_OPTS) $(PY_PKGS)
-	$(info ==> py packages installed)
+	$(info ==> installed py packages)
 
 py-update: py-pkgs ## Update python packages
 	$(info ==> updating py pkgs)
 	$(PY_PIP) install $(PIP_OPTS) --upgrade pip
 	$(PY_PIP) list | cut -d" " -f 1 | tail -n +3 | xargs $(PY_PIP) install $(PIP_OPTS)
-	$(info ==> py packages updated)
+	$(info ==> updated py packages)
 
 rust-install: ## Install rust & cargo
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -150,4 +150,4 @@ update-readme: ## Update Make targets table in README
 %: ## A catch-all target to make fake targets
 	true
 
-# vim: set fenc=utf8 ffs=unix ft=make list noet sw=4 ts=4 tw=72:
+# vim: set fenc=utf8 ffs=unix ft=make list noet sw=4 ts=4 tw=100:
