@@ -42,6 +42,7 @@ exec zsh -l
 | py-pip-install    | Install pip                                            |
 | py-pkgs           | Install python pkgs                                    |
 | py-update         | Update python packages                                 |
+| py-version        | Print python3 version                                  |
 | rust-install      | Install rust & cargo                                   |
 | rust-pkgs         | Install rust programs                                  |
 | safari-extensions | Install 1password, vimari, grammarly safari extensions |
