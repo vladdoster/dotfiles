@@ -1,3 +1,18 @@
+# [4.36.0](https://github.com/vladdoster/dotfiles/compare/v4.35.0...v4.36.0) (2023-09-28)
+
+
+### Bug Fixes
+
+* gli func checks if in git dir ([b5c7d15](https://github.com/vladdoster/dotfiles/commit/b5c7d15d7b9697731a71f7f112e5a9916639d2d9))
+* improve python make targets ([8cceaee](https://github.com/vladdoster/dotfiles/commit/8cceaee7453d47a16c65adb59d5e4125ffaca796))
+* migrate exa -> eza & rdarwish -> topgrade-rs ([31841bb](https://github.com/vladdoster/dotfiles/commit/31841bb3cc4484063f81b9f372fd941764aa5594))
+* use eza or exa depending on os ([0f1c95c](https://github.com/vladdoster/dotfiles/commit/0f1c95c1a2fc5fba6a720462f80339f44058541d))
+
+
+### Features
+
+* global aliases for less, grep, cat & sort ([3ffb5be](https://github.com/vladdoster/dotfiles/commit/3ffb5be77b29f057c79cd61d6ebeca24f65df892))
+
 # [4.35.0](https://github.com/vladdoster/dotfiles/compare/v4.34.0...v4.35.0) (2023-09-21)
 
 
