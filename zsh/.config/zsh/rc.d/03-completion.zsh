@@ -23,7 +23,7 @@ builtin zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 builtin zstyle '*' single-ignored show
 
-builtin zstyle ':completion:*' completer _complete _match _approximate
+builtin zstyle ':completion:*' completer _expand_alias _complete _match _approximate _ignored
 builtin zstyle ':completion:*' format ' %F{yellow}-- %d --%f'
 builtin zstyle ':completion:*' group-name ''
 builtin zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
