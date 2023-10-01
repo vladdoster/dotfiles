@@ -9,33 +9,39 @@ alias -- b='-'
 # These aliases enable us to paste example code into the terminal without the
 # shell complaining about the pasted prompt symbol.
 alias %= \$=
+# +─────+
+# │ ZMV │
+# +─────+
 # zmv lets you batch rename (or copy or link) files by using pattern matching.
 # https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#index-zmv
 autoload -Uz zmv
 alias zmv='zmv -Mv'
 alias zcp='zmv -Cv'
 alias zln='zmv -Lv'
-# Note that, unlike with Bash, you do not need to inform Zsh's completion system
-# of your aliases. It will figure them out automatically.
-# Set $PAGER if it hasn't been set yet. We need it below.
-# `:` is a builtin command that does nothing. We use it here to stop Zsh from
-# evaluating the value of our $expansion as a command.
+# Note that, unlike with Bash, you do not need to inform Zsh's completion
+# system of your aliases. It will figure them out automatically. Set $PAGER if
+# it hasn't been set yet. We need it below. `:` is a builtin command that does
+# nothing. We use it here to stop Zsh from evaluating the value of our
+# $expansion as a command.
 : ${PAGER:=less}
-alias -g C='cat'  # pipe output to grep
-alias -g G='grep -R '  # pipe output to grep
-alias -g L='less'  # pipe output to less
-alias -g W='| wc -l' # pipe output to `wc` with option `-l`
-alias -g S='sort --unique' # pipe output to `wc` with option `-l`
-# Associate file name .extensions with programs to open them.
-# This lets you open a file just by typing its name and pressing enter.
-# Note that the dot is implicit; `gz` below stands for files ending in .gz
+READNULLCMD=$PAGER  # Set the program to use for this.
+# Associate file name .extensions with programs to open them. Note that the dot
+# is implicit; `gz` below stands for files ending in .gz
 alias -s {css,gradle,html,js,json,md,patch,properties,txt,xml,yml}=$PAGER
 alias -s gz='gzip -l'
 alias -s {log,out}='tail -F'
 # Use `< file` to quickly view the contents of any text file.
-READNULLCMD=$PAGER  # Set the program to use for this.
-_error() { builtin print -P -- "%F{red}Error%f: %F{white}${1}%f" >&2; }
-_info() { builtin print -P -- "%F{green}==>%f %F{white}${1}%f"; }
+# This lets you open a file just by typing its name and pressing enter. Note
+# that the dot is implicit;; }
+# +────────────────+
+# │ GLOBAL ALIASES │
+# +────────────────+
+alias -g B='brew' # pipe output to `wc` with option `-l`
+alias -g C='cat'  # pipe output to grep
+alias -g G='grep -R '  # pipe output to grep
+alias -g L='less'  # pipe output to less
+alias -g S='sort --unique' # pipe output to `wc` with option `-l`
+alias -g W='| wc -l' # pipe output to `wc` with option `-l`
 # +────────────────+
 # │ UTIL FUNCTIONS │
 # +────────────────+
@@ -44,10 +50,13 @@ _edit() { ${EDITOR:-nvim} $1 }
 _mkfile() { builtin echo "#!/usr/bin/env ${2}" > "$3.$1" && chmod +x "$3.$1"; rehash; $EDITOR "$3.$1"; }
 _sys_update() { "$1" update && "$1" upgrade; }
 _goto() { [[ -e $1 ]] && builtin cd "$1" && { exa --all --long 2> /dev/null || command ls -lGo  || _error "${1} not found" } }
+_info() { builtin print -P -- "%F{green}==>%f %F{white}${1}%f"; }
 # +────────────────+
 # │ CODE DIRECTORY │
 # +────────────────+
-# ! [[ -d $CODEDIR ]] && command mkdir -p -- "${CODEDIR}"
+if [[ ! -d "$HOME/code" ]]; then
+  command mkdir -p "$HOME/code"
+fi
 # +─────────────────+
 # │ SYSTEM SPECIFIC │
 # +─────────────────+
@@ -148,13 +157,13 @@ alias ping='ping -c 10'
 # +───────────────+
 # │ FILE CREATION │
 # +───────────────+
+alias mkcd='{ local DIR_NAME="$(cat -)"; command mkdir -p -- "$DIR_NAME" && builtin cd -P -- $DIR_NAME }<<<'
+alias mkcmd='{ F_NAME="$(cat -)"; touch "$F_NAME"; chmod +x $F_NAME; rehash; nvim $F_NAME }<<<'
 alias mkmd='{ F_NAME="$(cat -).md"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
 alias mkpy='_mkfile py "python3"'
 alias mksh='_mkfile sh "bash"'
 alias mktxt='{ F_NAME="$(cat -).txt"; touch "$F_NAME"; _info "created: $F_NAME"; }<<<'
 alias mkzsh='_mkfile zsh "zsh"'
-alias mkcmd='{ F_NAME="$(cat -)"; touch "$F_NAME"; chmod +x $F_NAME; rehash; nvim $F_NAME }<<<'
-# alias mkcd='{ local DIR_NAME="$(cat -)"; command mkdir -p -- "$DIR_NAME" && builtin cd -P -- $DIR_NAME }<<<'
 # +─────────────────+
 # │ FILE FORMATTING │
 # +─────────────────+
