@@ -79,7 +79,7 @@ zi from'gh-r' lbin'!' light-mode nocompile for \
   @ogham/exa \
     aliases \
     atload'!(){local i;for i (v vi vim);do alias $i="nvim";done; }' \
-    if'[[ $(arch) = x86_64 ]]' \
+    if"[[ ! ${(L)OSTYPE}$(arch) =~ linux.*a(arch|rm)* ]]" \
     lbin'!nvim' \
     nocompletions \
     ver'nightly' \
