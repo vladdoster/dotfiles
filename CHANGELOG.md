@@ -1,3 +1,15 @@
+# [4.37.0](https://github.com/vladdoster/dotfiles/compare/v4.36.0...v4.37.0) (2023-10-01)
+
+
+### Bug Fixes
+
+* zi checks arch for neovim gh-r ([ff271c9](https://github.com/vladdoster/dotfiles/commit/ff271c9822dec787a5f26296de07f9a2d94dbc43))
+
+
+### Features
+
+* expand aliases via tab ([7ef4e02](https://github.com/vladdoster/dotfiles/commit/7ef4e02ad4f4e7f6a5542ec4a8fd1dd9ef61cee0))
+
 # [4.36.0](https://github.com/vladdoster/dotfiles/compare/v4.35.0...v4.36.0) (2023-09-28)
 
 
