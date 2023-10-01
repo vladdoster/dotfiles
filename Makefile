@@ -8,8 +8,9 @@ CONFIGS := hammerspoon neovim
 GH_URL = https://github.com/vladdoster
 HOMEBREW_URL := https://raw.githubusercontent.com/Homebrew/install/HEAD
 
-CONTAINER_NAME := vdoster/dotfiles
+CONTAINER_ARCH ?= $$(arch)
 CONTAINER_LABEL ?= $(shell git rev-parse --short HEAD)
+CONTAINER_NAME := vdoster/dotfiles-$(CONTAINER_ARCH)
 CONTAINER_TAG ?= $(CONTAINER_NAME):$(CONTAINER_LABEL)
 BUILD_DATE := $(shell date -u +%FT%TZ) # https://github.com/opencontainers/image-spec/blob/master/annotations.md
 
@@ -18,7 +19,7 @@ PY_PKGS := beautysh black bpytop isort linkify mdformat mdformat-config mdformat
 PY_VER ?= $(shell python3 --version | awk '{print $$2}' | cut -d "." -f 1-2)
 PY_PIP := python$(PY_VER) -m pip
 
-DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-volume,destination=/home --security-opt seccomp=unconfined
+DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-$(CONTAINER_ARCH)-volume,destination=/home --security-opt seccomp=unconfined
 STOW_OPTS := --target=$$HOME --verbose=1
 
 TARGETS := all brew-bundle brew-install clean docker-build docker-shell docker-ssh dotfiles hammerspoon help neovim shell stow targets-table test update-readme
@@ -40,16 +41,14 @@ uninstall: ## Uninstall dotfiles
 	$(info ==> uninstalled dotfiles)
 
 docker-build: ## Build docker image
-	docker --debug \
-		buildx \
-			build \
-			--label org.opencontainers.image.created="$(BUILD_DATE)" \
-			--load \
-			--platform linux/amd64 \
-			--progress plain \
-			--pull \
-			--tag "$(CONTAINER_TAG)" \
-			.
+	docker buildx build \
+	    --label org.opencontainers.image.created="$(BUILD_DATE)" \
+	    --load \
+	    --platform linux/"$(CONTAINER_ARCH)" \
+	    --progress plain \
+	    --pull \
+	    --tag "$(CONTAINER_TAG)" \
+	    .
 
 docker-clean: ## Clean docker resources
 	docker system prune --all --force
