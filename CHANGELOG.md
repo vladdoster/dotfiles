@@ -1,3 +1,15 @@
+# [4.38.0](https://github.com/vladdoster/dotfiles/compare/v4.37.0...v4.38.0) (2023-10-01)
+
+
+### Bug Fixes
+
+* sort, mkcd, and zmv aliases ([989b803](https://github.com/vladdoster/dotfiles/commit/989b8039f4847c5f6f1d03fabcdad77ef9ef626e))
+
+
+### Features
+
+* configure less & lessopen env variables ([a6b8223](https://github.com/vladdoster/dotfiles/commit/a6b8223f071481991c8a72809ccc7008fa401571))
+
 # [4.37.0](https://github.com/vladdoster/dotfiles/compare/v4.36.0...v4.37.0) (2023-10-01)
 
 
