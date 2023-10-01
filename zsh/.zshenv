@@ -10,6 +10,13 @@ zmodload zsh/{datetime,langinfo,parameter,system,terminfo,zutil} || return
 zmodload -F zsh/files b:{zf_mkdir,zf_mv,zf_rm,zf_rmdir,zf_ln}    || return
 zmodload -F zsh/stat b:zstat                                     || return
 
+: ${PAGER:=less}
+export LESS='-FRX --use-color'
+export READNULLCMD=$PAGER
+
+export LESS='-R'
+export LESSOPEN='|pygmentize -g %s'
+
 export -T MANPATH=${MANPATH:-:} manpath
 export -T INFOPATH=${INFOPATH:-:} infopath
 typeset -gaU cdpath fpath mailpath path manpath infopath
