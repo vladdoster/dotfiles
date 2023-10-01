@@ -65,10 +65,10 @@ zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','bin
 #=== GITHUB BINARIES ==================================
 zi from'gh-r' lbin'!' light-mode nocompile for \
   @dandavison/delta \
-  @topgrade-rs/topgrade \
   @sharkdp/hyperfine \
+  @topgrade-rs/topgrade \
     dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
-  junegunn/fzf \
+  @junegunn/fzf \
     aliases \
     atload"!(){setopt no_aliases;alias l='eza -blF';alias la='eza -abghilmu';alias ll='eza -al';alias ls='eza --git --group-directories-first';}" \
     if'[[ $VENDOR != apple ]]' \
@@ -79,6 +79,7 @@ zi from'gh-r' lbin'!' light-mode nocompile for \
   @ogham/exa \
     aliases \
     atload'!(){local i;for i (v vi vim);do alias $i="nvim";done; }' \
+    if'[[ $(arch) = x86_64 ]]' \
     lbin'!nvim' \
     nocompletions \
     ver'nightly' \
