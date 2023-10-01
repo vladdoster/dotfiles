@@ -61,9 +61,9 @@ WORKDIR ${HOME}
 
 # Buiild neovim from source
 RUN git clone --quiet https://github.com/neovim/neovim \
- && make --directory=neovim --jobs --quiet --silent \
- && sudo make --directory=neovim --jobs --quiet --silent install \
- && sudo rm -rf neovim
+ && make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=${HOME}/.local --directory=neovim --jobs --quiet --silent \
+ && make --directory=neovim --jobs --quiet --silent install \
+ && rm -rf neovim
 
 COPY --chown=${USER}:1001 . ${HOME}/.config/dotfiles/
 
