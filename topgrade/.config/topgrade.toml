@@ -1,3 +1,4 @@
+[misc]
 assume_yes = true   # don't ask for confirmations
 cleanup = true      # cleanup temporary or old files
 no_retry = true     # do not ask to retry failed steps
