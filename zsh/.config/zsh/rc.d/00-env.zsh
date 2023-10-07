@@ -1,6 +1,4 @@
-#
-# Environment variables
-#
+# environment variables
 (( ${+TERM} )) || export TERM="xterm-256color"; COLORTERM="truecolor"
 (( ${+USER} )) || export USER="${USERNAME}"
 (( ${+XDG_CACHE_HOME} )) || export XDG_CACHE_HOME="${HOME}/.cache"
@@ -8,9 +6,13 @@
 (( ${+XDG_DATA_HOME} )) || export XDG_DATA_HOME="${HOME}/.local/share"
 # configuration directories
 export \
-  DOTFILES="${XDG_CONFIG_HOME}/dotfiles" GIT_CONFIG="${XDG_CONFIG_HOME}/git/config" \
-  PIP_CONFIG="${XDG_CONFIG_HOME}/pip"    PYTHONPATH="${XDG_DATA_HOME}/python" \
-  VIMDOTDIR="${XDG_CONFIG_HOME}/vim"
+  CODEDIR="$HOME/code" DOTFILES="${XDG_CONFIG_HOME}/dotfiles" \
+  GIT_CONFIG="${XDG_CONFIG_HOME}/git/config" PIP_CONFIG="${XDG_CONFIG_HOME}/pip" \
+  PYTHONPATH="${XDG_DATA_HOME}/python" VIMDOTDIR="${XDG_CONFIG_HOME}/vim" \
+  ZDOTDIR="${ZDOTDIR:-$HOME/.config/zsh}"
+# named directories
+hash -d code="$CODEDIR"
+hash -d zsh="$ZDOTDIR"
 # program options
 export \
   COMPOSE_DOCKER_CLI_BUILD=1 CORRECT_IGNORE="*zinit[-]*" \

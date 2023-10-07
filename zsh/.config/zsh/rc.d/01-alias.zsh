@@ -23,16 +23,13 @@ alias zln='zmv -Lv'
 # it hasn't been set yet. We need it below. `:` is a builtin command that does
 # nothing. We use it here to stop Zsh from evaluating the value of our
 # $expansion as a command.
-: ${PAGER:=less}
-READNULLCMD=$PAGER  # Set the program to use for this.
+
 # Associate file name .extensions with programs to open them. Note that the dot
 # is implicit; `gz` below stands for files ending in .gz
 alias -s {css,gradle,html,js,json,md,patch,properties,txt,xml,yml}=$PAGER
 alias -s gz='gzip -l'
 alias -s {log,out}='tail -F'
 # Use `< file` to quickly view the contents of any text file.
-# This lets you open a file just by typing its name and pressing enter. Note
-# that the dot is implicit;; }
 # +────────────────+
 # │ GLOBAL ALIASES │
 # +────────────────+
@@ -45,8 +42,15 @@ alias -g W='| wc -l' # pipe output to `wc` with option `-l`
 # +────────────────+
 # │ UTIL FUNCTIONS │
 # +────────────────+
+for i (nvim vim vi); do
+  (( $+commands[$i] )) && {
+    export EDITOR="$i"
+    alias v="${i}"
+    break
+  }
+done
 _clone_if_absent() { [[ ! -d $1 ]] && git clone "$1" "$2/$(basename "$1" .git)"; }
-_edit() { ${EDITOR:-nvim} $1 }
+_edit() { $EDITOR $@; }
 _mkfile() { builtin echo "#!/usr/bin/env ${2}" > "$3.$1" && chmod +x "$3.$1"; rehash; $EDITOR "$3.$1"; }
 _sys_update() { "$1" update && "$1" upgrade; }
 _goto() { [[ -e $1 ]] && builtin cd "$1" && { exa --all --long 2> /dev/null || command ls -lGo  || _error "${1} not found" } }
@@ -77,6 +81,7 @@ alias ll='ls -al'
 # +──────────────────+
 # │ CONFIG SHORTCUTS │
 # +──────────────────+
+
 emulate -L zsh
 setopt extendedglob
 typeset -A pairs=(
@@ -101,7 +106,7 @@ done
 alias nvcln='command rm -rf $HOME/.{local/share/nvim,config/nvim/plugin/packer_compiled.lua}'
 alias zicln='command rm -rf ${HOME}/.{local/share/{zinit,zsh},cache,config/{zinit,zsh/.{zcomp{cache,dump},zsh_sessions}}}'
 alias ziprune='zi delete --all --yes; ( exec zsh -il );'
-alias zrld='builtin exec $(which zsh) -i'
+alias zrld='builtin exec zsh -i'
 alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},{auto,}s}; ziprune; zrld; cd -'
 # +────────────+
 # │ NAVIGATION │

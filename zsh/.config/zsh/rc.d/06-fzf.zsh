@@ -1,17 +1,17 @@
 if (( $+commands[fzf] )); then
     () {
-      background='#0f1117'
-      bblack='#575860'
-      bg3='#29394f'
-      bg4='#39605d'
-      black='#000000'
-      blue='#719cd6'
-      cyan='#63cdcf'
-      foreground='#cdcecf'
-      green='#81b29a'
-      magenta='#9d79d6'
-      red='#ff0000'
-      white='#fdfefe'
+    local background='#0f1117' \
+      bblack='#575860' \
+      bg3='#29394f' \
+      bg4='#39605d' \
+      black='#000000' \
+      blue='#719cd6' \
+      cyan='#63cdcf' \
+      foreground='#cdcecf' \
+      green='#81b29a' \
+      magenta='#9d79d6' \
+      red='#ff0000' \
+      white='#fdfefe' \
       yellow='#f9e79f'
 
       export FZF_DEFAULT_OPTS="
@@ -40,14 +40,5 @@ if (( $+commands[fzf] )); then
 
     if (( $+commands[rg] )); then
         export FZF_DEFAULT_COMMAND="rg --files --follow--glob '!.git' --hidden"
-    fi
-
-    if (( $+commands[brew] )) && [[ $- == *i* ]]; then
-      if [[ -d $(brew --prefix)/opt/fzf/shell ]]; then
-        local f
-        for f in 'completion' 'key-bindings'; do
-          source "$(brew --prefix)/opt/fzf/shell/${f}.zsh"
-        done
-      fi
     fi
 fi
