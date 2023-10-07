@@ -1,3 +1,20 @@
+# [4.39.0](https://github.com/vladdoster/dotfiles/compare/v4.38.0...v4.39.0) (2023-10-07)
+
+
+### Bug Fixes
+
+* dotfile dockerfile neovim install prefix ([d984ac5](https://github.com/vladdoster/dotfiles/commit/d984ac5b3249211a0fcefdf7e41835b6ea554117))
+* editor alias & cleanup zsh config cruft ([20d1839](https://github.com/vladdoster/dotfiles/commit/20d183930edc4dfb40d9ece9bb8a67b478ab703f))
+* misc. zinit config tweaks ([4a62ccb](https://github.com/vladdoster/dotfiles/commit/4a62ccb158d59b2bf9f7644ef62085499bd85879))
+* set arch in makefile docker targets ([365bfec](https://github.com/vladdoster/dotfiles/commit/365bfec2df82dbbade8e88c5af72de9eef310bec))
+* topgrade configuration ([fd7db00](https://github.com/vladdoster/dotfiles/commit/fd7db00b968675b31cc18f4d042319b10508f0fc))
+* zi system check for neovim gh-r ([a210a51](https://github.com/vladdoster/dotfiles/commit/a210a513c368f310b228596462cad4c18c129a1a))
+
+
+### Features
+
+* build neovim & stow make targets ([f7aca99](https://github.com/vladdoster/dotfiles/commit/f7aca992e1dd8f6744def82a400906186f6ef907))
+
 # [4.38.0](https://github.com/vladdoster/dotfiles/compare/v4.37.0...v4.38.0) (2023-10-01)
 
 
