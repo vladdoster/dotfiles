@@ -85,24 +85,18 @@ chsh: ## Set shell to ZSH
 	echo "$$(which zsh)" | sudo tee -a /etc/shells
 	chsh -s "$$(which zsh)" $$USER
 
-stow: ## Install GNU stow
-	$(info ==> installing GNU Stow)
-	{ \
-        echo "== Creating new post";\
-        filename1=$$(echo "$$output"|awk '{print $$1}');\
-        filename2=$$(echo "$$output"|awk '{print $$2}');\
-        if [ ! -d "stow/stow-build" ]; then \
-            cd stow;\
-			mkdir stow-latest;\
-            curl -L http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz | tar xz --strip 1 -C stow-latest;\
-            cd stow-latest;\
-            ./configure;\
-            sudo make install;\
-            echo "==> installed GNU Stow";\
-        else \
-            echo "Something wrong";\
-        fi;\
-	}
+build-neovim: ## Build neovim from source
+	$(info ==> building neovim)
+	build_dir=$$(mktemp -d);\
+	git clone https://github.com/neovim/neovim $$build_dir;\
+	make --directory $$build_dir --jobs 8 CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=$$HOME/.local/ install
+
+build-stow: ## Build stow from source
+	$(info ==> building gnu stow)
+	build_dir=$$(mktemp -d);\
+	curl -L http://ftp.gnu.org/gnu/stow/stow-latest.tar.gz | tar xz --strip 1 -C $$build_dir;\
+	( cd $$build_dir && ./configure --prefix=$$HOME/.local ); \
+	make --directory $$build_dir --jobs 8 install
 
 safari-extensions: ## Install 1password, vimari, grammarly safari extensions
 	brew install mas

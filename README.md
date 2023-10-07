@@ -28,6 +28,8 @@ exec zsh -l
 | brew-bundle       | Install programs defined in brewfile                   |
 | brew-install      | Install Homebrew                                       |
 | brew-uninstall    | Uninstall Homebrew                                     |
+| build-neovim      | Build neovim from source                               |
+| build-stow        | Build stow from source                                 |
 | chsh              | Set shell to ZSH                                       |
 | docker-build      | Build docker image                                     |
 | docker-clean      | Clean docker resources                                 |
@@ -46,6 +48,5 @@ exec zsh -l
 | rust-install      | Install rust & cargo                                   |
 | rust-pkgs         | Install rust programs                                  |
 | safari-extensions | Install 1password, vimari, grammarly safari extensions |
-| stow              | Install GNU stow                                       |
 | uninstall         | Uninstall dotfiles                                     |
 | update-readme     | Update Make targets table in README                    |
