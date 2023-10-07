@@ -9,8 +9,8 @@ ZI+=(
   BRANCH 'main'
   COMPINIT_OPTS '-C'
   COMPLETIONS_DIR "$ZI[HOME_DIR]"/completions
-  DEBUG "1"
-  OPTIMIZE_OUT_OF_DISK_ACCESSES '1'
+  DEBUG "0"
+  OPTIMIZE_OUT_OF_DISK_ACCESSES '0'
   PLUGINS_DIR "$ZI[HOME_DIR]"/plugins
   SNIPPETS_DIR "$ZI[HOME_DIR]"/snippets
   SRC 'zdharma-continuum'
@@ -61,47 +61,40 @@ zi as'completion' id-as'auto' is-snippet light-mode for \
   @sindresorhus/pure
 }
 #=== ANNEXES ==========================================
-zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink','bin-gem-node'}
+zi depth'1' light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink'}
 #=== GITHUB BINARIES ==================================
-zi from'gh-r' lbin'!' light-mode nocompile for \
-  @dandavison/delta \
+zi aliases from'gh-r' lbin light-mode lman nocompile for \
+    if"(( ! $+commands[hyperfine] ))" \
   @sharkdp/hyperfine \
+    if"(( ! $+commands[topgrade] ))" \
   @topgrade-rs/topgrade \
+    if"(( ! $+commands[delta] ))" \
+  @dandavison/delta \
     dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
   @junegunn/fzf \
-    aliases \
     atload"!(){setopt no_aliases;alias l='eza -blF';alias la='eza -abghilmu';alias ll='eza -al';alias ls='eza --git --group-directories-first';}" \
     if'[[ $VENDOR != apple ]]' \
   @eza-community/eza \
-    aliases \
     atload"!(){setopt no_aliases;alias l='exa -blF';alias la='exa -abghilmu';alias ll='exa -al';alias ls='exa --git --group-directories-first';}" \
     if'[[ $VENDOR = apple ]]' \
   @ogham/exa \
-    aliases \
     atload'!(){local i;for i (v vi vim);do alias $i="nvim";done; }' \
-    if"[[ ! ${(L)OSTYPE}$(arch) =~ linux.*a(arch|rm)* ]]" \
+    if"[[ ! ${(L)OSTYPE}$(arch) =~ linux.*a(arch|rm)* && (( ! $+commands[delta] )) ]]" \
     lbin'!nvim' \
     nocompletions \
     ver'nightly' \
   @neovim/neovim
 
-zinit snippet OMZ::lib/git.zsh
-zinit snippet OMZP::git
+zi snippet OMZ::lib/git.zsh
+zi snippet OMZP::git
 
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=#00dd00,fg=#002b36,bold'
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=#dd0000=#002b36,bold'
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#586e75'
 
-typeset -ga zle_highlight=(
-  # region:fg="#a89983",bg="#4c96a8"
-  isearch:underline
-  paste:none
-  region:standout
-  special:standout
-  suffix:bold
-)
+typeset -ga zle_highlight=( isearch:underline paste:none region:standout special:standout suffix:bold )
 
-zinit light-mode for \
+zi light-mode for \
     atinit'bindkey -M vicmd "^v" edit-command-line' \
   @softmoth/zsh-vim-mode \
     as'null' lbin'!build/zsd*' make'--always-make' \
