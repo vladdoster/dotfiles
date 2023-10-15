@@ -1,5 +1,22 @@
 #autoload
 
-builtin cd ${XDG_CONFIG_HOME:-~/.config}/$1
+emulate -L zsh
+zmodload zsh/zutil || return
+
+local help
+zparseopts -D -F -K -- {h,-help}=help || return
+if (( $#help )); then
+    cat <<EOF
+Usage: $0 [options] [target] ...
+Options:
+  -h, --help         Print this message and exit.
+EOF
+elif [[ -f ${XDG_CONFIG_HOME:-~/.config}/$1 ]]; then
+    ${EDITOR:-nvim} "${XDG_CONFIG_HOME:-~/.config}/$1"
+elif [[ -d ${XDG_CONFIG_HOME:-~/.config}/$1 ]]; then
+    builtin cd -q "${XDG_CONFIG_HOME:-~/.config}/$1"
+else
+    log_error "$1 not found"
+fi
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
