@@ -6,12 +6,14 @@
 typeset -gAH ZI=(HOME_DIR "$HOME/.local/share/zinit")
 ZI+=(
   BIN_DIR "$ZI[HOME_DIR]"/zinit.git
-  BRANCH 'main'
+  BRANCH 'fix/update-logging'
   COMPINIT_OPTS '-C'
   COMPLETIONS_DIR "$ZI[HOME_DIR]"/completions
   DEBUG "0"
-  OPTIMIZE_OUT_OF_DISK_ACCESSES '0'
+  FORK 'vladdoster'
+  OPTIMIZE_OUT_OF_DISK_ACCESSES '1'
   PLUGINS_DIR "$ZI[HOME_DIR]"/plugins
+  REPO 'zinit-t'
   SNIPPETS_DIR "$ZI[HOME_DIR]"/snippets
   SRC 'zdharma-continuum'
   ZCOMPDUMP_PATH "$ZI[HOME_DIR]"/zcompdump
@@ -20,8 +22,9 @@ ZI+=(
 if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]]; then
   {
     log::info 'downloading zinit'
-    command git clone --branch ${ZI[BRANCH]:-main} \
-      https://github.com/${ZI[FORK]:-${ZI[SRC]}}/zinit.git \
+    command git clone \
+      --branch ${ZI[BRANCH]:-main} \
+      https://github.com/${ZI[FORK]:-${ZI[SRC]}}/${ZI[REPO]:-zinit} \
       ${ZI[BIN_DIR]}
     log::info 'setting up zinit'
     command chmod g-rwX ${ZI[HOME_DIR]} && \
@@ -61,7 +64,7 @@ zi as'completion' id-as'auto' is-snippet light-mode for \
   @sindresorhus/pure
 }
 #=== ANNEXES ==========================================
-zi depth'1' light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink'}
+zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink'}
 #=== GITHUB BINARIES ==================================
 zi aliases from'gh-r' lbin light-mode lman nocompile for \
     if"(( ! $+commands[hyperfine] ))" \
@@ -79,11 +82,38 @@ zi aliases from'gh-r' lbin light-mode lman nocompile for \
     if'[[ $VENDOR = apple ]]' \
   @ogham/exa \
     atload'!(){local i;for i (v vi vim);do alias $i="nvim";done; }' \
-    if"[[ ! ${(L)OSTYPE}$(arch) =~ linux.*a(arch|rm)* && (( ! $+commands[delta] )) ]]" \
+    if"[[ ! ${(L)OSTYPE}$(arch) =~ linux.*a(arch|rm)* ]]" \
     lbin'!nvim' \
     nocompletions \
     ver'nightly' \
   @neovim/neovim
+
+# zinit for \
+#     lbin'!' \
+#     make \
+#     null \
+#   @charmbracelet/glow
+#
+zinit configure make'install' for @aspiers/stow
+#
+# zinit for \
+#     configure'--disable-docs --disable-valgrind --with-oniguruma=builtin --enable-static --enable-all-static' \
+#     make \
+#     null \
+#     lbin'!' \
+#   @jqlang/jq
+
+# zinit for \
+#     as'program' \
+#     configure \
+#     make'install' \
+#     pick"cmatrix" \
+#   @abishekvashok/cmatrix
+
+# zinit configure make lbin'!' for @neovim/neovim
+# zinit configure depth'1' make for @zsh-users/zsh
+# zinit configure make lbin'!' for @abishekvashok/cmatrix
+# zinit configure make as'program' pick'bin/automake' for @autotools-mirror/automake
 
 zi snippet OMZ::lib/git.zsh
 zi snippet OMZP::git
