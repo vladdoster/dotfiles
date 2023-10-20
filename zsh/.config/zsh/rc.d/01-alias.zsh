@@ -137,7 +137,6 @@ alias zc='zinit compile'
 alias zgd='cd $ZINIT[BIN_DIR]; ls'
 alias zhd='cd $ZINIT[HOME_DIR]; ls'
 alias zht='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
-alias zic='_edit $ZDOTDIR/rc.d/04-zinit.zsh'
 alias zmld="builtin zmodload"
 # +───────+
 # │ MISC. │
