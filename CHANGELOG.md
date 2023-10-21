@@ -1,3 +1,16 @@
+# [4.40.0](https://github.com/vladdoster/dotfiles/compare/v4.39.0...v4.40.0) (2023-10-21)
+
+
+### Bug Fixes
+
+* remove duplicate zic alias ([8b56bf6](https://github.com/vladdoster/dotfiles/commit/8b56bf65cec7e90a83a5f9135aa2c101ed325960))
+* xcoh & emoji::shrug func ([8fceac1](https://github.com/vladdoster/dotfiles/commit/8fceac1a3c3c5806074ca81040fadbbe59e2bcbe))
+
+
+### Features
+
+* enable cloning zinit fork ([77a3c35](https://github.com/vladdoster/dotfiles/commit/77a3c358e3539ba87200bfcdb7347ef4ed7f9672))
+
 # [4.39.0](https://github.com/vladdoster/dotfiles/compare/v4.38.0...v4.39.0) (2023-10-07)
 
 
