@@ -1,17 +1,18 @@
-# Open an issue in https://github.com/vladdoster/dotfiles if you find a bug,
-# have a feature request, or a question. A zinit-continuum configuration for
-# macOS and Linux.
+#!/usr/bin/env zsh
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
+#
+# zdharma-continuum/zinit config for macOS/Linux arm64/x86_64
 #
 #=== ZINIT ============================================
-typeset -gAH ZI=(HOME_DIR "$HOME/.local/share/zinit")
+typeset -gAH ZI=(HOME_DIR "${HOME}/.local/share/zinit")
 ZI+=(
-  BIN_DIR "$ZI[HOME_DIR]"/zinit.git
+  BIN_DIR "$ZI[HOME_DIR]/zinit.git"
   BRANCH 'fix/update-logging'
   COMPINIT_OPTS '-C'
   COMPLETIONS_DIR "$ZI[HOME_DIR]"/completions
   DEBUG "0"
   FORK 'vladdoster'
-  OPTIMIZE_OUT_OF_DISK_ACCESSES '1'
+  OPTIMIZE_OUT_OF_DISK_ACCESSES '0'
   PLUGINS_DIR "$ZI[HOME_DIR]"/plugins
   REPO 'zinit-t'
   SNIPPETS_DIR "$ZI[HOME_DIR]"/snippets
@@ -19,27 +20,30 @@ ZI+=(
   ZCOMPDUMP_PATH "$ZI[HOME_DIR]"/zcompdump
   ZPFX "$ZI[HOME_DIR]"/polaris
 )
+local ZI_REPO="${ZI[FORK]:-${ZI[SRC]}}/${ZI[REPO]:-zinit}"
 if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]]; then
   {
-    log::info 'downloading zinit'
+    log::info "cloning %B${REPO_URL}%b to %B${(D)ZI[BIN_DIR]}%b"
     command git clone \
-      --branch ${ZI[BRANCH]:-main} \
-      https://github.com/${ZI[FORK]:-${ZI[SRC]}}/${ZI[REPO]:-zinit} \
-      ${ZI[BIN_DIR]}
+      --branch "${ZI[BRANCH]:-main}" \
+      --quiet \
+      "https://github.com/${REPO_URL}" \
+      "${ZI[BIN_DIR]}"
     log::info 'setting up zinit'
     command chmod g-rwX ${ZI[HOME_DIR]} && \
       zcompile "${ZI[BIN_DIR]}/zinit.zsh"
     log::info 'installed zinit'
   } || log::error 'failed to download zinit'
 fi
-if [[ -e ${ZI[BIN_DIR]}/zinit.zsh ]]; then
+if [[ -e "${ZI[BIN_DIR]}/zinit.zsh" ]]; then
   typeset -gAH ZINIT=(${(kv)ZI})
-  builtin source ${ZINIT[BIN_DIR]}/zinit.zsh && \
+  builtin source "${ZINIT[BIN_DIR]}/zinit.zsh" && \
     autoload _zinit && \
     (( ${+_comps} )) && \
     _comps[zinit]=_zinit
 else
   log::error 'failed to find zinit installation'
+  return 1
 fi
 #=== COMPLETIONS ======================================
 local GH_RAW_URL='https://raw.githubusercontent.com'
@@ -149,5 +153,3 @@ zi light-mode for \
     aliases \
       @vladdoster/plugin-zinit-aliases
 }
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
