@@ -23,11 +23,11 @@ ZI+=(
 local ZI_REPO="${ZI[FORK]:-${ZI[SRC]}}/${ZI[REPO]:-zinit}"
 if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]]; then
   {
-    log::info "cloning %B${REPO_URL}%b to %B${(D)ZI[BIN_DIR]}%b"
+    log::info "cloning %B${ZI_REPO}%b to %B${(D)ZI[BIN_DIR]}%b"
     command git clone \
       --branch "${ZI[BRANCH]:-main}" \
       --quiet \
-      "https://github.com/${REPO_URL}" \
+      "https://github.com/${ZI_REPO}" \
       "${ZI[BIN_DIR]}"
     log::info 'setting up zinit'
     command chmod g-rwX ${ZI[HOME_DIR]} && \
