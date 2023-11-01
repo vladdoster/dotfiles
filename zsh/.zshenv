@@ -1,10 +1,8 @@
 #!/usr/bin/env zsh
 
-skip_global_compinit=1
-
-local ZDOTDIR=$HOME/.config/zsh
-
 setopt typeset_silent extended_glob prompt_subst
+
+export ZDOTDIR="$HOME/.config/zsh"
 
 zmodload zsh/{datetime,langinfo,parameter,system,terminfo,zutil} || return
 zmodload -F zsh/files b:{zf_mkdir,zf_mv,zf_rm,zf_rmdir,zf_ln}    || return
