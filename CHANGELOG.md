@@ -1,3 +1,13 @@
+## [4.40.1](https://github.com/vladdoster/dotfiles/compare/v4.40.0...v4.40.1) (2023-11-01)
+
+
+### Bug Fixes
+
+* ensure $ZDOTDIR is set ([548fc1d](https://github.com/vladdoster/dotfiles/commit/548fc1d9ac0af7900dea0ba23df8629d40db17d2))
+* git ignores regex zsh[-_]history ([f6ba5dc](https://github.com/vladdoster/dotfiles/commit/f6ba5dc96683728709a9a9daff0e91f92ee74c9e))
+* zinit configuration parameters  ([8dbc946](https://github.com/vladdoster/dotfiles/commit/8dbc946b48642d1f80f6178a6f65fc76a391af67))
+* zinit repo variable name ([ee27b15](https://github.com/vladdoster/dotfiles/commit/ee27b15d366e6092771c385ef5122e0d73b5cab9))
+
 # [4.40.0](https://github.com/vladdoster/dotfiles/compare/v4.39.0...v4.40.0) (2023-10-21)
 
 
