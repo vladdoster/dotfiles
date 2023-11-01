@@ -8,4 +8,4 @@ dotfiles-latest.tar.gz
 git/**/credentials
 init-buildx
 stow.git
-zsh_history
+zsh[-_]history
