@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 
-ZDOTDIR=${XDG_CONFIG_HOME:-$HOME/.config}/zsh
+typeset -gx ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 SAVEHIST=200000
-HISTSIZE=200000
+HISTSIZE=$SAVEHIST
 : ${HISTFILE=$ZDOTDIR/zsh_history}
 
 setopt extended_history
@@ -14,9 +14,13 @@ setopt extendedglob promptsubst glob_dots
 
 [ -z "$ZPROF" ] || zmodload zsh/zprof
 
-for f in ${ZDOTDIR}/rc.d/<->-*zsh(N); do
-  source "$f"
-done
+if ! (( "$#NO_RC" )); then
+  for f in ${ZDOTDIR}/rc.d/<->-*zsh(N); do
+    source "$f"
+  done
+fi
+
+for func in $^fpath/*(.N:t); builtin autoload -Uz -- "$func" >/dev/null
 
 [ -z "$ZPROF" ] || zprof
 
