@@ -1,0 +1,69 @@
+#autoload
+#
+# emoji
+#
+
+###
+# Output usage information
+###
+function _emoji_usage() {
+  builtin print -- "Usage:"
+  builtin print -- "  emoji <options> [dissappointed|flip|shrug]"
+  builtin print --
+  builtin print -- "Options:"
+  builtin print -- "  -c, --copy    Checkout the specified branch"
+  builtin print -- "  -h, --help    Checkout the specified tag or commit"
+  builtin print -- "  -p, --print   Checkout the specified branch"
+}
+
+###
+# emoji command
+###
+emulate -L zsh
+setopt extended_glob
+zmodload zsh/zutil || return 1
+
+local flag_copy flag_help flag_print
+
+zparseopts -D -E -F -K -- \
+  {c,-copy}=flag_copy \
+  {h,-help}=flag_help \
+  {p,-print}=flag_print \
+  || return 1
+
+# Output help and return if requested
+if [[ -n $flag_help ]]; then
+  _emoji_usage
+  return
+fi
+
+if (( $#@ > 1 )); then
+  builtin print 'emoji: You must only specify one emoji'
+  return 1
+elif (( $#@ == 0 )); then
+  builtin print 'emoji: You must specify an emoji'
+  return 1
+else
+  local emoji=$@
+fi
+
+typeset -gA EMOJIS=(
+  dissappointed 'ಠ_ಠ'
+  flip '（╯°□°）╯ ┻━┻'
+  shrug '¯\_(ツ)_/¯'
+)
+
+if { (){ [ ${(P)${:-${1}[$2]}} ]; } EMOJIS $1 }; then
+  if (( $#flag_copy )); then
+    print -n "emoji: ${emoji} copied to clipboard"
+    print -nr -- ${EMOJIS[$1]} | pbcopy -pboard general
+  else
+    print -nr -- ${EMOJIS[$1]}
+  fi
+else
+  print "emoji: Unknown emoji: $1"
+  print -nPr -- "emoji: Valid emojis: ${(kpj|, |)EMOJIS}"
+  return 1
+fi
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

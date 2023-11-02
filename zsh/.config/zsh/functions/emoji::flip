@@ -1,7 +1,0 @@
-#autoload
-
-builtin emulate -L zsh -o EXTENDED_GLOB
-
-builtin echo -n '（╯°□°）╯ ┻━┻' | command pbcopy
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
