@@ -14,7 +14,7 @@ setopt extendedglob promptsubst glob_dots
 
 [ -z "$ZPROF" ] || zmodload zsh/zprof
 
-if ! (( "$#NO_RC" )); then
+if (( ! $#NO_RC )); then
   for f in ${ZDOTDIR}/rc.d/<->-*zsh(N); do
     source "$f"
   done
