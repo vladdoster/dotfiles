@@ -1,23 +1,20 @@
 #autoload
 
-builtin emulate -L zsh -o EXTENDED_GLOB
+gli () {
+    builtin emulate -L zsh -o EXTENDED_GLOB
 
-if ! git rev-parse --is-inside-work-tree; then
-  echo 'not a git dir, exiting'
-  return 1
-fi
-git log --graph --color=always \
-    --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" \
-| fzf --ansi --preview "echo {} \
-  | grep -o '[a-f0-9]\{7\}' \
-  | head -1 \
-  | xargs -I % sh -c 'git show --color=always %'" \
-      --bind "enter:execute:
-          (grep -o '[a-f0-9]\{7\}' \
-              | head -1 \
-              | xargs -I % sh -c 'git show --color=always % \
-              | less -R') << 'FZF-EOF'
+    if ! git rev-parse --is-inside-work-tree; then
+        print "gli: $PWD is not a git directory"
+        return 1
+    fi
+
+    git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" --graph \
+      | fzf \
+        --ansi \
+        --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | xargs -I % sh -c 'git show --color=always %'" \
+        --bind "enter:execute: (grep -o '[a-f0-9]\{7\}' | head -1 | xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
           {}
 FZF-EOF"
+}
 
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
