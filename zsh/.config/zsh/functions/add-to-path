@@ -1,27 +1,54 @@
 #autoload
+#
+# add-to-path
+#
 
-function add-to-path {
-  local PREPEND
-  zmodload zsh/zutil
-  zparseopts -D -F -K -- {p,-prepend}=PREPEND  || return 1
+add-to-path () {
+    _add-to-path_usage () {
+        print 'Usage: add-to-path [options] [files...]'
+        print 'Options:'
+        print '  -d, --debug        turn on execution tracing'
+        print '  -h, --help         show list of command-line options'
+        print '  -p, --prepend      prepend filepath to $PATH'
+    }
 
-  if [[ $# -gt 1 ]]; then
-    echo Only one directory allowed, aborting...
-    return 1
-  fi
+    setopt localoptions extended_glob
+    zmodload zsh/zutil || return 1
 
-  if [[ $# -lt 1 ]]; then
-    echo Directory undefined, aborting...
-    return 1
-  fi
-
-  if [[ ${path[(i)$1]} -gt ${#path} ]]; then
-    if (( $#PREPEND )); then
-      export PATH=$1:$PATH
-    else
-      export PATH=$PATH:$1
+    local base debug help prepend
+    builtin zparseopts -D -F -E -K h=help -help=help d=debug -debug=debug p=prepend -prepend=prepend || return 1
+    if (( $#debug )); then
+        setopt xtrace
     fi
-  fi
+    if (( $#help )); then
+        _add-to-path_usage
+        return 0
+    fi
+
+    if (( $# > 1 )); then
+        print 'add-to-path: only one argument allowed'
+        return 1
+    fi
+    if (( $# < 1 )); then
+        print 'add-to-path: one argument is required'
+        return 1
+    fi
+    if [[ ! -e ${1} ]]; then
+        print -P -- "add-to-path: file path ${(qq)1} does not exist"
+        return 1
+    fi
+
+    # if [[ ${path[(i)$1]} -gt ${#path} ]]; then
+    #     print 'add-to-path: removed pre-existing entry in path'
+    # fi
+
+    if (( $#prepend )); then
+        export PATH="${1}:${PATH}"
+        print 'add-to-path: prepended entry to path'
+    else
+        export PATH="${PATH}:${1}"
+        print 'add-to-path: appended entry to path'
+    fi
 }
 
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
