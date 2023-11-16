@@ -1,0 +1,42 @@
+#autoload
+#
+# zdd
+#
+
+zdd () {
+    _zdd_usage () {
+        print 'Usage: zdd [options] [files...]'
+        print 'Options:'
+        print '  -d, --debug        turn on execution tracing'
+        print '  -h, --help         show list of command-line options'
+    }
+
+    setopt localoptions extended_glob
+    zmodload zsh/zutil || return 1
+
+    local base debug dest help
+    builtin zparseopts -D -F -E -K h=help -help=help d=debug -debug=debug || return 1
+    if (( $#help )); then
+        _zdd_usage
+        return 0
+    fi
+    if (( $#debug )); then
+        setopt xtrace
+    fi
+
+    base="${ZDOTDIR:-$HOME/.config/zsh}" 
+    dest="$base/${1}" 
+
+    if [[ -e ${dest} ]]; then
+        if [[ -f ${dest} ]]; then
+            ${+commands[nvim]:-vim} ${dest}
+        else
+            builtin cd -q -- "${dest}" && ${=commands[exa]:-command ls} --all --classify --color=always
+        fi
+    else
+        print "zdd: ${dest} does not exist"
+        return 1
+    fi
+}
+
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:

@@ -1,0 +1,10 @@
+#compdef zdd
+
+# _arguments -C "*:completions:_files -W ${ZDOTDIR:-HOME/.config/zsh}/ -g '_*(N:t)'"
+
+_arguments -C \
+    '(-h --help)'{-h,--help}'[Get help for op.]' \
+    '(-d --debug)'{-d,--debug}'[Enable debug mode. Can also be enabled by setting the OP_DEBUG environment variable to true.]' \
+    "1: :_files -W ${ZDOTDIR:-HOME/.config/zsh}/ -g '*(N:t)'"
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
