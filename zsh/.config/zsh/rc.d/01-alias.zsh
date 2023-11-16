@@ -148,6 +148,7 @@ alias get-my-ip='curl ifconfig.co'
 alias get-env='print -lio $(env)'
 alias get-path='print -l ${(@s[:])PATH}'
 alias tmp-md='$EDITOR $(mktemp -t scratch.XXX.md)'
+alias git-repo-website='open $(git remote get-url origin)'
 # +────────+
 # │ PYTHON │
 # +────────+
