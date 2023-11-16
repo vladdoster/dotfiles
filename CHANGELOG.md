@@ -1,3 +1,22 @@
+# [4.41.0](https://github.com/vladdoster/dotfiles/compare/v4.40.1...v4.41.0) (2023-11-16)
+
+
+### Bug Fixes
+
+* add-to-path option parsing & logging ([d6b904e](https://github.com/vladdoster/dotfiles/commit/d6b904ee0baec681654d8c07f11f5d8566edf3c6))
+* expression check for NO_RC in zshrc ([dcb44d5](https://github.com/vladdoster/dotfiles/commit/dcb44d55a6877a857f0d581d482a79c4ed211a7d))
+* rename zsh::clean to zsh-clean ([2c87112](https://github.com/vladdoster/dotfiles/commit/2c87112cb01f831c10f78f44ec74115919d018fd))
+* set function permissions to 644 ([a214716](https://github.com/vladdoster/dotfiles/commit/a214716909fca06c371248395735e02269c9626c))
+* zdd completion descriptions ([c35bed8](https://github.com/vladdoster/dotfiles/commit/c35bed88e3af3eaf68777318705daf63a8614a7e))
+
+
+### Features
+
+* git-repo-website opens git repository URL in browser ([1527943](https://github.com/vladdoster/dotfiles/commit/1527943b377e35dc870a654f7c36cae13c63187d))
+* set NO_RC to skip loading zsh files in rc.d ([4478f57](https://github.com/vladdoster/dotfiles/commit/4478f575ebe0457d07d25886dd16bc26608a77d6))
+* zdd is now a function w/ tab completion ([e2a65ba](https://github.com/vladdoster/dotfiles/commit/e2a65bac057fc2f594b358c0fcbd23b49005d9b4))
+* zsh::clean function removes zsh generated files ([f4843ef](https://github.com/vladdoster/dotfiles/commit/f4843efe93bc3c3ac1a7c66ba0eb2bb68ea42c98))
+
 ## [4.40.1](https://github.com/vladdoster/dotfiles/compare/v4.40.0...v4.40.1) (2023-11-01)
 
 
