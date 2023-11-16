@@ -1,11 +1,11 @@
 #autoload
 #
-# zsh::clean
+# zsh-clean
 # Remove zsh generated files & directories
 #
-zsh::clean () {
+zsh-clean () {
     _zsh_clean_usage () {
-        print -- 'Usage: zsh::clean [options] [files...]'
+        print -- 'Usage: zsh-clean [options] [files...]'
         print -- 'Options:'
         print -- '  --debug            turn on execution tracing'
         print -- '  --dryrun           show files that would be deleted'
@@ -33,18 +33,18 @@ zsh::clean () {
     local -a to_delete=( $(print "${ZDOTDIR}"/**/*.z(comp*|sh_sessions|wc)(N)) ) 
     if (( $#to_delete )); then
         if (( $#dryrun )); then
-            print "zsh::clean: would remove ${#to_delete} files:"
+            print "zsh-clean: would remove ${#to_delete} files:"
             print -C 4 -- $(for f in ${to_delete[@]}; print -- ${f:t})
         else
-            rm -rf "${to_delete[@]}"
-            if (( $? )); then
-                print "zsh::clean: removed ${#to_delete} files"
+            rm -rf ${to_delete[@]}
+            if (( $? == 0 )); then
+                print "zsh-clean: removed ${#to_delete} files"
             else
-                print "zsh::clean: failed to remove files"
+                print "zsh-clean: failed to remove files"
             fi
         fi
     else
-        print -- "zsh::clean: no files to clean"
+        print -- "zsh-clean: no files to clean"
     fi
 }
 # vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
