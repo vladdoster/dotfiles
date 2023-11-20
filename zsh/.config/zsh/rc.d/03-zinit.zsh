@@ -7,12 +7,10 @@
 typeset -gAH ZI=(HOME_DIR "${HOME}/.local/share/zinit")
 ZI+=(
   BIN_DIR "$ZI[HOME_DIR]/zinit.git"
-  BRANCH 'fix/update-logging'
   COMPINIT_OPTS '-C'
   COMPLETIONS_DIR "$ZI[HOME_DIR]"/completions
-  DEBUG "0"
+  DEBUG "1"
   FORK 'vladdoster'
-  OPTIMIZE_OUT_OF_DISK_ACCESSES '0'
   PLUGINS_DIR "$ZI[HOME_DIR]"/plugins
   REPO 'zinit-t'
   SNIPPETS_DIR "$ZI[HOME_DIR]"/snippets
@@ -49,8 +47,6 @@ fi
 local GH_RAW_URL='https://raw.githubusercontent.com'
 znippet() { zi for as'completion' has"${1}" depth'1' light-mode nocompile is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
 znippet 'brew'   'Homebrew/brew/master/completions/zsh'
-znippet 'docker' 'docker/cli/master/contrib/completion/zsh'
-znippet 'fd'     'sharkdp/fd/master/contrib/completion'
 zi as'completion' id-as'auto' is-snippet light-mode for \
   "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh" \
   "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
@@ -70,14 +66,14 @@ zi as'completion' id-as'auto' is-snippet light-mode for \
 #=== ANNEXES ==========================================
 zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink'}
 #=== GITHUB BINARIES ==================================
-zi aliases from'gh-r' lbin light-mode lman nocompile for \
+zi aliases from'gh-r' lbin'!' light-mode lman for \
     if"(( ! $+commands[hyperfine] ))" \
   @sharkdp/hyperfine \
     if"(( ! $+commands[topgrade] ))" \
   @topgrade-rs/topgrade \
     if"(( ! $+commands[delta] ))" \
   @dandavison/delta \
-    dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
+    dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' \
   @junegunn/fzf \
     atload"!(){setopt no_aliases;alias l='eza -blF';alias la='eza -abghilmu';alias ll='eza -al';alias ls='eza --git --group-directories-first';}" \
     if'[[ $VENDOR != apple ]]' \
@@ -85,53 +81,31 @@ zi aliases from'gh-r' lbin light-mode lman nocompile for \
     atload"!(){setopt no_aliases;alias l='exa -blF';alias la='exa -abghilmu';alias ll='exa -al';alias ls='exa --git --group-directories-first';}" \
     if'[[ $VENDOR = apple ]]' \
   @ogham/exa \
-    atload'!(){local i;for i (v vi vim);do alias $i="nvim";done; }' \
+    atload'!(){local i;for i (v vi vim);do alias $i="nvim";done; export EDITOR="nvim"; }' \
     if"[[ ! ${(L)OSTYPE}$(arch) =~ linux.*a(arch|rm)* ]]" \
     lbin'!nvim' \
     nocompletions \
     ver'nightly' \
   @neovim/neovim
 
-# zinit for \
-#     lbin'!' \
-#     make \
-#     null \
-#   @charmbracelet/glow
-#
-zinit configure make'install' for @aspiers/stow
-#
-# zinit for \
-#     configure'--disable-docs --disable-valgrind --with-oniguruma=builtin --enable-static --enable-all-static' \
-#     make \
-#     null \
-#     lbin'!' \
-#   @jqlang/jq
+zi cmake for @abishekvashok/cmatrix
 
-# zinit for \
-#     as'program' \
-#     configure \
-#     make'install' \
-#     pick"cmatrix" \
-#   @abishekvashok/cmatrix
+  # atload'!(){local i;for i (v vi vim);do alias $i="nvim";done; export EDITOR="nvim"; }' \
+  #   @neovim/neovim
 
-# zinit configure make lbin'!' for @neovim/neovim
-# zinit configure depth'1' make for @zsh-users/zsh
-# zinit configure make lbin'!' for @abishekvashok/cmatrix
-# zinit configure make as'program' pick'bin/automake' for @autotools-mirror/automake
-
-zi snippet OMZ::lib/git.zsh
-zi snippet OMZP::git
+# zi snippet OMZP::colored-man-pages
+# zi snippet OMZ::lib/git.zsh
+# zi snippet OMZP::git
 
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=#00dd00,fg=#002b36,bold'
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=#dd0000=#002b36,bold'
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#586e75'
-
 typeset -ga zle_highlight=( isearch:underline paste:none region:standout special:standout suffix:bold )
 
-zi light-mode for \
+zi for \
     atinit'bindkey -M vicmd "^v" edit-command-line' \
   @softmoth/zsh-vim-mode \
-    as'null' lbin'!build/zsd*' make'--always-make' \
+    make \
   @zdharma-continuum/zshelldoc \
     as'null' atclone'./build.zsh' completions lbin'!' \
   @zdharma-continuum/zunit \
@@ -141,7 +115,10 @@ zi light-mode for \
   @zdharma-continuum/history-search-multi-word
 
 (){
-  emulate -LR zsh -o no_aliases
+  # emulate -LR zsh -o no_aliases
+  zinit aliases for \
+    @vladdoster/plugin-zinit-aliases
+
   zinit wait lucid for \
     atinit"zicompinit; zicdreplay" \
       @zdharma-continuum/fast-syntax-highlighting \
@@ -149,7 +126,5 @@ zi light-mode for \
     atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
       @zsh-users/zsh-autosuggestions \
     blockf atpull'zinit creinstall -q .' \
-      @zsh-users/zsh-completions \
-    aliases \
-      @vladdoster/plugin-zinit-aliases
+      @zsh-users/zsh-completions
 }
