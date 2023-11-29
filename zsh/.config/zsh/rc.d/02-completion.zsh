@@ -5,19 +5,19 @@
 #   Robby Russell <robby@planetargon.com>
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
-# Options
-setopt ALWAYS_TO_END       # Move cursor to the end of a completed word.
+setopt ALWAYS_TO_END
 setopt AUTO_CD
-setopt AUTO_LIST           # Automatically list choices on ambiguous completion.
-setopt AUTO_MENU           # Show completion menu on a successive tab press.
-setopt AUTO_PARAM_SLASH    # If completed parameter is a directory, add a trailing slash.
-setopt COMPLETE_IN_WORD    # Complete from both ends of a word.
-setopt GLOB_DOTS           # Perform path search even on command names with slashes.
-setopt PATH_DIRS           # Perform path search even on command names with slashes.
+setopt AUTO_LIST
+setopt AUTO_MENU
+setopt AUTO_PARAM_SLASH
+setopt COMPLETE_IN_WORD
+setopt GLOB_DOTS
 setopt INTERACTIVE_COMMENTS
+setopt PATH_DIRS
+
 unsetopt CASE_GLOB
-unsetopt FLOW_CONTROL      # Disable start/stop characters in shell editor.
-unsetopt MENU_COMPLETE     # Do not autoselect the first completion entry.
+unsetopt FLOW_CONTROL
+unsetopt MENU_COMPLETE
 
 zstyle '*' single-ignored show
 zstyle ':completion:*' completer _expand_alias _complete _match _approximate _ignored
@@ -27,7 +27,6 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*' 'l:|=* r:
 zstyle ':completion:*' rehash true
 zstyle ':completion:*' squeeze-slashes true
 zstyle ':completion:*' verbose yes
-
 zstyle ':completion:*:(rm|kill|diff):*' ignore-line other
 zstyle ':completion:*:*:*:*:*' ignore-line 'yes'
 zstyle ':completion:*:*:*:*:*' menu select
@@ -36,41 +35,32 @@ zstyle ':completion:*:*:-command-:*:*' group-order functions builtins commands
 zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-directories
 zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
-
 zstyle ':completion:*:*:kill:*' force-list always
 zstyle ':completion:*:*:kill:*' insert-ids single
 zstyle ':completion:*:*:kill:*' menu yes select
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;36=0=01'
-
 zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
 zstyle ':completion:*:approximate:*' max-errors 1 numeric
 zstyle ':completion:*:corrections' format ' %F{green}-- %d (errors: %e) --%f'
-
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:default' list-prompt '%S%M matches%s'
-
 zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
 zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
-
 zstyle ':completion:*:history-words' list false
 zstyle ':completion:*:history-words' menu yes
 zstyle ':completion:*:history-words' remove-all-dups yes
 zstyle ':completion:*:history-words' stop yes
-
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:manuals.(^1*)' insert-sections true
 zstyle ':completion:*:match:*' original only
 zstyle ':completion:*:matches' group 'yes'
 zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
-
 zstyle ':completion:*:options' auto-description '%d'
 zstyle ':completion:*:options' description 'yes'
-
 zstyle ':completion:*:rm:*' file-patterns '*:all-files'
 zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
 zstyle ':completion::*:(-command-|export):*' fake-parameters ${${${_comps[(I)-value-*]#*,}%%,*}:#-*-}
-
 zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
 zstyle ':completion:*:ssh:*' group-order users hosts-domain hosts-host users hosts-ipaddr
 zstyle ':completion:*:ssh:*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
@@ -79,16 +69,7 @@ ${=${=${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) 2>/dev/null)"}%%[#|
 ${=${(f)"$(cat /etc/hosts(|)(N) <<(ypcat hosts 2>/dev/null))"}%%\#*}
 ${=${${${${(@M)${(f)"$(cat ~/.ssh/config 2>/dev/null)"}:#Host *}#Host }:#*\**}:#*\?*}}
 )'
-# Don't complete uninteresting users...
-zstyle ':completion:*:*:*:users' ignored-patterns \
-adm amanda apache avahi beaglidx bin cacti canna clamav daemon \
-dbus distcache dovecot fax ftp games gdm gkrellmd gopher \
-hacluster haldaemon halt hsqldb ident junkbust ldap lp mail \
-mailman mailnull mldonkey mysql nagios \
-named netdump news nfsnobody nobody nscd ntp nut nx openvpn \
-operator pcap postfix postgres privoxy pulse pvm quagga radvd \
-rpc rpcuser rpm shutdown squid sshd sync uucp vcsa xfs '_*'
-
+zstyle ':completion:*:*:*:users' ignored-patterns adm amanda apache avahi beaglidx bin cacti canna clamav daemon dbus distcache dovecot fax ftp games gdm gkrellmd gopher hacluster haldaemon halt hsqldb ident junkbust ldap lp mail mailman mailnull mldonkey mysql nagios named netdump news nfsnobody nobody nscd ntp nut nx openvpn operator pcap postfix postgres privoxy pulse pvm quagga radvd rpc rpcuser rpm shutdown squid sshd sync uucp vcsa xfs '_*'
 zstyle ':completion:*:(scp|rsync):*' group-order users files all-files hosts-domain hosts-host hosts-ipaddr
 zstyle ':completion:*:(scp|rsync):*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
