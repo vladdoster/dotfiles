@@ -17,7 +17,8 @@ BUILD_DATE := $(shell date -u +%FT%TZ) # https://github.com/opencontainers/image
 PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --no-cache-dir --target=$$HOME/.local/share/python
 PY_PKGS := beautysh black bpytop isort linkify mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pip pylint pynvim reorder-python-imports
 PY_VER ?= $(shell python3 --version | awk '{print $$2}' | cut -d "." -f 1-2)
-PY_PIP := python$(PY_VER) -m pip
+PY_PIP := python3 -m pip
+# PY_PIP := python$(PY_VER) -m pip
 
 DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-$(CONTAINER_ARCH)-volume,destination=/home --security-opt seccomp=unconfined
 STOW_OPTS := --target=$$HOME --verbose=1
@@ -106,7 +107,7 @@ py-version: ## Print python3 version
 	$(info ==> Python version: $(PY_VER))
 
 py-pip-install: py-version ## Install pip
-	$(PY_VER) -m ensurepip --upgrade
+	curl https://bootstrap.pypa.io/get-pip.py | $(PY_VER)
 
 py-pkgs: py-version ## Install python pkgs
 	$(info ==> installing py pkgs)
