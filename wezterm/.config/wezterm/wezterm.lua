@@ -12,7 +12,7 @@ config = {
   adjust_window_size_when_changing_font_size=false,
   audible_bell='Disabled',
   check_for_updates=false,
-  color_scheme='Macintosh (base16)',
+  color_scheme='Windows High Contrast (base16)', -- 'Windows NT (base16)'
   enable_csi_u_key_encoding=true,
   enable_scroll_bar=true,
   enable_tab_bar=true,
@@ -34,7 +34,8 @@ config = {
     {action=wezterm.action.SplitPane {direction='Down', size={Percent=50}}, mods='SUPER|SHIFT', key='Enter'},
     {action=wezterm.action.SplitPane {direction='Right', size={Percent=50}}, mods='SUPER', key='Enter'},
     {action=wezterm.action.ToggleFullScreen, mods='ALT|CTRL', key='f'},
-    {key='w', mods='SUPER', action=wezterm.action.CloseCurrentPane {confirm=true}}
+    {key='w', mods='SUPER', action=wezterm.action.CloseCurrentPane {confirm=true}},
+    {key = 'l', mods = 'ALT', action = wezterm.action.ShowLauncher},
   },
   mouse_bindings = {
     { -- Click only selects text and doesn't open hyperlinks
