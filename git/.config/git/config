@@ -91,6 +91,7 @@
   cob = checkout -b
   d = diff
   ds = diff --staged
+  nuke = !sh -c 'git reset --hard && git clean -fxd'
   o   = checkout
   ob  = checkout -b
   om  = checkout master
