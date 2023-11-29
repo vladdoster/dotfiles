@@ -1,6 +1,5 @@
 #!/usr/bin/env zsh
 
-typeset -gx ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 SAVEHIST=200000
 HISTSIZE=$SAVEHIST
 : ${HISTFILE=$ZDOTDIR/zsh_history}
@@ -20,8 +19,8 @@ if (( ! $#NO_RC )); then
   done
 fi
 
-for func in $^fpath/*(.N:t); builtin autoload -Uz -- "$func" >/dev/null
-
+# for func in $^fpath/*(.N:t); builtin autoload -Uz -- "$func" >/dev/null
+# export PATH="/opt/homebrew/bin:$PATH"
 [ -z "$ZPROF" ] || zprof
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
