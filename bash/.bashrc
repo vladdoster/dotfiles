@@ -19,11 +19,4 @@ WHITE="\[\e[1;37m\]"
 
 PS1="[$WHITE\u@\h\[\e[m\] $YELLOW\t] $BLUE\w $GREEN\$(parse_git_branch) $RED\$(git_stashes_count)$RED\$ \[\e[m\]$GRAY"
 
-# Local Variables:
-# mode: Shell-Script
-# sh-indentation: 2
-# indent-tabs-mode: nil
-# sh-basic-offset: 2
-# End:
 # vim: ft=bash sw=2 ts=2 et
-. "$HOME/.cargo/env"
