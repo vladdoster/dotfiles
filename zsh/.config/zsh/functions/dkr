@@ -52,114 +52,118 @@ _color() {
 # sandbox subcommands
 #
 _dkr_sandbox_run(){
-    # if [[ -n "$(docker image ls --filter=reference=sandbox-${platform} --quiet)" ]]; then
     docker run \
       --hostname "sbox-${distro}-${platform}" \
       --interactive \
-      --mount source=sbox-${distro}-${platform},destination=/home \
-      --platform linux/${platform} \
+      --mount source="sbox-${distro}-${platform}",destination=/home \
+      --platform "linux/${platform}" \
       --tty \
       sbox-${distro}-${platform}
-  # else
-  #   if _dkr_sandbox_build; then
-  #     _dkr_sandbox_run
-  #   else
-  #     _log $(_color red "Error: Unable to run sandbox")
-  #     return 1
-  #   fi
-  # fi
 }
 
 _dkr_sandbox_build() {
-  docker buildx build \
+    local dockerfile
+    case $distro in
+        alpine)
+            dockerfile=$(cat <<-'DOCKERFILE'
+            ARG DISTRO=alpine
+            ARG PLATFORM=amd64
+            FROM ${PLATFORM}/${DISTRO}:latest
+            ENV PUID 1001
+            ENV USER user
+            ENV HOME /home/${USER}
+            RUN apk update --no-check-certificate \
+                && apk add --no-check-certificate \
+                    autoconf automake \
+                    bash build-base \
+                    cmake coreutils curl \
+                    exa \
+                    file \
+                    gcc git go delta \
+                    jq \
+                    libuser linux-headers \
+                    ncurses-dev neovim \
+                    pcre-dev python3-dev \
+                    rsync \
+                    sudo stow \
+                    vim \
+                    xz \
+                    zlib-dev zsh
+            RUN adduser -D ${USER} -s $(which zsh) -g sudo \
+             && mkdir -p ${HOME}/.config \
+             && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
+             && chown --recursive ${USER} ${HOME}
+            USER ${USER}
+            WORKDIR ${HOME}
+            RUN export GIT_SSL_NO_VERIFY=1 \
+             && git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
+            ENTRYPOINT ["zsh"]
+            CMD ["-i"]
+DOCKERFILE
+)
+            ;;
+        debian|ubuntu)
+            dockerfile=$(cat <<-'DOCKERFILE'
+            ARG DISTRO=debian
+            ARG PLATFORM=amd64
+            FROM ${DISTRO}:latest
+            ENV USER user
+            ENV HOME /home/${USER}
+            ENV DEBIAN_FRONTEND noninteractive
+            RUN apt-get update && apt-get install -y --no-install-recommends \
+                autoconf autogen automake \
+                build-essential bzip2 \
+                ca-certificates cmake coreutils curl \
+                file \
+                g++ gawk git \
+                jq \
+                less libz-dev locales \
+                make \
+                sudo stow subversion \
+                tzdata \
+                unzip \
+                wget \
+                xz-utils \
+                zsh
+            RUN useradd \
+                --create-home \
+                --gid root --groups sudo \
+                --home-dir /home/${USER} \
+                --shell "$(which zsh)" \
+                --uid 1001 \
+                ${USER} \
+             && mkdir -p /home/${USER}/.config \
+             && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
+             && passwd --delete ${USER} \
+             && chown --recursive ${USER} /home/${USER}
+            USER ${USER}
+            WORKDIR ${HOME}
+            RUN export GIT_SSL_NO_VERIFY=1 \
+             && git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
+            ENTRYPOINT ["zsh"]
+            CMD ["-i"]
+DOCKERFILE
+)
+            ;;
+        *)
+            _log $(_color red "Unsupported distrobution '${distro}'")
+            return 1
+            ;;
+    esac
+
+    _log $(_color green "Building ${platform} ${distro} container")
+    docker buildx build \
         --build-arg DISTRO="${distro}" \
         --build-arg PLATFORM="${platform}" \
+        --build-arg USER="user" \
         --load \
         --platform linux/"${platform}" \
         --progress=plain \
         --tag sbox-"${distro}-${platform}":latest \
-        -<<'EOF'
-    ARG DISTRO=debian
-    ARG PLATFORM=amd64
-    FROM ${DISTRO}:latest
-    ENV USER user
-    ENV HOME /home/$USER
-    ENV DEBIAN_FRONTEND noninteractive
-    RUN apt-get update \
-     && apt-get install -y --no-install-recommends \
-        autoconf autogen automake \
-        build-essential bzip2 \
-        ca-certificates cmake coreutils curl \
-        file \
-        g++ gawk git \
-        jq \
-        less libz-dev locales \
-        make \
-        sudo stow subversion \
-        tzdata \
-        unzip \
-        wget \
-        xz-utils \
-        zsh
-    RUN useradd \
-          --create-home \
-          --gid root --groups sudo \
-          --home-dir /home/${USER} \
-          --shell "$(which zsh)" \
-          --uid 1001 \
-          ${USER} \
-     && mkdir -p /home/${USER}/.config \
-     && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
-     && passwd --delete ${USER} \
-     && chown --recursive ${USER} /home/${USER}
-    USER ${USER}
-    WORKDIR ${HOME}
-    RUN export GIT_SSL_NO_VERIFY=1 \
-     && git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
-    ENTRYPOINT ["zsh"]
-    CMD ["-i"]
+        -<<EOF
+        ${dockerfile}
 EOF
 }
-  # docker buildx build --load --platform linux/"${platform}" --progress=plain --tag sandbox-"${platform}":latest -<<'EOF'
-  #   FROM alpine:latest
-  #   ARG HOSTNAME=zi@docker
-  #   ARG PUID=1000
-  #   ARG ZUSER=z-user
-  #   ARG ZI_BIN_DIR=/home/${ZUSER}/.zi/bin
-  #   ARG ZI_HOME_DIR=/home/${ZUSER}/.zi
-  #   ENV ZUSER=${ZUSER} PUID=${PUID}
-  #   RUN apk update --no-check-certificate \
-  #    && apk add --no-check-certificate curl bash \
-  #           autoconf \
-  #           bash build-base \
-  #           coreutils curl \
-  #           file \
-  #           git go \
-  #           jq \
-  #           libuser \
-  #           ncurses-dev \
-  #           pcre-dev \
-  #           rsync \
-  #           sudo stow \
-  #           vim \
-  #           xz \
-  #           zlib-dev zsh
-  #   RUN adduser --disabled-password \
-  #           --gecos "" \
-  #           --home "/home/${ZUSER}" \
-  #           --shell "$(which zsh)" \
-  #           --uid "${PUID}" \
-  #           ${ZUSER} \
-  #    && mkdir -p /home/${ZUSER}/.config \
-  #    && echo "${ZUSER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
-  #    && chown --recursive ${ZUSER} /home/${ZUSER}
-  #   USER ${ZUSER}
-  #   WORKDIR /home/${ZUSER}
-  #   RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/z-shell/zi-src/main/lib/sh/install.sh)" -- -i skip \
-  #    && export GIT_SSL_NO_VERIFY=1 \
-  #    && git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
-  #   ENTRYPOINT ["zsh"]
-  #   CMD ["-i"]
 
 #
 # sandbox command

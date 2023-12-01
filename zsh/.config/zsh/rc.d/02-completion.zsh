@@ -5,19 +5,21 @@
 #   Robby Russell <robby@planetargon.com>
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
-setopt ALWAYS_TO_END
-setopt AUTO_CD
-setopt AUTO_LIST
-setopt AUTO_MENU
-setopt AUTO_PARAM_SLASH
-setopt COMPLETE_IN_WORD
-setopt GLOB_DOTS
-setopt INTERACTIVE_COMMENTS
-setopt PATH_DIRS
+setopt always_to_end
+setopt auto_cd
+setopt auto_list
+setopt auto_menu
+setopt auto_param_slash
+setopt complete_in_word
+setopt glob_dots
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups 
+setopt interactive_comments
+setopt path_dirs
 
-unsetopt CASE_GLOB
-unsetopt FLOW_CONTROL
-unsetopt MENU_COMPLETE
+unsetopt case_glob
+unsetopt flow_control
+unsetopt menu_complete
 
 zstyle '*' single-ignored show
 zstyle ':completion:*' completer _expand_alias _complete _match _approximate _ignored

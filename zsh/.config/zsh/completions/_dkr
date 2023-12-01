@@ -39,7 +39,7 @@ case $state in
                 ret=0
                 ;;
             sandbox)
-                local -a distros=('debian' 'ubuntu') platforms=('amd64' 'arm64')
+                local -a distros=('alpine' 'debian' 'ubuntu') platforms=('amd64' 'arm64' 'arm64v8')
                 _arguments -C \
                     '(-d --distro)'{-d,--distro}"[specify the Linux distro for sbox]:arg:($distros)" \
                     '(-p --platform)'{-p,--platform}"[specify the platform for sbox]:arg:($platforms)" \
