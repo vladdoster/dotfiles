@@ -10,9 +10,7 @@ ZI+=(
   COMPINIT_OPTS '-C'
   COMPLETIONS_DIR "$ZI[HOME_DIR]"/completions
   DEBUG "1"
-  FORK 'vladdoster'
   PLUGINS_DIR "$ZI[HOME_DIR]"/plugins
-  REPO 'zinit-t'
   SNIPPETS_DIR "$ZI[HOME_DIR]"/snippets
   SRC 'zdharma-continuum'
   ZCOMPDUMP_PATH "$ZI[HOME_DIR]"/zcompdump
@@ -44,16 +42,17 @@ else
   return 1
 fi
 #=== COMPLETIONS ======================================
-local GH_RAW_URL='https://raw.githubusercontent.com'
-znippet() { zi for as'completion' has"${1}" depth'1' light-mode nocompile is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
-znippet 'brew'   'Homebrew/brew/master/completions/zsh'
-zi as'completion' id-as'auto' is-snippet light-mode for \
-  "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh" \
-  "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
+# local GH_RAW_URL='https://raw.githubusercontent.com'
+# znippet() { zi for as'completion' has"${1}" depth'1' light-mode nocompile is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
+# znippet 'brew'   'Homebrew/brew/master/completions/zsh'
+# zi as'completion' id-as'auto' is-snippet light-mode for \
+#   "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh" \
+#   "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
+zinit aliases id-as for @vladdoster/z{init,sh}-aliases.plugin.zsh
 #=== PROMPT ===========================================
 (( MINIMAL )) || {
   eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
-  zinit for compile'(async|pure).zsh' multisrc'(async|pure).zsh' atinit"
+  zinit for compile'(async|pure).zsh' multisrc'(async|pure).zsh' light-mode atinit"
     PURE_GIT_DOWN_ARROW='%1{↓%}'; PURE_GIT_UP_ARROW='%1{↑%}'
     PURE_PROMPT_SYMBOL='${HOST}%2{ ᐳ%}'; PURE_PROMPT_VICMD_SYMBOL='${HOST}%2{ ᐸ%}'
     zstyle ':prompt:pure:git:action' color 'yellow'
@@ -64,14 +63,12 @@ zi as'completion' id-as'auto' is-snippet light-mode for \
   @sindresorhus/pure
 }
 #=== ANNEXES ==========================================
-zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods','binary-symlink'}
+zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods'}
+zi light-mode ver'feat/logging' for @"${ZI[SRC]}/zinit-annex-binary-symlink"
 #=== GITHUB BINARIES ==================================
 zi aliases from'gh-r' lbin'!' light-mode lman for \
-    if"(( ! $+commands[hyperfine] ))" \
   @sharkdp/hyperfine \
-    if"(( ! $+commands[topgrade] ))" \
   @topgrade-rs/topgrade \
-    if"(( ! $+commands[delta] ))" \
   @dandavison/delta \
     dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' \
   @junegunn/fzf \
@@ -83,12 +80,9 @@ zi aliases from'gh-r' lbin'!' light-mode lman for \
   @ogham/exa \
     atload'!(){local i;for i (v vi vim);do alias $i="nvim";done; export EDITOR="nvim"; }' \
     if"[[ ! ${(L)OSTYPE}$(arch) =~ linux.*a(arch|rm)* ]]" \
-    lbin'!nvim' \
     nocompletions \
     ver'nightly' \
   @neovim/neovim
-
-zi cmake for @abishekvashok/cmatrix
 
   # atload'!(){local i;for i (v vi vim);do alias $i="nvim";done; export EDITOR="nvim"; }' \
   #   @neovim/neovim
@@ -102,24 +96,25 @@ export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=#dd0000=#002b36,bold'
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#586e75'
 typeset -ga zle_highlight=( isearch:underline paste:none region:standout special:standout suffix:bold )
 
-zi for \
+zi light-mode for \
     atinit'bindkey -M vicmd "^v" edit-command-line' \
   @softmoth/zsh-vim-mode \
-    make \
+    null make"prefix=$ZPFX all install" \
   @zdharma-continuum/zshelldoc \
-    as'null' atclone'./build.zsh' completions lbin'!' \
+    as'null' completions atclone'./build.zsh' lbin \
   @zdharma-continuum/zunit \
     atload'bindkey "^[[A" history-substring-search-up;bindkey "^[[B" history-substring-search-down' \
+    light-mode \
   @zsh-users/zsh-history-substring-search \
     compile'h*~*.zwc' \
+    light-mode \
   @zdharma-continuum/history-search-multi-word
 
 (){
   # emulate -LR zsh -o no_aliases
-  zinit aliases id-as for @vladdoster/z{init,sh}-aliases.plugin.zsh
-    
 
-  zinit wait lucid for \
+
+  zinit wait light-mode lucid for \
     atinit"zicompinit; zicdreplay" \
       @zdharma-continuum/fast-syntax-highlighting \
     atload"_zsh_autosuggest_start" \

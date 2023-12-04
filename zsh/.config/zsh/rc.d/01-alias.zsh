@@ -1,6 +1,4 @@
-alias -- -='cd -q -'
-alias -- b='-'
-alias %= \$=
+# alias %= \$=
 autoload -Uz zmv
 alias zmv='zmv -Mv'
 alias zcp='zmv -Cv'
@@ -9,9 +7,6 @@ alias -s {css,gradle,html,js,json,md,patch,properties,txt,xml,yml}=$PAGER
 alias -s gz='gzip -l'
 alias -s {log,out}='tail -F'
 alias -g B='brew'
-alias -g C='cat'
-alias -g G='grep -R '
-alias -g L='less'
 alias -g S='sort --unique'
 alias -g W='| wc -l'
 
@@ -62,11 +57,10 @@ if [[ $OSTYPE =~ darwin* ]]; then
 fi
 
 alias bashly_edge='docker run --rm -it --user $(id -u):$(id -g) --volume "$PWD:/app" dannyben/bashly:edge'
-alias rmr="rm -rf --"
 alias tailf="less +F -R"
-alias l='ls -a'
-alias la='ls -a'
-alias ll='ls -al'
+# alias l='ls -a'
+# alias la='ls -a'
+# alias ll='ls -al'
 
 emulate -L zsh
 setopt extendedglob
@@ -82,7 +76,6 @@ for k v in hscfg '.hammerspoon/init.lua' sshrc '.ssh/config' zec '.zshenv' zpc '
     builtin alias -- $k="_edit ${HOME}/${v}" || true
 done
 
-alias zrld='builtin exec zsh -i'
 alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},{auto,}s}; ziprune; zrld; cd -'
 
 typeset -A pairs=(bin '~/.local/bin' dl '~/Downloads' hsd '~/.hammerspoon' xch '~/.config' xdh '~/.local/share' zcf '$ZDOTDIR/rc.d' df '${DOTFILES:-~/.config/dotfiles}') 
@@ -90,15 +83,13 @@ for k v in ${(kv)pairs[@]}; do
     builtin alias -- "$k"="_goto $v" || true
 done
 
-for k v in g '\git' gd '\git diff' gs '\git status' gsu '\git submodule update --merge --remote'; do
-    builtin alias -- $k="$v" || true
-done
+# for k v in g '\git' gd '\git diff' gs '\git status' gsu '\git submodule update --merge --remote'; do
+#     builtin alias -- $k="$v" || true
+# done
 
 alias auld='builtin autoload'
 
 alias zc='zinit compile'
-alias zgd='cd $ZINIT[BIN_DIR]; ls'
-alias zhd='cd $ZINIT[HOME_DIR]; ls'
 alias zht='hyperfine --warmup 100 --runs 10000 "/bin/ls"'
 alias zmld="builtin zmodload"
 
@@ -107,7 +98,6 @@ alias gen-passwd='openssl rand -base64 24'
 alias get-my-ip='curl ifconfig.co'
 alias get-env='print -lio $(env)'
 
-alias git-repo-website='open $(git remote get-url origin)'
 alias http-serve='python3 -m http.server'
 alias get-localnet-hosts='sudo arp-scan --format="\${Name;-30}\${ip}" --localnet --ignoredups --plain --resolve | sort --human-numeric-sort'
 alias get-open-ports='sudo lsof -i -n -P | grep TCP'
