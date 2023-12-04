@@ -116,8 +116,8 @@ zi for \
 
 (){
   # emulate -LR zsh -o no_aliases
-  zinit aliases for \
-    @vladdoster/plugin-zinit-aliases
+  zinit aliases id-as for @vladdoster/z{init,sh}-aliases.plugin.zsh
+    
 
   zinit wait lucid for \
     atinit"zicompinit; zicdreplay" \
