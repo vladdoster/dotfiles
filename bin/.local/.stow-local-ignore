@@ -1,15 +1,2 @@
-\.DS_Store
-\.lesshst
-\.zsh_history
-\.\#.+
-\.cvsignore
-\.git*
-^/.github
-\.hg
-\.svn
-^/LICENSE.*
-^/READMVE.*
-share/nvim/
 state/
-bin/python
-
+share/

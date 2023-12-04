@@ -1,7 +1,6 @@
-/.local/bin/python
-/.local/bin/stow
-/.local/share/nvim
-/.local/share/zinit
+.local/share/*
+\.local/share
+\.local/bin/python
 \.DS_Store
 \.\#.+
 \.cvsignore
