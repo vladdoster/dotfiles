@@ -5,19 +5,20 @@
 #
 #=== ZINIT ============================================
 local zi_dir="${HOME}/.local/share/zinit"
+hash -d zinit="${HOME}/.local/share/zinit"
 typeset -gAH ZINIT=()
 ZINIT+=(
-  BIN_DIR "${zi_dir}/zinit.git"
+  BIN_DIR ~zinit/zinit.git
   COMPINIT_OPTS '-C'
-  COMPLETIONS_DIR "${zi_dir}/completions"
+  COMPLETIONS_DIR ~zinit/completions
   FORK 'vladdoster'
-  HOME_DIR "${zi_dir}"
-  PLUGINS_DIR "${zi_dir}/plugins"
+  HOME_DIR ~zinit
+  PLUGINS_DIR ~zinit/plugins
   REPO 'zinit-t' 
-  SNIPPETS_DIR "${zi_dir}/snippets"
+  SNIPPETS_DIR ~zinit/snippets
   SRC 'zdharma-continuum'
-  ZCOMPDUMP_PATH "${zi_dir}/zcompdump"
-  ZPFX "${zi_dir}/polaris"
+  ZCOMPDUMP_PATH ~zinit/zcompdump
+  ZPFX ~zinit/polaris
 )
 local ZI_REPO="${ZINIT[FORK]:-${ZINIT[SRC]}}/${ZINIT[REPO]:-zinit}"
 if [[ ! -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
@@ -29,7 +30,7 @@ if [[ ! -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
       "https://github.com/${ZI_REPO}" \
       "${ZINIT[BIN_DIR]}"
     log::info 'setting up zinit'
-    command chmod g-rwX ${ZINIT[HOME_DIR]} && \
+    command chmod g-rwX ~zinit && \
       zcompile "${ZINIT[BIN_DIR]}/zinit.zsh"
     log::info 'installed zinit'
   } || log::error 'failed to download zinit'
@@ -50,7 +51,7 @@ local GH_RAW_URL='https://raw.githubusercontent.com'
 zi as'completion' id-as'auto' is-snippet light-mode for \
   "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh"
 #   "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
-zinit aliases id-as for @vladdoster/z{init,sh}-aliases.plugin.zsh
+zinit aliases for @vladdoster/z{init,sh}-aliases.plugin.zsh
 #=== PROMPT ===========================================
 (( MINIMAL )) || {
   eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
