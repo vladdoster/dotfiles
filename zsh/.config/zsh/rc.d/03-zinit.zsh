@@ -4,35 +4,37 @@
 # zdharma-continuum/zinit config for macOS/Linux arm64/x86_64
 #
 #=== ZINIT ============================================
-typeset -gAH ZI=(HOME_DIR "${HOME}/.local/share/zinit")
-ZI+=(
-  BIN_DIR "$ZI[HOME_DIR]/zinit.git"
+local zi_dir="${HOME}/.local/share/zinit"
+typeset -gAH ZINIT=()
+ZINIT+=(
+  BIN_DIR "${zi_dir}/zinit.git"
   COMPINIT_OPTS '-C'
-  COMPLETIONS_DIR "$ZI[HOME_DIR]"/completions
-  DEBUG "1"
-  PLUGINS_DIR "$ZI[HOME_DIR]"/plugins
-  SNIPPETS_DIR "$ZI[HOME_DIR]"/snippets
+  COMPLETIONS_DIR "${zi_dir}/completions"
+  FORK 'vladdoster'
+  HOME_DIR "${zi_dir}"
+  PLUGINS_DIR "${zi_dir}/plugins"
+  REPO 'zinit-t' 
+  SNIPPETS_DIR "${zi_dir}/snippets"
   SRC 'zdharma-continuum'
-  ZCOMPDUMP_PATH "$ZI[HOME_DIR]"/zcompdump
-  ZPFX "$ZI[HOME_DIR]"/polaris
+  ZCOMPDUMP_PATH "${zi_dir}/zcompdump"
+  ZPFX "${zi_dir}/polaris"
 )
-local ZI_REPO="${ZI[FORK]:-${ZI[SRC]}}/${ZI[REPO]:-zinit}"
-if [[ ! -e $ZI[BIN_DIR]/zinit.zsh ]]; then
+local ZI_REPO="${ZINIT[FORK]:-${ZINIT[SRC]}}/${ZINIT[REPO]:-zinit}"
+if [[ ! -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
   {
-    log::info "cloning %B${ZI_REPO}%b to %B${(D)ZI[BIN_DIR]}%b"
+    log::info "cloning %B${ZI_REPO}%b to %B${(D)ZINIT[BIN_DIR]}%b"
     command git clone \
-      --branch "${ZI[BRANCH]:-main}" \
+      --branch "${ZINIT[BRANCH]:-main}" \
       --quiet \
       "https://github.com/${ZI_REPO}" \
-      "${ZI[BIN_DIR]}"
+      "${ZINIT[BIN_DIR]}"
     log::info 'setting up zinit'
-    command chmod g-rwX ${ZI[HOME_DIR]} && \
-      zcompile "${ZI[BIN_DIR]}/zinit.zsh"
+    command chmod g-rwX ${ZINIT[HOME_DIR]} && \
+      zcompile "${ZINIT[BIN_DIR]}/zinit.zsh"
     log::info 'installed zinit'
   } || log::error 'failed to download zinit'
 fi
-if [[ -e "${ZI[BIN_DIR]}/zinit.zsh" ]]; then
-  typeset -gAH ZINIT=(${(kv)ZI})
+if [[ -e "${ZINIT[BIN_DIR]}/zinit.zsh" ]]; then
   builtin source "${ZINIT[BIN_DIR]}/zinit.zsh" && \
     autoload _zinit && \
     (( ${+_comps} )) && \
@@ -42,11 +44,11 @@ else
   return 1
 fi
 #=== COMPLETIONS ======================================
-# local GH_RAW_URL='https://raw.githubusercontent.com'
+local GH_RAW_URL='https://raw.githubusercontent.com'
 # znippet() { zi for as'completion' has"${1}" depth'1' light-mode nocompile is-snippet "${GH_RAW_URL}/${2}/_${1}"; }
 # znippet 'brew'   'Homebrew/brew/master/completions/zsh'
-# zi as'completion' id-as'auto' is-snippet light-mode for \
-#   "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh" \
+zi as'completion' id-as'auto' is-snippet light-mode for \
+  "${GH_RAW_URL}/git/git/master/contrib/completion/git-completion.zsh"
 #   "${GH_RAW_URL}/Homebrew/homebrew-services/master/completions/zsh/_brew_services"
 zinit aliases id-as for @vladdoster/z{init,sh}-aliases.plugin.zsh
 #=== PROMPT ===========================================
@@ -63,8 +65,8 @@ zinit aliases id-as for @vladdoster/z{init,sh}-aliases.plugin.zsh
   @sindresorhus/pure
 }
 #=== ANNEXES ==========================================
-zi light-mode for @"${ZI[SRC]}/zinit-annex-"{'linkman','patch-dl','submods'}
-zi light-mode ver'feat/logging' for @"${ZI[SRC]}/zinit-annex-binary-symlink"
+zi light-mode for @"${ZINIT[SRC]}/zinit-annex-"{'linkman','patch-dl','submods'}
+zi light-mode ver'feat/logging' for @"${ZINIT[SRC]}/zinit-annex-binary-symlink"
 #=== GITHUB BINARIES ==================================
 zi aliases from'gh-r' lbin'!' light-mode lman for \
   @sharkdp/hyperfine \
@@ -87,6 +89,7 @@ zi aliases from'gh-r' lbin'!' light-mode lman for \
   # atload'!(){local i;for i (v vi vim);do alias $i="nvim";done; export EDITOR="nvim"; }' \
   #   @neovim/neovim
 
+
 # zi snippet OMZP::colored-man-pages
 # zi snippet OMZ::lib/git.zsh
 # zi snippet OMZP::git
@@ -101,7 +104,7 @@ zi light-mode for \
   @softmoth/zsh-vim-mode \
     null make"prefix=$ZPFX all install" \
   @zdharma-continuum/zshelldoc \
-    as'null' completions atclone'./build.zsh' lbin \
+    as'null' completions atclone'./build.zsh' lbin'!' \
   @zdharma-continuum/zunit \
     atload'bindkey "^[[A" history-substring-search-up;bindkey "^[[B" history-substring-search-down' \
     light-mode \
