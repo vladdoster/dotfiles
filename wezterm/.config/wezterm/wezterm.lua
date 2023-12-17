@@ -21,6 +21,7 @@ config = {
   font_size=22,
   force_reverse_video_cursor=true,
   hide_tab_bar_if_only_one_tab=true,
+  max_fps = 120,
   native_macos_fullscreen_mode=true,
   pane_focus_follows_mouse = true,
   quit_when_all_windows_are_closed=false,
