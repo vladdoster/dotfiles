@@ -4,7 +4,9 @@ zmodload -i zsh/parameter
 autoload -Uz zkbd
 
 function _accept-line-with-url {
+  setopt localoptions extended_glob
   if [[ $BUFFER =~ ^https.*git ]]; then
+    BUFFER="${BUFFER//\/tree\/*/.git}"
     echo $BUFFER >> $HISTFILE
     fc -R
     BUFFERz="git clone $BUFFER && cd $(basename $BUFFER .git)"
