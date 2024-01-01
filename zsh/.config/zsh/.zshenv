@@ -4,12 +4,12 @@ zmodload zsh/{datetime,langinfo,parameter,system,terminfo,zutil} || return
 zmodload -F zsh/files b:{zf_mkdir,zf_mv,zf_rm,zf_rmdir,zf_ln}    || return
 zmodload -F zsh/stat b:zstat                                     || return
 
-: ${PAGER:=less}
-export LESS='-FRX --use-color'
-export READNULLCMD=$PAGER
-
-export LESS='-R'
-export LESSOPEN='|pygmentize -g %s'
+# : ${PAGER:=less}
+# export LESS='-FRX --use-color'
+# export READNULLCMD=$PAGER
+#
+# export LESS='-R'
+# export LESSOPEN='|pygmentize -g %s'
 
 export -T MANPATH=${MANPATH:-:} manpath
 export -T INFOPATH=${INFOPATH:-:} infopath
@@ -34,15 +34,15 @@ elif [[ $OSTYPE == linux* && -z $HOMEBREW_PREFIX ]]; then
 fi
 
 fpath=(
-  ${ZDOTDIR}/*tions(-/N)
+  ${ZDOTDIR}/{'completions','functions'}(-/N)
   ${^${(M)fpath:#*/$ZSH_VERSION/functions}/%$ZSH_VERSION\/functions/site-functions}(-/N)
   ${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/share/zsh/site-functions}(-/N)
-  /opt/homebrew/share/zsh/site-functions(-/N)
-  /usr{/local,}/share/zsh/{site-functions,vendor-completions}(-/N)
+  /{opt/homebrew,usr{/local,}}/share/zsh/{site-functions,vendor-completions}(-/N)
+  /opt/homebrew/share/zsh/{'','site-'}functions(-/N)
   $fpath
 )
 
-
+# autoload +X -U bashcompinit; print 'loading bashcompinit'; bashcompinit
 for func in $^fpath/*(N-.:t); autoload -Uz -- $func
 # autoload -TUz -- ~/.config/zsh/functions/*(.:A) || return
 
