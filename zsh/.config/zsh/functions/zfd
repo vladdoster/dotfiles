@@ -1,23 +1,35 @@
 #autoload
-
-emulate -L zsh
-zmodload zsh/zutil || return
-
-local help verbose message file=(default)
-zparseopts -D -F -K -- {h,-help}=help || return
-
-if (( $#help )); then
-    print -rC1 -- "$0 [-h|--help] [file ...]"
-    return
-fi
-
-# print -r -- "file: ${(q+)file[-1]}"
-# print -rC1 -- "message: "${(q+)^@}
-cd -q "$ZDOTDIR/functions"
-if (( ${#${(q+)^@}} )); then
-    nvim -O ${(q+)^@}
-fi
-
-return 0
-
 # vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
+
+zfd () {
+    _zfd_usage () {
+        print 'Usage: zfd [options] [files...]'
+        print 'Options:'
+        print '  -d, --debug        turn on execution tracing'
+        print '  -h, --help         show list of command-line options'
+    }
+
+    setopt localoptions extended_glob
+    zmodload zsh/zutil || return 1
+    local base debug dest help
+    builtin zparseopts -D -F -E -K h=help -help=help d=debug -debug=debug || return 1
+
+    if (( $#help )); then
+        _zfd_usage
+        return 0
+    fi
+    if (( $#debug )); then
+        setopt xtrace
+        print -rC1 -- "functions: ${(q+)^@}"
+    fi
+
+    local -aU files=(${ZDOTDIR}/functions/${(q+)^@}) 
+
+    if (( ${#files} )); then
+        nvim -O -- ${files[@]}
+    else
+        cd "$ZDOTDIR/functions" && ls
+    fi
+
+    return 0
+}

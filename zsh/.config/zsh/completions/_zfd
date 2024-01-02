@@ -1,3 +1,6 @@
 #compdef zfd
 
-_arguments -C "*:functions:_files -W ${ZDOTDIR:-HOME/.config/zsh}/functions -g '^*.zwc(N:t)'"
+_arguments -C \
+    '(-d --debug)'{-d,--debug}'[Enable debug mode]' \
+    '(-h --help)'{-h,--help}'[Show list of command-line options]' \
+    "*:functions:_files -W ${ZDOTDIR:-HOME/.config/zsh}/functions -g '^*.zwc(N:t)'"
