@@ -1,3 +1,36 @@
+# [4.42.0](https://github.com/vladdoster/dotfiles/compare/v4.41.0...v4.42.0) (2024-01-02)
+
+
+### Bug Fixes
+
+* bashrc rm cargo init & editorconfig config ([83800ce](https://github.com/vladdoster/dotfiles/commit/83800ced0ea0d2f1a4f17f7ca430b2e0e360c9a9))
+* increase wezterm fps to macbook promotion limit ([5998db2](https://github.com/vladdoster/dotfiles/commit/5998db223b3131db78d3dd0a2fbde0135e15b9f5))
+* make py pkgs & py-pip-install target ([21696d1](https://github.com/vladdoster/dotfiles/commit/21696d1bedf3ce3cc8333cb89abfc61f86f327ba))
+* remove aliases ([2ddbef4](https://github.com/vladdoster/dotfiles/commit/2ddbef4e59ca5d12e3db9e861eb24fe9b9bcaf8d))
+* remove branch in git clone zsh widget ([3932c48](https://github.com/vladdoster/dotfiles/commit/3932c48a9d7efb787f9e5c543deea1061dc4ae0f))
+* rm duplicate aliases & zinit config ([9d2ff27](https://github.com/vladdoster/dotfiles/commit/9d2ff276bf3c5873d784b8ac10533982fc97f2a0))
+* rm duplicate zdotdir vars & cleanup zsh files ([fb5d42f](https://github.com/vladdoster/dotfiles/commit/fb5d42fabe8b90806651d9adf3242543af0693ef))
+* setopts interactive_comments & auto_cd ([5c447c8](https://github.com/vladdoster/dotfiles/commit/5c447c8f8ac213ce0fc348e91a219b4c4747ad06))
+* stow ignores ~/.local/{share,state}/* ([27ef884](https://github.com/vladdoster/dotfiles/commit/27ef88473535d1d8694a8cb8e4a32346b1b425b6))
+* used hashed dir in zinit cfg ([2385231](https://github.com/vladdoster/dotfiles/commit/23852314cf226e34b158d7769ee0bdf2e64d0720))
+* zfd function login and completion options ([77a9758](https://github.com/vladdoster/dotfiles/commit/77a97580b4bab9c561a4edc6590551178b896fe2))
+* zinit & zsh alias plugins ([e93459d](https://github.com/vladdoster/dotfiles/commit/e93459de820cf75796ef1ce09ecc9a6c342b4f61))
+* zsh history ignore dupes ([cc246b4](https://github.com/vladdoster/dotfiles/commit/cc246b44cde729af3cf34b0bfea4ef4ee0d9a521))
+* zshenv fpath paths and opt cleanup ([8a88ffb](https://github.com/vladdoster/dotfiles/commit/8a88ffb83c2a0c27e2be4f9d28e15d00ea19bb0c))
+
+
+### Features
+
+* add minimal zinit env to dkr sandbox function ([c8a6956](https://github.com/vladdoster/dotfiles/commit/c8a6956f2363e5370e6b7735880a17e1e4176067))
+* extract function ([7d857a2](https://github.com/vladdoster/dotfiles/commit/7d857a29fc1ae0ab2b529abcd140deceb6ee719d))
+* git alias nuke to clean -fxd & reset --hard ([a3a055b](https://github.com/vladdoster/dotfiles/commit/a3a055b48431f090a1ce618b6d8727b8b9c83e17))
+* wezterm theme & keybind for launcher ([bc8dcd0](https://github.com/vladdoster/dotfiles/commit/bc8dcd08fc335404db20c285909721640b7d5a4c))
+
+
+### Performance Improvements
+
+* zinit configuration ([0b436c6](https://github.com/vladdoster/dotfiles/commit/0b436c64439284fd05067153d1f1ee5c54ea1bee))
+
 # [4.41.0](https://github.com/vladdoster/dotfiles/compare/v4.40.1...v4.41.0) (2023-11-16)
 
 
