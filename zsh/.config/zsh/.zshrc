@@ -4,12 +4,16 @@ SAVEHIST=200000
 HISTSIZE=$SAVEHIST
 : ${HISTFILE=$ZDOTDIR/zsh_history}
 
-setopt extended_history
-setopt inc_append_history     share_history    hist_verify
-setopt hist_expire_dups_first hist_ignore_dups hist_ignore_space
-zstyle ':completion:*' range 1000:100 # Try 100 history words at a time; max 1000 words.
+setopt {'extended','inc_append','share'}_history
+setopt hist_{'verify','expire_dups_first','ignore_dups'}
+setopt auto_cd extended_glob glob_dots interactive_comments prompt_subst
 
-setopt extendedglob promptsubst glob_dots
+(){
+  local -A dirs=( bin "${HOME}/.local/bin" share "${HOME}/.local/share" config "${HOME}/.config" code "${HOME}/code" )
+  for k v in ${(kv)dirs}; do
+    hash -dv "${k}"="${v}"
+  done
+}
 
 [ -z "$ZPROF" ] || zmodload zsh/zprof
 
@@ -18,9 +22,8 @@ if (( ! $#NO_RC )); then
     source "$f"
   done
 fi
+export PATH="/opt/homebrew/bin:$PATH"
 
-# for func in $^fpath/*(.N:t); builtin autoload -Uz -- "$func" >/dev/null
-# export PATH="/opt/homebrew/bin:$PATH"
 [ -z "$ZPROF" ] || zprof
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
