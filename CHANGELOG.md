@@ -1,3 +1,11 @@
+## [4.43.1](https://github.com/vladdoster/dotfiles/compare/v4.43.0...v4.43.1) (2024-01-13)
+
+
+### Bug Fixes
+
+* **dkr:** rm invalid alpine pkgs & format file ([#41](https://github.com/vladdoster/dotfiles/issues/41)) ([7ae2eba](https://github.com/vladdoster/dotfiles/commit/7ae2eba23a6c773b6e5161bd0fcb6a497e3a5e67))
+* **mkfn:** improve func boilerplate & format file ([#42](https://github.com/vladdoster/dotfiles/issues/42)) ([cd6ecf8](https://github.com/vladdoster/dotfiles/commit/cd6ecf8ba11ab6ad4247cf4245862931393e74ba))
+
 # [4.43.0](https://github.com/vladdoster/dotfiles/compare/v4.42.0...v4.43.0) (2024-01-13)
 
 
