@@ -21,8 +21,8 @@ _dkr_sandbox_subcommands() {
 }
 
 _arguments -C \
-    '(-h --help)'{-h,--help}'[display help information]' \
-    '(-v --verbose)'{-V,--verbose}'[print out additional logging information]' \
+    '(-h --help)'{-h,--help}'[Print usage information and exit]' \
+    '(-v --version)'{-v,--version}'[Print version number and exit]' \
     '1: :_dkr_commands' \
     '*:: :->args' && ret=0
 

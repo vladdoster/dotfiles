@@ -1,14 +1,10 @@
 #!/usr/bin/env zsh
-#
-# Collection of common docker tasks
-#
 
-#
-# helper functions
-#
-_dkr_is_running() {
-  for (( n = 0; n < 4; n += 1 )); do
-    if docker system info &>/dev/null; then
+
+
+_dkr_is_running () {
+  for ((n = 0; n < 4; n += 1 )) do
+    if docker system info &> /dev/null; then
       return 0
     fi
     _log "$(_color y 'docker system unavailable...') [retry attempt $n/4]"
@@ -16,276 +12,242 @@ _dkr_is_running() {
   done
   return 1
 }
-
-_log() {
-  builtin print -Pr -- $@
+_log () {
+  builtin print -Pr -- "$@"
 }
-
-_color() {
+_color () {
   $(builtin type -p color 2>&1 > /dev/null)
   if [[ $? -ne 0 ]]; then
     local color=$1 style=$2 b=0
     builtin shift
     case $style in
-      bold|b)           b=1; builtin shift ;;
-      italic|i)         b=2; builtin shift ;;
-      underline|u)      b=4; builtin shift ;;
-      inverse|in)       b=7; builtin shift ;;
-      strikethrough|s)  b=9; builtin shift ;;
+      (bold | b) b=1
+        builtin shift ;;
+      (italic | i) b=2
+        builtin shift ;;
+      (underline | u) b=4
+        builtin shift ;;
+      (inverse | in) b=7
+        builtin shift ;;
+      (strikethrough | s) b=9
+        builtin shift ;;
     esac
     case $color in
-      black|b)   builtin echo "\033[${b};30m${@}\033[0;m" ;;
-      blue|bl)   builtin echo "\033[${b};34m${@}\033[0;m" ;;
-      cyan|c)    builtin echo "\033[${b};36m${@}\033[0;m" ;;
-      green|g)   builtin echo "\033[${b};32m${@}\033[0;m" ;;
-      magenta|m) builtin echo "\033[${b};35m${@}\033[0;m" ;;
-      red|r)     builtin echo "\033[${b};31m${@}\033[0;m" ;;
-      white|w)   builtin echo "\033[${b};37m${@}\033[0;m" ;;
-      yellow|y)  builtin echo "\033[${b};33m${@}\033[0;m" ;;
+      (black | b) builtin echo "\033[${b};30m${@}\033[0;m" ;;
+      (blue | bl) builtin echo "\033[${b};34m${@}\033[0;m" ;;
+      (cyan | c) builtin echo "\033[${b};36m${@}\033[0;m" ;;
+      (green | g) builtin echo "\033[${b};32m${@}\033[0;m" ;;
+      (magenta | m) builtin echo "\033[${b};35m${@}\033[0;m" ;;
+      (red | r) builtin echo "\033[${b};31m${@}\033[0;m" ;;
+      (white | w) builtin echo "\033[${b};37m${@}\033[0;m" ;;
+      (yellow | y) builtin echo "\033[${b};33m${@}\033[0;m" ;;
     esac
     return
   fi
   command color "$@"
 }
-
-#
-# sandbox subcommands
-#
-_dkr_sandbox_run(){
-    setopt localoptions verbose
-    local dockerfile
-    case $distro in
-        zinit)
-            docker run \
-                --hostname "${distro}-minimal" \
-                --interactive \
-                --mount source="${distro}-minimal",destination=/root \
-                --platform "linux/amd64" \
-                --tty \
-                ${distro}-minimal
-            ;;
-        *)
-            docker run \
-                --hostname "sbox-${distro}-${platform}" \
-                --interactive \
-                --mount source="sbox-${distro}-${platform}",destination=/home \
-                --platform "linux/${platform}" \
-                --tty \
-                sbox-${distro}-${platform}
-            ;;
-    esac
+_dkr_sandbox_run () {
+  setopt localoptions verbose
+  local dockerfile
+  case $distro in
+    (zinit) docker run --hostname "${distro}-minimal" --interactive --mount source="${distro}-minimal",destination=/root --platform "linux/amd64" --tty ${distro}-minimal ;;
+    (*) docker run --hostname "sbox-${distro}-${platform}" --interactive --mount source="sbox-${distro}-${platform}",destination=/home --platform "linux/${platform}" --tty sbox-${distro}-${platform} ;;
+  esac
 }
-
-_dkr_sandbox_build() {
-    setopt localoptions verbose
-    local dockerfile
-    case $distro in
-        zinit)
-            dockerfile=$(cat <<-'DOCKERFILE'
-            # syntax=docker/dockerfile:1.3-labs
-            FROM amd64/ubuntu:latest
-            ENV DEBIAN_FRONTEND noninteractive
-            ENV TERM xterm-256color
-            RUN apt-get update --quiet=2 \
-             && apt-get install --assume-yes \
-                acl apt-utils autoconf autogen automake \
-                bsdmainutils bsdutils build-essential bzip2 \
-                ca-certificates cmake coreutils cpanminus curl \
-                debianutils default-jre delta dialog \
-                exa \
-                figlet file fzf \
-                g++ gawk gcc gettext git gnupg golang gosu \
-                iproute2 \
-                jq \
-                less libevent-dev libncurses5-dev libncursesw5-dev libreadline-dev libtool libtool-bin libz-dev locales lua5.4 luajit luarocks \
-                make man-db meson \
-                ncurses-base ncurses-bin ncurses-dev ncurses-term netbase npm \
-                patch perl pkg-config python3 python3-bdist-nsi python3-dev python3-pip python3-setuptools \
-                readline-common ripgrep ruby ruby-dev \
-                software-properties-common stow subversion sudo \
-                tar tar texinfo texlive tree tzdata \
-                tzdata \
-                unzip unzip util-linux-locales uuid-runtime \
-                vim \
-                wget \
-                xz-utils \
-                zsh
-            RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
-             && echo 'LANG="en_US.UTF-8"' > /etc/default/locale \
-             && dpkg-reconfigure --frontend=noninteractive locales \
-             && update-locale LANG=en_US.UTF-8
-            COPY <<-'EOF' /root/.zshrc
-                export HISTFILE=~/.zsh_history
-                [[ ! -e $HISTFILE ]] && touch $HISTFILE
-                if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
-                    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-                    if command mkdir -p "$HOME/.local/share/zinit"; then
-                        command chmod g-rwX "$HOME/.local/share/zinit"
-                    fi
-                    if command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git"; then
-                        print -P "%F{33} %F{34}Installation successful.%f%b"
-                    else
-                        print -P "%F{160} The clone has failed.%f%b"
-                    fi
-                fi
-                source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
-                autoload _zinit && (( ${+_comps} )) && _comps[zinit]=_zinit
-                zinit for @zdharma-continuum/zinit-annex-{'as-monitor','binary-symlink','patch-dl','rust'}
-                zinit aliases for @vladdoster/z{init,sh}-aliases.plugin.zsh
-                MODE_CURSOR_VIINS="#00ff00 blinking bar"
-                MODE_CURSOR_REPLACE="$MODE_CURSOR_VIINS #ff0000"
-                MODE_CURSOR_VICMD="green block"
-                MODE_CURSOR_SEARCH="#ff00ff steady underline"
-                MODE_CURSOR_VISUAL="$MODE_CURSOR_VICMD steady bar"
-                MODE_CURSOR_VLINE="$MODE_CURSOR_VISUAL #00ffff"
-                zinit light-mode atinit'zicompinit;' for \
-                    @softmoth/zsh-vim-mode
+_dkr_sandbox_build () {
+  setopt localoptions verbose
+  local dockerfile
+  case $distro in
+    (zinit) dockerfile=$(cat <<-'DOCKERFILE'
+          # syntax=docker/dockerfile:1.3-labs
+          FROM amd64/ubuntu:latest
+          ENV DEBIAN_FRONTEND noninteractive
+          ENV TERM xterm-256color
+          RUN apt-get update --quiet=2 \
+            && apt-get install --assume-yes \
+              acl apt-utils autoconf autogen automake \
+              bsdmainutils bsdutils build-essential bzip2 \
+              ca-certificates cmake coreutils cpanminus curl \
+              debianutils default-jre delta dialog \
+              exa \
+              figlet file fzf \
+              g++ gawk gcc gettext git gnupg golang gosu \
+              iproute2 \
+              jq \
+              less libevent-dev libncurses5-dev libncursesw5-dev libreadline-dev libtool libtool-bin libz-dev locales lua5.4 luajit luarocks \
+              make man-db meson \
+              ncurses-base ncurses-bin ncurses-dev ncurses-term netbase npm \
+              patch perl pkg-config python3 python3-bdist-nsi python3-dev python3-pip python3-setuptools \
+              readline-common ripgrep ruby ruby-dev \
+              software-properties-common stow subversion sudo \
+              tar tar texinfo texlive tree tzdata \
+              tzdata \
+              unzip unzip util-linux-locales uuid-runtime \
+              vim \
+              wget \
+              xz-utils \
+              zsh
+          RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
+            && echo 'LANG="en_US.UTF-8"' > /etc/default/locale \
+            && dpkg-reconfigure --frontend=noninteractive locales \
+            && update-locale LANG=en_US.UTF-8
+          COPY <<-'EOF' /root/.zshrc
+              export HISTFILE=$HOME/.zsh_history
+              [[ ! -e $HISTFILE ]] && touch $HISTFILE
+              if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+                  print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+                  if command mkdir -p "$HOME/.local/share/zinit"; then
+                      command chmod g-rwX "$HOME/.local/share/zinit"
+                  fi
+                  if command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git"; then
+                      print -P "%F{33} %F{34}Installation successful.%f%b"
+                  else
+                      print -P "%F{160} The clone has failed.%f%b"
+                  fi
+              fi
+              source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+              autoload _zinit && (( ${+_comps} )) && _comps[zinit]=_zinit
+              zinit for @zdharma-continuum/zinit-annex-{'as-monitor','binary-symlink','patch-dl','rust'}
+              zinit aliases for @vladdoster/z{init,sh}-aliases.plugin.zsh
+              MODE_CURSOR_VIINS="#00ff00 blinking bar"
+              MODE_CURSOR_REPLACE="$MODE_CURSOR_VIINS #ff0000"
+              MODE_CURSOR_VICMD="green block"
+              MODE_CURSOR_SEARCH="#ff00ff steady underline"
+              MODE_CURSOR_VISUAL="$MODE_CURSOR_VICMD steady bar"
+              MODE_CURSOR_VLINE="$MODE_CURSOR_VISUAL #00ffff"
+              zinit light-mode atinit'zicompinit;' for \
+                  @softmoth/zsh-vim-mode
 EOF
-            COPY <<-'EOF' /root/.zshenv
-                skip_global_compinit=1
-                SAVEHIST=200000
-                HISTSIZE=$SAVEHIST
-                : ${HISTFILE=$HOME/zsh_history}
-                setopt extended_history
-                setopt inc_append_history     share_history    hist_verify
-                setopt hist_expire_dups_first hist_ignore_dups hist_ignore_space
-                zstyle ':completion:*' range 1000:100
-                setopt extendedglob promptsubst glob_dots
+          COPY <<-'EOF' /root/.zshenv
+              skip_global_compinit=1
+              SAVEHIST=200000
+              HISTSIZE=$SAVEHIST
+              : ${HISTFILE=$HOME/zsh_history}
+              setopt extended_history
+              setopt inc_append_history     share_history    hist_verify
+              setopt hist_expire_dups_first hist_ignore_dups hist_ignore_space
+              zstyle ':completion:*' range 1000:100
+              setopt extendedglob promptsubst glob_dots
 EOF
-            WORKDIR /root
-            CMD ["zsh"]
+          WORKDIR /root
+          CMD ["zsh"]
 DOCKERFILE
 )
-
-    _log $(_color green "Building ${platform} ${distro} container")
-    docker buildx build \
-        --load \
-        --platform linux/amd64 \
-        --progress=plain \
-        --tag zinit-minimal:latest \
-        -<<EOF
-        ${dockerfile}
+      _log $(_color green "Building ${platform} ${distro} container")
+      docker buildx build --load --platform linux/amd64 --progress=plain --tag zinit-minimal:latest - <<EOF
+      ${dockerfile}
 EOF
-            return
-            ;;
-        alpine)
-            dockerfile=$(cat <<-'DOCKERFILE'
-            ARG DISTRO=alpine
-            ARG PLATFORM=amd64
-            FROM ${PLATFORM}/${DISTRO}:latest
-            ENV PUID 1001
-            ENV USER user
-            ENV HOME /home/${USER}
-            RUN apk update --no-check-certificate \
-                && apk add --no-check-certificate \
-                    autoconf automake \
-                    bash build-base \
-                    cmake coreutils curl \
-                    exa \
-                    file \
-                    gcc git go delta \
-                    jq \
-                    libuser linux-headers \
-                    ncurses-dev neovim \
-                    pcre-dev python3-dev \
-                    rsync \
-                    sudo stow \
-                    vim \
-                    xz \
-                    zlib-dev zsh
-            RUN adduser -D ${USER} -s $(which zsh) -g sudo \
-             && mkdir -p ${HOME}/.config \
-             && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
-             && chown --recursive ${USER} ${HOME}
-            USER ${USER}
-            WORKDIR ${HOME}
-            RUN export GIT_SSL_NO_VERIFY=1 \
-             && git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
-            ENTRYPOINT ["zsh"]
-            CMD ["-i"]
+      return ;;
+    (alpine) dockerfile=$(cat <<-'DOCKERFILE'
+          ARG DISTRO=alpine
+          ARG PLATFORM=amd64
+          FROM ${PLATFORM}/${DISTRO}:latest
+          ENV PUID 1001
+          ENV USER user
+          ENV HOME /home/${USER}
+          RUN apk update --no-check-certificate \
+              && apk add --no-check-certificate \
+                  autoconf automake \
+                  bash build-base \
+                  cmake coreutils curl \
+                  dialog \
+                  exa \
+                  file \
+                  gcc git go delta \
+                  jq \
+                  libuser linux-headers \
+                  man-db \
+                  ncurses-dev neovim \
+                  pcre-dev python3-dev \
+                  rsync \
+                  sudo stow \
+                  vim \
+                  xz \
+                  zlib-dev zsh
+          RUN adduser -D ${USER} -s $(which zsh) -g sudo \
+            && mkdir -p ${HOME}/.config \
+            && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
+            && chown --recursive ${USER} ${HOME}
+          USER ${USER}
+          WORKDIR ${HOME}
+          RUN export GIT_SSL_NO_VERIFY=1 \
+            && git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
+          ENTRYPOINT ["zsh"]
+          CMD ["-i"]
 DOCKERFILE
-)
-            ;;
-        debian|ubuntu)
-            dockerfile=$(cat <<-'DOCKERFILE'
-            ARG DISTRO=debian
-            ARG PLATFORM=amd64
-            FROM ${DISTRO}:latest
-            ENV USER user
-            ENV HOME /home/${USER}
-            ENV DEBIAN_FRONTEND noninteractive
-            RUN apt-get update && apt-get install -y --no-install-recommends \
-                autoconf autogen automake \
-                build-essential bzip2 \
-                ca-certificates cmake coreutils curl \
-                file \
-                g++ gawk gettext git \
-                jq \
-                less libz-dev locales libncurses5-dev libncursesw5-dev \
-                make \
-                ninja-build \
-                sudo stow subversion \
-                tzdata \
-                unzip \
-                wget \
-                xz-utils \
-                vim \
-                zsh
-            RUN useradd \
-                --create-home \
-                --gid root --groups sudo \
-                --home-dir /home/${USER} \
-                --shell "$(which zsh)" \
-                --uid 1001 \
-                ${USER} \
-             && mkdir -p /home/${USER}/.config \
-             && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
-             && passwd --delete ${USER} \
-             && chown --recursive ${USER} /home/${USER}
-            USER ${USER}
-            WORKDIR ${HOME}
-            COPY <<-'EOF' .zshenv
-                skip_global_compinit=1
-                SAVEHIST=200000
-                HISTSIZE=$SAVEHIST
-                : ${HISTFILE=$HOME/zsh_history}
-                setopt extended_history
-                setopt inc_append_history     share_history    hist_verify
-                setopt hist_expire_dups_first hist_ignore_dups hist_ignore_space
-                zstyle ':completion:*' range 1000:100
-                setopt extendedglob promptsubst glob_dots
+)  ;;
+    (debian | ubuntu) dockerfile=$(cat <<-'DOCKERFILE'
+          ARG DISTRO=debian
+          ARG PLATFORM=amd64
+          FROM ${DISTRO}:latest
+          ENV USER user
+          ENV HOME /home/${USER}
+          ENV LANG en_US.UTF-8
+          ENV LANGUAGE en_US:en
+          ENV LC_ALL en_US.UTF-8
+          ENV TERM xterm-256color
+          ENV SHELL=/bin/zsh
+          ENV DEBIAN_FRONTEND noninteractive
+          RUN apt-get update && apt-get install -y --no-install-recommends \
+              autoconf autogen automake \
+              build-essential bzip2 \
+              ca-certificates cmake coreutils curl \
+              file \
+              g++ gawk gettext git \
+              jq \
+              less libz-dev locales libncurses5-dev libncursesw5-dev \
+              make \
+              ninja-build \
+              sudo stow subversion \
+              tzdata \
+              unzip \
+              wget \
+              xz-utils \
+              vim \
+              zsh
+          RUN useradd \
+              --create-home \
+              --gid root --groups sudo \
+              --home-dir /home/${USER} \
+              --shell "$(which zsh)" \
+              --uid 1001 \
+              ${USER} \
+            && mkdir -p /home/${USER}/.config \
+            && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
+            && passwd --delete ${USER} \
+            && chown --recursive ${USER} /home/${USER}
+          USER ${USER}
+          WORKDIR ${HOME}
+          COPY <<-'EOF' .zshenv
+              export LANG='en_US.UTF-8'
+              export LANGUAGE='en_US:en'
+              export LC_ALL='en_US.UTF-8'
+              export TERM='xterm-256color'
+              skip_global_compinit=1
+              SAVEHIST=200000
+              HISTSIZE=$SAVEHIST
+              : ${HISTFILE=$HOME/zsh_history}
+              setopt extended_history
+              setopt inc_append_history     share_history    hist_verify
+              setopt hist_expire_dups_first hist_ignore_dups hist_ignore_space
+              zstyle ':completion:*' range 1000:100
+              setopt extendedglob promptsubst glob_dots
 EOF
-            RUN export GIT_SSL_NO_VERIFY=1 \
-             && git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
-            ENTRYPOINT ["zsh"]
-            CMD ["-i"]
+          RUN export GIT_SSL_NO_VERIFY=1 \
+            && git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
+          ENTRYPOINT ["zsh"]
+          CMD ["-i"]
 DOCKERFILE
-)
-            ;;
-        *)
-            _log $(_color red "Unsupported distrobution '${distro}'")
-            return 1
-            ;;
-    esac
-
-    _log $(_color green "Building ${platform} ${distro} container")
-    docker buildx build \
-        --build-arg DISTRO="${distro}" \
-        --build-arg PLATFORM="${platform}" \
-        --build-arg USER="user" \
-        --load \
-        --platform linux/"${platform}" \
-        --progress=plain \
-        --tag sbox-"${distro}-${platform}":latest \
-        -<<EOF
-        ${dockerfile}
+)  ;;
+    (*) _log $(_color red "Unsupported distrobution '${distro}'")
+      return 1 ;;
+  esac
+  _log $(_color green "Building ${platform} ${distro} container")
+  docker buildx build --build-arg DISTRO="${distro}" --build-arg PLATFORM="${platform}" --build-arg USER="user" --load --platform linux/"${platform}" --progress=plain --tag sbox-"${distro}-${platform}":latest - <<EOF
+      ${dockerfile}
 EOF
 }
-
-#
-# sandbox command
-#
-_dkr_sandbox_usage() {
+_dkr_sandbox_usage () {
   _log $(_color green "Usage:")
   _log "  dkr sandbox [options] <command>"
   _log
@@ -298,47 +260,37 @@ _dkr_sandbox_usage() {
   _log "  build             Remove all docker resources"
   _log "  run               Run ubuntu development sandbox"
 }
-
 _dkr_sandbox () {
-    local help
-    local opt_platform=(arm64) opt_distro=(debian)
-    zmodload zsh/zutil
-    zparseopts -D -F -K -- \
-        {h,-help}=help \
-        {d,-distro}:=opt_distro \
-        {p,-platform}:=opt_platform \
-    || return 1
-    [[ -z "$help" ]] || {
-        _dkr_usage
-        return 0
-    }
-    if [[ -z $@ ]]; then
-        _dkr_sandbox_usage >&2
-        return 1
-    fi
-    if (( ! $+functions[_dkr_sandbox_${@}] )); then
-        _log $(_color red "Command '$@' can not be found.")
-        _dkr_sandbox_usage
-        return 1
-    fi
-    if _dkr_is_running; then
-        distro="$opt_distro[-1]" platform="$opt_platform[-1]"
-        _dkr_sandbox_${@}
-    fi
+  local help
+  local opt_platform=(arm64) opt_distro=(debian)
+  zmodload zsh/zutil
+  zparseopts -D -F -K -- {h,-help}=help {d,-distro}:=opt_distro {p,-platform}:=opt_platform || return 1
+  [[ -z "$help" ]] || {
+    _dkr_usage
+    return 0
+  }
+  if [[ -z $@ ]]; then
+    _dkr_sandbox_usage >&2
+    return 1
+  fi
+  if (( ! $+functions[_dkr_sandbox_${@}] )); then
+    _log $(_color red "Command '$@' can not be found.")
+    _dkr_sandbox_usage
+    return 1
+  fi
+  if _dkr_is_running; then
+    distro="$opt_distro[-1]" platform="$opt_platform[-1]"
+    _dkr_sandbox_${@}
+  fi
 }
-
-#
-# nuke command
-#
-_dkr_nuke_usage() {
+_dkr_nuke_usage () {
   _log $(_color green "Usage:")
   _log "  dkr nuke [options]"
   _log
   _log $(_color green "Options:")
   _log "  -h, --help          Output this help text and exit"
 }
-
-_dkr_nuke() {
+_dkr_nuke () {
   builtin emulate -L zsh -o EXTENDED_GLOB
   local opt_help
   zmodload zsh/zutil
@@ -354,42 +306,49 @@ _dkr_nuke() {
   if _dkr_is_running; then
     _log "$(_color green 'Nuking docker...')"
     for resource in 'container' 'image'; do
-      local -a resources=( $(docker "$resource" ls ${(Q)resource_opts} --quiet) )
+      local -a resources=($(docker "$resource" ls ${(Q)resource_opts} --quiet))
       if (( ${#resources} > 0 )); then
         _log "$(_color cyan "Removing ${#resources} ${resource}s...")"
-        for id in $resources; docker "$resource" rm --force "$id"
+        for id in $resources; do
+          docker "$resource" rm --force "$id"
+        done
       fi
     done
     _log "$(_color cyan 'Pruning docker system resources...')"
     docker system prune --all --force
   fi
 }
-
-#
-# main dkr command
-#
-_dkr_usage() {
+_dkr_usage () {
   _log
   _log $(_color green "Usage:")
   _log "  dkr [options] <command>"
   _log
   _log $(_color green "Options:")
-  _log "  -h, --help          Output this help text and exit"
+  _log "  -h, --help          Display available options"
+  _log "  -v, --version       Print version information"
   _log
   _log $(_color green "Commands:")
   _log "  nuke                  Remove all docker resources"
   _log "  sandbox               Run ubuntu development sandbox"
 }
-
-__dkr() {
-  local cmd base help
+_dkr_version () {
+  _log "dkr version 0.1.0"
+}
+__dkr () {
+  emulate -L zsh
+  setopt extended_glob
+  local cmd base help version
   base=${dkr_DIR:-"${ZDOTDIR:-$HOME}/.dkr"}
   config=${dkr_CONFIG_DIR:-"${ZDOTDIR:-$HOME}/.config/dkr"}
-  builtin zparseopts -D h=help -help=help
+  builtin zparseopts -D h=help -help=help v=version -version=version
   if [[ -n $help ]]; then
     _dkr_usage
     return 0
+  elif [[ -n $version ]]; then
+    _dkr_version
+    return 0
   fi
+
   cmd="$1"
   if [[ -z $cmd || $cmd == ' ' ]]; then
     builtin print -Pr -- '     _____          ___           ___      '
@@ -414,6 +373,6 @@ __dkr() {
   _dkr_${cmd} "${(@)@:2}"
 }
 
-__dkr $@
+__dkr "$@"
 
 # vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
