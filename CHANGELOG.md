@@ -1,3 +1,16 @@
+# [4.43.0](https://github.com/vladdoster/dotfiles/compare/v4.42.0...v4.43.0) (2024-01-13)
+
+
+### Bug Fixes
+
+* **gli:** silence git output ([6f51ee0](https://github.com/vladdoster/dotfiles/commit/6f51ee0588b766301dab9e3e1248bf8a2535cf8e))
+* options & hash dirs in .zshrc ([7ed82de](https://github.com/vladdoster/dotfiles/commit/7ed82def8d1f1c628823ded52328d33faded2fad))
+
+
+### Features
+
+* **mkfn:** add debug flag & print args ([d4886a1](https://github.com/vladdoster/dotfiles/commit/d4886a1b1d61408a92f5bb5d68f2558aaf7b068b))
+
 # [4.42.0](https://github.com/vladdoster/dotfiles/compare/v4.41.0...v4.42.0) (2024-01-02)
 
 
