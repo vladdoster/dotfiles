@@ -1,3 +1,10 @@
+## [4.43.2](https://github.com/vladdoster/dotfiles/compare/v4.43.1...v4.43.2) (2024-01-14)
+
+
+### Bug Fixes
+
+* **stow:** correct stow ignore lists & files ([1f5cac9](https://github.com/vladdoster/dotfiles/commit/1f5cac90e3c35be0b611b6a3c846fbef531475e6))
+
 ## [4.43.1](https://github.com/vladdoster/dotfiles/compare/v4.43.0...v4.43.1) (2024-01-13)
 
 
