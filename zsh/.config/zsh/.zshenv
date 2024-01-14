@@ -43,7 +43,7 @@ fpath=(
 )
 
 # autoload +X -U bashcompinit; print 'loading bashcompinit'; bashcompinit
-for func in $^fpath/*(N-.:t); autoload -Uz -- $func
+for func in $^fpath/*(N-.:t); builtin autoload +X -Uz -- $func
 # autoload -TUz -- ~/.config/zsh/functions/*(.:A) || return
 
 manpath=($manpath '')

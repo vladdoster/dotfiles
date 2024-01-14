@@ -1,28 +1,8 @@
-#
-# Sets completion options.
-#
-# Authors:
-#   Robby Russell <robby@planetargon.com>
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
-setopt always_to_end
-setopt auto_cd
-setopt auto_list
-setopt auto_menu
-setopt auto_param_slash
-setopt complete_in_word
-setopt glob_dots
-setopt hist_ignore_all_dups
-setopt hist_save_no_dups 
-setopt interactive_comments
-setopt path_dirs
-
-unsetopt case_glob
-unsetopt flow_control
-unsetopt menu_complete
+autoload -Uz url-quote-magic
+zle -N self-insert url-quote-magic
 
 zstyle '*' single-ignored show
-zstyle ':completion:*' completer _expand_alias _complete _match _approximate _ignored
+zstyle ':completion:*' completer _complete _match _approximate _ignored
 zstyle ':completion:*' format ' %F{yellow}-- %d --%f'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
@@ -77,3 +57,4 @@ zstyle ':completion:*:(scp|rsync):*' tag-order 'hosts:-host:host hosts:-domain:d
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' loopback ip6-loopback localhost ip6-localhost broadcasthost
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
+# zstyle ':completion:*' range 1000:100 # Try 100 history words at a time; max 1000 words.

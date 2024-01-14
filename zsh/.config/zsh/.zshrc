@@ -1,17 +1,17 @@
 #!/usr/bin/env zsh
 
+setopt auto_cd extended_glob glob_dots interactive_comments prompt_subst
+
 SAVEHIST=200000
 HISTSIZE=$SAVEHIST
 : ${HISTFILE=$ZDOTDIR/zsh_history}
-
 setopt {'extended','inc_append','share'}_history
 setopt hist_{'verify','expire_dups_first','ignore_dups'}
-setopt auto_cd extended_glob glob_dots interactive_comments prompt_subst
 
 (){
-  local -A dirs=( bin "${HOME}/.local/bin" share "${HOME}/.local/share" config "${HOME}/.config" code "${HOME}/code" )
+  local -A dirs=( bin "${HOME}/.local/bin" share "${HOME}/.local/share" config "${HOME}/.config" code "${HOME}/code" zsh "${ZDOTDIR:-$HOME/.config/zsh}" )
   for k v in ${(kv)dirs}; do
-    hash -dv "${k}"="${v}"
+    builtin hash -d "${k}"="${v}"
   done
 }
 
@@ -22,6 +22,7 @@ if (( ! $#NO_RC )); then
     source "$f"
   done
 fi
+
 export PATH="/opt/homebrew/bin:$PATH"
 
 [ -z "$ZPROF" ] || zprof

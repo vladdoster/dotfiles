@@ -12,7 +12,7 @@ alias -g W='| wc -l'
 
 for i in nvim vim vi; do
     (( $+commands[$i] )) && {
-        export EDITOR="$i" 
+        export EDITOR="$i"
         alias v="${i}"
         break
     }
@@ -51,12 +51,12 @@ if [[ ! -d "$HOME/code" ]]; then
 fi
 
 if [[ $OSTYPE =~ darwin* ]]; then
-    _copy_cmd='pbcopy' 
+    _copy_cmd='pbcopy'
     alias readlink="greadlink"
     alias copy="$_copy_cmd <"
 fi
 
-alias bashly_edge='docker run --rm -it --user $(id -u):$(id -g) --volume "$PWD:/app" dannyben/bashly:edge'
+# alias bashly_edge='docker run --rm -it --user $(id -u):$(id -g) --volume "$PWD:/app" dannyben/bashly:edge'
 alias tailf="less +F -R"
 # alias l='ls -a'
 # alias la='ls -a'
@@ -65,7 +65,7 @@ alias tailf="less +F -R"
 emulate -L zsh
 setopt extendedglob
 
-typeset -A pairs=(ealiases 'zsh/rc.d/[0-9]*-alias.zsh' gignore 'git/ignore' gcfg 'git/config' nvplg "nvim/lua/plugins.lua" rcenv 'zsh/rc.d/[0-9]*-env.zsh' wezrc 'wezterm/wezterm.lua' tmuxrc 'tmux/tmux.conf' zic 'zsh/rc.d/[0-9]*-zinit.zsh' zrc 'zsh/.zshrc' brewrc "$DOTFILES/Brewfile") 
+typeset -A pairs=(ealiases 'zsh/rc.d/[0-9]*-alias.zsh' gignore 'git/ignore' gcfg 'git/config' nvplg "nvim/lua/plugins.lua" rcenv 'zsh/rc.d/[0-9]*-env.zsh' wezrc 'wezterm/wezterm.lua' tmuxrc 'tmux/tmux.conf' zic 'zsh/rc.d/[0-9]*-zinit.zsh' zrc 'zsh/.zshrc' brewrc "$DOTFILES/Brewfile")
 for k v in ${(kv)pairs[@]}; do
     builtin alias $k="_edit ${XDG_CONFIG_HOME:-${HOME}/.config}/${v}" || true
 done
@@ -78,7 +78,7 @@ done
 
 alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},{auto,}s}; ziprune; zrld; cd -'
 
-typeset -A pairs=(bin '~/.local/bin' dl '~/Downloads' hsd '~/.hammerspoon' xch '~/.config' xdh '~/.local/share' zcf '$ZDOTDIR/rc.d' df '${DOTFILES:-~/.config/dotfiles}') 
+typeset -A pairs=(bin '~/.local/bin' dl '~/Downloads' hsd '~/.hammerspoon' xch '~/.config' xdh '~/.local/share' zcf '$ZDOTDIR/rc.d' df '${DOTFILES:-~/.config/dotfiles}')
 for k v in ${(kv)pairs[@]}; do
     builtin alias -- "$k"="_goto $v" || true
 done
