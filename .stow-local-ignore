@@ -1,11 +1,10 @@
-/bin/\.local/share/*
-/bin/\.local/state/*
 \.DS_Store
 \.cvsignore
 \.git
 \.gitignore
 \.hg
 \.lesshst
+\.local
 \.svn
 \.zsh_history
 ^/.github
