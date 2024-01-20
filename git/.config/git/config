@@ -3,33 +3,60 @@
   email = mvdoster@gmail.com
   name = Vladislav Doster
   username = vladdoster
-
 [commit]
   template = ~/.config/git/commit-template
-
 [credential]
   helper = store --file ~/.config/git/credentials
-
 [core]
   autocrlf = false
   eol = lf
   editor = nvim
   excludesfile = ~/.config/git/ignore
   pager = delta
-  hooksPath = .husky
-
 [advice]
+  amWorkDir = false
+  commitBeforeMerge = false
+  detachedHead = false
+  detachedHead = false
+  implicitIdentity = false
+  pushAlreadyExists = false
+  pushFetchFirst = false
+  pushNeedsForce = false
+  pushNonFFCurrent = false
+  pushNonFFMatching = false
+  pushUpdateRejected = false
+  resolveConflict = false
+  rmHints = false
   skippedCherryPicks = false
-
-[init]
-  defaultBranch = "master"
-
+  statusHints = false
+  statusUoption = false
 [interactive]
   diffFilter = delta --color-only --features=interactive
-
 [add.interactive]
   useBuiltin = false
-
+[diff]
+  colorMoved = default
+[merge]
+  conflictstyle = diff3
+[pull]
+  rebase = true
+[push]
+  default = current
+  followTags = true
+[rerere]
+  autoupdate = 1
+  enabled = 1
+[rebase]
+  autoStash = true
+[http]
+  postBuffer = 524288000
+  sslVerify = false
+[https]
+  postBuffer = 524288000
+  sslVerify = false
+[homebrew]
+  analyticsmessage = false
+  caskanalyticsmessage = false
 [delta]
   commit-decoration-style = "blue ol"
   commit-style = "raw"
@@ -43,78 +70,46 @@
   light = false
   line-numbers = true
   navigate = true
-
-[diff]
-  colorMoved = default
-
-[merge]
-  conflictstyle = diff3
-
-[pull]
-  rebase = true
-
-[push]
-  default = current
-  followTags = true
-
-[rerere]
-  enabled = 1
-  autoupdate = 1
-
-[homebrew]
-  analyticsmessage = false
-  caskanalyticsmessage = false
-
-[http]
-  sslVerify = false
-  postBuffer = 524288000
-
-[https]
-  sslVerify = false
-  postBuffer = 524288000
-
 [alias]
   au = add -u
-  b   = branch
-  bc  = rev-parse --abbrev-ref HEAD
-  bu  = !git rev-parse --abbrev-ref --symbolic-full-name "@{u}"
-  c   = commit --signoff
-  cd  = commit --amend
+  b  = branch
+  bc = rev-parse --abbrev-ref HEAD
+  bs = branch --show-current
+  bu = !git rev-parse --abbrev-ref --symbolic-full-name "@{u}"
+  c    = commit --signoff
+  cd   = commit --amend
   cdne = commit --amend --no-edit
-  cem = commit --allow-empty -m
+  cem  = commit --allow-empty -m
   cl   = clone
-  clg  = !sh -c 'git clone https://github.com/$1' -
-  clgp = !sh -c 'git clone git@github.com:$1 $(basename $1)' -
+  clg  = !sh -c ': git clone https://github.com/$1' -
+  clgp = !sh -c ': git clone git@github.com:$1 $(basename $1)' -
   clgu = !sh -c 'git clone https://github.com/$(git config --get user.username)/$1 $1' -
-  cm  = commit --message
-  co = checkout
-  cob = checkout -b
-  d = diff
+  cm   = commit --message
+  co   = checkout
+  cob  = checkout -b
+  d  = diff
   ds = diff --staged
   nuke = !sh -c 'git reset --hard && git clean -fxd'
   o   = checkout
   ob  = checkout -b
   om  = checkout master
-  opr = !sh -c 'git fo pull/$1/head:pr-$1 && git o pr-$1'
-  pl = pull --autostash
-  ps  = push
-  psf = push --force
+  pl   = pull --autostash
+  ps   = push
+  psf  = push --force
   psfo = push -f origin
   rs = restore --staged
   ru = restore
   rv = remote --verbose
-  s  = status
+  s   = status
   sa  = stash apply
-  sb = status -s -b
+  sb  = status -s -b
   sc  = stash clear
-  sd  = stash drop
   sl  = stash list
   sp  = stash pop
   ss  = stash save
   ssk = stash save -k
   st  = !git stash list | wc -l 2>/dev/null | grep -oEi '[0-9][0-9]*'
-  subadd  = !sh -c 'git submodule add git://github.com/$1 $2/$(basename $1)' -
-  subpull = !git submodule foreach git pull --tags origin master
-  subrm   = !sh -c 'git submodule deinit -f -- $1 && rm -rf .git/modules/$1 && git rm -f $1' -
-  subup   = submodule update --init --recursive
-  sw  = stash show
+  sub-add  = !sh -c 'git submodule add git://github.com/$1 $2/$(basename $1)' -
+  sub-pull = !git submodule foreach git pull --tags origin master
+  sub-rm   = !sh -c 'git submodule deinit -f -- $1 && rm -rf .git/modules/$1 && git rm -f $1' -
+  sub-up   = submodule update --init --recursive
