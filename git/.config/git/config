@@ -1,4 +1,4 @@
-# vim:set et fenc=utf-8 ff=unix ft=conf sts=2 sw=2 tabstop=2:
+# vim: set et ft=gitconfig sts=2 sw=2 ts=2:
 [user]
   email = mvdoster@gmail.com
   name = Vladislav Doster
