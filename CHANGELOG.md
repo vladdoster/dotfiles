@@ -1,3 +1,11 @@
+## [4.43.3](https://github.com/vladdoster/dotfiles/compare/v4.43.2...v4.43.3) (2024-01-20)
+
+
+### Bug Fixes
+
+* **git-config:** set vim modeline filetype to `gitconfig` ([#43](https://github.com/vladdoster/dotfiles/issues/43)) ([54a1732](https://github.com/vladdoster/dotfiles/commit/54a1732fc5306e89a310a53723a75953212f2248))
+* **stow:** ignore `.local/` dirs other than `bin/` ([c3c23c3](https://github.com/vladdoster/dotfiles/commit/c3c23c3b841dce92616a5698e8c2668ad057ef24))
+
 ## [4.43.2](https://github.com/vladdoster/dotfiles/compare/v4.43.1...v4.43.2) (2024-01-14)
 
 
