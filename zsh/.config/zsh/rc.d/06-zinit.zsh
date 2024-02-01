@@ -5,12 +5,13 @@ local zi_dir="${HOME}/.local/share/zinit"
 alias zic="nvim $0"
 typeset -Agx CONFIG=()
 CONFIG+=(
-    HOME_DIR       "${zi_dir}"           BIN_DIR         "${zi_dir}/zinit.git"
-    PLUGINS_DIR    "${zi_dir}/plugins"   SNIPPETS_DIR    "${zi_dir}/snippets"
-    SRC            'zdharma-continuum'   ZPFX            "${zi_dir}/polaris"
-    COMPLETIONS_DIR "${zi_dir}/completions" FORK 'vdoster' BRANCH 'fork/tmp'
+    HOME_DIR    "${zi_dir}"         BIN_DIR      "${zi_dir}/zinit.git"
+    PLUGINS_DIR "${zi_dir}/plugins" SNIPPETS_DIR "${zi_dir}/snippets"
+    SRC         'zdharma-continuum' ZPFX         "${zi_dir}/polaris"
+    FORK        'vdoster'           BRANCH       'fork/tmp'
+    COMPLETIONS_DIR "${zi_dir}/completions"
 )
-CONFIG+=( DEBUG 'true')
+CONFIG+=( DEBUG 'true' )
 typeset -A ZINIT=(${(kv)CONFIG})
 local ZI_REPO="${ZINIT[FORK]:-${ZINIT[SRC]}}/${ZINIT[REPO]:-zinit}"
 if [[ ! -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
@@ -40,9 +41,9 @@ fi
 hash -d 'zpfx'="${ZINIT[ZPFX]}"
 # zinit for \
 #     atinit"
-#         zstyle ':prompt:pure:git:action' color 'yellow'; 
+#         zstyle ':prompt:pure:git:action' color 'yellow';
 #         zstyle ':prompt:pure:git:branch' color 'blue';
-#         zstyle ':prompt:pure:git:dirty' color 'red'; 
+#         zstyle ':prompt:pure:git:dirty' color 'red';
 #         zstyle ':prompt:pure:path' color 'cyan'
 #         zstyle ':prompt:pure:prompt:success' color 'green'
 #         PURE_GIT_DOWN_ARROW='%1{↓%}'; PURE_GIT_UP_ARROW='%1{↑%}' PURE_PROMPT_SYMBOL='${HOST}%2{ ᐳ%}'; PURE_PROMPT_VICMD_SYMBOL='${HOST}%2{ ᐸ%}'" \
@@ -68,11 +69,12 @@ zinit from'gh-r' lbin'!' for \
       ver'nightly' \
   @neovim/neovim
 
-zinit for \
+zinit id-as for \
       as'program' \
       compile'revolver' \
       pick'revolver' \
   @molovo/revolver \
+      ver'fix/zsh-completion' \
   @vladdoster/zshfmt
 
 # zinit from'gh-r' lbin'!' for \
@@ -83,9 +85,10 @@ zinit for \
 #   @topgrade-rs/topgrade \
 #   @chanzuckerberg/fogg
 
-zinit snippet OMZ::plugins/git
-zinit snippet OMZ::lib/git.zsh
-zinit is-snippet for @OMZ{'::lib/git.zsh',P::{'colored-man-pages','extract'}}
+# zinit snippet OMZ::plugins/git
+# zinit snippet OMZ::lib/git.zsh
+# zinit is-snippet for @OMZ{'::lib/git.zsh',P::{'colored-man-pages','extract'}}
+# zinit make pick'etc/git-extras-completion.zsh' for @tj/git-extras
 
 zinit lucid wait for \
   null make"prefix=$ZPFX all install" \
@@ -110,10 +113,10 @@ zinit lucid wait for \
 #   id-as'hsmw-no-compile-ice' \
 #   @zdharma-continuum/history-search-multi-word \
 
-# zinit depth=1 id-as make configure for \
-#   @bminor/bash \
-#   @cmatsuoka/figlet \
-#   @jqlang/jq \
-#   @vim/vim \
-#     configure'--disable-utf8proc' \
-#   @tmux/tmux
+zinit configure depth=1 id-as make for \
+  @bminor/bash \
+  @cmatsuoka/figlet \
+  @jqlang/jq \
+  @vim/vim \
+    configure'--disable-utf8proc' \
+  @tmux/tmux
