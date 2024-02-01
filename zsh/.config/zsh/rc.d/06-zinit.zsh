@@ -8,9 +8,9 @@ CONFIG+=(
     HOME_DIR       "${zi_dir}"           BIN_DIR         "${zi_dir}/zinit.git"
     PLUGINS_DIR    "${zi_dir}/plugins"   SNIPPETS_DIR    "${zi_dir}/snippets"
     SRC            'zdharma-continuum'   ZPFX            "${zi_dir}/polaris"
-    COMPLETIONS_DIR "${zi_dir}/completions"
+    COMPLETIONS_DIR "${zi_dir}/completions" FORK 'vdoster' BRANCH 'fork/tmp'
 )
-# CONFIG+=( DEBUG 'true')
+CONFIG+=( DEBUG 'true')
 typeset -A ZINIT=(${(kv)CONFIG})
 local ZI_REPO="${ZINIT[FORK]:-${ZINIT[SRC]}}/${ZINIT[REPO]:-zinit}"
 if [[ ! -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
@@ -38,21 +38,22 @@ else
 fi
 
 hash -d 'zpfx'="${ZINIT[ZPFX]}"
-zinit for \
-    atinit"
-        zstyle ':prompt:pure:git:action' color 'yellow'; 
-        zstyle ':prompt:pure:git:branch' color 'blue';
-        zstyle ':prompt:pure:git:dirty' color 'red'; 
-        zstyle ':prompt:pure:path' color 'cyan'
-        zstyle ':prompt:pure:prompt:success' color 'green'
-        PURE_GIT_DOWN_ARROW='%1{↓%}'; PURE_GIT_UP_ARROW='%1{↑%}' PURE_PROMPT_SYMBOL='${HOST}%2{ ᐳ%}'; PURE_PROMPT_VICMD_SYMBOL='${HOST}%2{ ᐸ%}'" \
-    compile'(async|pure).zsh' \
-    multisrc'(async|pure).zsh' \
-  @sindresorhus/pure
+# zinit for \
+#     atinit"
+#         zstyle ':prompt:pure:git:action' color 'yellow'; 
+#         zstyle ':prompt:pure:git:branch' color 'blue';
+#         zstyle ':prompt:pure:git:dirty' color 'red'; 
+#         zstyle ':prompt:pure:path' color 'cyan'
+#         zstyle ':prompt:pure:prompt:success' color 'green'
+#         PURE_GIT_DOWN_ARROW='%1{↓%}'; PURE_GIT_UP_ARROW='%1{↑%}' PURE_PROMPT_SYMBOL='${HOST}%2{ ᐳ%}'; PURE_PROMPT_VICMD_SYMBOL='${HOST}%2{ ᐸ%}'" \
+#     compile'(async|pure).zsh' \
+#     multisrc'(async|pure).zsh' \
+#   @sindresorhus/pure
 
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
 
-zinit for @zdharma-continuum/zinit-annex-{'bin-gem-node','binary-symlink','linkman'}
+zinit for @zdharma-continuum/zinit-annex-{'bin-gem-node','linkman'}
+zinit for ver'fix/binary-selection-glob' @zdharma-continuum/zinit-annex-binary-symlink
 # zinit for @zdharma-continuum/zinit-annex-{'as-monitor','patch-dl','rust','unscope'}
 
 zinit aliases for @vladdoster/z{'sh','init'}-aliases.plugin.zsh
@@ -64,17 +65,15 @@ zinit from'gh-r' lbin'!' for \
       atload"!(){setopt no_aliases;alias l='eza -blF';alias la='eza -abghilmu';alias ll='eza -al';alias ls='eza --git --group-directories-first';}"  if'[[ $VENDOR != apple ]]' \
   @eza-community/eza \
       atload'!(){local i;for i (v vi vim);do alias $i="nvim";done; export EDITOR="nvim"; }' \
-      lbin'!nvim' \
-      null \
       ver'nightly' \
   @neovim/neovim
 
-# zinit for \
-#       as'program' \
-#       compile'revolver' \
-#       pick'revolver' \
-#   @molovo/revolver \
-#   @vladdoster/zshfmt
+zinit for \
+      as'program' \
+      compile'revolver' \
+      pick'revolver' \
+  @molovo/revolver \
+  @vladdoster/zshfmt
 
 # zinit from'gh-r' lbin'!' for \
 #     lbin'!gh'    @cli/cli       \
