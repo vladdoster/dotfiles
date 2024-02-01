@@ -14,8 +14,9 @@ CONTAINER_NAME := vdoster/dotfiles-$(CONTAINER_ARCH)
 CONTAINER_TAG ?= $(CONTAINER_NAME):$(CONTAINER_LABEL)
 BUILD_DATE := $(shell date -u +%FT%TZ) # https://github.com/opencontainers/image-spec/blob/master/annotations.md
 
-PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --no-cache-dir --target=$$HOME/.local/share/python
-PY_PKGS := beautysh black bpytop isort linkify mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pip pylint pynvim reorder-python-imports
+PY_PATH ?= $$HOME/.local/share/python
+PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --no-cache-dir --target=$(PY_PATH)
+PY_PKGS ?= beautysh black bpytop isort linkify mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pip pylint pynvim reorder-python-imports pytest
 PY_VER ?= $(shell python3 --version | awk '{print $$2}' | cut -d "." -f 1-2)
 PY_PIP := python3 -m pip
 # PY_PIP := python$(PY_VER) -m pip
@@ -23,7 +24,7 @@ PY_PIP := python3 -m pip
 DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-$(CONTAINER_ARCH)-volume,destination=/home --security-opt seccomp=unconfined
 STOW_OPTS := --target=$$HOME --verbose=1
 
-TARGETS := all brew-bundle brew-install clean docker-build docker-shell docker-ssh dotfiles hammerspoon help neovim shell stow targets-table test update-readme
+TARGETS := all brew-bundle brew-install clean docker-build docker-shell docker-ssh dotfiles hammerspoon help neovim shell stow targets-table test update-readme clean clean-docker clean-brew clean-py-pkgs
 .PHONY: $(TARGETS)
 
 all: help
@@ -51,8 +52,16 @@ docker-build: ## Build docker image
 	    --tag "$(CONTAINER_TAG)" \
 	    .
 
-docker-clean: ## Clean docker resources
+clean-py-pkgs: ## Clean python resources
+	rm -rf $(PY_PATH)
+
+clean-docker: ## Clean docker resources
 	docker system prune --all --force
+
+clean-brew: ## Clean docker resources
+	brew cleanup --prune=all
+
+clean: clean-brew clean-docker clean-py-pkgs
 
 docker-load: ## Create tarball of docker image
 	$(info ==> loading $(CONTAINER_TAG))
@@ -120,7 +129,7 @@ py-update: py-pkgs ## Update python packages
 	$(PY_PIP) list | cut -d" " -f 1 | tail -n +3 | xargs $(PY_PIP) install $(PIP_OPTS)
 	$(info ==> updated py packages)
 
-rust-install: ## Install rust & cargo
+rust-install:  ## Install rust & cargo
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 rust-pkgs: ## Install rust programs
@@ -144,4 +153,4 @@ update-readme: ## Update Make targets table in README
 %: ## A catch-all target to make fake targets
 	true
 
-# vim: set fenc=utf8 ffs=unix ft=make list noet sw=4 ts=4 tw=100:
+# vim: set fenc=utf8 ffs=unix ft=make foldmethod=indent list noet sw=4 ts=4 tw=100:
