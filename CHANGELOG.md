@@ -1,3 +1,15 @@
+# [4.44.0](https://github.com/vladdoster/dotfiles/compare/v4.43.3...v4.44.0) (2024-02-05)
+
+
+### Bug Fixes
+
+* git, pip, zinit, zsh, and tmux configs ([6c88b81](https://github.com/vladdoster/dotfiles/commit/6c88b81c9afeb0883dd13cdeddbeecbc020b2ed5))
+
+
+### Features
+
+* **makefile:** clean targets for python, docker, brew ([c8142f2](https://github.com/vladdoster/dotfiles/commit/c8142f23d2671832de702b90c67a2561e2887131))
+
 ## [4.43.3](https://github.com/vladdoster/dotfiles/compare/v4.43.2...v4.43.3) (2024-01-20)
 
 
