@@ -1,4 +1,4 @@
-setopt typeset_silent extended_glob prompt_subst
+setopt local_options typeset_silent extended_glob prompt_subst
 
 zmodload zsh/{datetime,langinfo,parameter,system,terminfo,zutil} || return
 zmodload -F zsh/files b:{zf_mkdir,zf_mv,zf_rm,zf_rmdir,zf_ln}    || return
@@ -13,7 +13,7 @@ zmodload -F zsh/stat b:zstat                                     || return
 
 export -T MANPATH=${MANPATH:-:} manpath
 export -T INFOPATH=${INFOPATH:-:} infopath
-typeset -gaU cdpath fpath mailpath path manpath infopath
+typeset -gaU cdpath fpath=() mailpath path manpath infopath
 
 function -init-homebrew() {
   (( ARGC )) || return 0
@@ -28,18 +28,20 @@ function -init-homebrew() {
 }
 
 if [[ $OSTYPE == darwin* ]]; then
-  [[ -z $HOMEBREW_PREFIX ]] && -init-homebrew {/opt/homebrew,/usr/local}/bin/brew(N)
+  [[ -z $HOMEBREW_PREFIX ]] && -init-homebrew /opt/homebrew/bin/brew(.N)
 elif [[ $OSTYPE == linux* && -z $HOMEBREW_PREFIX ]]; then
   -init-homebrew {/home/linuxbrew/.linuxbrew,~/.linuxbrew}/bin/brew(N)
 fi
 
-fpath=(
+dirpath=(/opt/homebrew/share/zsh(N-/)); 
+# fpath+=($^dirpath/*f*(/NoL[1,2]))
+fpath+=(
   ${ZDOTDIR}/{'completions','functions'}(-/N)
-  ${^${(M)fpath:#*/$ZSH_VERSION/functions}/%$ZSH_VERSION\/functions/site-functions}(-/N)
-  ${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/share/zsh/site-functions}(-/N)
-  /{opt/homebrew,usr{/local,}}/share/zsh/{site-functions,vendor-completions}(-/N)
-  /opt/homebrew/share/zsh/{'','site-'}functions(-/N)
-  $fpath
+  $^dirpath/*f*(/NoL[1,2])
+  # ${^${(M)fpath:#*/$ZSH_VERSION/functions}/%$ZSH_VERSION\/functions/site-functions}(-/N)
+  # ${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/share/zsh/site-functions}(-/N)
+  # /{opt/homebrew,usr{/local,}}/share/zsh/{site-functions,vendor-completions}(-/N)
+  # /opt/homebrew/share/zsh/{'','site-'}functions(-/N)
 )
 
 # autoload +X -U bashcompinit; print 'loading bashcompinit'; bashcompinit

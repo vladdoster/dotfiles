@@ -16,9 +16,9 @@ BUILD_DATE := $(shell date -u +%FT%TZ) # https://github.com/opencontainers/image
 
 PY_PATH ?= $$HOME/.local/share/python
 PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --no-cache-dir --target=$(PY_PATH)
-PY_PKGS ?= beautysh black bpytop isort linkify mdformat mdformat-config mdformat-gfm mdformat-shfmt mdformat-tables mdformat-toc pip pylint pynvim reorder-python-imports pytest
-PY_VER ?= $(shell python3 --version | awk '{print $$2}' | cut -d "." -f 1-2)
 PY_PIP := python3 -m pip
+PY_PKGS := mdformat beautysh pynvim typer
+PY_VER ?= $(shell python3 --version | awk '{print $$2}' | cut -d "." -f 1-2)
 # PY_PIP := python$(PY_VER) -m pip
 
 DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-$(CONTAINER_ARCH)-volume,destination=/home --security-opt seccomp=unconfined
@@ -126,7 +126,7 @@ py-pkgs: py-version ## Install python pkgs
 py-update: py-pkgs ## Update python packages
 	$(info ==> updating py pkgs)
 	$(PY_PIP) install $(PIP_OPTS) --upgrade pip
-	$(PY_PIP) list | cut -d" " -f 1 | tail -n +3 | xargs $(PY_PIP) install $(PIP_OPTS)
+	# $(PY_PIP) list | cut -d" " -f 1 | tail -n +3 | xargs $(PY_PIP) install $(PIP_OPTS)
 	$(info ==> updated py packages)
 
 rust-install:  ## Install rust & cargo

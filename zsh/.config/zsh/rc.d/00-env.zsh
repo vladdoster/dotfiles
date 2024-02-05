@@ -18,8 +18,15 @@ export \
   HOMEBREW_NO_{ENV_HINTS,INSTALL_CLEANUP}=1 \
   SHELL_SESSIONS_DISABLE=1
 
+export PIP_TRUSTED_HOST='files.pythonhosted.org pypi.org'
+export PIP_UPGRADE='true'
+export PIP_NO_CACHE_DIR='true'
+export PIP_TARGET="$HOME/.local/share/python"
+
 #------------------------------
 # Prompt
 #------------------------------
 autoload -U colors zsh/terminfo
 colors
+
+#  vim: set expandtab filetype=zsh shiftwidth=4 tabstop=4 :

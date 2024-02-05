@@ -1,7 +1,5 @@
 #!/usr/bin/env zsh
 
-setopt auto_cd extended_glob glob_dots interactive_comments prompt_subst
-
 SAVEHIST=200000
 HISTSIZE=$SAVEHIST
 : ${HISTFILE=$ZDOTDIR/zsh_history}
@@ -15,16 +13,14 @@ setopt hist_{'verify','expire_dups_first','ignore_dups'}
   done
 }
 
-[ -z "$ZPROF" ] || zmodload zsh/zprof
-
 if (( ! $#NO_RC )); then
   for f in ${ZDOTDIR}/rc.d/<->-*zsh(N); do
     source "$f"
   done
 fi
 
-export PATH="/opt/homebrew/bin:$PATH"
+setopt auto_cd extended_glob glob_dots interactive_comments prompt_subst
 
-[ -z "$ZPROF" ] || zprof
+export PATH="/opt/homebrew/bin:$PATH"
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

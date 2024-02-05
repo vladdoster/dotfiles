@@ -1,4 +1,3 @@
-# vim: set et ft=gitconfig sts=2 sw=2 ts=2:
 [user]
   email = mvdoster@gmail.com
   name = Vladislav Doster
@@ -113,3 +112,5 @@
   sub-pull = !git submodule foreach git pull --tags origin master
   sub-rm   = !sh -c 'git submodule deinit -f -- $1 && rm -rf .git/modules/$1 && git rm -f $1' -
   sub-up   = submodule update --init --recursive
+
+;  vim: set expandtab filetype=gitconfig shiftwidth=2 tabstop=2 :

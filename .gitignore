@@ -1,4 +1,3 @@
-**/bin/*stow
 .DS_Store
 .zcompdump
 bin/.local/[si]*
