@@ -8,8 +8,8 @@ CONFIG+=(
     HOME_DIR    "${zi_dir}"         BIN_DIR      "${zi_dir}/zinit.git"
     PLUGINS_DIR "${zi_dir}/plugins" SNIPPETS_DIR "${zi_dir}/snippets"
     SRC         'zdharma-continuum' ZPFX         "${zi_dir}/polaris"
-    FORK        'vdoster'           BRANCH       'fork/tmp'
     COMPLETIONS_DIR "${zi_dir}/completions"
+    # FORK        'vdoster'           BRANCH       'fork/tmp'
 )
 # CONFIG+=( DEBUG 'true' )
 typeset -A ZINIT=(${(kv)CONFIG})
@@ -39,8 +39,7 @@ else
 fi
 
 # hash -d 'zpfx'="${ZINIT[ZPFX]}"
-
-zinit for \
+zinit id-as  for \
     atinit"
         zstyle ':prompt:pure:git:action' color 'yellow';
         zstyle ':prompt:pure:git:branch' color 'blue';
@@ -55,17 +54,25 @@ zinit for \
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
 
 zinit for ver'fix/binary-selection-glob' @zdharma-continuum/zinit-annex-binary-symlink
-zinit for @zdharma-continuum/zinit-annex-{'bin-gem-node','linkman'}
+zinit id-as for @zdharma-continuum/zinit-annex-{'bin-gem-node','linkman'}
 
-zinit aliases for @vladdoster/z{'sh','init'}-aliases.plugin.zsh
+zinit id-as aliases for @vladdoster/z{'sh','init'}-aliases.plugin.zsh
 
-zinit from'gh-r' lbin'!' for \
+zinit light-mode id-as aliases from'gh-r' lbin'!' for \
   @dandavison/delta  \
       atload"!(){ setopt no_aliases; alias l='exa -blF';alias la='exa -abghilmu';alias ll='exa -al';alias ls='exa --git --group-directories-first';}" if'[[ $VENDOR = apple ]]' \
   @ogham/exa \
       atload"!(){ setopt no_aliases; alias l='eza -blF';alias la='eza -abghilmu';alias ll='eza -al';alias ls='eza --git --group-directories-first';}"  if'[[ $VENDOR != apple ]]' \
-  @eza-community/eza \
-      atload'!(){ setopt no_aliases; local i;for i (v vi vim);do alias $i="nvim";done; export EDITOR="nvim"; }' \
+  @eza-community/eza
+
+
+zinit light-mode depth=1 aliases atload'!(){ setopt no_aliases; local i;for i (v vi vim);do alias $i="nvim";done; export EDITOR="nvim"; }' for \
+      id-as'nvim-arm64' \
+      if"(( ${${${(m)$(arch):#(arm|aarch)*}:+0}:-1} ))" \
+      make \
+  @neovim/neovim \
+      id-as'nvim-x86_64' \
+      if"(( ${${${(M)$(arch):#(arm|aarch)*}:+0}:-1} ))" \
       lbin'!nvim' \
       no'completions' \
   @neovim/neovim
@@ -78,20 +85,20 @@ zinit from'gh-r' lbin'!' for \
 #       ver'fix/zsh-completion' \
 #   @vladdoster/zshfmt
 
-zinit id-as for \
-      as'program' \
-      compile'revolver' \
-      pick'revolver' \
-  @molovo/revolver \
-  @vladdoster/zshfmt \
-      null \
-  @zdharma-continuum/zinit-vim-syntax
+zinit ver'develop' id-as for \
+  @vladdoster/zshfmt
+  # as'program' \
+  # compile'revolver' \
+  # pick'revolver' \
+  # @molovo/revolver \
+#       null \
+#   @zdharma-continuum/zinit-vim-syntax
 
-zinit from'gh-r' lbin'!' lman for \
+zinit if'(())' from'gh-r' lbin'!' lman for \
     lbin'!gh'    @cli/cli       \
     lbin'!hugo'  @gohugoio/hugo \
     lbin'!*->fx' @antonmedv/fx  \
-  @JohnnyMorganz/StyLua \
+  id-as if'((1))' @JohnnyMorganz/StyLua \
   @junegunn/fzf \
   @sharkdp/bat @sharkdp/fd @sharkdp/hyperfine \
   @topgrade-rs/topgrade \
@@ -101,7 +108,7 @@ zinit snippet OMZ::plugins/git
 zinit snippet OMZ::lib/git.zsh
 # zinit is-snippet for @OMZ{'::lib/git.zsh',P::{'colored-man-pages','extract'}}
 
-zinit build depth=1 id-as for \
+zinit if'(())' build depth=1 id-as for \
       configure'--disable-utf8proc' \
   @tmux/tmux \
   @bminor/bash \
@@ -109,11 +116,11 @@ zinit build depth=1 id-as for \
   @jqlang/jq \
   @vim/vim
 
-zinit cmake for \
+zinit if'(())' cmake for \
   @Koihik/LuaFormatter \
   @thewtex/tmux-mem-cpu-load
 
-zinit lucid wait for \
+zinit light-mode lucid id-as wait for \
   null make"prefix=$ZPFX all install" \
     @zdharma-continuum/zshelldoc \
     compile atinit'bindkey -M vicmd "^v" edit-command-line' light-mode \
@@ -123,11 +130,12 @@ zinit lucid wait for \
     atload'bindkey "^[[A" history-substring-search-up;bindkey "^[[B" history-substring-search-down' \
   @zsh-users/zsh-history-substring-search \
   atinit'zicompinit; zicdreplay' \
+  null \
     @zdharma-continuum/fast-syntax-highlighting \
   atload'_zsh_autosuggest_start' \
   atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
     @zsh-users/zsh-autosuggestions \
-  blockf atpull'zinit creinstall -q .' \
+  blockf atpull'zinit creinstall -q .' light-mode \
     @zsh-users/zsh-completions
 
 #   id-as'hsmw-compile-ice' \
