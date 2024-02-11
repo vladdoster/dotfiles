@@ -1,3 +1,10 @@
+## [4.44.1](https://github.com/vladdoster/dotfiles/compare/v4.44.0...v4.44.1) (2024-02-11)
+
+
+### Bug Fixes
+
+* **zinit:** use upstream and plugin ices ([12e7ef9](https://github.com/vladdoster/dotfiles/commit/12e7ef92a481f94d084903cec24b20d4cc1e481f))
+
 # [4.44.0](https://github.com/vladdoster/dotfiles/compare/v4.43.3...v4.44.0) (2024-02-05)
 
 
