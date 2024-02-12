@@ -60,11 +60,9 @@ zinit id-as aliases for @vladdoster/z{'sh','init'}-aliases.plugin.zsh
 
 zinit light-mode id-as aliases from'gh-r' lbin'!' for \
   @dandavison/delta  \
-      atload"!(){ setopt no_aliases; alias l='exa -blF';alias la='exa -abghilmu';alias ll='exa -al';alias ls='exa --git --group-directories-first';}" if'[[ $VENDOR = apple ]]' \
   @ogham/exa \
-      atload"!(){ setopt no_aliases; alias l='eza -blF';alias la='eza -abghilmu';alias ll='eza -al';alias ls='eza --git --group-directories-first';}"  if'[[ $VENDOR != apple ]]' \
+      atload"!(){ setopt no_aliases; alias l='eza -blF';alias la='eza -abghilmu';alias ll='eza -al';alias ls='eza --git --group-directories-first';}" \
   @eza-community/eza
-
 
 zinit light-mode depth=1 aliases atload'!(){ setopt no_aliases; local i;for i (v vi vim);do alias $i="nvim";done; export EDITOR="nvim"; }' for \
       id-as'nvim-arm64' \
@@ -130,7 +128,6 @@ zinit light-mode lucid id-as wait for \
     atload'bindkey "^[[A" history-substring-search-up;bindkey "^[[B" history-substring-search-down' \
   @zsh-users/zsh-history-substring-search \
   atinit'zicompinit; zicdreplay' \
-  null \
     @zdharma-continuum/fast-syntax-highlighting \
   atload'_zsh_autosuggest_start' \
   atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
