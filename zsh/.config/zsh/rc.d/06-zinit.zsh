@@ -38,7 +38,6 @@ else
   return 1
 fi
 
-# hash -d 'zpfx'="${ZINIT[ZPFX]}"
 zinit id-as  for \
     atinit"
         zstyle ':prompt:pure:git:action' color 'yellow';
@@ -49,20 +48,26 @@ zinit id-as  for \
         PURE_GIT_DOWN_ARROW='%1{↓%}'; PURE_GIT_UP_ARROW='%1{↑%}' PURE_PROMPT_SYMBOL='${HOST}%2{ ᐳ%}'; PURE_PROMPT_VICMD_SYMBOL='${HOST}%2{ ᐸ%}'" \
     compile'(async|pure).zsh' \
     multisrc'(async|pure).zsh' \
+    atload"
+        unset 'prompt_pure_debug_depth';
+        typeset -g PROMPT4='%B[%b%F{yellow}%N%f|%F{blue}%I%f%B]%b '
+        typeset -ag prompt_pure_debug_depth=()" \
   @sindresorhus/pure
+
+
 
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
 
 zinit for ver'fix/binary-selection-glob' @zdharma-continuum/zinit-annex-binary-symlink
 zinit id-as for @zdharma-continuum/zinit-annex-{'bin-gem-node','linkman'}
 
-zinit id-as aliases for @vladdoster/z{'sh','init'}-aliases.plugin.zsh
+zinit id-as aliases for load @vladdoster/z{'sh','init'}-aliases.plugin.zsh
 
 zinit light-mode id-as aliases from'gh-r' lbin'!' for \
   @dandavison/delta  \
   @ogham/exa \
       atload"!(){ setopt no_aliases; alias l='eza -blF';alias la='eza -abghilmu';alias ll='eza -al';alias ls='eza --git --group-directories-first';}" \
-  @eza-community/eza
+  @vladdoster/eza
 
 zinit light-mode depth=1 aliases atload'!(){ setopt no_aliases; local i;for i (v vi vim);do alias $i="nvim";done; export EDITOR="nvim"; }' for \
       id-as'nvim-arm64' \
@@ -72,7 +77,6 @@ zinit light-mode depth=1 aliases atload'!(){ setopt no_aliases; local i;for i (v
       id-as'nvim-x86_64' \
       if"(( ${${${(M)$(arch):#(arm|aarch)*}:+0}:-1} ))" \
       lbin'!nvim' \
-      no'completions' \
   @neovim/neovim
 
 #       as'program' \
@@ -102,17 +106,19 @@ zinit if'(())' from'gh-r' lbin'!' lman for \
   @topgrade-rs/topgrade \
   @chanzuckerberg/fogg
 
-zinit snippet OMZ::plugins/git
-zinit snippet OMZ::lib/git.zsh
+# 'zinit' 'snippet' 'OMZ::plugins/git';
+# 'zinit' 'snippet' 'OMZ::lib/git.zsh';
 # zinit is-snippet for @OMZ{'::lib/git.zsh',P::{'colored-man-pages','extract'}}
 
-zinit if'(())' build depth=1 id-as for \
-      configure'--disable-utf8proc' \
-  @tmux/tmux \
-  @bminor/bash \
-  @cmatsuoka/figlet \
-  @jqlang/jq \
-  @vim/vim
+'zinit' 'id-as' 'for' 'load' 'DerBunman/bzcurses';
+
+# 'zinit' if'(())' 'build' 'depth=1' 'id-as' 'for' \
+#       'configure=--disable-utf8proc' \
+#   'tmux/tmux' \
+#   'bminor/bash' \
+#   'cmatsuoka/figlet' \
+#   'jqlang/jq' \
+#   'vim/vim'
 
 zinit if'(())' cmake for \
   @Koihik/LuaFormatter \
@@ -123,7 +129,7 @@ zinit light-mode lucid id-as wait for \
     @zdharma-continuum/zshelldoc \
     compile atinit'bindkey -M vicmd "^v" edit-command-line' light-mode \
   @softmoth/zsh-vim-mode \
-    null completions atclone'./build.zsh' sbin'zunit' \
+    ver'develop' build \
   @zdharma-continuum/zunit \
     atload'bindkey "^[[A" history-substring-search-up;bindkey "^[[B" history-substring-search-down' \
   @zsh-users/zsh-history-substring-search \
@@ -132,7 +138,7 @@ zinit light-mode lucid id-as wait for \
   atload'_zsh_autosuggest_start' \
   atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
     @zsh-users/zsh-autosuggestions \
-  blockf atpull'zinit creinstall -q .' light-mode \
+  blockf atpull'zinit creinstall -q .' \
     @zsh-users/zsh-completions
 
 #   id-as'hsmw-compile-ice' \
