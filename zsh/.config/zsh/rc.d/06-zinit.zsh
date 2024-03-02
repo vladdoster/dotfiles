@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
 #=== ZINIT ============================================
 local zi_dir="${HOME}/.local/share/zinit"
 alias zic="nvim $0"
@@ -98,14 +98,12 @@ zinit ver'develop' id-as for \
 #   @zdharma-continuum/zinit-vim-syntax
 
 zinit if'(())' from'gh-r' lbin'!' lman for \
-    lbin'!gh'    @cli/cli       \
-    lbin'!hugo'  @gohugoio/hugo \
-    lbin'!*->fx' @antonmedv/fx  \
   id-as if'((1))' @JohnnyMorganz/StyLua \
   @junegunn/fzf \
   @sharkdp/bat @sharkdp/fd @sharkdp/hyperfine \
-  @topgrade-rs/topgrade \
-  @chanzuckerberg/fogg
+  @topgrade-rs/topgrade
+
+# https://unix.stackexchange.com/a/453153/143394
 
 # 'zinit' 'snippet' 'OMZ::plugins/git';
 # 'zinit' 'snippet' 'OMZ::lib/git.zsh';
@@ -126,21 +124,21 @@ zinit if'(())' cmake for \
   @thewtex/tmux-mem-cpu-load
 
 zinit light-mode lucid id-as wait for \
-  make \
-    @zdharma-continuum/zshelldoc \
+    make \
+  @zdharma-continuum/zshelldoc \
     compile atinit'bindkey -M vicmd "^v" edit-command-line' light-mode \
   @softmoth/zsh-vim-mode \
     ver'develop' build \
   @zdharma-continuum/zunit \
     atload'bindkey "^[[A" history-substring-search-up;bindkey "^[[B" history-substring-search-down' \
   @zsh-users/zsh-history-substring-search \
-  atinit'zicompinit; zicdreplay' \
+    atinit'zicompinit; zicdreplay' \
     @zdharma-continuum/fast-syntax-highlighting \
-  atload'_zsh_autosuggest_start' \
-  atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
-    @zsh-users/zsh-autosuggestions \
-  blockf atpull'zinit creinstall -q .' \
-    @zsh-users/zsh-completions
+    atload'_zsh_autosuggest_start' \
+    atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
+  @zsh-users/zsh-autosuggestions \
+    blockf atpull'zinit creinstall -q .' \
+  @zsh-users/zsh-completions
 
 #   id-as'hsmw-compile-ice' \
 # compile'h*~*zwc' \
