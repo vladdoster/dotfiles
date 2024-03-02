@@ -58,14 +58,14 @@ zinit id-as  for \
 
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
 
-zinit for ver'fix/binary-selection-glob' @zdharma-continuum/zinit-annex-binary-symlink
-zinit id-as for @zdharma-continuum/zinit-annex-{'bin-gem-node','linkman'}
+zinit id-as for \
+  ver'fix/binary-selection-glob' @zdharma-continuum/zinit-annex-binary-symlink \
+  @zdharma-continuum/zinit-annex-{'bin-gem-node','linkman'}
 
 zinit id-as aliases for load @vladdoster/z{'sh','init'}-aliases.plugin.zsh
 
 zinit light-mode id-as aliases from'gh-r' lbin'!' for \
   @dandavison/delta  \
-  @ogham/exa \
       atload"!(){ setopt no_aliases; alias l='eza -blF';alias la='eza -abghilmu';alias ll='eza -al';alias ls='eza --git --group-directories-first';}" \
   @vladdoster/eza
 
@@ -74,6 +74,7 @@ zinit light-mode depth=1 aliases atload'!(){ setopt no_aliases; local i;for i (v
       if"(( ${${${(m)$(arch):#(arm|aarch)*}:+0}:-1} ))" \
       make \
   @neovim/neovim \
+      from'gh-r' \
       id-as'nvim-x86_64' \
       if"(( ${${${(M)$(arch):#(arm|aarch)*}:+0}:-1} ))" \
       lbin'!nvim' \
@@ -110,7 +111,7 @@ zinit if'(())' from'gh-r' lbin'!' lman for \
 # 'zinit' 'snippet' 'OMZ::lib/git.zsh';
 # zinit is-snippet for @OMZ{'::lib/git.zsh',P::{'colored-man-pages','extract'}}
 
-'zinit' 'id-as' 'for' 'load' 'DerBunman/bzcurses';
+# 'zinit' 'id-as' 'for' 'load' 'DerBunman/bzcurses';
 
 # 'zinit' if'(())' 'build' 'depth=1' 'id-as' 'for' \
 #       'configure=--disable-utf8proc' \
@@ -125,7 +126,7 @@ zinit if'(())' cmake for \
   @thewtex/tmux-mem-cpu-load
 
 zinit light-mode lucid id-as wait for \
-  null make"prefix=$ZPFX all install" \
+  make \
     @zdharma-continuum/zshelldoc \
     compile atinit'bindkey -M vicmd "^v" edit-command-line' light-mode \
   @softmoth/zsh-vim-mode \
