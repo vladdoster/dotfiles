@@ -1,7 +1,6 @@
-# setopt local_options typeset_silent extended_glob prompt_subst
 # emulate -LR zsh
 
-setopt localoptions noglobalrcs norcs
+setopt local_options typeset_silent extended_glob prompt_subst no_global_rcs
 
 # zmodload zsh/{datetime,langinfo,parameter,system,terminfo,zutil} || return
 # zmodload -F zsh/files b:{zf_mkdir,zf_mv,zf_rm,zf_rmdir,zf_ln}    || return
@@ -18,17 +17,17 @@ export -T MANPATH=${MANPATH:-:} manpath
 export -T INFOPATH=${INFOPATH:-:} infopath
 typeset -gaU cdpath fpath infopath mailpath manpath
 
-function -init-homebrew() {
-  (( ARGC )) || return 0
-  local dir=${1:h:h}
-  export HOMEBREW_PREFIX=$dir
-  export HOMEBREW_CELLAR=$dir/Cellar
-  if [[ -e $dir/Homebrew/Library ]]; then
-    export HOMEBREW_REPOSITORY=$dir/Homebrew
-  else
-    export HOMEBREW_REPOSITORY=$dir
-  fi
-}
+# function -init-homebrew() {
+#   (( ARGC )) || return 0
+#   local dir=${1:h:h}
+#   export HOMEBREW_PREFIX=$dir
+#   export HOMEBREW_CELLAR=$dir/Cellar
+#   if [[ -e $dir/Homebrew/Library ]]; then
+#     export HOMEBREW_REPOSITORY=$dir/Homebrew
+#   else
+#     export HOMEBREW_REPOSITORY=$dir
+#   fi
+# }
 
 
 local -a dirpath=(
@@ -36,14 +35,16 @@ local -a dirpath=(
     {'/home/linuxbrew',$HOME}/.linuxbrew(/N)
 )
 
-# hb=(/{'opt','usr/local'}/homebrew(/N) {/Users/linuxbrew,$HOME}/.linuxbrew(N))     
-print -- "homebrew path: ${dirpath[1]:-not found}"
-if (( !${+commands[brew]} )); then
+# print -ru2 -- "homebrew path: ${dirpath[1]:-not found}"
+if (( !${+commands[brew]} )) && [[ -f ${dirpath[1]}/bin/brew ]] then
     eval $(${dirpath[1]}/bin/brew shellenv)
 fi
 
 fpath=(${ZDOTDIR}/{completions,functions}(/N) $fpath)
-for func in $^fpath/*(N-.:t); builtin autoload +X -Uz -- $func
+# for func in $^fpath/*~*zwc(N-.:t); do
+for func in $^ZDOTDIR/functions/*~*zwc(N-.:t); do
+    builtin autoload +X -Uz -- "$func"
+done
 
 manpath=($manpath '')
 
