@@ -4,7 +4,7 @@ SAVEHIST=200000
 HISTSIZE=$SAVEHIST
 : ${HISTFILE=$ZDOTDIR/zsh_history}
 setopt {'extended','inc_append','share'}_history
-setopt hist_{'verify','expire_dups_first','ignore_dups'}
+setopt HIST_{'EXPIRE_DUPS_FIRST','FIND_NO_DUPS','IGNORE_ALL_DUPS','REDUCE_BLANKS','VERIFY'}
 
 (){
   local -A dirs=( bin "${HOME}/.local/bin" share "${HOME}/.local/share" config "${HOME}/.config" code "${HOME}/code" zsh "${ZDOTDIR:-$HOME/.config/zsh}" )
@@ -20,7 +20,5 @@ if (( ! $#NO_RC )); then
 fi
 
 setopt auto_cd extended_glob glob_dots interactive_comments prompt_subst
-
-export PATH="/opt/homebrew/bin:$PATH"
 
 # vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
