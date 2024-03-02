@@ -1,3 +1,5 @@
+;  vim: set expandtab filetype=gitconfig shiftwidth=4 tabstop=4 :
+
 [user]
   email = mvdoster@gmail.com
   name = Vladislav Doster
@@ -7,11 +9,12 @@
 [credential]
   helper = store --file ~/.config/git/credentials
 [core]
-  autocrlf = false
-  eol = lf
+	autocrlf = false
+	eol = lf
   editor = nvim
   excludesfile = ~/.config/git/ignore
   pager = delta
+	hooksPath = .githooks
 [advice]
   amWorkDir = false
   commitBeforeMerge = false
@@ -46,7 +49,7 @@
   autoupdate = 1
   enabled = 1
 [rebase]
-  autoStash = true
+	autoStash = true
 [http]
   postBuffer = 524288000
   sslVerify = false
@@ -112,5 +115,11 @@
   sub-pull = !git submodule foreach git pull --tags origin master
   sub-rm   = !sh -c 'git submodule deinit -f -- $1 && rm -rf .git/modules/$1 && git rm -f $1' -
   sub-up   = submodule update --init --recursive
-
-;  vim: set expandtab filetype=gitconfig shiftwidth=2 tabstop=2 :
+[fsck]
+	zeroPaddedFilemode = ignore
+[fetch "fsck"]
+	zeroPaddedFilemode = ignore
+[receive "fsck"]
+	zeroPaddedFilemode = ignore
+[zinit]
+	remote = upstream
