@@ -1,3 +1,16 @@
+## [4.44.2](https://github.com/vladdoster/dotfiles/compare/v4.44.1...v4.44.2) (2024-03-03)
+
+
+### Bug Fixes
+
+* **zinit:** misc. ices and neovim ([35d0cfa](https://github.com/vladdoster/dotfiles/commit/35d0cfad84f96843b5da38ec515e45f54486a2a4))
+* **zinit:** use custom built eza ([f8e6334](https://github.com/vladdoster/dotfiles/commit/f8e633458e4e7ebc815cc53018bf6b3d77aba7e1))
+* **zinit:** zinit xtrace prompt ([fcc4965](https://github.com/vladdoster/dotfiles/commit/fcc496559d27d49108b344830f6cb7a265875e89))
+* **zshenv:** do not sutoload *.zwc && cruft cleanup ([56e25ca](https://github.com/vladdoster/dotfiles/commit/56e25ca86b921cf65aa13644120b909e4821d25e))
+* **zshenv:** homebrew init for x86_64 macOS and Linuxbrew ([48b8cbf](https://github.com/vladdoster/dotfiles/commit/48b8cbff6620b3c0f5f98f2541cecae47754a860))
+* **zshenv:** remove explicit sourcing of ~ZDOTDIR/.zshenv ([b45b98d](https://github.com/vladdoster/dotfiles/commit/b45b98dd1a2ca84772d66a5a57f481c5170c90ec))
+* **zshrc:** history options ([18a0055](https://github.com/vladdoster/dotfiles/commit/18a005527162e53a02e35a8cc5396eb4f92e5077))
+
 ## [4.44.1](https://github.com/vladdoster/dotfiles/compare/v4.44.0...v4.44.1) (2024-02-11)
 
 
