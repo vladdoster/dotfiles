@@ -1,4 +1,6 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
+#
 # Example function that extracts all images from an XML/HTML file.
 #
 # Usage:
@@ -64,5 +66,3 @@ reply=( ${(ui)reply[@]##[[:blank:]]#} )
 # https://zsh.sourceforge.io/Doc/Release/Arithmetic-Evaluation.html
 
 # A function always returns the same exit status as its last expression.
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

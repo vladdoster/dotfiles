@@ -1,4 +1,6 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
+
 #
 # check-for-updates - check for changes from upstream repository
 #
@@ -16,5 +18,3 @@
         builtin print -P -- "%F{red}No update available%f"
     fi
 }
-
-# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:

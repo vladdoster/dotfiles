@@ -1,4 +1,6 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
+
 #
 # zpgrep
 #
@@ -38,5 +40,3 @@ do
 	fi
 done
 return "$ret"
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

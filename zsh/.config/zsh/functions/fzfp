@@ -1,4 +1,5 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
 
 builtin emulate -L zsh -o EXTENDED_GLOB
 
@@ -7,5 +8,3 @@ fzf --ansi --bind '?:toggle-preview' --inline-info --preview='\
   && echo {} is a binary file \
   || highlight --style base16/nord -O ansi -l {} \
   || cat {} 2> /dev/null | head -500' --reverse --tabstop=1
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

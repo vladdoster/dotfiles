@@ -1,4 +1,5 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
 #
 # add-to-path
 #
@@ -50,5 +51,3 @@ add-to-path () {
         print 'add-to-path: appended entry to path'
     fi
 }
-
-# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:

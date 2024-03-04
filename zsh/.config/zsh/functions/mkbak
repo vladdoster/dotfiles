@@ -1,4 +1,5 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
 
 emulate -L zsh
 setopt extendedglob
@@ -25,6 +26,3 @@ for f in $@; do
     command cp ${f}{,.bak}
     (( $? )) || { builtin print -P -- "%F{green}==>%f ${f}.bak created"; }
 done
-
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

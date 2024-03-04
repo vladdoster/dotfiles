@@ -1,4 +1,5 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
 
 emulate -L zsh
 zmodload zsh/zutil || return
@@ -112,6 +113,3 @@ EOF
   builtin print -P -- "%F{red}Error: Failed to build ${container_tag} %f"
   return 1
 }
-
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

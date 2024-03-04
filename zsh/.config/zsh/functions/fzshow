@@ -1,4 +1,6 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
+
 #
 # fzshow
 #
@@ -14,6 +16,3 @@ git log --graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "
             | less -R') << 'FZF-EOF'
         {}
 FZF-EOF"
-
-
-# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:

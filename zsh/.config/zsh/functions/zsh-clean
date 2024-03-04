@@ -1,4 +1,6 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
+
 #
 # zsh-clean
 # Remove zsh generated files & directories
@@ -47,4 +49,3 @@ zsh-clean () {
         print -- "zsh-clean: no files to clean"
     fi
 }
-# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:

@@ -1,4 +1,5 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
 
 builtin emulate -L zsh -o EXTENDED_GLOB
 
@@ -15,5 +16,3 @@ else
     log::error "Unable to generate $1 completion"
     return 1
 fi
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

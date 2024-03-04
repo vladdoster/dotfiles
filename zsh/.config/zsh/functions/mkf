@@ -1,4 +1,5 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
 
 emulate -L zsh
 
@@ -10,5 +11,3 @@ emulate -L zsh
     zparseopts -a optv - f: - e: z
     print -r - ret: $?, optv: $optv, argv: $argv
 } -f asd -e zsh
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

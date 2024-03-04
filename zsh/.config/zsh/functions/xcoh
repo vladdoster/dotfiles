@@ -1,4 +1,5 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
 
 emulate -L zsh
 zmodload zsh/zutil || return
@@ -18,5 +19,3 @@ elif [[ -d ${XDG_CONFIG_HOME:-~/.config}/$1 ]]; then
 else
     log_error "$1 not found"
 fi
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

@@ -1,4 +1,5 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
 
 local flag_help
 local -a arg_extension=()
@@ -40,5 +41,3 @@ for repo in $@; do
 }
 EOF
 done
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

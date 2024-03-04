@@ -1,4 +1,5 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
 
 builtin emulate -L zsh -o EXTENDED_GLOB
 
@@ -8,5 +9,3 @@ print "$1 contains ${#fns} functions:\n--------------------"
 for f in $(grep -E '^.*\(\).\{$' $(realpath ${1}) | tr -d \{\(\) | awk '{print $1}' | sort); do
     echo "$f"
 done
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

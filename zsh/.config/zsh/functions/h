@@ -1,7 +1,14 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
 
-builtin emulate -L zsh -o EXTENDED_GLOB
+function h(){
+  builtin emulate -L zsh -o EXTENDED_GLOB
+  builtin cd "${HOME}/${1}"
+}
 
-builtin cd $HOME/$1
+function _h(){
+  _message 'Fuck your house'
+  ret=0
+}
 
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
+comdef _h h

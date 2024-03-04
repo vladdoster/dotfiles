@@ -1,4 +1,5 @@
 #autoload
+
 #
 # have-updates
 #
@@ -25,5 +26,3 @@ for d in $1/*(/); do
     popd
 done
 print -l -- "${#updates} updates:" ${(@)updates}
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

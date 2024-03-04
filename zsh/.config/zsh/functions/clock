@@ -1,4 +1,6 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
+
 
 builtin emulate -L zsh -o EXTENDED_GLOB
 
@@ -13,5 +15,3 @@ while [ true ]; do
         tput el
     done
 done
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

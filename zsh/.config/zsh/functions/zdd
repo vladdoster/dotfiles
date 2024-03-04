@@ -1,4 +1,6 @@
 #autoload
+# vim: set et ft=zsh sw=4 st=4 ts=4:
+
 #
 # zdd
 #
@@ -38,5 +40,3 @@ zdd () {
         return 1
     fi
 }
-
-# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
