@@ -1,0 +1,7 @@
+#compdef F
+
+_arguments \
+    '(-d --debug)'{-d,--debug}'[Enable debug mode]' \
+    '(-h --help)'{-h,--help}'[Show list of command-line options]' \
+    '(-x --indent)'{-x,--indent}'[indent output using given number of spaces]:number of spaces (integer):(2 4 8)' \
+    "1:functions:_functions"
