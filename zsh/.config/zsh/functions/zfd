@@ -1,35 +1,45 @@
 #autoload
 # vim: set et ft=zsh sw=4 st=4 ts=4:
 
-zfd () {
-    _zfd_usage () {
-        print 'Usage: zfd [options] [files...]'
-        print 'Options:'
-        print '  -d, --debug        turn on execution tracing'
-        print '  -h, --help         show list of command-line options'
-    }
+emulate -LR zsh
+zmodload zsh/zutil || return
 
-    setopt localoptions extended_glob
-    zmodload zsh/zutil || return 1
-    local base debug dest help
-    builtin zparseopts -D -F -E -K h=help -help=help d=debug -debug=debug || return 1
+local help verbose message file=()
 
-    if (( $#help )); then
-        _zfd_usage
-        return 0
-    fi
-    if (( $#debug )); then
-        setopt xtrace
-        print -rC1 -- "functions: ${(q+)^@}"
-    fi
+zparseopts -D -F -K -F -- \
+    {c,-cmp}=completion \
+    {d,-debug}=debug    \
+    {h,-help}=help      \
+    || return 1
 
-    local -aU files=(${ZDOTDIR}/functions/${(q+)^@}) 
+if (( $#help )); then
+    print "Usage: $0 [options] [files...]"
+    print 'Options:'
+    print '  -c, --completion       turn on execution tracing'
+    print '  -d, --debug            turn on execution tracing'
+    print '  -h, --help             show list of command-line options'
+fi
 
-    if (( ${#files} )); then
-        nvim -O -- ${files[@]}
+if (( $#debug )); then
+    setopt xtrace
+    print -r -- "$# args: ${(j:, :Q)^@}"
+fi
+
+if (( $# )); then
+    if (( $#completion )); then
+        pushd "${ZDOTDIR}/completions"
+        nvim -O -- _${(Q)^@}
+        popd
     else
-        cd "$ZDOTDIR/functions" && ls
+        pushd "${ZDOTDIR}/functions"
+        nvim -O -- ${^@}
+        popd
     fi
+else
+    command cd ${ZDOTDIR:-$HOME/.config/zsh}/functions/
+fi
 
-    return 0
-}
+# if (( $#file )); then
+#     local -a files=(${(s: :)${(Q)file[-1]}})
+#     print -- "$#files file: ${(j:, :)files[@]}"
+# fi
