@@ -4,7 +4,8 @@
 emulate -LR zsh
 zmodload zsh/zutil || return
 
-local help verbose message file=()
+setopt typeset_silent extended_glob
+local help verbose message completion file=()
 
 zparseopts -D -F -K -F -- \
     {c,-cmp}=completion \
@@ -26,9 +27,10 @@ if (( $#debug )); then
 fi
 
 if (( $# )); then
+    setopt auto_pushd pushd_silent
     if (( $#completion )); then
         pushd "${ZDOTDIR}/completions"
-        nvim -O -- _${(Q)^@}
+        nvim -O -- _${^@}
         popd
     else
         pushd "${ZDOTDIR}/functions"
@@ -36,7 +38,7 @@ if (( $# )); then
         popd
     fi
 else
-    command cd ${ZDOTDIR:-$HOME/.config/zsh}/functions/
+    cd "${HOME}/.config/zsh/functions"
 fi
 
 # if (( $#file )); then
