@@ -1,3 +1,16 @@
+# [4.45.0](https://github.com/vladdoster/dotfiles/compare/v4.44.2...v4.45.0) (2024-03-15)
+
+
+### Bug Fixes
+
+* **zfd:** multiple arguments & flag to edit completion ([#45](https://github.com/vladdoster/dotfiles/issues/45)) ([947e9d0](https://github.com/vladdoster/dotfiles/commit/947e9d0f07ddeba33a12445864edb8ca27759059))
+* **zfd:** option state leak & pushd options ([397042e](https://github.com/vladdoster/dotfiles/commit/397042e8b4c308cb792117dd9f5e19d8ec2c5d6d))
+
+
+### Features
+
+* **F:** improved functions function & completion ([f3c414e](https://github.com/vladdoster/dotfiles/commit/f3c414e9af45302babe39a30f577240f94c67916))
+
 ## [4.44.2](https://github.com/vladdoster/dotfiles/compare/v4.44.1...v4.44.2) (2024-03-03)
 
 
