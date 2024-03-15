@@ -1,0 +1,32 @@
+#autoload
+
+emulate -LR zsh
+setopt extended_glob no_bang_hist no_aliases
+zmodload zsh/zutil || return 1
+local base debug dest help indent=(4)
+zparseopts -D -F -E -K d=debug-debug=debug h=help -help=help x:=indent -indent:=indent || return 1
+if (( $#help )); then
+    print 'Usage: $0 [options] [function]'
+    print 'Options:'
+    print '  -d, --debug        turn on execution tracing'
+    print '  -h, --help         show list of command-line options'
+    print '  -x, --indent       turn on execution tracing'
+    return 0
+fi
+if (( $#debug )); then
+    builtin setopt xtrace
+    builtin print -rC1 -- "functions: ${(q+)^@}"
+fi
+if [[ ${indent[-1]} != <-> ]]; then
+    builtin print -r "Integer >= 0 expected after : $indent" >&2
+    return 1
+else
+    local -i i=$indent[-1]
+fi
+local var="$(functions -x $i -- $1)"
+if [[ $var = *\#\ undefined* ]]; then
+    var="$(builtin autoload +X -- $1; builtin functions -x $i -- $1)"
+elif [[ -z $var ]]; then
+    var="${(q-)1} () { ; }"
+fi
+builtin print -r "$var"
