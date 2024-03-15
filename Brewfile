@@ -29,7 +29,8 @@ brew "lua"
 brew "luarocks"
 brew "m4"
 brew "make"
-brew "node@16", link: true
+brew "node", link: true
+brew "python3", link: true
 brew "subversion"
 brew "texinfo"
 brew "tmux", link: true
