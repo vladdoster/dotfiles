@@ -1,3 +1,4 @@
+zsh_load_info
 # alias %= \$=
 autoload -Uz zmv
 alias zmv='zmv -Mv'
