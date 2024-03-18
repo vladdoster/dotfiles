@@ -13,11 +13,13 @@ CONTAINER_LABEL ?= $(shell git rev-parse --short HEAD)
 CONTAINER_NAME := vdoster/dotfiles-$(CONTAINER_ARCH)
 CONTAINER_TAG ?= $(CONTAINER_NAME):$(CONTAINER_LABEL)
 BUILD_DATE := $(shell date -u +%FT%TZ) # https://github.com/opencontainers/image-spec/blob/master/annotations.md
+WORKDIR := $$HOME/.local/share
+VENVDIR := $(WORKDIR)/python
 
 PY_PATH ?= $$HOME/.local/share/python
-PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --no-cache-dir --target=$(PY_PATH)
+PIP_OPTS := --no-cache-dir --target=$(PY_PATH) --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade
 PY_PIP := python3 -m pip
-PY_PKGS := mdformat beautysh pynvim typer
+PY_PKGS := pip-review pipx pynvim beautysh flask click
 PY_VER ?= $(shell python3 --version | awk '{print $$2}' | cut -d "." -f 1-2)
 # PY_PIP := python$(PY_VER) -m pip
 
@@ -112,20 +114,30 @@ safari-extensions: ## Install 1password, vimari, grammarly safari extensions
 	brew install mas
 	mas install 1569813296 1480933944 1462114288 # 1password, vimari, grammarly
 
-py-version: ## Print python3 version
+include Makefile.venv
+Makefile.venv:
+	curl \
+		-o Makefile.fetched \
+		-L "https://github.com/sio/Makefile.venv/raw/v2023.04.17/Makefile.venv"
+	echo "fb48375ed1fd19e41e0cdcf51a4a0c6d1010dfe03b672ffc4c26a91878544f82 *Makefile.fetched" \
+		| sha256sum --check - \
+		&& mv Makefile.fetched Makefile.venv
+
+py-version: venv ## Print python3 version
 	$(info ==> Python version: $(PY_VER))
 
 py-pip-install: py-version ## Install pip
-	curl https://bootstrap.pypa.io/get-pip.py | $(PY_VER)
+	curl https://bootstrap.pypa.io/get-pip.py | python$(PY_VER)
 
-py-pkgs: py-version ## Install python pkgs
+py-pkgs: venv ## Install python pkgs
 	$(info ==> installing py pkgs)
-	$(PY_PIP) install $(PIP_OPTS) $(PY_PKGS)
+	$(VENV)/pip install $(PY_PKGS)
 	$(info ==> installed py packages)
 
 py-update: py-pkgs ## Update python packages
 	$(info ==> updating py pkgs)
-	$(PY_PIP) install $(PIP_OPTS) --upgrade pip
+	pip-review --auto
+	# $(PY_PIP) install $(PIP_OPTS) --upgrade pip
 	# $(PY_PIP) list | cut -d" " -f 1 | tail -n +3 | xargs $(PY_PIP) install $(PIP_OPTS)
 	$(info ==> updated py packages)
 
