@@ -1,3 +1,21 @@
+# [4.46.0](https://github.com/vladdoster/dotfiles/compare/v4.45.0...v4.46.0) (2024-03-20)
+
+
+### Bug Fixes
+
+* **completions:** remove _op & _e:func ([376d450](https://github.com/vladdoster/dotfiles/commit/376d450de1397544e45cb5b012bd521e91b90853))
+
+
+### Features
+
+* **brewfile:** bump node version & add python3 ([f8284ab](https://github.com/vladdoster/dotfiles/commit/f8284aba47997fb57360b099075e1b0c86707ece))
+* **F:** improved functions function & completion ([4d5e3bc](https://github.com/vladdoster/dotfiles/commit/4d5e3bcbb0100ad209dc46cc987561b55a0ca744))
+
+
+### Performance Improvements
+
+* **zsh:** remove airflow completion ([6833483](https://github.com/vladdoster/dotfiles/commit/68334834e171d3dd48f83c400826cdfbf4dd1500))
+
 # [4.45.0](https://github.com/vladdoster/dotfiles/compare/v4.44.2...v4.45.0) (2024-03-15)
 
 
