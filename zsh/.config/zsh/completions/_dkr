@@ -1,61 +1,56 @@
 #compdef dkr
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
 
-local curcontext="$curcontext" state line ret=1
+(
+    local curcontext="$curcontext" state line ret=1
 
-_dkr_commands() {
-    local -a commands=(
-        "sandbox:Create docker container suitable for development"
-        "nuke:Clean up sandbox container resources"
-    )
+    _dkr_commands() {
+        local -a commands=(
+            "sandbox:Create docker container suitable for development"
+            "nuke:Clean up sandbox container resources"
+        )
 
-    _describe -t commands 'command' commands "$@"
-}
+        _describe -t commands 'command' commands "$@"
+    }
 
-_dkr_sandbox_subcommands() {
-    local subcommands
-    subcommands=(
-        "build:Build sandbox docker image"
-        "run:Start an shell session"
-    )
-    _describe -t subcommands 'subcommand' subcommands "$@"
-}
+    _dkr_sandbox_subcommands() {
+        local subcommands
+        subcommands=(
+            "build:Build sandbox docker image"
+            "run:Start an shell session"
+        )
+        _describe -t subcommands 'subcommand' subcommands "$@"
+    }
 
-_arguments -C \
-    '(-h --help)'{-h,--help}'[Print usage information and exit]' \
-    '(-v --version)'{-v,--version}'[Print version number and exit]' \
-    '1: :_dkr_commands' \
-    '*:: :->args' && ret=0
+    _arguments -C \
+        '(-h --help)'{-h,--help}'[Print usage information and exit]' \
+        '(-v --version)'{-v,--version}'[Print version number and exit]' \
+        '1: :_dkr_commands' \
+        '*:: :->args' && ret=0
 
-case $state in
-    args)
-        case $words[1] in
-            help)
-                local -a commands=('nuke' 'sandbox')
-                _arguments -C \
-                    '1: :($commands)' \
-                    && ret=0
-                ;;
-            nuke)
-                ret=0
-                ;;
-            sandbox)
-                local -a distros=('alpine' 'debian' 'ubuntu' 'zinit') platforms=('amd64' 'arm64' 'arm64v8')
-                _arguments -C \
-                    '(-d --distro)'{-d,--distro}"[specify the Linux distro for sbox]:arg:($distros)" \
-                    '(-p --platform)'{-p,--platform}"[specify the platform for sbox]:arg:($platforms)" \
-                    '1: :_dkr_sandbox_subcommands' \
-                    && ret=0
-                ;;
-        esac
-        ;;
-esac
+    case $state in
+        args)
+            case $words[1] in
+                help)
+                    local -a commands=('nuke' 'sandbox')
+                    _arguments -C \
+                        '1: :($commands)' \
+                        && ret=0
+                    ;;
+                nuke)
+                    ret=0
+                    ;;
+                sandbox)
+                    local -a distros=('alpine' 'debian' 'ubuntu' 'zinit') platforms=('amd64' 'arm64' 'arm64v8')
+                    _arguments -C \
+                        '(-d --distro)'{-d,--distro}"[specify the Linux distro for sbox]:arg:($distros)" \
+                        '(-p --platform)'{-p,--platform}"[specify the platform for sbox]:arg:($platforms)" \
+                        '1: :_dkr_sandbox_subcommands' \
+                        && ret=0
+                    ;;
+            esac
+            ;;
+    esac
 
-return ret
-
-# Local Variables:
-# mode: Shell-Script
-# sh-indentation: 4
-# indent-tabs-mode: nil
-# sh-basic-offset: 4
-# End:
-# vim: ft=zsh sw=4 ts=4 et
+    return ret
+)

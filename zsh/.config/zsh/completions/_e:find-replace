@@ -1,5 +1,4 @@
 #compdef e:find-replace
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
 
 find . -type f -not -path '*/\.*' -print0 | xargs -0 gsed -i "s/${1}/${2}/g"
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:

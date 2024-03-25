@@ -1,3 +1,4 @@
 #compdef nv:edit
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
 
 _arguments "1:directory:_files -W $HOME/.config/dotfiles -g '*'"

@@ -1,8 +1,7 @@
 #compdef zsh-clean
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
 
 _arguments -C \
     '--debug[Enable debug mode]' \
     '--dryrun[Perform a dry run of the command and output a preview of the resulting item]' \
     '(-h --help)'{-h,--help}'[Show list of command-line options]'
-
-# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:

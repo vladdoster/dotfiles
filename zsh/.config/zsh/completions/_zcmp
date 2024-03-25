@@ -1,3 +1,4 @@
 #compdef zcmp
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
 
 _arguments -C "*:completions:_files -W ${ZDOTDIR:-HOME/.config/zsh}/completions -g '_*(N:t)'"

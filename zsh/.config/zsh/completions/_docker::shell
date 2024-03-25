@@ -1,4 +1,5 @@
 #compdef docker::shell
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
 
 integer ret=1
 

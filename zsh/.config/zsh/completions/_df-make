@@ -1,4 +1,6 @@
 #compdef df-make
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
+
 #
 # Remove all Docker related resources
 #

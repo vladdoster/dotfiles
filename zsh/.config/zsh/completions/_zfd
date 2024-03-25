@@ -1,4 +1,5 @@
 #compdef zfd
+# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
 
 _arguments -C \
     '(-c --completions)'{-c,--completions}'[Edit a functions completion]' \
