@@ -1,5 +1,7 @@
-zsh_load_info(){ print -P -- '['%x %I %y']'; }
-zsh_load_info
+#!/usr/bin/env zsh
+# vim:tw=120:sw=4:ts=4:et:ft=zsh:
+
+${=zsh_load_info}
 
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
 export HOMEBREW_PREFIX="/opt/homebrew";
@@ -35,7 +37,7 @@ fpath=(
 )
 # autoload +X -U bashcompinit; print 'loading bashcompinit'; bashcompinit
 
-for func in ${ZDOTDIR}/functions/*(N-.:t); builtin autoload -Uz -- $func
+for func in ${ZDOTDIR}/functions/*(N-.:t); builtin autoload +Xz -- $func
 
 if (( ! $#NO_RC )); then
   for f in ${ZDOTDIR}/rc.d/<->-*zsh(N); do
@@ -45,4 +47,12 @@ fi
 
 typeset -gxU path=($path) fpath=($fpath)
 
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
+ulimit -c unlimited
+ulimit -d unlimited
+ulimit -f unlimited
+ulimit -l unlimited
+ulimit -n unlimited
+ulimit -s unlimited
+ulimit -t unlimited
+
+cl() { cd $1 && ls -a; }

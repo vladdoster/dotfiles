@@ -1,4 +1,6 @@
 #!/usr/bin/env zsh
+# vim: et:ft=zsh:sw=4:sts=4:ts=4:
+${=zsh_load_info}
 
 if (( $+commands[fzf] )); then
   () {

@@ -1,3 +1,6 @@
+#!/usr/bin/env zsh
+# vim: et:ft=zsh:sw=4:sts=4:ts=4:
+${=zsh_load_info}
 # System clipboard integration
 #
 # This file has support for doing system clipboard copy and paste operations

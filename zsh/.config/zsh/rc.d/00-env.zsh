@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
-#  vim: set expandtab filetype=zsh shiftwidth=2 tabstop=2 :
-zsh_load_info
+# vim: et:ft=zsh:sw=4:sts=4:ts=4:
+${=zsh_load_info}
+
 # environment variables
 (( ${+TERM} )) || export TERM="xterm-256color"; COLORTERM="truecolor"
 (( ${+USER} )) || export USER="${USERNAME}"

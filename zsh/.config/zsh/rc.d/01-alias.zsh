@@ -1,4 +1,8 @@
-zsh_load_info
+#!/usr/bin/env zsh
+# vim: et:ft=zsh:sw=4:sts=4:ts=4:
+${=zsh_load_info}
+
+
 # alias %= \$=
 autoload -Uz zmv
 alias zmv='zmv -Mv'
