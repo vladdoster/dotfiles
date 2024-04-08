@@ -38,24 +38,6 @@ else
   return 1
 fi
 
-zinit id-as  for \
-    atinit"
-        zstyle ':prompt:pure:git:action' color 'yellow';
-        zstyle ':prompt:pure:git:branch' color 'blue';
-        zstyle ':prompt:pure:git:dirty' color 'red';
-        zstyle ':prompt:pure:path' color 'cyan'
-        zstyle ':prompt:pure:prompt:success' color 'green'
-        PURE_GIT_DOWN_ARROW='%1{↓%}'; PURE_GIT_UP_ARROW='%1{↑%}' PURE_PROMPT_SYMBOL='${HOST}%2{ ᐳ%}'; PURE_PROMPT_VICMD_SYMBOL='${HOST}%2{ ᐸ%}'" \
-    compile'(async|pure).zsh' \
-    multisrc'(async|pure).zsh' \
-    atload"
-        unset 'prompt_pure_debug_depth';
-        typeset -g PROMPT4='%B[%b%F{yellow}%N%f|%F{blue}%I%f%B]%b '
-        typeset -ag prompt_pure_debug_depth=()" \
-  @sindresorhus/pure
-
-
-
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
 
 zinit id-as for \
