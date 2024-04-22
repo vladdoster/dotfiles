@@ -1,11 +1,3 @@
-# [4.47.0](https://github.com/vladdoster/dotfiles/compare/v4.46.0...v4.47.0) (2024-04-22)
-
-
-### Features
-
-* remove pure in favor of rc/07-prompt.zsh ([8486ff0](https://github.com/vladdoster/dotfiles/commit/8486ff0d99247f94e97e9dc2c355a4b5a344fd11))
-* **zsh:** print alias when ran via widget ([3f7f058](https://github.com/vladdoster/dotfiles/commit/3f7f058413996f2e88922a8f00c6d7afed572550))
-
 # [4.46.0](https://github.com/vladdoster/dotfiles/compare/v4.45.0...v4.46.0) (2024-03-20)
 
 
