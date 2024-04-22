@@ -1,4 +1,5 @@
 #autoload
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
 
 emulate -LR zsh
 setopt extended_glob no_bang_hist no_aliases

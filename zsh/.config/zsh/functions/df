@@ -1,4 +1,4 @@
 #autoload
-# vim: set et ft=zsh sw=4 st=4 ts=4:
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
 
 builtin cd ~/.config/dotfiles/$1

@@ -1,5 +1,6 @@
-#autoload git-progress
-#
+#autoload
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+
 # Wraps curl with a custom-drawn progress bar. Use it just like curl:
 #
 #     $ curl-progress -O http://example.com/file.tar.gz
