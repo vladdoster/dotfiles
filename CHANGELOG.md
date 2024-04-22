@@ -1,3 +1,20 @@
+# [4.47.0](https://github.com/vladdoster/dotfiles/compare/v4.46.0...v4.47.0) (2024-04-22)
+
+
+### Bug Fixes
+
+* **zsh:** delete .zlogin ([62a5c4d](https://github.com/vladdoster/dotfiles/commit/62a5c4ddb083c9c04592edd609ee9f092314394c))
+* **zsh:** functions vim modeline ([bc069fc](https://github.com/vladdoster/dotfiles/commit/bc069fc213514d67376c3f30a48ccb60227f5039))
+* **zsh:** rename .zshenv to .zprofile ([0e1317d](https://github.com/vladdoster/dotfiles/commit/0e1317d013e4878c37c511433230ad23d305f8c4))
+* **zsh:** zsh{env,rc} vim modelines ([778733a](https://github.com/vladdoster/dotfiles/commit/778733ad773f08b8972c2deda0238a64ad596b79))
+
+
+### Features
+
+* remove pure in favor of rc/07-prompt.zsh ([8486ff0](https://github.com/vladdoster/dotfiles/commit/8486ff0d99247f94e97e9dc2c355a4b5a344fd11))
+* **wezterm:** mouse/link cfg + format via stylua ([762c302](https://github.com/vladdoster/dotfiles/commit/762c30218f6619c814fa96e761f7777515ddc6d3))
+* **zsh:** print alias when ran via widget ([3f7f058](https://github.com/vladdoster/dotfiles/commit/3f7f058413996f2e88922a8f00c6d7afed572550))
+
 # [4.46.0](https://github.com/vladdoster/dotfiles/compare/v4.45.0...v4.46.0) (2024-03-20)
 
 
