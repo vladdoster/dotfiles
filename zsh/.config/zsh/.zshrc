@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+# vim: set ft=zsh:et:sts=2:sw=2:ts=2:tw=100:
 
 SAVEHIST=200000
 HISTSIZE=$SAVEHIST
@@ -20,5 +21,3 @@ if (( ! $#NO_RC )); then
 fi
 
 setopt auto_cd extended_glob glob_dots interactive_comments prompt_subst
-
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
