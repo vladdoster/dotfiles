@@ -1,3 +1,6 @@
 #compdef c
 
-_arguments "1:directory:_files -W $HOME/code -g '*'"
+_arguments -C \
+    '(-d --debug)'{-d,--debug}'[Enable debug mode]'               \
+    '(-h --help)'{-h,--help}'[Show list of command-line options]' \
+    "1:directory:_files -/ -W $HOME/code -g '*(/N)'"

@@ -1,11 +1,45 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# -*- mode: zsh; sh-indentation: 2; indent-tabs-mode: nil; sh-basic-offset: 2; -*-
+# vim: ft=zsh sw=2 ts=2 et
 
-if [[ -d $HOME/code ]]; then
-  builtin cd "$HOME/code/$1"
-  command ls
-  return 0
-else
-  print "Error: ${HOME}/code directory does not exist"
-  return 1
-fi
+c () {
+  emulate -LR zsh
+  zmodload zsh/zutil || return
+  setopt typeset_silent extended_glob
+  local help debug
+  zparseopts -D -F -K -F -- {d,-debug}=debug {h,-help}=help || return 1
+  if (( $#help )); then
+    print "Usage: $0 [options] DIR"
+    print 'Options:'
+    print '  -d, --debug            turn on execution tracing'
+    print '  -h, --help             show list of command-line options'
+  fi
+  if (( $#debug )); then
+    setopt xtrace
+    print -r -- "$# args: ${(j:, :Q)^@}"
+  fi
+  (( $#>1 )) && {
+    print -r "Expected 1 argument, but instead got $#: ${(j:, :Q)^@}"
+    return 1
+  }
+  local codeDir="${HOME}/code"
+  local -i ret
+  (( !$# )) && {
+    builtin cd -- ${codeDir}
+    command ls -A
+    return
+  }
+  () {
+    local -i rc=0
+    [[ -n ${codeDir}/${1}(#q/N) ]]
+    return $?
+  } ${1}
+  ret=$?
+  if (( ret==0 )); then
+    builtin cd -- ${codeDir}/${1}
+    command ls -A
+  else
+    print "Error: ${codeDir}/${1} directory does not exist"
+    return 1
+  fi
+}
