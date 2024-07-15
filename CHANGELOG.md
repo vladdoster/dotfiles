@@ -1,3 +1,10 @@
+## [4.47.1](https://github.com/vladdoster/dotfiles/compare/v4.47.0...v4.47.1) (2024-07-15)
+
+
+### Bug Fixes
+
+* c function logic improved ([6335111](https://github.com/vladdoster/dotfiles/commit/633511186724cf8d1b420a0aae29613a6416d7ff))
+
 # [4.47.0](https://github.com/vladdoster/dotfiles/compare/v4.46.0...v4.47.0) (2024-04-22)
 
 
