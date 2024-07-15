@@ -49,12 +49,12 @@ current_builder="$(docker buildx inspect)"
 # the “docker” driver are automatically added to the “docker images” view by
 # default, whereas when using other drivers, the method for outputting an image
 # needs to be selected with --output."
-if ! grep -q "^Driver: docker$"  <<<"${current_builder}" \
-  && grep -q "linux/amd64" <<<"${current_builder}" \
-  && grep -q "linux/arm" <<<"${current_builder}" \
-  && grep -q "linux/arm64" <<<"${current_builder}" \
-  && grep -q "linux/ppc64le" <<<"${current_builder}" \
-  && grep -q "linux/s390x" <<<"${current_builder}"; then
+if ! grep -q "^Driver: docker$" <<< "${current_builder}" \
+  && grep -q "linux/amd64" <<< "${current_builder}" \
+  && grep -q "linux/arm" <<< "${current_builder}" \
+  && grep -q "linux/arm64" <<< "${current_builder}" \
+  && grep -q "linux/ppc64le" <<< "${current_builder}" \
+  && grep -q "linux/s390x" <<< "${current_builder}"; then
   exit 0
 fi
 
