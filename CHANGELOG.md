@@ -1,3 +1,10 @@
+# [4.48.0](https://github.com/vladdoster/dotfiles/compare/v4.47.1...v4.48.0) (2024-08-01)
+
+
+### Features
+
+* pass keg to +brew-link-keg ([#47](https://github.com/vladdoster/dotfiles/issues/47)) ([19c73ac](https://github.com/vladdoster/dotfiles/commit/19c73ace367e1c7b06f75246aa04388b9a6ef7b2))
+
 ## [4.47.1](https://github.com/vladdoster/dotfiles/compare/v4.47.0...v4.47.1) (2024-07-15)
 
 
