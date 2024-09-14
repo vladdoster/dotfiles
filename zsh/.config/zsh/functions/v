@@ -1,0 +1,40 @@
+#autoload
+# vim: ft=zsh sw=2 ts=2 et
+
+typeset -gx EDITOR='v'
+
+v() {
+  emulate -L zsh
+
+  zmodload zsh/zutil || return
+
+  setopt typeset_silent
+  local debug editor help nvim_found
+
+  zparseopts -D -F -K -F -- \
+    {d,-debug}=debug \
+    {h,-help}=help   \
+  || return 1
+
+  if (( ${#debug} )); then
+    setopt xtrace
+  fi
+
+  if (( ${#help} )); then
+    print "Usage: $0 [options] [files...]"
+    print 'Options:'
+    print '  -d, --debug            turn on execution tracing'
+    print '  -h, --help             show list of command-line options'
+  fi
+
+  command -v nvim >/dev/null
+  nvim_found=$?
+  editor="${${(M)nvim_found:#0}:+n}vim"
+  if (( ${#debug} )); then
+    print -- "${editor}" "${@}"
+  else
+    ${editor} ${@}
+  fi
+}
+
+v "$@"
