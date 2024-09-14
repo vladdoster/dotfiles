@@ -1,3 +1,15 @@
+# [4.49.0](https://github.com/vladdoster/dotfiles/compare/v4.48.0...v4.49.0) (2024-09-14)
+
+
+### Bug Fixes
+
+* **zsh:** remove {n,}vim aliases ([a6558e2](https://github.com/vladdoster/dotfiles/commit/a6558e28c076cb434768fb7d18d48fe2f2bbed51))
+
+
+### Features
+
+* **zsh:** `v` func redirects to available editor ([a493781](https://github.com/vladdoster/dotfiles/commit/a4937816c2bb7b1ff77eca011ba92112a0818f1a))
+
 # [4.48.0](https://github.com/vladdoster/dotfiles/compare/v4.47.1...v4.48.0) (2024-08-01)
 
 
