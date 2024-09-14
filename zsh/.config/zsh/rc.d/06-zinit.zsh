@@ -1,15 +1,15 @@
 #!/usr/bin/env zsh
-# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
+# vim: ft=zsh sw=2 ts=2 et
 #=== ZINIT ============================================
 local zi_dir="${HOME}/.local/share/zinit"
-alias zic="nvim $0"
-typeset -Agx CONFIG=()
+alias zic="${EDITOR:-vim} $0"
+
+typeset -Agx CONFIG=(HOME_DIR "${zi_dir}/zpfx")
 CONFIG+=(
-    HOME_DIR    "${zi_dir}"         BIN_DIR      "${zi_dir}/zinit.git"
-    PLUGINS_DIR "${zi_dir}/plugins" SNIPPETS_DIR "${zi_dir}/snippets"
-    SRC         'zdharma-continuum' ZPFX         "${zi_dir}/polaris"
-    COMPLETIONS_DIR "${zi_dir}/completions"
-    # FORK        'vdoster'           BRANCH       'fork/tmp'
+    BIN_DIR     "${CONFIG[HOME_DIR]}/zinit.git" COMPLETIONS_DIR "${CONFIG[HOME_DIR]}/completions"
+    PLUGINS_DIR "${CONFIG[HOME_DIR]}/plugins"   SNIPPETS_DIR    "${CONFIG[HOME_DIR]}/snippets"
+    SRC         'zdharma-continuum'             ZPFX            "${CONFIG[HOME_DIR]}/polaris"
+    # BRANCH      'fork/tmp'                      FORK            'vdoster'
 )
 # CONFIG+=( DEBUG 'true' )
 typeset -A ZINIT=(${(kv)CONFIG})
@@ -51,7 +51,7 @@ zinit light-mode id-as aliases from'gh-r' lbin'!' for \
       atload"!(){ setopt no_aliases; alias l='eza -blF';alias la='eza -abghilmu';alias ll='eza -al';alias ls='eza --git --group-directories-first';}" \
   @vladdoster/eza
 
-zinit light-mode depth=1 aliases atload'!(){ setopt no_aliases; local i;for i (v vi vim);do alias $i="nvim";done; export EDITOR="nvim"; }' for \
+zinit light-mode depth=1 for \
       id-as'nvim-arm64' \
       if"(( ${${${(m)$(arch):#(arm|aarch)*}:+0}:-1} ))" \
       make \

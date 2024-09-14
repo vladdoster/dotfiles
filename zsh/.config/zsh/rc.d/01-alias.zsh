@@ -10,14 +10,6 @@ alias -g B='brew'
 alias -g S='sort --unique'
 alias -g W='| wc -l'
 
-for i in nvim vim vi; do
-    (( $+commands[$i] )) && {
-        export EDITOR="$i"
-        alias v="${i}"
-        break
-    }
-done
-
 _clone_if_absent () {
     [[ ! -d $1 ]] && git clone "$1" "$2/$(basename "$1" .git)"
 }
