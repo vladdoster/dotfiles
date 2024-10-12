@@ -1,0 +1,36 @@
+#autoload
+#
+# zsh-xtrace
+#
+
+__zsh-xtrace_usage () {
+    print -- 'Usage: zsh-xtrace [options] [arguments...]'
+    print -- 'Options:'
+    print -- '  -d, --debug        turn on execution tracing'
+    print -- '  -h, --help         show list of command-line options'
+}
+
+setopt localoptions extended_glob
+zmodload zsh/zutil || return 1
+
+local base debug help
+builtin zparseopts -D -E -F -K \
+    d=debug -debug=debug \
+    h=help  -help=help   \
+    || return 1
+
+if (( $#help )); then
+  __zsh-xtrace_usage
+  return 0
+fi
+
+if (( $#debug )); then
+  setopt xtrace
+fi
+
+local -a arguments=(${(q+)^@})
+
+zsh --norcs -lxvc "${@}; return" 2>&1  | ts -i "%.s" | ansifilter > zsh_start.log
+print -l -- "${#arguments} args" ${(@)arguments}
+
+# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
