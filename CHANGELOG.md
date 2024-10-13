@@ -1,3 +1,10 @@
+# [4.50.0](https://github.com/vladdoster/dotfiles/compare/v4.49.0...v4.50.0) (2024-10-13)
+
+
+### Features
+
+* **zsh:** save zsh xtrace output to file ([9c98570](https://github.com/vladdoster/dotfiles/commit/9c98570d87d7d32273e42d55eb448d10b0a76578))
+
 # [4.49.0](https://github.com/vladdoster/dotfiles/compare/v4.48.0...v4.49.0) (2024-09-14)
 
 
