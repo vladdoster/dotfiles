@@ -1,3 +1,12 @@
+## [4.50.1](https://github.com/vladdoster/dotfiles/compare/v4.50.0...v4.50.1) (2025-08-10)
+
+
+### Bug Fixes
+
+* **brew:** remove deprecated taps & flags ([bfd7cb8](https://github.com/vladdoster/dotfiles/commit/bfd7cb86f5271b736389818099c474ecf9652b4c))
+* **zsh:** dockutil logic in bootstrap-macos func ([1d0c5b4](https://github.com/vladdoster/dotfiles/commit/1d0c5b4a7a165e57db5ce8b48e919fdc23b642ae))
+* **zsh:** zinit config path & rm zshfmt recipe ([48ec6e1](https://github.com/vladdoster/dotfiles/commit/48ec6e18ae6aceb28d34aa4a13c1a20b12dccabd))
+
 # [4.50.0](https://github.com/vladdoster/dotfiles/compare/v4.49.0...v4.50.0) (2024-10-13)
 
 
