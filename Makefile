@@ -81,7 +81,7 @@ docker-shell: ## Start shell in docker container
 		$(CONTAINER_TAG)
 
 brew-bundle: ## Install programs defined in brewfile
-	brew bundle --cleanup --file Brewfile --force --no-lock --zap
+	brew bundle --cleanup --file Brewfile --force --zap
 
 brew-install: ## Install Homebrew
 	$(info Preparing to install Homebrew)

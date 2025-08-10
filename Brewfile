@@ -1,7 +1,5 @@
 # CFG
 cask_args appdir: "/Applications"
-tap "homebrew/bundle"
-tap "homebrew/cask-fonts"
 # CLI
 brew "autoconf"
 brew "automake"
@@ -16,7 +14,6 @@ brew "gcc"
 brew "gdbm"
 brew "gettext"
 brew "git", link: true
-brew "git-svn"
 brew "gnu-indent"
 brew "gnu-sed"
 brew "gnu-tar"
