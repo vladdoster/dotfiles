@@ -158,31 +158,30 @@ defaults write NSGlobalDomain AppleFontSmoothing -int 1
 defaults write NSGlobalDomain CGFontRenderingFontSmoothingDisabled -bool false
 # Enable HiDPI display modes (requires restart)
 sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
-# remove apps i don't use from the dock.
-# for app in $(find /Applications -name '*.app' -maxdepth 1 -type d | xargs); do
-#   dockutil --remove "${app}" --allhomes --no-restart &> /dev/null || true
-# done
 
-# for app in $(dockutil --list | awk '{print $1}' | xargs); do
-#   dockutil --remove "${app}" --allhomes --restart &> /dev/null || true
-# done
-# add new app shortcuts to the dock.
-for app in "Safari" "Vivaldi Snapshot" "kitty"; do
-    [[ -e /Applications/${app}.app ]] && {
-        dockutil --remove "${app}" --allhomes --no-restart
-        dockutil --add "/Applications/${app}.app" --allhomes --no-restart --position end --section apps
-    } && echo "==> ${app} added to dock" \
-        || echo "Error: ${app} not found"
+lines=("${(fqqq@)$(find /{,System/}/Applications -maxdepth 2 -name '*app')}") 
+
+# remove apps i don't use from the dock.
+for app in ${lines[@]}; do
+    dockutil --remove "${app:r:t}" --allhomes --restart &> /dev/null || true
 done
+
+# add ~/Downloads as a grid stack displayed as a folder for every user's dock on that machine:
+dockutil --replacing 'Downloads' --add '~/Downloads' --view grid --display folder --sort dateadded --allhomes
+
+# add new app shortcuts to the dock.
+for app in "Safari" "kitty"; do
+    [[ -e "/Applications/${app}.app" ]] && {
+        dockutil --add "/Applications/${app}.app" --allhomes --no-restart --position end --section apps
+    } && echo "==> ${app} added to dock" || echo "Error: ${app} not found"
+done
+
 for app in "Messages" "Mail" "Music" "Preview" "Utilities/Activity Monitor" "System Settings"; do
     [[ -e /System/Applications/${app}.app ]] && {
-        dockutil --remove "$(basename ${app})" --allhomes --no-restart
-        dockutil --add "/System/Applications/${app}.app" --allhomes --no-restart --section apps
-    } &> /dev/null && echo "==> ${app} added to dock" \
-        || echo "Error: ${app} not found"
+        dockutil --add "/System/Applications/${app}.app" --allhomes --section apps
+    } &> /dev/null && echo "==> ${app} added to dock" || echo "Error: ${app} not found"
 done
+
 for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "Dock" "Finder" "Mail" "Messages" "Photos" "Safari" "SystemUIServer" "Terminal" "Transmission" "cfprefsd" "iCal"; do
     killall "${app}" &> /dev/null || true
 done
-
-
