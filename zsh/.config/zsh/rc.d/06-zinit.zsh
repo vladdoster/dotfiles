@@ -4,7 +4,7 @@
 local zi_dir="${HOME}/.local/share/zinit"
 alias zic="${EDITOR:-vim} $0"
 
-typeset -Agx CONFIG=(HOME_DIR "${zi_dir}/zpfx")
+typeset -Agx CONFIG=(HOME_DIR "${zi_dir}")
 CONFIG+=(
     BIN_DIR     "${CONFIG[HOME_DIR]}/zinit.git" COMPLETIONS_DIR "${CONFIG[HOME_DIR]}/completions"
     PLUGINS_DIR "${CONFIG[HOME_DIR]}/plugins"   SNIPPETS_DIR    "${CONFIG[HOME_DIR]}/snippets"
@@ -70,8 +70,8 @@ zinit light-mode depth=1 for \
 #       ver'fix/zsh-completion' \
 #   @vladdoster/zshfmt
 
-zinit ver'develop' id-as for \
-  @vladdoster/zshfmt
+# zinit ver'develop' id-as for \
+#   @vladdoster/zshfmt
   # as'program' \
   # compile'revolver' \
   # pick'revolver' \
