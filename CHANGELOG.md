@@ -1,3 +1,10 @@
+## [4.51.1](https://github.com/vladdoster/dotfiles/compare/v4.51.0...v4.51.1) (2025-08-11)
+
+
+### Bug Fixes
+
+* **Dockerfile:** update instructions using `LegacyKeyValueFormat` ([f32fce5](https://github.com/vladdoster/dotfiles/commit/f32fce5bb129d201137d75e009c0104795a65219))
+
 # [4.51.0](https://github.com/vladdoster/dotfiles/compare/v4.50.1...v4.51.0) (2025-08-11)
 
 
