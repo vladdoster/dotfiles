@@ -28,6 +28,7 @@ brew "m4"
 brew "make"
 brew "node", link: true
 brew "python3", link: true
+brew "stow", link: true
 brew "subversion"
 brew "texinfo"
 brew "tmux", link: true
@@ -38,3 +39,4 @@ brew "zsh", link: true
 # GUI
 cask "1password"
 cask "font-blex-mono-nerd-font"
+cask "kitty"
