@@ -22,7 +22,7 @@ RUN apt-get update --quiet=2 \
   bsdmainutils bsdutils build-essential bzip2 \
   ca-certificates cmake cpanminus curl \
   debianutils default-jre delta dialog \
-  exa \
+  eza \
   figlet file fzf \
   g++ gawk gcc gettext git gnupg golang gosu \
   iproute2 \
