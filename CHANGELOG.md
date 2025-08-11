@@ -1,3 +1,15 @@
+# [4.51.0](https://github.com/vladdoster/dotfiles/compare/v4.50.1...v4.51.0) (2025-08-11)
+
+
+### Bug Fixes
+
+* **Dockerfile:** `exa` is unmaintained, use the fork `eza` instead ([1a6aea5](https://github.com/vladdoster/dotfiles/commit/1a6aea554c7495147ef58ffe86218ff95cfbeb85))
+
+
+### Features
+
+* **brewfile:** add gnu stow & kitty terminal ([0feb656](https://github.com/vladdoster/dotfiles/commit/0feb656429f04c86f45c55aba7e656fd9212e566))
+
 ## [4.50.1](https://github.com/vladdoster/dotfiles/compare/v4.50.0...v4.50.1) (2025-08-10)
 
 
