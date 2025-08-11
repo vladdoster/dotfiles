@@ -15,10 +15,8 @@ Install and set everything up, run:
 ```zsh
 mkdir $HOME/.config \
 && git clone https://github.com/vladdoster/dotfiles $HOME/.config/dotfiles \
-&& make stow install
-
-# Reload Zsh process
-exec zsh -l
+&& make brew-install brew-bundle install \
+&& exec zsh -li
 ```
 
 ## Makefile targets
