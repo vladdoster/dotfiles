@@ -9,12 +9,12 @@ LABEL org.opencontainers.image.description="Containerized dotfiles environment"
 
 ARG USER
 
-ENV USER ${USER:-dotfiles}
-ENV HOME /home/${USER}
+ENV USER=${USER:-dotfiles}
+ENV HOME=/home/${USER}
 
-ENV CLICOLOR 1
-ENV DEBIAN_FRONTEND noninteractive
-ENV TERM xterm-256color
+ENV CLICOLOR=1
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TERM=xterm-256color
 
 RUN apt-get update --quiet=2 \
  && apt-get install --assume-yes --no-install-recommends --quiet=2 \
