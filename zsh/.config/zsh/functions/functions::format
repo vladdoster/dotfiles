@@ -4,6 +4,7 @@
 builtin emulate -L zsh -o EXTENDED_GLOB
 
 # Format output of 'functions -x4' to move lines with only 'then' or 'do'
-# to the end of the previous line, and move case clause termination ';;' to new line
+# to the end of the previous line, move case clause termination ';;' to new line,
+# and move case expressions to their own line
 # sed: :a (label) N (append next line) s/// (substitute) ta (branch to :a) P (print first line) D (delete first line, continue)
-builtin functions -x4 "$@" | sed -E ':a; N; s/\n[ ]*then$/ then/; s/\n[ ]*do$/ do/; ta; P; D' | sed -E 's/^([ ]*)(.* );;$/\1\2\n\1;;/'
+builtin functions -x4 "$@" | sed -E ':a; N; s/\n[ ]*then$/ then/; s/\n[ ]*do$/ do/; ta; P; D' | sed -E 's/^([ ]*)\((.*)\) (.*)$/\1(\2)\n\1    \3/' | sed -E 's/^([ ]*)(.* );;$/\1\2\n\1;;/'
