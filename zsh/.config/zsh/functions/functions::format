@@ -16,16 +16,12 @@ format_long_lines() {
             local command_part="${line#$leading_space}"
             
             if command -v sol >/dev/null 2>&1; then
-                local formatted=$(echo "$command_part" | sol -b -r -a 2>/dev/null)
-                if [[ $? -eq 0 && -n "$formatted" ]]; then
-                    local first_line=true
+                local formatted
+                formatted=$(echo "$command_part" | sol -b -r -a 2>/dev/null)
+                local sol_status=$?
+                if [[ $sol_status -eq 0 && -n "$formatted" ]]; then
                     while IFS= read -r formatted_line; do
-                        if [[ "$first_line" == true ]]; then
-                            echo "${leading_space}${formatted_line}"
-                            first_line=false
-                        else
-                            echo "${leading_space}${formatted_line}"
-                        fi
+                        echo "${leading_space}${formatted_line}"
                     done <<< "$formatted"
                 else
                     echo "$line"
