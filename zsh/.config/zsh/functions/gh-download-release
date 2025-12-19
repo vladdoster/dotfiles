@@ -113,6 +113,7 @@ local -a asset_names
 
 # Extract asset objects and parse each one
 # GitHub API returns assets in an array, we'll process the JSON more carefully
+# Using a large line limit to handle releases with many assets
 local assets_json=$(echo "${release_data}" | grep -A 99999 '"assets":' | grep -B 99999 '^  ]' | head -n -1)
 
 # Use a more robust approach: extract complete asset blocks
@@ -142,7 +143,7 @@ while IFS= read -r line; do
       current_url="${match[1]}"
     fi
   fi
-done < <(echo "${assets_json}")
+done <<< "${assets_json}"
 
 if (( ${#asset_urls[@]} == 0 )); then
   print -P "%F{red}Error:%f No release assets found" >&2
@@ -204,8 +205,8 @@ for i in {1..${#asset_names[@]}}; do
       fi
       ;;
     x86)
-      # Match i386/i686 or standalone x86 (not x86_64)
-      if [[ "${name_lower}" =~ (i386|i686|^x86[^_]) ]]; then
+      # Match i386/i686 or x86 as a token (not part of x86_64)
+      if [[ "${name_lower}" =~ (i386|i686) ]] || [[ "${name_lower}" =~ [^a-z0-9_]x86[^a-z0-9_] ]]; then
         score=$((score + 50))
       elif [[ "${name_lower}" =~ (amd64|x86_64|arm64|aarch64) ]]; then
         score=$((score - 30))
