@@ -16,7 +16,7 @@
 # release asset.
 
 emulate -L zsh
-setopt extended_glob
+setopt localoptions extended_glob
 
 local repo="${1}"
 local output_dir="${2:-.}"
@@ -99,8 +99,11 @@ if [[ ! "${release_data}" =~ '"tag_name"' ]] || [[ ! "${release_data}" =~ '"asse
   return 1
 fi
 
-# Extract tag name using a simpler approach
-local tag_name=$(echo "${release_data}" | grep -o '"tag_name":"[^"]*"' | head -1 | cut -d'"' -f4)
+# Extract tag name using zsh parameter expansion
+local tag_name
+if [[ "${release_data}" =~ '"tag_name":"([^"]+)"' ]]; then
+  tag_name="${match[1]}"
+fi
 print -P "%F{blue}→%f Latest release: %F{green}${tag_name}%f"
 
 # Extract all asset URLs and names in a properly correlated manner
@@ -202,7 +205,7 @@ for i in {1..${#asset_names[@]}}; do
       ;;
     x86)
       # Match i386/i686 or standalone x86 (not x86_64)
-      if [[ "${name_lower}" =~ (i386|i686) ]] || [[ "${name_lower}" =~ x86 && ! "${name_lower}" =~ x86_64 ]]; then
+      if [[ "${name_lower}" =~ (i386|i686|^x86[^_]) ]]; then
         score=$((score + 50))
       elif [[ "${name_lower}" =~ (amd64|x86_64|arm64|aarch64) ]]; then
         score=$((score - 30))
@@ -257,13 +260,14 @@ fi
 local output_path="${output_dir}/${best_asset}"
 print -P "%F{blue}→%f Downloading to %F{cyan}${output_path}%f..."
 
+local download_status=0
 if command -v curl &>/dev/null; then
-  curl -L --progress-bar -o "${output_path}" "${best_url}"
+  curl -L --progress-bar -o "${output_path}" "${best_url}" || download_status=$?
 else
-  wget --show-progress -O "${output_path}" "${best_url}"
+  wget --show-progress -O "${output_path}" "${best_url}" || download_status=$?
 fi
 
-if [[ $? -eq 0 ]]; then
+if [[ ${download_status} -eq 0 ]]; then
   print -P "%F{green}✓%f Successfully downloaded %F{cyan}${best_asset}%f"
   print -P "%F{blue}→%f File saved to: %F{cyan}${output_path}%f"
   return 0
