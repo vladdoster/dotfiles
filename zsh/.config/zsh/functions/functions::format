@@ -1,0 +1,8 @@
+#autoload
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+
+builtin emulate -L zsh -o EXTENDED_GLOB
+
+# Format output of 'functions -x 4' to move lines with only 'then' or 'do'
+# to the end of the previous line
+functions -x 4 "$@" | sed -E ':a; N; s/\n([ ]*)then$/ then/; s/\n([ ]*)do$/ do/; ta; P; D'
