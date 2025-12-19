@@ -3,6 +3,6 @@
 
 builtin emulate -L zsh -o EXTENDED_GLOB
 
-# Format output of 'functions -x 4' to move lines with only 'then' or 'do'
+# Format output of 'functions -x4' to move lines with only 'then' or 'do'
 # to the end of the previous line
-functions -x 4 "$@" | sed -E ':a; N; s/\n([ ]*)then$/ then/; s/\n([ ]*)do$/ do/; ta; P; D'
+builtin functions -x4 "$@" | sed -E ':a; N; s/\n([ ]*)then$/ then/; s/\n([ ]*)do$/ do/; ta; P; D'
