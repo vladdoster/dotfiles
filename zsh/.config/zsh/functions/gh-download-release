@@ -93,8 +93,8 @@ else
   release_data=$(wget -qO- "${api_url}")
 fi
 
-# Check if we got valid JSON response
-if [[ ! "${release_data}" =~ "\"tag_name\"" ]]; then
+# Check if we got valid JSON response with release data
+if [[ ! "${release_data}" =~ '"tag_name"' ]] || [[ ! "${release_data}" =~ '"assets"' ]]; then
   print -P "%F{red}Error:%f Failed to fetch release data. Repository may not exist or has no releases" >&2
   return 1
 fi
@@ -110,7 +110,7 @@ local -a asset_names
 
 # Extract asset objects and parse each one
 # GitHub API returns assets in an array, we'll process the JSON more carefully
-local assets_json=$(echo "${release_data}" | grep -A 1000 '"assets":' | grep -B 1000 '^  ]' | head -n -1)
+local assets_json=$(echo "${release_data}" | grep -A 99999 '"assets":' | grep -B 99999 '^  ]' | head -n -1)
 
 # Use a more robust approach: extract complete asset blocks
 local current_name=""
@@ -140,8 +140,6 @@ while IFS= read -r line; do
     fi
   fi
 done < <(echo "${assets_json}")
-
-
 
 if (( ${#asset_urls[@]} == 0 )); then
   print -P "%F{red}Error:%f No release assets found" >&2
@@ -203,7 +201,8 @@ for i in {1..${#asset_names[@]}}; do
       fi
       ;;
     x86)
-      if [[ "${name_lower}" =~ (i386|i686|x86) && ! "${name_lower}" =~ x86_64 ]]; then
+      # Match i386/i686 or standalone x86 (not x86_64)
+      if [[ "${name_lower}" =~ (i386|i686) ]] || [[ "${name_lower}" =~ x86 && ! "${name_lower}" =~ x86_64 ]]; then
         score=$((score + 50))
       elif [[ "${name_lower}" =~ (amd64|x86_64|arm64|aarch64) ]]; then
         score=$((score - 30))
