@@ -99,25 +99,49 @@ if [[ ! "${release_data}" =~ "\"tag_name\"" ]]; then
   return 1
 fi
 
-# Extract tag name
-local tag_name=$(echo "${release_data}" | grep -o '"tag_name": *"[^"]*"' | head -1 | sed 's/"tag_name": *"\(.*\)"/\1/')
+# Extract tag name using a simpler approach
+local tag_name=$(echo "${release_data}" | grep -o '"tag_name":"[^"]*"' | head -1 | cut -d'"' -f4)
 print -P "%F{blue}→%f Latest release: %F{green}${tag_name}%f"
 
-# Extract all asset URLs and names
+# Extract all asset URLs and names in a properly correlated manner
+# We need to parse each complete asset object to ensure name and URL are properly paired
 local -a asset_urls
 local -a asset_names
-local line
-while IFS= read -r line; do
-  if [[ "${line}" =~ '"browser_download_url": *"([^"]*)"' ]]; then
-    asset_urls+=("${match[1]}")
-  fi
-done < <(echo "${release_data}" | grep "browser_download_url")
+
+# Extract asset objects and parse each one
+# GitHub API returns assets in an array, we'll process the JSON more carefully
+local assets_json=$(echo "${release_data}" | grep -A 1000 '"assets":' | grep -B 1000 '^  ]' | head -n -1)
+
+# Use a more robust approach: extract complete asset blocks
+local current_name=""
+local current_url=""
+local in_asset_block=0
 
 while IFS= read -r line; do
-  if [[ "${line}" =~ '"name": *"([^"]*)"' ]]; then
-    asset_names+=("${match[1]}")
+  # Start of an asset object (look for opening brace after we're in assets array)
+  if [[ "${line}" =~ ^[[:space:]]*\{ ]]; then
+    in_asset_block=1
+    current_name=""
+    current_url=""
+  # End of an asset object
+  elif [[ "${line}" =~ ^[[:space:]]*\},?$ ]] && [[ ${in_asset_block} -eq 1 ]]; then
+    # Save the asset if we have both name and URL
+    if [[ -n "${current_name}" && -n "${current_url}" ]]; then
+      asset_names+=("${current_name}")
+      asset_urls+=("${current_url}")
+    fi
+    in_asset_block=0
+  # Extract properties within the asset object
+  elif [[ ${in_asset_block} -eq 1 ]]; then
+    if [[ "${line}" =~ '"name": *"([^"]*)"' ]]; then
+      current_name="${match[1]}"
+    elif [[ "${line}" =~ '"browser_download_url": *"([^"]*)"' ]]; then
+      current_url="${match[1]}"
+    fi
   fi
-done < <(echo "${release_data}" | grep -A 2 "browser_download_url" | grep "\"name\"")
+done < <(echo "${assets_json}")
+
+
 
 if (( ${#asset_urls[@]} == 0 )); then
   print -P "%F{red}Error:%f No release assets found" >&2
@@ -127,6 +151,7 @@ fi
 # Score each asset based on platform and architecture matches
 local -A scores
 local best_asset=""
+local best_url=""
 local best_score=0
 local i
 
