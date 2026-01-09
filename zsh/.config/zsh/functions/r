@@ -1,0 +1,30 @@
+#autoload
+
+emulate -LR zsh
+zmodload zsh/zutil || return
+setopt typeset_silent extended_glob
+
+local help debug trace
+zparseopts -D -E -F -K -- {d,-debug}=debug {h,-help}=help {t,-trace}=trace || return 1
+
+if (( $#help )); then
+  print "Usage: ${0} [options]"
+  print 'Options:'
+  print '  -d, --debug       enables debug mode'
+  print '  -h, --help        show list of command-line options'
+  print '  -t, --trace       autoload functions with tracing'
+fi
+
+if (( $#debug )); then
+  PS4='
+  \\n[%B+%i%b] '
+  setopt xtrace
+  print -r -- "$# args ${(j:, :Q)^@}"
+fi
+
+local -a f
+f=(${ZDOTDIR}/functions/*(.:t))
+unfunction ${f:t} 2> /dev/null
+autoload ${trace:+-T} ${f:t}
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

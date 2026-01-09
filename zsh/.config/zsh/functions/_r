@@ -1,0 +1,11 @@
+#compdef r
+
+integer ret=1
+
+_arguments -s \
+  '(- *)'{-d,--debug}'[Show detailed information]' \
+  '(- *)'{-h,--help}'[Print usage]' \
+  '(- *)'{-t,--trace}'[Turn on execution tracing for functions]' &&
+  ret=0
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

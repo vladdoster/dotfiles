@@ -1,0 +1,60 @@
+#autoload
+
+emulate -LR zsh
+zmodload zsh/zutil || return 1
+
+local -a help debug
+zparseopts -D -E -F -- {d,-debug}=debug {h,-help}=help || return 1
+
+if (( ${#help} )); then
+  print "Usage: mock [OPTIONS] <text ...>"
+  print
+  print "Converts text to mocking SpongeBob case (random upper/lowercase)."
+  print
+  print "Options:"
+  print "  -h, --help     Show this help message"
+  print "  -d, --debug    Enable debug mode (xtrace)"
+  print
+  print "Examples:"
+  print '  mock "Hello World"'
+  print '  mock -d I can handle multiple args'
+  print '  echo "hello there" | mock'
+  return 0
+fi
+
+if (( ${#debug} )); then
+  setopt xtrace
+fi
+
+local stdin_input=""
+if [[ ! -t 0 ]]; then
+  stdin_input=$(cat)
+fi
+
+if (( $# == 0 )) && [[ -z $stdin_input ]]; then
+  print -u2 "mock: missing text. Try --help."
+  return 1
+fi
+
+local text=""
+if (( $# > 0 )) && [[ -n $stdin_input ]]; then
+  text="$* $stdin_input"
+elif (( $# > 0 )); then
+  text="$*"
+else
+  text="$stdin_input"
+fi
+
+local result="" char
+for ((i = 1; i <= ${#text}; i++ )) do
+  char=${text[$i]}
+  if (( RANDOM % 2 == 0 )); then
+    result+="${char:l}"
+  else
+    result+="${char:u}"
+  fi
+done
+
+print -- "$result"
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

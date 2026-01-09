@@ -1,0 +1,8 @@
+#compdef mock
+
+_arguments \
+  '(- *)'{-h,--help}'[Print usage]' \
+  '(-d --debug)'{-d,--debug}'[enable debug (xtrace)]' \
+  '*::text:'
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
