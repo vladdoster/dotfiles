@@ -1,3 +1,10 @@
+# [4.52.0](https://github.com/vladdoster/dotfiles/compare/v4.51.1...v4.52.0) (2026-01-09)
+
+
+### Features
+
+* **zsh:** `r` & `mock` functions ([c291ea5](https://github.com/vladdoster/dotfiles/commit/c291ea5b275bc71f993d24ca89d81a78c900e392))
+
 ## [4.51.1](https://github.com/vladdoster/dotfiles/compare/v4.51.0...v4.51.1) (2025-08-11)
 
 
