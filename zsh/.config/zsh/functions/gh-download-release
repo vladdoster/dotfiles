@@ -1,0 +1,278 @@
+#autoload
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+
+# Downloads the latest release from a GitHub repository that matches the user's system
+#
+# Usage:
+#   gh-download-release <owner/repo>
+#   gh-download-release <owner/repo> [output-dir]
+#
+# Examples:
+#   gh-download-release sharkdp/bat
+#   gh-download-release sharkdp/bat ~/Downloads
+#
+# The function will detect the current platform (macOS, Linux, Windows) and
+# architecture (arm64, amd64, x86_64, x86) and download the most appropriate
+# release asset.
+
+emulate -L zsh
+setopt localoptions extended_glob
+
+local repo="${1}"
+local output_dir="${2:-.}"
+
+# Validate input
+if [[ -z "${repo}" ]]; then
+  print -P "%F{red}Error:%f gh-download-release requires a repository argument" >&2
+  print "Usage: gh-download-release <owner/repo> [output-dir]" >&2
+  return 1
+fi
+
+# Ensure the repository format is correct
+if [[ ! "${repo}" =~ ^[^/]+/[^/]+$ ]]; then
+  print -P "%F{red}Error:%f Invalid repository format. Use owner/repo" >&2
+  return 1
+fi
+
+# Check if curl or wget is available
+if ! command -v curl &>/dev/null && ! command -v wget &>/dev/null; then
+  print -P "%F{red}Error:%f curl or wget is required but not found" >&2
+  return 1
+fi
+
+# Detect platform
+local platform=""
+case "${OSTYPE}" in
+  darwin*)
+    platform="macos"
+    ;;
+  linux*)
+    platform="linux"
+    ;;
+  msys*|mingw*|cygwin*)
+    platform="windows"
+    ;;
+  *)
+    print -P "%F{yellow}Warning:%f Unknown platform ${OSTYPE}, will try to detect from available assets" >&2
+    platform="unknown"
+    ;;
+esac
+
+# Detect architecture
+local arch=""
+local machine="$(uname -m)"
+case "${machine}" in
+  x86_64|amd64)
+    arch="amd64"
+    ;;
+  aarch64|arm64)
+    arch="arm64"
+    ;;
+  i386|i686)
+    arch="x86"
+    ;;
+  armv7l)
+    arch="armv7"
+    ;;
+  *)
+    print -P "%F{yellow}Warning:%f Unknown architecture ${machine}" >&2
+    arch="${machine}"
+    ;;
+esac
+
+print -P "%F{blue}→%f Fetching latest release for %F{cyan}${repo}%f..."
+print -P "%F{blue}→%f Platform: %F{green}${platform}%f, Architecture: %F{green}${arch}%f"
+
+# Fetch release information from GitHub API
+local api_url="https://api.github.com/repos/${repo}/releases/latest"
+local release_data
+
+if command -v curl &>/dev/null; then
+  release_data=$(curl -sL "${api_url}")
+else
+  release_data=$(wget -qO- "${api_url}")
+fi
+
+# Check if we got valid JSON response with release data
+if [[ ! "${release_data}" =~ '"tag_name"' ]] || [[ ! "${release_data}" =~ '"assets"' ]]; then
+  print -P "%F{red}Error:%f Failed to fetch release data. Repository may not exist or has no releases" >&2
+  return 1
+fi
+
+# Extract tag name using zsh parameter expansion
+local tag_name
+if [[ "${release_data}" =~ '"tag_name":"([^"]+)"' ]]; then
+  tag_name="${match[1]}"
+fi
+print -P "%F{blue}→%f Latest release: %F{green}${tag_name}%f"
+
+# Extract all asset URLs and names in a properly correlated manner
+# We need to parse each complete asset object to ensure name and URL are properly paired
+local -a asset_urls
+local -a asset_names
+
+# Extract asset objects and parse each one
+# GitHub API returns assets in an array, we'll process the JSON more carefully
+# Using a large line limit to handle releases with many assets
+local assets_json=$(echo "${release_data}" | grep -A 99999 '"assets":' | grep -B 99999 '^  ]' | head -n -1)
+
+# Use a more robust approach: extract complete asset blocks
+local current_name=""
+local current_url=""
+local in_asset_block=0
+
+while IFS= read -r line; do
+  # Start of an asset object (look for opening brace after we're in assets array)
+  if [[ "${line}" =~ ^[[:space:]]*\{ ]]; then
+    in_asset_block=1
+    current_name=""
+    current_url=""
+  # End of an asset object
+  elif [[ "${line}" =~ ^[[:space:]]*\},?$ ]] && [[ ${in_asset_block} -eq 1 ]]; then
+    # Save the asset if we have both name and URL
+    if [[ -n "${current_name}" && -n "${current_url}" ]]; then
+      asset_names+=("${current_name}")
+      asset_urls+=("${current_url}")
+    fi
+    in_asset_block=0
+  # Extract properties within the asset object
+  elif [[ ${in_asset_block} -eq 1 ]]; then
+    if [[ "${line}" =~ '"name": *"([^"]*)"' ]]; then
+      current_name="${match[1]}"
+    elif [[ "${line}" =~ '"browser_download_url": *"([^"]*)"' ]]; then
+      current_url="${match[1]}"
+    fi
+  fi
+done <<< "${assets_json}"
+
+if (( ${#asset_urls[@]} == 0 )); then
+  print -P "%F{red}Error:%f No release assets found" >&2
+  return 1
+fi
+
+# Score each asset based on platform and architecture matches
+local -A scores
+local best_asset=""
+local best_url=""
+local best_score=0
+local i
+
+for i in {1..${#asset_names[@]}}; do
+  local name="${asset_names[$i]}"
+  local url="${asset_urls[$i]}"
+  local score=0
+  local name_lower="${name:l}"
+
+  # Platform matching
+  case "${platform}" in
+    macos)
+      if [[ "${name_lower}" =~ (darwin|macos|osx|apple) ]]; then
+        score=$((score + 100))
+      elif [[ "${name_lower}" =~ (linux|windows|win) ]]; then
+        score=$((score - 50))
+      fi
+      ;;
+    linux)
+      if [[ "${name_lower}" =~ linux ]]; then
+        score=$((score + 100))
+      elif [[ "${name_lower}" =~ (darwin|macos|windows|win) ]]; then
+        score=$((score - 50))
+      fi
+      ;;
+    windows)
+      if [[ "${name_lower}" =~ (windows|win|mingw|msvc) ]]; then
+        score=$((score + 100))
+      elif [[ "${name_lower}" =~ (linux|darwin|macos) ]]; then
+        score=$((score - 50))
+      fi
+      ;;
+  esac
+
+  # Architecture matching
+  case "${arch}" in
+    amd64)
+      if [[ "${name_lower}" =~ (amd64|x86_64|x64) ]]; then
+        score=$((score + 50))
+      elif [[ "${name_lower}" =~ (arm64|aarch64|armv7|i386|i686) ]]; then
+        score=$((score - 30))
+      fi
+      ;;
+    arm64)
+      if [[ "${name_lower}" =~ (arm64|aarch64) ]]; then
+        score=$((score + 50))
+      elif [[ "${name_lower}" =~ (amd64|x86_64|x64|i386|armv7) ]]; then
+        score=$((score - 30))
+      fi
+      ;;
+    x86)
+      # Match i386/i686 or x86 as a token (not part of x86_64)
+      if [[ "${name_lower}" =~ (i386|i686) ]] || [[ "${name_lower}" =~ [^a-z0-9_]x86[^a-z0-9_] ]]; then
+        score=$((score + 50))
+      elif [[ "${name_lower}" =~ (amd64|x86_64|arm64|aarch64) ]]; then
+        score=$((score - 30))
+      fi
+      ;;
+  esac
+
+  # Prefer common archive formats
+  if [[ "${name_lower}" =~ \.(tar\.gz|tgz|zip)$ ]]; then
+    score=$((score + 10))
+  fi
+
+  # Avoid checksums and signatures
+  if [[ "${name_lower}" =~ \.(sha256|sha512|md5|asc|sig)$ ]]; then
+    score=$((score - 100))
+  fi
+
+  scores[$name]=$score
+
+  if (( score > best_score )); then
+    best_score=$score
+    best_asset="${name}"
+    best_url="${url}"
+  fi
+done
+
+if [[ -z "${best_asset}" || ${best_score} -lt 0 ]]; then
+  print -P "%F{yellow}Warning:%f Could not automatically determine best asset" >&2
+  print -P "%F{blue}→%f Available assets:" >&2
+  for i in {1..${#asset_names[@]}}; do
+    print "  [$i] ${asset_names[$i]}"
+  done
+  print -n "Select an asset number: "
+  read selection
+  if [[ "${selection}" =~ ^[0-9]+$ ]] && (( selection >= 1 && selection <= ${#asset_names[@]} )); then
+    best_asset="${asset_names[$selection]}"
+    best_url="${asset_urls[$selection]}"
+  else
+    print -P "%F{red}Error:%f Invalid selection" >&2
+    return 1
+  fi
+else
+  print -P "%F{blue}→%f Selected asset: %F{cyan}${best_asset}%f (score: ${best_score})"
+fi
+
+# Create output directory if it doesn't exist
+if [[ ! -d "${output_dir}" ]]; then
+  mkdir -p "${output_dir}"
+fi
+
+# Download the asset
+local output_path="${output_dir}/${best_asset}"
+print -P "%F{blue}→%f Downloading to %F{cyan}${output_path}%f..."
+
+local download_status=0
+if command -v curl &>/dev/null; then
+  curl -L --progress-bar -o "${output_path}" "${best_url}" || download_status=$?
+else
+  wget --show-progress -O "${output_path}" "${best_url}" || download_status=$?
+fi
+
+if [[ ${download_status} -eq 0 ]]; then
+  print -P "%F{green}✓%f Successfully downloaded %F{cyan}${best_asset}%f"
+  print -P "%F{blue}→%f File saved to: %F{cyan}${output_path}%f"
+  return 0
+else
+  print -P "%F{red}Error:%f Download failed" >&2
+  return 1
+fi
