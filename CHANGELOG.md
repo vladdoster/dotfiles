@@ -1,3 +1,10 @@
+## [4.52.1](https://github.com/vladdoster/dotfiles/compare/v4.52.0...v4.52.1) (2026-01-24)
+
+
+### Bug Fixes
+
+* **zsh:** set default `ZDOTDIR` in .zshenv ([#51](https://github.com/vladdoster/dotfiles/issues/51)) ([22b687e](https://github.com/vladdoster/dotfiles/commit/22b687e86863dd6f230f795ac406234e64f40e33))
+
 # [4.52.0](https://github.com/vladdoster/dotfiles/compare/v4.51.1...v4.52.0) (2026-01-09)
 
 
