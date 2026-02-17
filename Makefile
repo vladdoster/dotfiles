@@ -24,7 +24,7 @@ PY_VER ?= $(shell python3 --version | awk '{print $$2}' | cut -d "." -f 1-2)
 DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-$(CONTAINER_ARCH)-volume,destination=/home --security-opt seccomp=unconfined
 STOW_OPTS := --target=$$HOME --verbose=1
 
-TARGETS := all brew-bundle brew-install clean docker-build docker-shell docker-ssh dotfiles hammerspoon help neovim shell stow targets-table test update-readme clean clean-docker clean-brew clean-py-pkgs
+TARGETS := all brew-bundle brew-install clean docker-build docker-shell docker-ssh dotfiles hammerspoon help neovim shell stow targets-table test test-functions update-readme clean clean-docker clean-brew clean-py-pkgs
 .PHONY: $(TARGETS)
 
 all: help
@@ -149,6 +149,10 @@ targets-table:
 update-readme: ## Update Make targets table in README
 	sed -i '' -e '/^|/d' README.md
 	make targets-table | mdformat - >> README.md
+
+test-functions: ## Run unit tests for functions::format
+	$(info ==> Running functions::format unit tests)
+	ZDOTDIR=$$PWD/zsh/.config/zsh zsh zsh/.config/zsh/functions/functions::format.test.zsh
 
 %: ## A catch-all target to make fake targets
 	true
