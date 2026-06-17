@@ -1,3 +1,10 @@
+# [4.53.0](https://github.com/vladdoster/dotfiles/compare/v4.52.1...v4.53.0) (2026-06-17)
+
+
+### Features
+
+* **Brewfile:** add macOS quicklook extensions for md & code ([a25e37a](https://github.com/vladdoster/dotfiles/commit/a25e37acff3c25d4f1c60614c8fa41678ed799f7))
+
 ## [4.52.1](https://github.com/vladdoster/dotfiles/compare/v4.52.0...v4.52.1) (2026-01-24)
 
 
