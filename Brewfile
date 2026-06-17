@@ -40,3 +40,5 @@ brew "zsh", link: true
 cask "1password"
 cask "font-blex-mono-nerd-font"
 cask "kitty"
+cask "qlmarkdown"
+cask "syntax-highlight"
