@@ -4,8 +4,8 @@
 # add-to-path
 #
 
-add-to-path () {
-    _add-to-path_usage () {
+add-to-path() {
+    _add-to-path_usage() {
         print 'Usage: add-to-path [options] [files...]'
         print 'Options:'
         print '  -d, --debug        turn on execution tracing'
@@ -18,24 +18,31 @@ add-to-path () {
 
     local base debug help prepend
     builtin zparseopts -D -F -E -K h=help -help=help d=debug -debug=debug p=prepend -prepend=prepend || return 1
-    if (( $#debug )); then
+    if (($#debug)); then
         setopt xtrace
     fi
-    if (( $#help )); then
+    if (($#help)); then
         _add-to-path_usage
         return 0
     fi
 
-    if (( $# > 1 )); then
+    if (($# > 1)); then
         print 'add-to-path: only one argument allowed'
         return 1
     fi
-    if (( $# < 1 )); then
+    if (($# < 1)); then
         print 'add-to-path: one argument is required'
         return 1
     fi
+    local error_msg
     if [[ ! -e ${1} ]]; then
-        print -P -- "add-to-path: file path ${(qq)1} does not exist"
+        error_msg='does not exist'
+    elif [[ ! -d ${1} ]]; then
+        error_msg='must be a directory'
+    fi
+
+    if (($#error_msg)); then
+        print -P -- "add-to-path: path ${(qq)1} ${error_msg}"
         return 1
     fi
 
@@ -43,7 +50,7 @@ add-to-path () {
     #     print 'add-to-path: removed pre-existing entry in path'
     # fi
 
-    if (( $#prepend )); then
+    if (($#prepend)); then
         export PATH="${1}:${PATH}"
         print 'add-to-path: prepended entry to path'
     else
