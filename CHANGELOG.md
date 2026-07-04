@@ -1,3 +1,10 @@
+# [4.54.0](https://github.com/vladdoster/dotfiles/compare/v4.53.0...v4.54.0) (2026-07-04)
+
+
+### Features
+
+* **zsh:** validate add-to-path arg is an existing directory ([a2a00e3](https://github.com/vladdoster/dotfiles/commit/a2a00e33ef04196dc1f2a9987ed5a47fd5f22086))
+
 # [4.53.0](https://github.com/vladdoster/dotfiles/compare/v4.52.1...v4.53.0) (2026-06-17)
 
 
