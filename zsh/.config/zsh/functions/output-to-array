@@ -1,0 +1,38 @@
+#autoload
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# output-to-array - slurp piped stdin into an array, one element per line
+#
+
+builtin emulate -L zsh -o EXTENDED_GLOB
+
+local flag_help
+local -a usage=(
+  "output-to-array [-h|--help] [array-name]"
+  ""
+  "Read stdin and split it on newlines into the named array (default: lines)."
+  "Example: print -l -- /etc/hosts | output-to-array hosts && print -l -- \$hosts"
+)
+
+zmodload zsh/zutil
+zparseopts -D -F -K -- {h,-help}=flag_help || return 1
+
+(( $#flag_help )) && { builtin print -l -- $usage; return 0; }
+
+if (( $# > 1 )); then
+  builtin print -P -- "%F{red}Error%f output-to-array: at most one array name allowed"
+  return 1
+fi
+
+local name=${1:-lines}
+if [[ $name != [A-Za-z_][A-Za-z0-9_]# ]]; then
+  builtin print -P -- "%F{red}Error%f output-to-array: ${(qq)name} is not a valid array name"
+  return 1
+fi
+
+if [[ -t 0 ]]; then
+  builtin print -P -- "%F{red}Error%f output-to-array: no input; pipe data into this function"
+  return 1
+fi
+
+set -A "$name" "${(@f)$(cat)}"
