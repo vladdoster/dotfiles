@@ -1,3 +1,10 @@
+# [4.55.0](https://github.com/vladdoster/dotfiles/compare/v4.54.0...v4.55.0) (2026-07-22)
+
+
+### Features
+
+* **zsh:** make output-to-array a robust CLI function ([be7a7b0](https://github.com/vladdoster/dotfiles/commit/be7a7b05d8f17c441da465dc5509c23478bbf260))
+
 # [4.54.0](https://github.com/vladdoster/dotfiles/compare/v4.53.0...v4.54.0) (2026-07-04)
 
 
