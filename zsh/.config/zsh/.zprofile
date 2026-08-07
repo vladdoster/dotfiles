@@ -16,7 +16,7 @@ setopt local_options typeset_silent extended_glob prompt_subst no_global_rcs
 
 export -T MANPATH=${MANPATH:-:} manpath
 export -T INFOPATH=${INFOPATH:-:} infopath
-typeset -gUa {'cd','f','info','mail','man'}path
+typeset -gUa path {'cd','f','info','mail','man'}path
 
 # function -init-homebrew() {
 #   (( ARGC )) || return 0
@@ -39,6 +39,9 @@ if (( !${+commands[brew]} )) && [[ -f ${dirpath[1]}/bin/brew ]] then
     print -ru2 -- "homebrew path: ${dirpath[1]:-not found}"
     eval $(${dirpath[1]}/bin/brew shellenv)
 fi
+
+# install dirs brew shellenv does not cover: uv (~/.local/bin), go (~/go/bin)
+path=($HOME/.local/bin(/N) ${GOBIN:-${GOPATH:-$HOME/go}/bin}(/N) $path)
 
 fpath=(${ZDOTDIR}/{completions,functions}(/N) $fpath)
 for func in $^ZDOTDIR/functions/*~*zwc(N-.:t); do
