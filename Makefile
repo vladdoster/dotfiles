@@ -61,6 +61,10 @@ clean-docker: ## Clean docker resources
 clean-brew: ## Clean homebrew caches and stale versions
 	brew cleanup --prune=all --scrub --verbose
 
+brew-nuke: ## DESTRUCTIVE: uninstall every package declared in the Brewfile
+	read -r "ans?Uninstalls every Brewfile package (incl. git, zsh, python3). Continue? [y/N] " && [[ $$ans == [yY] ]] || exit 1
+	brew bundle list --brews --casks | xargs brew uninstall --force --ignore-dependencies --verbose --zap
+
 clean: clean-brew clean-docker clean-py-pkgs
 
 docker-load: ## Create tarball of docker image
