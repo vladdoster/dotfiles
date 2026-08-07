@@ -12,6 +12,10 @@ export \
   GIT_CONFIG="${XDG_CONFIG_HOME}/git/config" PIP_CONFIG="${XDG_CONFIG_HOME}/pip" \
   VIMDOTDIR="${XDG_CONFIG_HOME}/vim" \
   ZDOTDIR="${ZDOTDIR:-$HOME/.config/zsh}"
+# editor: must be a real binary. External tools (git commit, crontab -e,
+# sudoedit) spawn $EDITOR via execvp and cannot resolve zsh functions.
+export EDITOR="${commands[nvim]:-${commands[vim]:-vi}}"
+export VISUAL="${EDITOR}"
 # program options
 export \
   COMPOSE_DOCKER_CLI_BUILD=1 CORRECT_IGNORE="*zinit[-]*" \

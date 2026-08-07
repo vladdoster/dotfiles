@@ -15,13 +15,13 @@ _clone_if_absent() {
 }
 
 _edit() {
-  $EDITOR $@
+  "${EDITOR:-vim}" "$@"
 }
 
 _mkfile() {
   builtin echo "#!/usr/bin/env ${2}" > "$3.$1" && chmod +x "$3.$1"
   rehash
-  $EDITOR "$3.$1"
+  _edit "$3.$1"
 }
 
 _sys_update() {
