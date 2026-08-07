@@ -1,4 +1,4 @@
-;  vim: set expandtab filetype=gitconfig shiftwidth=4 tabstop=4 :
+;  vim: set expandtab filetype=gitconfig shiftwidth=2 tabstop=2 :
 
 [user]
   email = mvdoster@gmail.com
@@ -9,12 +9,12 @@
 [credential]
   helper = store --file ~/.config/git/credentials
 [core]
-	autocrlf = false
-	eol = lf
+  autocrlf = false
+  eol = lf
   editor = nvim
   excludesfile = ~/.config/git/ignore
   pager = delta
-	hooksPath = .githooks
+  hooksPath = .githooks
 [advice]
   amWorkDir = false
   commitBeforeMerge = false
