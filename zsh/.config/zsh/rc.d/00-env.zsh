@@ -1,10 +1,11 @@
 #!/usr/bin/env zsh
 # environment variables
-(( ${+TERM} )) || export TERM="xterm-256color"; COLORTERM="truecolor"
-(( ${+USER} )) || export USER="${USERNAME}"
-(( ${+XDG_CACHE_HOME} )) || export XDG_CACHE_HOME="${HOME}/.cache"
-(( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="${HOME}/.config"
-(( ${+XDG_DATA_HOME} )) || export XDG_DATA_HOME="${HOME}/.local/share"
+((${+TERM})) || export TERM="xterm-256color"
+COLORTERM="truecolor"
+((${+USER})) || export USER="${USERNAME}"
+((${+XDG_CACHE_HOME})) || export XDG_CACHE_HOME="${HOME}/.cache"
+((${+XDG_CONFIG_HOME})) || export XDG_CONFIG_HOME="${HOME}/.config"
+((${+XDG_DATA_HOME})) || export XDG_DATA_HOME="${HOME}/.local/share"
 # configuration directories
 export \
   CODEDIR="$HOME/code" DOTFILES="${XDG_CONFIG_HOME}/dotfiles" \
@@ -14,7 +15,7 @@ export \
 # program options
 export \
   COMPOSE_DOCKER_CLI_BUILD=1 CORRECT_IGNORE="*zinit[-]*" \
-  DISABLE_MAGIC_FUNCTIONS=1  DOCKER_BUILDKIT=1 \
+  DISABLE_MAGIC_FUNCTIONS=1 DOCKER_BUILDKIT=1 \
   HOMEBREW_NO_{ENV_HINTS,INSTALL_CLEANUP}=1 \
   SHELL_SESSIONS_DISABLE=1
 
@@ -29,4 +30,4 @@ export PIP_TARGET="$HOME/.local/share/python"
 autoload -U colors zsh/terminfo
 colors
 
-#  vim: set expandtab filetype=zsh shiftwidth=4 tabstop=4 :
+# vim: set expandtab filetype=zsh shiftwidth=4 tabstop=4 :
