@@ -10,7 +10,7 @@ COLORTERM="truecolor"
 export \
   CODEDIR="$HOME/code" DOTFILES="${XDG_CONFIG_HOME}/dotfiles" \
   GIT_CONFIG="${XDG_CONFIG_HOME}/git/config" PIP_CONFIG="${XDG_CONFIG_HOME}/pip" \
-  PYTHONPATH="${XDG_DATA_HOME}/python" VIMDOTDIR="${XDG_CONFIG_HOME}/vim" \
+  VIMDOTDIR="${XDG_CONFIG_HOME}/vim" \
   ZDOTDIR="${ZDOTDIR:-$HOME/.config/zsh}"
 # program options
 export \
@@ -22,12 +22,6 @@ export \
 export PIP_TRUSTED_HOST='files.pythonhosted.org pypi.org'
 export PIP_UPGRADE='true'
 export PIP_NO_CACHE_DIR='true'
-export PIP_TARGET="$HOME/.local/share/python"
-
-#------------------------------
-# Prompt
-#------------------------------
-autoload -U colors zsh/terminfo
-colors
+# export PIP_TARGET="$HOME/.local/share/python"
 
 # vim: set expandtab filetype=zsh shiftwidth=4 tabstop=4 :
