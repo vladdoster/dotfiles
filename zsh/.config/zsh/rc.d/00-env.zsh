@@ -32,6 +32,5 @@ export \
 export PIP_TRUSTED_HOST='files.pythonhosted.org pypi.org'
 export PIP_UPGRADE='true'
 export PIP_NO_CACHE_DIR='true'
-# export PIP_TARGET="$HOME/.local/share/python"
 
 # vim: set expandtab filetype=zsh shiftwidth=4 tabstop=4 :

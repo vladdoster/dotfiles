@@ -23,6 +23,7 @@ v() {
     print 'Options:'
     print '  -d, --debug            turn on execution tracing'
     print '  -h, --help             show list of command-line options'
+    return 0
   fi
 
   # $EDITOR is resolved once to an absolute binary in rc.d/00-env.zsh

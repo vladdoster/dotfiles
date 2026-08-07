@@ -32,7 +32,6 @@ mkdir $HOME/.config \
 | chsh              | Set shell to ZSH                                              |
 | clean-brew        | Clean homebrew caches and stale versions                      |
 | clean-docker      | Clean docker resources                                        |
-| clean-py-pkgs     | Clean python resources                                        |
 | docker-build      | Build docker image                                            |
 | docker-load       | Create tarball of docker image                                |
 | docker-push       | Build and push dotfiles docker image                          |
@@ -42,12 +41,6 @@ mkdir $HOME/.config \
 | help              | Display all Makfile targets                                   |
 | install           | Install dotfiles                                              |
 | neovim            | Install neovim configuration                                  |
-| py-pip-install    | Install pip                                                   |
-| py-pkgs           | Install python pkgs                                           |
-| py-update         | Update python packages                                        |
-| py-version        | Print python3 version                                         |
-| rust-install      | Install rust & cargo                                          |
-| rust-pkgs         | Install rust programs                                         |
 | safari-extensions | Install 1password, vimari, grammarly safari extensions        |
 | uninstall         | Uninstall dotfiles                                            |
 | update-readme     | Update Make targets table in README                           |

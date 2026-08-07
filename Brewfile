@@ -1,6 +1,5 @@
 # == CFG =====
 cask_args appdir: "/Applications"
-tap "homebrew/core"
 # == CLI =====
 brew "autoconf"
 brew "automake"
@@ -11,10 +10,12 @@ brew "brotli"
 brew "cmake"
 brew "coreutils"
 brew "cpanminus"
+brew "fzf", link: true
 brew "gcc"
 brew "gdbm"
 brew "gettext"
 brew "git", link: true
+brew "gh", link: true
 brew "glibc" if OS.linux?
 brew "gnu-indent"
 brew "gnu-sed"
@@ -32,6 +33,7 @@ brew "make"
 brew "neovim", args: ["build-from-source", "HEAD"], link: true
 brew "node@24", link: :force
 brew "python3", link: true
+brew "rust", link: :overwrite
 brew "stow", link: true
 brew "texinfo"
 brew "tmux", link: true
@@ -51,9 +53,7 @@ cask "font-blex-mono-nerd-font"
 cask "font-server-mono"
 cask "wezterm@nightly"
 # == MISC =====
-# A de-minifier (formatter, exploder, beautifier) for shell one-liners
 go "github.com/noperator/sol/cmd/sol"
-# A shell parser, formatter, and interpreter with bash and zsh support; includes shfmt
 go "mvdan.cc/sh/v3/cmd/shfmt"
 npm "@augmentcode/auggie"
 npm "@laboratoria/mdlint"
@@ -67,10 +67,14 @@ npm "httpyac"
 npm "js-yaml"
 npm "jshint"
 npm "jsonlint"
-npm "markdownlint-cli2"
 npm "markdownlint"
+npm "markdownlint-cli2"
 npm "netlify-cli"
 npm "renovate"
 npm "tslint"
-# CommonMark compliant Markdown formatter; -gfm plugin renders the README tables
+uv "beautysh"
 uv "mdformat", with: ["mdformat-gfm"]
+uv "pynvim"
+uv "typer"
+cargo "cargo-update"
+cargo "bat"

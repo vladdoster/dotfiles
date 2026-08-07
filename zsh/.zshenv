@@ -1,6 +1,10 @@
 #!/usr/bin/env zsh
 # vim: set ft=zsh:et:sts=2:sw=2:ts=2:tw=100:
 
-: ${ZDOTDIR:=$HOME/.config/zsh}
+(){
+  setopt localoptions verbose
+  : ${ZDOTDIR:=$HOME/.config/zsh}
+  eval "$(/opt/homebrew/bin/brew shellenv zsh)"
+}
 
-setopt rcs
+print -- "==> ZDOTDIR $ZDOTDIR"

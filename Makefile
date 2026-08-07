@@ -14,13 +14,6 @@ CONTAINER_NAME := vdoster/dotfiles-$(CONTAINER_ARCH)
 CONTAINER_TAG ?= $(CONTAINER_NAME):$(CONTAINER_LABEL)
 BUILD_DATE := $(shell date -u +%FT%TZ) # https://github.com/opencontainers/image-spec/blob/master/annotations.md
 
-PY_PATH ?= $$HOME/.local/share/python
-PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --no-cache-dir --target=$(PY_PATH)
-PY_PIP := python3 -m pip
-PY_PKGS := beautysh pynvim typer
-PY_VER ?= $(shell python3 --version | awk '{print $$2}' | cut -d "." -f 1-2)
-# PY_PIP := python$(PY_VER) -m pip
-
 DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-$(CONTAINER_ARCH)-volume,destination=/home --security-opt seccomp=unconfined
 STOW_OPTS := --target=$$HOME --verbose=1
 
@@ -44,16 +37,13 @@ uninstall: ## Uninstall dotfiles
 
 docker-build: ## Build docker image
 	docker buildx build \
-	    --label org.opencontainers.image.created="$(BUILD_DATE)" \
-	    --load \
-	    --platform linux/"$(CONTAINER_ARCH)" \
-	    --progress plain \
-	    --pull \
-	    --tag "$(CONTAINER_TAG)" \
-	    .
-
-clean-py-pkgs: ## Clean python resources
-	rm -rf $(PY_PATH)
+	--label org.opencontainers.image.created="$(BUILD_DATE)" \
+	--load \
+	--platform linux/"$(CONTAINER_ARCH)" \
+	--progress plain \
+	--pull \
+	--tag "$(CONTAINER_TAG)" \
+	.
 
 clean-docker: ## Clean docker resources
 	docker system prune --all --force
@@ -61,7 +51,7 @@ clean-docker: ## Clean docker resources
 clean-brew: ## Clean homebrew caches and stale versions
 	brew cleanup --prune=all --scrub --verbose
 
-brew-nuke: ## DESTRUCTIVE: uninstall every package declared in the Brewfile
+brew-nuke: ## DESTRUCTIVE: uninstall every brew/cask package declared in the Brewfile
 	read -r "ans?Uninstalls every Brewfile package (incl. git, zsh, python3). Continue? [y/N] " && [[ $$ans == [yY] ]] || exit 1
 	brew bundle list --brews --casks | xargs brew uninstall --force --ignore-dependencies --verbose --zap
 
@@ -117,29 +107,6 @@ build-stow: ## Build stow from source
 safari-extensions: ## Install 1password, vimari, grammarly safari extensions
 	brew install mas
 	mas install 1569813296 1480933944 1462114288
-
-py-version: ## Print python3 version
-	$(info ==> Python version: $(PY_VER))
-
-py-pip-install: py-version ## Install pip
-	curl https://bootstrap.pypa.io/get-pip.py | $(PY_VER)
-
-py-pkgs: py-version ## Install python pkgs
-	$(info ==> installing py pkgs)
-	$(PY_PIP) install $(PIP_OPTS) $(PY_PKGS)
-	$(info ==> installed py packages)
-
-py-update: py-pkgs ## Update python packages
-	$(info ==> updating py pkgs)
-	$(PY_PIP) install $(PIP_OPTS) --upgrade pip
-	# $(PY_PIP) list | cut -d" " -f 1 | tail -n +3 | xargs $(PY_PIP) install $(PIP_OPTS)
-	$(info ==> updated py packages)
-
-rust-install:  ## Install rust & cargo
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-rust-pkgs: ## Install rust programs
-	cargo install bat cargo-update exa topgrade
 
 help: ## Display all Makfile targets
 	grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
