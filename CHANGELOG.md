@@ -1,3 +1,19 @@
+# [4.56.0](https://github.com/vladdoster/dotfiles/compare/v4.55.0...v4.56.0) (2026-08-07)
+
+
+### Bug Fixes
+
+* resolve code-review findings on chore/simplify-cleanup ([06ee013](https://github.com/vladdoster/dotfiles/commit/06ee013510788989ddd3490f26be6d642182703e))
+* **zsh:** prepend uv and go install dirs to PATH ([0e2ce0a](https://github.com/vladdoster/dotfiles/commit/0e2ce0aa127a1a985c951975df63480421a35260))
+
+
+### Features
+
+* **make:** add brew-nuke target ([a420417](https://github.com/vladdoster/dotfiles/commit/a420417dd4cc4ec20ea53fc2be729cc0f8939781))
+* **zsh:** add zsh::fix-insecure-dirs ([882b37c](https://github.com/vladdoster/dotfiles/commit/882b37c5711ad432ed688ee7bd1d490381dda7e4))
+* **zsh:** derive DOTFILES from the repo checkout ([216d4be](https://github.com/vladdoster/dotfiles/commit/216d4be332dbfc097c8dc0608a52ff9c1ec75055))
+* **zsh:** resolve EDITOR to a real binary at startup ([120c26b](https://github.com/vladdoster/dotfiles/commit/120c26be5eccaeca89cefa55abc5bd4026a2afb1))
+
 # [4.55.0](https://github.com/vladdoster/dotfiles/compare/v4.54.0...v4.55.0) (2026-07-22)
 
 
