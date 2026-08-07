@@ -1,0 +1,30 @@
+#autoload
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# zsh::fix-insecure-dirs - drop group-write from every directory compaudit flags
+#
+
+builtin emulate -L zsh
+
+local -a flag_debug flag_help
+local -a usage=(
+  "zsh::fix-insecure-dirs [-d|--debug] [-h|--help]"
+  ""
+  "Remove group-write permission from the directories compaudit reports as insecure."
+  ""
+  "Options:"
+  "  -d, --debug        turn on execution tracing"
+  "  -h, --help         show list of command-line options"
+)
+
+zmodload zsh/zutil || return 1
+# compinit is loaded lazily here (zinit turbo), so compaudit may not be defined yet
+autoload -Uz compaudit
+builtin zparseopts -D -E -F -K -- {d,-debug}=flag_debug {h,-help}=flag_help || return 1
+
+(( $#flag_help )) && { builtin print -l -- $usage; return 0; }
+(( $#flag_debug )) && setopt xtrace
+
+local -a insecure=(${(f)"$(compaudit)"})
+(( $#insecure )) || return 0
+chmod g-w -- $insecure

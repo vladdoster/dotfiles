@@ -1,17 +1,15 @@
 #autoload
 # vim: ft=zsh sw=2 ts=2 et
 
-typeset -gx EDITOR='v'
-
 v() {
   emulate -L zsh
 
   zmodload zsh/zutil || return
 
   setopt typeset_silent
-  local debug editor help nvim_found
+  local debug editor help
 
-  zparseopts -D -F -K -F -- \
+  zparseopts -D -F -K -- \
     {d,-debug}=debug \
     {h,-help}=help   \
   || return 1
@@ -25,15 +23,15 @@ v() {
     print 'Options:'
     print '  -d, --debug            turn on execution tracing'
     print '  -h, --help             show list of command-line options'
+    return 0
   fi
 
-  command -v nvim >/dev/null
-  nvim_found=$?
-  editor="${${(M)nvim_found:#0}:+n}vim"
+  # $EDITOR is resolved once to an absolute binary in rc.d/00-env.zsh
+  editor="$EDITOR"
   if (( ${#debug} )); then
     print -- "${editor}" "${@}"
   else
-    ${editor} ${@}
+    "${editor}" "${@}"
   fi
 }
 

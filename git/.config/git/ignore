@@ -79,3 +79,7 @@ tags
 [Ss]cripts
 pip-selfcheck.json
 pyvenv.cfg
+#=========
+# Claude
+#=========
+**/.claude/settings.local.json

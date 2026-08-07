@@ -34,13 +34,14 @@ function _git-status {
 zle -N _git-status && bindkey '\es' _git-status
 
 insert-last-command-output() {
-  LBUFFER+="$(eval $history[$((HISTCMD-1))])"
+  LBUFFER+="$(eval $history[$((HISTCMD - 1))])"
 }
 zle -N insert-last-command-output && bindkey -M vicmd '\ew' insert-last-command-output
 
 function prepend-sudo {
   if [[ $BUFFER != "sudo "* ]]; then
-    BUFFER="sudo $BUFFER"; CURSOR+=5
+    BUFFER="sudo $BUFFER"
+    CURSOR+=5
   fi
 }
 zle -N prepend-sudo && bindkey -M vicmd s prepend-sudo
@@ -61,13 +62,13 @@ local cmd_alias=""
 alias_for() {
   [[ $1 =~ '[[:punct:]]' ]] && return
   local search=${1}
-  local found="$( alias $search )"
+  local found="$(alias $search)"
   if [[ -n $found ]]; then
-    found=${found//\\//}          # replace backslash with slash
-    found=${found%\'}             # remove end single quote
-    found=${found#"$search="}     # remove alias name
-    found=${found#"'"}            # remove first single quote
-    echo "${found} ${2}" | xargs  # return found value (with parameters)
+    found=${found//\\//}         # replace backslash with slash
+    found=${found%\'}            # remove end single quote
+    found=${found#"$search="}    # remove alias name
+    found=${found#"'"}           # remove first single quote
+    echo "${found} ${2}" | xargs # return found value (with parameters)
   else
     echo ""
   fi
@@ -77,10 +78,10 @@ expand_command_line() {
   first=$(echo "$1" | awk '{print $1;}')
   rest=$(echo ${${1}/"${first}"/})
 
-  if [[ -n "${first//-//}" ]]; then
-    cmd_alias="$(alias_for "${first}" "${rest:1}")"                   # check if there's an alias for the command
-    if [[ -n $cmd_alias ]] && [[ "${cmd_alias:0:1}" != "." ]]; then   # if there was and not start with dot
-      echo "${T_GREEN}ᐳ ${T_YELLOW}${cmd_alias}${F_RESET}"            # otherwise print it
+  if [[ -n ${first//-//} ]]; then
+    cmd_alias="$(alias_for "${first}" "${rest:1}")"               # check if there's an alias for the command
+    if [[ -n $cmd_alias ]] && [[ ${cmd_alias:0:1} != "." ]]; then # if there was and not start with dot
+      echo "${T_GREEN}ᐳ ${T_YELLOW}${cmd_alias}${F_RESET}"        # otherwise print it
     fi
   fi
 }
@@ -90,13 +91,12 @@ pre_validation() {
   expand_command_line "$@"
 }
 
-function enable_print_alias () {
-    autoload -U add-zsh-hook    # Load the zsh hook module. 
-    add-zsh-hook preexec pre_validation
+function enable_print_alias() {
+  autoload -U add-zsh-hook # Load the zsh hook module.
+  add-zsh-hook preexec pre_validation
 }
 
-
-function disable_print_alias () {
+function disable_print_alias() {
   add-zsh-hook -d preexec pre_validation
 }
 

@@ -4,6 +4,7 @@ SHELL := $(shell command -v zsh 2> /dev/null)
 # .DEFAULT_SHELL := command -v zsh 2> /dev/null)
 .ONESHELL:
 
+BREWFILE := Brewfile
 CONFIGS := hammerspoon neovim
 GH_URL = https://github.com/vladdoster
 HOMEBREW_URL := https://raw.githubusercontent.com/Homebrew/install/HEAD
@@ -14,17 +15,10 @@ CONTAINER_NAME := vdoster/dotfiles-$(CONTAINER_ARCH)
 CONTAINER_TAG ?= $(CONTAINER_NAME):$(CONTAINER_LABEL)
 BUILD_DATE := $(shell date -u +%FT%TZ) # https://github.com/opencontainers/image-spec/blob/master/annotations.md
 
-PY_PATH ?= $$HOME/.local/share/python
-PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --no-cache-dir --target=$(PY_PATH)
-PY_PIP := python3 -m pip
-PY_PKGS := mdformat beautysh pynvim typer
-PY_VER ?= $(shell python3 --version | awk '{print $$2}' | cut -d "." -f 1-2)
-# PY_PIP := python$(PY_VER) -m pip
-
 DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-$(CONTAINER_ARCH)-volume,destination=/home --security-opt seccomp=unconfined
 STOW_OPTS := --target=$$HOME --verbose=1
 
-TARGETS := all brew-bundle brew-install clean docker-build docker-shell docker-ssh dotfiles hammerspoon help neovim shell stow targets-table test update-readme clean clean-docker clean-brew clean-py-pkgs
+TARGETS := $(shell grep -oE '^[a-zA-Z_-]+:' $(firstword $(MAKEFILE_LIST)) | tr -d ':' | sort -u)
 .PHONY: $(TARGETS)
 
 all: help
@@ -44,24 +38,25 @@ uninstall: ## Uninstall dotfiles
 
 docker-build: ## Build docker image
 	docker buildx build \
-	    --label org.opencontainers.image.created="$(BUILD_DATE)" \
-	    --load \
-	    --platform linux/"$(CONTAINER_ARCH)" \
-	    --progress plain \
-	    --pull \
-	    --tag "$(CONTAINER_TAG)" \
-	    .
-
-clean-py-pkgs: ## Clean python resources
-	rm -rf $(PY_PATH)
+	--label org.opencontainers.image.created="$(BUILD_DATE)" \
+	--load \
+	--platform linux/"$(CONTAINER_ARCH)" \
+	--progress plain \
+	--pull \
+	--tag "$(CONTAINER_TAG)" \
+	.
 
 clean-docker: ## Clean docker resources
 	docker system prune --all --force
 
-clean-brew: ## Clean docker resources
-	brew cleanup --prune=all
+clean-brew: ## Clean homebrew caches and stale versions
+	brew cleanup --prune=all --scrub --verbose
 
-clean: clean-brew clean-docker clean-py-pkgs
+brew-nuke: ## DESTRUCTIVE: uninstall every brew/cask package declared in the Brewfile
+	read -r "ans?Uninstalls every Brewfile package (incl. git, zsh, python3). Continue? [y/N] " && [[ $$ans == [yY] ]] || exit 1
+	brew bundle list --file=$(BREWFILE) --brews --casks | xargs brew uninstall --force --ignore-dependencies --verbose --zap
+
+clean: clean-brew clean-docker
 
 docker-load: ## Create tarball of docker image
 	$(info ==> loading $(CONTAINER_TAG))
@@ -80,12 +75,14 @@ docker-shell: ## Start shell in docker container
 		$(DOCKER_OPTS) \
 		$(CONTAINER_TAG)
 
-brew-bundle: ## Install programs defined in brewfile
-	brew bundle --cleanup --file Brewfile --force --zap
+brew-bundle: export HOMEBREW_NO_ENV_HINTS := 1
+brew-bundle: ## Install programs defined in Brewfile
+	$(info ==> syncing Brewfile packages)
+	brew bundle install --file=$(BREWFILE) --jobs=auto --force --force-cleanup --zap --verbose
 
 brew-install: ## Install Homebrew
 	$(info Preparing to install Homebrew)
-	/bin/bash -c "unset GIT_CONFIG;  $$(curl -fsSL $(HOMEBREW_URL)/install.sh)"
+	NONINTERACTIVE=1 /bin/bash -c "unset GIT_CONFIG; $$(curl -fsSL $(HOMEBREW_URL)/install.sh)"
 
 brew-uninstall: ## Uninstall Homebrew
 	$(info Preparing to uninstall brew)
@@ -110,30 +107,7 @@ build-stow: ## Build stow from source
 
 safari-extensions: ## Install 1password, vimari, grammarly safari extensions
 	brew install mas
-	mas install 1569813296 1480933944 1462114288 # 1password, vimari, grammarly
-
-py-version: ## Print python3 version
-	$(info ==> Python version: $(PY_VER))
-
-py-pip-install: py-version ## Install pip
-	curl https://bootstrap.pypa.io/get-pip.py | $(PY_VER)
-
-py-pkgs: py-version ## Install python pkgs
-	$(info ==> installing py pkgs)
-	$(PY_PIP) install $(PIP_OPTS) $(PY_PKGS)
-	$(info ==> installed py packages)
-
-py-update: py-pkgs ## Update python packages
-	$(info ==> updating py pkgs)
-	$(PY_PIP) install $(PIP_OPTS) --upgrade pip
-	# $(PY_PIP) list | cut -d" " -f 1 | tail -n +3 | xargs $(PY_PIP) install $(PIP_OPTS)
-	$(info ==> updated py packages)
-
-rust-install:  ## Install rust & cargo
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-rust-pkgs: ## Install rust programs
-	cargo install bat cargo-update exa topgrade
+	mas install 1569813296 1480933944 1462114288
 
 help: ## Display all Makfile targets
 	grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
@@ -148,7 +122,7 @@ targets-table:
 
 update-readme: ## Update Make targets table in README
 	sed -i '' -e '/^|/d' README.md
-	make targets-table | mdformat - >> README.md
+	make targets-table | uvx --with mdformat-gfm mdformat - >> README.md
 
 %: ## A catch-all target to make fake targets
 	true

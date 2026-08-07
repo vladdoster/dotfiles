@@ -2,17 +2,15 @@
 # vim: ft=zsh sw=2 ts=2 et
 #=== ZINIT ============================================
 local zi_dir="${HOME}/.local/share/zinit"
-alias zic="${EDITOR:-vim} $0"
+alias zic="$EDITOR $0"
 
-typeset -Agx CONFIG=(HOME_DIR "${zi_dir}")
-CONFIG+=(
-    BIN_DIR     "${CONFIG[HOME_DIR]}/zinit.git" COMPLETIONS_DIR "${CONFIG[HOME_DIR]}/completions"
-    PLUGINS_DIR "${CONFIG[HOME_DIR]}/plugins"   SNIPPETS_DIR    "${CONFIG[HOME_DIR]}/snippets"
-    SRC         'zdharma-continuum'             ZPFX            "${CONFIG[HOME_DIR]}/polaris"
-    # BRANCH      'fork/tmp'                      FORK            'vdoster'
+typeset -A ZINIT=(
+  HOME_DIR "${zi_dir}" BIN_DIR "${zi_dir}/zinit.git"
+  COMPLETIONS_DIR "${zi_dir}/completions" PLUGINS_DIR "${zi_dir}/plugins"
+  SNIPPETS_DIR "${zi_dir}/snippets" ZPFX "${zi_dir}/polaris"
+  SRC 'zdharma-continuum'
+  # BRANCH 'fork/tmp' FORK 'vdoster' DEBUG 'true'
 )
-# CONFIG+=( DEBUG 'true' )
-typeset -A ZINIT=(${(kv)CONFIG})
 local ZI_REPO="${ZINIT[FORK]:-${ZINIT[SRC]}}/${ZINIT[REPO]:-zinit}"
 if [[ ! -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
   {
@@ -23,16 +21,16 @@ if [[ ! -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
       "https://github.com/${ZI_REPO}" \
       "${ZINIT[BIN_DIR]}"
     log::info 'setting up zinit'
-    command chmod g-rwX ${zi_dir} && \
-      zcompile "${ZINIT[BIN_DIR]}/zinit.zsh"
+    command chmod g-rwX ${zi_dir} \
+      && zcompile "${ZINIT[BIN_DIR]}/zinit.zsh"
     log::info 'installed zinit'
   } || log::error 'failed to download zinit'
 fi
 if [[ -e "${ZINIT[BIN_DIR]}/zinit.zsh" ]]; then
-  builtin source "${ZINIT[BIN_DIR]}/zinit.zsh" && \
-    autoload _zinit && \
-    (( ${+_comps} )) && \
-    _comps[zinit]=_zinit
+  builtin source "${ZINIT[BIN_DIR]}/zinit.zsh" \
+    && autoload _zinit \
+    && ((${+_comps})) \
+    && _comps[zinit]=_zinit
 else
   log::error 'failed to find zinit installation'
   return 1
@@ -47,19 +45,19 @@ zinit id-as for \
 zinit id-as aliases for load @vladdoster/z{'sh','init'}-aliases.plugin.zsh
 
 zinit light-mode id-as aliases from'gh-r' lbin'!' for \
-  @dandavison/delta  \
-      atload"!(){ setopt no_aliases; alias l='eza -blF';alias la='eza -abghilmu';alias ll='eza -al';alias ls='eza --git --group-directories-first';}" \
+  @dandavison/delta \
+  atload"!(){ setopt no_aliases; alias l='eza -blF';alias la='eza -abghilmu';alias ll='eza -al';alias ls='eza --git --group-directories-first';}" \
   @vladdoster/eza
 
 zinit light-mode depth=1 for \
-      id-as'nvim-arm64' \
-      if"(( ${${${(m)$(arch):#(arm|aarch)*}:+0}:-1} ))" \
-      make \
+  id-as'nvim-arm64' \
+  if"(( ${${${(m)$(arch):#(arm|aarch)*}:+0}:-1} ))" \
+  make \
   @neovim/neovim \
-      from'gh-r' \
-      id-as'nvim-x86_64' \
-      if"(( ${${${(M)$(arch):#(arm|aarch)*}:+0}:-1} ))" \
-      lbin'!nvim' \
+  from'gh-r' \
+  id-as'nvim-x86_64' \
+  if"(( ${${${(M)$(arch):#(arm|aarch)*}:+0}:-1} ))" \
+  lbin'!nvim' \
   @neovim/neovim
 
 #       as'program' \
@@ -72,10 +70,10 @@ zinit light-mode depth=1 for \
 
 # zinit ver'develop' id-as for \
 #   @vladdoster/zshfmt
-  # as'program' \
-  # compile'revolver' \
-  # pick'revolver' \
-  # @molovo/revolver \
+# as'program' \
+# compile'revolver' \
+# pick'revolver' \
+# @molovo/revolver \
 #       null \
 #   @zdharma-continuum/zinit-vim-syntax
 
@@ -106,20 +104,20 @@ zinit if'(())' cmake for \
   @thewtex/tmux-mem-cpu-load
 
 zinit light-mode lucid id-as wait for \
-    make \
+  make \
   @zdharma-continuum/zshelldoc \
-    compile atinit'bindkey -M vicmd "^v" edit-command-line' light-mode \
+  compile atinit'bindkey -M vicmd "^v" edit-command-line' light-mode \
   @softmoth/zsh-vim-mode \
-    ver'develop' build \
+  ver'develop' build \
   @zdharma-continuum/zunit \
-    atload'bindkey "^[[A" history-substring-search-up;bindkey "^[[B" history-substring-search-down' \
+  atload'bindkey "^[[A" history-substring-search-up;bindkey "^[[B" history-substring-search-down' \
   @zsh-users/zsh-history-substring-search \
-    atinit'zicompinit; zicdreplay' \
-    @zdharma-continuum/fast-syntax-highlighting \
-    atload'_zsh_autosuggest_start' \
-    atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
+  atinit'zicompinit; zicdreplay' \
+  @zdharma-continuum/fast-syntax-highlighting \
+  atload'_zsh_autosuggest_start' \
+  atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
   @zsh-users/zsh-autosuggestions \
-    blockf atpull'zinit creinstall -q .' \
+  blockf atpull'zinit creinstall -q .' \
   @zsh-users/zsh-completions
 
 #   id-as'hsmw-compile-ice' \
@@ -127,4 +125,3 @@ zinit light-mode lucid id-as wait for \
 #   @zdharma-continuum/history-search-multi-word \
 #   id-as'hsmw-no-compile-ice' \
 #   @zdharma-continuum/history-search-multi-word \
-
