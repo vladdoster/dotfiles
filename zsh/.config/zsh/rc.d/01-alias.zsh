@@ -57,11 +57,13 @@ alias tailf="less +F -R"
 emulate -L zsh
 setopt extendedglob
 
-typeset -A pairs=(ealiases 'zsh/rc.d/[0-9]*-alias.zsh' gignore 'git/ignore' gcfg 'git/config' nvplg "nvim/lua/plugins.lua" rcenv 'zsh/rc.d/[0-9]*-env.zsh' wezrc 'wezterm/wezterm.lua' tmuxrc 'tmux/tmux.conf' zic 'zsh/rc.d/[0-9]*-zinit.zsh' zrc 'zsh/.zshrc' brewrc "$DOTFILES/Brewfile")
+typeset -A pairs=(ealiases 'zsh/rc.d/[0-9]*-alias.zsh' gignore 'git/ignore' gcfg 'git/config' nvplg "nvim/lua/plugins.lua" rcenv 'zsh/rc.d/[0-9]*-env.zsh' wezrc 'wezterm/wezterm.lua' tmuxrc 'tmux/tmux.conf' zic 'zsh/rc.d/[0-9]*-zinit.zsh' zrc 'zsh/.zshrc')
 for k v in ${(kv)pairs[@]}; do
   builtin alias $k="_edit ${XDG_CONFIG_HOME:-${HOME}/.config}/${v}" || true
 done
 
+# lives at the repo root, not under $XDG_CONFIG_HOME, so it skips the loop above
+alias brewrc='_edit $DOTFILES/Brewfile'
 alias zinstall='_edit $ZINIT[BIN_DIR]/zinit-install.zsh'
 
 for k v in hscfg '.hammerspoon/init.lua' sshrc '.ssh/config' zec '.zshenv' zpc '.zprofile'; do

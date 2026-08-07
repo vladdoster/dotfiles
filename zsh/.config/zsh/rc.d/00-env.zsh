@@ -7,8 +7,14 @@ COLORTERM="truecolor"
 ((${+XDG_CONFIG_HOME})) || export XDG_CONFIG_HOME="${HOME}/.config"
 ((${+XDG_DATA_HOME})) || export XDG_DATA_HOME="${HOME}/.local/share"
 # configuration directories
+CODEDIR="$HOME/code"
+# this file is stow-linked into the repo, so :A resolves back to the repo root
+if [[ -z $DOTFILES ]]; then
+  DOTFILES=${${(%):-%N}:A:h:h:h:h:h}
+  [[ -d $DOTFILES/.git ]] || DOTFILES=${XDG_CONFIG_HOME}/dotfiles
+fi
 export \
-  CODEDIR="$HOME/code" DOTFILES="${XDG_CONFIG_HOME}/dotfiles" \
+  CODEDIR DOTFILES \
   GIT_CONFIG="${XDG_CONFIG_HOME}/git/config" PIP_CONFIG="${XDG_CONFIG_HOME}/pip" \
   VIMDOTDIR="${XDG_CONFIG_HOME}/vim" \
   ZDOTDIR="${ZDOTDIR:-$HOME/.config/zsh}"
