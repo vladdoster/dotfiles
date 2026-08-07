@@ -17,7 +17,7 @@ BUILD_DATE := $(shell date -u +%FT%TZ) # https://github.com/opencontainers/image
 PY_PATH ?= $$HOME/.local/share/python
 PIP_OPTS := --trusted-host=files.pythonhosted.org --trusted-host=pypi.org --upgrade --no-cache-dir --target=$(PY_PATH)
 PY_PIP := python3 -m pip
-PY_PKGS := mdformat beautysh pynvim typer
+PY_PKGS := beautysh pynvim typer
 PY_VER ?= $(shell python3 --version | awk '{print $$2}' | cut -d "." -f 1-2)
 # PY_PIP := python$(PY_VER) -m pip
 
@@ -58,8 +58,8 @@ clean-py-pkgs: ## Clean python resources
 clean-docker: ## Clean docker resources
 	docker system prune --all --force
 
-clean-brew: ## Clean docker resources
-	brew cleanup --prune=all
+clean-brew: ## Clean homebrew caches and stale versions
+	brew cleanup --prune=all --scrub --verbose
 
 clean: clean-brew clean-docker clean-py-pkgs
 
@@ -80,12 +80,14 @@ docker-shell: ## Start shell in docker container
 		$(DOCKER_OPTS) \
 		$(CONTAINER_TAG)
 
-brew-bundle: ## Install programs defined in brewfile
-	brew bundle --cleanup --file Brewfile --force --zap
+brew-bundle: export HOMEBREW_NO_ENV_HINTS := 1
+brew-bundle: ## Install programs defined in Brewfile
+	$(info ==> syncing Brewfile packages)
+	brew bundle install --file=Brewfile --jobs=auto --force --force-cleanup --zap --verbose
 
 brew-install: ## Install Homebrew
 	$(info Preparing to install Homebrew)
-	/bin/bash -c "unset GIT_CONFIG;  $$(curl -fsSL $(HOMEBREW_URL)/install.sh)"
+	NONINTERACTIVE=1 /bin/bash -c "unset GIT_CONFIG; $$(curl -fsSL $(HOMEBREW_URL)/install.sh)"
 
 brew-uninstall: ## Uninstall Homebrew
 	$(info Preparing to uninstall brew)
@@ -110,7 +112,7 @@ build-stow: ## Build stow from source
 
 safari-extensions: ## Install 1password, vimari, grammarly safari extensions
 	brew install mas
-	mas install 1569813296 1480933944 1462114288 # 1password, vimari, grammarly
+	mas install 1569813296 1480933944 1462114288
 
 py-version: ## Print python3 version
 	$(info ==> Python version: $(PY_VER))
@@ -148,7 +150,7 @@ targets-table:
 
 update-readme: ## Update Make targets table in README
 	sed -i '' -e '/^|/d' README.md
-	make targets-table | mdformat - >> README.md
+	make targets-table | uvx --with mdformat-gfm mdformat - >> README.md
 
 %: ## A catch-all target to make fake targets
 	true
