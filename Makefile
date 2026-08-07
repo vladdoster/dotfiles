@@ -24,7 +24,7 @@ PY_VER ?= $(shell python3 --version | awk '{print $$2}' | cut -d "." -f 1-2)
 DOCKER_OPTS := --hostname docker-$(shell basename $(CONTAINER_NAME)) --interactive --mount=source=dotfiles-$(CONTAINER_ARCH)-volume,destination=/home --security-opt seccomp=unconfined
 STOW_OPTS := --target=$$HOME --verbose=1
 
-TARGETS := all brew-bundle brew-install clean docker-build docker-shell docker-ssh dotfiles hammerspoon help neovim shell stow targets-table test update-readme clean clean-docker clean-brew clean-py-pkgs
+TARGETS := $(shell grep -oE '^[a-zA-Z_-]+:' $(firstword $(MAKEFILE_LIST)) | tr -d ':' | sort -u)
 .PHONY: $(TARGETS)
 
 all: help
