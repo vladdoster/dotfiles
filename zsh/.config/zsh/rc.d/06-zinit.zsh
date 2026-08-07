@@ -2,17 +2,15 @@
 # vim: ft=zsh sw=2 ts=2 et
 #=== ZINIT ============================================
 local zi_dir="${HOME}/.local/share/zinit"
-alias zic="${EDITOR:-vim} $0"
+alias zic="$EDITOR $0"
 
-typeset -Agx CONFIG=(HOME_DIR "${zi_dir}")
-CONFIG+=(
-  BIN_DIR "${CONFIG[HOME_DIR]}/zinit.git" COMPLETIONS_DIR "${CONFIG[HOME_DIR]}/completions"
-  PLUGINS_DIR "${CONFIG[HOME_DIR]}/plugins" SNIPPETS_DIR "${CONFIG[HOME_DIR]}/snippets"
-  SRC 'zdharma-continuum' ZPFX "${CONFIG[HOME_DIR]}/polaris"
-  # BRANCH      'fork/tmp'                      FORK            'vdoster'
+typeset -A ZINIT=(
+  HOME_DIR "${zi_dir}" BIN_DIR "${zi_dir}/zinit.git"
+  COMPLETIONS_DIR "${zi_dir}/completions" PLUGINS_DIR "${zi_dir}/plugins"
+  SNIPPETS_DIR "${zi_dir}/snippets" ZPFX "${zi_dir}/polaris"
+  SRC 'zdharma-continuum'
+  # BRANCH 'fork/tmp' FORK 'vdoster' DEBUG 'true'
 )
-# CONFIG+=( DEBUG 'true' )
-typeset -A ZINIT=(${(kv)CONFIG})
 local ZI_REPO="${ZINIT[FORK]:-${ZINIT[SRC]}}/${ZINIT[REPO]:-zinit}"
 if [[ ! -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
   {

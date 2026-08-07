@@ -1,16 +1,17 @@
 #!/usr/bin/env zsh
 # environment variables
 ((${+TERM})) || export TERM="xterm-256color"
-COLORTERM="truecolor"
+export COLORTERM="truecolor"
 ((${+USER})) || export USER="${USERNAME}"
 ((${+XDG_CACHE_HOME})) || export XDG_CACHE_HOME="${HOME}/.cache"
 ((${+XDG_CONFIG_HOME})) || export XDG_CONFIG_HOME="${HOME}/.config"
 ((${+XDG_DATA_HOME})) || export XDG_DATA_HOME="${HOME}/.local/share"
 # configuration directories
 CODEDIR="$HOME/code"
-# this file is stow-linked into the repo, so :A resolves back to the repo root
+# this file is stow-linked into the repo, so walking up from it finds the checkout
 if [[ -z $DOTFILES ]]; then
-  DOTFILES=${${(%):-%N}:A:h:h:h:h:h}
+  DOTFILES=${${(%):-%N}:A:h}
+  while [[ $DOTFILES != / && ! -d $DOTFILES/.git ]]; do DOTFILES=${DOTFILES:h}; done
   [[ -d $DOTFILES/.git ]] || DOTFILES=${XDG_CONFIG_HOME}/dotfiles
 fi
 export \

@@ -4,6 +4,7 @@ SHELL := $(shell command -v zsh 2> /dev/null)
 # .DEFAULT_SHELL := command -v zsh 2> /dev/null)
 .ONESHELL:
 
+BREWFILE := Brewfile
 CONFIGS := hammerspoon neovim
 GH_URL = https://github.com/vladdoster
 HOMEBREW_URL := https://raw.githubusercontent.com/Homebrew/install/HEAD
@@ -53,9 +54,9 @@ clean-brew: ## Clean homebrew caches and stale versions
 
 brew-nuke: ## DESTRUCTIVE: uninstall every brew/cask package declared in the Brewfile
 	read -r "ans?Uninstalls every Brewfile package (incl. git, zsh, python3). Continue? [y/N] " && [[ $$ans == [yY] ]] || exit 1
-	brew bundle list --brews --casks | xargs brew uninstall --force --ignore-dependencies --verbose --zap
+	brew bundle list --file=$(BREWFILE) --brews --casks | xargs brew uninstall --force --ignore-dependencies --verbose --zap
 
-clean: clean-brew clean-docker clean-py-pkgs
+clean: clean-brew clean-docker
 
 docker-load: ## Create tarball of docker image
 	$(info ==> loading $(CONTAINER_TAG))
@@ -77,7 +78,7 @@ docker-shell: ## Start shell in docker container
 brew-bundle: export HOMEBREW_NO_ENV_HINTS := 1
 brew-bundle: ## Install programs defined in Brewfile
 	$(info ==> syncing Brewfile packages)
-	brew bundle install --file=Brewfile --jobs=auto --force --force-cleanup --zap --verbose
+	brew bundle install --file=$(BREWFILE) --jobs=auto --force --force-cleanup --zap --verbose
 
 brew-install: ## Install Homebrew
 	$(info Preparing to install Homebrew)

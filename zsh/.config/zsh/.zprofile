@@ -40,8 +40,13 @@ if (( !${+commands[brew]} )) && [[ -f ${dirpath[1]}/bin/brew ]] then
     eval $(${dirpath[1]}/bin/brew shellenv)
 fi
 
-# install dirs brew shellenv does not cover: uv (~/.local/bin), go (~/go/bin)
-path=($HOME/.local/bin(/N) ${GOBIN:-${GOPATH:-$HOME/go}/bin}(/N) $path)
+# install dirs brew shellenv does not cover, one per Brewfile package manager
+local -a toolpath=(
+    $HOME/.local/bin                          # uv
+    $HOME/.cargo/bin                          # cargo
+    ${GOBIN:-${GOPATH:-$HOME/go}/bin}         # go
+)
+path=(${^toolpath}(/N) $path)
 
 fpath=(${ZDOTDIR}/{completions,functions}(/N) $fpath)
 for func in $^ZDOTDIR/functions/*~*zwc(N-.:t); do

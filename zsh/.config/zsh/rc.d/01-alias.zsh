@@ -15,7 +15,7 @@ _clone_if_absent() {
 }
 
 _edit() {
-  "${EDITOR:-vim}" "$@"
+  "$EDITOR" "$@"
 }
 
 _mkfile() {
@@ -57,8 +57,8 @@ alias tailf="less +F -R"
 emulate -L zsh
 setopt extendedglob
 
-typeset -A pairs=(ealiases 'zsh/rc.d/[0-9]*-alias.zsh' gignore 'git/ignore' gcfg 'git/config' nvplg "nvim/lua/plugins.lua" rcenv 'zsh/rc.d/[0-9]*-env.zsh' wezrc 'wezterm/wezterm.lua' tmuxrc 'tmux/tmux.conf' zic 'zsh/rc.d/[0-9]*-zinit.zsh' zrc 'zsh/.zshrc')
-for k v in ${(kv)pairs[@]}; do
+typeset -A edit_targets=(ealiases 'zsh/rc.d/[0-9]*-alias.zsh' gignore 'git/ignore' gcfg 'git/config' nvplg "nvim/lua/plugins.lua" rcenv 'zsh/rc.d/[0-9]*-env.zsh' wezrc 'wezterm/wezterm.lua' tmuxrc 'tmux/tmux.conf' zic 'zsh/rc.d/[0-9]*-zinit.zsh' zrc 'zsh/.zshrc')
+for k v in ${(kv)edit_targets[@]}; do
   builtin alias $k="_edit ${XDG_CONFIG_HOME:-${HOME}/.config}/${v}" || true
 done
 
@@ -72,10 +72,11 @@ done
 
 alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},{auto,}s}; ziprune; zrld; cd -'
 
-typeset -A pairs=(bin '~/.local/bin' dl '~/Downloads' hsd '~/.hammerspoon' xch '~/.config' xdh '~/.local/share' zcf '$ZDOTDIR/rc.d' df '${DOTFILES:-~/.config/dotfiles}')
-for k v in ${(kv)pairs[@]}; do
+typeset -A goto_targets=(bin '~/.local/bin' dl '~/Downloads' hsd '~/.hammerspoon' xch '~/.config' xdh '~/.local/share' zcf '$ZDOTDIR/rc.d' df '$DOTFILES')
+for k v in ${(kv)goto_targets[@]}; do
   builtin alias -- "$k"="_goto $v" || true
 done
+unset edit_targets goto_targets k v
 
 # for k v in g '\git' gd '\git diff' gs '\git status' gsu '\git submodule update --merge --remote'; do
 #     builtin alias -- $k="$v" || true
