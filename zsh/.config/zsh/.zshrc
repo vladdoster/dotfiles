@@ -7,6 +7,8 @@ HISTSIZE=$SAVEHIST
 setopt {'extended','inc_append','share'}_history
 setopt HIST_{'EXPIRE_DUPS_FIRST','FIND_NO_DUPS','IGNORE_ALL_DUPS','REDUCE_BLANKS','VERIFY'}
 
+eval "$(/opt/homebrew/bin/brew shellenv zsh)"
+
 (){
   local -A dirs=( bin "${HOME}/.local/bin" share "${HOME}/.local/share" config "${HOME}/.config" code "${HOME}/code" zsh "${ZDOTDIR:-$HOME/.config/zsh}" )
   for k v in ${(kv)dirs}; do
