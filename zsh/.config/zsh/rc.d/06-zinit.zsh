@@ -103,7 +103,7 @@ zinit if'(())' cmake for \
   @Koihik/LuaFormatter \
   @thewtex/tmux-mem-cpu-load
 
-zinit light-mode lucid id-as wait for \
+zinit lucid id-as wait for \
   make \
   @zdharma-continuum/zshelldoc \
   compile atinit'bindkey -M vicmd "^v" edit-command-line' light-mode \
@@ -117,7 +117,7 @@ zinit light-mode lucid id-as wait for \
   atload'_zsh_autosuggest_start' \
   atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
   @zsh-users/zsh-autosuggestions \
-  blockf atpull'zinit creinstall -q .' \
+  blockf atpull'zinit creinstall -q .' atinit'zicompinit' \
   @zsh-users/zsh-completions
 
 #   id-as'hsmw-compile-ice' \
