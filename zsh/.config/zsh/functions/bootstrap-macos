@@ -170,7 +170,7 @@ done
 dockutil --replacing 'Downloads' --add '~/Downloads' --view grid --display folder --sort dateadded --allhomes
 
 # add new app shortcuts to the dock.
-for app in "Safari" "kitty"; do
+for app in "Safari" "WezTerm"; do
     [[ -e "/Applications/${app}.app" ]] && {
         dockutil --add "/Applications/${app}.app" --allhomes --no-restart --position end --section apps
     } && echo "==> ${app} added to dock" || echo "Error: ${app} not found"
