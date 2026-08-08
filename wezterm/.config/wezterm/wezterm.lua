@@ -32,7 +32,6 @@ config = {
   pane_focus_follows_mouse = true,
   quit_when_all_windows_are_closed = false,
   scrollback_lines = 100000,
-  show_update_window = true,
   unicode_version = 14,
   use_dead_keys = false,
   use_fancy_tab_bar = true,
