@@ -1,5 +1,60 @@
-:
 
-
-# Commit prefixes
-# build, ci, docs, feat, fix, perf, refactor, revert, style, test
+# Commit Message Template
+#
+# Always use Angular Conventional Commits specification.
+# Angular Conventional commit format (MUST FOLLOW EXACTLY):
+#
+# Single-line format:
+# <type>(<scope>): <description>
+#
+# Multiline format:
+# <type>: (<scope>) <description>:
+# - <description_line_1>.
+# - <description_line_2>.
+# - ...
+#
+# Field Definitions:
+# - <type>: One of "build", "ci", "docs", "feat", "fix", "perf", "refactor", "revert", "style", or "test"
+# - <description>: Generated commit message describing the changes
+# - <description_line_X>: Message for a different concern in multiline format
+# - <summary>: Short summary of changes for post-review fixes
+#
+#Always use Angular Conventional Commits specification.
+# Format: <type>(<scope>): <short summary>
+#
+# Types:
+# - chore: Changes to the build process or auxiliary tools
+# - docs: Documentation changes
+# - feat: A new feature
+# - fix: A bug fix
+# - perf: Code change that improves performance
+# - refactor: Code change that neither fixes a bug nor adds a feature
+# - style: Formatting, missing semi-colons, etc.
+# - test: Adding missing tests or correcting existing tests
+#
+# Format Rules:
+# - Use the imperative, present tense ("change", not "changed")
+# - Do not capitalize the first letter of the summary
+# - No dot (.) at the end of the summary
+# - NEVER add a "Generated with Claude" disclaimer
+# - Each bullet point MUST start with - (dash and space)
+# - Use present tense, imperative mood (e.g., "add feature" not "added feature")
+# - NEVER add extra content like "Generated with Claude Code", author info, etc.
+# - Post-review commits: Use multiline format with first bullet starting "<summary>"
+#
+# Examples:
+# feat(zsh): add user authentication
+# perf: fix memory leak in data processor
+# docs: Update documentation for API endpoints
+#
+# Multiline example:
+# feat: implement dashboard analytics
+# - Add user activity tracking components
+# - Create data visualization charts
+# - Integrate with reporting API
+#
+# Post-review fixes example:
+# fix(data): memory leak in data processor
+# - Buffer management optimization
+# - Update error handling for edge cases
+# - Add missing null checks
