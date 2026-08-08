@@ -7,7 +7,11 @@ HISTSIZE=$SAVEHIST
 setopt {'extended','inc_append','share'}_history
 setopt HIST_{'EXPIRE_DUPS_FIRST','FIND_NO_DUPS','IGNORE_ALL_DUPS','REDUCE_BLANKS','VERIFY'}
 
-eval "$(/opt/homebrew/bin/brew shellenv zsh)"
+(){ # brew env for non-login shells; login shells get it from .zprofile
+  (( ${+commands[brew]} )) && return
+  local -a brew_cmd=( /{'opt','usr/local'}/[Hh]omebrew/bin/brew(N) {'/home/linuxbrew',$HOME}/.linuxbrew/bin/brew(N) )
+  (( $#brew_cmd )) && eval "$(${brew_cmd[1]} shellenv zsh)"
+}
 
 (){
   local -A dirs=( bin "${HOME}/.local/bin" share "${HOME}/.local/share" config "${HOME}/.config" code "${HOME}/code" zsh "${ZDOTDIR:-$HOME/.config/zsh}" )
