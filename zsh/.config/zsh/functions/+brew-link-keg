@@ -23,33 +23,33 @@
     if (( $#debug )); then
         setopt xtrace
     fi
-    local -a arguments=(${(q+)^@}) 
+    local -a arguments=(${(q+)^@})
     if (( $#all )); then
-        arguments=('(*)') 
+        arguments=('(*)')
     fi
     print -- "${#arguments} args: ${(@pj:, :)arguments}"
-    brew_keg_only=($(brew info --installed --json=v1 | jq --raw-output --compact-output  'map(select(.keg_only == true)) | map(.name) | @sh')) 
+    brew_keg_only=($(brew info --installed --json=v1 | jq --raw-output --compact-output  'map(select(.keg_only == true)) | map(.name) | @sh'))
     if (( ${#brew_keg_only} > 0 )); then
-        local HOMEBREW_PREFIX="$(brew --prefix)" 
+        local HOMEBREW_PREFIX="$(brew --prefix)"
         local -a subarray
-        subarray=(${(M)brew_keg_only:#*${~1:-${~arguments[@]}}*}) 
+        subarray=(${(M)brew_keg_only:#*${~1:-${~arguments[@]}}*})
         for keg in ${(@on)subarray}; do
-            PATH="${HOMEBREW_PREFIX}/opt/${(Q)keg}/bin:${PATH}" 
+            PATH="${HOMEBREW_PREFIX}/opt/${(Q)keg}/bin:${PATH}"
             builtin print -P -- "%F{green}==>%f [+] ${(Q)keg}"
         done
     fi
     local f_path util
-    local -a gnu_paths=(/opt/homebrew/opt /usr/local/opt) 
+    local -a gnu_paths=(/opt/homebrew/opt /usr/local/opt)
     for f_path in $gnu_paths; do
         if [[ -e $f_path ]]; then
-            local -a gnu_tools=($(find $f_path -follow -type d -path '*gnubin*' -print)) 
+            local -a gnu_tools=($(find $f_path -follow -type d -path '*gnubin*' -print))
             if (( ${#gnu_tools} > 0 )); then
                 builtin print -P -- "%F{cyan}==>%f found utils in ${(Q)f_path}"
-                local -a subarray=() 
-                subarray=(${(M)gnu_tools:#*${~1:-${~arguments[@]}}*}) 
+                local -a subarray=()
+                subarray=(${(M)gnu_tools:#*${~1:-${~arguments[@]}}*})
                 for util in ${(@on)subarray}; do
-                    PATH="${(Q)util}:${PATH}" 
-                    util_name="$(print -n -- ${util}/*(:t))" 
+                    PATH="${(Q)util}:${PATH}"
+                    util_name="$(print -n -- ${util}/*(:t))"
                     builtin print -P -- "%F{green}==>%f [+] ${(Q)util_name}"
                 done
             fi
