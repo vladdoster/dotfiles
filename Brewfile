@@ -33,7 +33,7 @@ brew "make"
 brew "neovim", args: ["build-from-source", "HEAD"], link: true
 brew "node@24", link: :force
 brew "python3", link: true
-brew "ripgrep-all", link: :overwrite
+brew "ripgrep-all"
 brew "rust", link: :overwrite
 brew "stow", link: true
 brew "texinfo"
