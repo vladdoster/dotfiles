@@ -65,6 +65,7 @@ done
 # lives at the repo root, not under $XDG_CONFIG_HOME, so it skips the loop above
 alias brewrc='_edit $DOTFILES/Brewfile'
 alias zinstall='_edit $ZINIT[BIN_DIR]/zinit-install.zsh'
+alias cccfg='_edit ~/.claude/settings.json'
 
 for k v in hscfg '.hammerspoon/init.lua' sshrc '.ssh/config' zec '.zshenv' zpc '.zprofile'; do
   builtin alias -- $k="_edit ${HOME}/${v}" || true
