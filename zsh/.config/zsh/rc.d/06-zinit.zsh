@@ -39,25 +39,26 @@ fi
 eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
 
 zinit id-as for \
-  ver'fix/binary-selection-glob' @zdharma-continuum/zinit-annex-binary-symlink \
+    ver'fix/binary-selection-glob' \
+  @zdharma-continuum/zinit-annex-binary-symlink \
   @zdharma-continuum/zinit-annex-{'bin-gem-node','linkman'}
 
 zinit id-as aliases for load @vladdoster/z{'sh','init'}-aliases.plugin.zsh
 
 zinit light-mode id-as aliases from'gh-r' lbin'!' for \
   @dandavison/delta \
-  atload"!(){ setopt no_aliases; alias l='eza -blF';alias la='eza -abghilmu';alias ll='eza -al';alias ls='eza --git --group-directories-first';}" \
+    atload"!(){ setopt no_aliases; alias l='eza -blF';alias la='eza -abghilmu';alias ll='eza -al';alias ls='eza --git --group-directories-first';}" \
   @vladdoster/eza
 
 zinit light-mode depth=1 for \
-  id-as'nvim-arm64' \
-  if"(( ${${${(m)$(arch):#(arm|aarch)*}:+0}:-1} ))" \
-  make \
+    id-as'nvim-arm64' \
+    if"(( ${${${(m)$(arch):#(arm|aarch)*}:+0}:-1} ))" \
+    make \
   @neovim/neovim \
-  from'gh-r' \
-  id-as'nvim-x86_64' \
-  if"(( ${${${(M)$(arch):#(arm|aarch)*}:+0}:-1} ))" \
-  lbin'!nvim' \
+    from'gh-r' \
+    id-as'nvim-x86_64' \
+    if"(( ${${${(M)$(arch):#(arm|aarch)*}:+0}:-1} ))" \
+    lbin'!nvim' \
   @neovim/neovim
 
 #       as'program' \
@@ -78,7 +79,8 @@ zinit light-mode depth=1 for \
 #   @zdharma-continuum/zinit-vim-syntax
 
 zinit if'(())' from'gh-r' lbin'!' lman for \
-  id-as if'((1))' @JohnnyMorganz/StyLua \
+    id-as if'((1))' \
+  @JohnnyMorganz/StyLua \
   @junegunn/fzf \
   @sharkdp/bat @sharkdp/fd @sharkdp/hyperfine \
   @topgrade-rs/topgrade
@@ -103,22 +105,40 @@ zinit if'(())' cmake for \
   @Koihik/LuaFormatter \
   @thewtex/tmux-mem-cpu-load
 
-zinit light-mode lucid id-as wait for \
-  make \
+zinit wait lucid id-as light-mode for \
+    make \
   @zdharma-continuum/zshelldoc \
-  compile atinit'bindkey -M vicmd "^v" edit-command-line' light-mode \
+    atinit'bindkey -M vicmd "^v" edit-command-line' \
+    compile \
   @softmoth/zsh-vim-mode \
-  ver'develop' build \
+    build \
+    completions \
+    ver'develop' \
   @zdharma-continuum/zunit \
-  atload'bindkey "^[[A" history-substring-search-up;bindkey "^[[B" history-substring-search-down' \
-  @zsh-users/zsh-history-substring-search \
-  blockf atpull'zinit creinstall -q .' \
-  @zsh-users/zsh-completions \
-  atinit'zicompinit; zicdreplay' \
-  @zdharma-continuum/fast-syntax-highlighting \
-  atload'_zsh_autosuggest_start' \
-  atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
-  @zsh-users/zsh-autosuggestions
+    atload'bindkey "^[[A" history-substring-search-up;bindkey "^[[B" history-substring-search-down' \
+  @zsh-users/zsh-history-substring-search
+  #   atpull'zinit creinstall -q .' \
+  #   blockf \
+  # @zsh-users/zsh-completions \
+  #   atinit'zicompinit; zicdreplay' \
+  # @zdharma-continuum/fast-syntax-highlighting \
+  #   atload'_zsh_autosuggest_start' \
+  #   atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;" \
+  # @zsh-users/zsh-autosuggestions
+
+zinit ice id-as blockf atpull'zinit creinstall -q .'
+zinit light zsh-users/zsh-completions
+
+builtin autoload -Uz compinit
+compinit
+# compinit -d ${ZDOTDIR}/.zcompdump
+# zicdreplay
+
+zinit ice id-as
+zinit light zdharma-continuum/fast-syntax-highlighting
+
+zinit ice id-as atinit"bindkey '^_' autosuggest-execute;bindkey '^ ' autosuggest-accept;"
+zinit light zsh-users/zsh-autosuggestions
 
 #   id-as'hsmw-compile-ice' \
 # compile'h*~*zwc' \

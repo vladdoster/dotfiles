@@ -18,40 +18,27 @@ export -T MANPATH=${MANPATH:-:} manpath
 export -T INFOPATH=${INFOPATH:-:} infopath
 typeset -gUa path {'cd','f','info','mail','man'}path
 
-# function -init-homebrew() {
-#   (( ARGC )) || return 0
-#   local dir=${1:h:h}
-#   export HOMEBREW_PREFIX=$dir
-#   export HOMEBREW_CELLAR=$dir/Cellar
-#   if [[ -e $dir/Homebrew/Library ]]; then
-#     export HOMEBREW_REPOSITORY=$dir/Homebrew
-#   else
-#     export HOMEBREW_REPOSITORY=$dir
-#   fi
-# }
+(){ # brew env; .zshrc sources this file when the shell is not a login shell
+  # (( ${+commands[brew]} )) && return
+  local -a brew_cmd=(
+    /{'opt','usr/local'}/[Hh]omebrew/bin/brew(N-.)
+    {'/home/linuxbrew',$HOME}/.linuxbrew/bin/brew(N-.)
+  )
+  setopt local_options xtrace
+  (( $#brew_cmd )) && eval "$(${brew_cmd[1]} shellenv zsh)"
+}
 
-local -a dirpath=(
-    /{'opt','usr/local'}/[Hh]omebrew(/N)
-    {'/home/linuxbrew',$HOME}/.linuxbrew(/N)
-)
-
-if (( !${+commands[brew]} )) && [[ -f ${dirpath[1]}/bin/brew ]] then
-    print -ru2 -- "homebrew path: ${dirpath[1]:-not found}"
-    eval $(${dirpath[1]}/bin/brew shellenv)
-fi
-
-# install dirs brew shellenv does not cover, one per Brewfile package manager
-local -a toolpath=(
+(){
+  # install dirs brew shellenv does not cover, one per Brewfile package manager
+  local -a toolpath=(
     $HOME/.local/bin                          # uv
     $HOME/.cargo/bin                          # cargo
     ${GOBIN:-${GOPATH:-$HOME/go}/bin}         # go
-)
-path=(${^toolpath}(/N) $path)
-
-fpath=(${ZDOTDIR}/{completions,functions}(/N) $fpath)
-for func in $^ZDOTDIR/functions/*~*zwc(N-.:t); do
-    autoload -Uz +X -- "$func"
-done
+  )
+  path=(${^toolpath}(N/) $path)
+  fpath=(${ZDOTDIR}/{functions,completions}(N/) $fpath)
+  autoload -Uz +X -- ${ZDOTDIR}/functions/*~*zwc(N-.:t)
+}
 
 manpath=($manpath '')
 

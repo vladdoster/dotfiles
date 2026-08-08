@@ -1,17 +1,17 @@
 #!/usr/bin/env zsh
 # vim: set ft=zsh:et:sts=2:sw=2:ts=2:tw=100:
 
+setopt auto_cd extended_glob glob_dots interactive_comments prompt_subst
+
 SAVEHIST=200000
 HISTSIZE=$SAVEHIST
 : ${HISTFILE=$ZDOTDIR/zsh_history}
 setopt {'extended','inc_append','share'}_history
 setopt HIST_{'EXPIRE_DUPS_FIRST','FIND_NO_DUPS','IGNORE_ALL_DUPS','REDUCE_BLANKS','VERIFY'}
 
-(){ # brew env for non-login shells; login shells get it from .zprofile
-  (( ${+commands[brew]} )) && return
-  local -a brew_cmd=( /{'opt','usr/local'}/[Hh]omebrew/bin/brew(N) {'/home/linuxbrew',$HOME}/.linuxbrew/bin/brew(N) )
-  (( $#brew_cmd )) && eval "$(${brew_cmd[1]} shellenv zsh)"
-}
+# brew env, path/fpath and autoloads live in .zprofile, which only login shells
+# read; pull it in here so non-login shells get them before rc.d runs compinit
+[[ -o login ]] || source ${ZDOTDIR}/.zprofile
 
 (){
   local -A dirs=( bin "${HOME}/.local/bin" share "${HOME}/.local/share" config "${HOME}/.config" code "${HOME}/code" zsh "${ZDOTDIR:-$HOME/.config/zsh}" )
@@ -25,5 +25,3 @@ if (( ! $#NO_RC )); then
     source "$f"
   done
 fi
-
-setopt auto_cd extended_glob glob_dots interactive_comments prompt_subst
