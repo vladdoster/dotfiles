@@ -1,3 +1,20 @@
+# [4.57.0](https://github.com/vladdoster/dotfiles/compare/v4.56.0...v4.57.0) (2026-08-08)
+
+
+### Bug Fixes
+
+* **zsh:** centralize env setup in .zprofile and fix compinit ordering ([bbdd81c](https://github.com/vladdoster/dotfiles/commit/bbdd81cc74134700dd483e0088219a0263e353fe))
+* **zsh:** guard interactive brew shellenv behind prefix probe ([b53535c](https://github.com/vladdoster/dotfiles/commit/b53535cad8799f9d1d3825425ff755eed1c2fba5))
+* **zsh:** initialize completions after zsh-completions loads ([a91cda2](https://github.com/vladdoster/dotfiles/commit/a91cda214daf2bd7f221bcd045ce2bc660793380))
+* **zsh:** load zsh-completions before the single compinit ([b1a251e](https://github.com/vladdoster/dotfiles/commit/b1a251ebc351eac22c1917f6d3eb9c4dd1d4f6a4))
+* **zsh:** source brew shellenv in interactive shells ([0434636](https://github.com/vladdoster/dotfiles/commit/0434636d7d54e206231715e3964431ab694b0542))
+
+
+### Features
+
+* **zsh:** add cccfg alias for claude settings ([af6787c](https://github.com/vladdoster/dotfiles/commit/af6787ce71e353c7c29e8b2b78b96d2da59393d1))
+* **zsh:** dock WezTerm instead of kitty on macOS bootstrap ([05e71dd](https://github.com/vladdoster/dotfiles/commit/05e71ddd525779a50e6812392bd4903df621c2e1))
+
 # [4.56.0](https://github.com/vladdoster/dotfiles/compare/v4.55.0...v4.56.0) (2026-08-07)
 
 
