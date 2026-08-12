@@ -30,7 +30,7 @@ RUN apt-get update --quiet=2 \
   less libevent-dev libreadline-dev libtool libtool-bin libz-dev locales lua5.4 luajit luarocks \
   make man-db meson \
   ncurses-base ncurses-bin ncurses-dev ncurses-term netbase npm \
-  patch pkg-config python3 python3-dev python3-pip python3-setuptools python3-bdist-nsi perl \
+  patch pkg-config python3 python3-dev python3-pip python3-setuptools perl \
   readline-common ripgrep ruby ruby-dev \
   stow subversion sudo software-properties-common \
   tar texinfo texlive tree tzdata \
