@@ -1,3 +1,10 @@
+## [4.57.1](https://github.com/vladdoster/dotfiles/compare/v4.57.0...v4.57.1) (2026-08-12)
+
+
+### Bug Fixes
+
+* **Dockerfile:** drop nonexistent package python3-bdist-nsi ([c14fb9a](https://github.com/vladdoster/dotfiles/commit/c14fb9a04ccedf40c8fa2c6be4c39af6c3ca40e5))
+
 # [4.57.0](https://github.com/vladdoster/dotfiles/compare/v4.56.0...v4.57.0) (2026-08-08)
 
 
