@@ -1,0 +1,8 @@
+#compdef r
+
+_arguments -s \
+  '(-d --debug)'{-d,--debug}'[Show detailed information]' \
+  '(- *)'{-h,--help}'[Print usage]' \
+  '(-t --trace)'{-t,--trace}'[Autoload functions with tracing]'
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

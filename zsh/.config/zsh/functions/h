@@ -5,10 +5,3 @@ function h(){
   builtin emulate -L zsh -o EXTENDED_GLOB
   builtin cd "${HOME}/${1}"
 }
-
-function _h(){
-  _message 'Fuck your house'
-  ret=0
-}
-
-comdef _h h
