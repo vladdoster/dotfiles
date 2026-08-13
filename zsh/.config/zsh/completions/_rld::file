@@ -1,5 +1,5 @@
-#!/usr/bin/env zsh
+#compdef rld::file
 
-_arguments "1:directory:_files -W ${DOTFILES:-${HOME}/.config/dotfiles} -g '*'"
+_arguments
 
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

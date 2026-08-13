@@ -1,3 +1,8 @@
-#compdef c
+#compdef mkfile
 
-_arguments "1:directory:_files -W $HOME/code -g '*'"
+_arguments -A '-*' \
+  '(-h --help)'{-h,--help}'[Show usage]' \
+  '(-e --extension)'{-e,--extension}'[Set the file extension and interpreter]:extension:(bash go js lua py rb sh ts zsh)' \
+  '*:file name:_files'
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

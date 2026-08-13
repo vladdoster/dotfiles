@@ -23,7 +23,7 @@ __wezterm_pane_targets() {
   return ret
 }
 
-_arguments \
+_arguments -A '-*' \
   '(-d --debug)'{-d,--debug}'[Enable debug mode]'                     \
   '(-h --help)'{-h,--help}'[Show list of command-line options]'       \
   '(-l --list)'{-l,--list}'[List tabs]'                               \

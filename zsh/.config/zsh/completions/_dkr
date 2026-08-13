@@ -29,22 +29,25 @@ _arguments -C \
 case $state in
     args)
         case $words[1] in
-            help)
-                local -a commands=('nuke' 'sandbox')
-                _arguments -C \
-                    '1: :($commands)' \
-                    && ret=0
-                ;;
             nuke)
-                ret=0
+                _arguments \
+                    '(-h --help)'{-h,--help}'[Print usage information and exit]' \
+                    && ret=0
                 ;;
             sandbox)
-                local -a distros=('alpine' 'debian' 'ubuntu' 'zinit') platforms=('amd64' 'arm64' 'arm64v8')
-                _arguments -C \
-                    '(-d --distro)'{-d,--distro}"[specify the Linux distro for sbox]:arg:($distros)" \
-                    '(-p --platform)'{-p,--platform}"[specify the platform for sbox]:arg:($platforms)" \
-                    '1: :_dkr_sandbox_subcommands' \
-                    && ret=0
+                local -i subcommand_index=${words[(I)(build|run)]}
+                if (( subcommand_index && subcommand_index < CURRENT )); then
+                    _message 'no more arguments'
+                    ret=0
+                else
+                    local -a distros=('alpine' 'debian' 'ubuntu' 'zinit') platforms=('amd64' 'arm64' 'arm64v8')
+                    _arguments -C -A '-*' \
+                        '(-h --help)'{-h,--help}'[Print usage information and exit]' \
+                        '(-d --distro)'{-d,--distro}"[Specify the Linux distribution]:distribution:($distros)" \
+                        '(-p --platform)'{-p,--platform}"[Specify the target platform]:platform:($platforms)" \
+                        '1: :_dkr_sandbox_subcommands' \
+                        && ret=0
+                fi
                 ;;
         esac
         ;;

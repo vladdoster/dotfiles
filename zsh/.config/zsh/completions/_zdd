@@ -1,8 +1,10 @@
 #compdef zdd
 
-_arguments -C \
-    '(-d --debug)'{-d,--debug}'[Enable debug mode]' \
-    '(-h --help)'{-h,--help}'[Show list of command-line options]' \
-    "1: :_files -W ${ZDOTDIR:-HOME/.config/zsh}/ -g '*(N:t)'"
+local root=${ZDOTDIR:-$HOME/.config/zsh}
 
-# vim: set expandtab filetype=zsh shiftwidth=4 softtabstop=4 tabstop=4:
+_arguments \
+  '(-d --debug)'{-d,--debug}'[Enable debug mode]' \
+  '(-h --help)'{-h,--help}'[Show usage]' \
+  "1:path:_files -W $root -g '*(N:t)'"
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

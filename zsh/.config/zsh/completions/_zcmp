@@ -1,3 +1,9 @@
 #compdef zcmp
 
-_arguments -C "*:completions:_files -W ${ZDOTDIR:-HOME/.config/zsh}/completions -g '_*(N:t)'"
+local root=${ZDOTDIR:-$HOME/.config/zsh}/completions
+
+_arguments -A '-*' \
+  '(-h --help)'{-h,--help}'[Show usage]' \
+  "*:completion file:_files -W $root -g '_*(N:t)'"
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

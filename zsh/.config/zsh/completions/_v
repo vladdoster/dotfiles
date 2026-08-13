@@ -1,7 +1,7 @@
 #compdef v
 # vim: ft=zsh sw=2 ts=2 et
 
-_arguments \
+_arguments -A '-*' \
   '(-d --debug)'{-d,--debug}'[Enable debug mode]'               \
   '(-h --help)'{-h,--help}'[Show list of command-line options]' \
   "*:files:_files"

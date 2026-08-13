@@ -1,9 +1,9 @@
 #compdef docker::shell
 
-integer ret=1
-
-_arguments -s \
+_arguments \
   '(- *)'{-h,--help}'[Print usage]' \
-  '(- *)'{-v,--verbose}'[Show detailed information]' \
-  {-f,--file=}'[Apply Dockerfile instruction to the created image]:Dockerfile:_files' \
-  {-t,--tag}'[use TEXT as the container tag]:TEXT' && ret=0
+  '(-v --verbose)'{-v,--verbose}'[Show detailed build output]' \
+  '(-f --file)'{-f,--file}'[Use the given Dockerfile]:Dockerfile:_files' \
+  '(-t --tag)'{-t,--tag}'[Set the container tag]:tag:'
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

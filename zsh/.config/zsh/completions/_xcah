@@ -1,3 +1,5 @@
 #compdef xcah
 
-_arguments "1:directory:_files -W ${XDG_CACHE_HOME:-~/.cache} -g '*'"
+_arguments "1:directory:_files -W ${XDG_CACHE_HOME:-$HOME/.cache} -g '*(/N:t)'"
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
