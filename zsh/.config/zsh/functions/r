@@ -13,6 +13,7 @@ if (( $#help )); then
   print '  -d, --debug       enables debug mode'
   print '  -h, --help        show list of command-line options'
   print '  -t, --trace       autoload functions with tracing'
+  return 0
 fi
 
 if (( $#debug )); then

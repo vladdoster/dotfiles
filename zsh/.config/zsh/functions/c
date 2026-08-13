@@ -13,6 +13,7 @@ c () {
     print 'Options:'
     print '  -d, --debug            turn on execution tracing'
     print '  -h, --help             show list of command-line options'
+    return 0
   fi
   if (( $#debug )); then
     setopt xtrace
