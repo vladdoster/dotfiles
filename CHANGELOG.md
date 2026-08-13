@@ -1,3 +1,10 @@
+# [4.58.0](https://github.com/vladdoster/dotfiles/compare/v4.57.1...v4.58.0) (2026-08-13)
+
+
+### Features
+
+* **wezterm:** add pane move shortcuts and revive config modules ([9fb474f](https://github.com/vladdoster/dotfiles/commit/9fb474f44ca5d066a58dff2e21827ef18ea02d8d))
+
 ## [4.57.1](https://github.com/vladdoster/dotfiles/compare/v4.57.0...v4.57.1) (2026-08-12)
 
 
