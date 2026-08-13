@@ -1,0 +1,34 @@
+#compdef wezterm::bring-pane
+# vim: ft=zsh sw=2 ts=2 et
+
+__wezterm_pane_targets() {
+  local json
+  local -a titles ids
+  (( $+commands[wezterm] && $+commands[jq] )) || return 1
+  json="$(command wezterm cli --no-auto-start list --format=json 2> /dev/null)" || return 1
+  titles=(${(f)"$(command jq --raw-output --argjson current "${WEZTERM_PANE:--1}" '
+    ( [.[] | select(.pane_id == $current)][0].tab_id ) as $current_tab
+    | [.[] | select(.tab_id != $current_tab).tab_title | select(. != "")]
+    | unique | .[]
+  ' <<< "${json}")"})
+  ids=(${(f)"$(command jq --raw-output --argjson current "${WEZTERM_PANE:--1}" '
+    group_by(.tab_id)[]
+    | select(all(.[]; .pane_id != $current))
+    | (.[0].tab_id | tostring) + ":" + ((map(select(.is_active)) + .)[0].title)
+  ' <<< "${json}")"})
+  titles=("${(@)titles//:/\\:}")
+  local ret=1
+  (( ${#titles} )) && _describe -t tab-titles 'tab title' titles && ret=0
+  (( ${#ids} )) && _describe -t tab-ids 'tab id' ids && ret=0
+  return ret
+}
+
+_arguments \
+  '(-d --debug)'{-d,--debug}'[Enable debug mode]'                     \
+  '(-h --help)'{-h,--help}'[Show list of command-line options]'       \
+  '(-l --list)'{-l,--list}'[List tabs]'                               \
+  '(--left --right --top --bottom)--left[Split on the left]'          \
+  '(--left --right --top --bottom)--right[Split on the right]'        \
+  '(--left --right --top --bottom)--top[Split above]'                 \
+  '(--left --right --top --bottom)--bottom[Split below]'              \
+  '1:tab title or id:__wezterm_pane_targets'

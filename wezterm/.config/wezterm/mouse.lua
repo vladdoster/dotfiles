@@ -16,9 +16,7 @@ function M.setup(config)
     {
       event = { Up = { streak = 1, button = "Left" } },
       mods = "CTRL",
-      action = wezterm.action.CompleteSelectionOrOpenLinkAtMouseCursor(
-        "ClipboardAndPrimarySelection"
-      ),
+      action = wezterm.action.CompleteSelectionOrOpenLinkAtMouseCursor("ClipboardAndPrimarySelection"),
     },
   }
 end
