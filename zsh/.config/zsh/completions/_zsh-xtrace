@@ -1,0 +1,9 @@
+#compdef zsh-xtrace
+
+_arguments \
+  '(-d --debug)'{-d,--debug}'[Enable debug output]' \
+  '(-h --help)'{-h,--help}'[Show usage]' \
+  '1:command:_command_names' \
+  '*:argument:'
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

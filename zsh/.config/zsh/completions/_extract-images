@@ -1,0 +1,5 @@
+#compdef extract-images
+
+_arguments '1:HTML or XML file:_files -g "*.(htm|html|xml)(-.)"'
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

@@ -1,0 +1,23 @@
+#compdef output-to-array
+
+local context state state_descr line
+typeset -A opt_args
+
+_arguments -A '-*' \
+  '(-h --help)'{-h,--help}'[Show usage]' \
+  '1:array name:->arrays' && return 0
+
+if [[ $state == arrays ]]; then
+  zmodload zsh/parameter 2>/dev/null || return 1
+
+  local name type
+  local -a arrays
+  for name type in ${(kv)parameters}; do
+    [[ $name =~ '^[A-Za-z_][A-Za-z0-9_]*$' ]] || continue
+    [[ $type == array* && $type != *readonly* && $type != *special* && $type != *tied* ]] || continue
+    arrays+=($name)
+  done
+  _describe 'writable array parameter' arrays
+fi
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

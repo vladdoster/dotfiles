@@ -1,0 +1,7 @@
+#compdef mkbak
+
+_arguments -A '-*' \
+  '(-h --help)'{-h,--help}'[Show usage]' \
+  '*:file:_files'
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

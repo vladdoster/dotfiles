@@ -1,0 +1,5 @@
+#compdef git-progress
+
+_arguments '1:repository: _alternative "directories:local repository:_directories" "urls:repository URL:_urls"'
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

@@ -1,0 +1,8 @@
+#compdef mkfn
+
+_arguments -A '-*' \
+  '(-e --edit)'{-e,--edit}'[Open the new function after creating it]' \
+  '(-h --help)'{-h,--help}'[Show usage]' \
+  '1:new function name:'
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
