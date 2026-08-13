@@ -1,0 +1,7 @@
+#compdef edit::find-replace
+
+_arguments \
+  '1:search text:' \
+  '2:replacement text:'
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

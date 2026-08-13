@@ -1,3 +1,0 @@
-#compdef nv:edit
-
-_arguments "1:directory:_files -W $HOME/.config/dotfiles -g '*'"
