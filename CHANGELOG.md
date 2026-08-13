@@ -1,3 +1,20 @@
+# [4.59.0](https://github.com/vladdoster/dotfiles/compare/v4.58.0...v4.59.0) (2026-08-13)
+
+
+### Bug Fixes
+
+* **zsh:** correct paths, globs and option specs in completions ([4a31dc3](https://github.com/vladdoster/dotfiles/commit/4a31dc3d5449a45398689ab896297e4a371504ba)), closes [#compdef](https://github.com/vladdoster/dotfiles/issues/compdef) [#compdef](https://github.com/vladdoster/dotfiles/issues/compdef)
+* **zsh:** drop the broken inline completion from h ([14799f9](https://github.com/vladdoster/dotfiles/commit/14799f9a0cf7f7c16a2918fe0706295c1024f6c9))
+* **zsh:** rename the zfd completion flag and rework its completion ([edcb774](https://github.com/vladdoster/dotfiles/commit/edcb77452e7b3afc947ccf664df6dcb476aa8e20))
+* **zsh:** resolve XDG and DOTFILES paths in directory jump functions ([ee82c18](https://github.com/vladdoster/dotfiles/commit/ee82c187e2acd3186dbec903f317ddab922e7892))
+* **zsh:** return after printing usage in c and r ([1b1ddb6](https://github.com/vladdoster/dotfiles/commit/1b1ddb6e2bb5dfd0acd7a6292e3817d47f76e512))
+* **zsh:** validate the have-updates directory argument ([5dfd8cd](https://github.com/vladdoster/dotfiles/commit/5dfd8cd8fd1a0b0c1f77f3e433cb318e012468f0))
+
+
+### Features
+
+* **zsh:** add completions for the remaining autoloaded functions ([1c0d79a](https://github.com/vladdoster/dotfiles/commit/1c0d79abf5780dc8d5b980223b616f910a4d9693))
+
 # [4.58.0](https://github.com/vladdoster/dotfiles/compare/v4.57.1...v4.58.0) (2026-08-13)
 
 
