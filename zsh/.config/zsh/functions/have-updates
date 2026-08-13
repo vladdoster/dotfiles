@@ -10,14 +10,25 @@ setopt extended_glob pushdsilent
 zmodload zsh/zutil || return 1
 
 local opt_help=
-local -a cli_usage=("Usage: have-updates [-h|--help]")
+local -a cli_usage=("Usage: have-updates [-h|--help] [directory]")
 zparseopts -D -F -K -- {h,-help}=opt_help || return 1
 [[ -z "$opt_help" ]] || {
     builtin print -l -- $cli_usage && return 0
 }
 
+if (( $# > 1 )); then
+    builtin print -u2 -- 'have-updates: at most one directory is allowed'
+    return 1
+fi
+
+local root=${1:-.}
+if [[ ! -d $root ]]; then
+    builtin print -u2 -- "have-updates: ${(qq)root} is not a directory"
+    return 1
+fi
+
 local -a updates=()
-for d in $1/*(/); do
+for d in $root/*(/N); do
     pushd "$d"
     check-for-updates "$d" > /dev/null 2>&1
     if (( $? == 0 )); then
