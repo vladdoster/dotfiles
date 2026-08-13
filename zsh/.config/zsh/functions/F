@@ -11,7 +11,7 @@ if (( $#help )); then
     print 'Options:'
     print '  -d, --debug        turn on execution tracing'
     print '  -h, --help         show list of command-line options'
-    print '  -x, --indent       turn on execution tracing'
+    print '  -x, --indent       indent output by the given number of spaces'
     return 0
 fi
 if (( $#debug )); then

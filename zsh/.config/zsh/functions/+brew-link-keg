@@ -6,7 +6,7 @@
 
 +brew-link-keg () {
     __brew-link-keg_usage () {
-        print -- 'Usage: brew-link-keg [options] [arguments...]'
+        print -- 'Usage: +brew-link-keg [options] [keg-pattern ...]'
         print -- 'Options:'
         print -- '  -a, --all          add all unlinked kegs found'
         print -- '  -d, --debug        turn on execution tracing'

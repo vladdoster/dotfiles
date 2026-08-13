@@ -8,7 +8,7 @@ local help
 zparseopts -D -F -K -- {h,-help}=help || return
 if (( $#help )); then
     cat <<EOF
-Usage: $0 [options] [target] ...
+Usage: $0 [options] [target]
 Options:
   -h, --help         Print this message and exit.
 EOF

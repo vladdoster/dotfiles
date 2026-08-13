@@ -7,7 +7,7 @@
 
 zdd () {
     _zdd_usage () {
-        print 'Usage: zdd [options] [files...]'
+        print 'Usage: zdd [options] [path]'
         print 'Options:'
         print '  -d, --debug        turn on execution tracing'
         print '  -h, --help         show list of command-line options'

@@ -7,7 +7,7 @@
 #
 zsh-clean () {
     _zsh_clean_usage () {
-        print -- 'Usage: zsh-clean [options] [files...]'
+        print -- 'Usage: zsh-clean [options]'
         print -- 'Options:'
         print -- '  --debug            turn on execution tracing'
         print -- '  --dryrun           show files that would be deleted'

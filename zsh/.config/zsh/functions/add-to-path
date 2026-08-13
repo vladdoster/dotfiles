@@ -6,7 +6,7 @@
 
 add-to-path() {
     _add-to-path_usage() {
-        print 'Usage: add-to-path [options] [files...]'
+        print 'Usage: add-to-path [options] <directory>'
         print 'Options:'
         print '  -d, --debug        turn on execution tracing'
         print '  -h, --help         show list of command-line options'
@@ -27,11 +27,11 @@ add-to-path() {
     fi
 
     if (($# > 1)); then
-        print 'add-to-path: only one argument allowed'
+        print 'add-to-path: only one directory is allowed'
         return 1
     fi
     if (($# < 1)); then
-        print 'add-to-path: one argument is required'
+        print 'add-to-path: one directory is required'
         return 1
     fi
     local error_msg
