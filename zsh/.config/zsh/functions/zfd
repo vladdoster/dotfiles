@@ -5,20 +5,21 @@ emulate -LR zsh
 zmodload zsh/zutil || return
 
 setopt typeset_silent extended_glob
-local help verbose message completion file=()
+local completion debug help
 
-zparseopts -D -F -K -F -- \
-    {c,-cmp}=completion \
+zparseopts -D -F -K -- \
+    {c,-completion}=completion \
     {d,-debug}=debug    \
     {h,-help}=help      \
     || return 1
 
 if (( $#help )); then
-    print "Usage: $0 [options] [files...]"
+    print "Usage: $0 [options] [function ...]"
     print 'Options:'
-    print '  -c, --completion       turn on execution tracing'
+    print '  -c, --completion       edit completion definitions'
     print '  -d, --debug            turn on execution tracing'
     print '  -h, --help             show list of command-line options'
+    return 0
 fi
 
 if (( $#debug )); then

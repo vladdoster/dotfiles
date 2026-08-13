@@ -1,7 +1,27 @@
 #compdef zfd
 
-_arguments -C \
-    '(-c --completions)'{-c,--completions}'[Edit a functions completion]' \
-    '(-d --debug)'{-d,--debug}'[Enable debug mode]'                       \
-    '(-h --help)'{-h,--help}'[Show list of command-line options]'         \
-    "*:functions:_files -W ${ZDOTDIR:-HOME/.config/zsh}/functions -g '^*.zwc(N:t)'"
+local context state state_descr line
+local root=${ZDOTDIR:-$HOME/.config/zsh}
+typeset -A opt_args
+
+_arguments -C -A '-*' \
+  '(-c --completion)'{-c,--completion}'[Edit completion definitions]' \
+  '(-d --debug)'{-d,--debug}'[Enable debug mode]' \
+  '(-h --help)'{-h,--help}'[Show usage]' \
+  '*:function:->functions'
+
+if [[ $state == functions ]]; then
+  local -a candidates
+  if (( ${+opt_args[-c]} || ${+opt_args[--completion]} )); then
+    candidates=($root/completions/_*(N-.:t))
+    candidates=(${candidates#_})
+    candidates=("${(@)candidates//:/\\:}")
+    _describe 'function with completion' candidates
+  else
+    candidates=($root/functions/*~*.zwc(N-.:t))
+    candidates=("${(@)candidates//:/\\:}")
+    _describe 'function' candidates
+  fi
+fi
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
