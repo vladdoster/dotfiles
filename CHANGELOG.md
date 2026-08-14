@@ -1,3 +1,16 @@
+# [4.60.0](https://github.com/vladdoster/dotfiles/compare/v4.59.0...v4.60.0) (2026-08-14)
+
+
+### Bug Fixes
+
+* **git:** stop the global ignore from swallowing bin and lib everywhere ([79d44cd](https://github.com/vladdoster/dotfiles/commit/79d44cd4b3fd82528ce6600662c36f4b515ed09b))
+* **zsh:** correct macOS keys and silent failures in bootstrap-macos ([840519f](https://github.com/vladdoster/dotfiles/commit/840519f0eaaa22f2cc631cc8360cb202e6203420))
+
+
+### Features
+
+* **zsh:** rework bootstrap-macos into flag-driven sections ([1d9958d](https://github.com/vladdoster/dotfiles/commit/1d9958d41040f2e2e185403d2154b94226798913))
+
 # [4.59.0](https://github.com/vladdoster/dotfiles/compare/v4.58.0...v4.59.0) (2026-08-13)
 
 
