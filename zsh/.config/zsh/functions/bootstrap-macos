@@ -1,14 +1,129 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# bootstrap-macos - apply this machine's macOS system preferences
+#
+# Targets macOS 26 (Tahoe). Some changes still require a logout/restart to take effect.
+#
+# Keys were vetted against the owning binary with `strings -a <bin> | grep -x <key>`. That
+# confirms presence but yields false negatives for anything read by a different daemon or
+# backed by a framework in the dyld shared cache, so absence there was not treated as proof.
+#
+# Deliberately omitted as dead on Tahoe:
+#   com.apple.dock springboard-*   Launchpad.app no longer exists
+#   com.apple.dock showhidden      absent from the Dock binary
+#   com.apple.dock scroll-to-open  absent from the Dock binary
+#   com.apple.screensaver askForPassword*   no longer honored from the user domain
+#   com.apple.Safari *             sandboxed container, writes silently no-op
+#
 
 builtin emulate -L zsh -o EXTENDED_GLOB
 
-# Some of these changes still require a logout/restart to take effect.
-# Close any open System Preferences panes, to prevent them from overriding
-# settings we’re about to change
-osascript -e 'tell application "System Preferences" to quit'
-# Extract hardware UUID to reconstruct host-dependent plists.
-local HOST_UUID=$(ioreg -d2 -c IOPlatformExpertDevice | awk -F\" '/IOPlatformUUID/{print $(NF-1)}')
+local -a flag_debug flag_help flag_dry opt_only
+local -a sections=(
+  dock hotcorners dockitems menubar tiling wallpaper appearance sound
+  keyboard text cursor pointer
+  finder anim dialogs screenshots
+  touchid privacy screenlock update misc
+)
+local -a usage=(
+  "bootstrap-macos [-d|--debug] [-h|--help] [-n|--dry-run] [-o|--only <section>[,<section>...]]"
+  ""
+  "Apply this machine's macOS system preferences."
+  ""
+  "Options:"
+  "  -d, --debug        turn on execution tracing"
+  "  -h, --help         show list of command-line options"
+  "  -n, --dry-run      print every command instead of running it"
+  "  -o, --only         apply only the named sections (repeatable, or comma-separated)"
+  ""
+  "Sections:"
+  "  ${(j: :)sections}"
+)
+
+zmodload zsh/zutil || return 1
+builtin zparseopts -D -E -F -K -- \
+  {d,-debug}=flag_debug \
+  {h,-help}=flag_help \
+  {n,-dry-run}=flag_dry \
+  {o,-only}+:=opt_only || return 1
+
+# -F rejects unknown *options* but leaves operands in $@, so without this `bootstrap-macos
+# dock` -- the obvious slip for `-o dock` -- would fall through to the run-everything
+# branch below and apply all 21 sections.
+if (($#)); then
+  log::error "unexpected argument: ${1}"
+  builtin print -u2 -l -- \
+    "bootstrap-macos: unexpected argument: ${1}" \
+    "did you mean: bootstrap-macos --only ${1}"
+  return 1
+fi
+
+# "${(@)usage}" rather than $usage: an unquoted array drops its empty elements, which
+# would collapse the blank lines separating the usage sections.
+(($#flag_help)) && {
+  builtin print -l -- "${(@)usage}"
+  return 0
+}
+(($#flag_debug)) && setopt xtrace
+
+# Empty array expands to nothing, so $run disappears on a real run and turns every
+# mutating line into an echo of itself under --dry-run. Avoids defining helper functions,
+# which would leak into the global namespace once this autoloaded function returns.
+local -a run=()
+(($#flag_dry)) && run=(builtin print -r --)
+
+# --only may be given repeatedly and/or comma-separated; zparseopts leaves us flag/value
+# pairs. The +:= above is what makes it repeatable -- with a plain := only the last
+# occurrence survives and this loop could never run more than once.
+local -a want=()
+local -A do_section
+local s i
+for ((i = 2; i <= $#opt_only; i += 2)); do
+  # zparseopts keeps the separator on the GNU --only=dock form, so strip a leading =.
+  want+=(${(s:,:)${opt_only[i]#=}})
+done
+# Deliberately gated on $#opt_only, not $#want: `--only ''` and `--only ,` split to
+# nothing, and must fail closed rather than silently meaning "every section".
+if (($#opt_only)) && ((! $#want)); then
+  log::error "--only given with no sections"
+  builtin print -u2 -l -- \
+    "bootstrap-macos: --only given with no sections" \
+    "valid sections: ${(j:, :)sections}"
+  return 1
+fi
+if (($#want)); then
+  for s in $want; do
+    # log::error only prints when interactive, so repeat the name on the unconditional
+    # stderr line to keep the message useful when this is run from a script.
+    ((${sections[(Ie)$s]})) || {
+      log::error "unknown section: ${s}"
+      builtin print -u2 -l -- \
+        "bootstrap-macos: unknown section: ${s}" \
+        "valid sections: ${(j:, :)sections}"
+      return 1
+    }
+    do_section[$s]=1
+  done
+else
+  for s in $sections; do do_section[$s]=1; done
+fi
+
+# Close any open System Settings panes, to prevent them from overriding settings we're
+# about to change.
+$run osascript -e 'tell application "System Settings" to quit' 2> /dev/null
+# Extract hardware UUID to reconstruct host-dependent plists. Declared separately from the
+# assignment because `local x=$(cmd)` reports the assignment's status, never the command's,
+# so an empty result would silently yield a .GlobalPreferences..plist junk path.
+local HOST_UUID BYHOST
+HOST_UUID=$(ioreg -d2 -c IOPlatformExpertDevice | awk -F\" '/IOPlatformUUID/{print $(NF-1)}')
+if [[ -z ${HOST_UUID} ]]; then
+  log::error "could not determine hardware UUID"
+  builtin print -u2 -- "bootstrap-macos: could not determine hardware UUID"
+  return 1
+fi
+BYHOST=${HOME}/Library/Preferences/ByHost/.GlobalPreferences.${HOST_UUID}.plist
+
 ###############################################################################
 # Permissions and Access                                                      #
 ###############################################################################
@@ -17,171 +132,630 @@ local HOST_UUID=$(ioreg -d2 -c IOPlatformExpertDevice | awk -F\" '/IOPlatformUUI
 #
 # Raw list of permission names:
 #   ❯ strings /System/Library/PrivateFrameworks/TCC.framework/Versions/Current/Resources/tccd | grep "^kTCCService[A-Z a-z]" | sort | uniq
-# Ask for the administrator password upfront
+#
+# Ask for the administrator password upfront, but only when a selected section needs it.
+if ((${+do_section[sound]} || ${+do_section[privacy]} || ${+do_section[appearance]} \
+  || ${+do_section[update]} || ${+do_section[touchid]})); then
+  (($#flag_dry)) || sudo -v
+fi
 
-sudo -v
-# Remove the auto-hiding Dock delay
-defaults write com.apple.dock autohide-delay -int 0
-defaults write com.apple.dock autohide-time-modifier -int 0
-# Automatically hide and show the Dock
-defaults write com.apple.dock autohide -bool true
-# Disable the sound effects on boot
-sudo nvram SystemAudioVolume=" "
-# Enable ctrl+option+cmd to drag windows.
-# defaults write com.apple.universalaccess NSWindowShouldDragOnGesture -string "YES"
-# Enable auto dark mode
-defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
-defaults write NSGlobalDomain AppleInterfaceStyleSwitchesAutomatically -bool false
-# Disable the crash reporter
-defaults write com.apple.CrashReporter DialogType -string "none"
-# Play user interface sound effects
-defaults write -globalDomain "com.apple.sound.uiaudio.enabled" -int 0
-# Play feedback when volume is changed
-defaults write -globalDomain "com.apple.sound.beep.feedback" -int 0
-# Do not show password hints
-sudo defaults write /Library/Preferences/com.apple.loginwindow RetriesUntilHint -int 0
-# Set mouse and scrolling speed.
-defaults write NSGlobalDomain com.apple.mouse.scaling -int 3
-defaults write NSGlobalDomain com.apple.trackpad.scaling -int 3
-defaults write NSGlobalDomain com.apple.scrollwheel.scaling -float 0.6875
-# Trackpad: enable tap to click for this user and for the login screen
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
-defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-# Trackpad: right-click by tapping with two fingers
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
-defaults -currentHost write NSGlobalDomain com.apple.trackpad.trackpadCornerClickBehavior -int 1
-defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true
-# Trackpad: swipe between pages with three fingers
-defaults write NSGlobalDomain AppleEnableSwipeNavigateWithScrolls -bool true
-defaults -currentHost write NSGlobalDomain com.apple.trackpad.threeFingerHorizSwipeGesture -int 1
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 1
-# Disable “natural” (Lion-style) scrolling
-defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
-# Increase sound quality for Bluetooth headphones/headsets.
-# Sources:
-#     https://www.reddit.com/r/apple/comments/5rfdj6/pro_tip_significantly_improve_bluetooth_audio/
-#     https://apple.stackexchange.com/questions/40259/bluetooth-audio-problems-on-a-macbook
-for bitpool_param in "Negotiated Bitpool" "Negotiated Bitpool Max" "Negotiated Bitpool Min" "Apple Bitpool Max (editable)" "Apple Bitpool Min (editable)" "Apple Initial Bitpool (editable)" "Apple Initial Bitpool Min (editable)"; do
-    defaults write com.apple.BluetoothAudioAgent "${bitpool_param}" -int 80
-done
-# Enable full keyboard access for all controls (e.g. enable Tab in modal dialogs)
-defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
-# Use scroll gesture with the Ctrl (^) modifier key to zoom
-# defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
-# defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
-# Follow the keyboard focus while zoomed in
-# defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
-# Disable press-and-hold for keys in favor of key repeat
-defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool true
-# Set a blazingly fast keyboard repeat rate
-defaults write NSGlobalDomain KeyRepeat -int 1
-defaults write NSGlobalDomain InitialKeyRepeat -int 10
+###############################################################################
+# Touch ID for sudo                                                           #
+###############################################################################
+# /etc/pam.d/sudo lists `auth include sudo_local` before pam_opendirectory, so Touch ID
+# gets first crack at authentication. pam_tid.so alone is not enough inside tmux: the
+# tmux server is detached from the user's GUI (Aqua) session, so panes inherit a
+# bootstrap namespace where the Touch ID prompt cannot be raised and sudo silently falls
+# back to a password. pam_reattach.so (brew pam-reattach) fixes that, and must be listed
+# before pam_tid.so.
 #
-# FINDER
-#
-# Hide all desktop icons (useful when presenting)
-defaults write com.apple.finder CreateDesktop -bool false
-# Finder: allow quitting via ⌘ + Q; doing so will also hide desktop icons
-defaults write com.apple.finder QuitMenuItem -bool true
-# Finder: disable window animations and Get Info animations
-defaults write com.apple.finder DisableAllAnimations -bool true
-# Finder: show hidden files by default
-defaults write com.apple.finder AppleShowAllFiles -bool true
-# Finder: show all filename extensions
-defaults write NSGlobalDomain AppleShowAllExtensions -bool true
-# Finder: show status bar
-defaults write com.apple.finder ShowStatusBar -bool true
-# Finder: show path bar
-defaults write com.apple.finder ShowPathbar -bool true
-# Display full POSIX path as Finder window title
-defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
-# Customize toolbar
-defaults write com.apple.finder "NSToolbar Configuration Browser" '{ "TB Item Identifiers" = ( "com.apple.finder.BACK", "com.apple.finder.PATH", "com.apple.finder.SWCH", "com.apple.finder.ARNG", "NSToolbarFlexibleSpaceItem", "com.apple.finder.SRCH", "com.apple.finder.ACTN" ); "TB Display Mode" = 2; }'
-# Keep folders on top when sorting by name
-defaults write com.apple.finder _FXSortFoldersFirst -bool true
-# When performing a search, search the current folder by default
-defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
-# Disable the warning when changing a file extension
-defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
-# Enable spring loading for directories
-defaults write NSGlobalDomain com.apple.springing.enabled -bool true
-# Remove the spring loading delay for directories
-defaults write NSGlobalDomain com.apple.springing.delay -float 0
-# Avoid creating .DS_Store files on network or USB volumes
-defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
-defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
-# Use list view in all Finder windows by default
-# Four-letter codes for the other view modes:
-# Icon View   : `icnv`
-# List View   : `Nlsv`
-# Column View : `clmv`
-# Cover Flow  : `Flwv`
-defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
-# After configuring preferred view style, clear all `.DS_Store` files
-# to ensure settings are applied for every directory
-# sudo command find ~/ -name ".DS_Store" -print -delete || true
-# sudo find ~/ -name ".DS_Store" -type f -print -exec sudo rm -f {} \;
-/usr/libexec/PlistBuddy \
+# Both control flags are chosen so that a bad module cannot lock anyone out of sudo:
+#   optional   on pam_reattach  a missing or unloadable module is non-fatal
+#   sufficient on pam_tid       a Touch ID failure falls through to pam_opendirectory
+if ((${+do_section[touchid]})); then
+  log::info "touch id for sudo"
+  local pam_template=/etc/pam.d/sudo_local.template
+  local pam_local=/etc/pam.d/sudo_local
+  local pam_reattach=${HOMEBREW_PREFIX:-/opt/homebrew}/lib/pam/pam_reattach.so
+  local want_reattach=0 have_reattach=0 have_tid=0
+  if [[ ! -r ${pam_template} ]]; then
+    log::error "${pam_template} not found; skipping touch id"
+  else
+    # Emit the reattach line only when the module is actually installed, so a fresh
+    # machine never points PAM at a path that does not exist.
+    [[ -r ${pam_reattach} ]] && want_reattach=1
+    if [[ -r ${pam_local} ]]; then
+      command grep -qE '^auth[[:space:]]+sufficient[[:space:]]+pam_tid\.so' ${pam_local} && have_tid=1
+      command grep -qF -- ${pam_reattach} ${pam_local} && have_reattach=1
+    fi
+    # Compare against the desired state rather than just looking for pam_tid: the file
+    # may already enable Touch ID while predating pam_reattach, which still needs writing.
+    if ((have_tid && have_reattach == want_reattach)); then
+      log::info "touch id for sudo already enabled"
+    else
+      # Keep Apple's header comments from the template so a future macOS wording change
+      # is inherited, and drop its commented-out pam_tid line in favor of a real one.
+      local -a pam_lines=(${(f)"$(command grep -v pam_tid ${pam_template})"})
+      ((want_reattach)) && pam_lines+=("auth       optional       ${pam_reattach}")
+      pam_lines+=("auth       sufficient     pam_tid.so")
+      # A pipeline cannot take the $run prefix, so --dry-run is handled explicitly.
+      if (($#flag_dry)); then
+        builtin print -r -- "write ${pam_local}:"
+        builtin print -l -- "${(@)pam_lines/#/  }"
+      else
+        builtin print -l -- "${(@)pam_lines}" | sudo tee ${pam_local} > /dev/null \
+          || log::error "could not write ${pam_local}"
+        ((want_reattach)) || log::info "brew install pam-reattach to get touch id inside tmux"
+      fi
+    fi
+  fi
+fi
+
+###############################################################################
+# Dock                                                                        #
+###############################################################################
+if ((${+do_section[dock]})); then
+  log::info "dock"
+  # Remove the auto-hiding Dock delay
+  $run defaults write com.apple.dock autohide-delay -int 0
+  $run defaults write com.apple.dock autohide-time-modifier -int 0
+  # Automatically hide and show the Dock
+  $run defaults write com.apple.dock autohide -bool true
+  # Icon size, without magnification on hover
+  $run defaults write com.apple.dock tilesize -int 48
+  $run defaults write com.apple.dock magnification -bool false
+  # Do not show recently used applications in the Dock
+  $run defaults write com.apple.dock show-recents -bool false
+  # Do not minimize windows into their application's icon
+  $run defaults write com.apple.dock minimize-to-application -bool false
+  # Minimize using the faster scale effect
+  $run defaults write com.apple.dock mineffect -string "scale"
+  # Do not bounce icons to get attention, and do not animate application launches
+  $run defaults write com.apple.dock no-bouncing -bool true
+  $run defaults write com.apple.dock launchanim -bool false
+  # Do not rearrange Spaces by most recent use, and do not group Mission Control by app
+  $run defaults write com.apple.dock mru-spaces -bool false
+  $run defaults write com.apple.dock expose-group-apps -bool false
+fi
+
+###############################################################################
+# Hot corners                                                                 #
+###############################################################################
+# Corner actions: 1 disabled, 2 Mission Control, 3 Application Windows, 4 Desktop,
+# 5 Start Screen Saver, 6 Disable Screen Saver, 10 Put Display to Sleep,
+# 12 Notification Center, 13 Lock Screen, 14 Quick Note.
+# A modifier of 0 means the corner fires with no modifier key held.
+if ((${+do_section[hotcorners]})); then
+  log::info "hot corners"
+  # top left
+  $run defaults write com.apple.dock wvous-tl-corner -int 3
+  $run defaults write com.apple.dock wvous-tl-modifier -int 0
+  # top right
+  $run defaults write com.apple.dock wvous-tr-corner -int 12
+  $run defaults write com.apple.dock wvous-tr-modifier -int 0
+  # bottom left
+  $run defaults write com.apple.dock wvous-bl-corner -int 4
+  $run defaults write com.apple.dock wvous-bl-modifier -int 0
+  # bottom right
+  $run defaults write com.apple.dock wvous-br-corner -int 2
+  $run defaults write com.apple.dock wvous-br-modifier -int 0
+fi
+
+###############################################################################
+# Dock contents                                                               #
+###############################################################################
+# Rebuilds the Dock from scratch with dockutil, then installs the Terminal profile.
+if ((${+do_section[dockitems]})); then
+  log::info "dock contents"
+  if ((! $+commands[dockutil])); then
+    log::error "dockutil not installed; skipping dock items (brew install dockutil)"
+  else
+    local -A app_path
+    local p
+    for p in ${(f)"$(command find /{,System/}/Applications -maxdepth 2 -name '*.app' 2> /dev/null)"}; do
+      # :a normalizes the doubled slashes the brace expansion leaves behind
+      # without resolving symlinks -- :A would rewrite /Applications/Safari.app
+      # into its /System/Volumes/Preboot/Cryptexes path. First match wins, so a
+      # user-installed app beats a system one of the same name.
+      [[ -n ${app_path[${p:t:r}]} ]] || app_path[${p:t:r}]=${p:a}
+    done
+    $run dockutil --no-restart --remove all
+    $run dockutil --add "${HOME}/Downloads" --display folder --no-restart --replacing Downloads --sort dateadded --view grid
+    local -a want=(
+      Safari
+      ${${app_path[WezTerm]:+WezTerm}:-Terminal}
+      Messages Mail Music Preview 'Activity Monitor' 'System Settings'
+    )
+    local name
+    for name in $want; do
+      [[ -n ${app_path[$name]} ]] || {
+        log::error "${name} not found; not added to dock"
+        continue
+      }
+      # Quoted: several of these paths contain spaces.
+      $run dockutil --add "${app_path[$name]}" --no-restart --position end --section apps
+      log::info "added ${name} to dock"
+    done
+  fi
+  # Applied whether or not Terminal ended up in the Dock, and even when dockutil is
+  # missing. -dict-add parses the XML plist and preserves the nested types; `open` would
+  # import it too but launches a GUI window.
+  local term_profile=${XDG_CONFIG_HOME:-$HOME/.config}/macos/darwin.terminal
+  [[ -r ${term_profile} ]] || term_profile=${DOTFILES}/macos/.config/macos/darwin.terminal
+  if [[ ! -r ${term_profile} ]]; then
+    log::error "terminal profile not found; skipping"
+  else
+    # Read the name out of the profile so renaming it cannot silently break the default.
+    # Declared separately from the assignment: `local x=$(cmd)` reports the assignment's
+    # status, so a profile missing its :name key would install a profile called "" and
+    # blank Terminal's Default/Startup Window Settings.
+    local profile_name
+    profile_name=$(/usr/libexec/PlistBuddy -c "Print :name" ${term_profile} 2> /dev/null)
+  fi
+  if [[ -r ${term_profile} && -z ${profile_name} ]]; then
+    log::error "${term_profile} has no :name key; not installing profile"
+    builtin print -u2 -- "bootstrap-macos: ${term_profile} has no :name key"
+  elif [[ -n ${profile_name} ]]; then
+    # Handled outside $run so --dry-run does not dump the entire 320-line plist.
+    if (($#flag_dry)); then
+      builtin print -r -- \
+        "defaults write com.apple.Terminal 'Window Settings' -dict-add '${profile_name}' <${term_profile}>"
+    else
+      defaults write com.apple.Terminal "Window Settings" \
+        -dict-add "${profile_name}" "$(< ${term_profile})"
+    fi
+    $run defaults write com.apple.Terminal "Default Window Settings" -string "${profile_name}"
+    $run defaults write com.apple.Terminal "Startup Window Settings" -string "${profile_name}"
+    log::info "installed terminal profile ${profile_name}"
+  fi
+fi
+
+###############################################################################
+# Menu bar and clock                                                          #
+###############################################################################
+if ((${+do_section[menubar]})); then
+  log::info "menu bar"
+  # Use a 24-hour clock, so AM/PM must be off or the two settings contradict each other
+  $run defaults write NSGlobalDomain AppleICUForce24HourTime -bool true
+  $run defaults write com.apple.menuextra.clock ShowAMPM -bool false
+  $run defaults write com.apple.menuextra.clock ShowDate -int 1
+  $run defaults write com.apple.menuextra.clock ShowDayOfWeek -bool true
+  $run defaults write com.apple.menuextra.clock ShowSeconds -bool true
+  # Show the battery percentage in Control Center
+  $run defaults write com.apple.controlcenter BatteryShowPercentage -bool true
+fi
+
+###############################################################################
+# Window tiling and Stage Manager                                             #
+###############################################################################
+# These keys could not be confirmed in the WindowManager binary or its private framework.
+# Given the false-negative rate of that check they are applied anyway, but verify with
+# `defaults read com.apple.WindowManager` and drop them if they do not stick.
+if ((${+do_section[tiling]})); then
+  log::info "window tiling"
+  # Tile windows edge to edge with no gap between them
+  $run defaults write com.apple.WindowManager EnableTiledWindowMargins -bool false
+  # Clicking the wallpaper should not hide every window
+  $run defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+  # Keep Stage Manager off
+  $run defaults write com.apple.WindowManager GloballyEnabled -bool false
+fi
+
+###############################################################################
+# Wallpaper                                                                   #
+###############################################################################
+# LastSet/LastUse are not decoration: omitting them makes WallpaperAgent reject the entry
+# on relaunch and reset Provider to "default", wiping the color. They are written with a
+# fixed timestamp, which the agent refreshes on its own.
+if ((${+do_section[wallpaper]})); then
+  log::info "wallpaper"
+  local wp_store="${HOME}/Library/Application Support/com.apple.wallpaper/Store"
+  local wp_index="${wp_store}/Index.plist"
+  if (($#flag_dry)); then
+    builtin print -r -- "killall WallpaperAgent; write solid-black ${wp_index}"
+  else
+    # WallpaperAgent holds this file open and flushes its own state on SIGTERM, which
+    # races our write. SIGKILL gives it no shutdown handler to run; launchd respawns it
+    # on demand and reads the file back.
+    killall -9 WallpaperAgent 2> /dev/null || true
+    mkdir -p -- ${wp_store}
+    cat > ${wp_index} << 'PLIST'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>AllSpacesAndDisplays</key>
+  <dict>
+    <key>Linked</key>
+    <dict>
+      <key>Content</key>
+      <dict>
+        <key>Choices</key>
+        <array>
+          <dict>
+            <key>Configuration</key>
+            <data>YnBsaXN0MDDSAQICA1R0eXBlW3N5c3RlbUNvbG9y0QQFVWJsYWNr0AgNEh4hJwAAAAAAAAEBAAAAAAAAAAYAAAAAAAAAAAAAAAAAAAAo</data>
+            <key>Files</key>
+            <array/>
+            <key>Provider</key>
+            <string>com.apple.wallpaper.choice.color</string>
+          </dict>
+        </array>
+        <key>EncodedOptionValues</key>
+        <data>YnBsaXN0MDDRAQJWdmFsdWVz0QMEXxAWc2hvdWxkR2VuZXJhdGVHcmFkaWVudNEFBlZ0b2dnbGXRBwhSXzDRCQpUaXNPbggICxIVLjE4Oz5BRgAAAAAAAAEBAAAAAAAAAAsAAAAAAAAAAAAAAAAAAABH</data>
+        <key>Shuffle</key>
+        <string>$null</string>
+      </dict>
+      <key>LastSet</key>
+      <date>2026-08-07T07:46:06Z</date>
+      <key>LastUse</key>
+      <date>2026-08-07T07:46:06Z</date>
+    </dict>
+    <key>Type</key>
+    <string>linked</string>
+  </dict>
+  <key>Displays</key>
+  <dict/>
+  <key>Spaces</key>
+  <dict/>
+  <key>SystemDefault</key>
+  <dict>
+    <key>Linked</key>
+    <dict>
+      <key>Content</key>
+      <dict>
+        <key>Choices</key>
+        <array>
+          <dict>
+            <key>Configuration</key>
+            <data>YnBsaXN0MDDSAQICA1R0eXBlW3N5c3RlbUNvbG9y0QQFVWJsYWNr0AgNEh4hJwAAAAAAAAEBAAAAAAAAAAYAAAAAAAAAAAAAAAAAAAAo</data>
+            <key>Files</key>
+            <array/>
+            <key>Provider</key>
+            <string>com.apple.wallpaper.choice.color</string>
+          </dict>
+        </array>
+        <key>EncodedOptionValues</key>
+        <data>YnBsaXN0MDDRAQJWdmFsdWVz0QMEXxAWc2hvdWxkR2VuZXJhdGVHcmFkaWVudNEFBlZ0b2dnbGXRBwhSXzDRCQpUaXNPbggICxIVLjE4Oz5BRgAAAAAAAAEBAAAAAAAAAAsAAAAAAAAAAAAAAAAAAABH</data>
+        <key>Shuffle</key>
+        <string>$null</string>
+      </dict>
+      <key>LastSet</key>
+      <date>2026-08-07T07:46:06Z</date>
+      <key>LastUse</key>
+      <date>2026-08-07T07:46:06Z</date>
+    </dict>
+    <key>Type</key>
+    <string>linked</string>
+  </dict>
+</dict>
+</plist>
+PLIST
+    plutil -convert binary1 ${wp_index} || log::error "could not convert ${wp_index}"
+    # The agent owns this file. If it rejects our copy it rewrites Provider as "default"
+    # with an empty Configuration, silently losing the color, so confirm the write
+    # survived contact with the agent and fall back to the public AppleScript route.
+    sleep 2
+    if ! plutil -p ${wp_index} 2> /dev/null | grep -q "com.apple.wallpaper.choice.color"; then
+      log::error "wallpaper store rejected; falling back to Solid Colors/Black.png"
+      osascript -e 'tell application "System Events" to tell every desktop to set picture to "/System/Library/Desktop Pictures/Solid Colors/Black.png"' || true
+    fi
+  fi
+fi
+
+###############################################################################
+# Appearance                                                                  #
+###############################################################################
+if ((${+do_section[appearance]})); then
+  log::info "appearance"
+  # Enable dark mode, and do not switch automatically
+  $run defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
+  $run defaults write NSGlobalDomain AppleInterfaceStyleSwitchesAutomatically -bool false
+  # Disable the crash reporter
+  $run defaults write com.apple.CrashReporter DialogType -string "none"
+  # Enable subpixel font rendering on non-Apple LCDs
+  # Reference: https://github.com/kevinSuttle/macOS-Defaults/issues/17#issuecomment-266633501
+  $run defaults write NSGlobalDomain AppleFontSmoothing -int 1
+  $run defaults write NSGlobalDomain CGFontRenderingFontSmoothingDisabled -bool false
+  # Enable HiDPI display modes (requires restart)
+  $run sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+fi
+
+###############################################################################
+# Sound                                                                       #
+###############################################################################
+if ((${+do_section[sound]})); then
+  log::info "sound"
+  # Disable the sound effects on boot
+  $run sudo nvram SystemAudioVolume=" "
+  # Play user interface sound effects
+  $run defaults write -globalDomain "com.apple.sound.uiaudio.enabled" -int 0
+  # Play feedback when volume is changed
+  $run defaults write -globalDomain "com.apple.sound.beep.feedback" -int 0
+  # Increase sound quality for Bluetooth headphones/headsets.
+  # Sources:
+  #     https://www.reddit.com/r/apple/comments/5rfdj6/pro_tip_significantly_improve_bluetooth_audio/
+  #     https://apple.stackexchange.com/questions/40259/bluetooth-audio-problems-on-a-macbook
+  local bitpool_param
+  for bitpool_param in "Negotiated Bitpool" "Negotiated Bitpool Max" "Negotiated Bitpool Min" "Apple Bitpool Max (editable)" "Apple Bitpool Min (editable)" "Apple Initial Bitpool (editable)" "Apple Initial Bitpool Min (editable)"; do
+    $run defaults write com.apple.BluetoothAudioAgent "${bitpool_param}" -int 80
+  done
+fi
+
+###############################################################################
+# Keyboard                                                                    #
+###############################################################################
+if ((${+do_section[keyboard]})); then
+  log::info "keyboard"
+  # Enable full keyboard access for all controls (e.g. enable Tab in modal dialogs)
+  $run defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+  # Disable press-and-hold for keys in favor of key repeat
+  $run defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool true
+  # Set a blazingly fast keyboard repeat rate
+  $run defaults write NSGlobalDomain KeyRepeat -int 1
+  $run defaults write NSGlobalDomain InitialKeyRepeat -int 10
+  # The Fn key does nothing on its own
+  $run defaults write com.apple.HIToolbox AppleFnUsageType -int 0
+  # Remap Caps Lock to Escape. HID usage page 0x07 is offset 0x700000000, so
+  #   Caps Lock 0x39 -> 30064771129   Escape 0x29 -> 30064771113
+  # These have to be integers, and `defaults write -array` with old-style plist syntax
+  # coerces everything to strings, so PlistBuddy writes the ByHost plist directly.
+  # Preferred over `hidutil property --set`, which does not survive a reboot.
+  local mapkey=":com.apple.keyboard.modifiermapping.0-0-0"
+  $run /usr/libexec/PlistBuddy -c "Delete ${mapkey}" ${BYHOST} 2> /dev/null || true
+  $run /usr/libexec/PlistBuddy \
+    -c "Add ${mapkey} array" \
+    -c "Add ${mapkey}:0 dict" \
+    -c "Add ${mapkey}:0:HIDKeyboardModifierMappingSrc integer 30064771129" \
+    -c "Add ${mapkey}:0:HIDKeyboardModifierMappingDst integer 30064771113" \
+    ${BYHOST}
+fi
+
+###############################################################################
+# Text substitution                                                           #
+###############################################################################
+if ((${+do_section[text]})); then
+  log::info "text substitution"
+  # Stop macOS rewriting what was actually typed
+  $run defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+  $run defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+  $run defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+  $run defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
+  $run defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
+  $run defaults write NSGlobalDomain NSAutomaticInlinePredictionEnabled -bool false
+fi
+
+###############################################################################
+# Cursor                                                                      #
+###############################################################################
+# cursorFill and cursorOutline are dicts of reals, and `defaults write -dict` writes
+# strings, so PlistBuddy is used here. com.apple.universalaccess is TCC-protected: if
+# these writes do not stick, grant the terminal Full Disk Access.
+if ((${+do_section[cursor]})); then
+  log::info "cursor"
+  local ua=${HOME}/Library/Preferences/com.apple.universalaccess.plist
+  local part
+  for part in cursorFill cursorOutline; do
+    $run /usr/libexec/PlistBuddy -c "Delete :${part}" ${ua} 2> /dev/null || true
+    $run /usr/libexec/PlistBuddy \
+      -c "Add :${part} dict" \
+      -c "Add :${part}:red   real 0.0" \
+      -c "Add :${part}:green real 0.976805" \
+      -c "Add :${part}:blue  real 0.0" \
+      -c "Add :${part}:alpha real 1.0" \
+      ${ua}
+  done
+  # Without this the custom colors are ignored
+  $run defaults write com.apple.universalaccess cursorIsCustomized -bool true
+  (($#flag_dry)) || killall cfprefsd 2> /dev/null || true
+fi
+
+###############################################################################
+# Mouse and trackpad                                                          #
+###############################################################################
+if ((${+do_section[pointer]})); then
+  log::info "mouse and trackpad"
+  # Set mouse and scrolling speed.
+  $run defaults write NSGlobalDomain com.apple.mouse.scaling -int 3
+  $run defaults write NSGlobalDomain com.apple.trackpad.scaling -int 3
+  $run defaults write NSGlobalDomain com.apple.scrollwheel.scaling -float 0.6875
+  # Trackpad: enable tap to click for this user and for the login screen
+  $run defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+  $run defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+  $run defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+  $run defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+  # Trackpad: right-click by tapping with two fingers
+  $run defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
+  $run defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
+  $run defaults -currentHost write NSGlobalDomain com.apple.trackpad.trackpadCornerClickBehavior -int 1
+  $run defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true
+  # Trackpad: swipe between pages with three fingers
+  $run defaults write NSGlobalDomain AppleEnableSwipeNavigateWithScrolls -bool true
+  $run defaults -currentHost write NSGlobalDomain com.apple.trackpad.threeFingerHorizSwipeGesture -int 1
+  $run defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 1
+  # Disable "natural" (Lion-style) scrolling
+  $run defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+fi
+
+###############################################################################
+# Finder                                                                      #
+###############################################################################
+if ((${+do_section[finder]})); then
+  log::info "finder"
+  # Hide all desktop icons (useful when presenting)
+  $run defaults write com.apple.finder CreateDesktop -bool false
+  # Finder: allow quitting via ⌘ + Q; doing so will also hide desktop icons
+  $run defaults write com.apple.finder QuitMenuItem -bool true
+  # Finder: disable window animations and Get Info animations
+  $run defaults write com.apple.finder DisableAllAnimations -bool true
+  # Finder: show hidden files by default
+  $run defaults write com.apple.finder AppleShowAllFiles -bool true
+  # Finder: show all filename extensions
+  $run defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+  # Finder: show status bar
+  $run defaults write com.apple.finder ShowStatusBar -bool true
+  # Finder: show path bar
+  $run defaults write com.apple.finder ShowPathbar -bool true
+  # Finder: show the sidebar and the preview pane
+  $run defaults write com.apple.finder ShowSidebar -bool true
+  $run defaults write com.apple.finder ShowPreviewPane -bool true
+  # Display full POSIX path as Finder window title
+  $run defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+  # New windows open at the home directory
+  $run defaults write com.apple.finder NewWindowTarget -string "PfHm"
+  $run defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/"
+  # Customize toolbar
+  $run defaults write com.apple.finder "NSToolbar Configuration Browser" '{ "TB Item Identifiers" = ( "com.apple.finder.BACK", "com.apple.finder.PATH", "com.apple.finder.SWCH", "com.apple.finder.ARNG", "NSToolbarFlexibleSpaceItem", "com.apple.finder.SRCH", "com.apple.finder.ACTN" ); "TB Display Mode" = 2; }'
+  # Keep folders on top when sorting by name
+  $run defaults write com.apple.finder _FXSortFoldersFirst -bool true
+  # When performing a search, search the current folder by default
+  $run defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+  # Disable the warning when changing a file extension
+  $run defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+  # Expand the General, Open With and Sharing panes in Get Info
+  # -dict-add, not -dict: -dict REPLACES the dictionary, wiping the expansion state of
+  # every pane we do not name here (Preview, MetaData, Name, Comments).
+  $run defaults write com.apple.finder FXInfoPanesExpanded -dict-add \
+    General -bool true \
+    OpenWith -bool true \
+    Privileges -bool true
+  # Remove items from the Trash after 30 days
+  $run defaults write com.apple.finder FXRemoveOldTrashItems -bool true
+  # Enable spring loading for directories
+  $run defaults write NSGlobalDomain com.apple.springing.enabled -bool true
+  # Remove the spring loading delay for directories
+  $run defaults write NSGlobalDomain com.apple.springing.delay -float 0
+  # Avoid creating .DS_Store files on network or USB volumes
+  $run defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+  $run defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+  # Use list view in all Finder windows by default
+  # Four-letter codes for the other view modes:
+  # Icon View   : `icnv`
+  # List View   : `Nlsv`
+  # Column View : `clmv`
+  # Cover Flow  : `Flwv`
+  $run defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+  # After configuring preferred view style, clear all `.DS_Store` files
+  # to ensure settings are applied for every directory: see macos::rm-ds-store
+  $run /usr/libexec/PlistBuddy \
     -c "Delete :StandardViewOptions:ColumnViewOptions:ColumnShowIcons" \
     -c "Delete :StandardViewOptions:ColumnViewOptions:FontSize" \
     -c "Delete :StandardViewOptions:ColumnViewOptions:ShowPreview" \
     -c "Delete :StandardViewOptions:ColumnViewOptions:ShowIconThumbnails" \
     -c "Delete :StandardViewOptions:ColumnViewOptions:ArrangeBy" \
-    ~/Library/Preferences/com.apple.finder.plist || true
-/usr/libexec/PlistBuddy \
+    ${HOME}/Library/Preferences/com.apple.finder.plist || true
+  $run /usr/libexec/PlistBuddy \
     -c "Add :StandardViewOptions:ColumnViewOptions:ColumnShowIcons    bool    true" \
     -c "Add :StandardViewOptions:ColumnViewOptions:FontSize           integer 16" \
     -c "Add :StandardViewOptions:ColumnViewOptions:ShowPreview        bool    true" \
     -c "Add :StandardViewOptions:ColumnViewOptions:ShowIconThumbnails bool    true" \
     -c "Add :StandardViewOptions:ColumnViewOptions:ArrangeBy          string  dnam" \
-    ~/Library/Preferences/com.apple.finder.plist
-# Disable the warning before emptying the Trash
-defaults write com.apple.finder WarnOnEmptyTrash -bool false
-# Enable AirDrop over Ethernet and on unsupported Macs running Lion
-defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
+    ${HOME}/Library/Preferences/com.apple.finder.plist
+  # Disable the warning before emptying the Trash
+  $run defaults write com.apple.finder WarnOnEmptyTrash -bool false
+  # Enable AirDrop over Ethernet and on unsupported Macs running Lion
+  $run defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
+fi
+
 ###############################################################################
-# Screen                                                                      #
+# Animation and motion                                                        #
 ###############################################################################
-# Save screenshots to the desktop
-mkdir -p -- $HOME/screenshots || true
-defaults write com.apple.screencapture location -string "${HOME}/screenshots"
-# Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
-defaults write com.apple.screencapture type -string "png"
-# Disable shadow in screenshots
-defaults write com.apple.screencapture disable-shadow -bool true
-# Enable subpixel font rendering on non-Apple LCDs
-# Reference: https://github.com/kevinSuttle/macOS-Defaults/issues/17#issuecomment-266633501
-defaults write NSGlobalDomain AppleFontSmoothing -int 1
-defaults write NSGlobalDomain CGFontRenderingFontSmoothingDisabled -bool false
-# Enable HiDPI display modes (requires restart)
-sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+if ((${+do_section[anim]})); then
+  log::info "animation"
+  # Disable window open/close animations and make resizing near-instant
+  $run defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+  $run defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
+  # Reduce transparency, and do not rely on color alone to convey state
+  $run defaults write com.apple.universalaccess reduceTransparency -bool true
+  $run defaults write com.apple.universalaccess differentiateWithoutColor -bool true
+fi
 
-lines=("${(fqqq@)$(find /{,System/}/Applications -maxdepth 2 -name '*app')}") 
+###############################################################################
+# Save and print dialogs                                                      #
+###############################################################################
+if ((${+do_section[dialogs]})); then
+  log::info "dialogs"
+  # Always expand the save and print panels
+  $run defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+  $run defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
+  $run defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+  $run defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
+  # Save new documents to disk, not iCloud Drive
+  $run defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+fi
 
-# remove apps i don't use from the dock.
-for app in ${lines[@]}; do
-    dockutil --remove "${app:r:t}" --allhomes --restart &> /dev/null || true
-done
+###############################################################################
+# Screenshots                                                                 #
+###############################################################################
+if ((${+do_section[screenshots]})); then
+  log::info "screenshots"
+  # Save screenshots to a dedicated directory
+  $run mkdir -p -- ${HOME}/screenshots
+  $run defaults write com.apple.screencapture location -string "${HOME}/screenshots"
+  # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
+  $run defaults write com.apple.screencapture type -string "png"
+  # Disable shadow in screenshots
+  $run defaults write com.apple.screencapture disable-shadow -bool true
+fi
 
-# add ~/Downloads as a grid stack displayed as a folder for every user's dock on that machine:
-dockutil --replacing 'Downloads' --add '~/Downloads' --view grid --display folder --sort dateadded --allhomes
+###############################################################################
+# Privacy                                                                     #
+###############################################################################
+if ((${+do_section[privacy]})); then
+  log::info "privacy"
+  # Do not show password hints
+  $run sudo defaults write /Library/Preferences/com.apple.loginwindow RetriesUntilHint -int 0
+  # Opt out of personalized advertising
+  $run defaults write com.apple.AdLib allowApplePersonalizedAdvertising -bool false
+  $run defaults write com.apple.AdLib forceLimitAdTracking -bool true
+  # Do not send diagnostics to Apple automatically
+  $run sudo defaults write "/Library/Application Support/CrashReporter/SubmitDiagInfo.domain" AutoSubmit -bool false
+fi
 
-# add new app shortcuts to the dock.
-for app in "Safari" "WezTerm"; do
-    [[ -e "/Applications/${app}.app" ]] && {
-        dockutil --add "/Applications/${app}.app" --allhomes --no-restart --position end --section apps
-    } && echo "==> ${app} added to dock" || echo "Error: ${app} not found"
-done
+###############################################################################
+# Screen lock                                                                 #
+###############################################################################
+# The com.apple.screensaver askForPassword keys are no longer honored from the user
+# domain on Tahoe. sysadminctl is the working path, and it prompts for a password
+# separately from the sudo -v above.
+if ((${+do_section[screenlock]})); then
+  log::info "screen lock"
+  $run sysadminctl -screenLock 5 -password -
+fi
 
-for app in "Messages" "Mail" "Music" "Preview" "Utilities/Activity Monitor" "System Settings"; do
-    [[ -e /System/Applications/${app}.app ]] && {
-        dockutil --add "/System/Applications/${app}.app" --allhomes --section apps
-    } &> /dev/null && echo "==> ${app} added to dock" || echo "Error: ${app} not found"
-done
+###############################################################################
+# Software update                                                             #
+###############################################################################
+if ((${+do_section[update]})); then
+  log::info "software update"
+  $run sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
+  $run sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload -bool true
+  $run sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate CriticalUpdateInstall -bool true
+  $run sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate ScheduleFrequency -int 1
+  # Automatically update apps installed from the App Store
+  $run defaults write com.apple.commerce AutoUpdate -bool true
+fi
 
-for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "Dock" "Finder" "Mail" "Messages" "Photos" "Safari" "SystemUIServer" "Terminal" "Transmission" "cfprefsd" "iCal"; do
+###############################################################################
+# Miscellaneous                                                               #
+###############################################################################
+if ((${+do_section[misc]})); then
+  log::info "miscellaneous"
+  # Enable secure keyboard entry in Terminal.app
+  $run defaults write com.apple.Terminal SecureKeyboardEntry -bool true
+fi
+
+###############################################################################
+# Apply                                                                       #
+###############################################################################
+# Restart the affected apps so the changes land without a logout. Runs regardless of
+# which sections were selected, otherwise `--only dock` would appear to do nothing.
+if (($#flag_dry)); then
+  builtin print -r -- "killall Dock Finder SystemUIServer ControlCenter WindowManager cfprefsd"
+else
+  local app
+  for app in "Dock" "Finder" "SystemUIServer" "ControlCenter" "WindowManager" "cfprefsd"; do
     killall "${app}" &> /dev/null || true
-done
+  done
+  log::info "done; some changes still require a logout or restart"
+fi

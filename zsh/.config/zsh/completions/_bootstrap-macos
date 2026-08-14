@@ -1,5 +1,43 @@
 #compdef bootstrap-macos
 
-_message 'no arguments'
+# curcontext must be localized here: _arguments -C modifies it, and zshcompsys requires
+# the calling function to hold the copy so the change is not passed back out.
+local context state state_descr line
+local curcontext="$curcontext"
+typeset -A opt_args
+
+local -a sections=(
+  'dock:Dock size, autohide, minimize and launch behavior'
+  'hotcorners:Screen corner actions'
+  'dockitems:Dock contents via dockutil, plus the Terminal profile'
+  'menubar:Menu bar clock and battery percentage'
+  'tiling:Window tiling margins and Stage Manager'
+  'wallpaper:Solid black desktop background'
+  'appearance:Dark mode, font smoothing, HiDPI'
+  'sound:Boot chime, UI sounds, Bluetooth audio quality'
+  'keyboard:Key repeat, Fn key, Caps Lock to Escape'
+  'text:Autocorrect and smart substitutions'
+  'cursor:Pointer fill and outline color'
+  'pointer:Mouse and trackpad speed, tap to click, gestures'
+  'finder:Finder views, sidebar, toolbar and warnings'
+  'anim:Window animations, reduce transparency'
+  'dialogs:Expanded save and print panels'
+  'screenshots:Screenshot location, format and shadow'
+  'touchid:Touch ID for sudo, including inside tmux'
+  'privacy:Personalized ads, diagnostics, password hints'
+  'screenlock:Screen lock delay'
+  'update:Automatic software and App Store updates'
+  'misc:Terminal secure keyboard entry'
+)
+
+_arguments -C -A '-*' \
+  '(-d --debug)'{-d,--debug}'[Enable execution tracing]' \
+  '(-h --help)'{-h,--help}'[Show usage]' \
+  '(-n --dry-run)'{-n,--dry-run}'[Print every command instead of running it]' \
+  \*{-o,--only}'[Apply only the named sections]:section:->sections'
+
+if [[ $state == sections ]]; then
+  _describe -t sections 'section' sections
+fi
 
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

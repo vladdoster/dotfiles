@@ -10,6 +10,7 @@ brew "brotli"
 brew "cmake"
 brew "coreutils"
 brew "cpanminus"
+brew "dockutil" if OS.mac?
 brew "fzf", link: true
 brew "gcc"
 brew "gdbm"
@@ -32,6 +33,8 @@ brew "m4"
 brew "make"
 brew "neovim", args: ["build-from-source", "HEAD"], link: true
 brew "node@24", link: :force
+# Reattaches to the GUI session so pam_tid.so can prompt for Touch ID inside tmux
+brew "pam-reattach" if OS.mac?
 brew "python3", link: true
 brew "ripgrep-all"
 brew "rust", link: :overwrite
