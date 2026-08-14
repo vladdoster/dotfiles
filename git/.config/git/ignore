@@ -1,3 +1,5 @@
+# A line is a comment only when # is the FIRST character, so a trailing comment becomes
+# part of the pattern. Keep it on its own line
 #=======
 # Linux
 #=======
@@ -49,8 +51,7 @@ Temporary Items
 #=====
 # Vim
 #=====
-# Swap
-!*.svg  # comment out if you don't need vector files
+!*.svg
 [._]*.s[a-v][a-z]
 [._]*.sw[a-p]
 [._]s[a-rt-v][a-z]
@@ -69,14 +70,13 @@ tags
 #============
 # Virtualenv
 #============
+# Identify a venv by its marker files, not by directory name. Bare names like [Bb]in and
+# [Ll]ib have no slash, so git matches them at any depth in EVERY repository -- this file
+# is the global excludesfile, so they silently ignored bin/, lib/, include/, local/ and
+# Scripts/ project-wide. New files under a tracked bin/ would not stage without -f.
 .Python
-.venv
-[Bb]in
-[Ii]nclude
-[Ll]ib
-[Ll]ib64
-[Ll]ocal
-[Ss]cripts
+.venv/
+venv/
 pip-selfcheck.json
 pyvenv.cfg
 #=========
