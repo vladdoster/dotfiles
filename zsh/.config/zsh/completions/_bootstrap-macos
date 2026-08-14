@@ -37,6 +37,12 @@ _arguments -C -A '-*' \
   \*{-o,--only}'[Apply only the named sections]:section:->sections'
 
 if [[ $state == sections ]]; then
+  # --only takes a comma-separated list, and _describe matches the whole word, so
+  # `-o dock,<TAB>` used to offer nothing: it tried to match the literal "dock,".
+  # compset -P '*,' discards everything through the last comma so the candidates are
+  # matched against the final element only. _values would handle the separator natively
+  # but expects name[description] specs, whereas this array is _describe's name:description.
+  compset -P '*,'
   _describe -t sections 'section' sections
 fi
 

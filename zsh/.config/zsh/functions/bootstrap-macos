@@ -53,9 +53,7 @@ builtin zparseopts -D -E -F -K -- \
 # branch below and apply all 21 sections.
 if (($#)); then
   log::error "unexpected argument: ${1}"
-  builtin print -u2 -l -- \
-    "bootstrap-macos: unexpected argument: ${1}" \
-    "did you mean: bootstrap-macos --only ${1}"
+  builtin print -u2 -- "did you mean: bootstrap-macos --only ${1}"
   return 1
 fi
 
@@ -73,6 +71,11 @@ fi
 local -a run=()
 (($#flag_dry)) && run=(builtin print -r --)
 
+# Counts failures that are survivable -- a missing tool or an unwritable file should not
+# abort the remaining sections, but the function must still exit non-zero so a caller in a
+# Makefile or launchd job sees that something did not apply.
+local -i failures=0
+
 # --only may be given repeatedly and/or comma-separated; zparseopts leaves us flag/value
 # pairs. The +:= above is what makes it repeatable -- with a plain := only the last
 # occurrence survives and this loop could never run more than once.
@@ -87,20 +90,14 @@ done
 # nothing, and must fail closed rather than silently meaning "every section".
 if (($#opt_only)) && ((! $#want)); then
   log::error "--only given with no sections"
-  builtin print -u2 -l -- \
-    "bootstrap-macos: --only given with no sections" \
-    "valid sections: ${(j:, :)sections}"
+  builtin print -u2 -- "valid sections: ${(j:, :)sections}"
   return 1
 fi
 if (($#want)); then
   for s in $want; do
-    # log::error only prints when interactive, so repeat the name on the unconditional
-    # stderr line to keep the message useful when this is run from a script.
     ((${sections[(Ie)$s]})) || {
       log::error "unknown section: ${s}"
-      builtin print -u2 -l -- \
-        "bootstrap-macos: unknown section: ${s}" \
-        "valid sections: ${(j:, :)sections}"
+      builtin print -u2 -- "valid sections: ${(j:, :)sections}"
       return 1
     }
     do_section[$s]=1
@@ -119,7 +116,6 @@ local HOST_UUID BYHOST
 HOST_UUID=$(ioreg -d2 -c IOPlatformExpertDevice | awk -F\" '/IOPlatformUUID/{print $(NF-1)}')
 if [[ -z ${HOST_UUID} ]]; then
   log::error "could not determine hardware UUID"
-  builtin print -u2 -- "bootstrap-macos: could not determine hardware UUID"
   return 1
 fi
 BYHOST=${HOME}/Library/Preferences/ByHost/.GlobalPreferences.${HOST_UUID}.plist
@@ -160,6 +156,7 @@ if ((${+do_section[touchid]})); then
   local want_reattach=0 have_reattach=0 have_tid=0
   if [[ ! -r ${pam_template} ]]; then
     log::error "${pam_template} not found; skipping touch id"
+    ((failures++))
   else
     # Emit the reattach line only when the module is actually installed, so a fresh
     # machine never points PAM at a path that does not exist.
@@ -184,7 +181,7 @@ if ((${+do_section[touchid]})); then
         builtin print -l -- "${(@)pam_lines/#/  }"
       else
         builtin print -l -- "${(@)pam_lines}" | sudo tee ${pam_local} > /dev/null \
-          || log::error "could not write ${pam_local}"
+          || { log::error "could not write ${pam_local}"; ((failures++)) }
         ((want_reattach)) || log::info "brew install pam-reattach to get touch id inside tmux"
       fi
     fi
@@ -249,6 +246,7 @@ if ((${+do_section[dockitems]})); then
   log::info "dock contents"
   if ((! $+commands[dockutil])); then
     log::error "dockutil not installed; skipping dock items (brew install dockutil)"
+    ((failures++))
   else
     local -A app_path
     local p
@@ -270,6 +268,7 @@ if ((${+do_section[dockitems]})); then
     for name in $want; do
       [[ -n ${app_path[$name]} ]] || {
         log::error "${name} not found; not added to dock"
+        ((failures++))
         continue
       }
       # Quoted: several of these paths contain spaces.
@@ -284,6 +283,7 @@ if ((${+do_section[dockitems]})); then
   [[ -r ${term_profile} ]] || term_profile=${DOTFILES}/macos/.config/macos/darwin.terminal
   if [[ ! -r ${term_profile} ]]; then
     log::error "terminal profile not found; skipping"
+    ((failures++))
   else
     # Read the name out of the profile so renaming it cannot silently break the default.
     # Declared separately from the assignment: `local x=$(cmd)` reports the assignment's
@@ -294,7 +294,7 @@ if ((${+do_section[dockitems]})); then
   fi
   if [[ -r ${term_profile} && -z ${profile_name} ]]; then
     log::error "${term_profile} has no :name key; not installing profile"
-    builtin print -u2 -- "bootstrap-macos: ${term_profile} has no :name key"
+    ((failures++))
   elif [[ -n ${profile_name} ]]; then
     # Handled outside $run so --dry-run does not dump the entire 320-line plist.
     if (($#flag_dry)); then
@@ -431,14 +431,24 @@ if ((${+do_section[wallpaper]})); then
 </dict>
 </plist>
 PLIST
-    plutil -convert binary1 ${wp_index} || log::error "could not convert ${wp_index}"
-    # The agent owns this file. If it rejects our copy it rewrites Provider as "default"
-    # with an empty Configuration, silently losing the color, so confirm the write
-    # survived contact with the agent and fall back to the public AppleScript route.
-    sleep 2
+    plutil -convert binary1 ${wp_index} || { log::error "could not convert ${wp_index}"; ((failures++)) }
+    # The agent owns this file: if it rejects our copy it rewrites Provider as "default"
+    # with an empty Configuration, silently losing the colour. Re-reading right after the
+    # write proves nothing -- it just returns our own bytes back -- so make the agent
+    # actually process the file first, then look. Poll for the rewrite rather than sleeping
+    # a fixed 2s, which was most of this section's wall clock while measuring nothing.
+    killall -9 WallpaperAgent 2> /dev/null || true
+    local -i waited=0
+    while ((waited < 50)) && ! pgrep -q WallpaperAgent; do
+      sleep 0.1
+      ((waited++))
+    done
+    sleep 1   # let the respawned agent read the store before we judge the result
     if ! plutil -p ${wp_index} 2> /dev/null | grep -q "com.apple.wallpaper.choice.color"; then
       log::error "wallpaper store rejected; falling back to Solid Colors/Black.png"
-      osascript -e 'tell application "System Events" to tell every desktop to set picture to "/System/Library/Desktop Pictures/Solid Colors/Black.png"' || true
+      ((failures++))
+      osascript -e 'tell application "System Events" to tell every desktop to set picture to "/System/Library/Desktop Pictures/Solid Colors/Black.png"' \
+        || log::error "wallpaper fallback also failed"
     fi
   fi
 fi
@@ -467,7 +477,14 @@ fi
 if ((${+do_section[sound]})); then
   log::info "sound"
   # Disable the sound effects on boot
-  $run sudo nvram SystemAudioVolume=" "
+  # StartupMute is the T2/Apple-Silicon control; SystemAudioVolume is the pre-T2 one and
+  # is inert on this hardware (verified: it is set to a space on this M2 and the chime
+  # still plays). Write whichever the machine actually reads.
+  if [[ $(uname -m) == arm64 ]]; then
+    $run sudo nvram StartupMute=%01
+  else
+    $run sudo nvram SystemAudioVolume=%00
+  fi
   # Play user interface sound effects
   $run defaults write -globalDomain "com.apple.sound.uiaudio.enabled" -int 0
   # Play feedback when volume is changed
@@ -559,20 +576,29 @@ if ((${+do_section[pointer]})); then
   $run defaults write NSGlobalDomain com.apple.mouse.scaling -int 3
   $run defaults write NSGlobalDomain com.apple.trackpad.scaling -int 3
   $run defaults write NSGlobalDomain com.apple.scrollwheel.scaling -float 0.6875
-  # Trackpad: enable tap to click for this user and for the login screen
-  $run defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-  $run defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+  # Every trackpad key goes to BOTH domains: AppleMultitouchTrackpad is the built-in
+  # trackpad, the AppleBluetoothMultitouch one is an external Magic Trackpad. Writing only
+  # the Bluetooth domain -- as this section used to for everything except Clicking -- meant
+  # corner secondary click and three-finger swipe never applied on a laptop.
+  local trackpad_domain
+  for trackpad_domain in \
+    com.apple.AppleMultitouchTrackpad \
+    com.apple.driver.AppleBluetoothMultitouch.trackpad; do
+    # Tap to click
+    $run defaults write ${trackpad_domain} Clicking -bool true
+    # Right-click by tapping in the bottom-right corner
+    $run defaults write ${trackpad_domain} TrackpadCornerSecondaryClick -int 2
+    $run defaults write ${trackpad_domain} TrackpadRightClick -bool true
+    # Swipe between pages with three fingers
+    $run defaults write ${trackpad_domain} TrackpadThreeFingerHorizSwipeGesture -int 1
+  done
+  # Login-screen and per-host copies of the same settings
   $run defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
   $run defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-  # Trackpad: right-click by tapping with two fingers
-  $run defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
-  $run defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
   $run defaults -currentHost write NSGlobalDomain com.apple.trackpad.trackpadCornerClickBehavior -int 1
   $run defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true
-  # Trackpad: swipe between pages with three fingers
   $run defaults write NSGlobalDomain AppleEnableSwipeNavigateWithScrolls -bool true
   $run defaults -currentHost write NSGlobalDomain com.apple.trackpad.threeFingerHorizSwipeGesture -int 1
-  $run defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 1
   # Disable "natural" (Lion-style) scrolling
   $run defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 fi
@@ -637,20 +663,28 @@ if ((${+do_section[finder]})); then
   $run defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
   # After configuring preferred view style, clear all `.DS_Store` files
   # to ensure settings are applied for every directory: see macos::rm-ds-store
-  $run /usr/libexec/PlistBuddy \
-    -c "Delete :StandardViewOptions:ColumnViewOptions:ColumnShowIcons" \
-    -c "Delete :StandardViewOptions:ColumnViewOptions:FontSize" \
-    -c "Delete :StandardViewOptions:ColumnViewOptions:ShowPreview" \
-    -c "Delete :StandardViewOptions:ColumnViewOptions:ShowIconThumbnails" \
-    -c "Delete :StandardViewOptions:ColumnViewOptions:ArrangeBy" \
-    ${HOME}/Library/Preferences/com.apple.finder.plist || true
-  $run /usr/libexec/PlistBuddy \
-    -c "Add :StandardViewOptions:ColumnViewOptions:ColumnShowIcons    bool    true" \
-    -c "Add :StandardViewOptions:ColumnViewOptions:FontSize           integer 16" \
-    -c "Add :StandardViewOptions:ColumnViewOptions:ShowPreview        bool    true" \
-    -c "Add :StandardViewOptions:ColumnViewOptions:ShowIconThumbnails bool    true" \
-    -c "Add :StandardViewOptions:ColumnViewOptions:ArrangeBy          string  dnam" \
-    ${HOME}/Library/Preferences/com.apple.finder.plist
+  # Both roots get written. Tahoe's Finder tracks FK_StandardViewOptions2 -- writing only
+  # the legacy StandardViewOptions left the column font at 13 while the legacy key said 16
+  # -- but the legacy key is the one present in the Finder binary, so keep both in step
+  # rather than betting on which one a future release reads.
+  local finder_plist=${HOME}/Library/Preferences/com.apple.finder.plist
+  local view_root
+  for view_root in StandardViewOptions FK_StandardViewOptions2; do
+    $run /usr/libexec/PlistBuddy \
+      -c "Delete :${view_root}:ColumnViewOptions:ColumnShowIcons" \
+      -c "Delete :${view_root}:ColumnViewOptions:FontSize" \
+      -c "Delete :${view_root}:ColumnViewOptions:ShowPreview" \
+      -c "Delete :${view_root}:ColumnViewOptions:ShowIconThumbnails" \
+      -c "Delete :${view_root}:ColumnViewOptions:ArrangeBy" \
+      ${finder_plist} > /dev/null 2>&1 || true
+    $run /usr/libexec/PlistBuddy \
+      -c "Add :${view_root}:ColumnViewOptions:ColumnShowIcons    bool    true" \
+      -c "Add :${view_root}:ColumnViewOptions:FontSize           integer 16" \
+      -c "Add :${view_root}:ColumnViewOptions:ShowPreview        bool    true" \
+      -c "Add :${view_root}:ColumnViewOptions:ShowIconThumbnails bool    true" \
+      -c "Add :${view_root}:ColumnViewOptions:ArrangeBy          string  dnam" \
+      ${finder_plist}
+  done
   # Disable the warning before emptying the Trash
   $run defaults write com.apple.finder WarnOnEmptyTrash -bool false
   # Enable AirDrop over Ethernet and on unsupported Macs running Lion
@@ -709,7 +743,11 @@ if ((${+do_section[privacy]})); then
   $run defaults write com.apple.AdLib allowApplePersonalizedAdvertising -bool false
   $run defaults write com.apple.AdLib forceLimitAdTracking -bool true
   # Do not send diagnostics to Apple automatically
-  $run sudo defaults write "/Library/Application Support/CrashReporter/SubmitDiagInfo.domain" AutoSubmit -bool false
+  # DiagnosticMessagesHistory.plist is the file the Analytics pane actually reads -- it
+  # holds both keys. SubmitDiagInfo.domain.plist is a different file that does not.
+  local diag="/Library/Application Support/CrashReporter/DiagnosticMessagesHistory.plist"
+  $run sudo defaults write "${diag}" AutoSubmit -bool false
+  $run sudo defaults write "${diag}" ThirdPartyDataSubmit -bool false
 fi
 
 ###############################################################################
@@ -750,12 +788,30 @@ fi
 ###############################################################################
 # Restart the affected apps so the changes land without a logout. Runs regardless of
 # which sections were selected, otherwise `--only dock` would appear to do nothing.
+#
+# Terminal is on the list because this script writes four com.apple.Terminal preferences
+# (the profile, Default/Startup Window Settings, SecureKeyboardEntry) and, per `man
+# defaults`, a running app "won't see the change and might even overwrite the default" --
+# quitting Terminal later would silently revert all four.
+#
+# One array feeds both branches so the --dry-run line cannot drift from what actually runs.
+local -a restart_apps=(
+  Dock Finder SystemUIServer ControlCenter WindowManager Terminal cfprefsd
+)
 if (($#flag_dry)); then
-  builtin print -r -- "killall Dock Finder SystemUIServer ControlCenter WindowManager cfprefsd"
+  builtin print -r -- "killall ${restart_apps}"
 else
   local app
-  for app in "Dock" "Finder" "SystemUIServer" "ControlCenter" "WindowManager" "cfprefsd"; do
+  for app in ${restart_apps}; do
     killall "${app}" &> /dev/null || true
   done
   log::info "done; some changes still require a logout or restart"
 fi
+
+# Survivable failures were logged as they happened; surface them in the exit status so a
+# non-interactive caller can tell a partial run from a clean one.
+if ((failures)); then
+  log::error "${failures} step(s) failed; see the errors above"
+  return 1
+fi
+return 0

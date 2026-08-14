@@ -3,6 +3,12 @@
 
 builtin emulate -L zsh -o EXTENDED_GLOB
 
-if [[ $- == *i* ]]; then
+# An error must be visible wherever it happens, including under make, launchd, cron and
+# ssh -- gating on interactivity meant scripted runs failed silently and still exited 0.
+# Test the destination rather than the shell: colour only when stderr is a terminal,
+# otherwise print -P would emit raw escape sequences into a log or a pipe.
+if [[ -t 2 ]]; then
     print -P -- "%F{red}Error:%f ${1}" >&2
+else
+    print -r -- "Error: ${1}" >&2
 fi
