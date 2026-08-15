@@ -27,7 +27,7 @@ hammerspoon: destination:=$${HOME}/.hammerspoon ## Install hammerspoon configura
 neovim: destination := $${HOME}/.config/nvim ## Install neovim configuration
 
 $(CONFIGS): ## Clone configuration repository
-	sh -c "[ ! -d $(destination) ] && git clone $(GH_URL)/$@-configuration $(destination)"
+	sh -c "[ -d $(destination) ] || git clone $(GH_URL)/$@-configuration $(destination)"
 
 install: | uninstall ## Install dotfiles
 	find * -maxdepth 0 -mindepth 0 -type d -exec stow $(STOW_OPTS) --stow {} \;
@@ -89,7 +89,7 @@ brew-uninstall: ## Uninstall Homebrew
 	/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/uninstall.sh)"
 
 chsh: ## Set shell to ZSH
-	echo "$$(which zsh)" | sudo tee -a /etc/shells
+	grep -qxF "$$(which zsh)" /etc/shells || echo "$$(which zsh)" | sudo tee -a /etc/shells
 	chsh -s "$$(which zsh)" $$USER
 
 build-neovim: ## Build neovim from source
