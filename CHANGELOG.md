@@ -1,3 +1,16 @@
+# [4.61.0](https://github.com/vladdoster/dotfiles/compare/v4.60.0...v4.61.0) (2026-08-15)
+
+
+### Bug Fixes
+
+* **make:** survive re-runs of config clones and chsh ([1b1c4af](https://github.com/vladdoster/dotfiles/commit/1b1c4afd5aa03a9119c2ddbe5022e3b43749bf81))
+
+
+### Features
+
+* **git:** git aliases for diffs & recent commits ([82f509c](https://github.com/vladdoster/dotfiles/commit/82f509ceff746077d2770339903b9f47722dce68))
+* **install:** add curl-pipeable bootstrap script ([a180a59](https://github.com/vladdoster/dotfiles/commit/a180a590a00c91194517fe71f395a069ddd13442))
+
 # [4.60.0](https://github.com/vladdoster/dotfiles/compare/v4.59.0...v4.60.0) (2026-08-14)
 
 
