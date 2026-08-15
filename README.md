@@ -16,9 +16,8 @@ Install and set everything up, run:
 /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/vladdoster/dotfiles/master/install.zsh)"
 ```
 
-This clones the repository to `~/.config/dotfiles`, installs Homebrew, syncs the Brewfile, and
-stows the configuration packages. Pass flags after the command substitution (the first trailing
-argument becomes `$0`):
+This clones the repository to `~/.config/dotfiles`, installs Homebrew, syncs the Brewfile, and stows the configuration
+packages. Pass flags after the command substitution (the first trailing argument becomes `$0`):
 
 ```zsh
 /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/vladdoster/dotfiles/master/install.zsh)" install.zsh --only stow --dry-run
