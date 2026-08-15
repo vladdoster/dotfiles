@@ -99,6 +99,7 @@
   ps   = push
   psf  = push --force
   psfo = push -f origin
+  recent-commits = !sh -c 'git log --color --histogram --max-count ${1:-10} --oneline' -
   rs = restore --staged
   ru = restore
   rv = remote --verbose
@@ -106,6 +107,7 @@
   sa  = stash apply
   sb  = status -s -b
   sc  = stash clear
+  shrt-diff  = diff --stat --color
   sl  = stash list
   sp  = stash pop
   ss  = stash save
@@ -115,6 +117,7 @@
   sub-pull = !git submodule foreach git pull --tags origin master
   sub-rm   = !sh -c 'git submodule deinit -f -- $1 && rm -rf .git/modules/$1 && git rm -f $1' -
   sub-up   = submodule update --init --recursive
+  watch = "!f() { watch --color git diff --color --stat -- ${@:1}; }; f"
 [fsck]
 	zeroPaddedFilemode = ignore
 [fetch "fsck"]
