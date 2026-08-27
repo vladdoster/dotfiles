@@ -3,9 +3,32 @@
 
 builtin emulate -L zsh -o EXTENDED_GLOB
 
+private -A opts
+zparseopts -D -F -A opts -- h -help n -no-zinit -debug -dry-run v -verbose || return 1
+
+if (( $+opts[-h] || $+opts[--help] )); then
+    print -r -- 'usage: zsh::rld [-h|--help] [-n|--no-zinit] [--debug] [--dry-run] [-v|--verbose]
+
+Validate the Zsh dotfiles, then restart the shell.
+
+  -h, --help      print this help and return
+  -n, --no-zinit  restart without loading zinit
+      --debug     trace execution with xtrace
+      --dry-run   validate only, skip the restart
+  -v, --verbose   show validation output instead of discarding it'
+    return 0
+fi
+
+(( $+opts[--debug] )) && setopt xtrace
+
+private skip= verbose= dry=
+(( $+opts[-n] || $+opts[--no-zinit] )) && skip=1
+(( $+opts[-v] || $+opts[--verbose] )) && verbose=1
+(( $+opts[--dry-run] )) && dry=1
+
 log::info 'Validating dotfiles...'
 private msg=
-msg="$(exec zsh -ilc exit 2>&1 > /dev/null)"
+msg="$(NO_ZINIT=$skip exec zsh -ilc exit 2>&1 > ${${verbose:+/dev/tty}:-/dev/null})"
 private err=$?
 if [[ err -ne 0 || -n $msg ]]; then
     print -nu2 'Validation failed with '
@@ -19,6 +42,10 @@ if [[ err -ne 0 || -n $msg ]]; then
     print -u2 'Restart aborted.'
     return err
 else
-    log::info 'Restarting Zsh...'
-    exec zsh -l
+    if [[ -n $dry ]]; then
+        log::info 'Validation passed. Dry run, not restarting.'
+        return 0
+    fi
+    log::info "Restarting Zsh${skip:+ without zinit}..."
+    NO_ZINIT=$skip exec zsh -l
 fi

@@ -1,5 +1,10 @@
 #compdef zsh::rld
 
-_message 'no arguments'
+_arguments \
+  '(- *)'{-h,--help}'[Print usage]' \
+  '(-n --no-zinit)'{-n,--no-zinit}'[Restart without loading zinit]' \
+  '--debug[Trace execution with xtrace]' \
+  '--dry-run[Validate only, skip the restart]' \
+  '(-v --verbose)'{-v,--verbose}'[Show validation output]'
 
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

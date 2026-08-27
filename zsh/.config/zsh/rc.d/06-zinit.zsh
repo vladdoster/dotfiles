@@ -1,6 +1,12 @@
 #!/usr/bin/env zsh
 # vim: ft=zsh sw=2 ts=2 et
 #=== ZINIT ============================================
+if (( $#NO_ZINIT )); then
+  unset NO_ZINIT
+  log::info 'NO_ZINIT set, skipping zinit'
+  return 0
+fi
+
 local zi_dir="${HOME}/.local/share/zinit"
 alias zic="$EDITOR $0"
 
