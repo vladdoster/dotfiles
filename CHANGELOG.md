@@ -1,3 +1,18 @@
+# [4.62.0](https://github.com/vladdoster/dotfiles/compare/v4.61.0...v4.62.0) (2026-08-27)
+
+
+### Bug Fixes
+
+* **wezterm:** repair broken leader keys and config ([bbce9ca](https://github.com/vladdoster/dotfiles/commit/bbce9ca687bf49f5f6f23de8ed66b51f3516ff4a))
+* **zsh:** complete .tar.zma archives in extract ([c4d728d](https://github.com/vladdoster/dotfiles/commit/c4d728d658537db7a3cff94a5bab24a6e0c21395))
+* **zsh:** repair --debug option parsing in F ([c05bf02](https://github.com/vladdoster/dotfiles/commit/c05bf025e47b0c3d83706f44de34227dd685d9e4))
+
+
+### Features
+
+* **wezterm:** add balance-panes and leader keys ([4d0be2a](https://github.com/vladdoster/dotfiles/commit/4d0be2aa4b7054ff87f39cb19eb2b696a1baf4dc))
+* **zsh:** add no-zinit reload flag to zsh::rld ([e93474c](https://github.com/vladdoster/dotfiles/commit/e93474c45e082da3eedfaf1fd4bc53455a5a2cfb))
+
 # [4.61.0](https://github.com/vladdoster/dotfiles/compare/v4.60.0...v4.61.0) (2026-08-15)
 
 
