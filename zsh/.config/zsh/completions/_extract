@@ -2,6 +2,6 @@
 
 _arguments -A '-*' \
   '(-r --remove)'{-r,--remove}'[Remove each archive after successful extraction]' \
-  '*:archive:_files -g "*.(7z|Z|bz2|deb|gz|lzma|rar|tar|tbz|tbz2|tgz|tlz|txz|xz|zip|zstd)(-.)"'
+  '*:archive:_files -g "*.(7z|Z|bz2|deb|gz|lzma|rar|tar|tbz|tbz2|tgz|tlz|txz|xz|zip|zma|zstd)(-.)"'
 
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
