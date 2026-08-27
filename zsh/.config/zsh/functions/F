@@ -5,7 +5,7 @@ emulate -LR zsh
 setopt extended_glob no_bang_hist no_aliases
 zmodload zsh/zutil || return 1
 local base debug dest help indent=(4)
-zparseopts -D -F -E -K d=debug-debug=debug h=help -help=help x:=indent -indent:=indent || return 1
+zparseopts -D -F -E -K d=debug -debug=debug h=help -help=help x:=indent -indent:=indent || return 1
 if (( $#help )); then
     print 'Usage: $0 [options] [function]'
     print 'Options:'
