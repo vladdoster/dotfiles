@@ -10,7 +10,7 @@ require('mouse').setup(config)
 local act = wezterm.action
 local act_callback = wezterm.action_callback
 local mux = wezterm.mux
-local equalize_tab = require('balance-panes')
+local equalize_tab = require('balance-panes').equalize_tab
 
 -- Move panes between existing tabs. The Lua API has no native equivalent, so
 -- both directions shell out to `wezterm cli split-pane --move-pane-id`, which
@@ -134,87 +134,68 @@ wezterm.on('gui-startup', function(cmd)
   window:gui_window():maximize()
 end)
 
-config = {
-  leader = { key = 'Space', mods = 'CTRL', timeout_milliseconds = 1000 },
-  adjust_window_size_when_changing_font_size = false,
-  audible_bell = 'Disabled',
-  check_for_updates = false,
-  color_scheme = 'Windows High Contrast (base16)', -- 'Windows NT (base16)'
-  enable_csi_u_key_encoding = true,
-  enable_scroll_bar = true,
-  enable_tab_bar = true,
-  exit_behavior = 'Close',
-  harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
-  font = wezterm.font('Server Mono'),
-  -- config.font = wezterm.font('BlexMono Nerd Font Mono'),
-  font_size = 22,
-  force_reverse_video_cursor = true,
-  hide_tab_bar_if_only_one_tab = true,
-  max_fps = 120,
-  native_macos_fullscreen_mode = true,
-  pane_focus_follows_mouse = true,
-  quit_when_all_windows_are_closed = false,
-  scrollback_lines = 100000,
-  unicode_version = 14,
-  use_dead_keys = false,
-  use_fancy_tab_bar = true,
-  use_resize_increments = true,
-  keys = {
-    { action = act.CloseCurrentPane({ confirm = true }), key = 'w', mods = 'SUPER' },
-    { action = act.ShowLauncher, key = 'l', mods = 'LEADER' },
-    {
-      action = act.SplitPane({ direction = 'Down', size = { Percent = 50 } }),
-      key = 'Enter',
-      mods = 'SUPER|SHIFT',
-    },
-    { action = act.SplitPane({ direction = 'Right', size = { Percent = 50 } }), key = 'Enter', mods = 'SUPER' },
-    { action = act.ToggleFullScreen, key = 'f', mods = 'ALT|CTRL' },
-    { action = break_pane_to_new_tab, key = 't', mods = 'SUPER|SHIFT' },
-    { action = move_pane_action('bring'), key = 'b', mods = 'SUPER|SHIFT' },
-    { action = move_pane_action('send'), key = 's', mods = 'SUPER|SHIFT' },
-    {
-      action = act_callback(function(window) equalize_tab(window) end),
-      key = '=',
-      mods = 'LEADER',
-    },
-    {
-      action = act_callback(function(window, pane)
-        window:perform_action(action.CloseCurrentPane({ confirm = false }), pane)
-        equalize_tab(window)
-      end),
-      key = 'q',
-      mods = 'LEADER',
-    },
-
-    -- Example keybindings (using Ctrl+Space as leader):
-    --
-
-    -- config.keys = {
-    --     { key = "s", mods = "LEADER", action = split_and_equalize("vertical") },
-    --     { key = "v", mods = "LEADER", action = split_and_equalize("horizontal") },
-
-    --     {
-    --         key = "q",
-    --         mods = "LEADER",
-    --         action = wezterm.action_callback(function(window, pane)
-    --             window:perform_action(action.CloseCurrentPane({ confirm = false }), pane)
-    --             equalize_tab(window)
-    --         end),
-    --     },
-    -- }
+config.leader = { key = 'Space', mods = 'CTRL', timeout_milliseconds = 1000 }
+config.adjust_window_size_when_changing_font_size = false
+config.audible_bell = 'Disabled'
+config.check_for_updates = false
+config.color_scheme = 'Windows High Contrast (base16)' -- 'Windows NT (base16)'
+config.enable_csi_u_key_encoding = true
+config.enable_scroll_bar = true
+config.enable_tab_bar = true
+config.exit_behavior = 'Close'
+config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
+config.font = wezterm.font('Server Mono')
+-- config.font = wezterm.font('BlexMono Nerd Font Mono')
+config.font_size = 22
+config.force_reverse_video_cursor = true
+config.hide_tab_bar_if_only_one_tab = true
+config.max_fps = 120
+config.native_macos_fullscreen_mode = true
+config.pane_focus_follows_mouse = true
+config.quit_when_all_windows_are_closed = false
+config.scrollback_lines = 100000
+config.unicode_version = 14
+config.use_dead_keys = false
+config.use_fancy_tab_bar = true
+config.use_resize_increments = true
+config.keys = {
+  { action = act.CloseCurrentPane({ confirm = true }), key = 'w', mods = 'SUPER' },
+  { action = act.ShowLauncher, key = 'l', mods = 'LEADER' },
+  {
+    action = act.SplitPane({ direction = 'Down', size = { Percent = 50 } }),
+    key = 'Enter',
+    mods = 'SUPER|SHIFT',
   },
-  window_close_confirmation = 'NeverPrompt',
-  window_padding = { bottom = '0.1cell', left = '0.1cell', right = '0.1cell', top = '0.1cell' },
-  window_frame = {
-    border_bottom_color = 'red',
-    border_bottom_height = '0.1cell',
-    border_left_color = 'red',
-    border_left_width = '0.1cell',
-    border_right_color = 'red',
-    border_right_width = '0.1cell',
-    border_top_color = 'red',
-    border_top_height = '0.1cell',
+  { action = act.SplitPane({ direction = 'Right', size = { Percent = 50 } }), key = 'Enter', mods = 'SUPER' },
+  { action = act.ToggleFullScreen, key = 'f', mods = 'ALT|CTRL' },
+  { action = break_pane_to_new_tab, key = 't', mods = 'SUPER|SHIFT' },
+  { action = move_pane_action('bring'), key = 'b', mods = 'SUPER|SHIFT' },
+  { action = move_pane_action('send'), key = 's', mods = 'SUPER|SHIFT' },
+  {
+    action = act_callback(function(window) equalize_tab(window) end),
+    key = '=',
+    mods = 'LEADER',
   },
+  {
+    action = act_callback(function(window, pane)
+      window:perform_action(act.CloseCurrentPane({ confirm = false }), pane)
+      equalize_tab(window)
+    end),
+    key = 'q',
+    mods = 'LEADER',
+  },
+}
+config.window_close_confirmation = 'NeverPrompt'
+config.window_padding = { bottom = '0.1cell', left = '0.1cell', right = '0.1cell', top = '0.1cell' }
+config.window_frame = {
+  border_bottom_color = 'red',
+  border_bottom_height = '0.1cell',
+  border_left_color = 'red',
+  border_left_width = '0.1cell',
+  border_right_color = 'red',
+  border_right_width = '0.1cell',
+  border_top_color = 'red',
+  border_top_height = '0.1cell',
 }
 
 return config
