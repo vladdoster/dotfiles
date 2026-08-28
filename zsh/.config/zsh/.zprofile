@@ -14,8 +14,8 @@ setopt local_options typeset_silent extended_glob prompt_subst no_global_rcs
 # export LESS='-R'
 # export LESSOPEN='|pygmentize -g %s'
 
-export -T MANPATH=${MANPATH:-:} manpath
 export -T INFOPATH=${INFOPATH:-:} infopath
+export -T MANPATH=${MANPATH:-:} manpath
 typeset -gUa path {'cd','f','info','mail','man'}path
 
 (){ # brew env; .zshrc sources this file when the shell is not a login shell
@@ -24,7 +24,7 @@ typeset -gUa path {'cd','f','info','mail','man'}path
     /{'opt','usr/local'}/[Hh]omebrew/bin/brew(N-.)
     {'/home/linuxbrew',$HOME}/.linuxbrew/bin/brew(N-.)
   )
-  setopt local_options xtrace
+  # setopt local_options xtrace
   (( $#brew_cmd )) && eval "$(${brew_cmd[1]} shellenv zsh)"
 }
 
@@ -39,7 +39,5 @@ typeset -gUa path {'cd','f','info','mail','man'}path
   fpath=(${ZDOTDIR}/{functions,completions}(N/) $fpath)
   autoload -Uz +X -- ${ZDOTDIR}/functions/*~*zwc(N-.:t)
 }
-
-manpath=($manpath '')
 
 unsetopt norcs
