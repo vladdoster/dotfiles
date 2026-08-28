@@ -25,3 +25,7 @@ if (( ! $#NO_RC )); then
     source "$f"
   done
 fi
+
+autoload -Uz compinit bashcompinit
+compinit
+# bashcompinit
