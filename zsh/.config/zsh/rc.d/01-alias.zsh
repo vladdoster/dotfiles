@@ -65,7 +65,6 @@ done
 # lives at the repo root, not under $XDG_CONFIG_HOME, so it skips the loop above
 alias brewrc='_edit $DOTFILES/Brewfile'
 alias zinstall='_edit $ZINIT[BIN_DIR]/zinit-install.zsh'
-alias cccfg='_edit ~/.claude/settings.json'
 
 for k v in hscfg '.hammerspoon/init.lua' sshrc '.ssh/config' zec '.zshenv' zpc '.zprofile'; do
   builtin alias -- $k="_edit ${HOME}/${v}" || true
@@ -73,7 +72,7 @@ done
 
 alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},{auto,}s}; ziprune; zrld; cd -'
 
-typeset -A goto_targets=(bin '~/.local/bin' dl '~/Downloads' hsd '~/.hammerspoon' xch '~/.config' xdh '~/.local/share' zcf '$ZDOTDIR/rc.d' df '$DOTFILES')
+typeset -A goto_targets=(bin '~/.local/bin' dl '~/Downloads' hsd '~/.hammerspoon' xch '~/.config' xdh '~/.local/share' zcf '$ZDOTDIR/rc.d')
 for k v in ${(kv)goto_targets[@]}; do
   builtin alias -- "$k"="_goto $v" || true
 done
@@ -82,6 +81,14 @@ unset edit_targets goto_targets k v
 # for k v in g '\git' gd '\git diff' gs '\git status' gsu '\git submodule update --merge --remote'; do
 #     builtin alias -- $k="$v" || true
 # done
+
+# claude
+alias cccfg='_edit ~/.claude/settings.json'
+alias skills='_goto ~/.claude/skills/'
+
+# wezterm
+alias wts='wezterm::send-pane'
+alias wtb='wezterm::bring-pane'
 
 alias auld='builtin autoload'
 
