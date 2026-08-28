@@ -26,8 +26,8 @@ zdd () {
         setopt xtrace
     fi
 
-    base="${ZDOTDIR:-$HOME/.config/zsh}" 
-    dest="$base/${1}" 
+    base="${ZDOTDIR:-$HOME/.config/zsh}"
+    dest="$base/${1}"
 
     if [[ -e ${dest} ]]; then
         if [[ -f ${dest} ]]; then
