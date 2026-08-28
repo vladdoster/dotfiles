@@ -1,3 +1,16 @@
+# [4.63.0](https://github.com/vladdoster/dotfiles/compare/v4.62.0...v4.63.0) (2026-08-28)
+
+
+### Bug Fixes
+
+* **zsh:** disable xtrace and tidy .zprofile ([af539bc](https://github.com/vladdoster/dotfiles/commit/af539bc3832c0e5759451dcc324aab3392312b1c))
+* **zsh:** link only gnubin binaries in +brew-link-keg ([94f8313](https://github.com/vladdoster/dotfiles/commit/94f8313afeb137ec6faa3158d2239d0ff6ea257c))
+
+
+### Features
+
+* **zsh:** overhaul completion and move compinit ([237b2a5](https://github.com/vladdoster/dotfiles/commit/237b2a5684700777a19a485e588ab64ac438b151))
+
 # [4.62.0](https://github.com/vladdoster/dotfiles/compare/v4.61.0...v4.62.0) (2026-08-27)
 
 
