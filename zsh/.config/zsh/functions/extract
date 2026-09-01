@@ -12,16 +12,22 @@ setopt extendedglob
 
 integer remove=0
 
+if [[ $1 == (-h|--help) ]]; then
+    print -r -- "Usage: $0 [-r|--remove] [file ...]"
+    print -r --
+    print -r -- 'Options:'
+    print -r -- '    -h, --help   : Show this message.'
+    print -r -- '    -r, --remove : Remove archive.'
+    return 0
+fi
+
 if [[ $1 == (-r|--remove) ]]; then
     remove=1
     shift
 fi
 
 if (( ! $# )); then
-    print -r -- "Usage: $0 [-r|--remove] [file ...]"
-    print -r --
-    print -r -- 'Options:'
-    print -r -- '    -r, --remove : Remove archive.'
+    print -u2 -r -- "Usage: $0 [-h|--help] [-r|--remove] [file ...]"
     return 1
 fi
 
