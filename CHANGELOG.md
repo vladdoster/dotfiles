@@ -1,3 +1,15 @@
+# [4.64.0](https://github.com/vladdoster/dotfiles/compare/v4.63.0...v4.64.0) (2026-09-01)
+
+
+### Bug Fixes
+
+* **zsh:** correct stale completion definitions ([96521fe](https://github.com/vladdoster/dotfiles/commit/96521feb5b744a17f45b4400274df0105acb367f))
+
+
+### Features
+
+* **zsh:** add --help to extract ([f10e9d5](https://github.com/vladdoster/dotfiles/commit/f10e9d561293d44c92f7df2ae54836678ae5e92d))
+
 # [4.63.0](https://github.com/vladdoster/dotfiles/compare/v4.62.0...v4.63.0) (2026-08-28)
 
 
