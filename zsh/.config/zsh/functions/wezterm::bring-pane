@@ -1,134 +1,43 @@
 #autoload
 # vim: ft=zsh sw=2 ts=2 et
+#
+# Bring another tab's active pane here as a split.
 
-wezterm::bring-pane() {
-  emulate -L zsh
+emulate -L zsh
+setopt typeset_silent
+zmodload zsh/zutil || return 1
 
-  zmodload zsh/zutil || return
+local -a debug direction help list
 
-  setopt typeset_silent
-  local debug direction help list
+zparseopts -D -F -K -- \
+  {d,-debug}=debug \
+  {h,-help}=help \
+  {l,-list}=list \
+  {-left,-right,-top,-bottom}=direction \
+  || return 1
 
-  zparseopts -D -F -K -- \
-    {d,-debug}=debug \
-    {h,-help}=help \
-    {l,-list}=list \
-    {-left,-right,-top,-bottom}=direction \
-    || return 1
+((${#debug})) && setopt xtrace
 
-  if ((${#debug})); then
-    setopt xtrace
-  fi
+if ((${#help})); then
+  print -r -- "Usage: $0 [options] <tab-title|tab-id>"
+  print -r -- "Bring the given tab's active pane here as a split (default: right)."
+  print -r -- 'The target is an exact tab title (takes precedence) or a numeric tab id.'
+  print -r -- 'Options:'
+  print -r -- '  -d, --debug            turn on execution tracing'
+  print -r -- '  -h, --help             show list of command-line options'
+  print -r -- '  -l, --list             list tabs (also the default with no arguments)'
+  print -r -- '  --left, --right, --top, --bottom'
+  print -r -- '                         side of the current pane for the split'
+  print -r -- 'Title a tab with: wezterm cli set-tab-title <title>'
+  return 0
+fi
 
-  if ((${#help})); then
-    print "Usage: $0 [options] <tab-title|tab-id>"
-    print "Bring the given tab's active pane here as a split (default: right)."
-    print 'The target is an exact tab title (takes precedence) or a numeric tab id.'
-    print 'Options:'
-    print '  -d, --debug            turn on execution tracing'
-    print '  -h, --help             show list of command-line options'
-    print '  -l, --list             list tabs (also the default with no arguments)'
-    print '  --left, --right, --top, --bottom'
-    print '                         side of the current pane for the split'
-    print 'Title a tab with: wezterm cli set-tab-title <title>'
-    return 0
-  fi
-
-  ((!$+commands[wezterm])) && {
-    builtin print -P -- '%F{red}Error: wezterm command not found %f'
-    return 1
-  }
-
-  ((!$+commands[jq])) && {
-    builtin print -P -- '%F{red}Error: jq command not found %f'
-    return 1
-  }
-
-  [[ -z ${WEZTERM_PANE} ]] && {
-    builtin print -P -- '%F{red}Error: not inside WezTerm (WEZTERM_PANE is unset) %f'
-    return 1
-  }
-
-  ((${#direction} > 1)) && {
-    builtin print -P -- "%F{red}Error: pick one of --left/--right/--top/--bottom, got: ${direction} %f"
-    return 1
-  }
-  ((${#direction})) || direction=(--right)
-
-  (($# > 1)) && {
-    builtin print -P -- '%F{red}Error: expected one tab title or id (quote titles containing spaces) %f'
-    return 1
-  }
-
-  local json
-  json="$(command wezterm cli --no-auto-start list --format=json)" || {
-    builtin print -P -- '%F{red}Error: failed to query the wezterm mux %f'
-    return 1
-  }
-
-  if ((${#list})) || ((!$#)); then
-    builtin print -P -- '%F{green}==>%f tabs (* = current):'
-    command jq --raw-output --argjson current "${WEZTERM_PANE}" '
-      group_by(.tab_id)[]
-      | [ (if any(.[]; .pane_id == $current) then "*" else " " end),
-          ("w" + (.[0].window_id | tostring)),
-          ("t" + (.[0].tab_id | tostring)),
-          (if .[0].tab_title == "" then "(untitled)" else .[0].tab_title end),
-          ([.[].title] | join(", ")) ]
-      | join("  ")
-    ' <<< "${json}"
-    return 0
-  fi
-
-  local -a info
-  info=("${(@f)$(command jq --raw-output --arg title "$1" --argjson current "${WEZTERM_PANE}" '
-    ( [.[] | select(.pane_id == $current)][0].tab_id ) as $current_tab
-    | ( [.[] | select(.tab_title == $title).tab_id] | unique ) as $title_matches
-    | ( if ($title_matches | length) == 0 and ($title | test("^[0-9]+$"))
-        then [.[] | select((.tab_id | tostring) == $title).tab_id] | unique
-        else $title_matches
-        end ) as $all_matches
-    | ( [$all_matches[] | select(. != $current_tab)] ) as $matches
-    | ( $matches | first ) as $target_tab
-    | ( [.[] | select(.tab_id == $target_tab)]
-        | (map(select(.is_active)) + .)[0].pane_id ) as $target_pane
-    | $current_tab, ($all_matches | length), ($matches | length), $target_tab, $target_pane,
-      ( group_by(.tab_id) | map(
-          (.[0].tab_id | tostring) + ":" +
-          (if .[0].tab_title == "" then "[" + ((map(select(.is_active)) + .)[0].title) + "]"
-           else .[0].tab_title end)
-        ) | join(", ") )
-  ' <<< "${json}")}") || return 1
-
-  local current_tab=${info[1]} all_matches=${info[2]} matches=${info[3]} \
-    target_tab=${info[4]} target_pane=${info[5]} tabs=${info[6]}
-
-  [[ ${current_tab} == null ]] && {
-    builtin print -P -- "%F{red}Error: pane ${WEZTERM_PANE} not found in this wezterm mux %f"
-    return 1
-  }
-
-  ((all_matches == 0)) && {
-    builtin print -P -- "%F{red}Error: no tab matching '${1}' %f"
-    builtin print -P -- "%F{green}==>%f tabs: ${tabs}"
-    builtin print -P -- "%F{green}==>%f target a tab id, or title tabs with: wezterm cli set-tab-title <title>"
-    return 1
-  }
-
-  ((matches == 0)) && {
-    builtin print -P -- "%F{red}Error: tab '${1}' is the current tab %f"
-    return 1
-  }
-
-  ((matches > 1)) \
-    && builtin print -P -- "%F{yellow}Warning:%f ${matches} tabs match '${1}'; using tab ${target_tab}"
-
-  command wezterm cli --no-auto-start split-pane ${direction} \
-    --pane-id "${WEZTERM_PANE}" --move-pane-id "${target_pane}" > /dev/null || {
-    builtin print -P -- '%F{red}Error: wezterm cli split-pane failed %f'
-    return 1
-  }
-  builtin print -P -- "%F{green}==>%f brought pane ${target_pane} from tab '${1}' (tab ${target_tab})"
+((${#direction} > 1)) && {
+  log::error "$0: pick one of --left/--right/--top/--bottom, got: ${direction}"
+  return 1
 }
+((${#direction})) || direction=(--right)
 
-wezterm::bring-pane "$@"
+autoload -Uz wezterm::_pane
+
+wezterm::_pane bring ${direction[1]} 0 ${#list} "$@"

@@ -1,11 +1,8 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# List $fpath, one entry per line; see ls-path, which implements it.
 
-builtin emulate -L zsh -o EXTENDED_GLOB
+emulate -L zsh
 
-header='%F{green}==>%f %B%F{white}'
-
-if [[ $- == *i* ]]; then
-    builtin print -P -- "${header} fpath %f%b"
-    builtin print -l -- $fpath
-fi
+ls-path --fpath "$@"

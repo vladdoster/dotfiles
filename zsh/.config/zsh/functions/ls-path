@@ -1,11 +1,28 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# List $path, one entry per line, or $fpath with --fpath.
+#
+# The path and fpath arrays already hold the split entries, so PATH never needs to be
+# split with tr.
 
 builtin emulate -L zsh -o EXTENDED_GLOB
+zmodload zsh/zutil || return 1
 
-header='%F{green}==>%f %B%F{white}'
+local -a opt_help opt_fpath
+zparseopts -D -F -K -- {h,-help}=opt_help -fpath=opt_fpath || return 1
 
-if [[ $- == *i* ]]; then
-    builtin print -P -- "${header} path %f%b"
-    builtin print -l -- $(print $PATH | tr ':' ' ')
+if (( $#opt_help )); then
+    print -r -- "Usage: $0 [-h|--help] [--fpath]"
+    return 0
+fi
+
+local header=${(%):-'%F{green}==>%f %B%F{white}'} off=${(%):-'%f%b'}
+
+if (( $#opt_fpath )); then
+    print -r -- "${header} fpath ${off}"
+    print -rl -- $fpath
+else
+    print -r -- "${header} path ${off}"
+    print -rl -- $path
 fi
