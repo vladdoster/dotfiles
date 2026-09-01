@@ -1,20 +1,34 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
-
 #
-# check-for-updates - check for changes from upstream repository
+# check-for-updates [directory] - report whether a repository is behind its upstream
 #
+# Returns 0 when commits are waiting, 1 when the branch is up to date, and 2 when the
+# directory is not a repository or has no upstream. The status used to be 0 in every
+# case, which made callers such as have-updates report every repository as stale.
 
-(){
-    if command git rev-parse --is-inside-work-tree &> /dev/null; then
-        if command git rev-parse --abbrev-ref @'{u}' &> /dev/null; then
-            local count="$(command git rev-list --left-right --count HEAD...@'{u}' 2> /dev/null)"
-            local down="$count[(w)2]"
-            if [[ $down -gt 0 ]]; then
-                builtin print -P -- "%F{green}Update available%f"
-                return
-            fi
-        fi
-        builtin print -P -- "%F{red}No update available%f"
-    fi
-}
+emulate -L zsh
+setopt extendedglob
+
+local dir=${1:-$PWD}
+local -a gitc=(command git -C $dir)
+
+if ! $gitc rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    log::error "$0: not a git repository: ${(D)dir}"
+    return 2
+fi
+
+if ! $gitc rev-parse --abbrev-ref '@{u}' >/dev/null 2>&1; then
+    print -P -- "%F{yellow}No upstream configured%f"
+    return 2
+fi
+
+local count=$($gitc rev-list --left-right --count 'HEAD...@{u}' 2>/dev/null)
+
+if (( ${count[(w)2]:-0} > 0 )); then
+    print -P -- "%F{green}Update available%f"
+    return 0
+fi
+
+print -P -- "%F{red}No update available%f"
+return 1

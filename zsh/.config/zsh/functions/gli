@@ -1,12 +1,21 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Browse the git log with fzf; preview a commit, or press enter to page it.
 
 emulate -L zsh
-setopt extended_glob
-if ! git rev-parse --is-inside-work-tree >/dev/null; then
-  print "gli: $PWD is not a git directory"
-  return 1
+setopt extendedglob
+
+if ! command git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    log::error "$0: not a git repository: ${(D)PWD}"
+    return 1
 fi
-git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" --graph | fzf --ansi --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | xargs -I % sh -c 'git show --color=always %'" --bind "enter:execute: (grep -o '[a-f0-9]\{7\}' | head -1 | xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
-        {}
-FZF-EOF"
+
+# the graph column precedes the hash, so pull the first hash out of the selected line
+local hash='$(printf %s {} | grep -oE "[a-f0-9]{7,}" | head -1)'
+
+command git log --color=always --graph \
+    --format='%C(auto)%h%d %s %C(black)%C(bold)%cr' "$@" |
+    fzf --ansi \
+        --preview "git show --color=always $hash" \
+        --bind "enter:execute:git show --color=always $hash | less -R"

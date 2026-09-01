@@ -1,6 +1,22 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Pick a local or remote branch with fzf and check it out.
 
-builtin emulate -L zsh -o EXTENDED_GLOB
+emulate -L zsh
+setopt extendedglob
 
-local branches=$(git branch --all | grep -v HEAD) && local branch=$(echo "$branches" | fzf-tmux -d $((2 + $(wc -l <<< "$branches"))) +m) && git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+local -a branches=(${(f)"$(command git branch --all 2>/dev/null)"})
+
+branches=(${branches:#*HEAD*})
+
+if (( ! $#branches )); then
+    log::error "$0: no branches found"
+    return 1
+fi
+
+local choice=$(print -rl -- $branches | fzf-tmux -d $(( $#branches + 2 )) +m)
+
+[[ -n $choice ]] || return 1
+
+command git checkout ${${choice##* }#remotes/*/}
