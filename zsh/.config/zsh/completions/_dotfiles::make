@@ -3,6 +3,7 @@
 local service=make
 local -a original_words=("${words[@]}")
 words=(make -C "${DOTFILES:-$HOME/.config/dotfiles}" "${original_words[@]:1}")
+# make -C DIR is three words where dotfiles::make was one, so CURRENT shifts to match
 (( CURRENT += 2 ))
 
 _make

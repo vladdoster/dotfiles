@@ -3,6 +3,7 @@
 local service=git
 local -a original_words=("${words[@]}")
 words=(git log "${original_words[@]:1}")
+# git log is two words where gli was one, so CURRENT shifts to match
 (( CURRENT += 1 ))
 
 _git
