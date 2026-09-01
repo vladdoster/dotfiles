@@ -1,64 +1,73 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Create an autoloaded function file in $ZDOTDIR/functions from a skeleton.
+#
+# The skeleton follows the style of the functions shipped with zsh: the file is a bare
+# function body, options are made local with emulate -L, and every variable is declared.
+# An existing function is never overwritten.
 
 emulate -L zsh
-setopt extended_glob pushd_silent
+setopt extendedglob
 zmodload zsh/zutil || return 1
 
-opt_help= opt_edit=
-cli_usage=("Usage: $0 [-h|--help] [-e|--edit] [function]")
+local -a opt_help opt_edit
 zparseopts -D -F -K -- {e,-edit}=opt_edit {h,-help}=opt_help || return 1
 
-if [[ -n "$opt_help" ]]; then
-    builtin print -l $cli_usage && return
+if (( $#opt_help )); then
+    print -r -- "Usage: $0 [-h|--help] [-e|--edit] [function]"
+    print -r -- 'Options:'
+    print -r -- '  -e, --edit         open the new function in $EDITOR'
+    print -r -- '  -h, --help         show list of command-line options'
+    return 0
 fi
-if (( $#@ )); then
-    if [[ -d $HOME/.config/zsh/functions ]]; then
-        command touch $HOME/.config/zsh/functions/${1}
-        command chmod 755 $HOME/.config/zsh/functions/${1}
-        cat <<EOF >| $HOME/.config/zsh/functions/${1}
-#autoload
-#
-# ${1}
-#
-$(builtin print -- '')
-__${1}_usage () {
-    print -- 'Usage: ${1} [options] [arguments...]'
-    print -- 'Options:'
-    print -- '  -d, --debug        turn on execution tracing'
-    print -- '  -h, --help         show list of command-line options'
-}
-$(builtin print -- '')
-setopt localoptions extended_glob
-zmodload zsh/zutil || return 1
-$(builtin print -- '')
-local base debug dryrun help
-builtin zparseopts -D -E -F -K \\
-    d=debug -debug=debug \\
-    h=help  -help=help   \\
-    || return 1
-$(builtin print -- '')
-if (( \$#help )); then
-  __${1}_usage
-  return 0
-fi
-if (( \$#debug )); then
-  setopt xtrace
-fi
-$(builtin print -- '')
-local -a arguments=(\${(q+)^@})
-$(builtin print -- '')
-print -l -- "\${#arguments} args" \${(@)arguments}
-$(builtin print -- '')
-# vim: set expandtab filetype=zsh shiftwidth=2 softtabstop=2 tabstop=2:
-EOF
-        if [[ -n "$opt_edit" ]]; then
-            nvim $1
-        fi
-        builtin print -- "==> Created $1 function"
-    fi
-else
-    builtin print -P -- "%F{red}Error%f: $0 requires a function name"
+
+if (( ! $# )); then
+    log::error "$0 requires a function name"
     return 1
 fi
-return 0
+
+local dir=${ZDOTDIR:-$HOME/.config/zsh}/functions
+local dest=$dir/$1
+
+if [[ ! -d $dir ]]; then
+    log::error "$0: no such directory: ${(D)dir}"
+    return 1
+fi
+
+if [[ -e $dest ]]; then
+    log::error "$0: already exists: ${(D)dest}"
+    return 1
+fi
+
+local -a skeleton=(
+    '#autoload'
+    '# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:'
+    '#'
+    "# ${1} - describe what this function does"
+    ''
+    'emulate -L zsh'
+    'setopt extendedglob'
+    'zmodload zsh/zutil || return 1'
+    ''
+    'local -a opt_help opt_debug'
+    'zparseopts -D -F -K -- {h,-help}=opt_help {d,-debug}=opt_debug || return 1'
+    ''
+    'if (( $#opt_help )); then'
+    '    print -r -- "Usage: $0 [-h|--help] [-d|--debug] [arguments...]"'
+    "    print -r -- 'Options:'"
+    "    print -r -- '  -d, --debug        turn on execution tracing'"
+    "    print -r -- '  -h, --help         show list of command-line options'"
+    '    return 0'
+    'fi'
+    ''
+    '(( $#opt_debug )) && setopt xtrace'
+    ''
+    'print -rl -- "$# args:" "$@"'
+)
+
+print -rl -- "$skeleton[@]" >| $dest || return 1
+
+(( $#opt_edit )) && ${EDITOR:-vi} -- $dest
+
+log::info "created ${(D)dest}"

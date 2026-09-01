@@ -1,28 +1,35 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Copy each argument to <name>.bak.
 
 emulate -L zsh
 setopt extendedglob
+zmodload zsh/zutil || return 1
 
-local flag_help
-local -a usage=(
-    "mkbak [-h|--help]"
-    "mkbak [<filenames...>]"
-)
+local -a opt_help
+zparseopts -D -F -K -- {h,-help}=opt_help || return 1
 
-zmodload zsh/zutil
-zparseopts -D -F -K -- \
-    {h,-help}=flag_help \
-    || return 1
+if (( $#opt_help )); then
+    print -r -- "Usage: $0 [-h|--help]"
+    print -r -- "       $0 [filenames...]"
+    return 0
+fi
 
-(( $flag_help )) && { builtin print -l -- $usage; return 0; }
-
-(( !$# )) && {
-    builtin print -P -- "%F{red}Error%f mkbkp requires one or more arguments"
+if (( ! $# )); then
+    log::error "$0 requires one or more arguments"
     return 1
-}
+fi
 
-for f in $@; do
-    command cp ${f}{,.bak}
-    (( $? )) || { builtin print -P -- "%F{green}==>%f ${f}.bak created"; }
+local f
+integer stat=0
+
+for f in "$@"; do
+    if command cp -- $f $f.bak; then
+        log::info "$f.bak created"
+    else
+        stat=1
+    fi
 done
+
+return $stat
