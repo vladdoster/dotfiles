@@ -1,7 +1,7 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
 #
-# output-to-array - slurp piped stdin into an array, one element per line
+# Slurp piped stdin into an array, one element per line.
 #
 # The locals are prefixed so that the caller can ask for an array by any ordinary name
 # without it colliding with a variable used here.

@@ -3,10 +3,8 @@
 #
 # Print an error message to stderr.
 #
-# An error must be visible wherever it happens, including under make, launchd, cron and
-# ssh -- gating on interactivity meant scripted runs failed silently and still exited 0.
-# Test the destination rather than the shell: colour only when stderr is a terminal.
-# Only the prefix is prompt expanded, so a % in a path or a filename is printed as is.
+# An error must be visible wherever it happens, so colour is gated on stderr being a
+# terminal, not on interactivity. Only the prefix is expanded, so a % in a path is safe.
 
 builtin emulate -L zsh -o EXTENDED_GLOB
 

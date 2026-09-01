@@ -1,11 +1,10 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
 #
-# check-for-updates [directory] - report whether a repository is behind its upstream
+# Report whether a repository is behind its upstream; the directory defaults to $PWD.
 #
 # Returns 0 when commits are waiting, 1 when the branch is up to date, and 2 when the
-# directory is not a repository or has no upstream. The status used to be 0 in every
-# case, which made callers such as have-updates report every repository as stale.
+# directory is not a repository or has no upstream.
 
 emulate -L zsh
 setopt extendedglob

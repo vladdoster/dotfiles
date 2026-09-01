@@ -2,8 +2,6 @@
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
 #
 # Watch the number of running docker containers.
-#
-# This counted `docker images` before, which is not what the banner says.
 
 emulate -L zsh
 

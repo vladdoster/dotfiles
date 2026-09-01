@@ -4,8 +4,7 @@
 # Build a sandbox image and start a shell in it.
 #
 # With --file the image is built from that Dockerfile; otherwise an Ubuntu image is
-# offered. The old guard tested ${(q+)file[-1]}, which is the two-character string '' for
-# an empty array, so the build always ran with --file "$(realpath '')".
+# offered.
 
 emulate -L zsh
 zmodload zsh/zutil || return 1

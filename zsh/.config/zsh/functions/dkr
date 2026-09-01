@@ -1,8 +1,9 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Create and clean up docker sandbox containers for development.
 
-# Helpers are prefixed so they cannot collide with anything else in the shell; the
-# previous _log and _color were global names any plugin could have claimed.
+# Helpers are prefixed so they cannot collide with anything else in the shell.
 
 dkr::log () {
   builtin print -r -- "${*}"

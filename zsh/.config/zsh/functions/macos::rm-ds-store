@@ -1,5 +1,7 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Delete every .DS_Store below $HOME, skipping Trash and Library.
 
 builtin emulate -L zsh
 setopt extendedglob

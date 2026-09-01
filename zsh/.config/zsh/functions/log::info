@@ -3,11 +3,8 @@
 #
 # Print a progress message to stdout.
 #
-# Callers pass prompt escapes on purpose -- rc.d/05-zinit.zsh highlights paths with
-# %B...%b -- so the message is prompt expanded on a terminal. When stdout is a file or a
-# pipe the markup is stripped instead, which keeps logs readable without emitting escape
-# sequences. Gating on the destination rather than on interactivity means messages still
-# appear under make, launchd, cron and ssh.
+# Callers pass prompt escapes on purpose, so the message is prompt expanded on a terminal.
+# Gating on the destination, not interactivity, keeps output under make, launchd and cron.
 
 builtin emulate -L zsh -o EXTENDED_GLOB
 
@@ -16,6 +13,7 @@ local msg=${*}
 if [[ -t 1 ]]; then
     print -P -- "%F{green}==>%f %F{white}${msg}%f"
 else
+    # strip the markup so logs stay readable without escape sequences
     msg=${msg//\%[FK]\{[^\}]##\}/}
     msg=${msg//\%[BbUuSsfk]/}
     print -r -- "==> ${msg//\%\%/%}"

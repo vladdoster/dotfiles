@@ -4,7 +4,7 @@
 # Add a directory to $PATH.
 #
 # The path array is tied to PATH and declared -U in .zprofile, so assigning through it
-# keeps the entries unique; building the PATH string by hand defeated that.
+# keeps entries unique.
 
 emulate -L zsh
 setopt extendedglob

@@ -3,8 +3,6 @@
 #
 # Extract one or more archives, optionally removing each one afterwards.
 #
-#   extract [-r|--remove] file ...
-#
 # Returns non-zero if any archive failed, so a caller can tell what happened.
 
 emulate -L zsh

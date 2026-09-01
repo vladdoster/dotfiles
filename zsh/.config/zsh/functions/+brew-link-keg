@@ -4,7 +4,7 @@
 # Put keg-only homebrew formulae and GNU tool directories on $PATH.
 #
 # Entries are added through the path array, which .zprofile declares -U, so repeated
-# calls cannot accumulate duplicates the way string concatenation did.
+# calls cannot accumulate duplicates.
 
 emulate -L zsh
 setopt extendedglob

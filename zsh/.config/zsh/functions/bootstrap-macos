@@ -1,7 +1,7 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
 #
-# bootstrap-macos - apply this machine's macOS system preferences
+# Apply this machine's macOS system preferences.
 #
 # Targets macOS 26 (Tahoe). Some changes still require a logout/restart to take effect.
 #
@@ -48,9 +48,8 @@ builtin zparseopts -D -E -F -K -- \
   {n,-dry-run}=flag_dry \
   {o,-only}+:=opt_only || return 1
 
-# -F rejects unknown *options* but leaves operands in $@, so without this `bootstrap-macos
-# dock` -- the obvious slip for `-o dock` -- would fall through to the run-everything
-# branch below and apply all 21 sections.
+# -F rejects unknown options but leaves operands in $@, so without this a slip like
+# `bootstrap-macos dock` (meaning `-o dock`) would fall through and apply all 21 sections.
 if (($#)); then
   log::error "unexpected argument: ${1}"
   builtin print -u2 -- "did you mean: bootstrap-macos --only ${1}"
@@ -71,14 +70,12 @@ fi
 local -a run=()
 (($#flag_dry)) && run=(builtin print -r --)
 
-# Counts failures that are survivable -- a missing tool or an unwritable file should not
-# abort the remaining sections, but the function must still exit non-zero so a caller in a
-# Makefile or launchd job sees that something did not apply.
+# A missing tool or unwritable file should not abort the remaining sections, but the
+# function must still exit non-zero so a Makefile or launchd caller sees the failure.
 local -i failures=0
 
-# --only may be given repeatedly and/or comma-separated; zparseopts leaves us flag/value
-# pairs. The +:= above is what makes it repeatable -- with a plain := only the last
-# occurrence survives and this loop could never run more than once.
+# --only may be repeated or comma-separated; the +:= above is what makes it repeatable,
+# since a plain := keeps only the last occurrence.
 local -a want=()
 local -A do_section
 local s i

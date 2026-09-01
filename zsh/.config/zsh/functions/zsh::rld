@@ -1,5 +1,7 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Validate the Zsh dotfiles, then restart the shell.
 
 builtin emulate -L zsh -o EXTENDED_GLOB
 

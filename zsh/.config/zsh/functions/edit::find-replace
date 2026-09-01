@@ -5,8 +5,8 @@
 #
 #   edit::find-replace old new
 #
-# Hidden files and directories are skipped, as they were by the find(1) call this
-# replaces. zargs batches the file list so the argument list cannot overflow.
+# Hidden files are skipped intentionally, matching the find(1) call this replaces; zargs
+# batches the list (it ships with zsh, not this repo) so the argument list cannot overflow.
 
 emulate -L zsh
 setopt extendedglob

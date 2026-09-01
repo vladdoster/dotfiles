@@ -1,7 +1,7 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
 #
-# zsh::fix-insecure-dirs - drop group-write from every directory compaudit flags
+# Drop group-write from every directory compaudit flags.
 #
 # chmod(1) on macOS has no -- terminator, and compaudit only ever reports absolute
 # paths, so the argument list needs no separator.
