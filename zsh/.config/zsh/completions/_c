@@ -4,3 +4,5 @@ _arguments -C -A '-*' \
     '(-d --debug)'{-d,--debug}'[Enable debug mode]'               \
     '(-h --help)'{-h,--help}'[Show list of command-line options]' \
     "1:directory:_files -/ -W $HOME/code -g '*(/N)'"
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

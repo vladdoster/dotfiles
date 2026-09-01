@@ -1,5 +1,4 @@
 #compdef wezterm::bring-pane
-# vim: ft=zsh sw=2 ts=2 et
 
 __wezterm_pane_targets() {
   local json
@@ -32,3 +31,5 @@ _arguments -A '-*' \
   '(--left --right --top --bottom)--top[Split above]'                 \
   '(--left --right --top --bottom)--bottom[Split below]'              \
   '1:tab title or id:__wezterm_pane_targets'
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
