@@ -1,69 +1,55 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
-
 #
-# emoji
-#
+# Print a text emoji, optionally copying it to the clipboard.
 
-###
-# Output usage information
-###
-function _emoji_usage() {
-  builtin print -- "Usage:"
-  builtin print -- "  emoji <options> [dissappointed|flip|shrug]"
-  builtin print --
-  builtin print -- "Options:"
-  builtin print -- "  -c, --copy    Copy the emoji to the clipboard"
-  builtin print -- "  -h, --help    Show this help message"
-  builtin print -- "  -p, --print   Print the emoji (default)"
-}
-
-###
-# emoji command
-###
 emulate -L zsh
-setopt extended_glob
+setopt extendedglob
 zmodload zsh/zutil || return 1
 
-local flag_copy flag_help flag_print
-
+local -a flag_copy flag_help flag_print
 zparseopts -D -E -F -K -- \
-  {c,-copy}=flag_copy \
-  {h,-help}=flag_help \
-  {p,-print}=flag_print \
-  || return 1
+    {c,-copy}=flag_copy \
+    {h,-help}=flag_help \
+    {p,-print}=flag_print \
+    || return 1
 
-# Output help and return if requested
-if [[ -n $flag_help ]]; then
-  _emoji_usage
-  return
-fi
-
-if (( $#@ > 1 )); then
-  builtin print 'emoji: You must only specify one emoji'
-  return 1
-elif (( $#@ == 0 )); then
-  builtin print 'emoji: You must specify an emoji'
-  return 1
-else
-  local emoji=$@
-fi
-
-typeset -gA EMOJIS=(
-  dissappointed 'ಠ_ಠ'
-  flip '（╯°□°）╯ ┻━┻'
-  shrug '¯\_(ツ)_/¯'
+local -A emojis=(
+    disappointed 'ಠ_ಠ'
+    flip '（╯°□°）╯ ┻━┻'
+    shrug '¯\_(ツ)_/¯'
 )
 
-if { (){ [ ${(P)${:-${1}[$2]}} ]; } EMOJIS $1 }; then
-  if (( $#flag_copy )); then
-    print -n "emoji: ${emoji} copied to clipboard"
-    print -nr -- ${EMOJIS[$1]} | pbcopy -pboard general
-  else
-    print -nr -- ${EMOJIS[$1]}
-  fi
+if (( $#flag_help )); then
+    print -r -- 'Usage:'
+    print -r -- "  $0 <options> [${(kj:|:)emojis}]"
+    print -r --
+    print -r -- 'Options:'
+    print -r -- '  -c, --copy    Copy the emoji to the clipboard'
+    print -r -- '  -h, --help    Show this help message'
+    print -r -- '  -p, --print   Print the emoji (default)'
+    return 0
+fi
+
+if (( $# > 1 )); then
+    log::error "$0: only one emoji may be given"
+    return 1
+fi
+
+if (( ! $# )); then
+    log::error "$0 requires an emoji name"
+    return 1
+fi
+
+if (( ! $+emojis[$1] )); then
+    log::error "$0: unknown emoji: $1"
+    print -u2 -r -- "valid emojis: ${(kj:, :)emojis}"
+    return 1
+fi
+
+if (( $#flag_copy )); then
+    print -nr -- $emojis[$1] | pbcopy -pboard general || return 1
+    print -r -- "$0: $1 copied to clipboard"
 else
-  print "emoji: Unknown emoji: $1"
-  print -nPr -- "emoji: Valid emojis: ${(kpj|, |)EMOJIS}"
-  return 1
+    print -nr -- $emojis[$1]
 fi

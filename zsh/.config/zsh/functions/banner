@@ -1,18 +1,26 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Print its arguments as a centred figlet banner.
 
-builtin emulate -L zsh -o EXTENDED_GLOB
+emulate -L zsh
+zmodload zsh/zutil || return 1
 
-local flag_help flag_verbose
-local -a usage=( "banner [-h|--help] [message ...]" )
+local -a opt_help
+zparseopts -D -F -K -- {h,-help}=opt_help || return 1
 
-zmodload zsh/zutil
-zparseopts -D -F -K -- {h,-help}=flag_help || return 1
-
-[[ -z "$flag_help" ]] || { print -l $usage && return }
-if (( $#@ )); then
-  echo -e "\e[1;96m $(figlet -c -w$COLUMNS $@) \e[0m"
-  return 0
-else
-  print -l $usage && return 1
+if (( $#opt_help )); then
+    print -r -- "Usage: $0 [-h|--help] [message ...]"
+    return 0
 fi
+
+if (( ! $# )); then
+    print -u2 -- "Usage: $0 [-h|--help] [message ...]"
+    return 1
+fi
+
+(( $+commands[figlet] )) || { log::error "$0 requires figlet"; return 1 }
+
+local on=${(%):-'%B%F{cyan}'} off=${(%):-'%f%b'}
+
+print -r -- "${on}$(command figlet -c -w${COLUMNS:-80} -- "$@")${off}"

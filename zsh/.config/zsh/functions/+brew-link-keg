@@ -1,59 +1,68 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
 #
-# brew-link-keg
+# Put keg-only homebrew formulae and GNU tool directories on $PATH.
 #
+# Entries are added through the path array, which .zprofile declares -U, so repeated
+# calls cannot accumulate duplicates the way string concatenation did.
 
-+brew-link-keg () {
-    __brew-link-keg_usage () {
-        print -- 'Usage: +brew-link-keg [options] [keg-pattern ...]'
-        print -- 'Options:'
-        print -- '  -a, --all          add all unlinked kegs found'
-        print -- '  -d, --debug        turn on execution tracing'
-        print -- '  -h, --help         show list of command-line options'
-    }
-    setopt localoptions extended_glob
-    zmodload zsh/zutil || return 1
-    local all base debug dryrun help
-    builtin zparseopts -D -E -F -K a=all -all=all d=debug -debug=debug h=help -help=help || return 1
-    if (( $#help )); then
-        __brew-link-keg_usage
-        return 0
-    fi
-    if (( $#debug )); then
-        setopt xtrace
-    fi
-    local -a arguments=(${(q+)^@})
-    if (( $#all )); then
-        arguments=('(*)')
-    fi
-    print -- "${#arguments} args: ${(@pj:, :)arguments}"
-    brew_keg_only=($(brew info --installed --json=v1 | jq --raw-output --compact-output  'map(select(.keg_only == true)) | map(.name) | @sh'))
-    if (( ${#brew_keg_only} > 0 )); then
-        local HOMEBREW_PREFIX="$(brew --prefix)"
-        local -a subarray
-        subarray=(${(M)brew_keg_only:#*${~1:-${~arguments[@]}}*})
-        for keg in ${(@on)subarray}; do
-            PATH="${HOMEBREW_PREFIX}/opt/${(Q)keg}/bin:${PATH}"
-            builtin print -P -- "%F{green}==>%f [+] ${(Q)keg}"
-        done
-    fi
-    local f_path util
-    local -a gnu_paths=(/opt/homebrew/opt /usr/local/opt)
-    for f_path in $gnu_paths; do
-        if [[ -e $f_path ]]; then
-            local -a gnu_tools=($(find $f_path -follow -type d -name gnubin -prune -print))
-            if (( ${#gnu_tools} > 0 )); then
-                builtin print -P -- "%F{cyan}==>%f found utils in ${(Q)f_path}"
-                local -a subarray=()
-                subarray=(${(M)gnu_tools:#*${~1:-${~arguments[@]}}*})
-                for util in ${(@on)subarray}; do
-                    PATH="${(Q)util}:${PATH}"
-                    util_name="$(print -n -- ${util}/*(N-*:t))"
-                    builtin print -P -- "%F{green}==>%f [+] ${(Q)util_name}"
-                done
-            fi
-        fi
-    done
-    typeset -Ugx PATH
-}
+emulate -L zsh
+setopt extendedglob
+zmodload zsh/zutil || return 1
+
+local -a opt_all opt_debug opt_help
+builtin zparseopts -D -E -F -K -- \
+    {a,-all}=opt_all \
+    {d,-debug}=opt_debug \
+    {h,-help}=opt_help \
+    || return 1
+
+if (( $#opt_help )); then
+    print -r -- "Usage: $0 [options] [keg-pattern ...]"
+    print -r -- 'Options:'
+    print -r -- '  -a, --all          add all unlinked kegs found'
+    print -r -- '  -d, --debug        turn on execution tracing'
+    print -r -- '  -h, --help         show list of command-line options'
+    return 0
+fi
+
+(( $#opt_debug )) && setopt xtrace
+
+(( $+commands[brew] )) || { log::error "$0 requires brew"; return 1 }
+(( $+commands[jq] )) || { log::error "$0 requires jq"; return 1 }
+
+local -a patterns=("$@")
+(( $#opt_all || ! $#patterns )) && patterns=('*')
+
+local prefix=${commands[brew]:h:h}
+local pat keg util name
+
+# --raw-output already prints one name per line; @sh only added quotes to strip again
+local -a keg_only=(${(f)"$(command brew info --installed --json=v1 |
+    command jq --raw-output 'map(select(.keg_only == true)) | .[].name')"})
+
+local -a selected=()
+
+for pat in $patterns; do
+    selected+=(${(M)keg_only:#*${~pat}*})
+done
+
+for keg in ${(uo)selected}; do
+    path=($prefix/opt/$keg/bin $path)
+    print -P -- "%F{green}==>%f [+] ${keg}"
+done
+
+local -a gnu_prefixes=(/opt/homebrew/opt /usr/local/opt)
+local -a gnubins=(${^gnu_prefixes}/*/libexec/gnubin(N/))
+
+selected=()
+
+for pat in $patterns; do
+    selected+=(${(M)gnubins:#*${~pat}*})
+done
+
+for util in ${(uo)selected}; do
+    name=${${util:h:h}:t}
+    path=($util $path)
+    print -P -- "%F{green}==>%f [+] ${name}"
+done

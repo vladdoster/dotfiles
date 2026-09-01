@@ -1,60 +1,47 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
 #
-# add-to-path
+# Add a directory to $PATH.
 #
+# The path array is tied to PATH and declared -U in .zprofile, so assigning through it
+# keeps the entries unique; building the PATH string by hand defeated that.
 
-add-to-path() {
-    _add-to-path_usage() {
-        print 'Usage: add-to-path [options] <directory>'
-        print 'Options:'
-        print '  -d, --debug        turn on execution tracing'
-        print '  -h, --help         show list of command-line options'
-        print '  -p, --prepend      prepend filepath to $PATH'
-    }
+emulate -L zsh
+setopt extendedglob
+zmodload zsh/zutil || return 1
 
-    setopt localoptions extended_glob
-    zmodload zsh/zutil || return 1
+local -a opt_help opt_debug opt_prepend
+builtin zparseopts -D -F -E -K -- \
+    {h,-help}=opt_help \
+    {d,-debug}=opt_debug \
+    {p,-prepend}=opt_prepend \
+    || return 1
 
-    local base debug help prepend
-    builtin zparseopts -D -F -E -K h=help -help=help d=debug -debug=debug p=prepend -prepend=prepend || return 1
-    if (($#debug)); then
-        setopt xtrace
-    fi
-    if (($#help)); then
-        _add-to-path_usage
-        return 0
-    fi
+if (( $#opt_help )); then
+    print -r -- "Usage: $0 [options] <directory>"
+    print -r -- 'Options:'
+    print -r -- '  -d, --debug        turn on execution tracing'
+    print -r -- '  -h, --help         show list of command-line options'
+    print -r -- '  -p, --prepend      prepend filepath to $PATH'
+    return 0
+fi
 
-    if (($# > 1)); then
-        print 'add-to-path: only one directory is allowed'
-        return 1
-    fi
-    if (($# < 1)); then
-        print 'add-to-path: one directory is required'
-        return 1
-    fi
-    local error_msg
-    if [[ ! -e ${1} ]]; then
-        error_msg='does not exist'
-    elif [[ ! -d ${1} ]]; then
-        error_msg='must be a directory'
-    fi
+(( $#opt_debug )) && setopt xtrace
 
-    if (($#error_msg)); then
-        print -P -- "add-to-path: path ${(qq)1} ${error_msg}"
-        return 1
-    fi
+if (( $# != 1 )); then
+    log::error "$0 requires exactly one directory"
+    return 1
+fi
 
-    # if [[ ${path[(i)$1]} -gt ${#path} ]]; then
-    #     print 'add-to-path: removed pre-existing entry in path'
-    # fi
+if [[ ! -d $1 ]]; then
+    log::error "$0: not a directory: ${(qq)1}"
+    return 1
+fi
 
-    if (($#prepend)); then
-        export PATH="${1}:${PATH}"
-        print 'add-to-path: prepended entry to path'
-    else
-        export PATH="${PATH}:${1}"
-        print 'add-to-path: appended entry to path'
-    fi
-}
+if (( $#opt_prepend )); then
+    path=($1 $path)
+    log::info "$0: prepended ${(D)1}"
+else
+    path+=($1)
+    log::info "$0: appended ${(D)1}"
+fi

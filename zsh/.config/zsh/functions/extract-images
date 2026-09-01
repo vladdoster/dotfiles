@@ -21,6 +21,10 @@
 # https://zsh.sourceforge.io/Doc/Release/Invocation.html#Invocation
 builtin emulate -L zsh -o EXTENDED_GLOB
 
+if (( ! $# )); then
+    log::error "$0 requires a file"
+    return 1
+fi
 
 # Declare which field separators to use for ${=...}, below.
 # https://zsh.sourceforge.io/Doc/Release/Parameters.html#Parameters-Used-By-The-Shell
@@ -34,7 +38,11 @@ local +h IFS='<>"()'
 #         "...":  ensures all whitespace inside, incl. newlines, is kept as is
 #       ${=...}:  splits the string on ${IFS}
 # reply=( ... ):  places the resulting strings into array ${reply}
-local reply=( ${="$( < $1 )"} )
+#
+# reply is deliberately not declared local: zsh scopes dynamically, so assigning to the
+# name writes to the caller's `local -a reply`, which is how the caller reads the result.
+# Declaring it here would shadow that binding and the caller would always see nothing.
+reply=( ${="$( < $1 )"} )
 
 # If there is no such substring, discard the entire string (since we did not
 # wrap the expression in "double quotes").

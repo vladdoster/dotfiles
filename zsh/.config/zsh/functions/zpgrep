@@ -1,42 +1,50 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
-
 #
-# zpgrep
-#
+# Print the lines of each file that match a PCRE, or of stdin when given no file.
 
-zmodload zsh/zutil || return
-opt_help=
-cli_usage=("Usage: zpgrep [-h|--help] <perl5-compatible regex> <file1> <file2> ... <fileN>")
+emulate -L zsh
+setopt extendedglob
+zmodload zsh/zutil || return 1
+zmodload zsh/pcre || return 1
+
+local -a opt_help
 zparseopts -D -F -K -- {h,-help}=opt_help || return 1
-[[ -z "$opt_help" ]] || {
-  builtin print -l $cli_usage && return 0
-}
 
-local file pattern ret
-
-pattern=$1
-shift
-ret=1
-
-if ((! ARGC)) then
-	set -- -
+if (( $#opt_help )); then
+    print -r -- "Usage: $0 [-h|--help] <perl5-compatible regex> [file ...]"
+    return 0
 fi
 
-zmodload zsh/pcre || return
-pcre_compile -- "$pattern"
+if (( ! $# )); then
+    log::error "$0 requires a pattern"
+    return 1
+fi
+
+local pattern=$1
+shift
+
+pcre_compile -- $pattern || return 1
 pcre_study
 
-for file
-do
-	if [[ "$file" == - ]] then
-		while IFS= read -ru0 buf; do
-			pcre_match -- "$buf" && ret=0 && print -r -- "$buf"
-		done
-	else
-		while IFS= read -ru0 buf; do
-			pcre_match -- "$buf" && ret=0 && print -r -- "$buf"
-		done < "$file"
-	fi
+local file line
+integer stat=1
+
+if (( ! $# )); then
+    while IFS= read -r line; do
+        pcre_match -- $line && { stat=0; print -r -- $line }
+    done
+    return $stat
+fi
+
+for file; do
+    if [[ ! -r $file ]]; then
+        log::error "$0: cannot read: $file"
+        continue
+    fi
+    for line in ${(f)"$(<$file)"}; do
+        pcre_match -- $line && { stat=0; print -r -- $line }
+    done
 done
-return "$ret"
+
+return $stat

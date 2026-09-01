@@ -1,64 +1,102 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Extract one or more archives, optionally removing each one afterwards.
+#
+#   extract [-r|--remove] file ...
+#
+# Returns non-zero if any archive failed, so a caller can tell what happened.
 
-extract () {
-    local remove_archive
-    local success
-    local file_name
-    local extract_dir
-    if [[ "$1" == "" ]]; then
-        echo "Usage: extract [-option] [file ...]"
-        echo
-        echo "Options:"
-        echo "    -r, --remove : Remove archive."
-        echo
-    fi
-    remove_archive=1 
-    if [[ "$1" == "-r" ]] || [[ "$1" == "--remove" ]]; then
-        remove_archive=0 
+emulate -L zsh
+setopt extendedglob
+
+integer remove=0
+
+if [[ $1 == (-r|--remove) ]]; then
+    remove=1
+    shift
+fi
+
+if (( ! $# )); then
+    print -r -- "Usage: $0 [-r|--remove] [file ...]"
+    print -r --
+    print -r -- 'Options:'
+    print -r -- '    -r, --remove : Remove archive.'
+    return 1
+fi
+
+local dir
+integer stat=0 failed
+
+while (( $# )); do
+    if [[ ! -f $1 ]]; then
+        log::error "$0: not a valid file: $1"
+        stat=1
         shift
+        continue
     fi
-    while [ -n "$1" ]; do
-        if [[ ! -f "$1" ]]; then
-            print "'$1' is not a valid file"
-            shift
-            continue
-        fi
-        success=0 
-        file_name="$( basename "$1" )" 
-        extract_dir="$( echo "$file_name" | sed "s/\.${1##*.}//g" )" 
-        case "$1" in
-            (*.tar.gz|*.tgz) tar xvzf "$1" ;;
-            (*.tar.bz2|*.tbz|*.tbz2) tar xvjf "$1" ;;
-            (*.tar.xz|*.txz) tar --xz --help &> /dev/null && tar --xz -xvf "$1" || xzcat "$1" | tar xvf - ;;
-            (*.tar.zma|*.tlz) tar --lzma --help &> /dev/null && tar --lzma -xvf "$1" || lzcat "$1" | tar xvf - ;;
-            (*.tar.zstd) tar -I zstd -xvf "$1" ;;
-            (*.tar) tar xvf "$1" ;;
-            (*.gz) gunzip "$1" ;;
-            (*.bz2) bunzip2 "$1" ;;
-            (*.xz) unxz "$1" ;;
-            (*.lzma) unlzma "$1" ;;
-            (*.Z) uncompress "$1" ;;
-            (*.zip) unzip "$1" -d $extract_dir ;;
-            (*.rar) unrar e -ad "$1" ;;
-            (*.7z) 7za x "$1" ;;
-            (*.deb) mkdir -p "$extract_dir/control"
-                mkdir -p "$extract_dir/data"
-                cd "$extract_dir"
-                ar vx "../${1}" > /dev/null
-                cd control
-                tar xzvf ../control.tar.gz
-                cd ../data
-                tar xzvf ../data.tar.gz
-                cd ..
-                rm *.tar.gz debian-binary
-                cd .. ;;
-            (*) print "'$1' cannot be extracted" >&2
-                success=1  ;;
-        esac
-        (( success = $success > 0 ? $success : $? ))
-        (( $success == 0 )) && (( $remove_archive == 0 )) && rm "$1"
-        shift
-    done
-    return 0
-}
+
+    dir=${${1:t}%.*}
+    failed=0
+
+    case $1 in
+        (*.tar.gz|*.tgz) command tar xvzf $1 || failed=1 ;;
+        (*.tar.bz2|*.tbz|*.tbz2) command tar xvjf $1 || failed=1 ;;
+        (*.tar.xz|*.txz)
+            if command tar --xz --help &>/dev/null; then
+                command tar --xz -xvf $1 || failed=1
+            else
+                command xzcat $1 | command tar xvf - || failed=1
+            fi
+            ;;
+        (*.tar.zma|*.tlz)
+            if command tar --lzma --help &>/dev/null; then
+                command tar --lzma -xvf $1 || failed=1
+            else
+                command lzcat $1 | command tar xvf - || failed=1
+            fi
+            ;;
+        (*.tar.zstd) command tar -I zstd -xvf $1 || failed=1 ;;
+        (*.tar) command tar xvf $1 || failed=1 ;;
+        (*.gz) command gunzip $1 || failed=1 ;;
+        (*.bz2) command bunzip2 $1 || failed=1 ;;
+        (*.xz) command unxz $1 || failed=1 ;;
+        (*.lzma) command unlzma $1 || failed=1 ;;
+        (*.Z) command uncompress $1 || failed=1 ;;
+        (*.zip) command unzip $1 -d $dir || failed=1 ;;
+        (*.rar) command unrar e -ad $1 || failed=1 ;;
+        (*.7z) command 7za x $1 || failed=1 ;;
+        (*.deb)
+            # the archive path must be resolved before descending into $dir
+            local archive=${1:A}
+            command mkdir -p $dir/control $dir/data || failed=1
+            if (( ! failed )); then
+                pushd -q $dir || failed=1
+            fi
+            if (( ! failed )); then
+                {
+                    command ar vx $archive >/dev/null &&
+                        command tar xzvf control.tar.gz -C control &&
+                        command tar xzvf data.tar.gz -C data &&
+                        command rm -f -- *.tar.gz(N) debian-binary(N) || failed=1
+                } always {
+                    popd -q
+                }
+            fi
+            ;;
+        (*)
+            log::error "$0: cannot be extracted: $1"
+            failed=1
+            ;;
+    esac
+
+    if (( failed )); then
+        stat=1
+    elif (( remove )); then
+        command rm -f -- $1 || stat=1
+    fi
+
+    shift
+done
+
+return $stat
