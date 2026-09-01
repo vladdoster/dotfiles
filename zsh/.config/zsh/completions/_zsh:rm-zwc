@@ -1,5 +1,0 @@
-#compdef zsh:rm-zwc
-
-_arguments '(-h --help)'{-h,--help}'[Show usage]'
-
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

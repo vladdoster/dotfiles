@@ -8,3 +8,4 @@ git/**/credentials
 init-buildx
 stow.git
 zsh[-_]history
+*.zwc
