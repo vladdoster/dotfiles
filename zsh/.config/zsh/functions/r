@@ -1,31 +1,34 @@
 #autoload
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Reload every autoloaded function from $ZDOTDIR/functions.
 
 emulate -LR zsh
-zmodload zsh/zutil || return
-setopt typeset_silent extended_glob
+setopt extendedglob typeset_silent
 
-local help debug trace
-zparseopts -D -E -F -K -- {d,-debug}=debug {h,-help}=help {t,-trace}=trace || return 1
+zmodload zsh/zutil || return 1
 
-if (( $#help )); then
-  print "Usage: ${0} [options]"
-  print 'Options:'
-  print '  -d, --debug       enables debug mode'
-  print '  -h, --help        show list of command-line options'
-  print '  -t, --trace       autoload functions with tracing'
-  return 0
+local -a opt_debug opt_help opt_trace
+zparseopts -D -E -F -K -- {d,-debug}=opt_debug {h,-help}=opt_help {t,-trace}=opt_trace || return 1
+
+if (( $#opt_help )); then
+    print -r -- "Usage: $0 [options]"
+    print -r -- 'Options:'
+    print -r -- '  -d, --debug       enables debug mode'
+    print -r -- '  -h, --help        show list of command-line options'
+    print -r -- '  -t, --trace       autoload functions with tracing'
+    return 0
 fi
 
-if (( $#debug )); then
-  PS4='
-  \\n[%B+%i%b] '
-  setopt xtrace
-  print -r -- "$# args ${(j:, :Q)^@}"
+if (( $#opt_debug )); then
+    local PS4='
+  \n[%B+%i%b] '
+    setopt xtrace
 fi
 
-local -a f
-f=(${ZDOTDIR}/functions/*(.:t))
-unfunction ${f:t} 2> /dev/null
-autoload ${trace:+-T} ${f:t}
+local -a fns=(${ZDOTDIR:-$HOME/.config/zsh}/functions/*(N.:t))
 
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+(( $#fns )) || return 0
+
+unfunction $fns 2>/dev/null
+builtin autoload -Uz ${opt_trace:+-T} -- $fns

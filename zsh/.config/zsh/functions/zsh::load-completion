@@ -1,18 +1,30 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Load a tool's zsh completion by running its completion subcommand.
+#
+# The script is captured first: `source <(cmd)` returns the status of source, which
+# succeeds on the empty file a failing command leaves behind, so every tool looked like
+# it had completions.
 
 builtin emulate -L zsh -o EXTENDED_GLOB
 
-# autoload -Uz compinit && compinit
-if source <(${1} completion zsh); then
-    compdef _${1} ${1}
-    log::info "$1 completion loaded"
-    return 0
-elif source <(${1} completion -s zsh); then
-    compdef _${1} ${1}
-    log::info "$1 completion loaded"
-    return 0
-else
-    log::error "Unable to generate $1 completion"
+if (( ! $# )); then
+    log::error "$0 requires a command name"
     return 1
 fi
+
+local script
+
+script=$($1 completion zsh 2>/dev/null) || script=$($1 completion -s zsh 2>/dev/null)
+
+if [[ -z $script ]]; then
+    log::error "unable to generate $1 completion"
+    return 1
+fi
+
+builtin eval "$script" || return 1
+
+(( $+functions[compdef] )) && compdef _$1 $1
+
+log::info "$1 completion loaded"

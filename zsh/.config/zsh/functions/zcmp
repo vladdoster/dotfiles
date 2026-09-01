@@ -1,22 +1,27 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Edit completion files by name, adding the leading underscore if it is missing.
+#
+# With no arguments, cd to the completions directory instead.
 
 emulate -L zsh
-zmodload zsh/zutil || return
+setopt extendedglob
+zmodload zsh/zutil || return 1
 
-local help verbose message file=(default)
-zparseopts -D -F -K -- {h,-help}=help || return
+local -a opt_help
+zparseopts -D -F -K -- {h,-help}=opt_help || return 1
 
-if (( $#help )); then
-    print -rC1 -- "$0 [-h|--help] [file ...]"
+if (( $#opt_help )); then
+    print -r -- "Usage: $0 [-h|--help] [completion ...]"
+    return 0
+fi
+
+local base=${ZDOTDIR:-$HOME/.config/zsh}/completions
+
+if (( ! $# )); then
+    builtin cd -- $base
     return
 fi
 
-# print -r -- "file: ${(q+)file[-1]}"
-# print -rC1 -- "message: "${(q+)^@}
-cd -q "$ZDOTDIR/completions"
-if (( ${#${(q+)^@}} )); then
-    nvim -O ${(q+)^@}
-fi
-
-return 0
+${EDITOR:-vi} -O -- $base/_${^@#_}

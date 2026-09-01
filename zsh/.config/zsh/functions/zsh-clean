@@ -1,51 +1,51 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
-
 #
-# zsh-clean
-# Remove zsh generated files & directories
+# Remove the files zsh generates below $ZDOTDIR: compdumps, session logs and digests.
 #
-zsh-clean () {
-    _zsh_clean_usage () {
-        print -- 'Usage: zsh-clean [options]'
-        print -- 'Options:'
-        print -- '  --debug            turn on execution tracing'
-        print -- '  --dryrun           show files that would be deleted'
-        print -- '  -h, --help         show list of command-line options'
-    }
+# globdots is needed because the main target, .zcompdump, is a hidden file and plain
+# globbing skips those.
 
-    setopt localoptions extended_glob
-    zmodload zsh/zutil || return 1
+emulate -L zsh
+setopt extendedglob globdots
+zmodload zsh/zutil || return 1
+zmodload zsh/files || return 1
 
-    local base debug dryrun help
-    builtin zparseopts -D -E -F -K \
-        h=help -help=help \
-        -debug=debug \
-        -dryrun=dryrun ||
-        return 1
+local -a opt_help opt_debug opt_dryrun
+zparseopts -D -E -F -K -- \
+    {h,-help}=opt_help \
+    -debug=opt_debug \
+    -dryrun=opt_dryrun \
+    || return 1
 
-    if (( $#help )); then
-        _zsh_clean_usage
-        return 0
-    fi
+if (( $#opt_help )); then
+    print -r -- "Usage: $0 [options]"
+    print -r -- 'Options:'
+    print -r -- '      --debug        turn on execution tracing'
+    print -r -- '      --dryrun       show files that would be deleted'
+    print -r -- '  -h, --help         show list of command-line options'
+    return 0
+fi
 
-    (( $#debug )) && setopt xtrace
+(( $#opt_debug )) && setopt xtrace
 
-    base="${ZDOTDIR:-$HOME/.config/zsh}" 
-    local -a to_delete=( $(print "${ZDOTDIR}"/**/*.z(comp*|sh_sessions|wc)(N)) ) 
-    if (( $#to_delete )); then
-        if (( $#dryrun )); then
-            print "zsh-clean: would remove ${#to_delete} files:"
-            print -C 4 -- $(for f in ${to_delete[@]}; print -- ${f:t})
-        else
-            rm -rf ${to_delete[@]}
-            if (( $? == 0 )); then
-                print "zsh-clean: removed ${#to_delete} files"
-            else
-                print "zsh-clean: failed to remove files"
-            fi
-        fi
-    else
-        print -- "zsh-clean: no files to clean"
-    fi
-}
+local base=${ZDOTDIR:-$HOME/.config/zsh}
+local -a to_delete=($base/**/*.z(comp*|sh_sessions|wc)(N.))
+
+if (( ! $#to_delete )); then
+    print -r -- "$0: no files to clean"
+    return 0
+fi
+
+if (( $#opt_dryrun )); then
+    print -r -- "$0: would remove $#to_delete files:"
+    print -C 4 -- ${to_delete:t}
+    return 0
+fi
+
+if rm -f $to_delete; then
+    print -r -- "$0: removed $#to_delete files"
+else
+    log::error "$0: failed to remove files"
+    return 1
+fi

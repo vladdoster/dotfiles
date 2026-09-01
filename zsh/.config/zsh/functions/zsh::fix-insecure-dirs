@@ -3,6 +3,8 @@
 #
 # zsh::fix-insecure-dirs - drop group-write from every directory compaudit flags
 #
+# chmod(1) on macOS has no -- terminator, and compaudit only ever reports absolute
+# paths, so the argument list needs no separator.
 
 builtin emulate -L zsh
 
@@ -27,4 +29,4 @@ builtin zparseopts -D -E -F -K -- {d,-debug}=flag_debug {h,-help}=flag_help || r
 
 local -a insecure=(${(f)"$(compaudit)"})
 (( $#insecure )) || return 0
-chmod g-w -- $insecure
+command chmod g-w $insecure

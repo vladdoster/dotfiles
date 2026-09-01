@@ -1,11 +1,34 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# List the function definitions found in a file.
 
-builtin emulate -L zsh -o EXTENDED_GLOB
+emulate -L zsh
+setopt extendedglob
 
-# print "$1 contains functions:\n--------------------"
-local -a fns=($(grep -E '^.*\(\).\{$' $(realpath ${1}) | tr -d \{\(\) | awk '{print $1}' | sort))
-print "$1 contains ${#fns} functions:\n--------------------"
-for f in $(grep -E '^.*\(\).\{$' $(realpath ${1}) | tr -d \{\(\) | awk '{print $1}' | sort); do
-    echo "$f"
+if (( ! $# )); then
+    log::error "$0 requires a file"
+    return 1
+fi
+
+local file=${1:A}
+
+if [[ ! -r $file ]]; then
+    log::error "$0: cannot read: $1"
+    return 1
+fi
+
+local line
+local MATCH MBEGIN MEND
+local -a match mbegin mend
+local -a fns=()
+
+for line in ${(f)"$(<$file)"}; do
+    [[ $line == (#b)([^[:space:]]##)[[:space:]]#\(\)[[:space:]]#\{* ]] && fns+=($match[1])
 done
+
+fns=(${(o)fns})
+
+print -r -- "$1 contains $#fns functions:"
+print -r -- '--------------------'
+print -rl -- $fns
