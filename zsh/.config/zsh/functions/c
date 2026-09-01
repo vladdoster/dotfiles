@@ -1,46 +1,35 @@
 #autoload
-# -*- mode: zsh; sh-indentation: 2; indent-tabs-mode: nil; sh-basic-offset: 2; -*-
-# vim: ft=zsh sw=2 ts=2 et
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# cd to a project below ~/code and list it.
 
-c () {
-  emulate -LR zsh
-  zmodload zsh/zutil || return
-  setopt typeset_silent extended_glob
-  local help debug
-  zparseopts -D -F -K -F -- {d,-debug}=debug {h,-help}=help || return 1
-  if (( $#help )); then
-    print "Usage: $0 [options] DIR"
-    print 'Options:'
-    print '  -d, --debug            turn on execution tracing'
-    print '  -h, --help             show list of command-line options'
+emulate -L zsh
+setopt extendedglob
+zmodload zsh/zutil || return 1
+
+local -a opt_help opt_debug
+zparseopts -D -F -K -- {h,-help}=opt_help {d,-debug}=opt_debug || return 1
+
+if (( $#opt_help )); then
+    print -r -- "Usage: $0 [-h|--help] [-d|--debug] [directory]"
+    print -r -- 'Options:'
+    print -r -- '  -d, --debug        turn on execution tracing'
+    print -r -- '  -h, --help         show list of command-line options'
     return 0
-  fi
-  if (( $#debug )); then
-    setopt xtrace
-    print -r -- "$# args: ${(j:, :Q)^@}"
-  fi
-  (( $#>1 )) && {
-    print -r "Expected 1 argument, but instead got $#: ${(j:, :Q)^@}"
+fi
+
+(( $#opt_debug )) && setopt xtrace
+
+if (( $# > 1 )); then
+    log::error "$0 expects at most one argument, got $#: ${(j:, :)@}"
     return 1
-  }
-  local codeDir="${HOME}/code"
-  local -i ret
-  (( !$# )) && {
-    builtin cd -- ${codeDir}
-    command ls -A
-    return
-  }
-  () {
-    local -i rc=0
-    [[ -n ${codeDir}/${1}(#q/N) ]]
-    return $?
-  } ${1}
-  ret=$?
-  if (( ret==0 )); then
-    builtin cd -- ${codeDir}/${1}
-    command ls -A
-  else
-    print "Error: ${codeDir}/${1} directory does not exist"
+fi
+
+local dest=$HOME/code/$1
+
+if [[ ! -d $dest ]]; then
+    log::error "$0: no such directory: ${(D)dest}"
     return 1
-  fi
-}
+fi
+
+builtin cd -- $dest && command ls -A

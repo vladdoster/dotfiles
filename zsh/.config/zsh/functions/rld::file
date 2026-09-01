@@ -1,6 +1,20 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Pick a dotfile with fzf and source it.
 
-builtin emulate -L zsh -o EXTENDED_GLOB
+emulate -L zsh
+setopt extendedglob
 
-source "$(find ${DOTFILES:-${HOME}/.config/dotfiles/} -print0 | fzf --read0)"
+local -a files=(${DOTFILES:-$HOME/.config/dotfiles}/**/*(.N))
+
+if (( ! $#files )); then
+    log::error "$0: no files below ${(D)${DOTFILES:-$HOME/.config/dotfiles}}"
+    return 1
+fi
+
+local choice=$(print -rl -- $files | fzf)
+
+[[ -n $choice ]] || return 1
+
+builtin source $choice

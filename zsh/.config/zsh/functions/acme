@@ -1,10 +1,10 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Print its arguments as a highlighted banner.
 
-builtin emulate -L zsh -o EXTENDED_GLOB
+emulate -L zsh
 
-autoload +X -Uz colors
-colors
-rc=$reset_color # because I'm laaaaaazy
+local mark=${(%):-'%F{blue}⚛%f'} on=${(%):-'%K{cyan}%F{black}'} off=${(%):-'%f%k'}
 
-print -- $fg[blue]\⚛$rc $bg[cyan]$fg[black]$@$rc
+print -r -- "${mark} ${on}${*}${off}"

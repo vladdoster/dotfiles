@@ -1,42 +1,37 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
-
 #
-# zdd
-#
+# Open a path below $ZDOTDIR: edit it if it is a file, cd to it and list it otherwise.
 
-zdd () {
-    _zdd_usage () {
-        print 'Usage: zdd [options] [path]'
-        print 'Options:'
-        print '  -d, --debug        turn on execution tracing'
-        print '  -h, --help         show list of command-line options'
-    }
+emulate -L zsh
+setopt extendedglob
+zmodload zsh/zutil || return 1
 
-    setopt localoptions extended_glob
-    zmodload zsh/zutil || return 1
+local -a opt_help opt_debug
+zparseopts -D -F -E -K -- {h,-help}=opt_help {d,-debug}=opt_debug || return 1
 
-    local base debug dest help
-    builtin zparseopts -D -F -E -K h=help -help=help d=debug -debug=debug || return 1
-    if (( $#help )); then
-        _zdd_usage
-        return 0
-    fi
-    if (( $#debug )); then
-        setopt xtrace
-    fi
+if (( $#opt_help )); then
+    print -r -- "Usage: $0 [-h|--help] [-d|--debug] [path]"
+    print -r -- 'Options:'
+    print -r -- '  -d, --debug        turn on execution tracing'
+    print -r -- '  -h, --help         show list of command-line options'
+    return 0
+fi
 
-    base="${ZDOTDIR:-$HOME/.config/zsh}"
-    dest="$base/${1}"
+(( $#opt_debug )) && setopt xtrace
 
-    if [[ -e ${dest} ]]; then
-        if [[ -f ${dest} ]]; then
-            ${+commands[nvim]:-vim} ${dest}
-        else
-            builtin cd -q -- "${dest}" && ${=commands[exa]:-command ls} --all --classify --color=always
-        fi
+local dest=${ZDOTDIR:-$HOME/.config/zsh}/$1
+
+if [[ -f $dest ]]; then
+    ${EDITOR:-vi} -- $dest
+elif [[ -d $dest ]]; then
+    builtin cd -- $dest || return 1
+    if (( $+commands[eza] )); then
+        command eza --all --classify --color=always
     else
-        print "zdd: ${dest} does not exist"
-        return 1
+        command ls -A
     fi
-}
+else
+    log::error "$0: no such path: ${(D)dest}"
+    return 1
+fi

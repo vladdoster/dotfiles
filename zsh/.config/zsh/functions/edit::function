@@ -1,6 +1,27 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Open the file an autoloaded function is defined in.
+#
+# zsh/parameter knows where it loaded each function from, so the path needs no parsing of
+# `type` output. A function that is only marked for autoloading is loaded first, since the
+# source path is recorded at load time.
 
-builtin emulate -L zsh -o EXTENDED_GLOB
+emulate -L zsh
+zmodload zsh/parameter || return 1
 
-$EDITOR $(type "${1}" | grep -oE '[^[:space:]]+$')
+if (( ! $# )); then
+    log::error "$0 requires a function name"
+    return 1
+fi
+
+(( $+functions[$1] )) && builtin autoload +X -- $1 2>/dev/null
+
+local src=$functions_source[$1]
+
+if [[ -z $src ]]; then
+    log::error "$0: not an autoloaded function: $1"
+    return 1
+fi
+
+${EDITOR:-vi} -- $src

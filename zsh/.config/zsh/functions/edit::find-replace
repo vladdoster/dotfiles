@@ -1,6 +1,28 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Replace a pattern in every regular file below the current directory.
+#
+#   edit::find-replace old new
+#
+# Hidden files and directories are skipped, as they were by the find(1) call this
+# replaces. zargs batches the file list so the argument list cannot overflow.
 
-builtin emulate -L zsh -o EXTENDED_GLOB
+emulate -L zsh
+setopt extendedglob
 
-command find . -type f -not -path '*/\.*' -print0 | xargs -0 gsed -i "s/${1}/${2}/g"
+if (( $# != 2 )); then
+    log::error "$0 requires a search and a replacement argument"
+    return 1
+fi
+
+local -a files=(**/*(.N))
+
+if (( ! $#files )); then
+    log::error "$0: no files below ${(D)PWD}"
+    return 1
+fi
+
+autoload -Uz zargs
+
+zargs -- $files -- command gsed -i "s/${1}/${2}/g"

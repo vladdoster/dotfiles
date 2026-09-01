@@ -1,11 +1,8 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
-
-builtin emulate -L zsh -o EXTENDED_GLOB
 #
-# Remove all Docker related resources
-#
+# Run make in the dotfiles checkout.
 
-local DOTFILES=${DOTFILES:-$HOME/.config/dotfiles}
+emulate -L zsh
 
-command make -C "${DOTFILES}" $@
+command make -C ${DOTFILES:-$HOME/.config/dotfiles} "$@"

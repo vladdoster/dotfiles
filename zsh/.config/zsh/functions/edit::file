@@ -1,6 +1,8 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Open the given files in $EDITOR.
 
-builtin emulate -L zsh -o EXTENDED_GLOB
+emulate -L zsh
 
-$EDITOR "$1"
+${EDITOR:-vi} -- "$@"

@@ -1,6 +1,10 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Return true if the argument names a command, function, builtin or alias.
 
-builtin emulate -L zsh -o EXTENDED_GLOB
+emulate -L zsh
 
-command -v "$1" 1> /dev/null 2>&1
+(( $# )) || return 1
+
+builtin whence -- $1 >/dev/null 2>&1

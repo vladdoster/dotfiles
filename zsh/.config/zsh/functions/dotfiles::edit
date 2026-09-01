@@ -1,4 +1,20 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Pick a dotfile with fzf and open it in $EDITOR.
 
-find "${DOTFILES:-$HOME/.config/dotfiles/}" -type f | fzfp | xargs "$EDITOR"
+emulate -L zsh
+setopt extendedglob
+
+local -a files=(${DOTFILES:-$HOME/.config/dotfiles}/**/*(.N))
+
+if (( ! $#files )); then
+    log::error "$0: no files below ${(D)${DOTFILES:-$HOME/.config/dotfiles}}"
+    return 1
+fi
+
+local choice=$(print -rl -- $files | fzfp)
+
+[[ -n $choice ]] || return 1
+
+${EDITOR:-vi} -- $choice

@@ -1,21 +1,28 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Open a path below $XDG_CONFIG_HOME: edit it if it is a file, cd to it otherwise.
 
 emulate -L zsh
-zmodload zsh/zutil || return
+zmodload zsh/zutil || return 1
 
-local help
-zparseopts -D -F -K -- {h,-help}=help || return
-if (( $#help )); then
-    cat <<EOF
-Usage: $0 [options] [target]
-Options:
-  -h, --help         Print this message and exit.
-EOF
-elif [[ -f ${XDG_CONFIG_HOME:-~/.config}/$1 ]]; then
-    ${EDITOR:-nvim} "${XDG_CONFIG_HOME:-~/.config}/$1"
-elif [[ -d ${XDG_CONFIG_HOME:-~/.config}/$1 ]]; then
-    builtin cd -q "${XDG_CONFIG_HOME:-~/.config}/$1"
+local -a opt_help
+zparseopts -D -F -K -- {h,-help}=opt_help || return 1
+
+if (( $#opt_help )); then
+    print -r -- "Usage: $0 [-h|--help] [target]"
+    print -r -- 'Options:'
+    print -r -- '  -h, --help         show list of command-line options'
+    return 0
+fi
+
+local dest=${XDG_CONFIG_HOME:-$HOME/.config}/$1
+
+if [[ -f $dest ]]; then
+    ${EDITOR:-vi} -- $dest
+elif [[ -d $dest ]]; then
+    builtin cd -- $dest
 else
-    log_error "$1 not found"
+    log::error "$0: no such path: ${(D)dest}"
+    return 1
 fi

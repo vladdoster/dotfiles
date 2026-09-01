@@ -1,4 +1,8 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# cd to a path below $XDG_STATE_HOME.
 
-builtin cd "${XDG_STATE_HOME:-$HOME/.local/state}/$1"
+emulate -L zsh
+
+builtin cd -- ${XDG_STATE_HOME:-$HOME/.local/state}/$1
