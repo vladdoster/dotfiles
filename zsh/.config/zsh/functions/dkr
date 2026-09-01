@@ -1,51 +1,33 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
 
-_dkr_is_running () {
-  for ((n = 0; n < 4; n += 1 )) do
-    if docker system info &> /dev/null; then
-      return 0
-    fi
-    _log "$(_color y 'docker system unavailable...') [retry attempt $n/4]"
-    sleep 5
+# Helpers are prefixed so they cannot collide with anything else in the shell; the
+# previous _log and _color were global names any plugin could have claimed.
+
+dkr::log () {
+  builtin print -r -- "${*}"
+}
+
+# colour comes from prompt escapes, so a line costs no subshell
+dkr::log-color () {
+  local color=$1
+  builtin shift
+  # the quotes matter: unquoted, the expansion ends at the brace of %F{...}
+  builtin print -r -- "${(%):-"%F{$color}"}${*}${(%):-%f}"
+}
+
+dkr::running () {
+  zmodload zsh/zselect || return 1
+  integer n
+  for (( n = 0; n < 4; n++ )); do
+    command docker system info &> /dev/null && return 0
+    dkr::log-color yellow "docker system unavailable... [retry attempt ${n}/4]"
+    zselect -t 500
   done
   return 1
 }
-_log () {
-  builtin print -Pr -- "$@"
-}
-_color () {
-  $(builtin type -p color 2>&1 > /dev/null)
-  if [[ $? -ne 0 ]]; then
-    local color=$1 style=$2 b=0
-    builtin shift
-    case $style in
-      (bold | b) b=1
-        builtin shift ;;
-      (italic | i) b=2
-        builtin shift ;;
-      (underline | u) b=4
-        builtin shift ;;
-      (inverse | in) b=7
-        builtin shift ;;
-      (strikethrough | s) b=9
-        builtin shift ;;
-    esac
-    case $color in
-      (black | b) builtin echo "\033[${b};30m${@}\033[0;m" ;;
-      (blue | bl) builtin echo "\033[${b};34m${@}\033[0;m" ;;
-      (cyan | c) builtin echo "\033[${b};36m${@}\033[0;m" ;;
-      (green | g) builtin echo "\033[${b};32m${@}\033[0;m" ;;
-      (magenta | m) builtin echo "\033[${b};35m${@}\033[0;m" ;;
-      (red | r) builtin echo "\033[${b};31m${@}\033[0;m" ;;
-      (white | w) builtin echo "\033[${b};37m${@}\033[0;m" ;;
-      (yellow | y) builtin echo "\033[${b};33m${@}\033[0;m" ;;
-    esac
-    return
-  fi
-  command color "$@"
-}
-_dkr_sandbox_run () {
+
+dkr::sandbox_run () {
   setopt localoptions verbose
   local dockerfile
   case $distro in
@@ -53,7 +35,7 @@ _dkr_sandbox_run () {
     (*) docker run --hostname "sbox-${distro}-${platform}" --interactive --mount source="sbox-${distro}-${platform}",destination=/home --platform "linux/${platform}" --tty sbox-${distro}-${platform} ;;
   esac
 }
-_dkr_sandbox_build () {
+dkr::sandbox_build () {
   setopt localoptions verbose
   local dockerfile
   case $distro in
@@ -132,8 +114,8 @@ EOF
           CMD ["zsh"]
 DOCKERFILE
 )
-      _log $(_color green "Building ${platform} ${distro} container")
-      docker buildx build --load --platform linux/amd64 --progress=plain --tag zinit-minimal:latest - <<EOF
+      dkr::log-color green "Building ${platform} ${distro} container"
+      command docker buildx build --load --platform linux/amd64 --progress=plain --tag zinit-minimal:latest - <<EOF
       ${dockerfile}
 EOF
       return ;;
@@ -238,138 +220,149 @@ EOF
           CMD ["-i"]
 DOCKERFILE
 )  ;;
-    (*) _log $(_color red "Unsupported distrobution '${distro}'")
+    (*) dkr::log-color red "Unsupported distribution '${distro}'"
       return 1 ;;
   esac
-  _log $(_color green "Building ${platform} ${distro} container")
-  docker buildx build --build-arg DISTRO="${distro}" --build-arg PLATFORM="${platform}" --build-arg USER="user" --load --platform linux/"${platform}" --progress=plain --tag sbox-"${distro}-${platform}":latest - <<EOF
+  dkr::log-color green "Building ${platform} ${distro} container"
+  command docker buildx build --build-arg DISTRO="${distro}" --build-arg PLATFORM="${platform}" --build-arg USER="user" --load --platform linux/"${platform}" --progress=plain --tag sbox-"${distro}-${platform}":latest - <<EOF
       ${dockerfile}
 EOF
 }
-_dkr_sandbox_usage () {
-  _log $(_color green "Usage:")
-  _log "  dkr sandbox [options] <command>"
-  _log
-  _log $(_color green "Options:")
-  _log "  -h, --help          Output this help text and exit"
-  _log "  -d, --distro        Set base image linux distro"
-  _log "  -p, --platform      Set target platform"
-  _log
-  _log $(_color green "Commands:")
-  _log "  build             Remove all docker resources"
-  _log "  run               Run ubuntu development sandbox"
+dkr::sandbox_usage () {
+  dkr::log-color green "Usage:"
+  dkr::log "  dkr sandbox [options] <command>"
+  dkr::log
+  dkr::log-color green "Options:"
+  dkr::log "  -h, --help          Output this help text and exit"
+  dkr::log "  -d, --distro        Set base image linux distro"
+  dkr::log "  -p, --platform      Set target platform"
+  dkr::log
+  dkr::log-color green "Commands:"
+  dkr::log "  build             Build the development sandbox image"
+  dkr::log "  run               Run ubuntu development sandbox"
 }
-_dkr_sandbox () {
-  local help
-  local opt_platform=(arm64) opt_distro=(debian)
-  zmodload zsh/zutil
+
+dkr::sandbox () {
+  local -a help
+  local -a opt_platform=(arm64) opt_distro=(debian)
+  zmodload zsh/zutil || return 1
   zparseopts -D -F -K -- {h,-help}=help {d,-distro}:=opt_distro {p,-platform}:=opt_platform || return 1
-  [[ -z "$help" ]] || {
-    _dkr_usage
+  if (( $#help )); then
+    dkr::sandbox_usage
     return 0
-  }
-  if [[ -z $@ ]]; then
-    _dkr_sandbox_usage >&2
+  fi
+  if (( ! $# )); then
+    dkr::sandbox_usage >&2
     return 1
   fi
-  if (( ! $+functions[_dkr_sandbox_${@}] )); then
-    _log $(_color red "Command '$@' can not be found.")
-    _dkr_sandbox_usage
+  if (( ! $+functions[dkr::sandbox_$1] )); then
+    dkr::log-color red "Command '$1' can not be found."
+    dkr::sandbox_usage >&2
     return 1
   fi
-  if _dkr_is_running; then
-    distro="$opt_distro[-1]" platform="$opt_platform[-1]"
-    _dkr_sandbox_${@}
-  fi
+  dkr::running || return 1
+  # the build and run helpers read these through zsh's dynamic scoping
+  local distro=$opt_distro[-1] platform=$opt_platform[-1]
+  dkr::sandbox_$1
 }
-_dkr_nuke_usage () {
-  _log $(_color green "Usage:")
-  _log "  dkr nuke [options]"
-  _log
-  _log $(_color green "Options:")
-  _log "  -h, --help          Output this help text and exit"
+dkr::nuke_usage () {
+  dkr::log-color green "Usage:"
+  dkr::log "  dkr nuke [options]"
+  dkr::log
+  dkr::log-color green "Options:"
+  dkr::log "  -h, --help          Output this help text and exit"
 }
-_dkr_nuke () {
+
+dkr::nuke () {
   builtin emulate -L zsh -o EXTENDED_GLOB
-  local opt_help
-  zmodload zsh/zutil
-  builtin zparseopts -D h=opt_help -help=opt_help || return 1
-  if [[ -n $opt_help ]]; then
-    _dkr_nuke_usage
+  local -a opt_help
+  zmodload zsh/zutil || return 1
+  builtin zparseopts -D -F -K -- {h,-help}=opt_help || return 1
+  if (( $#opt_help )); then
+    dkr::nuke_usage
     return 0
   fi
-  if [[ $# -gt 0 ]]; then
-    _log $(_color red "Command 'nuke' command takes no arguments")
+  if (( $# )); then
+    dkr::log-color red "Command 'nuke' takes no arguments"
     return 1
   fi
-  if _dkr_is_running; then
-    _log "$(_color green 'Nuking docker...')"
-    for resource in 'container' 'image'; do
-      local -a resources=($(docker "$resource" ls ${(Q)resource_opts} --quiet))
-      if (( ${#resources} > 0 )); then
-        _log "$(_color cyan "Removing ${#resources} ${resource}s...")"
-        for id in $resources; do
-          docker "$resource" rm --force "$id"
-        done
-      fi
+  dkr::running || return 1
+  dkr::log-color green 'Nuking docker...'
+  local resource id
+  local -a resources
+  for resource in container image; do
+    resources=(${(f)"$(command docker $resource ls --quiet)"})
+    (( $#resources )) || continue
+    dkr::log-color cyan "Removing $#resources ${resource}s..."
+    for id in $resources; do
+      command docker $resource rm --force $id
     done
-    _log "$(_color cyan 'Pruning docker system resources...')"
-    docker system prune --all --force
-  fi
-}
-_dkr_usage () {
-  _log
-  _log $(_color green "Usage:")
-  _log "  dkr [options] <command>"
-  _log
-  _log $(_color green "Options:")
-  _log "  -h, --help          Display available options"
-  _log "  -v, --version       Print version information"
-  _log
-  _log $(_color green "Commands:")
-  _log "  nuke                  Remove all docker resources"
-  _log "  sandbox               Run ubuntu development sandbox"
-}
-_dkr_version () {
-  _log "dkr version 0.1.0"
-}
-__dkr () {
-  emulate -L zsh
-  setopt extended_glob
-  local cmd base help version
-  base=${dkr_DIR:-"${ZDOTDIR:-$HOME}/.dkr"}
-  config=${dkr_CONFIG_DIR:-"${ZDOTDIR:-$HOME}/.config/dkr"}
-  builtin zparseopts -D h=help -help=help v=version -version=version
-  if [[ -n $help ]]; then
-    _dkr_usage
-    return 0
-  elif [[ -n $version ]]; then
-    _dkr_version
-    return 0
-  fi
-
-  cmd="$1"
-  if [[ -z $cmd || $cmd == ' ' ]]; then
-    builtin print -Pr -- '     _____          ___           ___      '
-    builtin print -Pr -- '    /  /::\        /__/|         /  /\     '
-    builtin print -Pr -- '   /  /:/\:\      |  |:|        /  /::\    '
-    builtin print -Pr -- '  /  /:/  \:\     |  |:|       /  /:/\:\   '
-    builtin print -Pr -- ' /__/:/ \__\:|  __|  |:|      /  /:/~/:/   '
-    builtin print -Pr -- ' \  \:\ /  /:/ /__/\_|:|____ /__/:/ /:/___ '
-    builtin print -Pr -- '  \  \:\  /:/  \  \:\/:::::/ \  \:\/:::::/ '
-    builtin print -Pr -- '   \  \:\/:/    \  \::/~~~~   \  \::/~~~~  '
-    builtin print -Pr -- '    \  \::/      \  \:\        \  \:\      '
-    builtin print -Pr -- '     \__\/        \  \:\        \  \:\     '
-    builtin print -Pr -- '                   \__\/         \__\/     '
-    _dkr_usage
-    return 0
-  fi
-  if (( ! $+functions[_dkr_${cmd}] )); then
-    _log $(_color red "Command '$cmd' can not be found.")
-    _dkr_usage
-    return 1
-  fi
-  _dkr_${cmd} "${(@)@:2}"
+  done
+  dkr::log-color cyan 'Pruning docker system resources...'
+  command docker system prune --all --force
 }
 
-__dkr "$@"
+dkr::usage () {
+  dkr::log
+  dkr::log-color green "Usage:"
+  dkr::log "  dkr [options] <command>"
+  dkr::log
+  dkr::log-color green "Options:"
+  dkr::log "  -h, --help          Display available options"
+  dkr::log "  -v, --version       Print version information"
+  dkr::log
+  dkr::log-color green "Commands:"
+  dkr::log "  nuke                  Remove all docker resources"
+  dkr::log "  sandbox               Run ubuntu development sandbox"
+}
+
+dkr::version () {
+  dkr::log "dkr version 0.1.0"
+}
+emulate -L zsh
+setopt extendedglob
+zmodload zsh/zutil || return 1
+
+local -a help version
+builtin zparseopts -D -F -K -- {h,-help}=help {v,-version}=version || return 1
+
+if (( $#help )); then
+  dkr::usage
+  return 0
+fi
+
+if (( $#version )); then
+  dkr::version
+  return 0
+fi
+
+if (( ! $# )) || [[ -z ${1// } ]]; then
+  builtin print -rl -- \
+    '     _____          ___           ___      ' \
+    '    /  /::\        /__/|         /  /\     ' \
+    '   /  /:/\:\      |  |:|        /  /::\    ' \
+    '  /  /:/  \:\     |  |:|       /  /:/\:\   ' \
+    ' /__/:/ \__\:|  __|  |:|      /  /:/~/:/   ' \
+    ' \  \:\ /  /:/ /__/\_|:|____ /__/:/ /:/___ ' \
+    '  \  \:\  /:/  \  \:\/:::::/ \  \:\/:::::/ ' \
+    '   \  \:\/:/    \  \::/~~~~   \  \::/~~~~  ' \
+    '    \  \::/      \  \:\        \  \:\      ' \
+    '     \__\/        \  \:\        \  \:\     ' \
+    '                   \__\/         \__\/     '
+  dkr::usage
+  return 0
+fi
+
+local cmd=$1
+builtin shift
+
+# dispatch from a declared list, so the internal helpers are not reachable as commands
+local -a commands=(nuke sandbox)
+
+if (( ! ${commands[(I)$cmd]} )); then
+  dkr::log-color red "Command '$cmd' can not be found."
+  dkr::usage >&2
+  return 1
+fi
+
+dkr::$cmd "$@"

@@ -1,70 +1,82 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Build a sandbox image and start a shell in it.
+#
+# With --file the image is built from that Dockerfile; otherwise an Ubuntu image is
+# offered. The old guard tested ${(q+)file[-1]}, which is the two-character string '' for
+# an empty array, so the build always ran with --file "$(realpath '')".
 
 emulate -L zsh
-zmodload zsh/zutil || return
+zmodload zsh/zutil || return 1
 
-local help \
-  docker_verbosity='auto' verbose \
-  file=() docker_file \
-  tag=(dev-sandbox) container_tag
+local -a help verbose file tag=(dev-sandbox)
+local docker_verbosity=auto
 
 zparseopts -D -F -K -- \
   {h,-help}=help \
   {v,-verbose}=verbose \
   {f,-file}:=file \
-  {t,-tag}:=tag || return
+  {t,-tag}:=tag \
+  || return 1
 
-(( ! $+commands[docker] )) && {
-  builtin print -P -- '%F{red}Error: docker command not found %f'
-  return 1
-}
-
-(( $#help )) && {
-  builtin print -rC1 -- \
+if (( $#help )); then
+  print -rC1 -- \
     "$0 [-h|--help]" \
-    "$0 [-f|--file] [-t|--tag=<tag>] [-v|--verbose]"
+    "$0 [-f|--file <dockerfile>] [-t|--tag <tag>] [-v|--verbose]"
   return 0
-}
+fi
 
-(( $#verbose )) && {
-  docker_verbosity='plain'
-}
+(( $+commands[docker] )) || { log::error "$0: docker command not found"; return 1 }
 
-container_tag=${(q+)tag[-1]}
-builtin print -P -- "%F{green}===>%f Building ${container_tag} container"
+(( $#verbose )) && docker_verbosity=plain
 
-docker_file=${(q+)file[-1]}
-(( $#docker_file )) && {
-  docker buildx build \
-    --build-arg "USER=${USER}" \
-    --file "$(realpath $docker_file)" \
-    --load \
-    --platform linux/x86_64 \
-    --progress=$docker_verbosity \
-    --tag ${container_tag}:latest \
-    .
-} && {
-  builtin print -P -- "%F{green}===>%f Starting shell in ${tag} container"
-  docker run \
-    --hostname "$container_tag" \
+local container_tag=${tag[-1]}
+
+# namespaced so it cannot collide with anything else in the shell; extra docker run
+# arguments differ between the two images, so they are passed in
+docker::_run-shell () {
+  print -P -- "%F{green}===>%f Starting shell in ${container_tag} container"
+  command docker run \
+    --hostname $container_tag \
     --interactive \
     --mount source=$container_tag,destination=/home \
     --platform linux/x86_64 \
     --tty \
-    --user $USER \
-    --security-opt seccomp=unconfined \
+    "$@" \
     ${container_tag}:latest
-} || {
-  builtin print -P -- "%F{red}Error: Failed to build ${docker_file} %f"
-  return 1
 }
 
+if (( $#file )); then
+  local dockerfile=${file[-1]:A}
+  if [[ ! -f $dockerfile ]]; then
+    log::error "$0: no such file: ${file[-1]}"
+    return 1
+  fi
+  print -P -- "%F{green}===>%f Building ${container_tag} container"
+  command docker buildx build \
+    --build-arg "USER=${USER}" \
+    --file $dockerfile \
+    --load \
+    --platform linux/x86_64 \
+    --progress=$docker_verbosity \
+    --tag ${container_tag}:latest \
+    . || { log::error "$0: failed to build ${file[-1]}"; return 1 }
+  docker::_run-shell --user $USER --security-opt seccomp=unconfined
+  return
+fi
+
 local REPLY
-read -q ${(%):-"?%s%F{cyan}==>%f%s Build Ubuntu container? [y/N]: "} && REPLY=y
-print ''
-[[ $REPLY == y ]] && {
-  docker buildx build --load --platform linux/x86_64 --progress=$docker_verbosity --tag ${container_tag}:latest -<<'EOF'
+read -q ${(%):-"?%s%F{cyan}==>%f%s Build Ubuntu container? [y/N]: "}
+print -r --
+[[ $REPLY == y ]] || return 0
+
+command docker buildx build \
+  --load \
+  --platform linux/x86_64 \
+  --progress=$docker_verbosity \
+  --tag ${container_tag}:latest \
+  - <<'EOF' || { log::error "$0: failed to build ${container_tag}"; return 1 }
   FROM amd64/ubuntu
   ENV USER docker-user
   ENV HOME /home/$USER
@@ -100,16 +112,5 @@ print ''
   ENTRYPOINT ["zsh"]
   CMD ["-l"]
 EOF
-} && {
-  builtin print -P -- "%F{green}===>%f Starting shell in ${tag} container"
-  docker run \
-    --hostname "$container_tag" \
-    --interactive \
-    --mount source=${container_tag},destination=/home \
-    --platform linux/x86_64 \
-    --tty \
-    ${container_tag}:latest
-} || {
-  builtin print -P -- "%F{red}Error: Failed to build ${container_tag} %f"
-  return 1
-}
+
+docker::_run-shell
