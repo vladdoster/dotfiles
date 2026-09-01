@@ -3,6 +3,7 @@
 _arguments -A '-*' \
   '(-c --copy)'{-c,--copy}'[Copy each function definition to the clipboard]' \
   '(-h --help)'{-h,--help}'[Show usage]' \
+  '(-x --indent)'{-x,--indent}'[Indent the body by N spaces (default: 4)]:spaces:(2 4 8)' \
   '*:function:_functions'
 
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

@@ -1,5 +1,6 @@
 #compdef check-for-updates
 
-_message 'no arguments'
+_arguments -A '-*' \
+  '1:directory:_directories'
 
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
