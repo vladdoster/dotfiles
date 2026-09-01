@@ -1,38 +1,30 @@
 #autoload
 # vim: ft=zsh sw=2 ts=2 et
+#
+# Open files in $EDITOR.
 
-v() {
-  emulate -L zsh
+emulate -L zsh
+setopt typeset_silent
+zmodload zsh/zutil || return 1
 
-  zmodload zsh/zutil || return
+local -a debug help
 
-  setopt typeset_silent
-  local debug editor help
-
-  zparseopts -D -F -K -- \
-    {d,-debug}=debug \
-    {h,-help}=help   \
+zparseopts -D -F -K -- \
+  {d,-debug}=debug \
+  {h,-help}=help \
   || return 1
 
-  if (( ${#debug} )); then
-    setopt xtrace
-  fi
+if (( $#help )); then
+  print -r -- "Usage: $0 [options] [files...]"
+  print -r -- 'Options:'
+  print -r -- '  -d, --debug            turn on execution tracing'
+  print -r -- '  -h, --help             show list of command-line options'
+  return 0
+fi
 
-  if (( ${#help} )); then
-    print "Usage: $0 [options] [files...]"
-    print 'Options:'
-    print '  -d, --debug            turn on execution tracing'
-    print '  -h, --help             show list of command-line options'
-    return 0
-  fi
-
-  # $EDITOR is resolved once to an absolute binary in rc.d/00-env.zsh
-  editor="$EDITOR"
-  if (( ${#debug} )); then
-    print -- "${editor}" "${@}"
-  else
-    "${editor}" "${@}"
-  fi
-}
-
-v "$@"
+# $EDITOR is resolved once to an absolute binary in rc.d/00-env.zsh
+if (( $#debug )); then
+  print -r -- $EDITOR "$@"
+else
+  $EDITOR "$@"
+fi
