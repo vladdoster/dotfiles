@@ -1,0 +1,2 @@
+# Switch to PCRE2 only when a pattern needs backreferences or look-around.
+--engine=auto
