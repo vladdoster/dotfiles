@@ -1,3 +1,10 @@
+# [4.65.0](https://github.com/vladdoster/dotfiles/compare/v4.64.0...v4.65.0) (2026-09-24)
+
+
+### Features
+
+* **ripgrep:** enable automatic PCRE2 engine ([0edf2be](https://github.com/vladdoster/dotfiles/commit/0edf2bed79b14f8482609ec0de93036552543d62))
+
 # [4.64.0](https://github.com/vladdoster/dotfiles/compare/v4.63.0...v4.64.0) (2026-09-01)
 
 
