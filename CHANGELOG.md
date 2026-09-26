@@ -1,3 +1,10 @@
+## [4.65.1](https://github.com/vladdoster/dotfiles/compare/v4.65.0...v4.65.1) (2026-09-26)
+
+
+### Bug Fixes
+
+* **make:** correct docker arch and recipe bugs ([bbdae70](https://github.com/vladdoster/dotfiles/commit/bbdae7001a35373d36dce924ecadcfc7cb6b4999))
+
 # [4.65.0](https://github.com/vladdoster/dotfiles/compare/v4.64.0...v4.65.0) (2026-09-24)
 
 
