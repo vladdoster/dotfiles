@@ -1,0 +1,16 @@
+name: Standards
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  commit:
+    uses: vladdoster/.github/.github/workflows/commit.yml@master
+  lint:
+    uses: vladdoster/.github/.github/workflows/lint.yml@master
