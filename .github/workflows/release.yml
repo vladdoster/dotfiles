@@ -4,12 +4,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  commit:
-    uses: vladdoster/.github/.github/workflows/commit.yml@master
-  lint:
-    uses: vladdoster/.github/.github/workflows/lint.yml@master
+  standards:
+    uses: ./.github/workflows/standards.yml
   release:
-    needs: [commit,lint]
+    needs: [standards]
     uses: vladdoster/.github/.github/workflows/release.yml@master
     secrets:
        github-token: ${{ secrets.GITHUB_TOKEN }}
