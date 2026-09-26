@@ -31,7 +31,7 @@ zsh install.zsh --help
 
 ## Makefile targets
 
-| Target            | Descripton                                                              |
+| Target            | Description                                                             |
 | ----------------- | ----------------------------------------------------------------------- |
 | brew-bundle       | Install programs defined in Brewfile                                    |
 | brew-install      | Install Homebrew                                                        |
@@ -42,13 +42,14 @@ zsh install.zsh --help
 | chsh              | Set shell to ZSH                                                        |
 | clean-brew        | Clean homebrew caches and stale versions                                |
 | clean-docker      | Clean docker resources                                                  |
+| clean             | Clean homebrew and docker resources                                     |
 | docker-build      | Build docker image                                                      |
-| docker-load       | Create tarball of docker image                                          |
+| docker-load       | Load docker image from tarball                                          |
 | docker-push       | Build and push dotfiles docker image                                    |
 | docker-save       | Create tarball of docker image                                          |
 | docker-shell      | Start shell in docker container                                         |
 | hammerspoon       | Install hammerspoon configuration                                       |
-| help              | Display all Makfile targets                                             |
+| help              | Show all Makefile targets                                               |
 | install           | Install dotfiles                                                        |
 | neovim            | Install neovim configuration                                            |
 | safari-extensions | Install 1password, vimari, grammarly safari extensions                  |
