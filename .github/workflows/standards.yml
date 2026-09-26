@@ -11,6 +11,8 @@ on:
 
 jobs:
   commit:
+    name: Check
     uses: vladdoster/.github/.github/workflows/commit.yml@master
   lint:
+    name: Check
     uses: vladdoster/.github/.github/workflows/lint.yml@master
