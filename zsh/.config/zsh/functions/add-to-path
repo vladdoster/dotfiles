@@ -1,7 +1,7 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
 #
-# Add a directory to $PATH.
+# Add one or more directories to $PATH.
 #
 # The path array is tied to PATH and declared -U in .zprofile, so assigning through it
 # keeps entries unique.
@@ -18,30 +18,49 @@ builtin zparseopts -D -F -E -K -- \
     || return 1
 
 if (( $#opt_help )); then
-    print -r -- "Usage: $0 [options] <directory>"
+    print -r -- "Usage: $0 [options] <directory>..."
     print -r -- 'Options:'
     print -r -- '  -d, --debug        turn on execution tracing'
     print -r -- '  -h, --help         show list of command-line options'
-    print -r -- '  -p, --prepend      prepend filepath to $PATH'
+    print -r -- '  -p, --prepend      prepend each directory to $PATH'
     return 0
 fi
 
 (( $#opt_debug )) && setopt xtrace
 
-if (( $# != 1 )); then
-    log::error "$0 requires exactly one directory"
+if (( ! $# )); then
+    log::error "$0 requires one or more directories"
     return 1
 fi
 
-if [[ ! -d $1 ]]; then
-    log::error "$0: not a directory: ${(qq)1}"
-    return 1
-fi
+local dir verb=appended
+local -aU dirs
+integer stat=0
 
+for dir in "$@"; do
+    if [[ ! -d $dir ]]; then
+        log::error "$0: not a directory: ${(qq)dir}"
+        stat=1
+    # -U keeps the first copy of an entry. An append leaves an existing entry in place.
+    elif (( ! $#opt_prepend && ${path[(Ie)$dir]} )); then
+        log::info "$0: already in PATH: ${(D)dir}"
+    else
+        dirs+=($dir)
+    fi
+done
+
+(( $#dirs )) || return $stat
+
+# One assignment keeps the argument order. A prepend per directory reverses it.
 if (( $#opt_prepend )); then
-    path=($1 $path)
-    log::info "$0: prepended ${(D)1}"
+    path=($dirs $path)
+    verb=prepended
 else
-    path+=($1)
-    log::info "$0: appended ${(D)1}"
+    path+=($dirs)
 fi
+
+for dir in $dirs; do
+    log::info "$0: $verb ${(D)dir}"
+done
+
+return $stat
