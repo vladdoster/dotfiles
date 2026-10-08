@@ -272,13 +272,14 @@ dkr::nuke_usage () {
   dkr::log
   dkr::log-color green "Options:"
   dkr::log "  -h, --help          Output this help text and exit"
+  dkr::log "      --volumes       Also remove all docker volumes"
 }
 
 dkr::nuke () {
   builtin emulate -L zsh -o EXTENDED_GLOB
-  local -a opt_help
+  local -a opt_help opt_volumes
   zmodload zsh/zutil || return 1
-  builtin zparseopts -D -F -K -- {h,-help}=opt_help || return 1
+  builtin zparseopts -D -F -K -- {h,-help}=opt_help -volumes=opt_volumes || return 1
   if (( $#opt_help )); then
     dkr::nuke_usage
     return 0
@@ -300,7 +301,14 @@ dkr::nuke () {
     done
   done
   dkr::log-color cyan 'Pruning docker system resources...'
-  command docker system prune --all --force
+  command docker system prune --all --force || return
+  if (( $#opt_volumes )); then
+    # Prune removes stopped containers first. Docker cannot remove a volume that a container uses.
+    resources=(${(f)"$(command docker volume ls --quiet)"})
+    (( $#resources )) || return 0
+    dkr::log-color cyan "Removing $#resources volumes..."
+    command docker volume rm --force -- $resources
+  fi
 }
 
 dkr::usage () {

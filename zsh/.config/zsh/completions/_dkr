@@ -32,6 +32,7 @@ case $state in
             nuke)
                 _arguments \
                     '(-h --help)'{-h,--help}'[Print usage information and exit]' \
+                    '--volumes[Also remove all docker volumes]' \
                     && ret=0
                 ;;
             sandbox)
