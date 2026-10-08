@@ -1,3 +1,11 @@
+# [4.66.0](https://github.com/vladdoster/dotfiles/compare/v4.65.1...v4.66.0) (2026-10-08)
+
+
+### Features
+
+* **zsh:** accept multiple dirs in add-to-path ([55d87c1](https://github.com/vladdoster/dotfiles/commit/55d87c16552b69533f243e21fe49d430f90f89c6))
+* **zsh:** add --volumes option to dkr nuke ([2f06ba9](https://github.com/vladdoster/dotfiles/commit/2f06ba96e4c13506d423dd60062698493f32775d))
+
 ## [4.65.1](https://github.com/vladdoster/dotfiles/compare/v4.65.0...v4.65.1) (2026-09-26)
 
 
