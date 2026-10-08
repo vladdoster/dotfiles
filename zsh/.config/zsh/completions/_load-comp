@@ -1,4 +1,4 @@
-#compdef zsh::load-completion
+#compdef load-comp
 
 _arguments '1:command:_command_names'
 
