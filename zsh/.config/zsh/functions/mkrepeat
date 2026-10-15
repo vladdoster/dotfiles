@@ -1,0 +1,82 @@
+#autoload
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Define a function to run a command and then fill the prompt with its own name.
+#
+# The words after the name are the command. The function adds "$@" to the end of the command.
+# Commands with $1, $@, $* or $argv do not get this "$@". A later call can replace a function
+# from an earlier call. Call mkrepeat from rc.d to keep a function in each shell. Use --write
+# to also save the function as a file. mkrepeat shows no output on success. This keeps shell
+# startup quiet.
+
+emulate -L zsh
+setopt extendedglob
+zmodload zsh/zutil || return 1
+
+local -a opt_help opt_write opt_force
+zparseopts -D -F -K -- {h,-help}=opt_help {w,-write}=opt_write {f,-force}=opt_force || return 1
+
+if (( $#opt_help )); then
+    print -r -- "Usage: $0 [-h|--help] [-w|--write] [-f|--force] name command [args...]"
+    print -r -- 'Options:'
+    print -r -- '  -f, --force        replace an existing name or function file'
+    print -r -- '  -h, --help         show list of command-line options'
+    print -r -- '  -w, --write        also save the function in $ZDOTDIR/functions'
+    return 0
+fi
+
+if (( $# < 2 )); then
+    log::error "$0 requires a function name and a command"
+    return 1
+fi
+
+local name=$1
+shift
+local cmd=$*
+[[ $cmd == *\$(\{|)([@*]|<1->|argv)* ]] || cmd+=' "$@"'
+local body=$cmd$'\n'"print -z -- ${(qq):-"$name "}"
+local dest=${ZDOTDIR:-$HOME/.config/zsh}/functions/$name
+
+if [[ $name == (-*|*[/[:space:]]*) ]]; then
+    log::error "$0: invalid function name: $name"
+    return 1
+fi
+
+typeset -gA _mkrepeat_names
+
+if (( ! $#opt_force && ! $+_mkrepeat_names[$name] )) && has $name; then
+    log::error "$0: already defined: $name (use -f to replace it)"
+    return 1
+fi
+
+if (( $#opt_write && ! $#opt_force )) && [[ -e $dest ]]; then
+    log::error "$0: already exists: ${(D)dest}"
+    return 1
+fi
+
+# zsh rejects a body with a syntax error and still returns 0.
+# Parse the body under a scratch name first.
+functions[_mkrepeat_parse]=$body
+if (( ! $+functions[_mkrepeat_parse] )); then
+    log::error "$0: syntax error in command: $*"
+    return 1
+fi
+unfunction _mkrepeat_parse
+
+functions[$name]=$body
+_mkrepeat_names[$name]=1
+
+(( $#opt_write )) || return 0
+
+local -a file=(
+    '#autoload'
+    '# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:'
+    '#'
+    "# ${name} - made by mkrepeat. It runs the command, then fills the prompt with its name."
+    ''
+    $body
+)
+
+print -rl -- "$file[@]" >| $dest || return 1
+
+log::info "created ${(D)dest}"
