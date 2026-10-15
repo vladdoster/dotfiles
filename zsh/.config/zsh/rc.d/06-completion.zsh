@@ -1,5 +1,5 @@
-autoload -Uz url-quote-magic bracketed-paste-magic
-zle -N self-insert url-quote-magic
+# url-quote-magic is off: it escapes ? and = in pasted URLs.
+autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic
 # only run self-insert-alikes on paste; keeps pasting fast with autosuggestions
 zstyle ':bracketed-paste-magic' active-widgets 'self-*'
