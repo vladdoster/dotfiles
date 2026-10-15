@@ -1,3 +1,10 @@
+# [4.67.0](https://github.com/vladdoster/dotfiles/compare/v4.66.0...v4.67.0) (2026-10-15)
+
+
+### Features
+
+* **zsh:** add mkrepeat function generator ([6940b4e](https://github.com/vladdoster/dotfiles/commit/6940b4e27434ad7ee6fce84fa0e80a46ce55a68e))
+
 # [4.66.0](https://github.com/vladdoster/dotfiles/compare/v4.65.1...v4.66.0) (2026-10-08)
 
 
