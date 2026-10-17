@@ -17,7 +17,8 @@ GNU Stow packages. Each top-level dir mirrors `$HOME` (`zsh/.config/zsh` becomes
 
 ## Gotchas
 
-- `git config --global` writes through stow symlink into tracked files. Machine settings go in `~/.config/git/config.local`.
+- `git config --global` writes through stow symlink into tracked files. Machine settings go in
+  `~/.config/git/config.local`.
 - Rebuild `functions.zwc` after deleting a function. Stale digest keeps serving it.
 - `zsh -f` sandbox needs `setopt extendedglob` before loading function files.
 - `Makefile` sets `SHELL` to zsh. Recipes can use zsh syntax.

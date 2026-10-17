@@ -208,25 +208,25 @@ _mycommand_auth() {
 
 ### Critical Rules
 
-1. **Never use `if (( CURRENT == 2 ))` guard**
-   `_arguments -C` must run unconditionally so `line[]` is populated for all cursor positions.
+1. **Never use `if (( CURRENT == 2 ))` guard** `_arguments -C` must run unconditionally so `line[]` is populated for all
+   cursor positions.
 
-2. **Nested `_arguments` must use `-C`**
-   Without `-C`, inner `_arguments` re-parses `words[]` from scratch, sees typed subcommand as position 1, prints `-- no more arguments --`.
+1. **Nested `_arguments` must use `-C`** Without `-C`, inner `_arguments` re-parses `words[]` from scratch, sees typed
+   subcommand as position 1, prints `-- no more arguments --`.
 
-3. **Read the subcommand via `line[1]`, not `$words[2]`**
-   `*:: :->args` shifts remaining words into `line[]`. `$words[]` still holds full command line.
+1. **Read the subcommand via `line[1]`, not `$words[2]`** `*:: :->args` shifts remaining words into `line[]`. `$words[]`
+   still holds full command line.
 
 ### Reference Implementations
 
-- `_git` (`/usr/share/zsh/functions/Completion/Unix/_git`)
-  `8080: _git()` uses `1: :->command` / `*:: :->option-or-argument`, then `_call_function ret _git-$words[1]` dispatches to `_git-add`, `_git-checkout`, etc.
+- `_git` (`/usr/share/zsh/functions/Completion/Unix/_git`) `8080: _git()` uses `1: :->command` /
+  `*:: :->option-or-argument`, then `_call_function ret _git-$words[1]` dispatches to `_git-add`, `_git-checkout`, etc.
 
-- `_svn` (`/usr/share/zsh/functions/Completion/Unix/_subversion`)
-  `3: _svn()` uses static `case $state in (args) ... esac` with `_svn_cmds` lookup. Each subcommand completes inline.
+- `_svn` (`/usr/share/zsh/functions/Completion/Unix/_subversion`) `3: _svn()` uses static
+  `case $state in (args) ... esac` with `_svn_cmds` lookup. Each subcommand completes inline.
 
-- `_git-bisect` (`_git:181`)
-  Nested `case $line[1] in ... esac` with inner `_arguments -C` for `start`, `run`, `reset`, etc.
+- `_git-bisect` (`_git:181`) Nested `case $line[1] in ... esac` with inner `_arguments -C` for `start`, `run`, `reset`,
+  etc.
 
 ## Caching with `_store_cache`
 
@@ -362,7 +362,7 @@ compset -S ' *'
    fpath+=(/path/to/your/completion/dir)
    ```
 
-2. **Reload completions**:
+1. **Reload completions**:
 
    ```zsh
    unfunction _yourcommand
@@ -371,7 +371,7 @@ compset -S ' *'
 
    Or open new shell.
 
-3. **Test completion**:
+1. **Test completion**:
 
    ```zsh
    yourcommand <TAB>
@@ -379,7 +379,7 @@ compset -S ' *'
    yourcommand --opt<TAB>
    ```
 
-4. **Enable debugging** (optional):
+1. **Enable debugging** (optional):
 
    ```zsh
    # Add to completion function
@@ -425,11 +425,11 @@ _arguments -C \
 ## Best Practices
 
 1. **Always use cache API** for expensive operations. Globals do not persist across Tab presses.
-2. **Set a caching policy** to invalidate cache when source data changes
-3. **Use `2>/dev/null`** on external commands: no errors in completion
-4. **Use absolute paths** for external commands if PATH may be unset
-5. **Document caching policy**: when and why cache invalidates
-6. **Test in a fresh shell**: completion must work without personal config
+1. **Set a caching policy** to invalidate cache when source data changes
+1. **Use `2>/dev/null`** on external commands: no errors in completion
+1. **Use absolute paths** for external commands if PATH may be unset
+1. **Document caching policy**: when and why cache invalidates
+1. **Test in a fresh shell**: completion must work without personal config
 
 ## Resources
 
