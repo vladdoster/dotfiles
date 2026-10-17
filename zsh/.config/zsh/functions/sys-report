@@ -1,0 +1,440 @@
+#autoload
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# sys-report - colored macOS health report with warning summary
+
+emulate -L zsh
+setopt extendedglob
+zmodload zsh/zutil zsh/datetime || return 1
+
+local -a opt_help opt_debug opt_nocolor opt_color opt_procs opt_startup
+zparseopts -D -F -K -- {h,-help}=opt_help {d,-debug}=opt_debug {n,-no-color}=opt_nocolor {c,-color}=opt_color {p,-procs}=opt_procs {s,-startup}=opt_startup || return 1
+
+if (( $#opt_help )); then
+    print -r -- "Usage: $0 [-h|--help] [-d|--debug] [-n|--no-color] [-c|--color] [-p|--procs] [-s|--startup]"
+    print -r -- 'Options:'
+    print -r -- '  -d, --debug        turn on execution tracing'
+    print -r -- '  -h, --help         show list of command-line options'
+    print -r -- '  -c, --color        force colors, even when piped or NO_COLOR is set'
+    print -r -- '  -n, --no-color     turn off colors (also off when piped or NO_COLOR is set)'
+    print -r -- '  -p, --procs        add a process deep dive (states, threads, stuck tasks, IO)'
+    print -r -- '  -s, --startup      add a startup audit (login items, launch plists, background items)'
+    return 0
+fi
+
+[[ $OSTYPE == darwin* ]] || { print -u2 -r -- "$0: macOS only"; return 1 }
+
+(( $#opt_debug )) && setopt xtrace
+
+local c_rst= c_hdr= c_key= c_dim= c_ok= c_warn= c_bad=
+# Precedence: --no-color, --color, non-empty NO_COLOR (https://no-color.org), tty test.
+if (( ! $#opt_nocolor )) && { (( $#opt_color )) || [[ -t 1 && -z $NO_COLOR ]] }; then
+  c_rst=$'\e[0m' c_hdr=$'\e[1;35m' c_key=$'\e[36m' c_dim=$'\e[2m'
+  c_ok=$'\e[32m' c_warn=$'\e[33m' c_bad=$'\e[1;31m'
+fi
+
+local -a warns
+local lvlcol
+
+# Helpers share this scope. Trap removes them on exit.
+trap 'unfunction -m "_sr_*" 2>/dev/null' EXIT
+
+_sr_hdr() { print -r -- $'\n'"${c_hdr}== ${1} ==${c_rst}" }
+_sr_kv() { printf '  %s%-11s%s %s\n' "$c_key" "$1" "$c_rst" "$2" }
+
+# REPLY = color. Higher value is worse.
+_sr_lvl() {
+  if (( $1 >= $3 )); then REPLY=$c_bad
+  elif (( $1 >= $2 )); then REPLY=$c_warn
+  else REPLY=$c_ok
+  fi
+}
+
+# REPLY = color. Lower value is worse.
+_sr_lvl_lo() {
+  if (( $1 <= $3 )); then REPLY=$c_bad
+  elif (( $1 <= $2 )); then REPLY=$c_warn
+  else REPLY=$c_ok
+  fi
+}
+
+# REPLY = 20-cell usage bar for percent $1. lvlcol = its color.
+_sr_bar() {
+  local -i p=$1 n w=20
+  (( p > 100 )) && p=100
+  n=$(( p * w / 100 ))
+  _sr_lvl $p 75 90
+  lvlcol=$REPLY
+  REPLY="${lvlcol}${(l:$n::█:)}${c_dim}${(l:$(( w - n ))::░:)}${c_rst}"
+}
+
+# REPLY = human-readable size of KiB count $1.
+_sr_hsize() {
+  if (( $1 >= 1048576 )); then printf -v REPLY '%.1fG' $(( $1 / 1048576.0 ))
+  elif (( $1 >= 1024 )); then printf -v REPLY '%.0fM' $(( $1 / 1024.0 ))
+  else printf -v REPLY '%.0fK' $1
+  fi
+}
+
+# Print value of key $2 in system_profiler text $1.
+_sr_sp() {
+  print -r -- "$1" | awk -F': +' -v k="$2" '$1 ~ "^ *" k "$" { print $2; exit }'
+}
+
+# Print page count of vm_stat row $1.
+_sr_vm() {
+  local l=${${(M)${(f)vm}:#${1}:*}[1]}
+  print -r -- ${${l#*:}//[ .]/}
+}
+
+# Print top 5 processes. $1 = ps sort flag.
+_sr_top() {
+  local pid cpu mem comm
+  print -r -- "  ${c_dim}$(printf '%6s %6s %6s  %s' PID CPU MEM COMMAND)${c_rst}"
+  ps -Ao pid=,pcpu=,pmem=,comm= $1 | head -n 5 | while read -r pid cpu mem comm; do
+    printf '  %6s ' "$pid"
+    _sr_lvl $cpu 50 90; printf '%s%5.1f%%%s ' "$REPLY" $cpu "$c_rst"
+    _sr_lvl $mem 10 25; printf '%s%5.1f%%%s  ' "$REPLY" $mem "$c_rst"
+    print -r -- ${comm:t}
+  done
+}
+
+# List plist labels in dir $1. Apple labels print dim.
+_sr_plists() {
+  local -a f=($1/*.plist(N:t:r))
+  local x n=0
+  (( $#f )) || { print -r -- "  ${c_dim}none${c_rst}"; return }
+  for x in $f; do
+    (( ++n > 15 )) && break
+    if [[ $x == com.apple.* ]]; then print -r -- "  ${c_dim}${x}${c_rst}"; else print -r -- "  ${x}"; fi
+  done
+  (( $#f > 15 )) && print -r -- "  ${c_dim}+$(( $#f - 15 )) more${c_rst}"
+}
+
+local h_title=" ${c_hdr}sys-report${c_rst} ${c_dim}$(strftime '%Y-%m-%d %H:%M' $EPOCHSECONDS)${c_rst}"
+print -r -- $h_title
+
+# ---------------------------------------------------------------- system
+_sr_hdr SYSTEM
+_sr_kv OS "$(sw_vers -productName) $(sw_vers -productVersion) ${c_dim}($(sw_vers -buildVersion))${c_rst}"
+_sr_kv Host "$HOST ${c_dim}($(uname -m))${c_rst}"
+
+local boot lraw ncpu=$(sysctl -n hw.ncpu)
+local -i secs days hrs
+local -a load
+[[ $(sysctl -n kern.boottime) =~ 'sec = ([0-9]+)' ]] && boot=$match[1]
+if [[ -n $boot ]]; then
+  secs=$(( EPOCHSECONDS - boot ))
+  days=$(( secs / 86400 )) hrs=$(( secs % 86400 / 3600 ))
+  _sr_lvl $days 14 30
+  _sr_kv Uptime "${REPLY}${days}d ${hrs}h${c_rst}"
+  (( days >= 30 )) && warns+=("uptime ${days}d, reboot due")
+fi
+
+lraw=$(sysctl -n vm.loadavg)
+load=(${=lraw//[\{\}]/})
+_sr_lvl $load[1] $(( ncpu * 0.7 )) $ncpu
+_sr_kv Load "${REPLY}${load[1]}${c_rst} $load[2] $load[3] ${c_dim}($ncpu cores)${c_rst}"
+(( load[1] >= ncpu )) && warns+=("load ${load[1]} on $ncpu cores")
+
+# -------------------------------------------------------------- hardware
+_sr_hdr HARDWARE
+local hw chip
+hw=$(system_profiler SPHardwareDataType 2>/dev/null)
+chip=$(_sr_sp "$hw" Chip)
+[[ -z $chip ]] && chip=$(_sr_sp "$hw" 'Processor Name')
+_sr_kv Model "$(_sr_sp "$hw" 'Model Name')"
+_sr_kv Chip "$chip"
+_sr_kv Cores "$(_sr_sp "$hw" 'Total Number of Cores')"
+_sr_kv Memory "$(_sr_sp "$hw" Memory)"
+
+# ------------------------------------------------------------------ disk
+_sr_hdr DISK
+local vol=/System/Volumes/Data
+[[ -d $vol ]] || vol=/
+local -a df_row
+local -i dpct
+local d_used d_total d_free smart
+df_row=(${=$(command df -k $vol | tail -n 1)})
+dpct=$(( 100.0 * df_row[3] / (df_row[3] + df_row[4]) ))
+_sr_hsize $df_row[3]; d_used=$REPLY
+_sr_hsize $(( df_row[3] + df_row[4] )); d_total=$REPLY
+_sr_hsize $df_row[4]; d_free=$REPLY
+_sr_bar $dpct
+_sr_kv Usage "$REPLY ${lvlcol}${dpct}%${c_rst}  $d_used of $d_total ${c_dim}($d_free free)${c_rst}"
+(( dpct >= 90 )) && warns+=("disk ${dpct}% full")
+
+smart=$(diskutil info / 2>/dev/null | awk -F': +' '/SMART Status/ { print $2; exit }')
+case $smart in
+  Verified)      _sr_kv SMART "${c_ok}${smart}${c_rst}" ;;
+  ''|*Support*)  _sr_kv SMART "${c_dim}${smart:-unknown}${c_rst}" ;;
+  *)             _sr_kv SMART "${c_bad}${smart}${c_rst}"; warns+=("SMART status: $smart") ;;
+esac
+
+# ---------------------------------------------------------------- memory
+_sr_hdr MEMORY
+local vm psz=16384 sw mfree
+local -i memtotal mused mpct
+vm=$(vm_stat)
+[[ ${${(f)vm}[1]} =~ '([0-9]+) bytes' ]] && psz=$match[1]
+memtotal=$(sysctl -n hw.memsize)
+mused=$(( ($(_sr_vm 'Pages active') + $(_sr_vm 'Pages wired down') + $(_sr_vm 'Pages occupied by compressor')) * psz ))
+mpct=$(( 100 * mused / memtotal ))
+
+local m_used m_total m_wired m_comp m_avail
+_sr_hsize $(( mused / 1024 )); m_used=$REPLY
+_sr_hsize $(( memtotal / 1024 )); m_total=$REPLY
+_sr_hsize $(( $(_sr_vm 'Pages wired down') * psz / 1024 )); m_wired=$REPLY
+_sr_hsize $(( $(_sr_vm 'Pages occupied by compressor') * psz / 1024 )); m_comp=$REPLY
+_sr_hsize $(( ($(_sr_vm 'Pages free') + $(_sr_vm 'Pages inactive') + $(_sr_vm 'Pages speculative')) * psz / 1024 )); m_avail=$REPLY
+_sr_bar $mpct
+_sr_kv Usage "$REPLY ${lvlcol}${mpct}%${c_rst}  $m_used of $m_total"
+_sr_kv Detail "wired $m_wired  compressed $m_comp  available $m_avail"
+
+mfree=$(sysctl -n kern.memorystatus_level 2>/dev/null)
+if [[ -n $mfree ]]; then
+  _sr_lvl_lo $mfree 30 15
+  _sr_kv Pressure "${REPLY}${mfree}% free${c_rst}"
+  (( mfree <= 15 )) && warns+=("memory pressure, ${mfree}% free")
+fi
+
+sw=$(sysctl -n vm.swapusage)
+if [[ $sw =~ 'total = ([0-9.]+)M +used = ([0-9.]+)M' ]]; then
+  local sw_total=$match[1] sw_used=$match[2] s_used_h s_total_h
+  _sr_hsize $(( sw_used * 1024 )); s_used_h=$REPLY
+  _sr_hsize $(( sw_total * 1024 )); s_total_h=$REPLY
+  _sr_lvl $sw_used 1024 4096
+  _sr_kv Swap "${REPLY}${s_used_h}${c_rst} of $s_total_h"
+  (( sw_used >= 4096 )) && warns+=("swap use $s_used_h")
+else
+  _sr_kv Swap "$sw"
+fi
+
+# ------------------------------------------------------------- processes
+_sr_hdr "TOP CPU"; _sr_top -r
+_sr_hdr "TOP MEM"; _sr_top -m
+
+# --------------------------------------------------------------- battery
+_sr_hdr BATTERY
+local batt pw cycles cond cap bpct bstate brem
+batt=$(pmset -g batt)
+if [[ $batt == *InternalBattery* ]]; then
+  [[ $batt =~ '([0-9]+)%; ([^;]+);' ]] && { bpct=$match[1]; bstate=$match[2] }
+  [[ $batt =~ '([0-9]+:[0-9]+) remaining' ]] && brem=$match[1]
+  _sr_lvl_lo $bpct 40 20
+  _sr_kv Charge "${REPLY}${bpct}%${c_rst}  $bstate${brem:+, $brem left} ${c_dim}($([[ $batt == *"AC Power"* ]] && print AC || print battery))${c_rst}"
+
+  pw=$(system_profiler SPPowerDataType 2>/dev/null)
+  cycles=$(_sr_sp "$pw" 'Cycle Count')
+  cond=$(_sr_sp "$pw" Condition)
+  cap=$(_sr_sp "$pw" 'Maximum Capacity')
+  if [[ -n $cap ]]; then
+    _sr_lvl_lo ${cap%\%} 90 80
+    _sr_kv Capacity "${REPLY}${cap}${c_rst}"
+    (( ${cap%\%} <= 80 )) && warns+=("battery capacity $cap")
+  fi
+  if [[ -n $cycles ]]; then
+    _sr_lvl $cycles 800 1000
+    _sr_kv Cycles "${REPLY}${cycles}${c_rst}"
+    (( cycles >= 1000 )) && warns+=("battery at $cycles cycles")
+  fi
+  if [[ -n $cond ]]; then
+    if [[ $cond == Normal ]]; then
+      _sr_kv Condition "${c_ok}${cond}${c_rst}"
+    else
+      _sr_kv Condition "${c_bad}${cond}${c_rst}"
+      warns+=("battery condition: $cond")
+    fi
+  fi
+else
+  _sr_kv Battery "${c_dim}none${c_rst}"
+fi
+
+# --------------------------------------------------------------- thermal
+_sr_hdr THERMAL
+local th
+th=$(pmset -g therm 2>&1)
+if [[ $th == *"No thermal warning"* ]]; then
+  _sr_kv Warning "${c_ok}none${c_rst}"
+else
+  _sr_kv Warning "${c_bad}recorded${c_rst} ${c_dim}(run: pmset -g therm)${c_rst}"
+  warns+=("thermal warning recorded")
+fi
+if [[ $th =~ 'CPU_Speed_Limit[[:space:]]*=[[:space:]]*([0-9]+)' ]]; then
+  _sr_lvl_lo $match[1] 99 80
+  _sr_kv "CPU limit" "${REPLY}${match[1]}%${c_rst}"
+  (( match[1] < 100 )) && warns+=("CPU throttled to ${match[1]}%")
+fi
+
+# --------------------------------------------------------------- startup
+_sr_hdr STARTUP
+local -a agents=($HOME/Library/LaunchAgents/*.plist(N:t:r))
+local a
+_sr_kv Agents "${#agents} user launch agents"
+for a in ${agents[1,12]}; print -r -- "    ${c_dim}${a}${c_rst}"
+(( $#agents > 12 )) && print -r -- "    ${c_dim}+$(( $#agents - 12 )) more${c_rst}"
+_sr_kv Services "$(( $(launchctl list 2>/dev/null | wc -l) - 1 )) loaded"
+
+# ------------------------------------------------------ storage hotspots
+_sr_hdr "STORAGE HOTSPOTS"
+local -a rows
+local d
+local kb r col
+for d in ~/Downloads ~/Library/Caches ~/.Trash ~/Library/Logs ~/Library/Developer; do
+  [[ -d $d ]] || continue
+  kb=$(du -sk $d 2>/dev/null | cut -f1)
+  rows+=("${(l:12::0:)${kb:-0}} ${d/#$HOME/~}")
+done
+for r in ${(O)rows}; do
+  kb=$(( 10#${r%% *} ))
+  _sr_lvl $kb 5242880 20971520; col=$REPLY
+  _sr_hsize $kb
+  printf '  %s%8s%s  %s\n' "$col" "$REPLY" "$c_rst" "${r#* }"
+done
+
+# -------------------------------------------------------------- packages
+_sr_hdr PACKAGES
+if (( $+commands[brew] )); then
+  local -a outdated
+  outdated=(${(f)"$(brew outdated --quiet 2>/dev/null)"})
+  outdated=(${outdated:#})
+  _sr_lvl $#outdated 1 20
+  _sr_kv Outdated "${REPLY}${#outdated}${c_rst}"
+  (( $#outdated )) && print -r -- "    ${c_dim}${(j:, :)outdated[1,6]}${c_rst}"
+  (( $#outdated > 6 )) && print -r -- "    ${c_dim}+$(( $#outdated - 6 )) more${c_rst}"
+  (( $#outdated >= 20 )) && warns+=("${#outdated} outdated brew packages")
+  kb=$(du -sk "$(brew --cache)" 2>/dev/null | cut -f1)
+  _sr_hsize ${kb:-0}
+  _sr_kv Cache "$REPLY"
+else
+  _sr_kv brew "${c_dim}not installed${c_rst}"
+fi
+
+# --------------------------------------------------------- crash reports
+_sr_hdr "CRASH REPORTS"
+local crashdir=$HOME/Library/Logs/DiagnosticReports f
+local -a all_reports week_reports latest
+all_reports=($crashdir/*(.N))
+week_reports=($crashdir/*(.Nm-7))
+latest=($crashdir/*(.Nom[1,3]))
+_sr_lvl $#week_reports 1 5
+_sr_kv Last\ 7d "${REPLY}${#week_reports}${c_rst} ${c_dim}(${#all_reports} total)${c_rst}"
+for f in $latest; do print -r -- "    ${c_dim}${f:t}${c_rst}"; done
+(( $#week_reports >= 5 )) && warns+=("${#week_reports} crash reports this week")
+
+# ---------------------------------------------------- process deep dive
+if (( $#opt_procs )); then
+  local cnt pst nm pid cpu kbt tps mbs
+  local -a fields
+
+  _sr_hdr "PROCESS STATES"
+  ps -Ao state= | cut -c1 | sort | uniq -c | while read -r cnt pst; do
+    case $pst in
+      Z)   col=$c_bad; warns+=("$cnt zombie processes") ;;
+      U|D) col=$c_warn ;;
+      T)   col=$c_warn ;;
+      *)   col=$c_ok ;;
+    esac
+    _sr_kv "${pst}" "${col}${cnt}${c_rst}"
+  done
+  _sr_kv Total "$(ps -Ao pid= | wc -l | tr -d ' ') processes"
+
+  _sr_hdr "THREADS TOP"
+  print -r -- "  ${c_dim}$(printf '%6s %7s  %s' PID THREADS COMMAND)${c_rst}"
+  ps -M -A 2>/dev/null | awk 'NR > 1 { p = ($1 ~ /^[0-9]+$/) ? $1 : $2; c[p]++ } END { for (p in c) print c[p], p }' \
+    | sort -rn | head -n 5 | while read -r cnt pid; do
+    _sr_lvl $cnt 100 500
+    printf '  %6s %s%7s%s  %s\n' "$pid" "$REPLY" "$cnt" "$c_rst" "$(ps -p $pid -o comm= 2>/dev/null | sed 's|.*/||')"
+  done
+
+  _sr_hdr "STUCK (U/D)"
+  local -i stuck=0
+  ps -Ao pid=,state=,pcpu=,comm= | while read -r pid pst cpu nm; do
+    [[ $pst == [UD]* ]] || continue
+    (( ++stuck <= 10 )) && printf '  %6s %s%-3s%s %5s%%  %s\n' "$pid" "$c_warn" "$pst" "$c_rst" "$cpu" "${nm:t}"
+  done
+  if (( stuck )); then warns+=("$stuck processes in U/D state"); else _sr_kv State "${c_ok}none${c_rst}"; fi
+
+  _sr_hdr IO
+  print -r -- "  ${c_dim}$(printf '%7s %6s %7s' KB/t tps MB/s)${c_rst}"
+  iostat -d -c 4 -w 1 2>/dev/null | tail -n 3 | while read -r kbt tps mbs; do
+    printf '  %7s %6s %7s\n' "$kbt" "$tps" "$mbs"
+  done
+
+  _sr_hdr "TOP (2 samples)"
+  print -r -- "  ${c_dim}$(printf '%6s %6s %5s  %-9s %s' PID CPU '#TH' STATE COMMAND)${c_rst}"
+  top -l 2 -n 8 -o cpu -stats pid,command,cpu,threads,state 2>/dev/null \
+    | awk '/^PID/ { n++ } n == 2 && !/^PID/ && NF' | while read -r pid rest; do
+    fields=(${=rest})
+    _sr_lvl ${fields[-3]} 50 90
+    printf '  %6s %s%6s%s %5s  %-9s %s\n' "$pid" "$REPLY" "${fields[-3]}" "$c_rst" "${fields[-2]}" "${fields[-1]}" "${(j: :)fields[1,-4]}"
+  done
+fi
+
+# ------------------------------------------------------- startup audit
+if (( $#opt_startup )); then
+  local li nm dev typ disp id lab ppid pstat
+  local -a items
+  local -i shown
+
+  _sr_hdr "LOGIN ITEMS"
+  if li=$(osascript -e 'tell application "System Events" to get the name of every login item' 2>&1) && [[ -n $li ]]; then
+    for nm in ${(s:, :)li}; print -r -- "  $nm"
+  elif [[ -z $li ]]; then
+    print -r -- "  ${c_dim}none${c_rst}"
+  else
+    print -r -- "  ${c_dim}unavailable (allow Automation for System Events)${c_rst}"
+  fi
+
+  _sr_hdr "USER LAUNCH AGENTS"; _sr_plists $HOME/Library/LaunchAgents
+  _sr_hdr "GLOBAL LAUNCH AGENTS"; _sr_plists /Library/LaunchAgents
+  _sr_hdr "GLOBAL LAUNCH DAEMONS"; _sr_plists /Library/LaunchDaemons
+
+  _sr_hdr "BACKGROUND ITEMS"
+  items=(${(f)"$(sfltool dumpbtm 2>/dev/null | awk '
+    function flush() {
+      if (inrec) print name "\t" dev "\t" typ "\t" disp "\t" id
+      name = dev = typ = disp = id = "-"
+    }
+    function val(s) { sub(/^[^:]*: */, "", s); return (s == "(null)" || s == "") ? "-" : s }
+    /^ *#[0-9]+:/ { flush(); inrec = 1; next }
+    /^ *Name:/ { name = val($0) }
+    /^ *Developer Name:/ { dev = val($0) }
+    /^ *Type:/ { typ = val($0); sub(/ *\(.*/, "", typ) }
+    /^ *Disposition:/ { disp = val($0); sub(/^\[/, "", disp); sub(/[,\]].*/, "", disp) }
+    /^ *Identifier:/ { id = val($0) }
+    BEGIN { name = dev = typ = disp = id = "-" }
+    END { flush() }')"})
+  items=(${items:#})
+  shown=0
+  for r in $items; do
+    IFS=$'\t' read -r nm dev typ disp id <<< $r
+    [[ $dev == *Apple* || $id == com.apple.* || ( $nm == - && $id == - ) ]] && continue
+    (( ++shown > 20 )) && continue
+    [[ $nm == - ]] && nm=$id
+    if [[ $disp == enabled ]]; then col=$c_warn; else col=$c_dim; fi
+    printf '  %-28s %s%-9s%s %-16s %s\n' "${nm[1,28]}" "$col" "$disp" "$c_rst" "$typ" "${c_dim}${dev}${c_rst}"
+  done
+  (( shown )) || print -r -- "  ${c_dim}none${c_rst}"
+  (( shown > 20 )) && print -r -- "  ${c_dim}+$(( shown - 20 )) more${c_rst}"
+
+  _sr_hdr "LOADED AGENTS (non-Apple)"
+  print -r -- "  ${c_dim}$(printf '%6s %6s  %s' PID EXIT LABEL)${c_rst}"
+  shown=0
+  launchctl list 2>/dev/null | tail -n +2 | rg -v 'com\.apple' | while read -r ppid pstat lab; do
+    (( ++shown > 20 )) && continue
+    [[ $ppid == - ]] && col=$c_dim || col=$c_ok
+    printf '  %s%6s%s ' "$col" "$ppid" "$c_rst"
+    if [[ $pstat == 0 ]]; then printf '%6s' "$pstat"; else printf '%s%6s%s' "$c_bad" "$pstat" "$c_rst"; fi
+    printf '  %s\n' "$lab"
+  done
+  (( shown > 20 )) && print -r -- "  ${c_dim}+$(( shown - 20 )) more${c_rst}"
+fi
+
+# --------------------------------------------------------------- summary
+_sr_hdr SUMMARY
+if (( $#warns )); then
+  for r in $warns; print -r -- "  ${c_bad}!${c_rst} $r"
+else
+  print -r -- "  ${c_ok}all clear${c_rst}"
+fi
