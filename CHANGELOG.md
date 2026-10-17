@@ -1,3 +1,24 @@
+# [4.69.0](https://github.com/vladdoster/dotfiles/compare/v4.68.0...v4.69.0) (2026-10-17)
+
+
+### Bug Fixes
+
+* **dkr:** use eza and generate en_US locale ([d0c8001](https://github.com/vladdoster/dotfiles/commit/d0c80019597ba3dafd1c3fb81d39bd9279148c3d))
+* **zpgrep:** keep empty lines when matching ([99a1946](https://github.com/vladdoster/dotfiles/commit/99a1946ddc1e71cc3ffad44b23af18f30d0a1b5a))
+* **zsh:** skip non-functions when autoloading ([550e5a4](https://github.com/vladdoster/dotfiles/commit/550e5a46236707684833bf88061ade4a6cad53ff))
+
+
+### Features
+
+* **zsh:** list ./ and ../ last in completion ([61a22de](https://github.com/vladdoster/dotfiles/commit/61a22dec619f75c06bb0d87354c4a824add4ad25))
+
+
+### Performance Improvements
+
+* **check-for-updates:** use one git call ([3cd92d4](https://github.com/vladdoster/dotfiles/commit/3cd92d422b4a5cddeb9c0fe1a6b50f70185d7e90))
+* **sys-report:** run slow probes concurrently ([6e6af97](https://github.com/vladdoster/dotfiles/commit/6e6af971400d2aa037adf604d6dd0b872b59db7d))
+* **zsh:** autoload functions lazily ([1663ddd](https://github.com/vladdoster/dotfiles/commit/1663ddd9c383d1375b573b66e6713ab0a40d3c28))
+
 # [4.68.0](https://github.com/vladdoster/dotfiles/compare/v4.67.0...v4.68.0) (2026-10-17)
 
 
