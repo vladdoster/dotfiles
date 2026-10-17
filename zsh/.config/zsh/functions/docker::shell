@@ -32,19 +32,14 @@ fi
 
 local container_tag=${tag[-1]}
 
-# namespaced so it cannot collide with anything else in the shell; extra docker run
-# arguments differ between the two images, so they are passed in
-docker::_run-shell () {
-  print -P -- "%F{green}===>%f Starting shell in ${container_tag} container"
-  command docker run \
-    --hostname $container_tag \
-    --interactive \
-    --mount source=$container_tag,destination=/home \
-    --platform linux/x86_64 \
-    --tty \
-    "$@" \
-    ${container_tag}:latest
-}
+# the image name comes last, so extra docker run arguments are placed before it
+local -a run_opts=(
+  --hostname $container_tag
+  --interactive
+  --mount source=$container_tag,destination=/home
+  --platform linux/x86_64
+  --tty
+)
 
 if (( $#file )); then
   local dockerfile=${file[-1]:A}
@@ -61,7 +56,8 @@ if (( $#file )); then
     --progress=$docker_verbosity \
     --tag ${container_tag}:latest \
     . || { log::error "$0: failed to build ${file[-1]}"; return 1 }
-  docker::_run-shell --user $USER --security-opt seccomp=unconfined
+  print -P -- "%F{green}===>%f Starting shell in ${container_tag} container"
+  command docker run $run_opts --user $USER --security-opt seccomp=unconfined ${container_tag}:latest
   return
 fi
 
@@ -112,4 +108,5 @@ command docker buildx build \
   CMD ["-l"]
 EOF
 
-docker::_run-shell
+print -P -- "%F{green}===>%f Starting shell in ${container_tag} container"
+command docker run $run_opts ${container_tag}:latest

@@ -32,7 +32,7 @@ integer stat=1
 
 if (( ! $# )); then
     while IFS= read -r line; do
-        pcre_match -- $line && { stat=0; print -r -- $line }
+        pcre_match -- "$line" && { stat=0; print -r -- $line }
     done
     return $stat
 fi
@@ -42,8 +42,9 @@ for file; do
         log::error "$0: cannot read: $file"
         continue
     fi
-    for line in ${(f)"$(<$file)"}; do
-        pcre_match -- $line && { stat=0; print -r -- $line }
+    # (@) and the quotes keep empty lines, so patterns like ^$ can match them
+    for line in "${(@f)$(<$file)}"; do
+        pcre_match -- "$line" && { stat=0; print -r -- $line }
     done
 done
 

@@ -26,7 +26,7 @@ if (( $#opt_debug )); then
     setopt xtrace
 fi
 
-local -a fns=(${ZDOTDIR:-$HOME/.config/zsh}/functions/*(N.:t))
+local -a fns=(${ZDOTDIR:-$HOME/.config/zsh}/functions/*~*.(md|zwc)(N.:t))
 
 (( $#fns )) || return 0
 

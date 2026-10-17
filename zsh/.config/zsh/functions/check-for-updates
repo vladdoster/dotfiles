@@ -12,17 +12,17 @@ setopt extendedglob
 local dir=${1:-$PWD}
 local -a gitc=(command git -C $dir)
 
-if ! $gitc rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    log::error "$0: not a git repository: ${(D)dir}"
-    return 2
-fi
+local count
 
-if ! $gitc rev-parse --abbrev-ref '@{u}' >/dev/null 2>&1; then
+# One git call on the common path; the failure is only classified afterwards.
+if ! count=$($gitc rev-list --left-right --count 'HEAD...@{u}' 2>/dev/null); then
+    if ! $gitc rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        log::error "$0: not a git repository: ${(D)dir}"
+        return 2
+    fi
     print -P -- "%F{yellow}No upstream configured%f"
     return 2
 fi
-
-local count=$($gitc rev-list --left-right --count 'HEAD...@{u}' 2>/dev/null)
 
 if (( ${count[(w)2]:-0} > 0 )); then
     print -P -- "%F{green}Update available%f"

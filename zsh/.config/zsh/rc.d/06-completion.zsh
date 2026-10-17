@@ -21,7 +21,8 @@ bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect '^xi' vi-insert
 
-zstyle ':completion:*' completer _expand _complete _ignored _approximate
+# _complete_dots_last adds ./ and ../ after the other matches (see special-dirs below).
+zstyle ':completion:*' completer _expand _complete_dots_last _ignored _approximate
 
 # cache slow generated completions (brew, docker, ...)
 zstyle ':completion:*' use-cache on
@@ -29,7 +30,8 @@ zstyle ':completion:*' cache-path ${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache
 
 zstyle ':completion:*' rehash true
 zstyle ':completion:*' squeeze-slashes true
-zstyle ':completion:*' special-dirs true
+# false: the built-in ./ and ../ would list first. _complete_dots_last adds them last.
+zstyle ':completion:*' special-dirs false
 zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*:*:-command-:*:*' group-order functions builtins commands
 zstyle ':completion:*:default' list-colors "${(s.:.)LS_COLORS:-di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01}"
