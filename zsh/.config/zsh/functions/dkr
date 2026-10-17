@@ -29,15 +29,15 @@ dkr::running () {
 }
 
 dkr::sandbox_run () {
-  setopt localoptions verbose
-  local dockerfile
-  case $distro in
-    (zinit) docker run --hostname "${distro}-minimal" --interactive --mount source="${distro}-minimal",destination=/root --platform "linux/amd64" --tty ${distro}-minimal ;;
-    (*) docker run --hostname "sbox-${distro}-${platform}" --interactive --mount source="sbox-${distro}-${platform}",destination=/home --platform "linux/${platform}" --tty sbox-${distro}-${platform} ;;
-  esac
+  local name=sbox-${distro}-${platform} target=linux/${platform} home=/home
+  if [[ $distro == zinit ]]; then
+    name=${distro}-minimal target=linux/amd64 home=/root
+  fi
+  command docker run --hostname $name --interactive --mount source=$name,destination=$home \
+    --platform $target --tty $name
 }
+
 dkr::sandbox_build () {
-  setopt localoptions verbose
   local dockerfile
   case $distro in
     (zinit) dockerfile=$(cat <<-'DOCKERFILE'
