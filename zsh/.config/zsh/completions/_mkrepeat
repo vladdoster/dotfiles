@@ -1,0 +1,13 @@
+#compdef mkrepeat
+
+local name_spec='1:new function name:'
+(( ${words[(I)(-f|--force)]} )) && name_spec='1:function to replace:_functions'
+
+_arguments -A '-*' \
+  '(-f --force)'{-f,--force}'[Replace an existing name or function file]' \
+  '(-h --help)'{-h,--help}'[Show usage]' \
+  '(-w --write)'{-w,--write}'[Also save the function in $ZDOTDIR/functions]' \
+  $name_spec \
+  '*:::command:_normal'
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
