@@ -37,7 +37,7 @@ typeset -gUa path {'cd','f','info','mail','man'}path
   )
   path=(${^toolpath}(N/) $path)
   fpath=(${ZDOTDIR}/{functions,completions}(N/) $fpath)
-  autoload -Uz +X -- ${ZDOTDIR}/functions/*~*zwc(N-.:t)
+  autoload -Uz +X -- ${ZDOTDIR}/functions/*~*.(md|zwc)(N-.:t)
 }
 
 unsetopt norcs
