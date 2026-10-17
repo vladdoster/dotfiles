@@ -5,7 +5,7 @@
 
 emulate -L zsh
 setopt extendedglob
-zmodload zsh/zutil zsh/datetime || return 1
+zmodload zsh/zutil zsh/datetime zsh/zselect || return 1
 
 local -a opt_help opt_debug opt_nocolor opt_color opt_procs opt_startup
 zparseopts -D -F -K -- {h,-help}=opt_help {d,-debug}=opt_debug {n,-no-color}=opt_nocolor {c,-color}=opt_color {p,-procs}=opt_procs {s,-startup}=opt_startup || return 1
@@ -34,10 +34,17 @@ if (( ! $#opt_nocolor )) && { (( $#opt_color )) || [[ -t 1 && -z $NO_COLOR ]] };
 fi
 
 local -a warns
+local -A sp vmp
 local lvlcol
 
-# Helpers share this scope. Trap removes them on exit.
-trap 'unfunction -m "_sr_*" 2>/dev/null' EXIT
+# Slow probes run in the background and write to $tmp; each section reads its file when it
+# prints.
+local tmp
+tmp=$(command mktemp -d "${TMPDIR:-/tmp}/sys-report.XXXXXX") || return 1
+
+# Helpers share this scope. Trap removes them and deletes $tmp on exit. Locals are gone by
+# the time the trap runs, so $tmp is expanded here and not inside the trap.
+trap "unfunction -m '_sr_*' 2>/dev/null; command rm -rf -- ${(q)tmp}" EXIT
 
 _sr_hdr() { print -r -- $'\n'"${c_hdr}== ${1} ==${c_rst}" }
 _sr_kv() { printf '  %s%-11s%s %s\n' "$c_key" "$1" "$c_rst" "$2" }
@@ -76,15 +83,39 @@ _sr_hsize() {
   fi
 }
 
-# Print value of key $2 in system_profiler text $1.
-_sr_sp() {
-  print -r -- "$1" | awk -F': +' -v k="$2" '$1 ~ "^ *" k "$" { print $2; exit }'
+# Run command $2... in the background with stdout in $tmp/$1. The job is disowned (&|), which
+# keeps job numbers out of an interactive shell; $tmp/$1.done marks that it finished.
+_sr_bg() {
+  local name=$1
+  shift
+  { "$@" >| $tmp/$name; : >| $tmp/$name.done } 2>/dev/null &|
 }
 
-# Print page count of vm_stat row $1.
+# Wait for job $1, then REPLY = its output.
+_sr_get() {
+  until [[ -e $tmp/$1.done ]]; do zselect -t 2; done
+  REPLY=$(<$tmp/$1)
+}
+
+# Fill the sp array from the first "Key: value" lines of system_profiler text $1.
+_sr_sp() {
+  local line key
+  sp=()
+  for line in "${(@f)1}"; do
+    [[ $line == (#b)[[:space:]]#([A-Za-z\ ]##):[[:space:]]##([^:]##)* ]] || continue
+    key=$match[1]
+    (( $+sp[$key] )) || sp[$key]=${match[2]%%[[:space:]]#}
+  done
+}
+
+# Fill the vmp array with the page counts of vm_stat text $1.
 _sr_vm() {
-  local l=${${(M)${(f)vm}:#${1}:*}[1]}
-  print -r -- ${${l#*:}//[ .]/}
+  local line
+  vmp=()
+  for line in "${(@f)1}"; do
+    [[ $line == (#b)([A-Za-z\ -]##):[[:space:]]#([0-9]##).* ]] || continue
+    vmp[$match[1]]=$match[2]
+  done
 }
 
 # Print top 5 processes. $1 = ps sort flag.
@@ -116,7 +147,10 @@ print -r -- $h_title
 
 # ---------------------------------------------------------------- system
 _sr_hdr SYSTEM
-_sr_kv OS "$(sw_vers -productName) $(sw_vers -productVersion) ${c_dim}($(sw_vers -buildVersion))${c_rst}"
+local -A swv
+local l
+for l in ${(f)"$(sw_vers)"}; swv[${l%%:*}]=${${l#*:}##[[:space:]]#}
+_sr_kv OS "$swv[ProductName] $swv[ProductVersion] ${c_dim}($swv[BuildVersion])${c_rst}"
 _sr_kv Host "$HOST ${c_dim}($(uname -m))${c_rst}"
 
 local boot lraw ncpu=$(sysctl -n hw.ncpu)
@@ -141,12 +175,12 @@ _sr_kv Load "${REPLY}${load[1]}${c_rst} $load[2] $load[3] ${c_dim}($ncpu cores)$
 _sr_hdr HARDWARE
 local hw chip
 hw=$(system_profiler SPHardwareDataType 2>/dev/null)
-chip=$(_sr_sp "$hw" Chip)
-[[ -z $chip ]] && chip=$(_sr_sp "$hw" 'Processor Name')
-_sr_kv Model "$(_sr_sp "$hw" 'Model Name')"
+_sr_sp $hw
+chip=${sp[Chip]:-${sp[Processor Name]}}
+_sr_kv Model "${sp[Model Name]}"
 _sr_kv Chip "$chip"
-_sr_kv Cores "$(_sr_sp "$hw" 'Total Number of Cores')"
-_sr_kv Memory "$(_sr_sp "$hw" Memory)"
+_sr_kv Cores "${sp[Total Number of Cores]}"
+_sr_kv Memory "${sp[Memory]}"
 
 # ------------------------------------------------------------------ disk
 _sr_hdr DISK
@@ -155,7 +189,7 @@ local vol=/System/Volumes/Data
 local -a df_row
 local -i dpct
 local d_used d_total d_free smart
-df_row=(${=$(command df -k $vol | tail -n 1)})
+df_row=(${=${${(f)"$(command df -k $vol)"}[-1]}})
 dpct=$(( 100.0 * df_row[3] / (df_row[3] + df_row[4]) ))
 _sr_hsize $df_row[3]; d_used=$REPLY
 _sr_hsize $(( df_row[3] + df_row[4] )); d_total=$REPLY
@@ -178,15 +212,19 @@ local -i memtotal mused mpct
 vm=$(vm_stat)
 [[ ${${(f)vm}[1]} =~ '([0-9]+) bytes' ]] && psz=$match[1]
 memtotal=$(sysctl -n hw.memsize)
-mused=$(( ($(_sr_vm 'Pages active') + $(_sr_vm 'Pages wired down') + $(_sr_vm 'Pages occupied by compressor')) * psz ))
+_sr_vm $vm
+local -i pg_active=${vmp[Pages active]:-0} pg_wired=${vmp[Pages wired down]:-0}
+local -i pg_comp=${vmp[Pages occupied by compressor]:-0}
+local -i pg_avail=$(( ${vmp[Pages free]:-0} + ${vmp[Pages inactive]:-0} + ${vmp[Pages speculative]:-0} ))
+mused=$(( (pg_active + pg_wired + pg_comp) * psz ))
 mpct=$(( 100 * mused / memtotal ))
 
 local m_used m_total m_wired m_comp m_avail
 _sr_hsize $(( mused / 1024 )); m_used=$REPLY
 _sr_hsize $(( memtotal / 1024 )); m_total=$REPLY
-_sr_hsize $(( $(_sr_vm 'Pages wired down') * psz / 1024 )); m_wired=$REPLY
-_sr_hsize $(( $(_sr_vm 'Pages occupied by compressor') * psz / 1024 )); m_comp=$REPLY
-_sr_hsize $(( ($(_sr_vm 'Pages free') + $(_sr_vm 'Pages inactive') + $(_sr_vm 'Pages speculative')) * psz / 1024 )); m_avail=$REPLY
+_sr_hsize $(( pg_wired * psz / 1024 )); m_wired=$REPLY
+_sr_hsize $(( pg_comp * psz / 1024 )); m_comp=$REPLY
+_sr_hsize $(( pg_avail * psz / 1024 )); m_avail=$REPLY
 _sr_bar $mpct
 _sr_kv Usage "$REPLY ${lvlcol}${mpct}%${c_rst}  $m_used of $m_total"
 _sr_kv Detail "wired $m_wired  compressed $m_comp  available $m_avail"
@@ -214,6 +252,17 @@ fi
 _sr_hdr "TOP CPU"; _sr_top -r
 _sr_hdr "TOP MEM"; _sr_top -m
 
+# Slow probes start only now, so their own processes stay out of the listings above.
+local -a hot_dirs=(~/Downloads ~/Library/Caches ~/.Trash ~/Library/Logs ~/Library/Developer)
+local -i n
+for (( n = 1; n <= $#hot_dirs; n++ )); do
+  [[ -d $hot_dirs[n] ]] && _sr_bg du.$n command du -sk $hot_dirs[n]
+done
+if (( $+commands[brew] )); then
+  _sr_bg outdated command brew outdated --quiet
+  _sr_bg brewcache command du -sk "$(command brew --cache)"
+fi
+
 # --------------------------------------------------------------- battery
 _sr_hdr BATTERY
 local batt pw cycles cond cap bpct bstate brem
@@ -225,9 +274,10 @@ if [[ $batt == *InternalBattery* ]]; then
   _sr_kv Charge "${REPLY}${bpct}%${c_rst}  $bstate${brem:+, $brem left} ${c_dim}($([[ $batt == *"AC Power"* ]] && print AC || print battery))${c_rst}"
 
   pw=$(system_profiler SPPowerDataType 2>/dev/null)
-  cycles=$(_sr_sp "$pw" 'Cycle Count')
-  cond=$(_sr_sp "$pw" Condition)
-  cap=$(_sr_sp "$pw" 'Maximum Capacity')
+  _sr_sp $pw
+  cycles=${sp[Cycle Count]}
+  cond=${sp[Condition]}
+  cap=${sp[Maximum Capacity]}
   if [[ -n $cap ]]; then
     _sr_lvl_lo ${cap%\%} 90 80
     _sr_kv Capacity "${REPLY}${cap}${c_rst}"
@@ -278,12 +328,12 @@ _sr_kv Services "$(( $(launchctl list 2>/dev/null | wc -l) - 1 )) loaded"
 # ------------------------------------------------------ storage hotspots
 _sr_hdr "STORAGE HOTSPOTS"
 local -a rows
-local d
 local kb r col
-for d in ~/Downloads ~/Library/Caches ~/.Trash ~/Library/Logs ~/Library/Developer; do
-  [[ -d $d ]] || continue
-  kb=$(du -sk $d 2>/dev/null | cut -f1)
-  rows+=("${(l:12::0:)${kb:-0}} ${d/#$HOME/~}")
+for (( n = 1; n <= $#hot_dirs; n++ )); do
+  [[ -d $hot_dirs[n] ]] || continue
+  _sr_get du.$n
+  kb=${REPLY%%[[:space:]]*}
+  rows+=("${(l:12::0:)${kb:-0}} ${hot_dirs[n]/#$HOME/~}")
 done
 for r in ${(O)rows}; do
   kb=$(( 10#${r%% *} ))
@@ -296,14 +346,15 @@ done
 _sr_hdr PACKAGES
 if (( $+commands[brew] )); then
   local -a outdated
-  outdated=(${(f)"$(brew outdated --quiet 2>/dev/null)"})
-  outdated=(${outdated:#})
+  _sr_get outdated
+  outdated=(${(f)REPLY})
   _sr_lvl $#outdated 1 20
   _sr_kv Outdated "${REPLY}${#outdated}${c_rst}"
   (( $#outdated )) && print -r -- "    ${c_dim}${(j:, :)outdated[1,6]}${c_rst}"
   (( $#outdated > 6 )) && print -r -- "    ${c_dim}+$(( $#outdated - 6 )) more${c_rst}"
   (( $#outdated >= 20 )) && warns+=("${#outdated} outdated brew packages")
-  kb=$(du -sk "$(brew --cache)" 2>/dev/null | cut -f1)
+  _sr_get brewcache
+  kb=${REPLY%%[[:space:]]*}
   _sr_hsize ${kb:-0}
   _sr_kv Cache "$REPLY"
 else
@@ -326,6 +377,10 @@ for f in $latest; do print -r -- "    ${c_dim}${f:t}${c_rst}"; done
 if (( $#opt_procs )); then
   local cnt pst nm pid cpu kbt tps mbs
   local -a fields
+
+  # iostat and top spend seconds sampling, so they run while the quick listings print.
+  _sr_bg io command iostat -d -c 4 -w 1
+  _sr_bg top command top -l 2 -n 8 -o cpu -stats pid,command,cpu,threads,state
 
   _sr_hdr "PROCESS STATES"
   ps -Ao state= | cut -c1 | sort | uniq -c | while read -r cnt pst; do
@@ -357,14 +412,15 @@ if (( $#opt_procs )); then
 
   _sr_hdr IO
   print -r -- "  ${c_dim}$(printf '%7s %6s %7s' KB/t tps MB/s)${c_rst}"
-  iostat -d -c 4 -w 1 2>/dev/null | tail -n 3 | while read -r kbt tps mbs; do
+  _sr_get io
+  print -r -- $REPLY | tail -n 3 | while read -r kbt tps mbs; do
     printf '  %7s %6s %7s\n' "$kbt" "$tps" "$mbs"
   done
 
   _sr_hdr "TOP (2 samples)"
   print -r -- "  ${c_dim}$(printf '%6s %6s %5s  %-9s %s' PID CPU '#TH' STATE COMMAND)${c_rst}"
-  top -l 2 -n 8 -o cpu -stats pid,command,cpu,threads,state 2>/dev/null \
-    | awk '/^PID/ { n++ } n == 2 && !/^PID/ && NF' | while read -r pid rest; do
+  _sr_get top
+  print -r -- $REPLY | awk '/^PID/ { n++ } n == 2 && !/^PID/ && NF' | while read -r pid rest; do
     fields=(${=rest})
     _sr_lvl ${fields[-3]} 50 90
     printf '  %6s %s%6s%s %5s  %-9s %s\n' "$pid" "$REPLY" "${fields[-3]}" "$c_rst" "${fields[-2]}" "${fields[-1]}" "${(j: :)fields[1,-4]}"
@@ -421,7 +477,8 @@ if (( $#opt_startup )); then
   _sr_hdr "LOADED AGENTS (non-Apple)"
   print -r -- "  ${c_dim}$(printf '%6s %6s  %s' PID EXIT LABEL)${c_rst}"
   shown=0
-  launchctl list 2>/dev/null | tail -n +2 | rg -v 'com\.apple' | while read -r ppid pstat lab; do
+  launchctl list 2>/dev/null | tail -n +2 | while read -r ppid pstat lab; do
+    [[ $lab == *com.apple* ]] && continue
     (( ++shown > 20 )) && continue
     [[ $ppid == - ]] && col=$c_dim || col=$c_ok
     printf '  %s%6s%s ' "$col" "$ppid" "$c_rst"
