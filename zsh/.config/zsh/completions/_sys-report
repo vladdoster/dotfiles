@@ -1,0 +1,11 @@
+#compdef sys-report
+
+_arguments -s \
+  '(-c --color -n --no-color)'{-c,--color}'[Force colors, even when piped or NO_COLOR is set]' \
+  '(-d --debug)'{-d,--debug}'[Turn on execution tracing]' \
+  '(- *)'{-h,--help}'[Show usage]' \
+  '(-c --color -n --no-color)'{-n,--no-color}'[Turn off colors]' \
+  '(-p --procs)'{-p,--procs}'[Add a process deep dive]' \
+  '(-s --startup)'{-s,--startup}'[Add a startup audit]'
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

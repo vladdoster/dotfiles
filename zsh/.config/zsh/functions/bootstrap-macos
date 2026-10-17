@@ -21,7 +21,7 @@ builtin emulate -L zsh -o EXTENDED_GLOB
 
 local -a flag_debug flag_help flag_dry opt_only
 local -a sections=(
-  dock hotcorners dockitems menubar tiling wallpaper appearance sound
+  dock hotcorners dockitems menubar datetime tiling wallpaper appearance sound
   keyboard text cursor pointer
   finder anim dialogs screenshots
   touchid privacy screenlock update misc
@@ -49,7 +49,7 @@ builtin zparseopts -D -E -F -K -- \
   {o,-only}+:=opt_only || return 1
 
 # -F rejects unknown options but leaves operands in $@, so without this a slip like
-# `bootstrap-macos dock` (meaning `-o dock`) would fall through and apply all 21 sections.
+# `bootstrap-macos dock` (meaning `-o dock`) would fall through and apply all 22 sections.
 if (($#)); then
   log::error "unexpected argument: ${1}"
   builtin print -u2 -- "did you mean: bootstrap-macos --only ${1}"
@@ -128,7 +128,7 @@ BYHOST=${HOME}/Library/Preferences/ByHost/.GlobalPreferences.${HOST_UUID}.plist
 #
 # Ask for the administrator password upfront, but only when a selected section needs it.
 if ((${+do_section[sound]} || ${+do_section[privacy]} || ${+do_section[appearance]} \
-  || ${+do_section[update]} || ${+do_section[touchid]})); then
+  || ${+do_section[update]} || ${+do_section[touchid]} || ${+do_section[datetime]})); then
   (($#flag_dry)) || sudo -v
 fi
 
@@ -320,6 +320,25 @@ if ((${+do_section[menubar]})); then
   $run defaults write com.apple.menuextra.clock ShowSeconds -bool true
   # Show the battery percentage in Control Center
   $run defaults write com.apple.controlcenter BatteryShowPercentage -bool true
+fi
+
+###############################################################################
+# Date and time                                                               #
+###############################################################################
+# 24-hour clock: menubar section (AppleICUForce24HourTime).
+if ((${+do_section[datetime]})); then
+  log::info "date and time"
+  # Every systemsetup -set call prints harmless "Error:-99".
+  # Filter drops only that line, keeps exit status.
+  # Auto time and date from Apple
+  $run sudo systemsetup -setusingnetworktime on 2> >(command grep -v 'Error:-99' >&2) \
+    || { log::error "could not enable network time"; ((failures++)) }
+  $run sudo systemsetup -setnetworktimeserver time.apple.com 2> >(command grep -v 'Error:-99' >&2) \
+    || { log::error "could not set the time server"; ((failures++)) }
+  # Manual time zone (Nashville, TN), not from location
+  $run sudo defaults write /Library/Preferences/com.apple.timezone.auto Active -bool false
+  $run sudo systemsetup -settimezone America/Chicago 2> >(command grep -v 'Error:-99' >&2) \
+    || { log::error "could not set the time zone"; ((failures++)) }
 fi
 
 ###############################################################################
