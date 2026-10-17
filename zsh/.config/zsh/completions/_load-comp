@@ -1,5 +1,8 @@
 #compdef load-comp
 
-_arguments '1:command:_command_names'
+_arguments \
+    '(-h --help)'{-h,--help}'[show list of command-line options]' \
+    '(-c --command)'{-c+,--command=}'[arguments that print the zsh completion script]:arguments' \
+    '1:command:_command_names'
 
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

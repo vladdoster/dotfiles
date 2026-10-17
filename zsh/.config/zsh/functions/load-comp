@@ -1,30 +1,92 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
 #
-# Load a tool's zsh completion by running its completion subcommand.
+# Load a tool's zsh completion by running the tool's own completion command.
 #
-# The script is captured first: `source <(cmd)` returns the status of source, which
-# succeeds on the empty file a failing command leaves behind, so every tool looked like
-# it had completions.
+# Without --command, the function tries each common form in order. It keeps a script only if
+# the script is for zsh: gh prints a bash script for `completion zsh` and still exits 0. The
+# script is captured first because `source <(cmd)` returns the status of source, which
+# succeeds on the empty file a failing command leaves behind. If no form works, the function
+# falls back to _gnu_generic.
 
 builtin emulate -L zsh -o EXTENDED_GLOB
+zmodload zsh/zutil || return 1
 
-if (( ! $# )); then
-    log::error "$0 requires a command name"
+local -a opt_help opt_cmd
+zparseopts -D -E -F -K -- {h,-help}=opt_help {c,-command}:=opt_cmd || return 1
+
+if (( $#opt_help )); then
+    print -r -- "Usage: $0 [-h|--help] [-c|--command ARGS] command"
+    print -r -- 'Options:'
+    print -r -- '  -c, --command ARGS  run "command ARGS" to print the zsh completion script'
+    print -r -- '  -h, --help          show list of command-line options'
+    return 0
+fi
+
+if (( $# != 1 )); then
+    log::error "$0 requires exactly one command name"
     return 1
 fi
 
-local script
-
-script=$($1 completion zsh 2>/dev/null) || script=$($1 completion -s zsh 2>/dev/null)
-
-if [[ -z $script ]]; then
-    log::error "unable to generate $1 completion"
+if (( $#opt_cmd )) && [[ -z $opt_cmd[-1] ]]; then
+    log::error "$0: --command requires a non-empty argument string"
     return 1
 fi
 
-builtin eval "$script" || return 1
+local tool=$1
 
-(( $+functions[compdef] )) && compdef _$1 $1
+if (( ! $+commands[$tool] )); then
+    log::error "$0: command not found: $tool"
+    return 1
+fi
 
-log::info "$1 completion loaded"
+local -a forms
+if (( $#opt_cmd )); then
+    forms=($opt_cmd[-1])
+else
+    forms=(
+        'completion --shell zsh'
+        'completion -s zsh'
+        'completion zsh'
+        'completions zsh'
+        'completions'
+        'complete --shell zsh'
+        '--completion zsh'
+        '--generate-completion zsh'
+        '--gen-completions zsh'
+        '--generate complete-zsh'
+        'generate-shell-completion zsh'
+        'gen-completion zsh'
+    )
+fi
+
+local form script
+local -a words
+for form in $forms; do
+    words=(${(Q)${(z)form}})
+    script=$(command $tool $words 2>/dev/null </dev/null) || continue
+    # Accept zsh completion code only. A bash script has neither marker.
+    [[ $script == (#s)\#compdef* || $script == *$'\n'compdef\ _* ]] && break
+done
+
+if (( ! $+functions[compdef] )); then
+    log::error "$0: compdef is not loaded (run compinit first)"
+    return 1
+fi
+
+if [[ $script != (#s)\#compdef* && $script != *$'\n'compdef\ _* ]]; then
+    # No form printed a zsh script. _gnu_generic reads the options from `$tool --help`.
+    compdef _gnu_generic $tool
+    log::info "$tool completion loaded with _gnu_generic (no zsh script found, try --command)"
+    return 0
+fi
+
+if [[ $script == (#s)\#compdef* ]]; then
+    # A #compdef script is a completion file body. Load it as compinit does.
+    functions[_$tool]=$script
+    compdef _$tool $tool
+else
+    builtin eval "$script" || return 1
+fi
+
+log::info "$tool completion loaded"
