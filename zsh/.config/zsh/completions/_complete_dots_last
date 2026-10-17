@@ -1,0 +1,25 @@
+#autoload
+
+# Completer. It runs _complete, then adds ./ and ../ in a group that lists last.
+# Set special-dirs to false: the default puts ./ and ../ before every other match.
+
+local curcontext=${curcontext/:complete-dots-last:/:complete:}
+local tail=${PREFIX##*/}
+local dir=${PREFIX%$tail}
+local -a dots
+
+_complete "$@"
+local ret=$?
+
+case $tail in
+  .)  dots=(./ ../) ;;
+  ..) dots=(../) ;;
+esac
+
+if (( $#dots )) && [[ -z $dir || -d ${~${(Q)dir}} ]]; then
+  compadd -f -S '' -p "$dir" -V dots-last -- $dots && ret=0
+fi
+
+return $ret
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
