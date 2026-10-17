@@ -1,3 +1,18 @@
+# [4.68.0](https://github.com/vladdoster/dotfiles/compare/v4.67.0...v4.68.0) (2026-10-17)
+
+
+### Bug Fixes
+
+* **zsh:** stop escaping pasted URLs ([f3a2f8c](https://github.com/vladdoster/dotfiles/commit/f3a2f8c5810b2c0ea328fb4df2db39f3c71fab38))
+
+
+### Features
+
+* **zsh:** add --command and fallbacks to load-comp ([35b8ec2](https://github.com/vladdoster/dotfiles/commit/35b8ec24eb7d35b5fe7b3063d7802618c7c98212))
+* **zsh:** add datetime section to bootstrap-macos ([f72f994](https://github.com/vladdoster/dotfiles/commit/f72f9941106e1a1c977f016afd6b04d742f66a6e))
+* **zsh:** add mkrepeat completion ([71d8acc](https://github.com/vladdoster/dotfiles/commit/71d8acc4972949479916387fb981d730b8c17271))
+* **zsh:** add sys-report ([e8f1a87](https://github.com/vladdoster/dotfiles/commit/e8f1a875676c0e0cfc13e7efde5fa0bbf815d242))
+
 # [4.67.0](https://github.com/vladdoster/dotfiles/compare/v4.66.0...v4.67.0) (2026-10-15)
 
 
