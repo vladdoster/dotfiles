@@ -1,21 +1,72 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
 #
-# Browse the git log with fzf; preview a commit, or press enter to page it.
+# Browse the git log with fzf. The list follows new commits and marks each one with a dot.
+# Press enter to page a commit. Press ? to show or hide the preview.
 
 emulate -L zsh
 setopt extendedglob
 
+# fzf child shells have no autoloads. They run this file as a script to reach the :: helpers.
+local self=${functions_source[$0]:-$0}
+
+case $1 in
+  (::list)
+    local dir=$2
+    local -a args=(${(0)"$(<$dir/args)"})
+    local -a new=(${(f)"$(command git log --format=%h "$(<$dir/start)..HEAD" 2>/dev/null)"})
+    # tabs put the hash in field 2, after the graph column. fzf tracks each commit by that field.
+    command git log --color=always --graph \
+        --format='%C(auto)%x09%h%x09%d %s %C(black)%C(bold)%cr' $args |
+      command sed -E \
+        -e 's/([0-9]+) years?(, [0-9]+ months?)? ago$/\1y/' \
+        -e 's/([0-9]+) months? ago$/\1mo/' \
+        -e 's/([0-9]+) weeks? ago$/\1w/' \
+        -e 's/([0-9]+) days? ago$/\1d/' \
+        -e 's/([0-9]+) hours? ago$/\1h/' \
+        -e 's/([0-9]+) minutes? ago$/\1m/' \
+        -e 's/([0-9]+) seconds? ago$/\1s/' |
+      command awk -F'\t' -v OFS='\t' -v new="$new" -v esc=$'\e' -v mark=$'\e[32m●\e[m' '
+        BEGIN { n = split(new, hashes, " "); for (i = 1; i <= n; i++) isnew[hashes[i]] = 1 }
+        NF >= 3 { hash = $2; gsub(esc "\\[[0-9;]*m", "", hash); if (hash in isnew) $3 = mark $3 }
+        { print }'
+    return ;;
+  (::poll)
+    # print a reload action only when HEAD or a ref moves
+    local dir=$2 index=$3
+    local sig=$({ command git rev-parse HEAD
+      command git for-each-ref --format='%(objectname) %(refname)' } 2>/dev/null | command cksum)
+    [[ -r $dir/sig && $sig == "$(<$dir/sig)" ]] && return
+    print -r -- $sig >| $dir/sig
+    # a cursor on the top row follows the new top row. The load binding moves it after the reload.
+    (( index == 0 )) && : >| $dir/follow
+    print -r -- "reload-sync(zsh -f ${(q)self} ::list ${(q)dir})"
+    return ;;
+esac
+
 if ! command git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    log::error "$0: not a git repository: ${(D)PWD}"
-    return 1
+  log::error "$0: not a git repository: ${(D)PWD}"
+  return 1
 fi
 
-# the graph column precedes the hash, so pull the first hash out of the selected line
-local hash='$(printf %s {} | grep -oE "[a-f0-9]{7,}" | head -1)'
+local dir
+dir=$(command mktemp -d "${TMPDIR:-/tmp}/gli.XXXXXX") || return 1
+# the EXIT trap runs after the locals are gone. Expand $dir now, not inside the trap.
+trap "command rm -rf -- ${(q)dir}" EXIT
+print -rN -- "$@" >| $dir/args
+command git rev-parse -q --verify HEAD >| $dir/start
+$0 ::poll $dir 0 >/dev/null
 
-command git log --color=always --graph \
-    --format='%C(auto)%h%d %s %C(black)%C(bold)%cr' "$@" |
-    fzf --ansi \
-        --preview "git show --color=always $hash" \
-        --bind "enter:execute:git show --color=always $hash | less -R"
+# git gives its pager LESS=FRX. With F, less quits at once on a short diff.
+# fzf then draws over the diff. c paints the diff from the top line down.
+local pager="LESS=Rc DELTA_PAGER='less -R'"
+
+$0 ::list $dir |
+  fzf --ansi --track --delimiter '\t' --id-nth 2 --tabstop 1 \
+      --preview 'test -n {2} && git show --stat=$FZF_PREVIEW_COLUMNS -p --color=always {2} |
+        delta --paging=never --width=$FZF_PREVIEW_COLUMNS' \
+      --preview-window 'right,50%,border-left,<80(down,60%,border-top)' \
+      --bind '?:toggle-preview' \
+      --bind "enter:execute(test -n {2} && $pager git show --stat -p {2})" \
+      --bind "every(2):bg-transform:zsh -f ${(q)self} ::poll ${(q)dir} {n}" \
+      --bind "load:transform:rm ${(q)dir}/follow 2>/dev/null && echo first"
