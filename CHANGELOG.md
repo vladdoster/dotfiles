@@ -1,3 +1,11 @@
+# [4.70.0](https://github.com/vladdoster/dotfiles/compare/v4.69.0...v4.70.0) (2026-10-18)
+
+
+### Features
+
+* **gli:** follow new commits as they land ([6a40fdd](https://github.com/vladdoster/dotfiles/commit/6a40fdd40afb71cebd64a709887d9aadc4954bc1))
+* **make:** add release target ([21ab387](https://github.com/vladdoster/dotfiles/commit/21ab387eeac8afd9463f7f888d6da27f6c301aa3))
+
 # [4.69.0](https://github.com/vladdoster/dotfiles/compare/v4.68.0...v4.69.0) (2026-10-17)
 
 
