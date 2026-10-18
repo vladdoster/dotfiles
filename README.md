@@ -52,6 +52,7 @@ zsh install.zsh --help
 | help              | Show all Makefile targets                                               |
 | install           | Install dotfiles                                                        |
 | neovim            | Install neovim configuration                                            |
+| release           | Start the release GitHub Actions workflow                               |
 | safari-extensions | Install 1password, vimari, grammarly safari extensions                  |
 | uninstall         | Uninstall dotfiles                                                      |
 | update-readme     | Update Make targets table in README                                     |

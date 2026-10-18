@@ -114,6 +114,10 @@ docker-save: ## Create tarball of docker image
 docker-shell: ## Start shell in docker container
 	docker run --tty $(DOCKER_OPTS) "$(CONTAINER_TAG)"
 
+release: ## Start the release GitHub Actions workflow
+	$(info ==> starting release workflow)
+	gh workflow run release.yml --ref master
+
 clean: clean-brew clean-docker ## Clean homebrew and docker resources
 
 clean-brew: ## Clean homebrew caches and stale versions
