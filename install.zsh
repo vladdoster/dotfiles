@@ -76,7 +76,7 @@ main() {
     "  -p, --prefix       clone/install location (default: ~/.config/dotfiles)"
     ""
     "Sections (default: ${(j:, :)default_sections}):"
-    "  clone    git clone the dotfiles repository"
+    "  clone    git clone the dotfiles repository (fast-forwards an existing clone)"
     "  brew     install Homebrew (make brew-install)"
     "  bundle   sync Brewfile packages -- removes unlisted formulae (make brew-bundle)"
     "  stow     symlink dotfile packages into \$HOME (make install)"
@@ -203,21 +203,29 @@ main() {
   # clone                                                                      #
   ##############################################################################
   # The only section the script performs itself -- the Makefile does not exist yet. The
-  # existence check runs even under --dry-run: it is read-only and the honest answer.
+  # existence checks run even under --dry-run: they are read-only and the honest answer.
   if ((${+do_section[clone]})); then
-    if [[ -e ${prefix} || -h ${prefix} ]]; then
-      log::error "${prefix} already exists"
+    # A clone left by an earlier run (e.g. one that failed at the brew step) is updated, not
+    # refused, so re-running the one-liner resumes the bootstrap with the latest Makefile.
+    # Read the raw origin URL: `git remote get-url` applies url.*.insteadOf rewrites.
+    if [[ -e ${prefix}/.git ]] \
+      && [[ $(command git -C ${prefix} config --get remote.origin.url 2> /dev/null) == *[/:]vladdoster/dotfiles(.git|) ]]; then
+      log::info "updating the existing clone in ${prefix}"
+      $run git -C ${prefix} pull --ff-only \
+        || log::warn "could not fast-forward ${prefix}; continuing with it as is"
+    elif [[ -e ${prefix} || -h ${prefix} ]]; then
+      log::error "${prefix} already exists and is not a clone of vladdoster/dotfiles"
       builtin print -u2 -l -- \
-        "update it:        git -C ${prefix} pull --ff-only" \
-        "or remove it:     rm -rf ${prefix}" \
+        "remove it:        rm -rf ${prefix}" \
         "or skip cloning:  install.zsh --only brew,bundle,stow"
       return 1
-    fi
-    log::info "cloning the ${branch} branch into ${prefix}"
-    $run mkdir -p -- ${prefix:h}
-    if ! $run git clone --branch ${branch} https://github.com/vladdoster/dotfiles.git ${prefix}; then
-      log::error "git clone failed"
-      return 1
+    else
+      log::info "cloning the ${branch} branch into ${prefix}"
+      $run mkdir -p -- ${prefix:h}
+      if ! $run git clone --branch ${branch} https://github.com/vladdoster/dotfiles.git ${prefix}; then
+        log::error "git clone failed"
+        return 1
+      fi
     fi
   fi
 

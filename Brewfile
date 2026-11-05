@@ -7,6 +7,8 @@ brew "awk"
 brew "binutils"
 brew "bison"
 brew "brotli"
+# Bottled. `cargo install --locked cargo-update` fails to build against Homebrew's OpenSSL 4.
+brew "cargo-update"
 brew "cmake"
 brew "coreutils"
 brew "cpanminus"
@@ -32,7 +34,11 @@ brew "luarocks"
 brew "m4"
 brew "make"
 brew "neovim", args: ["build-from-source", "HEAD"], link: true
-brew "node@24", link: :force
+# brew bundle runs npm with only $HOMEBREW_PREFIX/opt/node/bin added to its stripped PATH, so
+# the npm entries need the node formula. Keep it unlinked: node@24 provides `node` on PATH.
+brew "node", link: false
+# :overwrite links the keg-only node@24 with --force --overwrite; bundle ignores :force.
+brew "node@24", link: :overwrite
 # Reattaches to the GUI session so pam_tid.so can prompt for Touch ID inside tmux
 brew "pam-reattach" if OS.mac?
 brew "python3", link: true
@@ -80,5 +86,4 @@ uv "beautysh"
 uv "mdformat", with: ["mdformat-gfm"]
 uv "pynvim"
 uv "typer"
-cargo "cargo-update"
 cargo "bat"

@@ -8,6 +8,17 @@ GNU Stow packages. Each top-level dir mirrors `$HOME` (`zsh/.config/zsh` becomes
 - `make help`: list targets. `make update-readme`: regenerate README table.
 - `make brew-bundle`: sync Brewfile. Uses `--force-cleanup --zap`: removes unlisted packages.
 - `make docker-build` / `make docker-shell`: test dotfiles in container.
+- `zsh .github/tests/install.zsh`: regression checks for `install.zsh`, `Makefile`, and `Brewfile`. CI also runs
+  `.github/tests/e2e.zsh`: the curl one-liner on a fresh account. It deletes Homebrew; never run it locally.
+
+## Commits and PRs
+
+- Author and committer: name and email of the newest author named Vlad or Vladislav:
+  `git log --no-merges --format='%an <%ae>' | grep -i -m1 '^vlad'`. None found: `Vladislav Doster <mvdoster@gmail.com>`.
+  Set with `git config --local`.
+- Sign off every commit (`git commit -s`) as that identity. No other trailers: no `Co-Authored-By` or session links.
+- Commits, PR titles, PR bodies, and PR comments never name the tool or model that wrote them. Edit out any footer a
+  tool appends to a PR body.
 
 ## Zsh layout (`zsh/.config/zsh`)
 

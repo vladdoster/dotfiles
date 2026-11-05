@@ -1,0 +1,64 @@
+name: Install
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - .github/tests/**
+      - .github/workflows/install.yml
+      - Brewfile
+      - Makefile
+      - install.zsh
+  pull_request:
+    branches:
+      - master
+    paths:
+      - .github/tests/**
+      - .github/workflows/install.yml
+      - Brewfile
+      - Makefile
+      - install.zsh
+  schedule:
+    # Homebrew and package updates break installs without any commit here.
+    - cron: '23 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: install-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regression:
+    name: Regression (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install zsh
+        if: runner.os == 'Linux'
+        run: sudo apt-get update -qq && sudo apt-get install --yes --no-install-recommends zsh
+      - name: Check install.zsh, Makefile, and Brewfile
+        run: zsh .github/tests/install.zsh
+  e2e:
+    name: End to end
+    # The one-liner clones vladdoster/dotfiles, which has no branches from forks.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    needs: regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install zsh
+        run: sudo apt-get update -qq && sudo apt-get install --yes --no-install-recommends zsh
+      - name: Run the curl one-liner on a fresh account
+        run: sudo zsh .github/tests/e2e.zsh --branch "$BRANCH" --ref "$REF" --destroy-homebrew
+        env:
+          BRANCH: ${{ github.head_ref || github.ref_name }}
+          REF: ${{ github.event.pull_request.head.sha || github.sha }}

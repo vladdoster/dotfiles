@@ -55,18 +55,24 @@ chsh: ## Set shell to ZSH
 	grep -qxF "$(ZSH)" /etc/shells || echo "$(ZSH)" | sudo tee -a /etc/shells > /dev/null
 	chsh -s "$(ZSH)" "$$USER"
 
+# NONINTERACTIVE=1 skips the installer's RETURN prompt, but the installer then checks sudo
+# with `sudo -n`, which fails on a fresh Mac with no cached credentials ("Insufficient
+# permissions to install Homebrew"). On a TTY, cache them first so the check passes.
 brew-install: ## Install Homebrew
 	$(info ==> installing homebrew)
+	[[ ! -t 0 ]] || ! command -v sudo > /dev/null || sudo --validate
 	NONINTERACTIVE=1 /bin/bash -c "unset GIT_CONFIG; $$(curl -fsSL $(HOMEBREW_URL)/install.sh)"
 
 brew-uninstall: ## Uninstall Homebrew
 	$(info ==> uninstalling homebrew)
 	/bin/bash -c "$$(curl -fsSL $(HOMEBREW_URL)/uninstall.sh)"
 
+# No --verbose: in verbose mode brew bundle runs npm with brew's stripped PATH, so npm's
+# `#!/usr/bin/env node` fails with "env: node: No such file or directory".
 brew-bundle: export HOMEBREW_NO_ENV_HINTS := 1
 brew-bundle: ## Install programs defined in Brewfile
 	$(info ==> syncing Brewfile packages)
-	brew bundle install --file=$(BREWFILE) --jobs=auto --force --force-cleanup --zap --verbose
+	brew bundle install --file=$(BREWFILE) --force --force-cleanup --zap
 
 brew-nuke: ## DESTRUCTIVE: uninstall every brew/cask package declared in the Brewfile
 	read -r "ans?Uninstalls every Brewfile package (incl. git, zsh, python3). Continue? [y/N] " && [[ $$ans == [yY] ]] || exit 1
