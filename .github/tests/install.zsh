@@ -9,8 +9,9 @@ readonly repo=${0:A:h:h:h}
 readonly work=$(mktemp -d)
 trap 'rm -rf -- $work' EXIT
 integer pass=0 fail=0
-ok()  { print -r -- "ok   $1"; ((pass++)) }
-bad() { print -r -- "FAIL $1"; ((fail++)) }
+# Pre-increment: `((pass++))` is false while pass is 0, which would run the `|| bad` branch.
+ok()  { print -r -- "ok   $1"; ((++pass)) }
+bad() { print -r -- "FAIL $1"; ((++fail)) }
 
 # Keep the user's git config (signing, hooks, pull.rebase) out of the test repositories.
 export GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1
