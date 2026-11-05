@@ -25,8 +25,8 @@ readonly url=https://raw.githubusercontent.com/vladdoster/dotfiles/$ref/install.
 readonly oneliner="/bin/zsh -c \"\$(curl -fsSL $url)\" install.zsh"
 readonly password=$(od -An -N12 -tx1 /dev/urandom | tr -d ' \n')
 integer pass=0 fail=0
-ok()  { print -r -- "ok   $1"; ((pass++)) }
-bad() { print -r -- "FAIL $1"; ((fail++)) }
+ok()  { print -r -- "ok   $1"; ((++pass)) }
+bad() { print -r -- "FAIL $1"; ((++fail)) }
 
 ##############################################################################
 # A fresh account on a machine without Homebrew                              #
