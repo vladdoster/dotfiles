@@ -58,7 +58,10 @@ jobs:
       - name: Install zsh
         run: sudo apt-get update -qq && sudo apt-get install --yes --no-install-recommends zsh
       - name: Run the curl one-liner on a fresh account
-        run: sudo zsh .github/tests/e2e.zsh --branch "$BRANCH" --ref "$REF" --destroy-homebrew
+        # sudo resets the environment; keep what workflow commands and the job summary need.
+        run: >-
+          sudo --preserve-env=GITHUB_ACTIONS,GITHUB_STEP_SUMMARY
+          zsh .github/tests/e2e.zsh --branch "$BRANCH" --ref "$REF" --destroy-homebrew
         env:
           BRANCH: ${{ github.head_ref || github.ref_name }}
           REF: ${{ github.event.pull_request.head.sha || github.sha }}
