@@ -1,3 +1,13 @@
+## [4.70.1](https://github.com/vladdoster/dotfiles/compare/v4.70.0...v4.70.1) (2026-11-05)
+
+
+### Bug Fixes
+
+* **brew:** keep npm and cargo-update installable ([6ece94b](https://github.com/vladdoster/dotfiles/commit/6ece94bd9fac8556faca407be8d7fdbdba924355))
+* **ci:** stop the first install check from also failing ([ce9bb1d](https://github.com/vladdoster/dotfiles/commit/ce9bb1d94c583013cbabf842b996a5aba3f34672))
+* **install:** resume over an existing clone ([9989bc6](https://github.com/vladdoster/dotfiles/commit/9989bc6c3c5392561cfb2abed43b8d4e3e49de6f))
+* **make:** install homebrew and bundle on a fresh mac ([7d38c63](https://github.com/vladdoster/dotfiles/commit/7d38c6388e9dd1d79244a3b9f0b903beadc3bf72))
+
 # [4.70.0](https://github.com/vladdoster/dotfiles/compare/v4.69.0...v4.70.0) (2026-10-18)
 
 
