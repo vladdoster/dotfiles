@@ -25,8 +25,17 @@ readonly url=https://raw.githubusercontent.com/vladdoster/dotfiles/$ref/install.
 readonly oneliner="/bin/zsh -c \"\$(curl -fsSL $url)\" install.zsh"
 readonly password=$(od -An -N12 -tx1 /dev/urandom | tr -d ' \n')
 integer pass=0 fail=0
-ok()  { print -r -- "ok   $1"; ((pass++)) }
-bad() { print -r -- "FAIL $1"; ((fail++)) }
+# Pre-increment: `((pass++))` is false while pass is 0, which would run the `|| bad` branch.
+ok()  { print -r -- "ok   $1"; ((++pass)) }
+# A failure also shows the end of the session's transcript.
+bad() {
+  print -r -- "FAIL $1"
+  [[ -n ${out-} ]] && print -rl -- "     | "${^${(f)out}[-6,-1]}
+  ((++fail))
+}
+
+# A failed download makes the one-liner run `zsh -c ""`, which exits 0. Fail fast instead.
+curl -fsSL -o /dev/null $url || die "cannot fetch $url"
 
 ##############################################################################
 # A fresh account on a machine without Homebrew                              #
