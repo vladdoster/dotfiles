@@ -8,6 +8,8 @@ GNU Stow packages. Each top-level dir mirrors `$HOME` (`zsh/.config/zsh` becomes
 - `make help`: list targets. `make update-readme`: regenerate README table.
 - `make brew-bundle`: sync Brewfile. Uses `--force-cleanup --zap`: removes unlisted packages.
 - `make docker-build` / `make docker-shell`: test dotfiles in container.
+- `zsh .github/tests/install.zsh`: regression checks for `install.zsh`, `Makefile`, and `Brewfile`. CI also runs
+  `.github/tests/e2e.zsh`: the curl one-liner on a fresh account. It deletes Homebrew; never run it locally.
 
 ## Commits and PRs
 
