@@ -1,0 +1,13 @@
+# Created during agent-docs init. Edit this file to control future runs.
+# Exclusions below match tracked dependency, cache, lock, or generated-file paths.
+# Review build rules for additional outputs; retain authored source, tests, and schemas.
+# The docs output, root instruction files, and this config are excluded automatically.
+output: agent-docs
+depth: standard
+models:
+  worker: sonnet
+  reviewer: opus
+exclude:
+  # Written by the shared release workflow (release.yml) in "ci: vX -> vY" commits.
+  - CHANGELOG.md
+flows: []

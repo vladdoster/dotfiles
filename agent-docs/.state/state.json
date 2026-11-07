@@ -1,0 +1,2851 @@
+{
+  "version": 1,
+  "generated_at": "2026-11-07T17:16:45.333Z",
+  "repo": {
+    "head": "9c21e6b541ae7d4d867a6da32efbbf71b43d67ec",
+    "branch": "master",
+    "clean_at_start": true,
+    "commands": {
+      "lint": [],
+      "format": [],
+      "typecheck": [],
+      "test": [
+        "zsh .github/tests/install.zsh"
+      ]
+    },
+    "github": "vladdoster/dotfiles"
+  },
+  "company_style": null,
+  "history": {
+    "last_merged_at": "2026-11-05T03:00:39Z",
+    "generated_at": "2026-11-07T16:58:31.886Z"
+  },
+  "docs": {
+    "areas/bootstrap": {
+      "path": "areas/bootstrap.md",
+      "generated": "2026-11-07",
+      "source_commit": "9c21e6b541ae7d4d867a6da32efbbf71b43d67ec",
+      "level": 1,
+      "parent": "START-HERE",
+      "children": [],
+      "owns": [
+        "install.zsh",
+        "Makefile",
+        "Brewfile",
+        ".github/tests/**",
+        ".github/workflows/install.yml",
+        "README.md",
+        "Dockerfile",
+        "arch-linux.Dockerfile",
+        "docker/.stow-local-ignore",
+        "docker/init-buildx.sh",
+        "docker/Makefile",
+        ".dockerignore",
+        ".stow-local-ignore",
+        "stow/.stow-global-ignore"
+      ],
+      "triggers": [
+        "change what the curl one-liner installs",
+        "add a section or flag to install.zsh",
+        "add or remove a Homebrew package in the Brewfile",
+        "add a Makefile target and refresh the README table",
+        "fix a stow conflict during install",
+        "change the Docker image or its build",
+        "add a regression check for the installer"
+      ],
+      "entry_points": [
+        "install.zsh:55",
+        "Makefile:40",
+        "Brewfile",
+        ".github/tests/install.zsh",
+        ".github/workflows/install.yml"
+      ],
+      "related": [
+        "areas/zsh",
+        "areas/desktop",
+        "areas/cli-tools"
+      ],
+      "sources": [
+        {
+          "path": ".dockerignore",
+          "blob": "34c8b56276d7f16bf04cedfac435682dc42f1d95",
+          "depth": "deep"
+        },
+        {
+          "path": ".github/tests/e2e.zsh",
+          "blob": "e91e33ef8123daf8f04a67f11e087c880da8c73a",
+          "depth": "deep"
+        },
+        {
+          "path": ".github/tests/install.zsh",
+          "blob": "bffad7f413840807ad3fc8011381cb4e690ddb21",
+          "depth": "deep"
+        },
+        {
+          "path": ".github/tests/terminal.py",
+          "blob": "48b0caf4c46aafb362b91c984b4380025dc1c14d",
+          "depth": "deep"
+        },
+        {
+          "path": ".github/workflows/install.yml",
+          "blob": "529f0b72ddeb1e2730d2e9fd876273c78ca6a8bc",
+          "depth": "deep"
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "blob": "14a737a266753edf845017a04b23b03f001d65bf",
+          "depth": "skim"
+        },
+        {
+          "path": ".stow-local-ignore",
+          "blob": "959d315d053be3209d2c784f8c98e1063cbd438c",
+          "depth": "deep"
+        },
+        {
+          "path": "AGENTS.md",
+          "blob": "9f68de8435d18de3ca52d6a661c3b898f6bce0de",
+          "depth": "skim"
+        },
+        {
+          "path": "arch-linux.Dockerfile",
+          "blob": "db4585d33b51bb1248588a47cf33fc8cc833490f",
+          "depth": "deep"
+        },
+        {
+          "path": "Brewfile",
+          "blob": "d0a0d3751ddaf0ac378adade1803b035f12cc863",
+          "depth": "deep"
+        },
+        {
+          "path": "docker/.stow-local-ignore",
+          "blob": "8d98f9debde566e73ecc47f5f197ba8d122745df",
+          "depth": "deep"
+        },
+        {
+          "path": "docker/init-buildx.sh",
+          "blob": "29706748b2042f824c0db41943cc16ccb1d22b51",
+          "depth": "deep"
+        },
+        {
+          "path": "docker/Makefile",
+          "blob": "45c0c3b697014ee8fe4982ce685f40e9a8acbc73",
+          "depth": "deep"
+        },
+        {
+          "path": "Dockerfile",
+          "blob": "11a4ede4e4ede7e7b3db7d5ff08588bbe5b62c7b",
+          "depth": "deep"
+        },
+        {
+          "path": "install.zsh",
+          "blob": "099405aef14c4f6daf28afd2f45223e8ae05aaab",
+          "depth": "deep"
+        },
+        {
+          "path": "Makefile",
+          "blob": "ce2336d4fbf4c9be182be13bac400049ede6d0b8",
+          "depth": "deep"
+        },
+        {
+          "path": "README.md",
+          "blob": "57632618e9ab9182c7c3b8ce6d396c368949a475",
+          "depth": "deep"
+        },
+        {
+          "path": "stow/.stow-global-ignore",
+          "blob": "4b851383c5b6e4cff02c061eb7f329a32de70135",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/00-env.zsh",
+          "blob": "c00c378370a541575e133080d7c86968624db951",
+          "depth": "skim"
+        }
+      ],
+      "notes_consumed": [],
+      "hit_source_cap": false,
+      "unresolved": [
+        "Whether the root .stow-local-ignore affects the per-package stow runs in make install",
+        "How brew bundle treats the casks at Brewfile:60-64 on Linux"
+      ],
+      "issues": [],
+      "content_hash": "0e067c71454f1fa213ecfe960c05ea37b6049bf576dd1004fe7604956032a13a"
+    },
+    "areas/cli-tools": {
+      "path": "areas/cli-tools.md",
+      "generated": "2026-11-07",
+      "source_commit": "9c21e6b541ae7d4d867a6da32efbbf71b43d67ec",
+      "level": 1,
+      "parent": "START-HERE",
+      "children": [],
+      "owns": [
+        "git/.config/git/commit-template",
+        "git/.config/git/config",
+        "git/.config/git/ignore",
+        "vim/.vimrc",
+        "python/.config/python/**",
+        "pip/.config/pip/pip.conf",
+        "curl/.curlrc",
+        "ripgrep/.config/ripgrep/config",
+        "ranger/.config/ranger/rc.conf",
+        "htop/.config/htop/htoprc",
+        "topgrade/.config/topgrade.toml",
+        "bash/.bashrc",
+        "bin/.local/bin/colors-demo.zsh",
+        "bin/.local/bin/execute-and-wait.zsh",
+        "bin/.local/bin/get-gh-release",
+        "bin/.local/bin/installer",
+        "bin/.local/bin/Makefile",
+        "bin/.local/bin/remove-releases",
+        "bin/.local/bin/rm-git-tags",
+        "bin/.local/bin/squash-all-commits",
+        "bin/.local/bin/update-license-headers"
+      ],
+      "triggers": [
+        "add or change a git alias",
+        "change the commit message template",
+        "add a global gitignore pattern",
+        "change vim plugins or options",
+        "add a script to ~/.local/bin",
+        "change curl, pip, or ripgrep defaults"
+      ],
+      "entry_points": [
+        "git/.config/git/config",
+        "vim/.vimrc",
+        "bin/.local/bin/Makefile",
+        "zsh/.config/zsh/rc.d/00-env.zsh:19"
+      ],
+      "related": [
+        "areas/zsh",
+        "areas/bootstrap",
+        "areas/desktop"
+      ],
+      "sources": [
+        {
+          "path": ".stow-local-ignore",
+          "blob": "959d315d053be3209d2c784f8c98e1063cbd438c",
+          "depth": "skim"
+        },
+        {
+          "path": "AGENTS.md",
+          "blob": "9f68de8435d18de3ca52d6a661c3b898f6bce0de",
+          "depth": "skim"
+        },
+        {
+          "path": "bash/.bashrc",
+          "blob": "c2cb99cad408b60e87820b435d2bc8d7b12a0368",
+          "depth": "deep"
+        },
+        {
+          "path": "bin/.local/bin/colors-demo.zsh",
+          "blob": "2e2c1d83c2029700838731cec9631d09b2a799c0",
+          "depth": "deep"
+        },
+        {
+          "path": "bin/.local/bin/execute-and-wait.zsh",
+          "blob": "05bac118ac9b6d7a5834eb13de3827a12a50dd1a",
+          "depth": "deep"
+        },
+        {
+          "path": "bin/.local/bin/get-gh-release",
+          "blob": "546a23dbf2c863ca47e3e576a75ea871d4c95d85",
+          "depth": "deep"
+        },
+        {
+          "path": "bin/.local/bin/installer",
+          "blob": "295fdc4b0261784db534b40e9760910632c127d8",
+          "depth": "deep"
+        },
+        {
+          "path": "bin/.local/bin/Makefile",
+          "blob": "ee6835a4c76d4f871d5ddd725b88315964ecfb2d",
+          "depth": "deep"
+        },
+        {
+          "path": "bin/.local/bin/remove-releases",
+          "blob": "0336cfcbc4747ba0022c99e5990527b2f649bb25",
+          "depth": "deep"
+        },
+        {
+          "path": "bin/.local/bin/rm-git-tags",
+          "blob": "5cc2bd4e72bc914130353df6efdd54cf1805311c",
+          "depth": "deep"
+        },
+        {
+          "path": "bin/.local/bin/squash-all-commits",
+          "blob": "885a19a7431cef0db3ee294d328e4766471d9d69",
+          "depth": "deep"
+        },
+        {
+          "path": "bin/.local/bin/update-license-headers",
+          "blob": "44879bf6b9569d5c3eb8121e136e64f4cbbd3f06",
+          "depth": "deep"
+        },
+        {
+          "path": "curl/.curlrc",
+          "blob": "60826869e69ededc029ab01cbd6fdbcc9ff3a810",
+          "depth": "deep"
+        },
+        {
+          "path": "git/.config/git/commit-template",
+          "blob": "e5b40cd9e68d9a6f7b274515e67161614f37b17b",
+          "depth": "deep"
+        },
+        {
+          "path": "git/.config/git/config",
+          "blob": "b6e5bb91811bad52c30c68d5997a782750bdbe63",
+          "depth": "deep"
+        },
+        {
+          "path": "git/.config/git/ignore",
+          "blob": "247636338cd201150111ebc2eb413efbb4861f8f",
+          "depth": "deep"
+        },
+        {
+          "path": "htop/.config/htop/htoprc",
+          "blob": "f939b1ce5a76ef7169e22ab57433f1c69780dc38",
+          "depth": "deep"
+        },
+        {
+          "path": "install.zsh",
+          "blob": "099405aef14c4f6daf28afd2f45223e8ae05aaab",
+          "depth": "skim"
+        },
+        {
+          "path": "Makefile",
+          "blob": "ce2336d4fbf4c9be182be13bac400049ede6d0b8",
+          "depth": "skim"
+        },
+        {
+          "path": "pip/.config/pip/pip.conf",
+          "blob": "de5e6dd9eb1aeb3210961eb3f1e81a65595c74d3",
+          "depth": "deep"
+        },
+        {
+          "path": "python/.config/python/init-repl.py",
+          "blob": "87c99fa459462f21eb1d582e66f8ab10e7a67251",
+          "depth": "deep"
+        },
+        {
+          "path": "ranger/.config/ranger/rc.conf",
+          "blob": "5d88e294f07deebb826aa7da2c844ab4e01522c7",
+          "depth": "deep"
+        },
+        {
+          "path": "ripgrep/.config/ripgrep/config",
+          "blob": "bdd1cf649e632d360124273a3e1e7418fb88c2e8",
+          "depth": "deep"
+        },
+        {
+          "path": "stow/.stow-global-ignore",
+          "blob": "4b851383c5b6e4cff02c061eb7f329a32de70135",
+          "depth": "skim"
+        },
+        {
+          "path": "topgrade/.config/topgrade.toml",
+          "blob": "8e33174d353add87b903a27de02cee6b6fb771df",
+          "depth": "deep"
+        },
+        {
+          "path": "vim/.vimrc",
+          "blob": "feb9fce6abe453c4126856ca1eb355b8197d32c1",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/.zprofile",
+          "blob": "2faf9511ba6efa89090cc74f42bfd960bd6287f0",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/00-env.zsh",
+          "blob": "c00c378370a541575e133080d7c86968624db951",
+          "depth": "skim"
+        }
+      ],
+      "notes_consumed": [],
+      "hit_source_cap": false,
+      "unresolved": [
+        "Whether git loads ~/.config/git/config.local",
+        "Whether pip reads PIP_CONFIG",
+        "Whether Stow reads a repo-root .stow-local-ignore",
+        "Which scripts call execute-and-wait.zsh"
+      ],
+      "issues": [],
+      "content_hash": "e73c2727c0d0395082269ce8827c4bfc74b49f6dcafc3c1477c59f9a356f2b97"
+    },
+    "areas/desktop": {
+      "path": "areas/desktop.md",
+      "generated": "2026-11-07",
+      "source_commit": "9c21e6b541ae7d4d867a6da32efbbf71b43d67ec",
+      "level": 1,
+      "parent": "START-HERE",
+      "children": [],
+      "owns": [
+        "wezterm/.config/wezterm/balance-panes.lua",
+        "wezterm/.config/wezterm/links.lua",
+        "wezterm/.config/wezterm/mouse.lua",
+        "wezterm/.config/wezterm/wezterm.lua",
+        "kitty/.config/kitty/dracula.conf",
+        "kitty/.config/kitty/kitty.conf",
+        "skhd/.config/skhd/skhdrc",
+        "yabai/.config/yabai/yabairc",
+        "macos/.config/macos/darwin.terminal",
+        "tmux/.config/tmux/tmux.conf"
+      ],
+      "triggers": [
+        "change a wezterm key binding",
+        "fix pane equalizing after a split",
+        "add a skhd hotkey for yabai",
+        "change tmux prefix or pane bindings",
+        "change the macOS Terminal profile",
+        "change kitty colors or shortcuts"
+      ],
+      "entry_points": [
+        "wezterm/.config/wezterm/wezterm.lua:137",
+        "wezterm/.config/wezterm/balance-panes.lua:13",
+        "skhd/.config/skhd/skhdrc:76",
+        "tmux/.config/tmux/tmux.conf:16"
+      ],
+      "related": [
+        "areas/zsh",
+        "areas/bootstrap",
+        "areas/cli-tools"
+      ],
+      "sources": [
+        {
+          "path": "Brewfile",
+          "blob": "d0a0d3751ddaf0ac378adade1803b035f12cc863",
+          "depth": "skim"
+        },
+        {
+          "path": "kitty/.config/kitty/dracula.conf",
+          "blob": "dfe7c3be15dd3bc7e683e98c316ac87f38c5998e",
+          "depth": "skim"
+        },
+        {
+          "path": "kitty/.config/kitty/kitty.conf",
+          "blob": "ea20b0c9f1fd4bb83ee0ab5b4f9c51e77c00bb21",
+          "depth": "deep"
+        },
+        {
+          "path": "macos/.config/macos/darwin.terminal",
+          "blob": "22bbca23576441af7de1da6255b03e247483cb40",
+          "depth": "skim"
+        },
+        {
+          "path": "skhd/.config/skhd/skhdrc",
+          "blob": "8078eff3e346278d48ec383e25c071b8aef51567",
+          "depth": "deep"
+        },
+        {
+          "path": "tmux/.config/tmux/tmux.conf",
+          "blob": "127f8be50689edbbd325b9078d1d03e86fbf67ba",
+          "depth": "deep"
+        },
+        {
+          "path": "wezterm/.config/wezterm/balance-panes.lua",
+          "blob": "e6c86a9e48107106bae15b2314d005798ef1436d",
+          "depth": "deep"
+        },
+        {
+          "path": "wezterm/.config/wezterm/links.lua",
+          "blob": "0e64bb9b11b911f6a2ca6a73dc41eb28cd3600a3",
+          "depth": "deep"
+        },
+        {
+          "path": "wezterm/.config/wezterm/mouse.lua",
+          "blob": "60e09f03e84177e88d253fa76a2411b290e393e3",
+          "depth": "deep"
+        },
+        {
+          "path": "wezterm/.config/wezterm/wezterm.lua",
+          "blob": "6a54aadd6e8cac6c302e6b6340643c2c45b57340",
+          "depth": "deep"
+        },
+        {
+          "path": "yabai/.config/yabai/yabairc",
+          "blob": "755064f7d9b72a8d884724dc4b8dbd4e4a8cbb3a",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/bootstrap-macos",
+          "blob": "d306105b1ad058bf4809c77c9c0d0086fae48885",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/wezterm::_pane",
+          "blob": "2f9fa481860d7c5575bfc4ef03b2f39db95ba33f",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/wezterm::send-pane",
+          "blob": "c795e26cc2c642a9e3f20988813e571520fb7f96",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/01-alias.zsh",
+          "blob": "d199105a662b2bfa45203f8fb072468bc781788e",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/04-clipboard.zsh",
+          "blob": "28fe0b902e9fa799adb179b663bb4a65204f5e56",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/05-zinit.zsh",
+          "blob": "0539c7496ea3ce01ff41f863a0ccaf6a8f41b231",
+          "depth": "skim"
+        }
+      ],
+      "notes_consumed": [],
+      "hit_source_cap": false,
+      "unresolved": [
+        "How kitty, skhd and yabai are installed (absent from Brewfile)",
+        "Where sudoers is configured for yabai --load-sa",
+        "Font size inside darwin.terminal encoded blob",
+        "Whether skhd resize edge/key mapping is intended"
+      ],
+      "issues": [],
+      "content_hash": "18bcbeaf3d736c16c4e748d6b1f87cb3d4a85f619132ed14e5ffeb726d48bc27"
+    },
+    "areas/zsh": {
+      "path": "areas/zsh.md",
+      "generated": "2026-11-07",
+      "source_commit": "9c21e6b541ae7d4d867a6da32efbbf71b43d67ec",
+      "level": 1,
+      "parent": "START-HERE",
+      "children": [
+        "components/zsh/startup",
+        "components/zsh/function-tooling",
+        "components/zsh/everyday-utilities",
+        "components/zsh/system-maintenance",
+        "components/zsh/dev-and-terminal"
+      ],
+      "owns": [],
+      "triggers": [
+        "understand how the zsh package is laid out",
+        "find where a command or alias in my shell is defined",
+        "decide which zsh group a function belongs in",
+        "check what zsh expects from bootstrap or wezterm"
+      ],
+      "entry_points": [
+        "zsh/.config/zsh/.zshrc:23",
+        "zsh/.config/zsh/.zprofile:39",
+        "zsh/.config/zsh/functions/AGENTS.md",
+        "zsh/.config/zsh/rc.d/05-zinit.zsh"
+      ],
+      "related": [
+        "areas/bootstrap",
+        "areas/desktop",
+        "areas/cli-tools",
+        "components/zsh/startup"
+      ],
+      "sources": [
+        {
+          "path": ".gitignore",
+          "blob": "e6428336b4998dc0329ed9275acfa5723c7a4fc5",
+          "depth": "skim"
+        },
+        {
+          "path": "AGENTS.md",
+          "blob": "9f68de8435d18de3ca52d6a661c3b898f6bce0de",
+          "depth": "skim"
+        },
+        {
+          "path": "install.zsh",
+          "blob": "099405aef14c4f6daf28afd2f45223e8ae05aaab",
+          "depth": "skim"
+        },
+        {
+          "path": "Makefile",
+          "blob": "ce2336d4fbf4c9be182be13bac400049ede6d0b8",
+          "depth": "skim"
+        },
+        {
+          "path": "wezterm/.config/wezterm/wezterm.lua",
+          "blob": "6a54aadd6e8cac6c302e6b6340643c2c45b57340",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/.zprofile",
+          "blob": "2faf9511ba6efa89090cc74f42bfd960bd6287f0",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/.zshrc",
+          "blob": "6012f2542c52f34c53ad57e7199bc70ff5a89f16",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/AGENTS.md",
+          "blob": "fd6eaa093a9539b42a869b040752edd3a2527f85",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/AGENTS.md",
+          "blob": "7b44f47dc72678b10fcc4ed2b6ad366bffea7a57",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/r",
+          "blob": "408829151479c9b219c4285b52b184b558b8de23",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/zsh::rld",
+          "blob": "e10271e91717b6c97919126a3288d5f2fc0e7e11",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/00-env.zsh",
+          "blob": "c00c378370a541575e133080d7c86968624db951",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/01-alias.zsh",
+          "blob": "d199105a662b2bfa45203f8fb072468bc781788e",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/05-zinit.zsh",
+          "blob": "0539c7496ea3ce01ff41f863a0ccaf6a8f41b231",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/06-completion.zsh",
+          "blob": "fc930184ef58024745b6603eeb35ca11c6df1164",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.zshenv",
+          "blob": "5564e22f4de0656ffa31e23e8f46cd6920f4ea88",
+          "depth": "skim"
+        }
+      ],
+      "notes_consumed": [],
+      "hit_source_cap": false,
+      "unresolved": [
+        "How the compiled-function digest is built (no tracked file creates it)",
+        "Root AGENTS.md rc.d stage 'repeat' has no file at HEAD"
+      ],
+      "issues": [],
+      "content_hash": "b7dba675e2013f830116443b53da9c0d46651c78d02eb579e54f1329acd3236c"
+    },
+    "components/zsh/dev-and-terminal": {
+      "path": "components/zsh/dev-and-terminal.md",
+      "generated": "2026-11-07",
+      "source_commit": "9c21e6b541ae7d4d867a6da32efbbf71b43d67ec",
+      "level": 2,
+      "parent": "areas/zsh",
+      "children": [],
+      "owns": [
+        "zsh/.config/zsh/functions/dkr",
+        "zsh/.config/zsh/completions/_dkr",
+        "zsh/.config/zsh/functions/docker::shell",
+        "zsh/.config/zsh/completions/_docker::shell",
+        "zsh/.config/zsh/functions/ls-containers",
+        "zsh/.config/zsh/completions/_ls-containers",
+        "zsh/.config/zsh/functions/wezterm::_pane",
+        "zsh/.config/zsh/functions/wezterm::bring-pane",
+        "zsh/.config/zsh/completions/_wezterm::bring-pane",
+        "zsh/.config/zsh/functions/wezterm::send-pane",
+        "zsh/.config/zsh/completions/_wezterm::send-pane",
+        "zsh/.config/zsh/functions/gli",
+        "zsh/.config/zsh/completions/_gli",
+        "zsh/.config/zsh/functions/fgco",
+        "zsh/.config/zsh/completions/_fgco"
+      ],
+      "triggers": [
+        "add a distro to the dkr sandbox",
+        "change what dkr nuke removes",
+        "fix wezterm::send-pane or bring-pane target matching",
+        "change the gli git log browser",
+        "change how fgco picks a branch",
+        "build a throwaway Docker shell with docker::shell"
+      ],
+      "entry_points": [
+        "zsh/.config/zsh/functions/dkr:336",
+        "zsh/.config/zsh/functions/wezterm::_pane:12",
+        "zsh/.config/zsh/functions/gli:13",
+        "zsh/.config/zsh/functions/docker::shell:44"
+      ],
+      "related": [
+        "areas/zsh",
+        "components/zsh/function-tooling",
+        "components/zsh/everyday-utilities",
+        "areas/desktop"
+      ],
+      "sources": [
+        {
+          "path": "zsh/.config/zsh/completions/_dkr",
+          "blob": "008d6224030a504512c4daba2cca636ad0438fed",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_docker::shell",
+          "blob": "102b4e554486fe54f7097d1e0ff8b3169a37e897",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_fgco",
+          "blob": "cb04b535cabdfac0ea16474ebb125ae995a5f1ab",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_gli",
+          "blob": "7f47b68ef24408ef7177bf9b1ddf2eee306ccf85",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_ls-containers",
+          "blob": "4dc3b94f36c77d59a556c50ca2d9c0659004fe2e",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_wezterm::bring-pane",
+          "blob": "48bfa76b30effa59ef145a8d8ddbc15b43df81bf",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_wezterm::send-pane",
+          "blob": "a2e5acc8b1d66bed357d1ddfe6615e9b49b2c521",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/AGENTS.md",
+          "blob": "fd6eaa093a9539b42a869b040752edd3a2527f85",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/AGENTS.md",
+          "blob": "7b44f47dc72678b10fcc4ed2b6ad366bffea7a57",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/dkr",
+          "blob": "1e15eab07bb80110a727a859974ed5904239364d",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/docker::shell",
+          "blob": "7241030b5e8c18acfcd1c00caacc928e0879f57c",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/fgco",
+          "blob": "720960d1502f2c7033efe520c3ee2c6d79e86f9e",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/gli",
+          "blob": "d1960ba45c557e844f9fc6130df634c89c64f608",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/ls-containers",
+          "blob": "9602c1cd38413868c2f73ba6434b099692e59565",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/wezterm::_pane",
+          "blob": "2f9fa481860d7c5575bfc4ef03b2f39db95ba33f",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/wezterm::bring-pane",
+          "blob": "d120eae4eb1185b89829a3c6beb574e7f7b64519",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/wezterm::send-pane",
+          "blob": "c795e26cc2c642a9e3f20988813e571520fb7f96",
+          "depth": "deep"
+        }
+      ],
+      "notes_consumed": [],
+      "hit_source_cap": false,
+      "unresolved": [
+        "Whether the Brewfile installs fzf, delta, figlet and jq (not checked)"
+      ],
+      "issues": [],
+      "content_hash": "dbfd530e40fbe1cb802dff72ac98caddbc28d805101fc17cc3e59033d9181d41"
+    },
+    "components/zsh/everyday-utilities": {
+      "path": "components/zsh/everyday-utilities.md",
+      "generated": "2026-11-07",
+      "source_commit": "9c21e6b541ae7d4d867a6da32efbbf71b43d67ec",
+      "level": 2,
+      "parent": "areas/zsh",
+      "children": [],
+      "owns": [
+        "zsh/.config/zsh/functions/c",
+        "zsh/.config/zsh/completions/_c",
+        "zsh/.config/zsh/functions/v",
+        "zsh/.config/zsh/completions/_v",
+        "zsh/.config/zsh/functions/vd",
+        "zsh/.config/zsh/completions/_vd",
+        "zsh/.config/zsh/functions/h",
+        "zsh/.config/zsh/completions/_h",
+        "zsh/.config/zsh/functions/df",
+        "zsh/.config/zsh/completions/_df",
+        "zsh/.config/zsh/functions/xcah",
+        "zsh/.config/zsh/completions/_xcah",
+        "zsh/.config/zsh/functions/xcoh",
+        "zsh/.config/zsh/completions/_xcoh",
+        "zsh/.config/zsh/functions/xdah",
+        "zsh/.config/zsh/completions/_xdah",
+        "zsh/.config/zsh/functions/xsth",
+        "zsh/.config/zsh/completions/_xsth",
+        "zsh/.config/zsh/functions/dotfiles::edit",
+        "zsh/.config/zsh/completions/_dotfiles::edit",
+        "zsh/.config/zsh/functions/dotfiles::make",
+        "zsh/.config/zsh/completions/_dotfiles::make",
+        "zsh/.config/zsh/functions/edit::file",
+        "zsh/.config/zsh/completions/_edit::file",
+        "zsh/.config/zsh/functions/edit::find-replace",
+        "zsh/.config/zsh/completions/_edit::find-replace",
+        "zsh/.config/zsh/functions/extract",
+        "zsh/.config/zsh/completions/_extract",
+        "zsh/.config/zsh/functions/extract-images",
+        "zsh/.config/zsh/completions/_extract-images",
+        "zsh/.config/zsh/functions/mkbak",
+        "zsh/.config/zsh/completions/_mkbak",
+        "zsh/.config/zsh/functions/mkfile",
+        "zsh/.config/zsh/completions/_mkfile",
+        "zsh/.config/zsh/functions/fzfp",
+        "zsh/.config/zsh/completions/_fzfp",
+        "zsh/.config/zsh/functions/ls-path",
+        "zsh/.config/zsh/completions/_ls-path",
+        "zsh/.config/zsh/functions/add-to-path",
+        "zsh/.config/zsh/completions/_add-to-path",
+        "zsh/.config/zsh/functions/watch::file-count",
+        "zsh/.config/zsh/completions/_watch::file-count",
+        "zsh/.config/zsh/functions/zpgrep",
+        "zsh/.config/zsh/completions/_zpgrep",
+        "zsh/.config/zsh/functions/acme",
+        "zsh/.config/zsh/completions/_acme",
+        "zsh/.config/zsh/functions/banner",
+        "zsh/.config/zsh/completions/_banner",
+        "zsh/.config/zsh/functions/clock",
+        "zsh/.config/zsh/completions/_clock",
+        "zsh/.config/zsh/functions/emoji",
+        "zsh/.config/zsh/completions/_emoji",
+        "zsh/.config/zsh/functions/mock",
+        "zsh/.config/zsh/completions/_mock"
+      ],
+      "triggers": [
+        "change how extract handles an archive type",
+        "add a flag to add-to-path or another utility",
+        "add a new text emoji to emoji",
+        "fix a completion for one of the small utility functions",
+        "change the file preview used by fzfp"
+      ],
+      "entry_points": [
+        "zsh/.config/zsh/functions/c",
+        "zsh/.config/zsh/functions/extract",
+        "zsh/.config/zsh/functions/add-to-path",
+        "zsh/.config/zsh/completions/_dotfiles::make"
+      ],
+      "related": [
+        "components/zsh/function-tooling",
+        "components/zsh/startup",
+        "components/zsh/dev-and-terminal",
+        "components/zsh/system-maintenance"
+      ],
+      "sources": [
+        {
+          "path": "AGENTS.md",
+          "blob": "9f68de8435d18de3ca52d6a661c3b898f6bce0de",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/.zprofile",
+          "blob": "2faf9511ba6efa89090cc74f42bfd960bd6287f0",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_acme",
+          "blob": "cb943820c35a43f2d819bc1c60207ad2e10e6516",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_add-to-path",
+          "blob": "53f665821523fba4faf08afc6378518af64da4a2",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_banner",
+          "blob": "1b92ca5387ad2e03aeb030eed34ff9976ba82c5f",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_c",
+          "blob": "8c3a62d10dcd4498f424f4bd97b4f34c4947712d",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_clock",
+          "blob": "9bcc903619f4bab33613a5944c59e9c8ea5ad48b",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_df",
+          "blob": "dd288e3da05899351b212b6447ae7c6dc5d930a0",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_dotfiles::edit",
+          "blob": "47ecc3552e86ccd44c028c1f7b5032948a3cdabf",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_dotfiles::make",
+          "blob": "f28c58a7a186c0bf6e74510a68dd18738e7ea8b7",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_edit::file",
+          "blob": "762c6c0a99eb2e246ae8367198507b28381723b6",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_edit::find-replace",
+          "blob": "9fc2583606fbba9a5671d61f3e00ce14232ec33e",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_emoji",
+          "blob": "cb159479ec052f588974b6c9602952f4a7c20122",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_extract",
+          "blob": "fd339f4039fdb122ee1a6d67f44f25267bae313b",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_extract-images",
+          "blob": "d68087db45bd1e60210e4b68ff28522de685bd15",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_fzfp",
+          "blob": "d4f94d0674ce778ce2b75fb2a40f07878d3f392b",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_h",
+          "blob": "c55dc698cb6174da978129ddedc064a5b6461d48",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_ls-path",
+          "blob": "0f30c26e92a836fc7c1e58dcb6f65d87c715fc24",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_mkbak",
+          "blob": "a6dea5cf074ae2f6424e2fcb14304bc506c3b155",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_mkfile",
+          "blob": "b16d7bab8eb6de110a03610c27e4342c200217b0",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_mock",
+          "blob": "97eb86e3b66d5428d0d22e3a76fd116de89fa33e",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_v",
+          "blob": "68c51927c5be90400a22c7fcf4317a88736ebc45",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_vd",
+          "blob": "e5616d4db406c74911b28a8d6c509b02355d8474",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_watch::file-count",
+          "blob": "50acad048a3a8ab3719053d3a53d534bf1235770",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_xcah",
+          "blob": "030fe99402af74a0991817afa06f5765a21e262f",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_xcoh",
+          "blob": "9f8f0c5c33ab75a0b7f68982e29c2b30727ff96c",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_xdah",
+          "blob": "9414a9cd8f92b74b0784ebd39d32bdd09bd8df9b",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_xsth",
+          "blob": "db25103a14514d835e375fad035422c0941bf688",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_zpgrep",
+          "blob": "57acd45d28637d2b91b1cc3966b54cf44535b475",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/AGENTS.md",
+          "blob": "fd6eaa093a9539b42a869b040752edd3a2527f85",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/acme",
+          "blob": "7a14426a432e8243e020267a34ce7bb1d6558645",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/add-to-path",
+          "blob": "76bb44b8d12225b4ff270fa744b3e6e7fbdb24c6",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/AGENTS.md",
+          "blob": "7b44f47dc72678b10fcc4ed2b6ad366bffea7a57",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/banner",
+          "blob": "c9babcf96226ee2f9af6cbb40b7890ed525f95d5",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/c",
+          "blob": "64053995fe25f125a86014d2c396a2e16d078ff3",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/clock",
+          "blob": "cff903817d29088cf6b1abb9fb8b9edf8ac3af88",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/df",
+          "blob": "a1c7765c8183c499c622080b8116762c903c97e7",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/dotfiles::edit",
+          "blob": "f531e37a7506ac223d50a93ccbc89f75513d7e98",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/dotfiles::make",
+          "blob": "45af299feccabb1c975119a6b5adf45562aa433c",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/edit::file",
+          "blob": "11d49129a8d6cc8ad6ad9699603a3b79ece77e9a",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/edit::find-replace",
+          "blob": "51534764ec7b249e12d8f68516b7e444ddfcc639",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/emoji",
+          "blob": "1e83e6a4a21ef9111f73fd6e3820e536b00cf0bd",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/extract",
+          "blob": "843dd1965e932b2b0f0e879a4b76eadcf3b38599",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/extract-images",
+          "blob": "a7c3e688132ba8c936bcffa089af8f3b037127a7",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/fzfp",
+          "blob": "36f5f304c5d2d377207b9bd55446adfaa58058e1",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/h",
+          "blob": "b93a16680b76b544225178e46623b9c21eb6fe10",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/log::error",
+          "blob": "6fb752e9051f970e4a1d96c445cec8fde5fd6d13",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/ls-path",
+          "blob": "079b89ba7036f36def7c7abec36f987aa1405bc8",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/mkbak",
+          "blob": "db93212b387cf82ef113877c5d1f9ba7860e62dc",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/mkfile",
+          "blob": "45e1672078633b90589c902e8268238748780806",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/mock",
+          "blob": "01fb82341f69762072612aba2d5c08899531f9a8",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/v",
+          "blob": "001903d29db33e488f86aaef1c018566da847d22",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/vd",
+          "blob": "db3d2c041a36ef16e1b5a0ebaf0bbd80ba2213ce",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/watch::file-count",
+          "blob": "e7ed053044e4a34106bd21b563cac71d06fb5c24",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/xcah",
+          "blob": "c1080e7efb034afd15f0787f176310cd7c838f8a",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/xcoh",
+          "blob": "cba13328efd51cb74efb91f91981daa69b7df416",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/xdah",
+          "blob": "a58c3a419adeeb51c6486d1971b0b59c6f212056",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/xsth",
+          "blob": "cd8b2f3b9545073502cf9424cf3a17f649b9790e",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/zpgrep",
+          "blob": "c0faa14787a2a6f0cb1320c5a76df06717e2aa42",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/00-env.zsh",
+          "blob": "c00c378370a541575e133080d7c86968624db951",
+          "depth": "skim"
+        }
+      ],
+      "notes_consumed": [],
+      "hit_source_cap": false,
+      "unresolved": [],
+      "issues": [],
+      "content_hash": "b6021c76995fef61048a8611beb82c5e57ac586e973acdf3bbf73bd4506b6875"
+    },
+    "components/zsh/function-tooling": {
+      "path": "components/zsh/function-tooling.md",
+      "generated": "2026-11-07",
+      "source_commit": "9c21e6b541ae7d4d867a6da32efbbf71b43d67ec",
+      "level": 2,
+      "parent": "areas/zsh",
+      "children": [],
+      "owns": [
+        "zsh/.config/zsh/functions/mkfn",
+        "zsh/.config/zsh/completions/_mkfn",
+        "zsh/.config/zsh/functions/mkrepeat",
+        "zsh/.config/zsh/completions/_mkrepeat",
+        "zsh/.config/zsh/functions/load-comp",
+        "zsh/.config/zsh/completions/_load-comp",
+        "zsh/.config/zsh/functions/fn",
+        "zsh/.config/zsh/completions/_fn",
+        "zsh/.config/zsh/functions/F",
+        "zsh/.config/zsh/completions/_F",
+        "zsh/.config/zsh/functions/list::functions",
+        "zsh/.config/zsh/completions/_list::functions",
+        "zsh/.config/zsh/functions/r",
+        "zsh/.config/zsh/completions/_r",
+        "zsh/.config/zsh/functions/zsh::rld",
+        "zsh/.config/zsh/completions/_zsh::rld",
+        "zsh/.config/zsh/functions/rld::file",
+        "zsh/.config/zsh/completions/_rld::file",
+        "zsh/.config/zsh/functions/zfd",
+        "zsh/.config/zsh/completions/_zfd",
+        "zsh/.config/zsh/functions/zcmp",
+        "zsh/.config/zsh/completions/_zcmp",
+        "zsh/.config/zsh/functions/zdd",
+        "zsh/.config/zsh/completions/_zdd",
+        "zsh/.config/zsh/functions/edit::function",
+        "zsh/.config/zsh/completions/_edit::function",
+        "zsh/.config/zsh/functions/zsh-clean",
+        "zsh/.config/zsh/completions/_zsh-clean",
+        "zsh/.config/zsh/functions/zsh-xtrace",
+        "zsh/.config/zsh/completions/_zsh-xtrace",
+        "zsh/.config/zsh/functions/zsh::fix-insecure-dirs",
+        "zsh/.config/zsh/completions/_zsh::fix-insecure-dirs",
+        "zsh/.config/zsh/functions/help-zshglob",
+        "zsh/.config/zsh/completions/_help-zshglob",
+        "zsh/.config/zsh/functions/log::info",
+        "zsh/.config/zsh/completions/_log::info",
+        "zsh/.config/zsh/functions/log::error",
+        "zsh/.config/zsh/completions/_log::error",
+        "zsh/.config/zsh/functions/has",
+        "zsh/.config/zsh/completions/_has",
+        "zsh/.config/zsh/functions/output-to-array",
+        "zsh/.config/zsh/completions/_output-to-array",
+        "zsh/.config/zsh/functions/ls-fpath",
+        "zsh/.config/zsh/completions/_ls-fpath",
+        "zsh/.config/zsh/functions/gen-ghr-test",
+        "zsh/.config/zsh/completions/_gen-ghr-test",
+        "zsh/.config/zsh/functions/zgd",
+        "zsh/.config/zsh/completions/_zgd",
+        "zsh/.config/zsh/functions/AGENTS.md",
+        "zsh/.config/zsh/completions/AGENTS.md"
+      ],
+      "triggers": [
+        "generate a function skeleton with mkfn",
+        "reload zsh functions after editing one",
+        "find which file defines an autoloaded function",
+        "generate a function that runs a command and refills the prompt",
+        "load a tool's zsh completion",
+        "rebuild the compiled-function digest after deleting a function"
+      ],
+      "entry_points": [
+        "zsh/.config/zsh/functions/AGENTS.md",
+        "zsh/.config/zsh/functions/mkfn:43",
+        "zsh/.config/zsh/functions/r:29",
+        "zsh/.config/zsh/functions/log::info"
+      ],
+      "related": [
+        "areas/zsh",
+        "components/zsh/startup"
+      ],
+      "sources": [
+        {
+          "path": ".gitignore",
+          "blob": "e6428336b4998dc0329ed9275acfa5723c7a4fc5",
+          "depth": "skim"
+        },
+        {
+          "path": "AGENTS.md",
+          "blob": "9f68de8435d18de3ca52d6a661c3b898f6bce0de",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/.zprofile",
+          "blob": "2faf9511ba6efa89090cc74f42bfd960bd6287f0",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/.zshrc",
+          "blob": "6012f2542c52f34c53ad57e7199bc70ff5a89f16",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_edit::function",
+          "blob": "64f45cc790be897b05063878b2182a327b209759",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_F",
+          "blob": "d511be16b1e34cff6056ee3d3aa439aa6936d060",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_fn",
+          "blob": "86b3b5b20d14d1602d50b19c2f685fbb72ccd828",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_gen-ghr-test",
+          "blob": "fe42cfb9d818da9500ad66054a2262a99b870e9b",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_has",
+          "blob": "2dbe874b44ff415ce888247ebffa2f9308c2156f",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_help-zshglob",
+          "blob": "38cac0ef9bca7193d969628a7812bd21b05baa0c",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_list::functions",
+          "blob": "eaea55cc3a8fb8e5fd69bce9ab766d55697b54f5",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_load-comp",
+          "blob": "658fb647d79217163c2e2b25cb144d450ebdc6b5",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_log::error",
+          "blob": "0c661a238f9e6795646f65bf27f1361d5ad4ebbb",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_log::info",
+          "blob": "625a98ba5b566b10adfed3d572538ae8e0c1d009",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_ls-fpath",
+          "blob": "85ef72ed8509c359a49de6e3202d6fa66cb7b4ae",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_mkfn",
+          "blob": "52fd62ec5b04b41ca86b978c7cacb08f5cf8ce82",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_mkrepeat",
+          "blob": "fffe3a02cdb160d7108a66ea809cd5f81ab6217d",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_output-to-array",
+          "blob": "bb4653d8d0a4fadbefe66748defead6db622a0ff",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_r",
+          "blob": "239c736cf8726a0872e17e1dea31ca07b7c9d25f",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_rld::file",
+          "blob": "b279ddd00d75cd3ac7501eee08b5bc6a9adcb30e",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_zcmp",
+          "blob": "0b6ecf9f2093c4c2955bdf2c50698dcb2ea8dfd7",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_zdd",
+          "blob": "0070cf19713e9289e9f5d77d0b55bd10f929ee04",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_zfd",
+          "blob": "517c54a8104ecf2f935cbb604caeef5e19206def",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_zgd",
+          "blob": "898907e3119706745575ce4db5aca4547533207b",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_zsh-clean",
+          "blob": "dd50ed29260e79a667c2ecdb76f53802a9ab2383",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_zsh-xtrace",
+          "blob": "1972657abd649a6c49e6c23fec51f08d9cfa880f",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_zsh::fix-insecure-dirs",
+          "blob": "f51fa51e417b6d87a8065dc42430683c653559fe",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_zsh::rld",
+          "blob": "f140bbab188aafbb7f9726669adf5d19ff4bc4fc",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/AGENTS.md",
+          "blob": "fd6eaa093a9539b42a869b040752edd3a2527f85",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/AGENTS.md",
+          "blob": "7b44f47dc72678b10fcc4ed2b6ad366bffea7a57",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/edit::function",
+          "blob": "ee18107814506cb4e18c9977e54ff147cd49ddf4",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/F",
+          "blob": "ee7e4ad12e92a791ec928a75430ed190e99f7c2b",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/fn",
+          "blob": "15677014807cea6f88f3034f84943986196285e0",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/gen-ghr-test",
+          "blob": "c68d4e37870d929be549c3e86ee7c1dfd5a0cc36",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/has",
+          "blob": "8b31cfd3ec6450af7e722047235dea6ce3220f92",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/help-zshglob",
+          "blob": "c434a0d943f14ecc12210fece235ffe287cb9018",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/list::functions",
+          "blob": "b57770dcf045e650da9dda31c0dd71937e178e7f",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/load-comp",
+          "blob": "ef28e6e71a4345ed7588d5837ed2e91794aa5d92",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/log::error",
+          "blob": "6fb752e9051f970e4a1d96c445cec8fde5fd6d13",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/log::info",
+          "blob": "aff4f56d3bcfd82946201e7fd3e9e2f4abb6c2cd",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/ls-fpath",
+          "blob": "868d1aeff6612a04b31b1632258a50dc0395da3c",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/mkfn",
+          "blob": "01c9f71f5be0e11c2ced42d465e9fd071aa7648d",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/mkrepeat",
+          "blob": "85e2927548e64b719220bab7e0e456021916c2fd",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/output-to-array",
+          "blob": "d566b7cb31b659901c792bb737d6158b43ce287e",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/r",
+          "blob": "408829151479c9b219c4285b52b184b558b8de23",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/rld::file",
+          "blob": "8f99b3706182f7975c7404cdac6588442435bcbd",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/zcmp",
+          "blob": "70e9eccbfc73de87d98fc1f0c757dd23a9cbb2a6",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/zdd",
+          "blob": "228bc8ca2196f48cc3f379c288b2470021fc0962",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/zfd",
+          "blob": "4af5d27e132ab7c63127be53138a4204b65f7961",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/zgd",
+          "blob": "8be1c8e4e4b30ec30c374e5fdd27ef801c408bd3",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/zsh-clean",
+          "blob": "cf9479fcf0815f6f8c70836dae4c9c45cb4a393d",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/zsh-xtrace",
+          "blob": "3496b15b4743d90fa2ebaf0d6f54c0ba2ccac4da",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/zsh::fix-insecure-dirs",
+          "blob": "ea62a8635518a31d3f2ca621555d130f155db4da",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/zsh::rld",
+          "blob": "e10271e91717b6c97919126a3288d5f2fc0e7e11",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/05-zinit.zsh",
+          "blob": "0539c7496ea3ce01ff41f863a0ccaf6a8f41b231",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.zshenv",
+          "blob": "5564e22f4de0656ffa31e23e8f46cd6920f4ea88",
+          "depth": "skim"
+        }
+      ],
+      "notes_consumed": [],
+      "hit_source_cap": false,
+      "unresolved": [
+        "How the compiled-function digest is built; no tracked file creates it",
+        "Where mkrepeat is called from rc.d; no rc.d file at HEAD calls it"
+      ],
+      "issues": [],
+      "content_hash": "65810cd6588cd185a2608387a6666b2772fc9ec56e3263c91c6bac4615a17c29"
+    },
+    "components/zsh/startup": {
+      "path": "components/zsh/startup.md",
+      "generated": "2026-11-07",
+      "source_commit": "9c21e6b541ae7d4d867a6da32efbbf71b43d67ec",
+      "level": 2,
+      "parent": "areas/zsh",
+      "children": [],
+      "owns": [
+        "zsh/.zshenv",
+        "zsh/.config/zsh/.zshrc",
+        "zsh/.config/zsh/.zprofile",
+        "zsh/.config/zsh/rc.d/**",
+        "zsh/.stow-local-ignore",
+        "zsh/.config/zsh/completions/_complete_dots_last"
+      ],
+      "triggers": [
+        "add a new rc.d startup file",
+        "install or change a zinit plugin",
+        "change completion styles or the completer list",
+        "change the shell prompt or git status in the prompt",
+        "debug slow or broken shell startup",
+        "skip zinit or rc.d when starting a shell"
+      ],
+      "entry_points": [
+        "zsh/.config/zsh/.zshrc:23",
+        "zsh/.config/zsh/rc.d/05-zinit.zsh",
+        "zsh/.config/zsh/rc.d/06-completion.zsh",
+        "zsh/.config/zsh/.zprofile:31"
+      ],
+      "related": [
+        "areas/zsh",
+        "components/zsh/function-tooling",
+        "components/zsh/system-maintenance",
+        "reference/gotchas"
+      ],
+      "sources": [
+        {
+          "path": "AGENTS.md",
+          "blob": "9f68de8435d18de3ca52d6a661c3b898f6bce0de",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/.zprofile",
+          "blob": "2faf9511ba6efa89090cc74f42bfd960bd6287f0",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/.zshrc",
+          "blob": "6012f2542c52f34c53ad57e7199bc70ff5a89f16",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_complete_dots_last",
+          "blob": "99a16a4b4231fb60823cb7823f060d13b0b1ef81",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/zsh::rld",
+          "blob": "e10271e91717b6c97919126a3288d5f2fc0e7e11",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/00-env.zsh",
+          "blob": "c00c378370a541575e133080d7c86968624db951",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/01-alias.zsh",
+          "blob": "d199105a662b2bfa45203f8fb072468bc781788e",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/02-widget.zsh",
+          "blob": "a88557cda164556df20e6092fef13152a3754bca",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/03-fzf.zsh",
+          "blob": "109c2b8d1a2ed3f47607f4db1fbb7670cc1edf21",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/04-clipboard.zsh",
+          "blob": "28fe0b902e9fa799adb179b663bb4a65204f5e56",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/05-zinit.zsh",
+          "blob": "0539c7496ea3ce01ff41f863a0ccaf6a8f41b231",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/06-completion.zsh",
+          "blob": "fc930184ef58024745b6603eeb35ca11c6df1164",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/07-prompt.zsh",
+          "blob": "f4e79e39fee73f4c7bbe7db0e89d6e999e63e38b",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.stow-local-ignore",
+          "blob": "383d105dd7c2d89e91f9416b1eda908b1f587e03",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.zshenv",
+          "blob": "5564e22f4de0656ffa31e23e8f46cd6920f4ea88",
+          "depth": "deep"
+        }
+      ],
+      "notes_consumed": [],
+      "hit_source_cap": false,
+      "unresolved": [
+        "Whether _comps[zinit]=_zinit in rc.d/05-zinit.zsh ever runs, since compinit runs after rc.d",
+        "How the if'(())' ice distributes over entries",
+        "The 'repeat' rc.d stage named in AGENTS.md has no file at HEAD"
+      ],
+      "issues": [],
+      "content_hash": "45d7b22b180fd10d66276b9736f6a2a8a0311add4438065bf9857c7446071d04"
+    },
+    "components/zsh/system-maintenance": {
+      "path": "components/zsh/system-maintenance.md",
+      "generated": "2026-11-07",
+      "source_commit": "9c21e6b541ae7d4d867a6da32efbbf71b43d67ec",
+      "level": 2,
+      "parent": "areas/zsh",
+      "children": [],
+      "owns": [
+        "zsh/.config/zsh/functions/bootstrap-macos",
+        "zsh/.config/zsh/completions/_bootstrap-macos",
+        "zsh/.config/zsh/functions/sys-report",
+        "zsh/.config/zsh/completions/_sys-report",
+        "zsh/.config/zsh/functions/+brew-link-keg",
+        "zsh/.config/zsh/completions/_+brew-link-keg",
+        "zsh/.config/zsh/functions/check-for-updates",
+        "zsh/.config/zsh/completions/_check-for-updates",
+        "zsh/.config/zsh/functions/have-updates",
+        "zsh/.config/zsh/completions/_have-updates",
+        "zsh/.config/zsh/functions/macos::rm-ds-store",
+        "zsh/.config/zsh/completions/_macos::rm-ds-store",
+        "zsh/.config/zsh/functions/safari::tab",
+        "zsh/.config/zsh/completions/_safari::tab"
+      ],
+      "triggers": [
+        "change a macOS system preference applied by bootstrap-macos",
+        "add a section to bootstrap-macos",
+        "add a check or warning threshold to sys-report",
+        "make a Homebrew keg or GNU tool available on PATH",
+        "debug check-for-updates or have-updates output",
+        "run bootstrap-macos without changing the machine"
+      ],
+      "entry_points": [
+        "zsh/.config/zsh/functions/bootstrap-macos:44",
+        "zsh/.config/zsh/functions/sys-report:145",
+        "zsh/.config/zsh/functions/+brew-link-keg:41"
+      ],
+      "related": [
+        "areas/zsh",
+        "components/zsh/function-tooling",
+        "components/zsh/startup"
+      ],
+      "sources": [
+        {
+          "path": "install.zsh",
+          "blob": "099405aef14c4f6daf28afd2f45223e8ae05aaab",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/.zprofile",
+          "blob": "2faf9511ba6efa89090cc74f42bfd960bd6287f0",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_+brew-link-keg",
+          "blob": "15749e05e62fea9f7c9575eb18058b44f333c6af",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_bootstrap-macos",
+          "blob": "eae44d6da620067ea3af1c3b48c22329270963f3",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_check-for-updates",
+          "blob": "d3fd52b28bff2a04e14998d8c59b96618e6ccd2a",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_have-updates",
+          "blob": "a3cbfb4f7fb00ecdfb86ef205e5ba0073a5a38a4",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_macos::rm-ds-store",
+          "blob": "43ccf27fd405f3a194a66ab107c32c0e99a6c4a9",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_safari::tab",
+          "blob": "ec94e347daee918b618d8c37950a9664c12f6814",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_sys-report",
+          "blob": "c8f864ef5c5475cc69affb3cb737f728949f7447",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/+brew-link-keg",
+          "blob": "22cf08a44ab86b602808cedbbd047193009aa1ea",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/AGENTS.md",
+          "blob": "7b44f47dc72678b10fcc4ed2b6ad366bffea7a57",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/bootstrap-macos",
+          "blob": "d306105b1ad058bf4809c77c9c0d0086fae48885",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/check-for-updates",
+          "blob": "058bb7ff63132bbcff85430a0d8db142fed16db1",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/have-updates",
+          "blob": "183ccbeeb4cd4834f23b7ce88a472c75c083a97d",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/macos::rm-ds-store",
+          "blob": "a4f0c6682ec6d7642a5d276975fe4f95c3fd6db9",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/safari::tab",
+          "blob": "ba8c3ecea45f60e78cfe49382894f21ae63bc56e",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/sys-report",
+          "blob": "367fe91986952928b39ee9d916f7c12a77327bf5",
+          "depth": "deep"
+        }
+      ],
+      "notes_consumed": [],
+      "hit_source_cap": false,
+      "unresolved": [
+        "Whether safari::tab needs Accessibility or Automation permission"
+      ],
+      "issues": [],
+      "content_hash": "0fa0e80ba7e4b6409807684f5e13f26b6ca50bd0abb2bdd6f702aec94866d5dc"
+    },
+    "flows/add-zsh-function": {
+      "path": "flows/add-zsh-function.md",
+      "generated": "2026-11-07",
+      "source_commit": "9c21e6b541ae7d4d867a6da32efbbf71b43d67ec",
+      "parent": "START-HERE",
+      "children": [],
+      "owns": [],
+      "triggers": [
+        "add a zsh function",
+        "add a zsh function and its completion"
+      ],
+      "entry_points": [
+        "zsh/.config/zsh/functions/AGENTS.md",
+        "zsh/.config/zsh/functions/mkfn:43",
+        "zsh/.config/zsh/completions/_mkrepeat",
+        "zsh/.config/zsh/functions/r:29"
+      ],
+      "related": [
+        "components/zsh/function-tooling",
+        "areas/zsh"
+      ],
+      "exemplars": [
+        58,
+        59,
+        61
+      ],
+      "prescribed_files": [
+        "zsh/.config/zsh/functions/*",
+        "zsh/.config/zsh/completions/_*",
+        "zsh/.config/zsh/functions/AGENTS.md"
+      ],
+      "sources": [
+        {
+          "path": ".github/tests/install.zsh",
+          "blob": "bffad7f413840807ad3fc8011381cb4e690ddb21",
+          "depth": "skim"
+        },
+        {
+          "path": ".github/workflows/install.yml",
+          "blob": "529f0b72ddeb1e2730d2e9fd876273c78ca6a8bc",
+          "depth": "skim"
+        },
+        {
+          "path": ".github/workflows/standards.yml",
+          "blob": "e5de5518fb3a6612c20500a68ebbb1dd87fcff20",
+          "depth": "skim"
+        },
+        {
+          "path": ".gitignore",
+          "blob": "e6428336b4998dc0329ed9275acfa5723c7a4fc5",
+          "depth": "skim"
+        },
+        {
+          "path": "AGENTS.md",
+          "blob": "9f68de8435d18de3ca52d6a661c3b898f6bce0de",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/.zprofile",
+          "blob": "2faf9511ba6efa89090cc74f42bfd960bd6287f0",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_add-to-path",
+          "blob": "53f665821523fba4faf08afc6378518af64da4a2",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_load-comp",
+          "blob": "658fb647d79217163c2e2b25cb144d450ebdc6b5",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_mkfn",
+          "blob": "52fd62ec5b04b41ca86b978c7cacb08f5cf8ce82",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_mkrepeat",
+          "blob": "fffe3a02cdb160d7108a66ea809cd5f81ab6217d",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/AGENTS.md",
+          "blob": "fd6eaa093a9539b42a869b040752edd3a2527f85",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/add-to-path",
+          "blob": "76bb44b8d12225b4ff270fa744b3e6e7fbdb24c6",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/AGENTS.md",
+          "blob": "7b44f47dc72678b10fcc4ed2b6ad366bffea7a57",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/mkfn",
+          "blob": "01c9f71f5be0e11c2ced42d465e9fd071aa7648d",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/mkrepeat",
+          "blob": "85e2927548e64b719220bab7e0e456021916c2fd",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/r",
+          "blob": "408829151479c9b219c4285b52b184b558b8de23",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/zsh-clean",
+          "blob": "cf9479fcf0815f6f8c70836dae4c9c45cb4a393d",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/zsh::rld",
+          "blob": "e10271e91717b6c97919126a3288d5f2fc0e7e11",
+          "depth": "skim"
+        }
+      ],
+      "notes_consumed": [],
+      "hit_source_cap": false,
+      "unresolved": [
+        "How the compiled-function digest is built; no script in the repo creates it",
+        "Contents of shared commit and lint workflows in another repo"
+      ],
+      "issues": [],
+      "content_hash": "7cbc96baaa7a6706cfe18c5d0fe045a3140c640ee9b6f85ea11552c2697466db"
+    },
+    "reference/glossary": {
+      "path": "reference/glossary.md",
+      "generated": "2026-11-07",
+      "source_commit": "9c21e6b541ae7d4d867a6da32efbbf71b43d67ec",
+      "parent": "START-HERE",
+      "children": [],
+      "owns": [],
+      "triggers": [
+        "look up what an rc.d stage or zinit ice means",
+        "check what autoload pairing or the helper exemption requires",
+        "find out what :: or + in a function name signals",
+        "look up what a package or section means in the install flow"
+      ],
+      "entry_points": [
+        "AGENTS.md",
+        "zsh/.config/zsh/.zshrc:23",
+        "zsh/.config/zsh/functions/AGENTS.md"
+      ],
+      "related": [
+        "areas/zsh",
+        "areas/bootstrap",
+        "components/zsh/startup",
+        "components/zsh/function-tooling"
+      ],
+      "sources": [
+        {
+          "path": ".gitignore",
+          "blob": "e6428336b4998dc0329ed9275acfa5723c7a4fc5",
+          "depth": "skim"
+        },
+        {
+          "path": "AGENTS.md",
+          "blob": "9f68de8435d18de3ca52d6a661c3b898f6bce0de",
+          "depth": "deep"
+        },
+        {
+          "path": "install.zsh",
+          "blob": "099405aef14c4f6daf28afd2f45223e8ae05aaab",
+          "depth": "skim"
+        },
+        {
+          "path": "Makefile",
+          "blob": "ce2336d4fbf4c9be182be13bac400049ede6d0b8",
+          "depth": "deep"
+        },
+        {
+          "path": "stow/.stow-global-ignore",
+          "blob": "4b851383c5b6e4cff02c061eb7f329a32de70135",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/.zprofile",
+          "blob": "2faf9511ba6efa89090cc74f42bfd960bd6287f0",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/.zshrc",
+          "blob": "6012f2542c52f34c53ad57e7199bc70ff5a89f16",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_rld::file",
+          "blob": "b279ddd00d75cd3ac7501eee08b5bc6a9adcb30e",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/+brew-link-keg",
+          "blob": "22cf08a44ab86b602808cedbbd047193009aa1ea",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/AGENTS.md",
+          "blob": "7b44f47dc72678b10fcc4ed2b6ad366bffea7a57",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/dotfiles::make",
+          "blob": "45af299feccabb1c975119a6b5adf45562aa433c",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/mkfn",
+          "blob": "01c9f71f5be0e11c2ced42d465e9fd071aa7648d",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/mkrepeat",
+          "blob": "85e2927548e64b719220bab7e0e456021916c2fd",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/zsh::rld",
+          "blob": "e10271e91717b6c97919126a3288d5f2fc0e7e11",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/00-env.zsh",
+          "blob": "c00c378370a541575e133080d7c86968624db951",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/01-alias.zsh",
+          "blob": "d199105a662b2bfa45203f8fb072468bc781788e",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/05-zinit.zsh",
+          "blob": "0539c7496ea3ce01ff41f863a0ccaf6a8f41b231",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.stow-local-ignore",
+          "blob": "383d105dd7c2d89e91f9416b1eda908b1f587e03",
+          "depth": "skim"
+        }
+      ],
+      "notes_consumed": [],
+      "hit_source_cap": false,
+      "unresolved": [
+        "Meaning of the + prefix on +brew-link-keg",
+        "Whether the :: naming is a stated convention",
+        "Which command builds the compiled-function digest"
+      ],
+      "issues": [],
+      "content_hash": "8eeb92a4e8885870142d440dbd75e72c8b6a449dd627301ccd46944ac7f1a147"
+    },
+    "reference/gotchas": {
+      "path": "reference/gotchas.md",
+      "generated": "2026-11-07",
+      "source_commit": "9c21e6b541ae7d4d867a6da32efbbf71b43d67ec",
+      "parent": "START-HERE",
+      "children": [],
+      "owns": [],
+      "triggers": [
+        "find out why a line looks wrong before removing it",
+        "change brew-bundle flags or the Brewfile node entries",
+        "delete or rename an autoloaded zsh function",
+        "fix a stale comment in install.zsh or AGENTS.md",
+        "move machine-specific settings out of the tracked git config"
+      ],
+      "entry_points": [
+        "Makefile:70",
+        "Brewfile:37",
+        "install.zsh:37",
+        "zsh/.config/zsh/functions/AGENTS.md:13"
+      ],
+      "related": [
+        "areas/bootstrap",
+        "areas/zsh",
+        "areas/cli-tools",
+        "areas/desktop",
+        "components/zsh/startup",
+        "components/zsh/function-tooling",
+        "components/zsh/everyday-utilities"
+      ],
+      "sources": [
+        {
+          "path": ".github/tests/e2e.zsh",
+          "blob": "e91e33ef8123daf8f04a67f11e087c880da8c73a",
+          "depth": "skim"
+        },
+        {
+          "path": ".github/tests/install.zsh",
+          "blob": "bffad7f413840807ad3fc8011381cb4e690ddb21",
+          "depth": "skim"
+        },
+        {
+          "path": ".gitignore",
+          "blob": "e6428336b4998dc0329ed9275acfa5723c7a4fc5",
+          "depth": "skim"
+        },
+        {
+          "path": "AGENTS.md",
+          "blob": "9f68de8435d18de3ca52d6a661c3b898f6bce0de",
+          "depth": "deep"
+        },
+        {
+          "path": "bin/.local/bin/installer",
+          "blob": "295fdc4b0261784db534b40e9760910632c127d8",
+          "depth": "skim"
+        },
+        {
+          "path": "bin/.local/bin/Makefile",
+          "blob": "ee6835a4c76d4f871d5ddd725b88315964ecfb2d",
+          "depth": "skim"
+        },
+        {
+          "path": "bin/.local/bin/remove-releases",
+          "blob": "0336cfcbc4747ba0022c99e5990527b2f649bb25",
+          "depth": "skim"
+        },
+        {
+          "path": "Brewfile",
+          "blob": "d0a0d3751ddaf0ac378adade1803b035f12cc863",
+          "depth": "deep"
+        },
+        {
+          "path": "curl/.curlrc",
+          "blob": "60826869e69ededc029ab01cbd6fdbcc9ff3a810",
+          "depth": "skim"
+        },
+        {
+          "path": "git/.config/git/config",
+          "blob": "b6e5bb91811bad52c30c68d5997a782750bdbe63",
+          "depth": "skim"
+        },
+        {
+          "path": "htop/.config/htop/htoprc",
+          "blob": "f939b1ce5a76ef7169e22ab57433f1c69780dc38",
+          "depth": "skim"
+        },
+        {
+          "path": "install.zsh",
+          "blob": "099405aef14c4f6daf28afd2f45223e8ae05aaab",
+          "depth": "deep"
+        },
+        {
+          "path": "Makefile",
+          "blob": "ce2336d4fbf4c9be182be13bac400049ede6d0b8",
+          "depth": "deep"
+        },
+        {
+          "path": "tmux/.config/tmux/tmux.conf",
+          "blob": "127f8be50689edbbd325b9078d1d03e86fbf67ba",
+          "depth": "skim"
+        },
+        {
+          "path": "topgrade/.config/topgrade.toml",
+          "blob": "8e33174d353add87b903a27de02cee6b6fb771df",
+          "depth": "skim"
+        },
+        {
+          "path": "vim/.vimrc",
+          "blob": "feb9fce6abe453c4126856ca1eb355b8197d32c1",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/.zprofile",
+          "blob": "2faf9511ba6efa89090cc74f42bfd960bd6287f0",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/.zshrc",
+          "blob": "6012f2542c52f34c53ad57e7199bc70ff5a89f16",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_extract",
+          "blob": "fd339f4039fdb122ee1a6d67f44f25267bae313b",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/AGENTS.md",
+          "blob": "7b44f47dc72678b10fcc4ed2b6ad366bffea7a57",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/c",
+          "blob": "64053995fe25f125a86014d2c396a2e16d078ff3",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/extract",
+          "blob": "843dd1965e932b2b0f0e879a4b76eadcf3b38599",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/mkrepeat",
+          "blob": "85e2927548e64b719220bab7e0e456021916c2fd",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/r",
+          "blob": "408829151479c9b219c4285b52b184b558b8de23",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/zsh-clean",
+          "blob": "cf9479fcf0815f6f8c70836dae4c9c45cb4a393d",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/00-env.zsh",
+          "blob": "c00c378370a541575e133080d7c86968624db951",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/03-fzf.zsh",
+          "blob": "109c2b8d1a2ed3f47607f4db1fbb7670cc1edf21",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/05-zinit.zsh",
+          "blob": "0539c7496ea3ce01ff41f863a0ccaf6a8f41b231",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.zshenv",
+          "blob": "5564e22f4de0656ffa31e23e8f46cd6920f4ea88",
+          "depth": "skim"
+        }
+      ],
+      "notes_consumed": [],
+      "hit_source_cap": false,
+      "unresolved": [
+        "How the compiled-function digest is built",
+        "Why the zinit if ice and the branch pin are used",
+        "Whether git loads the config.local include"
+      ],
+      "issues": [],
+      "content_hash": "a61e56e84c94ce69d335e95f3aea8899fb3768aa06e21af78c669b11ce7ed93e"
+    },
+    "reference/stack": {
+      "path": "reference/stack.md",
+      "generated": "2026-11-07",
+      "source_commit": "9c21e6b541ae7d4d867a6da32efbbf71b43d67ec",
+      "parent": "START-HERE",
+      "children": [],
+      "owns": [
+        ".github/workflows/release.yml",
+        ".github/workflows/standards.yml",
+        ".github/workflows/cleanup-runs.yml",
+        ".github/dependabot.yml",
+        ".github/weekly-digest.yml",
+        "VERSION",
+        "LICENSE",
+        ".gitignore"
+      ],
+      "triggers": [
+        "cut a release of the dotfiles",
+        "change which checks run on pull requests",
+        "find out why VERSION or CHANGELOG.md changed",
+        "decide which Dockerfile to edit",
+        "change dependabot update settings",
+        "find out what a tool in the repo is for"
+      ],
+      "entry_points": [
+        ".github/workflows/release.yml",
+        ".github/workflows/standards.yml",
+        "VERSION",
+        ".github/dependabot.yml"
+      ],
+      "related": [
+        "areas/bootstrap",
+        "areas/zsh",
+        "areas/desktop",
+        "areas/cli-tools",
+        "reference/style"
+      ],
+      "sources": [
+        {
+          "path": ".github/dependabot.yml",
+          "blob": "fea927113b373ea18cc85e470671540aab7e49db",
+          "depth": "deep"
+        },
+        {
+          "path": ".github/weekly-digest.yml",
+          "blob": "ea252e6d82c8237a55552314171fb60741e7980d",
+          "depth": "deep"
+        },
+        {
+          "path": ".github/workflows/cleanup-runs.yml",
+          "blob": "a7b72a105c6e5c8a08777aca4a382ab791c298d4",
+          "depth": "deep"
+        },
+        {
+          "path": ".github/workflows/install.yml",
+          "blob": "529f0b72ddeb1e2730d2e9fd876273c78ca6a8bc",
+          "depth": "skim"
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "blob": "14a737a266753edf845017a04b23b03f001d65bf",
+          "depth": "deep"
+        },
+        {
+          "path": ".github/workflows/standards.yml",
+          "blob": "e5de5518fb3a6612c20500a68ebbb1dd87fcff20",
+          "depth": "deep"
+        },
+        {
+          "path": ".gitignore",
+          "blob": "e6428336b4998dc0329ed9275acfa5723c7a4fc5",
+          "depth": "deep"
+        },
+        {
+          "path": ".stow-local-ignore",
+          "blob": "959d315d053be3209d2c784f8c98e1063cbd438c",
+          "depth": "skim"
+        },
+        {
+          "path": "arch-linux.Dockerfile",
+          "blob": "db4585d33b51bb1248588a47cf33fc8cc833490f",
+          "depth": "deep"
+        },
+        {
+          "path": "Brewfile",
+          "blob": "d0a0d3751ddaf0ac378adade1803b035f12cc863",
+          "depth": "skim"
+        },
+        {
+          "path": "CHANGELOG.md",
+          "blob": "90c68c9f45ff4bee31adb21082ec0cf76b524e9f",
+          "depth": "skim"
+        },
+        {
+          "path": "docker/init-buildx.sh",
+          "blob": "29706748b2042f824c0db41943cc16ccb1d22b51",
+          "depth": "skim"
+        },
+        {
+          "path": "docker/Makefile",
+          "blob": "45c0c3b697014ee8fe4982ce685f40e9a8acbc73",
+          "depth": "skim"
+        },
+        {
+          "path": "Dockerfile",
+          "blob": "11a4ede4e4ede7e7b3db7d5ff08588bbe5b62c7b",
+          "depth": "deep"
+        },
+        {
+          "path": "install.zsh",
+          "blob": "099405aef14c4f6daf28afd2f45223e8ae05aaab",
+          "depth": "skim"
+        },
+        {
+          "path": "LICENSE",
+          "blob": "f288702d2fa16d3cdf0035b15a9fcbc552cd88e7",
+          "depth": "skim"
+        },
+        {
+          "path": "Makefile",
+          "blob": "ce2336d4fbf4c9be182be13bac400049ede6d0b8",
+          "depth": "skim"
+        },
+        {
+          "path": "README.md",
+          "blob": "57632618e9ab9182c7c3b8ce6d396c368949a475",
+          "depth": "skim"
+        },
+        {
+          "path": "VERSION",
+          "blob": "5e9547d3d1389bb4115b6abec50042955520477a",
+          "depth": "deep"
+        },
+        {
+          "path": "wezterm/.config/wezterm/wezterm.lua",
+          "blob": "6a54aadd6e8cac6c302e6b6340643c2c45b57340",
+          "depth": "skim"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/05-zinit.zsh",
+          "blob": "0539c7496ea3ce01ff41f863a0ccaf6a8f41b231",
+          "depth": "skim"
+        }
+      ],
+      "notes_consumed": [],
+      "hit_source_cap": false,
+      "unresolved": [
+        "Shared workflows were read from vladdoster/.github master via the GitHub API, not from the repo; commitlint config inside the ghcr image was not inspected",
+        "Why arch-linux.Dockerfile exists beyond being a second distribution is not determined from the code"
+      ],
+      "issues": [],
+      "content_hash": "994627a61b679fc0739f31ad3ad934ba93a8d4113dde0f4ff4079edcb65bfd2f"
+    },
+    "reference/style": {
+      "path": "reference/style.md",
+      "generated": "2026-11-07",
+      "source_commit": "9c21e6b541ae7d4d867a6da32efbbf71b43d67ec",
+      "parent": "START-HERE",
+      "children": [],
+      "owns": [
+        "editor/.editorconfig",
+        "luaformatter/.config/luaformatter/config.yaml",
+        "python/.config/pycodestyle"
+      ],
+      "triggers": [
+        "fix a lint failure in CI",
+        "write a commit message that passes commitlint",
+        "format a shell or Lua file",
+        "reformat a markdown file for mdformat",
+        "decide indentation for a new config file"
+      ],
+      "entry_points": [
+        ".github/workflows/standards.yml",
+        "editor/.editorconfig",
+        "git/.config/git/commit-template",
+        "zsh/.config/zsh/functions/AGENTS.md"
+      ],
+      "related": [
+        "reference/gotchas"
+      ],
+      "sources": [
+        {
+          "path": ".github/tests/e2e.zsh",
+          "blob": "e91e33ef8123daf8f04a67f11e087c880da8c73a",
+          "depth": "skim",
+          "role": "example"
+        },
+        {
+          "path": ".github/tests/install.zsh",
+          "blob": "bffad7f413840807ad3fc8011381cb4e690ddb21",
+          "depth": "skim",
+          "role": "example"
+        },
+        {
+          "path": ".github/tests/terminal.py",
+          "blob": "48b0caf4c46aafb362b91c984b4380025dc1c14d",
+          "depth": "skim",
+          "role": "example"
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "blob": "14a737a266753edf845017a04b23b03f001d65bf",
+          "depth": "deep",
+          "role": "governing"
+        },
+        {
+          "path": ".github/workflows/standards.yml",
+          "blob": "e5de5518fb3a6612c20500a68ebbb1dd87fcff20",
+          "depth": "deep",
+          "role": "governing"
+        },
+        {
+          "path": ".gitignore",
+          "blob": "e6428336b4998dc0329ed9275acfa5723c7a4fc5",
+          "depth": "skim",
+          "role": "governing"
+        },
+        {
+          "path": "AGENTS.md",
+          "blob": "9f68de8435d18de3ca52d6a661c3b898f6bce0de",
+          "depth": "skim",
+          "role": "governing"
+        },
+        {
+          "path": "bash/.bashrc",
+          "blob": "c2cb99cad408b60e87820b435d2bc8d7b12a0368",
+          "depth": "skim",
+          "role": "example"
+        },
+        {
+          "path": "CHANGELOG.md",
+          "blob": "90c68c9f45ff4bee31adb21082ec0cf76b524e9f",
+          "depth": "skim",
+          "role": "governing"
+        },
+        {
+          "path": "docker/init-buildx.sh",
+          "blob": "29706748b2042f824c0db41943cc16ccb1d22b51",
+          "depth": "skim",
+          "role": "example"
+        },
+        {
+          "path": "editor/.editorconfig",
+          "blob": "f936a34088109dae377bb3a0b0cc1a41ef7e03dd",
+          "depth": "deep",
+          "role": "governing"
+        },
+        {
+          "path": "git/.config/git/commit-template",
+          "blob": "e5b40cd9e68d9a6f7b274515e67161614f37b17b",
+          "depth": "deep",
+          "role": "governing"
+        },
+        {
+          "path": "install.zsh",
+          "blob": "099405aef14c4f6daf28afd2f45223e8ae05aaab",
+          "depth": "skim",
+          "role": "example"
+        },
+        {
+          "path": "luaformatter/.config/luaformatter/config.yaml",
+          "blob": "fe43099c43592a9128ae8f8ce86bdb57007e0c4a",
+          "depth": "deep",
+          "role": "governing"
+        },
+        {
+          "path": "Makefile",
+          "blob": "ce2336d4fbf4c9be182be13bac400049ede6d0b8",
+          "depth": "skim",
+          "role": "governing"
+        },
+        {
+          "path": "python/.config/pycodestyle",
+          "blob": "16848c8b6e9f7ab89861ec1d9cf4c798e24a2ff4",
+          "depth": "deep",
+          "role": "governing"
+        },
+        {
+          "path": "python/.config/python/init-repl.py",
+          "blob": "87c99fa459462f21eb1d582e66f8ab10e7a67251",
+          "depth": "skim",
+          "role": "example"
+        },
+        {
+          "path": "tmux/.config/tmux/tmux.conf",
+          "blob": "127f8be50689edbbd325b9078d1d03e86fbf67ba",
+          "depth": "skim",
+          "role": "example"
+        },
+        {
+          "path": "vim/.vimrc",
+          "blob": "feb9fce6abe453c4126856ca1eb355b8197d32c1",
+          "depth": "skim",
+          "role": "example"
+        },
+        {
+          "path": "wezterm/.config/wezterm/links.lua",
+          "blob": "0e64bb9b11b911f6a2ca6a73dc41eb28cd3600a3",
+          "depth": "skim",
+          "role": "example"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_has",
+          "blob": "2dbe874b44ff415ce888247ebffa2f9308c2156f",
+          "depth": "deep",
+          "role": "example"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/_sys-report",
+          "blob": "c8f864ef5c5475cc69affb3cb737f728949f7447",
+          "depth": "deep",
+          "role": "example"
+        },
+        {
+          "path": "zsh/.config/zsh/completions/AGENTS.md",
+          "blob": "fd6eaa093a9539b42a869b040752edd3a2527f85",
+          "depth": "deep",
+          "role": "governing"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/AGENTS.md",
+          "blob": "7b44f47dc72678b10fcc4ed2b6ad366bffea7a57",
+          "depth": "deep",
+          "role": "governing"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/has",
+          "blob": "8b31cfd3ec6450af7e722047235dea6ce3220f92",
+          "depth": "deep",
+          "role": "example"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/help-zshglob",
+          "blob": "c434a0d943f14ecc12210fece235ffe287cb9018",
+          "depth": "skim",
+          "role": "example"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/log::error",
+          "blob": "6fb752e9051f970e4a1d96c445cec8fde5fd6d13",
+          "depth": "deep",
+          "role": "example"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/sys-report",
+          "blob": "367fe91986952928b39ee9d916f7c12a77327bf5",
+          "depth": "skim",
+          "role": "example"
+        },
+        {
+          "path": "zsh/.config/zsh/rc.d/00-env.zsh",
+          "blob": "c00c378370a541575e133080d7c86968624db951",
+          "depth": "skim",
+          "role": "example"
+        }
+      ],
+      "notes_consumed": [],
+      "hit_source_cap": false,
+      "unresolved": [
+        "Commit of vladdoster/.github used for the shared lint and commit workflows (read from master via gh api)",
+        "Commitlint rule set inside ghcr.io/vladdoster/commitlint",
+        "Whether help-zshglob loads without #autoload"
+      ],
+      "issues": [],
+      "content_hash": "728110e485b926ef12c418b600e1fd1337e1e20f0e5dd2672febe881d30bbcec"
+    },
+    "START-HERE": {
+      "path": "START-HERE.md",
+      "generated": "2026-11-07",
+      "source_commit": "9c21e6b541ae7d4d867a6da32efbbf71b43d67ec",
+      "level": 0,
+      "children": [
+        "areas/zsh",
+        "areas/bootstrap",
+        "areas/desktop",
+        "areas/cli-tools",
+        "flows/add-zsh-function",
+        "reference/style",
+        "reference/stack",
+        "reference/glossary",
+        "reference/gotchas"
+      ],
+      "owns": [],
+      "triggers": [],
+      "entry_points": [],
+      "related": [
+        "reference/style",
+        "reference/stack",
+        "reference/glossary",
+        "reference/gotchas",
+        "flows/add-zsh-function"
+      ],
+      "sources": [
+        {
+          "path": ".github/tests/terminal.py",
+          "blob": "48b0caf4c46aafb362b91c984b4380025dc1c14d",
+          "depth": "deep"
+        },
+        {
+          "path": "AGENTS.md",
+          "blob": "9f68de8435d18de3ca52d6a661c3b898f6bce0de",
+          "depth": "deep"
+        },
+        {
+          "path": "arch-linux.Dockerfile",
+          "blob": "db4585d33b51bb1248588a47cf33fc8cc833490f",
+          "depth": "deep"
+        },
+        {
+          "path": "Brewfile",
+          "blob": "d0a0d3751ddaf0ac378adade1803b035f12cc863",
+          "depth": "deep"
+        },
+        {
+          "path": "Dockerfile",
+          "blob": "11a4ede4e4ede7e7b3db7d5ff08588bbe5b62c7b",
+          "depth": "deep"
+        },
+        {
+          "path": "install.zsh",
+          "blob": "099405aef14c4f6daf28afd2f45223e8ae05aaab",
+          "depth": "skim"
+        },
+        {
+          "path": "Makefile",
+          "blob": "ce2336d4fbf4c9be182be13bac400049ede6d0b8",
+          "depth": "deep"
+        },
+        {
+          "path": "python/.config/python/init-repl.py",
+          "blob": "87c99fa459462f21eb1d582e66f8ab10e7a67251",
+          "depth": "deep"
+        },
+        {
+          "path": "README.md",
+          "blob": "57632618e9ab9182c7c3b8ce6d396c368949a475",
+          "depth": "skim"
+        },
+        {
+          "path": "vim/.vimrc",
+          "blob": "feb9fce6abe453c4126856ca1eb355b8197d32c1",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/.zprofile",
+          "blob": "2faf9511ba6efa89090cc74f42bfd960bd6287f0",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/.zshrc",
+          "blob": "6012f2542c52f34c53ad57e7199bc70ff5a89f16",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.config/zsh/functions/AGENTS.md",
+          "blob": "7b44f47dc72678b10fcc4ed2b6ad366bffea7a57",
+          "depth": "deep"
+        },
+        {
+          "path": "zsh/.zshenv",
+          "blob": "5564e22f4de0656ffa31e23e8f46cd6920f4ea88",
+          "depth": "deep"
+        }
+      ],
+      "notes_consumed": [],
+      "hit_source_cap": false,
+      "unresolved": [],
+      "issues": [],
+      "content_hash": "d10b898eccd77c6325844c6b3cef150072256cd0c7cf18de15566cc89cb42ed0"
+    }
+  },
+  "notes": {},
+  "limitations": [],
+  "coverage": {
+    "deep": 201,
+    "skim": 3,
+    "unread": 0,
+    "total": 204,
+    "deep_percentage": 98.53
+  },
+  "unresolved": [
+    {
+      "doc": "areas/bootstrap",
+      "message": "Whether the root .stow-local-ignore affects the per-package stow runs in make install"
+    },
+    {
+      "doc": "areas/bootstrap",
+      "message": "How brew bundle treats the casks at Brewfile:60-64 on Linux"
+    },
+    {
+      "doc": "areas/cli-tools",
+      "message": "Whether git loads ~/.config/git/config.local"
+    },
+    {
+      "doc": "areas/cli-tools",
+      "message": "Whether pip reads PIP_CONFIG"
+    },
+    {
+      "doc": "areas/cli-tools",
+      "message": "Whether Stow reads a repo-root .stow-local-ignore"
+    },
+    {
+      "doc": "areas/cli-tools",
+      "message": "Which scripts call execute-and-wait.zsh"
+    },
+    {
+      "doc": "areas/desktop",
+      "message": "How kitty, skhd and yabai are installed (absent from Brewfile)"
+    },
+    {
+      "doc": "areas/desktop",
+      "message": "Where sudoers is configured for yabai --load-sa"
+    },
+    {
+      "doc": "areas/desktop",
+      "message": "Font size inside darwin.terminal encoded blob"
+    },
+    {
+      "doc": "areas/desktop",
+      "message": "Whether skhd resize edge/key mapping is intended"
+    },
+    {
+      "doc": "areas/zsh",
+      "message": "How the compiled-function digest is built (no tracked file creates it)"
+    },
+    {
+      "doc": "areas/zsh",
+      "message": "Root AGENTS.md rc.d stage 'repeat' has no file at HEAD"
+    },
+    {
+      "doc": "components/zsh/dev-and-terminal",
+      "message": "Whether the Brewfile installs fzf, delta, figlet and jq (not checked)"
+    },
+    {
+      "doc": "components/zsh/function-tooling",
+      "message": "How the compiled-function digest is built; no tracked file creates it"
+    },
+    {
+      "doc": "components/zsh/function-tooling",
+      "message": "Where mkrepeat is called from rc.d; no rc.d file at HEAD calls it"
+    },
+    {
+      "doc": "components/zsh/startup",
+      "message": "Whether _comps[zinit]=_zinit in rc.d/05-zinit.zsh ever runs, since compinit runs after rc.d"
+    },
+    {
+      "doc": "components/zsh/startup",
+      "message": "How the if'(())' ice distributes over entries"
+    },
+    {
+      "doc": "components/zsh/startup",
+      "message": "The 'repeat' rc.d stage named in AGENTS.md has no file at HEAD"
+    },
+    {
+      "doc": "components/zsh/system-maintenance",
+      "message": "Whether safari::tab needs Accessibility or Automation permission"
+    },
+    {
+      "doc": "flows/add-zsh-function",
+      "message": "How the compiled-function digest is built; no script in the repo creates it"
+    },
+    {
+      "doc": "flows/add-zsh-function",
+      "message": "Contents of shared commit and lint workflows in another repo"
+    },
+    {
+      "doc": "reference/glossary",
+      "message": "Meaning of the + prefix on +brew-link-keg"
+    },
+    {
+      "doc": "reference/glossary",
+      "message": "Whether the :: naming is a stated convention"
+    },
+    {
+      "doc": "reference/glossary",
+      "message": "Which command builds the compiled-function digest"
+    },
+    {
+      "doc": "reference/gotchas",
+      "message": "How the compiled-function digest is built"
+    },
+    {
+      "doc": "reference/gotchas",
+      "message": "Why the zinit if ice and the branch pin are used"
+    },
+    {
+      "doc": "reference/gotchas",
+      "message": "Whether git loads the config.local include"
+    },
+    {
+      "doc": "reference/stack",
+      "message": "Shared workflows were read from vladdoster/.github master via the GitHub API, not from the repo; commitlint config inside the ghcr image was not inspected"
+    },
+    {
+      "doc": "reference/stack",
+      "message": "Why arch-linux.Dockerfile exists beyond being a second distribution is not determined from the code"
+    },
+    {
+      "doc": "reference/style",
+      "message": "Commit of vladdoster/.github used for the shared lint and commit workflows (read from master via gh api)"
+    },
+    {
+      "doc": "reference/style",
+      "message": "Commitlint rule set inside ghcr.io/vladdoster/commitlint"
+    },
+    {
+      "doc": "reference/style",
+      "message": "Whether help-zshglob loads without #autoload"
+    }
+  ],
+  "review": {
+    "format": "markdown",
+    "report": "# Review: vladdoster/dotfiles agent-docs\n\n**Sampled:** 11 of 17 docs, 15 claims spot-checked. One independent Opus review round; fixes applied and `verify` re-run.\n\n## Blocking\n\nNone.\n\n## Should fix (all fixed after review)\n\n- reference/style: function-file count corrected to 66 of 66 for `emulate -L zsh`; rules labelled Enforced without a running check relabelled Team; Established rules with counterexamples dropped or narrowed; stray `level` removed.\n- areas/zsh: line citations into functions/AGENTS.md corrected; \"every function has a completion\" qualified for the exempt helper; literal functions.zwc restored.\n- areas/cli-tools: PIP citation corrected to 00-env.zsh:34-36; Vim guard description made consistent.\n- areas/desktop: Brewfile sentence now names wezterm and tmux.\n- Garbled phrases from a mechanical edit pass fixed in style, desktop, everyday-utilities, flow and startup.\n- START-HERE: L0 diagram added.\n- COMMON-TASKS: overlapping triggers deduplicated so each task has one owner doc.\n- components/zsh/startup: alias groups from 01-alias.zsh now covered.\n\n## Notes\n\n- The single derived flow (add-zsh-function) rests on PRs 58, 59 and 61, which are consecutive feat(zsh) PRs; their file sets overlap and PR 60 is the counterexample. Reported as derived with rationale.\n- Two entry points (dkr:336, wezterm::_pane:12) land on `emulate -L zsh` lines.\n- cli-tools and desktop read partly as setting-by-setting listings; acceptable for config files.\n\n## Routing test\n\n| Task | Routed to | Landed usefully |\n|---|---|---|\n| Add a new shell alias | components/zsh/startup -> 01-alias.zsh:60-79 | yes after alias groups were added |\n| Fix tmux copy-mode clipboard on macOS | areas/desktop -> tmux.conf:42-43 | yes |\n| Change the git pager | areas/cli-tools -> git/.config/git/config:11-16 | yes |\n| Install a release binary through zinit | components/zsh/startup -> 05-zinit.zsh:56-60 | yes |\n| Add a check to the e2e installer test | areas/bootstrap -> .github/tests/e2e.zsh:67-87 | yes |\n\n## Path lookup test\n\n| File or directory | Indexed docs | Landed usefully |\n|---|---|---|\n| zsh/.config/zsh/rc.d/04-clipboard.zsh | startup | yes |\n| kitty/.config/kitty/kitty.conf | desktop | yes |\n| docker/init-buildx.sh | bootstrap | yes |\n| zsh/.config/zsh/completions/ | five owners | yes |\n| python/.config/ | cli-tools, style | yes |\n| bin/.local/bin/ | cli-tools | yes |\n",
+    "issues": []
+  },
+  "security_findings_initialized": true,
+  "finalized_at": "2026-11-07T17:17:04.991Z"
+}

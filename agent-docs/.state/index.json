@@ -1,0 +1,2210 @@
+{
+  "version": 1,
+  "files": {
+    ".dockerignore": {
+      "owner": "areas/bootstrap",
+      "context": []
+    },
+    ".github/dependabot.yml": {
+      "owner": "reference/stack",
+      "context": []
+    },
+    ".github/tests/e2e.zsh": {
+      "owner": "areas/bootstrap",
+      "context": [
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    ".github/tests/install.zsh": {
+      "owner": "areas/bootstrap",
+      "context": [
+        "flows/add-zsh-function",
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    ".github/tests/terminal.py": {
+      "owner": "areas/bootstrap",
+      "context": [
+        "reference/style"
+      ]
+    },
+    ".github/weekly-digest.yml": {
+      "owner": "reference/stack",
+      "context": []
+    },
+    ".github/workflows/cleanup-runs.yml": {
+      "owner": "reference/stack",
+      "context": []
+    },
+    ".github/workflows/install.yml": {
+      "owner": "areas/bootstrap",
+      "context": [
+        "flows/add-zsh-function",
+        "reference/stack"
+      ]
+    },
+    ".github/workflows/release.yml": {
+      "owner": "reference/stack",
+      "context": [
+        "areas/bootstrap",
+        "reference/style"
+      ]
+    },
+    ".github/workflows/standards.yml": {
+      "owner": "reference/stack",
+      "context": [
+        "flows/add-zsh-function",
+        "reference/style"
+      ]
+    },
+    ".gitignore": {
+      "owner": "reference/stack",
+      "context": [
+        "areas/zsh",
+        "components/zsh/function-tooling",
+        "flows/add-zsh-function",
+        "reference/glossary",
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    ".stow-local-ignore": {
+      "owner": "areas/bootstrap",
+      "context": [
+        "areas/cli-tools",
+        "reference/stack"
+      ]
+    },
+    "arch-linux.Dockerfile": {
+      "owner": "areas/bootstrap",
+      "context": [
+        "reference/stack"
+      ]
+    },
+    "bash/.bashrc": {
+      "owner": "areas/cli-tools",
+      "context": [
+        "reference/style"
+      ]
+    },
+    "bin/.local/bin/colors-demo.zsh": {
+      "owner": "areas/cli-tools",
+      "context": []
+    },
+    "bin/.local/bin/execute-and-wait.zsh": {
+      "owner": "areas/cli-tools",
+      "context": []
+    },
+    "bin/.local/bin/get-gh-release": {
+      "owner": "areas/cli-tools",
+      "context": []
+    },
+    "bin/.local/bin/installer": {
+      "owner": "areas/cli-tools",
+      "context": [
+        "reference/gotchas"
+      ]
+    },
+    "bin/.local/bin/Makefile": {
+      "owner": "areas/cli-tools",
+      "context": [
+        "reference/gotchas"
+      ]
+    },
+    "bin/.local/bin/remove-releases": {
+      "owner": "areas/cli-tools",
+      "context": [
+        "reference/gotchas"
+      ]
+    },
+    "bin/.local/bin/rm-git-tags": {
+      "owner": "areas/cli-tools",
+      "context": []
+    },
+    "bin/.local/bin/squash-all-commits": {
+      "owner": "areas/cli-tools",
+      "context": []
+    },
+    "bin/.local/bin/update-license-headers": {
+      "owner": "areas/cli-tools",
+      "context": []
+    },
+    "Brewfile": {
+      "owner": "areas/bootstrap",
+      "context": [
+        "areas/desktop",
+        "reference/gotchas",
+        "reference/stack"
+      ]
+    },
+    "curl/.curlrc": {
+      "owner": "areas/cli-tools",
+      "context": [
+        "reference/gotchas"
+      ]
+    },
+    "docker/.stow-local-ignore": {
+      "owner": "areas/bootstrap",
+      "context": []
+    },
+    "docker/init-buildx.sh": {
+      "owner": "areas/bootstrap",
+      "context": [
+        "reference/stack",
+        "reference/style"
+      ]
+    },
+    "docker/Makefile": {
+      "owner": "areas/bootstrap",
+      "context": [
+        "reference/stack"
+      ]
+    },
+    "Dockerfile": {
+      "owner": "areas/bootstrap",
+      "context": [
+        "reference/stack"
+      ]
+    },
+    "editor/.editorconfig": {
+      "owner": "reference/style",
+      "context": []
+    },
+    "git/.config/git/commit-template": {
+      "owner": "areas/cli-tools",
+      "context": [
+        "reference/style"
+      ]
+    },
+    "git/.config/git/config": {
+      "owner": "areas/cli-tools",
+      "context": [
+        "reference/gotchas"
+      ]
+    },
+    "git/.config/git/ignore": {
+      "owner": "areas/cli-tools",
+      "context": []
+    },
+    "htop/.config/htop/htoprc": {
+      "owner": "areas/cli-tools",
+      "context": [
+        "reference/gotchas"
+      ]
+    },
+    "install.zsh": {
+      "owner": "areas/bootstrap",
+      "context": [
+        "areas/cli-tools",
+        "areas/zsh",
+        "components/zsh/system-maintenance",
+        "reference/glossary",
+        "reference/gotchas",
+        "reference/stack",
+        "reference/style"
+      ]
+    },
+    "kitty/.config/kitty/dracula.conf": {
+      "owner": "areas/desktop",
+      "context": []
+    },
+    "kitty/.config/kitty/kitty.conf": {
+      "owner": "areas/desktop",
+      "context": []
+    },
+    "LICENSE": {
+      "owner": "reference/stack",
+      "context": []
+    },
+    "luaformatter/.config/luaformatter/config.yaml": {
+      "owner": "reference/style",
+      "context": []
+    },
+    "macos/.config/macos/darwin.terminal": {
+      "owner": "areas/desktop",
+      "context": []
+    },
+    "Makefile": {
+      "owner": "areas/bootstrap",
+      "context": [
+        "areas/cli-tools",
+        "areas/zsh",
+        "reference/glossary",
+        "reference/gotchas",
+        "reference/stack",
+        "reference/style"
+      ]
+    },
+    "pip/.config/pip/pip.conf": {
+      "owner": "areas/cli-tools",
+      "context": []
+    },
+    "python/.config/pycodestyle": {
+      "owner": "reference/style",
+      "context": []
+    },
+    "python/.config/python/init-repl.py": {
+      "owner": "areas/cli-tools",
+      "context": [
+        "reference/style"
+      ]
+    },
+    "ranger/.config/ranger/rc.conf": {
+      "owner": "areas/cli-tools",
+      "context": []
+    },
+    "README.md": {
+      "owner": "areas/bootstrap",
+      "context": [
+        "reference/stack"
+      ]
+    },
+    "ripgrep/.config/ripgrep/config": {
+      "owner": "areas/cli-tools",
+      "context": []
+    },
+    "skhd/.config/skhd/skhdrc": {
+      "owner": "areas/desktop",
+      "context": []
+    },
+    "stow/.stow-global-ignore": {
+      "owner": "areas/bootstrap",
+      "context": [
+        "areas/cli-tools",
+        "reference/glossary"
+      ]
+    },
+    "tmux/.config/tmux/tmux.conf": {
+      "owner": "areas/desktop",
+      "context": [
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    "topgrade/.config/topgrade.toml": {
+      "owner": "areas/cli-tools",
+      "context": [
+        "reference/gotchas"
+      ]
+    },
+    "VERSION": {
+      "owner": "reference/stack",
+      "context": []
+    },
+    "vim/.vimrc": {
+      "owner": "areas/cli-tools",
+      "context": [
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    "wezterm/.config/wezterm/balance-panes.lua": {
+      "owner": "areas/desktop",
+      "context": []
+    },
+    "wezterm/.config/wezterm/links.lua": {
+      "owner": "areas/desktop",
+      "context": [
+        "reference/style"
+      ]
+    },
+    "wezterm/.config/wezterm/mouse.lua": {
+      "owner": "areas/desktop",
+      "context": []
+    },
+    "wezterm/.config/wezterm/wezterm.lua": {
+      "owner": "areas/desktop",
+      "context": [
+        "areas/zsh",
+        "reference/stack"
+      ]
+    },
+    "yabai/.config/yabai/yabairc": {
+      "owner": "areas/desktop",
+      "context": []
+    },
+    "zsh/.config/zsh/.zprofile": {
+      "owner": "components/zsh/startup",
+      "context": [
+        "areas/cli-tools",
+        "areas/zsh",
+        "components/zsh/everyday-utilities",
+        "components/zsh/function-tooling",
+        "components/zsh/system-maintenance",
+        "flows/add-zsh-function",
+        "reference/glossary",
+        "reference/gotchas"
+      ]
+    },
+    "zsh/.config/zsh/.zshrc": {
+      "owner": "components/zsh/startup",
+      "context": [
+        "areas/zsh",
+        "components/zsh/function-tooling",
+        "reference/glossary",
+        "reference/gotchas"
+      ]
+    },
+    "zsh/.config/zsh/completions/_+brew-link-keg": {
+      "owner": "components/zsh/system-maintenance",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_acme": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_add-to-path": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_banner": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_bootstrap-macos": {
+      "owner": "components/zsh/system-maintenance",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_c": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_check-for-updates": {
+      "owner": "components/zsh/system-maintenance",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_clock": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_complete_dots_last": {
+      "owner": "components/zsh/startup",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_df": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_dkr": {
+      "owner": "components/zsh/dev-and-terminal",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_docker::shell": {
+      "owner": "components/zsh/dev-and-terminal",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_dotfiles::edit": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_dotfiles::make": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_edit::file": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_edit::find-replace": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_edit::function": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_emoji": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_extract": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/gotchas"
+      ]
+    },
+    "zsh/.config/zsh/completions/_extract-images": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_F": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_fgco": {
+      "owner": "components/zsh/dev-and-terminal",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_fn": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_fzfp": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_gen-ghr-test": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_gli": {
+      "owner": "components/zsh/dev-and-terminal",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_h": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_has": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/style"
+      ]
+    },
+    "zsh/.config/zsh/completions/_have-updates": {
+      "owner": "components/zsh/system-maintenance",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_help-zshglob": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_list::functions": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_load-comp": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_log::error": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_log::info": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_ls-containers": {
+      "owner": "components/zsh/dev-and-terminal",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_ls-fpath": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_ls-path": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_macos::rm-ds-store": {
+      "owner": "components/zsh/system-maintenance",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_mkbak": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_mkfile": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_mkfn": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_mkrepeat": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_mock": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_output-to-array": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_r": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_rld::file": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/glossary"
+      ]
+    },
+    "zsh/.config/zsh/completions/_safari::tab": {
+      "owner": "components/zsh/system-maintenance",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_sys-report": {
+      "owner": "components/zsh/system-maintenance",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/style"
+      ]
+    },
+    "zsh/.config/zsh/completions/_v": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_vd": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_watch::file-count": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_wezterm::bring-pane": {
+      "owner": "components/zsh/dev-and-terminal",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_wezterm::send-pane": {
+      "owner": "components/zsh/dev-and-terminal",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_xcah": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_xcoh": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_xdah": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_xsth": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_zcmp": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_zdd": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_zfd": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_zgd": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_zpgrep": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_zsh-clean": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_zsh-xtrace": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_zsh::fix-insecure-dirs": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/_zsh::rld": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/completions/AGENTS.md": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "components/zsh/dev-and-terminal",
+        "components/zsh/everyday-utilities",
+        "flows/add-zsh-function",
+        "reference/style"
+      ]
+    },
+    "zsh/.config/zsh/functions/+brew-link-keg": {
+      "owner": "components/zsh/system-maintenance",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/glossary"
+      ]
+    },
+    "zsh/.config/zsh/functions/acme": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/add-to-path": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/AGENTS.md": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "components/zsh/dev-and-terminal",
+        "components/zsh/everyday-utilities",
+        "components/zsh/system-maintenance",
+        "flows/add-zsh-function",
+        "reference/glossary",
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    "zsh/.config/zsh/functions/banner": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/bootstrap-macos": {
+      "owner": "components/zsh/system-maintenance",
+      "context": [
+        "areas/desktop",
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/c": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/gotchas"
+      ]
+    },
+    "zsh/.config/zsh/functions/check-for-updates": {
+      "owner": "components/zsh/system-maintenance",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/clock": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/df": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/dkr": {
+      "owner": "components/zsh/dev-and-terminal",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/docker::shell": {
+      "owner": "components/zsh/dev-and-terminal",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/dotfiles::edit": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/dotfiles::make": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/glossary"
+      ]
+    },
+    "zsh/.config/zsh/functions/edit::file": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/edit::find-replace": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/edit::function": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/emoji": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/extract": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/gotchas"
+      ]
+    },
+    "zsh/.config/zsh/functions/extract-images": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/F": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/fgco": {
+      "owner": "components/zsh/dev-and-terminal",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/fn": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/fzfp": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/gen-ghr-test": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/gli": {
+      "owner": "components/zsh/dev-and-terminal",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/h": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/has": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/style"
+      ]
+    },
+    "zsh/.config/zsh/functions/have-updates": {
+      "owner": "components/zsh/system-maintenance",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/help-zshglob": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/style"
+      ]
+    },
+    "zsh/.config/zsh/functions/list::functions": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/load-comp": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/log::error": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "components/zsh/everyday-utilities",
+        "flows/add-zsh-function",
+        "reference/style"
+      ]
+    },
+    "zsh/.config/zsh/functions/log::info": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/ls-containers": {
+      "owner": "components/zsh/dev-and-terminal",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/ls-fpath": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/ls-path": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/macos::rm-ds-store": {
+      "owner": "components/zsh/system-maintenance",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/mkbak": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/mkfile": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/mkfn": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/glossary"
+      ]
+    },
+    "zsh/.config/zsh/functions/mkrepeat": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/glossary",
+        "reference/gotchas"
+      ]
+    },
+    "zsh/.config/zsh/functions/mock": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/output-to-array": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/r": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/gotchas"
+      ]
+    },
+    "zsh/.config/zsh/functions/rld::file": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/safari::tab": {
+      "owner": "components/zsh/system-maintenance",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/sys-report": {
+      "owner": "components/zsh/system-maintenance",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/style"
+      ]
+    },
+    "zsh/.config/zsh/functions/v": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/vd": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/watch::file-count": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/wezterm::_pane": {
+      "owner": "components/zsh/dev-and-terminal",
+      "context": [
+        "areas/desktop",
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/wezterm::bring-pane": {
+      "owner": "components/zsh/dev-and-terminal",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/wezterm::send-pane": {
+      "owner": "components/zsh/dev-and-terminal",
+      "context": [
+        "areas/desktop",
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/xcah": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/xcoh": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/xdah": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/xsth": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/zcmp": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/zdd": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/zfd": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/zgd": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/zpgrep": {
+      "owner": "components/zsh/everyday-utilities",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/zsh-clean": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/gotchas"
+      ]
+    },
+    "zsh/.config/zsh/functions/zsh-xtrace": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/zsh::fix-insecure-dirs": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function"
+      ]
+    },
+    "zsh/.config/zsh/functions/zsh::rld": {
+      "owner": "components/zsh/function-tooling",
+      "context": [
+        "areas/zsh",
+        "components/zsh/startup",
+        "flows/add-zsh-function",
+        "reference/glossary"
+      ]
+    },
+    "zsh/.config/zsh/rc.d/00-env.zsh": {
+      "owner": "components/zsh/startup",
+      "context": [
+        "areas/bootstrap",
+        "areas/cli-tools",
+        "areas/zsh",
+        "components/zsh/everyday-utilities",
+        "reference/glossary",
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    "zsh/.config/zsh/rc.d/01-alias.zsh": {
+      "owner": "components/zsh/startup",
+      "context": [
+        "areas/desktop",
+        "areas/zsh",
+        "reference/glossary"
+      ]
+    },
+    "zsh/.config/zsh/rc.d/02-widget.zsh": {
+      "owner": "components/zsh/startup",
+      "context": [
+        "areas/zsh"
+      ]
+    },
+    "zsh/.config/zsh/rc.d/03-fzf.zsh": {
+      "owner": "components/zsh/startup",
+      "context": [
+        "areas/zsh",
+        "reference/gotchas"
+      ]
+    },
+    "zsh/.config/zsh/rc.d/04-clipboard.zsh": {
+      "owner": "components/zsh/startup",
+      "context": [
+        "areas/desktop",
+        "areas/zsh"
+      ]
+    },
+    "zsh/.config/zsh/rc.d/05-zinit.zsh": {
+      "owner": "components/zsh/startup",
+      "context": [
+        "areas/desktop",
+        "areas/zsh",
+        "components/zsh/function-tooling",
+        "reference/glossary",
+        "reference/gotchas",
+        "reference/stack"
+      ]
+    },
+    "zsh/.config/zsh/rc.d/06-completion.zsh": {
+      "owner": "components/zsh/startup",
+      "context": [
+        "areas/zsh"
+      ]
+    },
+    "zsh/.config/zsh/rc.d/07-prompt.zsh": {
+      "owner": "components/zsh/startup",
+      "context": [
+        "areas/zsh"
+      ]
+    },
+    "zsh/.stow-local-ignore": {
+      "owner": "components/zsh/startup",
+      "context": [
+        "areas/zsh",
+        "reference/glossary"
+      ]
+    },
+    "zsh/.zshenv": {
+      "owner": "components/zsh/startup",
+      "context": [
+        "areas/zsh",
+        "components/zsh/function-tooling",
+        "reference/gotchas"
+      ]
+    }
+  },
+  "directories": {
+    ".github/": {
+      "files": 9,
+      "owners": [
+        {
+          "id": "reference/stack",
+          "files": 5
+        },
+        {
+          "id": "areas/bootstrap",
+          "files": 4
+        }
+      ],
+      "context": [
+        "flows/add-zsh-function",
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    ".github/tests/": {
+      "files": 3,
+      "owners": [
+        {
+          "id": "areas/bootstrap",
+          "files": 3
+        }
+      ],
+      "context": [
+        "flows/add-zsh-function",
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    ".github/workflows/": {
+      "files": 4,
+      "owners": [
+        {
+          "id": "reference/stack",
+          "files": 3
+        },
+        {
+          "id": "areas/bootstrap",
+          "files": 1
+        }
+      ],
+      "context": [
+        "flows/add-zsh-function",
+        "reference/style"
+      ]
+    },
+    "bash/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": [
+        "reference/style"
+      ]
+    },
+    "bin/": {
+      "files": 9,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 9
+        }
+      ],
+      "context": [
+        "reference/gotchas"
+      ]
+    },
+    "bin/.local/": {
+      "files": 9,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 9
+        }
+      ],
+      "context": [
+        "reference/gotchas"
+      ]
+    },
+    "bin/.local/bin/": {
+      "files": 9,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 9
+        }
+      ],
+      "context": [
+        "reference/gotchas"
+      ]
+    },
+    "curl/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": [
+        "reference/gotchas"
+      ]
+    },
+    "docker/": {
+      "files": 3,
+      "owners": [
+        {
+          "id": "areas/bootstrap",
+          "files": 3
+        }
+      ],
+      "context": [
+        "reference/stack",
+        "reference/style"
+      ]
+    },
+    "editor/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "reference/style",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "git/": {
+      "files": 3,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 3
+        }
+      ],
+      "context": [
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    "git/.config/": {
+      "files": 3,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 3
+        }
+      ],
+      "context": [
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    "git/.config/git/": {
+      "files": 3,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 3
+        }
+      ],
+      "context": [
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    "htop/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": [
+        "reference/gotchas"
+      ]
+    },
+    "htop/.config/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": [
+        "reference/gotchas"
+      ]
+    },
+    "htop/.config/htop/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": [
+        "reference/gotchas"
+      ]
+    },
+    "kitty/": {
+      "files": 2,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 2
+        }
+      ],
+      "context": []
+    },
+    "kitty/.config/": {
+      "files": 2,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 2
+        }
+      ],
+      "context": []
+    },
+    "kitty/.config/kitty/": {
+      "files": 2,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 2
+        }
+      ],
+      "context": []
+    },
+    "luaformatter/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "reference/style",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "luaformatter/.config/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "reference/style",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "luaformatter/.config/luaformatter/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "reference/style",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "macos/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "macos/.config/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "macos/.config/macos/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "pip/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "pip/.config/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "pip/.config/pip/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "python/": {
+      "files": 2,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        },
+        {
+          "id": "reference/style",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "python/.config/": {
+      "files": 2,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        },
+        {
+          "id": "reference/style",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "python/.config/python/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": [
+        "reference/style"
+      ]
+    },
+    "ranger/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "ranger/.config/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "ranger/.config/ranger/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "ripgrep/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "ripgrep/.config/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "ripgrep/.config/ripgrep/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "skhd/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "skhd/.config/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "skhd/.config/skhd/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "stow/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/bootstrap",
+          "files": 1
+        }
+      ],
+      "context": [
+        "areas/cli-tools",
+        "reference/glossary"
+      ]
+    },
+    "tmux/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 1
+        }
+      ],
+      "context": [
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    "tmux/.config/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 1
+        }
+      ],
+      "context": [
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    "tmux/.config/tmux/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 1
+        }
+      ],
+      "context": [
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    "topgrade/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": [
+        "reference/gotchas"
+      ]
+    },
+    "topgrade/.config/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": [
+        "reference/gotchas"
+      ]
+    },
+    "vim/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/cli-tools",
+          "files": 1
+        }
+      ],
+      "context": [
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    "wezterm/": {
+      "files": 4,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 4
+        }
+      ],
+      "context": [
+        "areas/zsh",
+        "reference/stack",
+        "reference/style"
+      ]
+    },
+    "wezterm/.config/": {
+      "files": 4,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 4
+        }
+      ],
+      "context": [
+        "areas/zsh",
+        "reference/stack",
+        "reference/style"
+      ]
+    },
+    "wezterm/.config/wezterm/": {
+      "files": 4,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 4
+        }
+      ],
+      "context": [
+        "areas/zsh",
+        "reference/stack",
+        "reference/style"
+      ]
+    },
+    "yabai/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "yabai/.config/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "yabai/.config/yabai/": {
+      "files": 1,
+      "owners": [
+        {
+          "id": "areas/desktop",
+          "files": 1
+        }
+      ],
+      "context": []
+    },
+    "zsh/": {
+      "files": 146,
+      "owners": [
+        {
+          "id": "components/zsh/everyday-utilities",
+          "files": 54
+        },
+        {
+          "id": "components/zsh/function-tooling",
+          "files": 50
+        },
+        {
+          "id": "components/zsh/dev-and-terminal",
+          "files": 15
+        },
+        {
+          "id": "components/zsh/system-maintenance",
+          "files": 14
+        },
+        {
+          "id": "components/zsh/startup",
+          "files": 13
+        }
+      ],
+      "context": [
+        "areas/bootstrap",
+        "areas/cli-tools",
+        "areas/desktop",
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/glossary",
+        "reference/gotchas",
+        "reference/stack",
+        "reference/style"
+      ]
+    },
+    "zsh/.config/": {
+      "files": 144,
+      "owners": [
+        {
+          "id": "components/zsh/everyday-utilities",
+          "files": 54
+        },
+        {
+          "id": "components/zsh/function-tooling",
+          "files": 50
+        },
+        {
+          "id": "components/zsh/dev-and-terminal",
+          "files": 15
+        },
+        {
+          "id": "components/zsh/system-maintenance",
+          "files": 14
+        },
+        {
+          "id": "components/zsh/startup",
+          "files": 11
+        }
+      ],
+      "context": [
+        "areas/bootstrap",
+        "areas/cli-tools",
+        "areas/desktop",
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/glossary",
+        "reference/gotchas",
+        "reference/stack",
+        "reference/style"
+      ]
+    },
+    "zsh/.config/zsh/": {
+      "files": 144,
+      "owners": [
+        {
+          "id": "components/zsh/everyday-utilities",
+          "files": 54
+        },
+        {
+          "id": "components/zsh/function-tooling",
+          "files": 50
+        },
+        {
+          "id": "components/zsh/dev-and-terminal",
+          "files": 15
+        },
+        {
+          "id": "components/zsh/system-maintenance",
+          "files": 14
+        },
+        {
+          "id": "components/zsh/startup",
+          "files": 11
+        }
+      ],
+      "context": [
+        "areas/bootstrap",
+        "areas/cli-tools",
+        "areas/desktop",
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/glossary",
+        "reference/gotchas",
+        "reference/stack",
+        "reference/style"
+      ]
+    },
+    "zsh/.config/zsh/completions/": {
+      "files": 67,
+      "owners": [
+        {
+          "id": "components/zsh/everyday-utilities",
+          "files": 27
+        },
+        {
+          "id": "components/zsh/function-tooling",
+          "files": 25
+        },
+        {
+          "id": "components/zsh/dev-and-terminal",
+          "files": 7
+        },
+        {
+          "id": "components/zsh/system-maintenance",
+          "files": 7
+        },
+        {
+          "id": "components/zsh/startup",
+          "files": 1
+        }
+      ],
+      "context": [
+        "areas/zsh",
+        "flows/add-zsh-function",
+        "reference/glossary",
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    "zsh/.config/zsh/functions/": {
+      "files": 67,
+      "owners": [
+        {
+          "id": "components/zsh/everyday-utilities",
+          "files": 27
+        },
+        {
+          "id": "components/zsh/function-tooling",
+          "files": 25
+        },
+        {
+          "id": "components/zsh/dev-and-terminal",
+          "files": 8
+        },
+        {
+          "id": "components/zsh/system-maintenance",
+          "files": 7
+        }
+      ],
+      "context": [
+        "areas/desktop",
+        "areas/zsh",
+        "components/zsh/startup",
+        "flows/add-zsh-function",
+        "reference/glossary",
+        "reference/gotchas",
+        "reference/style"
+      ]
+    },
+    "zsh/.config/zsh/rc.d/": {
+      "files": 8,
+      "owners": [
+        {
+          "id": "components/zsh/startup",
+          "files": 8
+        }
+      ],
+      "context": [
+        "areas/bootstrap",
+        "areas/cli-tools",
+        "areas/desktop",
+        "areas/zsh",
+        "components/zsh/everyday-utilities",
+        "components/zsh/function-tooling",
+        "reference/glossary",
+        "reference/gotchas",
+        "reference/stack",
+        "reference/style"
+      ]
+    }
+  }
+}
