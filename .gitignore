@@ -3,10 +3,11 @@
 bin/.local/[si]*
 bin/.local/**/python
 default_config.cfg
-dotfiles-latest.tar.gz
+dotfiles-*.tar.gz
+git/**/config.local
 git/**/credentials
-init-buildx
 stow.git
+zsh/.config/zsh/local/
 zsh[-_]history
 *.zwc
 __pycache__/

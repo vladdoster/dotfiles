@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 FROM archlinux:base-devel
 LABEL org.label-schema.name="vladdoster/dotfiles"
 LABEL org.opencontainers.image.title="dotfiles"
@@ -5,41 +7,34 @@ LABEL org.opencontainers.image.source="http://dotfiles.vdoster.com/"
 LABEL org.opencontainers.image.description="Containerized dotfiles environment"
 
 ARG USER
+ARG USER_ID=1001
 
-ENV USER ${USER:-dotfiles}
-ENV HOME /home/${USER}
+ENV USER=${USER:-dotfiles}
+ENV HOME=/home/${USER}
 
-ENV CLICOLOR 1
-ENV DEBIAN_FRONTEND noninteractive
-ENV TERM xterm-256color
-
-ENV \
-    UID="1000" \
-    GID="1000" \
-    UNAME="$USER" \
-    SHELL="/bin/zsh"
+ENV CLICOLOR=1
+ENV SHELL=/bin/zsh
+ENV TERM=xterm-256color
 
 RUN pacman -Syu --noprogressbar --noconfirm --needed \
   cmake clang unzip ninja git curl wget openssh zsh reflector sudo \
-  && reflector -p https -c us --score 20 --connection-timeout 1 --sort rate --save /etc/pacman.d/mirrorlist \
-  && wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem \
-  -o /usr/share/ca-certificates/trust-source/rds-combined-ca-bundle.pem \
-  && update-ca-trust
+  && reflector -p https -c us --score 20 --connection-timeout 1 --sort rate --save /etc/pacman.d/mirrorlist
 
-  RUN sed -i '/en_US.UTF-8 UTF-8/s/^#//g' /etc/locale.gen \
+RUN sed -i '/en_US.UTF-8 UTF-8/s/^#//g' /etc/locale.gen \
     && locale-gen \
     && pacman -Sy --noprogressbar --noconfirm --needed archlinux-keyring \
-    && pacman -Scc \
     && rm -Rf /etc/pacman.d/gnupg \
     && pacman-key --init \
     && pacman-key --populate archlinux
 
-RUN useradd \
+# Passwordless sudo lets the interactive shell install packages.
+RUN groupadd --gid ${USER_ID} ${USER} \
+ && useradd \
   --create-home \
-  --gid root --groups wheel \
+  --gid ${USER_ID} --groups wheel \
   --home-dir ${HOME} \
   --shell "$(which zsh)" \
-  --uid 1001 \
+  --uid ${USER_ID} \
   ${USER} \
   && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers \
   && passwd --delete ${USER} \
@@ -59,7 +54,7 @@ RUN yay -Syu --noprogressbar --noconfirm --needed \
   bzip2 \
   ca-certificates cmake cpanminus curl \
   git-delta dialog \
-  exa \
+  eza \
   figlet file fzf \
   gawk gcc gettext git gnupg gosu \
   iproute2 \
@@ -84,17 +79,10 @@ RUN sudo sed -i '/en_US.UTF-8 UTF-8/s/^#//g' /etc/locale.gen \
 #  && sudo make --directory=neovim -j16 --quiet --silent install \
 #  && sudo rm -rf neovim
 
-# COPY --chown=${USER}:1001 . ${HOME}/.config/dotfiles/
-
-RUN mkdir -p $HOME/.config \
- && git clone --quiet -- https://github.com/vladdoster/dotfiles $HOME/.config/dotfiles
-
-# COPY --chown=${USER}:1001 . ${HOME}/.config/dotfiles/
+COPY --link --chown=${USER_ID}:${USER_ID} . ${HOME}/.config/dotfiles/
 
 RUN zsh --interactive --login -c "make --directory=$HOME/.config/dotfiles --jobs=1 install neovim" \
  && zsh --interactive --login -c -- '@zinit-scheduler burst'
-
-ENV TERM="xterm-256color"
 
 CMD ["zsh","--login","--interactive"]
 

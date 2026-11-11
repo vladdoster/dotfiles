@@ -12,7 +12,7 @@ NPROC = $(shell getconf _NPROCESSORS_ONLN)
 PACKAGES := $(patsubst %/,%,$(wildcard */))
 STOW_OPTS := --target=$(HOME) --verbose=1
 
-# Use the arch names that docker/Makefile gives its images (amd64, arm64).
+# Use Docker's arch names (amd64, arm64) for local image tags.
 CONTAINER_ARCH ?= $(subst aarch64,arm64,$(subst x86_64,amd64,$(shell uname -m)))
 CONTAINER_LABEL ?= $(shell git rev-parse --short HEAD)
 CONTAINER_NAME = vdoster/dotfiles-$(CONTAINER_ARCH)
@@ -21,8 +21,7 @@ CONTAINER_TARBALL = $(notdir $(CONTAINER_NAME))-$(CONTAINER_LABEL).tar.gz
 
 DOCKER_OPTS = --hostname docker-$(notdir $(CONTAINER_NAME)) \
 	--interactive \
-	--mount=source=dotfiles-$(CONTAINER_ARCH)-volume,destination=/home \
-	--security-opt seccomp=unconfined
+	--mount=source=$(notdir $(CONTAINER_NAME))-$(CONTAINER_LABEL)-volume,destination=/home
 
 # Print each "target: ## text" line with the awk printf format in $(1).
 list-targets = grep -E '^[a-zA-Z_-]+:.*\#\# ' $(firstword $(MAKEFILE_LIST)) | sort \
@@ -110,9 +109,6 @@ docker-load: ## Load docker image from tarball
 	$(info ==> loading $(CONTAINER_TAG))
 	docker load --input "$(CONTAINER_TARBALL)"
 
-docker-push: ## Build and push dotfiles docker image
-	$(MAKE) --directory=docker manifest
-
 docker-save: ## Create tarball of docker image
 	docker save "$(CONTAINER_TAG)" | gzip > "$(CONTAINER_TARBALL)"
 	echo '==> saved $(CONTAINER_TAG)'
@@ -130,6 +126,7 @@ clean-brew: ## Clean homebrew caches and stale versions
 	brew cleanup --prune=all --scrub --verbose
 
 clean-docker: ## Clean docker resources
+	read -r "ans?Removes all unused images, containers, networks, and build cache. Continue? [y/N] " && [[ $$ans == [yY] ]] || exit 1
 	docker system prune --all --force
 
 update-readme: ## Update Make targets table in README
