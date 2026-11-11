@@ -45,7 +45,6 @@ zsh install.zsh --help
 | clean             | Clean homebrew and docker resources                                     |
 | docker-build      | Build docker image                                                      |
 | docker-load       | Load docker image from tarball                                          |
-| docker-push       | Build and push dotfiles docker image                                    |
 | docker-save       | Create tarball of docker image                                          |
 | docker-shell      | Start shell in docker container                                         |
 | hammerspoon       | Install hammerspoon configuration                                       |
