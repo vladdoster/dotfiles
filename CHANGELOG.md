@@ -1,3 +1,10 @@
+# [4.71.0](https://github.com/vladdoster/dotfiles/compare/v4.70.1...v4.71.0) (2026-11-11)
+
+
+### Features
+
+* **wezterm:** open local paths on ctrl-click ([faa81f7](https://github.com/vladdoster/dotfiles/commit/faa81f7ebe06e0f911814e263227a9cef84e5f5c))
+
 ## [4.70.1](https://github.com/vladdoster/dotfiles/compare/v4.70.0...v4.70.1) (2026-11-05)
 
 
