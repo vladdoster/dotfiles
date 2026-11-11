@@ -47,6 +47,7 @@ brew "rust", link: :overwrite
 brew "stow", link: true
 brew "texinfo"
 brew "tmux", link: true
+brew "tree-sitter-cli", link: true
 brew "unzip"
 brew "uv"
 brew "watch"

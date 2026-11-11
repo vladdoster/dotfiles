@@ -138,7 +138,7 @@ zi lucid id-as for \
   @zsh-users/zsh-autosuggestions \
     from'gh-r' \
     lbin'!' \
-    eval"zsh-patina activate" \
+    eval'zsh-patina activate' \
   @michel-kraemer/zsh-patina \
     make \
   @zdharma-continuum/zshelldoc \
@@ -151,7 +151,7 @@ zi lucid id-as for \
   @zdharma-continuum/zunit \
     atload'bindkey "^[[A" history-substring-search-up;bindkey "^[[B" history-substring-search-down' \
   @zsh-users/zsh-history-substring-search \
-    eval"gdircolors -b LS_COLORS" \
+    eval'gdircolors -b LS_COLORS' \
     atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”' \
   @trapd00r/LS_COLORS
 
