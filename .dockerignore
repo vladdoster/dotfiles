@@ -1,3 +1,25 @@
 bin/**/s**
-docker/
 .DS_Store
+
+# VCS, CI, docs, and the Dockerfiles themselves
+.git
+.github
+.claude
+agent-docs
+*.md
+*.tar.gz
+Dockerfile
+*.Dockerfile
+.dockerignore
+
+# Credentials and local state. Git-ignored files still enter the build context.
+zsh/.config/zsh/local
+**/config.local
+**/credentials
+**/zsh_history
+**/.env
+**/.npmrc
+
+# Generated caches
+**/*.zwc
+**/.zcompdump
