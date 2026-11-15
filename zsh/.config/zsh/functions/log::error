@@ -2,14 +2,5 @@
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
 #
 # Print an error message to stderr.
-#
-# An error must be visible wherever it happens, so colour is gated on stderr being a
-# terminal, not on interactivity. Only the prefix is expanded, so a % in a path is safe.
 
-builtin emulate -L zsh -o EXTENDED_GLOB
-
-local prefix='Error:'
-
-[[ -t 2 ]] && prefix=${(%):-'%F{red}Error:%f'}
-
-print -r -- "${prefix} ${*}" >&2
+log::_print 2 red 'Error:' "$@"

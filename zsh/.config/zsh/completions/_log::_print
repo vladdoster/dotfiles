@@ -1,0 +1,9 @@
+#compdef log::_print
+
+_arguments \
+  '1:file descriptor:(1 2)' \
+  '2:color:(black red green yellow blue magenta cyan white default)' \
+  '3:label:' \
+  '*:message:'
+
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
