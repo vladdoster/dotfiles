@@ -1,3 +1,15 @@
+## [4.72.1](https://github.com/vladdoster/dotfiles/compare/v4.72.0...v4.72.1) (2026-11-15)
+
+
+### Bug Fixes
+
+* **zsh:** correct add-to-path messages ([#76](https://github.com/vladdoster/dotfiles/issues/76)) ([c5fadb7](https://github.com/vladdoster/dotfiles/commit/c5fadb7fec77462cad40806538b3eb42bc0c0558))
+* **zsh:** keep sys-report match params local ([739c325](https://github.com/vladdoster/dotfiles/commit/739c325e24246fda4f16252cbc44aac52939892a)), closes [#b](https://github.com/vladdoster/dotfiles/issues/b)
+* **zsh:** keep sys-report match params local ([#79](https://github.com/vladdoster/dotfiles/issues/79)) ([a670242](https://github.com/vladdoster/dotfiles/commit/a670242c3d32df4e3905347fe63b7719fd905afd)), closes [#b](https://github.com/vladdoster/dotfiles/issues/b)
+* **zsh:** lowercase docker image names ([d7ab182](https://github.com/vladdoster/dotfiles/commit/d7ab1822cc52e903443c708d5b3ac365b1d96622))
+* **zsh:** stop dkr hiding the commands hash ([1a9caa0](https://github.com/vladdoster/dotfiles/commit/1a9caa0f43c7bb2def73d8c14def205586d5a05b))
+* **zsh:** stop dkr hiding the commands hash ([#78](https://github.com/vladdoster/dotfiles/issues/78)) ([ae9136f](https://github.com/vladdoster/dotfiles/commit/ae9136fc27822a79339fbbb7b4ae6359d83ebf35))
+
 # [4.72.0](https://github.com/vladdoster/dotfiles/compare/v4.71.1...v4.72.0) (2026-11-15)
 
 
