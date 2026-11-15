@@ -1,3 +1,17 @@
+## [4.72.2](https://github.com/vladdoster/dotfiles/compare/v4.72.1...v4.72.2) (2026-11-15)
+
+
+### Bug Fixes
+
+* **zsh:** correct bugs in shell functions ([c81a61f](https://github.com/vladdoster/dotfiles/commit/c81a61f5fdfd98087cd773e4aa07aa4d6b53a078))
+* **zsh:** correct env, history, paste, and function bugs ([#83](https://github.com/vladdoster/dotfiles/issues/83)) ([8855833](https://github.com/vladdoster/dotfiles/commit/885583380ed1f70d26e5bb9c718898bc25fcc284))
+* **zsh:** drop GIT_CONFIG and PIP_TRUSTED_HOST ([f8124ca](https://github.com/vladdoster/dotfiles/commit/f8124ca236fa7b8cb1d1b613e130dce097ab3470))
+* **zsh:** drop recexact from completion options ([3f03534](https://github.com/vladdoster/dotfiles/commit/3f0353416a6f3e62f25e6f6e6a38550c544c2751))
+* **zsh:** keep quotes in pasted $ commands ([b658e5c](https://github.com/vladdoster/dotfiles/commit/b658e5c523b5acc50d477b492d5a2f7d033edbef))
+* **zsh:** set HISTFILE unconditionally ([72a627e](https://github.com/vladdoster/dotfiles/commit/72a627e11e08eb18b4c2d597b7eb9a88b088620a))
+* **zsh:** stop reducing blanks in history ([b503cc5](https://github.com/vladdoster/dotfiles/commit/b503cc5d141fa4580db1adf8b4b9cbb642d65c7d))
+* **zsh:** stop reducing blanks in history ([#87](https://github.com/vladdoster/dotfiles/issues/87)) ([94ab555](https://github.com/vladdoster/dotfiles/commit/94ab555b4effd82b922c1d9c79f8812a4deee943))
+
 ## [4.72.1](https://github.com/vladdoster/dotfiles/compare/v4.72.0...v4.72.1) (2026-11-15)
 
 
