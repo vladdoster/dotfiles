@@ -135,6 +135,7 @@ wezterm.on('gui-startup', function(cmd)
 end)
 
 config.leader = { key = 'Space', mods = 'CTRL', timeout_milliseconds = 1000 }
+config.window_decorations = 'MACOS_USE_BACKGROUND_COLOR_AS_TITLEBAR_COLOR|TITLE|RESIZE'
 config.adjust_window_size_when_changing_font_size = false
 config.audible_bell = 'Disabled'
 config.check_for_updates = false
