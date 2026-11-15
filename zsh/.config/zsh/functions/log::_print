@@ -1,0 +1,16 @@
+#autoload
+# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+#
+# Shared implementation behind log::info, log::warn and log::error.
+#
+#   log::_print <fd> <colour> <label> [message...]
+#
+# Colour is gated on the destination being a terminal, not on interactivity, so make, launchd
+# and cron get plain text. Only the label is expanded, so a % in a path is safe.
+
+builtin emulate -L zsh
+
+local fd=$1 label=$3
+[[ -t $fd ]] && label=${(%):-"%F{$2}$3%f"}
+shift 3
+print -r -u $fd -- "$label $*"

@@ -22,7 +22,7 @@ typeset -A ZINIT=(
 local ZI_REPO="${ZINIT[FORK]:-${ZINIT[SRC]}}/${ZINIT[REPO]:-zinit}"
 if [[ ! -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
   {
-    log::info "cloning %B${ZI_REPO}%b to %B${(D)ZINIT[BIN_DIR]}%b"
+    log::info "cloning ${ZI_REPO} to ${(D)ZINIT[BIN_DIR]}"
     command git clone \
       --branch "${ZINIT[BRANCH]:-main}" \
       --quiet \

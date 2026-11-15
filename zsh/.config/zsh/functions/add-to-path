@@ -10,6 +10,7 @@ emulate -L zsh
 setopt extendedglob
 zmodload zsh/zutil || return 1
 
+local _fn="$0:"
 local -a opt_help opt_debug opt_prepend
 builtin zparseopts -D -F -E -K -- \
     {h,-help}=opt_help \
@@ -29,7 +30,7 @@ fi
 (( $#opt_debug )) && setopt xtrace
 
 if (( ! $# )); then
-    log::error "$0 requires one or more directories"
+    log::error "$_fn requires one or more directories"
     return 1
 fi
 
@@ -39,11 +40,11 @@ integer stat=0
 
 for dir in "$@"; do
     if [[ ! -d $dir ]]; then
-        log::error "$0: not a directory: ${(qq)dir}"
+        log::error "not a directory: ${(qq)dir}"
         stat=1
     # -U keeps the first copy of an entry. An append leaves an existing entry in place.
     elif (( ! $#opt_prepend && ${path[(Ie)$dir]} )); then
-        log::info "$0: already in PATH: ${(D)dir}"
+        log::warn "already in PATH: ${(D)dir}"
     else
         dirs+=($dir)
     fi
@@ -60,7 +61,7 @@ else
 fi
 
 for dir in $dirs; do
-    log::info "$0: $verb ${(D)dir}"
+    log::info "$_fn $verb ${(D)dir}"
 done
 
 return $stat

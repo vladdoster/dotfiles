@@ -2,19 +2,5 @@
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
 #
 # Print a progress message to stdout.
-#
-# Callers pass prompt escapes on purpose, so the message is prompt expanded on a terminal.
-# Gating on the destination, not interactivity, keeps output under make, launchd and cron.
 
-builtin emulate -L zsh -o EXTENDED_GLOB
-
-local msg=${*}
-
-if [[ -t 1 ]]; then
-    print -P -- "%F{green}==>%f %F{white}${msg}%f"
-else
-    # strip the markup so logs stay readable without escape sequences
-    msg=${msg//\%[FK]\{[^\}]##\}/}
-    msg=${msg//\%[BbUuSsfk]/}
-    print -r -- "==> ${msg//\%\%/%}"
-fi
+log::_print 1 green '==>' "$@"
