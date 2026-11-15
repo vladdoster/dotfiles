@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# Regression checks for install.zsh, the Makefile targets it drives, and the Brewfile.
+# Regression checks for install.zsh, the Makefile targets it drives, the Brewfile, and extract.
 # Needs only zsh, git, make, and python3; nothing is installed. Runs on macOS and Linux:
 #   zsh .github/tests/install.zsh
 # In GitHub Actions, failures are also annotations, and the results go to the job summary.
@@ -123,7 +123,19 @@ run --only clone --prefix $work/foreign
 ((rc == 1)) && [[ $out == *'already exists'* ]]
 check "a directory that is not a clone is refused" $? "exit $rc" "${(@f)out}"
 
+##############################################################################
+# zsh functions                                                              #
+##############################################################################
+area Functions zsh/.config/zsh/functions/extract
+fpath=($repo/zsh/.config/zsh/functions $fpath)
+autoload -Uz extract log::error log::_print
+# extract -r deletes an archive only after it unpacks, so a broken one must survive.
+print -r -- 'not an archive' > $work/broken.tar.gz
+out=$(cd $work && extract -r broken.tar.gz 2>&1) && rc=0 || rc=$?
+((rc == 1)) && [[ -f $work/broken.tar.gz ]]
+check "\`extract -r\` keeps an archive that failed to unpack" $? "exit $rc" "${(@f)out}"
+
 [[ $OSTYPE == darwin* ]] && os=macOS || os=Linux
 report "Install regression checks · $os" \
-  "$(alert NOTE "Checks \`install.zsh\`, the \`Makefile\` targets it runs, and the \`Brewfile\`." \
+  "$(alert NOTE "Checks \`install.zsh\`, the \`Makefile\` targets it runs, the \`Brewfile\`, and \`extract -r\`." \
     "Stand-ins replace sudo, the Homebrew installer, and GitHub, so nothing is installed.")"
