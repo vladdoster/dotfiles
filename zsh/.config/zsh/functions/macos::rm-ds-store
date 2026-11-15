@@ -6,6 +6,7 @@
 builtin emulate -L zsh
 setopt extendedglob
 
+# -delete forces a depth-first walk, and find ignores -prune then. -exec keeps the prune.
 command find \
   $HOME \
   -type d \( -path $HOME/.Trash -o -path $HOME/Library \) \
@@ -13,4 +14,4 @@ command find \
   -o \
   -name '.DS_Store' \
   -print \
-  -delete
+  -exec rm -f -- {} +

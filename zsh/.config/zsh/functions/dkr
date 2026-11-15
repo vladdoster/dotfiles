@@ -123,12 +123,12 @@ EOF
     (alpine) dockerfile=$(cat <<-'DOCKERFILE'
           ARG DISTRO=alpine
           ARG PLATFORM=amd64
-          FROM ${PLATFORM}/${DISTRO}:latest
+          FROM ${DISTRO}:latest
           ENV PUID 1001
           ENV USER user
           ENV HOME /home/${USER}
-          RUN apk update --no-check-certificate \
-              && apk add --no-check-certificate \
+          RUN apk update \
+              && apk add \
                   autoconf automake \
                   bash build-base \
                   cmake coreutils curl \
@@ -152,8 +152,7 @@ EOF
             && chown --recursive ${USER} ${HOME}
           USER ${USER}
           WORKDIR ${HOME}
-          RUN export GIT_SSL_NO_VERIFY=1 \
-            && git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
+          RUN git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
           ENTRYPOINT ["zsh"]
           CMD ["-i"]
 DOCKERFILE
@@ -220,8 +219,7 @@ DOCKERFILE
               zstyle ':completion:*' range 1000:100
               setopt extendedglob promptsubst glob_dots
 EOF
-          RUN export GIT_SSL_NO_VERIFY=1 \
-            && git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
+          RUN git clone https://github.com/vladdoster/dotfiles.git .config/dotfiles
           ENTRYPOINT ["zsh"]
           CMD ["-i"]
 DOCKERFILE

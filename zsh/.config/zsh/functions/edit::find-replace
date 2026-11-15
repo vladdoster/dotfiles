@@ -1,7 +1,7 @@
 #autoload
 # vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
 #
-# Replace a pattern in every regular file below the current directory.
+# Replace a pattern in every text file below the current directory that contains it.
 #
 #   edit::find-replace old new
 #
@@ -25,4 +25,9 @@ fi
 
 autoload -Uz zargs
 
-zargs -- $files -- command gsed -i "s/${1}/${2}/g"
+# grep -I skips binary files, so gsed rewrites only the text files that contain a match
+files=(${(f)"$(zargs -- $files -- command grep -lIe "$1" --)"})
+(( $#files )) || return 0
+
+# / is the sed delimiter, so slashes in either argument are escaped
+zargs -- $files -- command gsed -i "s/${1//\//\\/}/${2//\//\\/}/g"

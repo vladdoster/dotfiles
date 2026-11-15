@@ -5,7 +5,7 @@ setopt auto_cd extended_glob glob_dots interactive_comments prompt_subst
 
 SAVEHIST=200000
 HISTSIZE=$SAVEHIST
-: ${HISTFILE=$ZDOTDIR/zsh_history}
+HISTFILE=$ZDOTDIR/zsh_history
 setopt {'extended','inc_append','share'}_history
 setopt HIST_{'EXPIRE_DUPS_FIRST','FIND_NO_DUPS','IGNORE_ALL_DUPS','REDUCE_BLANKS','VERIFY'}
 

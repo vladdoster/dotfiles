@@ -53,14 +53,14 @@ while (( $# )); do
                 command xzcat $1 | command tar xvf - || failed=1
             fi
             ;;
-        (*.tar.zma|*.tlz)
+        (*.tar.lzma|*.tlz)
             if command tar --lzma --help &>/dev/null; then
                 command tar --lzma -xvf $1 || failed=1
             else
                 command lzcat $1 | command tar xvf - || failed=1
             fi
             ;;
-        (*.tar.zstd) command tar -I zstd -xvf $1 || failed=1 ;;
+        (*.tar.zst|*.tar.zstd) command tar -xvf $1 || failed=1 ;;
         (*.tar) command tar xvf $1 || failed=1 ;;
         (*.gz) command gunzip $1 || failed=1 ;;
         (*.bz2) command bunzip2 $1 || failed=1 ;;
@@ -80,9 +80,9 @@ while (( $# )); do
             if (( ! failed )); then
                 {
                     command ar vx $archive >/dev/null &&
-                        command tar xzvf control.tar.gz -C control &&
-                        command tar xzvf data.tar.gz -C data &&
-                        command rm -f -- *.tar.gz(N) debian-binary(N) || failed=1
+                        command tar -xvf control.tar.*(N[1]) -C control &&
+                        command tar -xvf data.tar.*(N[1]) -C data &&
+                        command rm -f -- *.tar.*(N) debian-binary(N) || failed=1
                 } always {
                     popd -q
                 }

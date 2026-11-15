@@ -29,6 +29,6 @@ done
 
 local log=zsh_start.log
 
-zsh --norcs -lxvc "${@}; return" 2>&1 | command ts -i '%.s' | command ansifilter >| $log || return 1
+zsh -ilxvc "${*:-exit}" 2>&1 | command ts -i '%.s' | command ansifilter >| $log || return 1
 
 log::info "wrote $log"

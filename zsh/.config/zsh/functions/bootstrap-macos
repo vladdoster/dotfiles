@@ -523,7 +523,7 @@ if ((${+do_section[keyboard]})); then
   # Enable full keyboard access for all controls (e.g. enable Tab in modal dialogs)
   $run defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
   # Disable press-and-hold for keys in favor of key repeat
-  $run defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool true
+  $run defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
   # Set a blazingly fast keyboard repeat rate
   $run defaults write NSGlobalDomain KeyRepeat -int 1
   $run defaults write NSGlobalDomain InitialKeyRepeat -int 10
@@ -805,15 +805,23 @@ fi
 # Restart the affected apps so the changes land without a logout. Runs regardless of
 # which sections were selected, otherwise `--only dock` would appear to do nothing.
 #
-# Terminal is on the list because this script writes four com.apple.Terminal preferences
-# (the profile, Default/Startup Window Settings, SecureKeyboardEntry) and, per `man
-# defaults`, a running app "won't see the change and might even overwrite the default" --
-# quitting Terminal later would silently revert all four.
+# Terminal joins the list only when dockitems or misc ran, since those write its four
+# com.apple.Terminal preferences (the profile, Default/Startup Window Settings,
+# SecureKeyboardEntry). Per `man defaults`, a running app "won't see the change and might
+# even overwrite the default" -- quitting Terminal later would silently revert all four.
+# Inside Terminal.app, killing it would end this run, so the user is told to do it instead.
 #
 # One array feeds both branches so the --dry-run line cannot drift from what actually runs.
-local -a restart_apps=(
-  Dock Finder SystemUIServer ControlCenter WindowManager Terminal cfprefsd
-)
+local -a restart_apps=(Dock Finder SystemUIServer ControlCenter WindowManager)
+if ((${+do_section[dockitems]} || ${+do_section[misc]})); then
+  if [[ $TERM_PROGRAM == Apple_Terminal ]]; then
+    log::warn "Terminal runs this script, so it was not restarted." \
+      "Run 'killall Terminal' from another terminal app."
+  else
+    restart_apps+=(Terminal)
+  fi
+fi
+restart_apps+=(cfprefsd)
 if (($#flag_dry)); then
   builtin print -r -- "killall ${restart_apps}"
 else
