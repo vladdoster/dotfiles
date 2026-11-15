@@ -16,8 +16,7 @@ function _accept-line-with-url {
   elif [[ $BUFFER =~ ^[[:space:]]?\$[[:space:]] ]]; then
     echo $BUFFER >> $HISTFILE
     fc -R
-    BUFFERz="$(echo ${BUFFER/\$/} | xargs)"
-    BUFFER=$BUFFERz
+    BUFFER=${BUFFER#[[:space:]]#\$[[:space:]]##}
     zle .accept-line
   else
     zle .accept-line
