@@ -36,6 +36,9 @@ fi
 local -a warns
 local -A sp vmp
 local lvlcol
+# Helpers return through REPLY, and =~ and (#b) set the match parameters. Keep them local.
+local REPLY MATCH MBEGIN MEND
+local -a match mbegin mend
 
 # Slow probes run in the background and write to $tmp; each section reads its file when it
 # prints.
