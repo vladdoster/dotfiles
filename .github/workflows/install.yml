@@ -10,6 +10,7 @@ on:
       - Brewfile
       - Makefile
       - install.zsh
+      - zsh/.config/zsh/functions/extract
   pull_request:
     branches:
       - master
@@ -19,6 +20,7 @@ on:
       - Brewfile
       - Makefile
       - install.zsh
+      - zsh/.config/zsh/functions/extract
   schedule:
     # Homebrew and package updates break installs without any commit here.
     - cron: '23 6 * * 1'

@@ -10,32 +10,14 @@ alias -g B='brew'
 alias -g S='sort --unique'
 alias -g W='| wc -l'
 
-_clone_if_absent() {
-  [[ ! -d $1 ]] && git clone "$1" "$2/$(basename "$1" .git)"
-}
-
 _edit() {
   "$EDITOR" "$@"
 }
 
-_mkfile() {
-  builtin echo "#!/usr/bin/env ${2}" > "$3.$1" && chmod +x "$3.$1"
-  rehash
-  _edit "$3.$1"
-}
-
-_sys_update() {
-  "$1" update && "$1" upgrade
-}
-
 _goto() {
   [[ -e $1 ]] && builtin cd "$1" && {
-    exa --all --long 2> /dev/null || command ls -lGo || _error "${1} not found"
+    command eza --all --long 2> /dev/null || command ls -lGo
   }
-}
-
-_info() {
-  builtin print -P -- "%F{green}==>%f %F{white}${1}%f"
 }
 
 if [[ ! -d "$HOME/code" ]]; then
@@ -70,7 +52,7 @@ for k v in hscfg '.hammerspoon/init.lua' sshrc '.ssh/config' zec '.zshenv' zpc '
   builtin alias -- $k="_edit ${HOME}/${v}" || true
 done
 
-alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},{auto,}s}; ziprune; zrld; cd -'
+alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},{auto,}s}; zrld; cd -'
 
 typeset -A goto_targets=(bin '~/.local/bin' dl '~/Downloads' hsd '~/.hammerspoon' xch '~/.config' xdh '~/.local/share' zcf '$ZDOTDIR/rc.d')
 for k v in ${(kv)goto_targets[@]}; do
