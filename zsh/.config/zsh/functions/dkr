@@ -268,7 +268,7 @@ dkr::sandbox () {
   fi
   dkr::running || return 1
   # the build and run helpers read these through zsh's dynamic scoping
-  local distro=$opt_distro[-1] platform=$opt_platform[-1]
+  local -l distro=$opt_distro[-1] platform=$opt_platform[-1]
   dkr::sandbox_$1
 }
 dkr::nuke_usage () {

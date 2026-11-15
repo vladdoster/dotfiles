@@ -30,7 +30,7 @@ fi
 
 (( $#verbose )) && docker_verbosity=plain
 
-local container_tag=${tag[-1]}
+local -l container_tag=${tag[-1]}
 
 # the image name comes last, so extra docker run arguments are placed before it
 local -a run_opts=(
