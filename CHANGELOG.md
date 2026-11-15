@@ -1,3 +1,18 @@
+# [4.72.0](https://github.com/vladdoster/dotfiles/compare/v4.71.1...v4.72.0) (2026-11-15)
+
+
+### Bug Fixes
+
+* **zsh:** complete every log::error argument ([2084e85](https://github.com/vladdoster/dotfiles/commit/2084e85202e45e54015fbd1158eb4e2ad3a2e946))
+* **zsh:** list namespaced functions on command TAB ([#75](https://github.com/vladdoster/dotfiles/issues/75)) ([8192ca8](https://github.com/vladdoster/dotfiles/commit/8192ca8be8e333b9b7ee1a41233b0fad34f5a30a))
+* **zsh:** warn when add-to-path skips a dir ([5b629b7](https://github.com/vladdoster/dotfiles/commit/5b629b72d56b008988e845045cf197122bfa6569))
+
+
+### Features
+
+* **zsh:** add log::warn ([dfde336](https://github.com/vladdoster/dotfiles/commit/dfde3360eb48c73220396c63886d650e48db65d3))
+* **zsh:** add log::warn and shared log::_print ([#74](https://github.com/vladdoster/dotfiles/issues/74)) ([45b7f23](https://github.com/vladdoster/dotfiles/commit/45b7f23ab346ea1abd699d9788998440bdc928f7))
+
 ## [4.71.1](https://github.com/vladdoster/dotfiles/compare/v4.71.0...v4.71.1) (2026-11-15)
 
 
