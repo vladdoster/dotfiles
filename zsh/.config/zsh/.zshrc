@@ -7,7 +7,7 @@ SAVEHIST=200000
 HISTSIZE=$SAVEHIST
 HISTFILE=$ZDOTDIR/zsh_history
 setopt {'extended','inc_append','share'}_history
-setopt HIST_{'EXPIRE_DUPS_FIRST','FIND_NO_DUPS','IGNORE_ALL_DUPS','REDUCE_BLANKS','VERIFY'}
+setopt HIST_{'EXPIRE_DUPS_FIRST','FIND_NO_DUPS','IGNORE_ALL_DUPS','VERIFY'}
 
 # brew env, path/fpath and autoloads live in .zprofile, which only login shells
 # read; pull it in here so non-login shells get them before rc.d runs compinit
