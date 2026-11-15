@@ -328,15 +328,16 @@ _sr_kv Services "$(( $(launchctl list 2>/dev/null | wc -l) - 1 )) loaded"
 # ------------------------------------------------------ storage hotspots
 _sr_hdr "STORAGE HOTSPOTS"
 local -a rows
-local kb r col
+local -i kb
+local r col
 for (( n = 1; n <= $#hot_dirs; n++ )); do
   [[ -d $hot_dirs[n] ]] || continue
   _sr_get du.$n
   kb=${REPLY%%[[:space:]]*}
-  rows+=("${(l:12::0:)${kb:-0}} ${hot_dirs[n]/#$HOME/~}")
+  rows+=("$kb ${hot_dirs[n]/#$HOME/~}")
 done
-for r in ${(O)rows}; do
-  kb=$(( 10#${r%% *} ))
+for r in ${(On)rows}; do
+  kb=${r%% *}
   _sr_lvl $kb 5242880 20971520; col=$REPLY
   _sr_hsize $kb
   printf '  %s%8s%s  %s\n' "$col" "$REPLY" "$c_rst" "${r#* }"
@@ -355,7 +356,7 @@ if (( $+commands[brew] )); then
   (( $#outdated >= 20 )) && warns+=("${#outdated} outdated brew packages")
   _sr_get brewcache
   kb=${REPLY%%[[:space:]]*}
-  _sr_hsize ${kb:-0}
+  _sr_hsize $kb
   _sr_kv Cache "$REPLY"
 else
   _sr_kv brew "${c_dim}not installed${c_rst}"
