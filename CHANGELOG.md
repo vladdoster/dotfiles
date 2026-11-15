@@ -1,3 +1,11 @@
+## [4.71.1](https://github.com/vladdoster/dotfiles/compare/v4.71.0...v4.71.1) (2026-11-15)
+
+
+### Bug Fixes
+
+* add tree-sitter-cli & quote zinit evals ([1e51835](https://github.com/vladdoster/dotfiles/commit/1e5183536e402c2b1307a4178ba3b13c4e048cf8))
+* **wezterm:** match titlebar to window background ([d066e08](https://github.com/vladdoster/dotfiles/commit/d066e0877b923412d717425ad85eda8d56623493))
+
 # [4.71.0](https://github.com/vladdoster/dotfiles/compare/v4.70.1...v4.71.0) (2026-11-11)
 
 
