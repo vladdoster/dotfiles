@@ -10,7 +10,6 @@ emulate -L zsh
 setopt extendedglob
 zmodload zsh/zutil || return 1
 
-local _fn="$0:"
 local -a opt_help opt_debug opt_prepend
 builtin zparseopts -D -F -E -K -- \
     {h,-help}=opt_help \
@@ -30,7 +29,7 @@ fi
 (( $#opt_debug )) && setopt xtrace
 
 if (( ! $# )); then
-    log::error "$_fn requires one or more directories"
+    log::error "$0 requires one or more directories"
     return 1
 fi
 
@@ -61,7 +60,7 @@ else
 fi
 
 for dir in $dirs; do
-    log::info "$_fn $verb ${(D)dir}"
+    log::info "$0: $verb ${(D)dir}"
 done
 
 return $stat
