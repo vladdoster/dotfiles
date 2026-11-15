@@ -99,7 +99,7 @@ alias zmld="builtin zmodload"
 alias gen-passwd='openssl rand -base64 24'
 
 alias get-my-ip='curl ifconfig.co'
-alias get-env='print -lio $(env)'
+alias get-env='print -lio -- ${(f)"$(env)"}'
 
 alias http-serve='python3 -m http.server'
 alias get-localnet-hosts='sudo arp-scan --format="\${Name;-30}\${ip}" --localnet --ignoredups --plain --resolve | sort --human-numeric-sort'

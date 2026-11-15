@@ -16,8 +16,6 @@ if [[ -z $DOTFILES ]]; then
 fi
 export \
   CODEDIR DOTFILES \
-  GIT_CONFIG="${XDG_CONFIG_HOME}/git/config" PIP_CONFIG="${XDG_CONFIG_HOME}/pip" \
-  VIMDOTDIR="${XDG_CONFIG_HOME}/vim" \
   ZDOTDIR="${ZDOTDIR:-$HOME/.config/zsh}"
 # editor: must be a real binary. External tools (git commit, crontab -e,
 # sudoedit) spawn $EDITOR via execvp and cannot resolve zsh functions.
@@ -31,7 +29,6 @@ export \
   RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/config" \
   SHELL_SESSIONS_DISABLE=1
 
-export PIP_TRUSTED_HOST='files.pythonhosted.org pypi.org'
 export PIP_UPGRADE='true'
 export PIP_NO_CACHE_DIR='true'
 
