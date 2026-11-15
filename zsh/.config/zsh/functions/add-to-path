@@ -29,7 +29,7 @@ fi
 (( $#opt_debug )) && setopt xtrace
 
 if (( ! $# )); then
-    log::error "$0 requires one or more directories"
+    log::error "$0 requires one or more directories. Try '$0 --help' for usage."
     return 1
 fi
 
