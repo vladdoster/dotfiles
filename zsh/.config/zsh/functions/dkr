@@ -371,9 +371,9 @@ local cmd=$1
 builtin shift
 
 # dispatch from a declared list, so the internal helpers are not reachable as commands
-local -a commands=(nuke sandbox)
+local -a subcmds=(nuke sandbox)
 
-if (( ! ${commands[(I)$cmd]} )); then
+if (( ! ${subcmds[(I)$cmd]} )); then
   dkr::log-color red "Command '$cmd' can not be found."
   dkr::usage >&2
   return 1
