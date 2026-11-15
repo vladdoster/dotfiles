@@ -268,7 +268,7 @@ dkr::sandbox () {
   fi
   dkr::running || return 1
   # the build and run helpers read these through zsh's dynamic scoping
-  local distro=$opt_distro[-1] platform=$opt_platform[-1]
+  local -l distro=$opt_distro[-1] platform=$opt_platform[-1]
   dkr::sandbox_$1
 }
 dkr::nuke_usage () {
@@ -371,9 +371,9 @@ local cmd=$1
 builtin shift
 
 # dispatch from a declared list, so the internal helpers are not reachable as commands
-local -a commands=(nuke sandbox)
+local -a subcmds=(nuke sandbox)
 
-if (( ! ${commands[(I)$cmd]} )); then
+if (( ! ${subcmds[(I)$cmd]} )); then
   dkr::log-color red "Command '$cmd' can not be found."
   dkr::usage >&2
   return 1
