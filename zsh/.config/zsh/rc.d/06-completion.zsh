@@ -6,7 +6,7 @@ zstyle ':bracketed-paste-magic' active-widgets 'self-*'
 
 # Set/unset shell options
 setopt   notify globdots pushdtohome cdablevars autolist
-setopt   autocd recexact longlistjobs
+setopt   autocd longlistjobs
 setopt   autoresume histignoredups pushdsilent noclobber
 setopt   autopushd pushdminus extendedglob rcquotes mailwarning
 setopt   completeinword alwaystoend
@@ -34,8 +34,6 @@ zstyle ':completion:*' squeeze-slashes true
 zstyle ':completion:*' special-dirs false
 zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*:*:-command-:*:*' group-order functions builtins commands
-# recexact stops at log when log::info exists. List every command match instead.
-zstyle ':completion:*:*:-command-:*:*' accept-exact false
 zstyle ':completion:*:default' list-colors "${(s.:.)LS_COLORS:-di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01}"
 zstyle ':completion:*:default' list-prompt '%S%M matches%s'
 zstyle ':completion:*:matches' group 'yes'
