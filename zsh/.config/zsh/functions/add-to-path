@@ -43,7 +43,7 @@ for dir in "$@"; do
         stat=1
     # -U keeps the first copy of an entry. An append leaves an existing entry in place.
     elif (( ! $#opt_prepend && ${path[(Ie)$dir]} )); then
-        log::warn "already in PATH: ${(D)dir}"
+        log::warn "already in PATH: $dir"
     else
         dirs+=($dir)
     fi
@@ -60,7 +60,7 @@ else
 fi
 
 for dir in $dirs; do
-    log::info "$0: $verb ${(D)dir}"
+    log::info "$0: $verb $dir"
 done
 
 return $stat
