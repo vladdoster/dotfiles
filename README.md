@@ -13,14 +13,14 @@ Supports x86_64/ARM64 vaiants of GNU Linux & macOS.
 Install and set everything up, run:
 
 ```zsh
-/bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/vladdoster/dotfiles/master/install.zsh)"
+/bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/vladdoster/dotfiles/main/install.zsh)"
 ```
 
 This clones the repository to `~/.config/dotfiles`, installs Homebrew, syncs the Brewfile, and stows the configuration
 packages. Pass flags after the command substitution (the first trailing argument becomes `$0`):
 
 ```zsh
-/bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/vladdoster/dotfiles/master/install.zsh)" install.zsh --only stow --dry-run
+/bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/vladdoster/dotfiles/main/install.zsh)" install.zsh --only stow --dry-run
 ```
 
 Or from a local clone:

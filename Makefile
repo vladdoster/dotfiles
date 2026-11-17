@@ -118,7 +118,7 @@ docker-shell: ## Start shell in docker container
 
 release: ## Start the release GitHub Actions workflow
 	$(info ==> starting release workflow)
-	gh workflow run release.yml --ref master
+	gh workflow run release.yml --ref main
 
 clean: clean-brew clean-docker ## Clean homebrew and docker resources
 

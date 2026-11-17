@@ -86,7 +86,7 @@ check "\`--only\` with no sections is rejected" $? "exit $rc" "${(@f)out}"
 ##############################################################################
 area Clone install.zsh
 # A two-commit origin stands in for GitHub through url.*.insteadOf.
-gitc init -q -b master $work/src
+gitc init -q -b main $work/src
 print 'all:' > $work/src/Makefile
 gitc -C $work/src add Makefile
 gitc -C $work/src commit -qm one
@@ -97,7 +97,7 @@ export GIT_CONFIG_KEY_0=url.$work/origin.git.insteadOf
 export GIT_CONFIG_VALUE_0=https://github.com/vladdoster/dotfiles.git
 readonly origin_head=$(gitc -C $work/origin.git rev-parse HEAD)
 
-run --only clone --branch master --prefix $work/fresh/dotfiles
+run --only clone --prefix $work/fresh/dotfiles
 ((rc == 0)) && [[ -f $work/fresh/dotfiles/Makefile ]]
 check "a fresh prefix is cloned" $? "exit $rc" "${(@f)out}"
 

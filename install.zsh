@@ -5,8 +5,8 @@
 #
 # Remote, Homebrew-style (arguments after the command substitution reach the script, with the
 # first one becoming $0):
-#   /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/vladdoster/dotfiles/master/install.zsh)"
-#   /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/vladdoster/dotfiles/master/install.zsh)" install.zsh --only stow --dry-run
+#   /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/vladdoster/dotfiles/main/install.zsh)"
+#   /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/vladdoster/dotfiles/main/install.zsh)" install.zsh --only stow --dry-run
 # Local:
 #   zsh install.zsh [flags]
 #
@@ -14,7 +14,7 @@
 # repository's Makefile, so behavior stays identical to running the targets by hand. --dry-run
 # prints the make invocations themselves; for recipe-level expansion use `make -n -C <prefix>
 # <target>` against an existing clone. --branch selects what gets cloned, not which script
-# runs -- the raw URL always serves master's copy, the same property Homebrew's installer has.
+# runs -- the raw URL always serves main's copy, the same property Homebrew's installer has.
 
 # The repo's log::info gates on interactivity ($- == *i*) and a curl-piped shell is
 # non-interactive, so these self-contained equivalents gate colors on a TTY instead. Same
@@ -68,7 +68,7 @@ main() {
     "Bootstrap vladdoster/dotfiles: clone the repository, then drive its Makefile."
     ""
     "Options:"
-    "  -b, --branch       git branch to clone (default: master)"
+    "  -b, --branch       git branch to clone (default: main)"
     "  -d, --debug        turn on execution tracing"
     "  -h, --help         show list of command-line options"
     "  -n, --dry-run      print every command instead of running it"
@@ -114,7 +114,7 @@ main() {
   local -i failures=0
 
   local prefix=${XDG_CONFIG_HOME:-${HOME}/.config}/dotfiles
-  local branch=master
+  local branch=main
   # zparseopts keeps the separator on the GNU --prefix=dir form, so strip a leading =.
   (($#opt_prefix)) && prefix=${opt_prefix[-1]#=}
   (($#opt_branch)) && branch=${opt_branch[-1]#=}
