@@ -94,7 +94,7 @@
   nuke = !sh -c 'git reset --hard && git clean -fxd'
   o   = checkout
   ob  = checkout -b
-  om  = checkout master
+  om  = checkout main
   pl   = pull --autostash
   ps   = push
   psf  = push --force
