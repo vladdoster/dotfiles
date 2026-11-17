@@ -1,3 +1,15 @@
+## [4.73.1](https://github.com/vladdoster/dotfiles/compare/v4.73.0...v4.73.1) (2026-11-17)
+
+
+### Bug Fixes
+
+* **ci:** answer the sudo-rs password prompt ([99eb8c6](https://github.com/vladdoster/dotfiles/commit/99eb8c6ee03ff77b1c3720ea2a6fb02b07e65126))
+* **ci:** answer the sudo-rs password prompt ([#98](https://github.com/vladdoster/dotfiles/issues/98)) ([1c714e8](https://github.com/vladdoster/dotfiles/commit/1c714e889c5d5daf42a8a773ad24531264512d19))
+* point master references at main ([689075e](https://github.com/vladdoster/dotfiles/commit/689075ee50a12f905d7e8584dd0014e506c1acfe))
+* point master references at main ([#99](https://github.com/vladdoster/dotfiles/issues/99)) ([8d08208](https://github.com/vladdoster/dotfiles/commit/8d0820804ae585554909546fe1227a59047297ac))
+* **zsh:** keep archives in extract without -r ([1a37b43](https://github.com/vladdoster/dotfiles/commit/1a37b43b692a1e31eac3d46d50efac3e3700c6ba))
+* **zsh:** keep archives in extract without -r ([#94](https://github.com/vladdoster/dotfiles/issues/94)) ([069817e](https://github.com/vladdoster/dotfiles/commit/069817ed7ce98c497c8ecb805bc7af50fd02f947))
+
 # [4.73.0](https://github.com/vladdoster/dotfiles/compare/v4.72.2...v4.73.0) (2026-11-17)
 
 
