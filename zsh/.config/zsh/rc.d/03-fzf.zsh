@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 
-if (($+commands[fzf])); then
+(( $+commands[fzf] )) && () {
   local -A theme=(
     background '#0f1117' bblack '#575860' bg3 '#29394f' bg4 '#39605d'
     blue '#719cd6' green '#81b29a' magenta '#9d79d6' white '#fdfefe' yellow '#f9e79f'
@@ -15,5 +16,5 @@ if (($+commands[fzf])); then
     "--info inline --layout reverse"
     "--marker '+ ' --padding 2,5 --pointer '>' --prompt '>'"
   )
-  export FZF_DEFAULT_OPTS="${^fzf_default_opts}"
-fi
+  export FZF_DEFAULT_OPTS="${(j: :)fzf_default_opts}"
+}

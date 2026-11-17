@@ -1,34 +1,30 @@
+#!/usr/bin/env zsh
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 # alias %= \$=
 autoload -Uz zmv
-alias zmv='zmv -Mv'
+alias W='command watch --color --'
+alias -s gz='gzip -l'
+# no js: a suffix alias also catches executable scripts, which would page instead of run
+alias -s {css,gradle,html,json,md,patch,properties,txt,xml,yml}=${PAGER:-less}
+alias -s {log,out}='tail -F'
+alias S='sort --unique'
 alias zcp='zmv -Cv'
 alias zln='zmv -Lv'
-alias -s {css,gradle,html,js,json,md,patch,properties,txt,xml,yml}=$PAGER
-alias -s gz='gzip -l'
-alias -s {log,out}='tail -F'
-alias -g B='brew'
-alias -g S='sort --unique'
-alias -g W='| wc -l'
-
-_edit() {
-  "$EDITOR" "$@"
-}
+alias zmv='zmv -Mv'
 
 _goto() {
-  [[ -e $1 ]] && builtin cd "$1" && {
-    command eza --all --long 2> /dev/null || command ls -lGo
-  }
+  [[ -e $1 ]] || { log::error "${1} not found"; return 1 }
+  builtin cd "$1" && { command eza --all --long 2> /dev/null || command ls -lGo }
 }
 
 if [[ ! -d "$HOME/code" ]]; then
   command mkdir -p "$HOME/code"
 fi
 
-if [[ $OSTYPE =~ darwin* ]]; then
-  _copy_cmd='pbcopy'
+if [[ $OSTYPE == darwin* ]] && (( $+commands[greadlink] )); then
   alias readlink="greadlink"
-  alias copy="$_copy_cmd <"
 fi
+alias copy='clipcopy'
 
 # alias bashly_edge='docker run --rm -it --user $(id -u):$(id -g) --volume "$PWD:/app" dannyben/bashly:edge'
 alias tailf="less +F -R"
@@ -36,23 +32,20 @@ alias tailf="less +F -R"
 # alias la='ls -a'
 # alias ll='ls -al'
 
-emulate -L zsh
-setopt extendedglob
-
-typeset -A edit_targets=(ealiases 'zsh/rc.d/[0-9]*-alias.zsh' gignore 'git/ignore' gcfg 'git/config' nvplg "nvim/lua/plugins.lua" rcenv 'zsh/rc.d/[0-9]*-env.zsh' wezrc 'wezterm/wezterm.lua' tmuxrc 'tmux/tmux.conf' zic 'zsh/rc.d/[0-9]*-zinit.zsh' zrc 'zsh/.zshrc')
+typeset -A edit_targets=(ealiases 'zsh/rc.d/[0-9]*-alias.zsh' gignore 'git/ignore' gcfg 'git/config' nvplg "nvim/lua/plugins.lua" rcenv 'zsh/rc.d/[0-9]*-env.zsh' wezrc 'wezterm/wezterm.lua' tmuxrc 'tmux/tmux.conf' yabairc 'yabai/yabairc' zic 'zsh/rc.d/[0-9]*-zinit.zsh' zrc 'zsh/.zshrc')
 for k v in ${(kv)edit_targets[@]}; do
-  builtin alias $k="_edit ${XDG_CONFIG_HOME:-${HOME}/.config}/${v}" || true
+  builtin alias $k="edit::file ${XDG_CONFIG_HOME:-${HOME}/.config}/${v}" || true
 done
 
 # lives at the repo root, not under $XDG_CONFIG_HOME, so it skips the loop above
-alias brewrc='_edit $DOTFILES/Brewfile'
-alias zinstall='_edit $ZINIT[BIN_DIR]/zinit-install.zsh'
+alias brewrc='edit::file $DOTFILES/Brewfile'
+alias zinstall='edit::file $ZINIT[BIN_DIR]/zinit-install.zsh'
 
 for k v in hscfg '.hammerspoon/init.lua' sshrc '.ssh/config' zec '.zshenv' zpc '.zprofile'; do
-  builtin alias -- $k="_edit ${HOME}/${v}" || true
+  builtin alias -- $k="edit::file ${HOME}/${v}" || true
 done
 
-alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},{auto,}s}; zrld; cd -'
+alias zireset='builtin cd ${HOME}; unset _comp{_{assocs,dumpfile,options,setup},{auto,}s}; zrld'
 
 typeset -A goto_targets=(bin '~/.local/bin' dl '~/Downloads' hsd '~/.hammerspoon' xch '~/.config' xdh '~/.local/share' zcf '$ZDOTDIR/rc.d')
 for k v in ${(kv)goto_targets[@]}; do
@@ -65,7 +58,7 @@ unset edit_targets goto_targets k v
 # done
 
 # claude
-alias cccfg='_edit ~/.claude/settings.json'
+alias cccfg='edit::file ~/.claude/settings.json'
 alias skills='_goto ~/.claude/skills/'
 
 # wezterm
