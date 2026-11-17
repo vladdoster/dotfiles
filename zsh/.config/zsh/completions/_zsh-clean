@@ -1,8 +1,7 @@
 #compdef zsh-clean
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 
 _arguments -C \
-    '--debug[Enable debug mode]' \
-    '--dryrun[Perform a dry run of the command and output a preview of the resulting item]' \
-    '(-h --help)'{-h,--help}'[Show list of command-line options]'
-
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+  '--debug[Enable debug mode]' \
+  '--dryrun[Perform a dry run of the command and output a preview of the resulting item]' \
+  '(-h --help)'{-h,--help}'[Show list of command-line options]'

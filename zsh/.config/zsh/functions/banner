@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Print its arguments as a centred figlet banner.
 
@@ -10,13 +10,13 @@ local -a opt_help
 zparseopts -D -F -K -- {h,-help}=opt_help || return 1
 
 if (( $#opt_help )); then
-    print -r -- "Usage: $0 [-h|--help] [message ...]"
-    return 0
+  print -r -- "Usage: $0 [-h|--help] [message ...]"
+  return 0
 fi
 
 if (( ! $# )); then
-    print -u2 -- "Usage: $0 [-h|--help] [message ...]"
-    return 1
+  print -u2 -- "Usage: $0 [-h|--help] [message ...]"
+  return 1
 fi
 
 (( $+commands[figlet] )) || { log::error "$0 requires figlet"; return 1 }

@@ -1,7 +1,6 @@
 #compdef have-updates
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 
 _arguments -A '-*' \
   '(-h --help)'{-h,--help}'[Show usage]' \
   '1:directory containing repositories:_directories'
-
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
