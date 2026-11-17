@@ -1,9 +1,8 @@
 #compdef emoji
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 
 _arguments \
   '(-c --copy -p --print)'{-c,--copy}'[Copy the emoji to the clipboard]' \
   '(-h --help)'{-h,--help}'[Show usage]' \
   '(-c --copy -p --print)'{-p,--print}'[Print the emoji]' \
   '1:emoji:(disappointed flip shrug)'
-
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

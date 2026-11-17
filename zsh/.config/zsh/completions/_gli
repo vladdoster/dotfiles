@@ -1,4 +1,5 @@
 #compdef gli
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 
 local service=git
 local -a original_words=("${words[@]}")
@@ -7,5 +8,3 @@ words=(git log "${original_words[@]:1}")
 (( CURRENT += 1 ))
 
 _git
-
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

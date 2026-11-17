@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Pick a local or remote branch with fzf and check it out.
 
@@ -11,8 +11,8 @@ local -a branches=(${(f)"$(command git branch --all 2>/dev/null)"})
 branches=(${branches:#*HEAD*})
 
 if (( ! $#branches )); then
-    log::error "$0: no branches found"
-    return 1
+  log::error "$0: no branches found"
+  return 1
 fi
 
 local choice=$(print -rl -- $branches | fzf-tmux -d $(( $#branches + 2 )) +m)

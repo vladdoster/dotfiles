@@ -1,4 +1,5 @@
 #compdef bootstrap-macos
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 
 # curcontext must be localized here: _arguments -C modifies it, and zshcompsys requires
 # the calling function to hold the copy so the change is not passed back out.
@@ -45,5 +46,3 @@ if [[ $state == sections ]]; then
   compset -P '*,'
   _describe -t sections 'section' sections
 fi
-
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

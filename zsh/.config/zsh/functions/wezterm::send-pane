@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Send the current pane to another tab as a split.
 
@@ -17,9 +17,9 @@ zparseopts -D -F -K -- \
   {-left,-right,-top,-bottom}=direction \
   || return 1
 
-((${#debug})) && setopt xtrace
+(( ${#debug} )) && setopt xtrace
 
-if ((${#help})); then
+if (( ${#help} )); then
   print -r -- "Usage: $0 [options] <tab-title|tab-id>"
   print -r -- 'Send the current pane to the given tab as a split (default: right).'
   print -r -- 'The target is an exact tab title (takes precedence) or a numeric tab id.'
@@ -34,11 +34,11 @@ if ((${#help})); then
   return 0
 fi
 
-((${#direction} > 1)) && {
+(( ${#direction} > 1 )) && {
   log::error "$0: pick one of --left/--right/--top/--bottom, got: ${direction}"
   return 1
 }
-((${#direction})) || direction=(--right)
+(( ${#direction} )) || direction=(--right)
 
 autoload -Uz wezterm::_pane
 
