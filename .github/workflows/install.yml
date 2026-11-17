@@ -28,6 +28,8 @@ on:
 
 permissions:
   contents: read
+  # comment.zsh posts the results to the pull request.
+  pull-requests: write
 
 concurrency:
   group: install-${{ github.ref }}
@@ -38,6 +40,8 @@ jobs:
     name: Regression (${{ matrix.os }})
     strategy:
       fail-fast: false
+      # Each job rewrites the same pull request comment. Two jobs at once lose an update.
+      max-parallel: 1
       matrix:
         os: [macos-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
@@ -47,7 +51,21 @@ jobs:
         if: runner.os == 'Linux'
         run: sudo apt-get update -qq && sudo apt-get install --yes --no-install-recommends zsh
       - name: Check install.zsh, Makefile, and Brewfile
-        run: zsh .github/tests/install.zsh
+        id: test
+        # A later step cannot read this step's job summary, so keep a copy for the comment.
+        run: |
+          zsh .github/tests/install.zsh && rc=0 || rc=$?
+          cp "$GITHUB_STEP_SUMMARY" "$RUNNER_TEMP/results.md"
+          exit $rc
+      - name: Post the results to the pull request
+        # A pull request from a fork has a read-only token.
+        if: always() && github.event.pull_request.head.repo.full_name == github.repository
+        continue-on-error: true
+        run: zsh .github/tests/comment.zsh "regression-$RUNNER_OS" "Regression ($RUNNER_OS)" "$OUTCOME"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OUTCOME: ${{ steps.test.outcome }}
+          PR: ${{ github.event.pull_request.number }}
   e2e:
     name: End to end
     # The one-liner clones vladdoster/dotfiles, which has no branches from forks.
@@ -60,10 +78,21 @@ jobs:
       - name: Install zsh
         run: sudo apt-get update -qq && sudo apt-get install --yes --no-install-recommends zsh
       - name: Run the curl one-liner on a fresh account
+        id: test
         # sudo resets the environment; keep what workflow commands and the job summary need.
-        run: >-
-          sudo --preserve-env=GITHUB_ACTIONS,GITHUB_STEP_SUMMARY
-          zsh .github/tests/e2e.zsh --branch "$BRANCH" --ref "$REF" --destroy-homebrew
+        run: |
+          sudo --preserve-env=GITHUB_ACTIONS,GITHUB_STEP_SUMMARY \
+            zsh .github/tests/e2e.zsh --branch "$BRANCH" --ref "$REF" --destroy-homebrew && rc=0 || rc=$?
+          cp "$GITHUB_STEP_SUMMARY" "$RUNNER_TEMP/results.md"
+          exit $rc
         env:
           BRANCH: ${{ github.head_ref || github.ref_name }}
           REF: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Post the results to the pull request
+        if: always() && github.event_name == 'pull_request'
+        continue-on-error: true
+        run: zsh .github/tests/comment.zsh e2e "End to end" "$OUTCOME"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OUTCOME: ${{ steps.test.outcome }}
+          PR: ${{ github.event.pull_request.number }}
