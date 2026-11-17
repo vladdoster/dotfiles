@@ -1,7 +1,7 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
-# Drop group-write from every directory compaudit flags.
+# Drop group-write and other-write from every directory compaudit flags.
 #
 # chmod(1) on macOS has no -- terminator, and compaudit only ever reports absolute
 # paths, so the argument list needs no separator.
@@ -12,7 +12,7 @@ local -a flag_debug flag_help
 local -a usage=(
   "zsh::fix-insecure-dirs [-d|--debug] [-h|--help]"
   ""
-  "Remove group-write permission from the directories compaudit reports as insecure."
+  "Remove group-write and other-write permission from the directories compaudit reports as insecure."
   ""
   "Options:"
   "  -d, --debug        turn on execution tracing"
@@ -29,4 +29,4 @@ builtin zparseopts -D -E -F -K -- {d,-debug}=flag_debug {h,-help}=flag_help || r
 
 local -a insecure=(${(f)"$(compaudit)"})
 (( $#insecure )) || return 0
-command chmod g-w $insecure
+command chmod g-w,o-w $insecure

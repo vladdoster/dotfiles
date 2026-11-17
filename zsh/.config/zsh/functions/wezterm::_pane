@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Shared implementation behind wezterm::send-pane and wezterm::bring-pane.
 #
@@ -19,15 +19,15 @@ local mode=$1 direction=$2
 integer stay=$3 list=$4
 shift 4
 
-((!$+commands[wezterm])) && { log::error "${self}: wezterm command not found"; return 1 }
-((!$+commands[jq])) && { log::error "${self}: jq command not found"; return 1 }
+(( !$+commands[wezterm] )) && { log::error "${self}: wezterm command not found"; return 1 }
+(( !$+commands[jq] )) && { log::error "${self}: jq command not found"; return 1 }
 
 [[ -z ${WEZTERM_PANE} ]] && {
   log::error "${self}: not inside WezTerm (WEZTERM_PANE is unset)"
   return 1
 }
 
-(($# > 1)) && {
+(( $# > 1 )) && {
   log::error "${self}: expected one tab title or id (quote titles containing spaces)"
   return 1
 }
@@ -38,8 +38,8 @@ json="$(command wezterm cli --no-auto-start list --format=json)" || {
   return 1
 }
 
-if ((list)) || ((!$#)); then
-  builtin print -P -- '%F{green}==>%f tabs (* = current):'
+if (( list )) || (( !$# )); then
+  log::info 'tabs (* = current):'
   command jq --raw-output --argjson current "${WEZTERM_PANE}" '
     group_by(.tab_id)[]
     | [ (if any(.[]; .pane_id == $current) then "*" else " " end),
@@ -80,17 +80,17 @@ local current_tab=${info[1]} all_matches=${info[2]} matches=${info[3]} \
   return 1
 }
 
-((all_matches == 0)) && {
+(( all_matches == 0 )) && {
   log::error "${self}: no tab matching '${1}'"
-  builtin print -P -- "%F{green}==>%f tabs: ${tabs}"
-  builtin print -P -- "%F{green}==>%f target a tab id, or title tabs with: wezterm cli set-tab-title <title>"
+  log::info "tabs: ${tabs}"
+  log::info "target a tab id, or title tabs with: wezterm cli set-tab-title <title>"
   return 1
 }
 
-((matches == 0)) && { log::error "${self}: tab '${1}' is the current tab"; return 1 }
+(( matches == 0 )) && { log::error "${self}: tab '${1}' is the current tab"; return 1 }
 
-((matches > 1)) \
-  && builtin print -P -- "%F{yellow}Warning:%f ${matches} tabs match '${1}'; using tab ${target_tab}"
+(( matches > 1 )) \
+  && log::info "Warning: ${matches} tabs match '${1}'; using tab ${target_tab}"
 
 local -a split=(command wezterm cli --no-auto-start split-pane ${direction})
 
@@ -103,12 +103,12 @@ fi
 $split > /dev/null || { log::error "${self}: wezterm cli split-pane failed"; return 1 }
 
 if [[ ${mode} == send ]]; then
-  if ((stay)); then
+  if (( stay )); then
     command wezterm cli --no-auto-start activate-tab --tab-id "${current_tab}" 2> /dev/null
   else
     command wezterm cli --no-auto-start activate-pane --pane-id "${WEZTERM_PANE}"
   fi
-  builtin print -P -- "%F{green}==>%f sent pane ${WEZTERM_PANE} to tab '${1}' (tab ${target_tab})"
+  log::info "sent pane ${WEZTERM_PANE} to tab '${1}' (tab ${target_tab})"
 else
-  builtin print -P -- "%F{green}==>%f brought pane ${target_pane} from tab '${1}' (tab ${target_tab})"
+  log::info "brought pane ${target_pane} from tab '${1}' (tab ${target_tab})"
 fi

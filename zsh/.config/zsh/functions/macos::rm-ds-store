@@ -1,10 +1,19 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Delete every .DS_Store below $HOME, skipping Trash and Library.
 
 builtin emulate -L zsh
-setopt extendedglob
+
+# any argument stops here, so a mistyped option cannot start the delete
+if (( $# )); then
+  if [[ $1 == (-h|--help) ]]; then
+    print -r -- "Usage: $0 [-h|--help]"
+    return 0
+  fi
+  log::error "$0: unexpected argument: $1"
+  return 1
+fi
 
 # -delete forces a depth-first walk, and find ignores -prune then. -exec keeps the prune.
 command find \

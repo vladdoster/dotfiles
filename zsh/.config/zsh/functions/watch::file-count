@@ -1,23 +1,22 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Show the number of entries in the current directory, refreshed once a second.
 
 emulate -L zsh
-setopt extendedglob
 zmodload zsh/terminfo || return 1
 zmodload zsh/zselect || return 1
 
 local -a entries
 
 while true; do
-    entries=(*(N))
-    print -r -- '================'
-    print -r -- "total files: $#entries"
-    print -r -- '================'
-    zselect -t 100
-    repeat 3; do
-        echoti cuu1
-        echoti el
-    done
+  entries=(*(N))
+  print -r -- '================'
+  print -r -- "total files: $#entries"
+  print -r -- '================'
+  zselect -t 100
+  repeat 3; do
+    echoti cuu1
+    echoti el
+  done
 done

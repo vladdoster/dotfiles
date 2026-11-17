@@ -1,9 +1,11 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
-# Replace a pattern in every text file below the current directory that contains it.
+# Replace a string in every text file below the current directory that contains it.
 #
 #   edit::find-replace old new
+#
+# Both arguments are fixed strings, not sed regular expressions.
 #
 # Hidden files are skipped intentionally, matching the find(1) call this replaces; zargs
 # batches the list (it ships with zsh, not this repo) so the argument list cannot overflow.
@@ -12,22 +14,28 @@ emulate -L zsh
 setopt extendedglob
 
 if (( $# != 2 )); then
-    log::error "$0 requires a search and a replacement argument"
-    return 1
+  log::error "$0 requires a search and a replacement argument"
+  return 1
 fi
+
+(( $+commands[gsed] )) || { log::error "$0 requires gsed"; return 1 }
 
 local -a files=(**/*(.N))
 
 if (( ! $#files )); then
-    log::error "$0: no files below ${(D)PWD}"
-    return 1
+  log::error "$0: no files below ${(D)PWD}"
+  return 1
 fi
 
 autoload -Uz zargs
 
 # grep -I skips binary files, so gsed rewrites only the text files that contain a match
-files=(${(f)"$(zargs -- $files -- command grep -lIe "$1" --)"})
+# -- stops a file name that starts with - from being read as an option
+files=(${(f)"$(zargs -- $files -- command grep -lIF -e $1 --)"})
 (( $#files )) || return 0
 
-# / is the sed delimiter, so slashes in either argument are escaped
-zargs -- $files -- command gsed -i "s/${1//\//\\/}/${2//\//\\/}/g"
+# escape the characters sed would read as regex syntax, delimiter or back-reference
+local search=${1//(#m)[][\\\/.*^\$]/\\$MATCH}
+local replace=${2//(#m)[\\\/&]/\\$MATCH}
+
+zargs -- $files -- command gsed -i "s/${search}/${replace}/g" --

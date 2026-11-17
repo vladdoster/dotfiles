@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Report whether a repository is behind its upstream; the directory defaults to $PWD.
 #
@@ -14,20 +14,24 @@ local -a gitc=(command git -C $dir)
 
 local count
 
-# One git call on the common path; the failure is only classified afterwards.
+# a failed fetch (offline, no access) still leaves the last known upstream to compare with
+# GIT_TERMINAL_PROMPT=0 fails a credential prompt. Without it, the prompt waits on /dev/tty.
+GIT_TERMINAL_PROMPT=0 $gitc fetch --quiet 2>/dev/null
+
+# Classify a failure only after rev-list fails. The common path runs only fetch and rev-list.
 if ! count=$($gitc rev-list --left-right --count 'HEAD...@{u}' 2>/dev/null); then
-    if ! $gitc rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-        log::error "$0: not a git repository: ${(D)dir}"
-        return 2
-    fi
-    print -P -- "%F{yellow}No upstream configured%f"
+  if ! $gitc rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    log::error "$0: not a git repository: ${(D)dir}"
     return 2
+  fi
+  log::error "$0: no upstream configured: ${(D)dir}"
+  return 2
 fi
 
 if (( ${count[(w)2]:-0} > 0 )); then
-    print -P -- "%F{green}Update available%f"
-    return 0
+  log::info "Update available"
+  return 0
 fi
 
-print -P -- "%F{red}No update available%f"
+log::info "No update available"
 return 1

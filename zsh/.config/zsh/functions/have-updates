@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # List the repositories below a directory that are behind their upstream.
 #
@@ -14,27 +14,29 @@ local -a opt_help
 zparseopts -D -F -K -- {h,-help}=opt_help || return 1
 
 if (( $#opt_help )); then
-    print -r -- "Usage: $0 [-h|--help] [directory]"
-    return 0
+  print -r -- "Usage: $0 [-h|--help] [directory]"
+  return 0
 fi
 
 if (( $# > 1 )); then
-    log::error "$0: at most one directory is allowed"
-    return 1
+  log::error "$0: at most one directory is allowed"
+  return 1
 fi
 
 local root=${1:-.}
 
 if [[ ! -d $root ]]; then
-    log::error "$0: not a directory: $root"
-    return 1
+  log::error "$0: not a directory: $root"
+  return 1
 fi
 
 local d
 local -a updates=()
 
 for d in $root/*(N/); do
-    check-for-updates $d >/dev/null 2>&1 && updates+=(${d:t})
+  # git -C succeeds in any subdirectory of a work tree, so require a repository root
+  [[ -e $d/.git ]] || continue
+  check-for-updates $d >/dev/null 2>&1 && updates+=(${d:t})
 done
 
 print -r -- "$#updates updates:"

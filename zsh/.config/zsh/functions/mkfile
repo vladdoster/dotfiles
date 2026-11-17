@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Create one or more executable script files with a shebang and a modeline.
 #
@@ -8,51 +8,54 @@
 emulate -L zsh
 setopt extendedglob
 zmodload zsh/zutil || return 1
-zmodload zsh/files || return 1
+zmodload -F zsh/files b:zf_chmod || return 1
 
 local -a opt_help arg_extension
 zparseopts -D -F -K -- {e,-extension}:=arg_extension {h,-help}=opt_help || return 1
 
 if (( $#opt_help )); then
-    print -r -- "Usage: $0 [-h|--help]"
-    print -r -- "       $0 [-e|--extension <extension>] [filenames...]"
-    return 0
+  print -r -- "Usage: $0 [-h|--help]"
+  print -r -- "       $0 [-e|--extension <extension>] [filenames...]"
+  return 0
 fi
 
 if (( ! $# )); then
-    log::error "$0 requires one or more filenames"
-    return 1
+  log::error "$0 requires one or more filenames"
+  return 1
 fi
 
-local ext=${arg_extension[-1]}
+# zparseopts keeps the = of --extension=EXT in the value
+local ext=${arg_extension[-1]#=}
 
 if [[ -z $ext ]]; then
-    log::error "$0 requires an extension: -e <extension>"
-    return 1
+  log::error "$0 requires an extension: -e <extension>"
+  return 1
 fi
 
+local -A interpreters=(py python3 rb ruby js node sh sh bash bash zsh zsh lua lua pl perl)
+local -A filetypes=(py python rb ruby js javascript pl perl)
 local f fname
 integer stat=0
 
 for f in "$@"; do
-    fname=$f.$ext
-    if [[ -e $fname ]]; then
-        log::error "$0: already exists: $fname"
-        stat=1
-        continue
-    fi
+  fname=$f.$ext
+  if [[ -e $fname ]]; then
+    log::error "$0: already exists: $fname"
+    stat=1
+    continue
+  fi
 
-    print -rl -- \
-        "#!/usr/bin/env ${ext}" \
-        '#' \
-        "# ${fname}" \
-        '#' \
-        '' \
-        '' \
-        "# vim: set expandtab filetype=${ext} shiftwidth=4 softtabstop=4 tabstop=4:" \
-        >| $fname || { stat=1; continue }
-    chmod 755 $fname || stat=1
-    log::info "$fname created"
+  print -rl -- \
+    "#!/usr/bin/env ${interpreters[$ext]:-$ext}" \
+    '#' \
+    "# ${fname}" \
+    '#' \
+    '' \
+    '' \
+    "# vim: set et ft=${filetypes[$ext]:-$ext} sw=2 sts=2 ts=2 tw=100:" \
+    >| $fname || { stat=1; continue }
+  zf_chmod 755 $fname || stat=1
+  log::info "$fname created"
 done
 
 return $stat
