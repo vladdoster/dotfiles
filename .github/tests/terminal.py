@@ -19,7 +19,8 @@ import sys
 import termios
 
 PROMPTS = [
-    ("sudo", re.compile(rb"\[sudo\] password for \S+: ?$"), True),
+    # sudo-rs (Ubuntu 26.04) prompts "[sudo: authenticate] Password: ".
+    ("sudo", re.compile(rb"\[sudo(?:: [^\]]+)?\] [Pp]assword(?: for \S+)?: ?$"), True),
     ("password", re.compile(rb"^Password(?: for \S+)?: ?$"), True),
     ("press-return", re.compile(rb"Press RETURN/ENTER to continue.*$"), False),
 ]
