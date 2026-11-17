@@ -1,0 +1,25 @@
+#autoload
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
+#
+# Edit a path if it is a file, cd to it if it is a directory.
+#
+#   open::path <path>
+
+emulate -L zsh
+
+if [[ $1 == (-h|--help) ]]; then
+  print -r -- "Usage: $0 [-h|--help] <path>"
+  return 0
+fi
+
+# messages name the public function the user actually called
+local self=${funcstack[2]:-$0} dest=$1
+
+if [[ -f $dest ]]; then
+  edit::file -- $dest
+elif [[ -d $dest ]]; then
+  builtin cd -- $dest
+else
+  log::error "${self}: no such path: ${(D)dest}"
+  return 1
+fi

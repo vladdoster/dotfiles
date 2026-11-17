@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Open a path below $XDG_CONFIG_HOME: edit it if it is a file, cd to it otherwise.
 
@@ -10,19 +10,12 @@ local -a opt_help
 zparseopts -D -F -K -- {h,-help}=opt_help || return 1
 
 if (( $#opt_help )); then
-    print -r -- "Usage: $0 [-h|--help] [target]"
-    print -r -- 'Options:'
-    print -r -- '  -h, --help         show list of command-line options'
-    return 0
+  print -r -- "Usage: $0 [-h|--help] [target]"
+  print -r -- 'Options:'
+  print -r -- '  -h, --help         show list of command-line options'
+  return 0
 fi
 
 local dest=${XDG_CONFIG_HOME:-$HOME/.config}/$1
 
-if [[ -f $dest ]]; then
-    ${EDITOR:-vi} -- $dest
-elif [[ -d $dest ]]; then
-    builtin cd -- $dest
-else
-    log::error "$0: no such path: ${(D)dest}"
-    return 1
-fi
+open::path $dest

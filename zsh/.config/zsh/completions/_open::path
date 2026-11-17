@@ -1,0 +1,6 @@
+#compdef open::path
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
+
+_arguments \
+  '(- *)'{-h,--help}'[Show usage]' \
+  '1:path:_files'
