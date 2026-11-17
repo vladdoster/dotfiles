@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 # System clipboard integration
 #
 # This file has support for doing system clipboard copy and paste operations
@@ -48,32 +50,32 @@
 #   # Paste to a file
 #   clippaste > file.txt
 #
-function detect-clipboard() {
+detect-clipboard() {
   emulate -L zsh
 
   if [[ "${OSTYPE}" == darwin* ]] && (( ${+commands[pbcopy]} )) && (( ${+commands[pbpaste]} )); then
-    function clipcopy() { cat "${1:-/dev/stdin}" | pbcopy; }
-    function clippaste() { pbpaste; }
-  elif [ -n "${WAYLAND_DISPLAY:-}" ] && (( ${+commands[wl-copy]} )) && (( ${+commands[wl-paste]} )); then
-    function clipcopy() { cat "${1:-/dev/stdin}" | wl-copy &>/dev/null &|; }
-    function clippaste() { wl-paste; }
-  elif [ -n "${DISPLAY:-}" ] && (( ${+commands[xsel]} )); then
-    function clipcopy() { cat "${1:-/dev/stdin}" | xsel --clipboard --input; }
-    function clippaste() { xsel --clipboard --output; }
-  elif [ -n "${DISPLAY:-}" ] && (( ${+commands[xclip]} )); then
-    function clipcopy() { cat "${1:-/dev/stdin}" | xclip -selection clipboard -in &>/dev/null &|; }
-    function clippaste() { xclip -out -selection clipboard; }
+    clipcopy() { pbcopy < "${1:-/dev/stdin}"; }
+    clippaste() { pbpaste; }
+  elif [[ -n ${WAYLAND_DISPLAY} ]] && (( ${+commands[wl-copy]} )) && (( ${+commands[wl-paste]} )); then
+    clipcopy() { wl-copy < "${1:-/dev/stdin}" &>/dev/null &|; }
+    clippaste() { wl-paste; }
+  elif [[ -n ${DISPLAY} ]] && (( ${+commands[xsel]} )); then
+    clipcopy() { xsel --clipboard --input < "${1:-/dev/stdin}"; }
+    clippaste() { xsel --clipboard --output; }
+  elif [[ -n ${DISPLAY} ]] && (( ${+commands[xclip]} )); then
+    clipcopy() { xclip -selection clipboard -in < "${1:-/dev/stdin}" &>/dev/null &|; }
+    clippaste() { xclip -out -selection clipboard; }
   elif (( ${+commands[lemonade]} )); then
-    function clipcopy() { cat "${1:-/dev/stdin}" | lemonade copy; }
-    function clippaste() { lemonade paste; }
+    clipcopy() { lemonade copy < "${1:-/dev/stdin}"; }
+    clippaste() { lemonade paste; }
   elif (( ${+commands[doitclient]} )); then
-    function clipcopy() { cat "${1:-/dev/stdin}" | doitclient wclip; }
-    function clippaste() { doitclient wclip -r; }
-  elif [ -n "${TMUX:-}" ] && (( ${+commands[tmux]} )); then
-    function clipcopy() { tmux load-buffer "${1:--}"; }
-    function clippaste() { tmux save-buffer -; }
+    clipcopy() { doitclient wclip < "${1:-/dev/stdin}"; }
+    clippaste() { doitclient wclip -r; }
+  elif [[ -n ${TMUX} ]] && (( ${+commands[tmux]} )); then
+    clipcopy() { tmux load-buffer "${1:--}"; }
+    clippaste() { tmux save-buffer -; }
   else
-    function _retry_clipboard_detection_or_fail() {
+    _retry_clipboard_detection_or_fail() {
       local clipcmd="${1}"; shift
       if detect-clipboard; then
         "${clipcmd}" "$@"
@@ -82,8 +84,8 @@ function detect-clipboard() {
         return 1
       fi
     }
-    function clipcopy() { _retry_clipboard_detection_or_fail clipcopy "$@"; }
-    function clippaste() { _retry_clipboard_detection_or_fail clippaste "$@"; }
+    clipcopy() { _retry_clipboard_detection_or_fail clipcopy "$@"; }
+    clippaste() { _retry_clipboard_detection_or_fail clippaste "$@"; }
     return 1
   fi
 }

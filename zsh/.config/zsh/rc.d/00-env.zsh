@@ -1,11 +1,12 @@
 #!/usr/bin/env zsh
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 # environment variables
-((${+TERM})) || export TERM="xterm-256color"
+(( ${+TERM} )) || export TERM="xterm-256color"
 export COLORTERM="truecolor"
-((${+USER})) || export USER="${USERNAME}"
-((${+XDG_CACHE_HOME})) || export XDG_CACHE_HOME="${HOME}/.cache"
-((${+XDG_CONFIG_HOME})) || export XDG_CONFIG_HOME="${HOME}/.config"
-((${+XDG_DATA_HOME})) || export XDG_DATA_HOME="${HOME}/.local/share"
+(( ${+USER} )) || export USER="${USERNAME}"
+(( ${+XDG_CACHE_HOME} )) || export XDG_CACHE_HOME="${HOME}/.cache"
+(( ${+XDG_CONFIG_HOME} )) || export XDG_CONFIG_HOME="${HOME}/.config"
+(( ${+XDG_DATA_HOME} )) || export XDG_DATA_HOME="${HOME}/.local/share"
 # configuration directories
 CODEDIR="$HOME/code"
 # this file is stow-linked into the repo, so walking up from it finds the checkout
@@ -31,5 +32,3 @@ export \
 
 export PIP_UPGRADE='true'
 export PIP_NO_CACHE_DIR='true'
-
-# vim: set expandtab filetype=zsh shiftwidth=4 tabstop=4 :

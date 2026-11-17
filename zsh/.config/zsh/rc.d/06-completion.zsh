@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 # url-quote-magic is off: it escapes ? and = in pasted URLs.
 autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic
@@ -5,10 +7,10 @@ zle -N bracketed-paste bracketed-paste-magic
 zstyle ':bracketed-paste-magic' active-widgets 'self-*'
 
 # Set/unset shell options
-setopt   notify globdots pushdtohome cdablevars autolist
-setopt   autocd longlistjobs
-setopt   autoresume histignoredups pushdsilent noclobber
-setopt   autopushd pushdminus extendedglob rcquotes mailwarning
+setopt   notify pushdtohome cdablevars autolist
+setopt   longlistjobs
+setopt   autoresume pushdsilent noclobber
+setopt   autopushd pushdminus rcquotes mailwarning
 setopt   completeinword alwaystoend
 unsetopt bgnice autoparamslash
 unsetopt correct correct_all
@@ -66,7 +68,8 @@ zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-d
 zstyle ':completion:*:manuals' separate-sections true
 
 # complete ssh host aliases from ~/.ssh/config, skipping wildcard patterns
-zstyle -e ':completion:*:(ssh|scp|rsync|sftp):*' hosts 'reply=()
+# Without the file, reply stays unset, so _hosts falls back to known_hosts and /etc/hosts.
+zstyle -e ':completion:*:(ssh|scp|rsync|sftp):*' hosts '
   [[ -r ~/.ssh/config ]] && reply=(${${=${${(M)${(f)"$(<~/.ssh/config)"}:#Host *}#Host }}:#*[*?]*})'
 
 # Filename suffixes to ignore during completion (except after rm command)
