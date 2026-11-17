@@ -1,4 +1,5 @@
-#compdef wezterm::send-pane
+#compdef wezterm::send-pane wezterm::bring-pane
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 
 __wezterm_pane_targets() {
   local json
@@ -22,15 +23,18 @@ __wezterm_pane_targets() {
   return ret
 }
 
-_arguments -A '-*' \
-  '(-d --debug)'{-d,--debug}'[Enable debug mode]'                     \
-  '(-h --help)'{-h,--help}'[Show list of command-line options]'       \
-  '(-l --list)'{-l,--list}'[List tabs]'                               \
-  '(-s --stay)'{-s,--stay}'[Keep focus here instead of following]'    \
-  '(--left --right --top --bottom)--left[Split on the left]'          \
-  '(--left --right --top --bottom)--right[Split on the right]'        \
-  '(--left --right --top --bottom)--top[Split above]'                 \
-  '(--left --right --top --bottom)--bottom[Split below]'              \
+local -a args=(
+  '(-d --debug)'{-d,--debug}'[Enable debug mode]'
+  '(-h --help)'{-h,--help}'[Show list of command-line options]'
+  '(-l --list)'{-l,--list}'[List tabs]'
+  '(--left --right --top --bottom)--left[Split on the left]'
+  '(--left --right --top --bottom)--right[Split on the right]'
+  '(--left --right --top --bottom)--top[Split above]'
+  '(--left --right --top --bottom)--bottom[Split below]'
   '1:tab title or id:__wezterm_pane_targets'
+)
 
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+[[ $service == wezterm::send-pane ]] \
+  && args+=('(-s --stay)'{-s,--stay}'[Keep focus here instead of following]')
+
+_arguments -A '-*' $args
