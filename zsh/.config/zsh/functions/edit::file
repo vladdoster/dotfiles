@@ -1,8 +1,12 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
-# Open the given files in $EDITOR.
+# Open files in $EDITOR. Pass the arguments unchanged, so editor options and +N work.
+#
+#   edit::file [editor arguments] [--] files...
+#
+# A caller that passes a name that can start with - puts -- before it.
 
 emulate -L zsh
 
-${EDITOR:-vi} -- "$@"
+${=EDITOR:-vi} "$@"

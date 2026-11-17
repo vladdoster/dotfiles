@@ -1,4 +1,5 @@
 #compdef output-to-array
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 
 local context state state_descr line
 typeset -A opt_args
@@ -19,5 +20,3 @@ if [[ $state == arrays ]]; then
   done
   _describe 'writable array parameter' arrays
 fi
-
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

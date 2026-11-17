@@ -1,8 +1,7 @@
 #compdef v
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 
 _arguments -A '-*' \
-  '(-d --debug)'{-d,--debug}'[Enable debug mode]'               \
+  '(-d --debug)'{-d,--debug}'[Print the command instead of running it (dry run)]' \
   '(-h --help)'{-h,--help}'[Show list of command-line options]' \
   "*:files:_files"
-
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

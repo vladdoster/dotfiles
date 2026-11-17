@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Trace a zsh startup and write the annotated log to ./zsh_start.log.
 #
@@ -10,25 +10,27 @@ setopt extendedglob
 zmodload zsh/zutil || return 1
 
 local -a opt_debug opt_help
-builtin zparseopts -D -E -F -K -- {d,-debug}=opt_debug {h,-help}=opt_help || return 1
+# no -E: options after the first operand belong to the traced command
+builtin zparseopts -D -F -K -- {d,-debug}=opt_debug {h,-help}=opt_help || return 1
 
 if (( $#opt_help )); then
-    print -r -- "Usage: $0 [options] [arguments...]"
-    print -r -- 'Options:'
-    print -r -- '  -d, --debug        turn on execution tracing'
-    print -r -- '  -h, --help         show list of command-line options'
-    return 0
+  print -r -- "Usage: $0 [options] [arguments...]"
+  print -r -- 'Options:'
+  print -r -- '  -d, --debug        turn on execution tracing'
+  print -r -- '  -h, --help         show list of command-line options'
+  return 0
 fi
 
 (( $#opt_debug )) && setopt xtrace
 
 local cmd
 for cmd in ts ansifilter; do
-    (( $+commands[$cmd] )) || { log::error "$0 requires $cmd"; return 1 }
+  (( $+commands[$cmd] )) || { log::error "$0 requires $cmd"; return 1 }
 done
 
 local log=zsh_start.log
 
+# -i: only an interactive shell reads .zshrc and rc.d
 zsh -ilxvc "${*:-exit}" 2>&1 | command ts -i '%.s' | command ansifilter >| $log || return 1
 
 log::info "wrote $log"

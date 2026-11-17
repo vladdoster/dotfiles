@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # List the function definitions found in a file.
 
@@ -7,15 +7,15 @@ emulate -L zsh
 setopt extendedglob
 
 if (( ! $# )); then
-    log::error "$0 requires a file"
-    return 1
+  log::error "$0 requires a file"
+  return 1
 fi
 
 local file=${1:A}
 
 if [[ ! -r $file ]]; then
-    log::error "$0: cannot read: $1"
-    return 1
+  log::error "$0: cannot read: $1"
+  return 1
 fi
 
 local line
@@ -24,7 +24,7 @@ local -a match mbegin mend
 local -a fns=()
 
 for line in ${(f)"$(<$file)"}; do
-    [[ $line == (#b)([^[:space:]]##)[[:space:]]#\(\)[[:space:]]#\{* ]] && fns+=($match[1])
+  [[ $line == (#b)([^[:space:]]##)[[:space:]]#\(\)[[:space:]]#\{* ]] && fns+=($match[1])
 done
 
 fns=(${(o)fns})

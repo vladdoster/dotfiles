@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Convert text to mocking SpongeBob case, from arguments or from a pipe.
 
@@ -10,19 +10,19 @@ local -a opt_help opt_debug
 zparseopts -D -E -F -- {d,-debug}=opt_debug {h,-help}=opt_help || return 1
 
 if (( $#opt_help )); then
-    print -r -- "Usage: $0 [OPTIONS] <text ...>"
-    print -r --
-    print -r -- 'Converts text to mocking SpongeBob case (random upper/lowercase).'
-    print -r --
-    print -r -- 'Options:'
-    print -r -- '  -h, --help     Show this help message'
-    print -r -- '  -d, --debug    Enable debug mode (xtrace)'
-    print -r --
-    print -r -- 'Examples:'
-    print -r -- "  $0 \"Hello World\""
-    print -r -- "  $0 -d I can handle multiple args"
-    print -r -- "  echo \"hello there\" | $0"
-    return 0
+  print -r -- "Usage: $0 [OPTIONS] <text ...>"
+  print -r --
+  print -r -- 'Converts text to mocking SpongeBob case (random upper/lowercase).'
+  print -r --
+  print -r -- 'Options:'
+  print -r -- '  -h, --help     Show this help message'
+  print -r -- '  -d, --debug    Enable debug mode (xtrace)'
+  print -r --
+  print -r -- 'Examples:'
+  print -r -- "  $0 \"Hello World\""
+  print -r -- "  $0 -d I can handle multiple args"
+  print -r -- "  echo \"hello there\" | $0"
+  return 0
 fi
 
 (( $#opt_debug )) && setopt xtrace
@@ -31,22 +31,22 @@ local text=$*
 
 # stdin is read only when no text was given, so `mock word` cannot block in a script
 if (( ! $# )) && [[ ! -t 0 ]]; then
-    IFS= read -rd '' text
+  IFS= read -rd '' text
 fi
 
 if [[ -z ${text//[[:space:]]/} ]]; then
-    print -u2 -- "$0: missing text. Try --help."
-    return 1
+  log::error "$0: missing text. Try --help."
+  return 1
 fi
 
 local char result=
 
 for char in ${(s::)text}; do
-    if (( RANDOM % 2 )); then
-        result+=${char:u}
-    else
-        result+=${char:l}
-    fi
+  if (( RANDOM % 2 )); then
+    result+=${char:u}
+  else
+    result+=${char:l}
+  fi
 done
 
 print -r -- $result

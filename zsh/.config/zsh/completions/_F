@@ -1,6 +1,5 @@
 #compdef F
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 
 # F is a thin wrapper around fn, so it takes exactly fn's options
 _fn
-
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

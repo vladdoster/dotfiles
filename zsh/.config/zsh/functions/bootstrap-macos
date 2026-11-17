@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Apply this machine's macOS system preferences.
 #
@@ -50,25 +50,25 @@ builtin zparseopts -D -E -F -K -- \
 
 # -F rejects unknown options but leaves operands in $@, so without this a slip like
 # `bootstrap-macos dock` (meaning `-o dock`) would fall through and apply all 22 sections.
-if (($#)); then
+if (( $# )); then
   log::error "unexpected argument: ${1}"
-  builtin print -u2 -- "did you mean: bootstrap-macos --only ${1}"
+  builtin print -ru2 -- "did you mean: bootstrap-macos --only ${1}"
   return 1
 fi
 
 # "${(@)usage}" rather than $usage: an unquoted array drops its empty elements, which
 # would collapse the blank lines separating the usage sections.
-(($#flag_help)) && {
+(( $#flag_help )) && {
   builtin print -l -- "${(@)usage}"
   return 0
 }
-(($#flag_debug)) && setopt xtrace
+(( $#flag_debug )) && setopt xtrace
 
 # Empty array expands to nothing, so $run disappears on a real run and turns every
 # mutating line into an echo of itself under --dry-run. Avoids defining helper functions,
 # which would leak into the global namespace once this autoloaded function returns.
 local -a run=()
-(($#flag_dry)) && run=(builtin print -r --)
+(( $#flag_dry )) && run=(builtin print -r --)
 
 # A missing tool or unwritable file should not abort the remaining sections, but the
 # function must still exit non-zero so a Makefile or launchd caller sees the failure.
@@ -79,22 +79,22 @@ local -i failures=0
 local -a want=()
 local -A do_section
 local s i
-for ((i = 2; i <= $#opt_only; i += 2)); do
+for (( i = 2; i <= $#opt_only; i += 2 )); do
   # zparseopts keeps the separator on the GNU --only=dock form, so strip a leading =.
   want+=(${(s:,:)${opt_only[i]#=}})
 done
 # Deliberately gated on $#opt_only, not $#want: `--only ''` and `--only ,` split to
 # nothing, and must fail closed rather than silently meaning "every section".
-if (($#opt_only)) && ((! $#want)); then
+if (( $#opt_only )) && (( ! $#want )); then
   log::error "--only given with no sections"
-  builtin print -u2 -- "valid sections: ${(j:, :)sections}"
+  builtin print -ru2 -- "valid sections: ${(j:, :)sections}"
   return 1
 fi
-if (($#want)); then
+if (( $#want )); then
   for s in $want; do
-    ((${sections[(Ie)$s]})) || {
+    (( ${sections[(Ie)$s]} )) || {
       log::error "unknown section: ${s}"
-      builtin print -u2 -- "valid sections: ${(j:, :)sections}"
+      builtin print -ru2 -- "valid sections: ${(j:, :)sections}"
       return 1
     }
     do_section[$s]=1
@@ -127,9 +127,9 @@ BYHOST=${HOME}/Library/Preferences/ByHost/.GlobalPreferences.${HOST_UUID}.plist
 #   ❯ strings /System/Library/PrivateFrameworks/TCC.framework/Versions/Current/Resources/tccd | grep "^kTCCService[A-Z a-z]" | sort | uniq
 #
 # Ask for the administrator password upfront, but only when a selected section needs it.
-if ((${+do_section[sound]} || ${+do_section[privacy]} || ${+do_section[appearance]} \
-  || ${+do_section[update]} || ${+do_section[touchid]} || ${+do_section[datetime]})); then
-  (($#flag_dry)) || sudo -v
+if (( ${+do_section[sound]} || ${+do_section[privacy]} || ${+do_section[appearance]} \
+  || ${+do_section[update]} || ${+do_section[touchid]} || ${+do_section[datetime]} )); then
+  (( $#flag_dry )) || sudo -v
 fi
 
 ###############################################################################
@@ -145,7 +145,7 @@ fi
 # Both control flags are chosen so that a bad module cannot lock anyone out of sudo:
 #   optional   on pam_reattach  a missing or unloadable module is non-fatal
 #   sufficient on pam_tid       a Touch ID failure falls through to pam_opendirectory
-if ((${+do_section[touchid]})); then
+if (( ${+do_section[touchid]} )); then
   log::info "touch id for sudo"
   local pam_template=/etc/pam.d/sudo_local.template
   local pam_local=/etc/pam.d/sudo_local
@@ -153,7 +153,7 @@ if ((${+do_section[touchid]})); then
   local want_reattach=0 have_reattach=0 have_tid=0
   if [[ ! -r ${pam_template} ]]; then
     log::error "${pam_template} not found; skipping touch id"
-    ((failures++))
+    (( failures++ ))
   else
     # Emit the reattach line only when the module is actually installed, so a fresh
     # machine never points PAM at a path that does not exist.
@@ -164,22 +164,22 @@ if ((${+do_section[touchid]})); then
     fi
     # Compare against the desired state rather than just looking for pam_tid: the file
     # may already enable Touch ID while predating pam_reattach, which still needs writing.
-    if ((have_tid && have_reattach == want_reattach)); then
+    if (( have_tid && have_reattach == want_reattach )); then
       log::info "touch id for sudo already enabled"
     else
       # Keep Apple's header comments from the template so a future macOS wording change
       # is inherited, and drop its commented-out pam_tid line in favor of a real one.
       local -a pam_lines=(${(f)"$(command grep -v pam_tid ${pam_template})"})
-      ((want_reattach)) && pam_lines+=("auth       optional       ${pam_reattach}")
+      (( want_reattach )) && pam_lines+=("auth       optional       ${pam_reattach}")
       pam_lines+=("auth       sufficient     pam_tid.so")
       # A pipeline cannot take the $run prefix, so --dry-run is handled explicitly.
-      if (($#flag_dry)); then
+      if (( $#flag_dry )); then
         builtin print -r -- "write ${pam_local}:"
         builtin print -l -- "${(@)pam_lines/#/  }"
       else
         builtin print -l -- "${(@)pam_lines}" | sudo tee ${pam_local} > /dev/null \
-          || { log::error "could not write ${pam_local}"; ((failures++)) }
-        ((want_reattach)) || log::info "brew install pam-reattach to get touch id inside tmux"
+          || { log::error "could not write ${pam_local}"; (( failures++ )) }
+        (( want_reattach )) || log::info "brew install pam-reattach to get touch id inside tmux"
       fi
     fi
   fi
@@ -188,7 +188,7 @@ fi
 ###############################################################################
 # Dock                                                                        #
 ###############################################################################
-if ((${+do_section[dock]})); then
+if (( ${+do_section[dock]} )); then
   log::info "dock"
   # Remove the auto-hiding Dock delay
   $run defaults write com.apple.dock autohide-delay -int 0
@@ -219,7 +219,7 @@ fi
 # 5 Start Screen Saver, 6 Disable Screen Saver, 10 Put Display to Sleep,
 # 12 Notification Center, 13 Lock Screen, 14 Quick Note.
 # A modifier of 0 means the corner fires with no modifier key held.
-if ((${+do_section[hotcorners]})); then
+if (( ${+do_section[hotcorners]} )); then
   log::info "hot corners"
   # top left
   $run defaults write com.apple.dock wvous-tl-corner -int 3
@@ -239,11 +239,11 @@ fi
 # Dock contents                                                               #
 ###############################################################################
 # Rebuilds the Dock from scratch with dockutil, then installs the Terminal profile.
-if ((${+do_section[dockitems]})); then
+if (( ${+do_section[dockitems]} )); then
   log::info "dock contents"
-  if ((! $+commands[dockutil])); then
+  if (( ! $+commands[dockutil] )); then
     log::error "dockutil not installed; skipping dock items (brew install dockutil)"
-    ((failures++))
+    (( failures++ ))
   else
     local -A app_path
     local p
@@ -265,7 +265,7 @@ if ((${+do_section[dockitems]})); then
     for name in $want; do
       [[ -n ${app_path[$name]} ]] || {
         log::error "${name} not found; not added to dock"
-        ((failures++))
+        (( failures++ ))
         continue
       }
       # Quoted: several of these paths contain spaces.
@@ -276,25 +276,24 @@ if ((${+do_section[dockitems]})); then
   # Applied whether or not Terminal ended up in the Dock, and even when dockutil is
   # missing. -dict-add parses the XML plist and preserves the nested types; `open` would
   # import it too but launches a GUI window.
-  local term_profile=${XDG_CONFIG_HOME:-$HOME/.config}/macos/darwin.terminal
-  [[ -r ${term_profile} ]] || term_profile=${DOTFILES}/macos/.config/macos/darwin.terminal
+  local term_profile=${XDG_CONFIG_HOME:-$HOME/.config}/macos/darwin.terminal profile_name
+  [[ -r ${term_profile} ]] || term_profile=${DOTFILES:-$HOME/.config/dotfiles}/macos/.config/macos/darwin.terminal
   if [[ ! -r ${term_profile} ]]; then
     log::error "terminal profile not found; skipping"
-    ((failures++))
+    (( failures++ ))
   else
     # Read the name out of the profile so renaming it cannot silently break the default.
     # Declared separately from the assignment: `local x=$(cmd)` reports the assignment's
     # status, so a profile missing its :name key would install a profile called "" and
     # blank Terminal's Default/Startup Window Settings.
-    local profile_name
     profile_name=$(/usr/libexec/PlistBuddy -c "Print :name" ${term_profile} 2> /dev/null)
   fi
   if [[ -r ${term_profile} && -z ${profile_name} ]]; then
     log::error "${term_profile} has no :name key; not installing profile"
-    ((failures++))
+    (( failures++ ))
   elif [[ -n ${profile_name} ]]; then
     # Handled outside $run so --dry-run does not dump the entire 320-line plist.
-    if (($#flag_dry)); then
+    if (( $#flag_dry )); then
       builtin print -r -- \
         "defaults write com.apple.Terminal 'Window Settings' -dict-add '${profile_name}' <${term_profile}>"
     else
@@ -310,7 +309,7 @@ fi
 ###############################################################################
 # Menu bar and clock                                                          #
 ###############################################################################
-if ((${+do_section[menubar]})); then
+if (( ${+do_section[menubar]} )); then
   log::info "menu bar"
   # Use a 24-hour clock, so AM/PM must be off or the two settings contradict each other
   $run defaults write NSGlobalDomain AppleICUForce24HourTime -bool true
@@ -347,7 +346,7 @@ fi
 # These keys could not be confirmed in the WindowManager binary or its private framework.
 # Given the false-negative rate of that check they are applied anyway, but verify with
 # `defaults read com.apple.WindowManager` and drop them if they do not stick.
-if ((${+do_section[tiling]})); then
+if (( ${+do_section[tiling]} )); then
   log::info "window tiling"
   # Tile windows edge to edge with no gap between them
   $run defaults write com.apple.WindowManager EnableTiledWindowMargins -bool false
@@ -363,11 +362,11 @@ fi
 # LastSet/LastUse are not decoration: omitting them makes WallpaperAgent reject the entry
 # on relaunch and reset Provider to "default", wiping the color. They are written with a
 # fixed timestamp, which the agent refreshes on its own.
-if ((${+do_section[wallpaper]})); then
+if (( ${+do_section[wallpaper]} )); then
   log::info "wallpaper"
   local wp_store="${HOME}/Library/Application Support/com.apple.wallpaper/Store"
   local wp_index="${wp_store}/Index.plist"
-  if (($#flag_dry)); then
+  if (( $#flag_dry )); then
     builtin print -r -- "killall WallpaperAgent; write solid-black ${wp_index}"
   else
     # WallpaperAgent holds this file open and flushes its own state on SIGTERM, which
@@ -447,7 +446,7 @@ if ((${+do_section[wallpaper]})); then
 </dict>
 </plist>
 PLIST
-    plutil -convert binary1 ${wp_index} || { log::error "could not convert ${wp_index}"; ((failures++)) }
+    plutil -convert binary1 ${wp_index} || { log::error "could not convert ${wp_index}"; (( failures++ )) }
     # The agent owns this file: if it rejects our copy it rewrites Provider as "default"
     # with an empty Configuration, silently losing the colour. Re-reading right after the
     # write proves nothing -- it just returns our own bytes back -- so make the agent
@@ -455,14 +454,14 @@ PLIST
     # a fixed 2s, which was most of this section's wall clock while measuring nothing.
     killall -9 WallpaperAgent 2> /dev/null || true
     local -i waited=0
-    while ((waited < 50)) && ! pgrep -q WallpaperAgent; do
+    while (( waited < 50 )) && ! pgrep -q WallpaperAgent; do
       sleep 0.1
-      ((waited++))
+      (( waited++ ))
     done
     sleep 1   # let the respawned agent read the store before we judge the result
     if ! plutil -p ${wp_index} 2> /dev/null | grep -q "com.apple.wallpaper.choice.color"; then
       log::error "wallpaper store rejected; falling back to Solid Colors/Black.png"
-      ((failures++))
+      (( failures++ ))
       osascript -e 'tell application "System Events" to tell every desktop to set picture to "/System/Library/Desktop Pictures/Solid Colors/Black.png"' \
         || log::error "wallpaper fallback also failed"
     fi
@@ -472,7 +471,7 @@ fi
 ###############################################################################
 # Appearance                                                                  #
 ###############################################################################
-if ((${+do_section[appearance]})); then
+if (( ${+do_section[appearance]} )); then
   log::info "appearance"
   # Enable dark mode, and do not switch automatically
   $run defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
@@ -490,20 +489,20 @@ fi
 ###############################################################################
 # Sound                                                                       #
 ###############################################################################
-if ((${+do_section[sound]})); then
+if (( ${+do_section[sound]} )); then
   log::info "sound"
   # Disable the sound effects on boot
   # StartupMute is the T2/Apple-Silicon control; SystemAudioVolume is the pre-T2 one and
   # is inert on this hardware (verified: it is set to a space on this M2 and the chime
   # still plays). Write whichever the machine actually reads.
-  if [[ $(uname -m) == arm64 ]]; then
+  if [[ $CPUTYPE == arm64 ]]; then
     $run sudo nvram StartupMute=%01
   else
     $run sudo nvram SystemAudioVolume=%00
   fi
-  # Play user interface sound effects
+  # Do not play user interface sound effects
   $run defaults write -globalDomain "com.apple.sound.uiaudio.enabled" -int 0
-  # Play feedback when volume is changed
+  # Do not play feedback when volume is changed
   $run defaults write -globalDomain "com.apple.sound.beep.feedback" -int 0
   # Increase sound quality for Bluetooth headphones/headsets.
   # Sources:
@@ -518,7 +517,7 @@ fi
 ###############################################################################
 # Keyboard                                                                    #
 ###############################################################################
-if ((${+do_section[keyboard]})); then
+if (( ${+do_section[keyboard]} )); then
   log::info "keyboard"
   # Enable full keyboard access for all controls (e.g. enable Tab in modal dialogs)
   $run defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
@@ -547,7 +546,7 @@ fi
 ###############################################################################
 # Text substitution                                                           #
 ###############################################################################
-if ((${+do_section[text]})); then
+if (( ${+do_section[text]} )); then
   log::info "text substitution"
   # Stop macOS rewriting what was actually typed
   $run defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
@@ -564,7 +563,7 @@ fi
 # cursorFill and cursorOutline are dicts of reals, and `defaults write -dict` writes
 # strings, so PlistBuddy is used here. com.apple.universalaccess is TCC-protected: if
 # these writes do not stick, grant the terminal Full Disk Access.
-if ((${+do_section[cursor]})); then
+if (( ${+do_section[cursor]} )); then
   log::info "cursor"
   local ua=${HOME}/Library/Preferences/com.apple.universalaccess.plist
   local part
@@ -580,13 +579,13 @@ if ((${+do_section[cursor]})); then
   done
   # Without this the custom colors are ignored
   $run defaults write com.apple.universalaccess cursorIsCustomized -bool true
-  (($#flag_dry)) || killall cfprefsd 2> /dev/null || true
+  (( $#flag_dry )) || killall cfprefsd 2> /dev/null || true
 fi
 
 ###############################################################################
 # Mouse and trackpad                                                          #
 ###############################################################################
-if ((${+do_section[pointer]})); then
+if (( ${+do_section[pointer]} )); then
   log::info "mouse and trackpad"
   # Set mouse and scrolling speed.
   $run defaults write NSGlobalDomain com.apple.mouse.scaling -int 3
@@ -622,7 +621,7 @@ fi
 ###############################################################################
 # Finder                                                                      #
 ###############################################################################
-if ((${+do_section[finder]})); then
+if (( ${+do_section[finder]} )); then
   log::info "finder"
   # Hide all desktop icons (useful when presenting)
   $run defaults write com.apple.finder CreateDesktop -bool false
@@ -710,7 +709,7 @@ fi
 ###############################################################################
 # Animation and motion                                                        #
 ###############################################################################
-if ((${+do_section[anim]})); then
+if (( ${+do_section[anim]} )); then
   log::info "animation"
   # Disable window open/close animations and make resizing near-instant
   $run defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
@@ -723,7 +722,7 @@ fi
 ###############################################################################
 # Save and print dialogs                                                      #
 ###############################################################################
-if ((${+do_section[dialogs]})); then
+if (( ${+do_section[dialogs]} )); then
   log::info "dialogs"
   # Always expand the save and print panels
   $run defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
@@ -737,7 +736,7 @@ fi
 ###############################################################################
 # Screenshots                                                                 #
 ###############################################################################
-if ((${+do_section[screenshots]})); then
+if (( ${+do_section[screenshots]} )); then
   log::info "screenshots"
   # Save screenshots to a dedicated directory
   $run mkdir -p -- ${HOME}/screenshots
@@ -751,7 +750,7 @@ fi
 ###############################################################################
 # Privacy                                                                     #
 ###############################################################################
-if ((${+do_section[privacy]})); then
+if (( ${+do_section[privacy]} )); then
   log::info "privacy"
   # Do not show password hints
   $run sudo defaults write /Library/Preferences/com.apple.loginwindow RetriesUntilHint -int 0
@@ -772,7 +771,7 @@ fi
 # The com.apple.screensaver askForPassword keys are no longer honored from the user
 # domain on Tahoe. sysadminctl is the working path, and it prompts for a password
 # separately from the sudo -v above.
-if ((${+do_section[screenlock]})); then
+if (( ${+do_section[screenlock]} )); then
   log::info "screen lock"
   $run sysadminctl -screenLock 5 -password -
 fi
@@ -780,7 +779,7 @@ fi
 ###############################################################################
 # Software update                                                             #
 ###############################################################################
-if ((${+do_section[update]})); then
+if (( ${+do_section[update]} )); then
   log::info "software update"
   $run sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
   $run sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload -bool true
@@ -793,7 +792,7 @@ fi
 ###############################################################################
 # Miscellaneous                                                               #
 ###############################################################################
-if ((${+do_section[misc]})); then
+if (( ${+do_section[misc]} )); then
   log::info "miscellaneous"
   # Enable secure keyboard entry in Terminal.app
   $run defaults write com.apple.Terminal SecureKeyboardEntry -bool true
@@ -822,7 +821,7 @@ if ((${+do_section[dockitems]} || ${+do_section[misc]})); then
   fi
 fi
 restart_apps+=(cfprefsd)
-if (($#flag_dry)); then
+if (( $#flag_dry )); then
   builtin print -r -- "killall ${restart_apps}"
 else
   local app
@@ -834,7 +833,7 @@ fi
 
 # Survivable failures were logged as they happened; surface them in the exit status so a
 # non-interactive caller can tell a partial run from a clean one.
-if ((failures)); then
+if (( failures )); then
   log::error "${failures} step(s) failed; see the errors above"
   return 1
 fi

@@ -1,9 +1,8 @@
 #compdef +brew-link-keg
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 
 _arguments -s \
-  '(-a --all)'{-a,--all}'[Add every unlinked keg]' \
+  '(-a --all)'{-a,--all}'[Add every keg-only formula and gnubin directory to PATH]' \
   '(-d --debug)'{-d,--debug}'[Enable debug output]' \
   '(-h --help)'{-h,--help}'[Show usage]' \
   '*:keg pattern:'
-
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

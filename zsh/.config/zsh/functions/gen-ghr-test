@@ -1,7 +1,7 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
-# Print a bats test case for each GitHub project installed through zinit.
+# Print a zunit test case for each GitHub project installed through zinit.
 
 emulate -L zsh
 setopt extendedglob
@@ -11,25 +11,25 @@ local -a opt_help
 zparseopts -D -F -K -- {h,-help}=opt_help || return 1
 
 if (( $#opt_help )); then
-    print -r -- "Usage: $0 [-h|--help]"
-    print -r -- "       $0 [project...]"
-    return 0
+  print -r -- "Usage: $0 [-h|--help]"
+  print -r -- "       $0 [project...]"
+  return 0
 fi
 
 if (( ! $# )); then
-    log::error "$0 requires one or more arguments"
-    return 1
+  log::error "$0 requires one or more arguments"
+  return 1
 fi
 
 local repo bin_name description
 
 for repo in "$@"; do
-    bin_name=${repo:t}
-    description=$(command gh search repos $repo --limit 1 --json description -q '.[].[]')
-    print -rl -- \
-        "@test '${bin_name}' { # ${description}" \
-        "  run zinit for @${repo}; assert \$state equals 0" \
-        "  local ${bin_name}=\"\$ZBIN/${bin_name}\"; assert \"\$bin_name\" is_executable" \
-        '  $bin_name --version; assert $state equals 0' \
-        '}'
+  bin_name=${repo:t}
+  description=$(command gh search repos $repo --limit 1 --json description -q '.[].[]')
+  print -rl -- \
+    "@test '${bin_name}' { # ${description}" \
+    "  run zinit for @${repo}; assert \$state equals 0" \
+    "  local bin_name=\"\$ZBIN/${bin_name}\"; assert \"\$bin_name\" is_executable" \
+    '  run $bin_name --version; assert $state equals 0' \
+    '}'
 done

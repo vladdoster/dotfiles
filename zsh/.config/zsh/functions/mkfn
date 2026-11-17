@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Create an autoloaded function file in $ZDOTDIR/functions from a skeleton.
 #
@@ -15,59 +15,59 @@ local -a opt_help opt_edit
 zparseopts -D -F -K -- {e,-edit}=opt_edit {h,-help}=opt_help || return 1
 
 if (( $#opt_help )); then
-    print -r -- "Usage: $0 [-h|--help] [-e|--edit] [function]"
-    print -r -- 'Options:'
-    print -r -- '  -e, --edit         open the new function in $EDITOR'
-    print -r -- '  -h, --help         show list of command-line options'
-    return 0
+  print -r -- "Usage: $0 [-h|--help] [-e|--edit] [function]"
+  print -r -- 'Options:'
+  print -r -- '  -e, --edit         open the new function in $EDITOR'
+  print -r -- '  -h, --help         show list of command-line options'
+  return 0
 fi
 
 if (( ! $# )); then
-    log::error "$0 requires a function name"
-    return 1
+  log::error "$0 requires a function name"
+  return 1
 fi
 
 local dir=${ZDOTDIR:-$HOME/.config/zsh}/functions
 local dest=$dir/$1
 
 if [[ ! -d $dir ]]; then
-    log::error "$0: no such directory: ${(D)dir}"
-    return 1
+  log::error "$0: no such directory: ${(D)dir}"
+  return 1
 fi
 
 if [[ -e $dest ]]; then
-    log::error "$0: already exists: ${(D)dest}"
-    return 1
+  log::error "$0: already exists: ${(D)dest}"
+  return 1
 fi
 
 local -a skeleton=(
-    '#autoload'
-    '# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:'
-    '#'
-    "# ${1} - describe what this function does"
-    ''
-    'emulate -L zsh'
-    'setopt extendedglob'
-    'zmodload zsh/zutil || return 1'
-    ''
-    'local -a opt_help opt_debug'
-    'zparseopts -D -F -K -- {h,-help}=opt_help {d,-debug}=opt_debug || return 1'
-    ''
-    'if (( $#opt_help )); then'
-    '    print -r -- "Usage: $0 [-h|--help] [-d|--debug] [arguments...]"'
-    "    print -r -- 'Options:'"
-    "    print -r -- '  -d, --debug        turn on execution tracing'"
-    "    print -r -- '  -h, --help         show list of command-line options'"
-    '    return 0'
-    'fi'
-    ''
-    '(( $#opt_debug )) && setopt xtrace'
-    ''
-    'print -rl -- "$# args:" "$@"'
+  '#autoload'
+  '# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:'
+  '#'
+  "# ${1} - describe what this function does"
+  ''
+  'emulate -L zsh'
+  'setopt extendedglob'
+  'zmodload zsh/zutil || return 1'
+  ''
+  'local -a opt_help opt_debug'
+  'zparseopts -D -F -K -- {h,-help}=opt_help {d,-debug}=opt_debug || return 1'
+  ''
+  'if (( $#opt_help )); then'
+  '  print -r -- "Usage: $0 [-h|--help] [-d|--debug] [arguments...]"'
+  "  print -r -- 'Options:'"
+  "  print -r -- '  -d, --debug        turn on execution tracing'"
+  "  print -r -- '  -h, --help         show list of command-line options'"
+  '  return 0'
+  'fi'
+  ''
+  '(( $#opt_debug )) && setopt xtrace'
+  ''
+  'print -rl -- "$# args:" "$@"'
 )
 
 print -rl -- "$skeleton[@]" >| $dest || return 1
 
-(( $#opt_edit )) && ${EDITOR:-vi} -- $dest
+(( $#opt_edit )) && edit::file $dest
 
 log::info "created ${(D)dest}"

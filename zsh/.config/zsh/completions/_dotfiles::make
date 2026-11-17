@@ -1,4 +1,5 @@
 #compdef dotfiles::make
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 
 local service=make
 local -a original_words=("${words[@]}")
@@ -7,5 +8,3 @@ words=(make -C "${DOTFILES:-$HOME/.config/dotfiles}" "${original_words[@]:1}")
 (( CURRENT += 2 ))
 
 _make
-
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

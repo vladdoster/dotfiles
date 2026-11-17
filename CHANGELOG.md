@@ -1,3 +1,27 @@
+# [4.73.0](https://github.com/vladdoster/dotfiles/compare/v4.72.2...v4.73.0) (2026-11-17)
+
+
+### Bug Fixes
+
+* **zsh:** correct bugs in shell functions ([0dae314](https://github.com/vladdoster/dotfiles/commit/0dae314a732dc8776e71a2c94e9c7851e3449867))
+* **zsh:** correct bugs in shell functions ([#95](https://github.com/vladdoster/dotfiles/issues/95)) ([1bc0020](https://github.com/vladdoster/dotfiles/commit/1bc0020d9bfa70bfa1fe5e6a6883891286d2ce9c))
+* **zsh:** correct completion definitions ([33d7ba1](https://github.com/vladdoster/dotfiles/commit/33d7ba11eeadffc83c4c40cbc5d322a8b1d8afa1))
+* **zsh:** correct completion definitions ([#96](https://github.com/vladdoster/dotfiles/issues/96)) ([d82c7de](https://github.com/vladdoster/dotfiles/commit/d82c7ded54ed6451d7436851c8bb5aec176b5c21))
+* **zsh:** correct dkr and docker::shell options ([a1323a3](https://github.com/vladdoster/dotfiles/commit/a1323a358f93180ea180d0b21ca694d954678777))
+* **zsh:** correct dkr and docker::shell options ([#92](https://github.com/vladdoster/dotfiles/issues/92)) ([f70a279](https://github.com/vladdoster/dotfiles/commit/f70a27936084c18371ae172c262e0e8c73e6a6a0))
+* **zsh:** correct startup and rc.d config ([450e3b5](https://github.com/vladdoster/dotfiles/commit/450e3b5207ceb87f17e481f8fd53a0b2c16f4a4c))
+* **zsh:** correct startup and rc.d config ([#97](https://github.com/vladdoster/dotfiles/issues/97)) ([1f60ade](https://github.com/vladdoster/dotfiles/commit/1f60ade4ade90074e76578d367ee5346208c81c1))
+* **zsh:** open files through edit::file ([367dc5b](https://github.com/vladdoster/dotfiles/commit/367dc5bac5e7c18d3f7c1370b90f90ec60d22046))
+* **zsh:** open files through edit::file ([#91](https://github.com/vladdoster/dotfiles/issues/91)) ([455af4c](https://github.com/vladdoster/dotfiles/commit/455af4c919f6fb7fefc6450f7b524667c8fe5d93))
+* **zsh:** report no-op prepend in add-to-path ([e816b0b](https://github.com/vladdoster/dotfiles/commit/e816b0ba66051d32f5b9ff31402a06e8e12fcc3c))
+* **zsh:** report no-op prepend in add-to-path ([#89](https://github.com/vladdoster/dotfiles/issues/89)) ([9e03d87](https://github.com/vladdoster/dotfiles/commit/9e03d874ff5401a571f230452e0da3324f28adbe))
+
+
+### Features
+
+* **zsh:** load several completions in load-comp ([5e745fe](https://github.com/vladdoster/dotfiles/commit/5e745fe6595c757cc03ad05016b7ed5abfd06eb1))
+* **zsh:** load several completions in load-comp ([#93](https://github.com/vladdoster/dotfiles/issues/93)) ([a440aba](https://github.com/vladdoster/dotfiles/commit/a440aba97525c3ce02d67302469b4a31439f8941))
+
 ## [4.72.2](https://github.com/vladdoster/dotfiles/compare/v4.72.1...v4.72.2) (2026-11-15)
 
 

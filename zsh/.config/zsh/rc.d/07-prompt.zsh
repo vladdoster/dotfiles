@@ -1,5 +1,5 @@
-setopt prompt_subst
-
+#!/usr/bin/env zsh
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 autoload -Uz add-zsh-hook vcs_info
 add-zsh-hook precmd vcs_info
 

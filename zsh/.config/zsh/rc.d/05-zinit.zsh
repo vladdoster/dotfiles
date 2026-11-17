@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# vim: ft=zsh sw=2 ts=2 et
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #=== ZINIT ============================================
 if (( $#NO_ZINIT )); then
   unset NO_ZINIT
@@ -7,7 +7,7 @@ if (( $#NO_ZINIT )); then
   return 0
 fi
 
-local zi_dir="${HOME}/.local/share/zinit"
+typeset zi_dir="${HOME}/.local/share/zinit"
 
 typeset -A ZINIT=(
   HOME_DIR "${zi_dir}" BIN_DIR "${zi_dir}/zinit.git"
@@ -16,32 +16,31 @@ typeset -A ZINIT=(
   SRC 'zdharma-continuum'
   # BRANCH 'fork/tmp' FORK 'vdoster' DEBUG 'true'
 )
-local ZI_REPO="${ZINIT[FORK]:-${ZINIT[SRC]}}/${ZINIT[REPO]:-zinit}"
+typeset ZI_REPO="${ZINIT[FORK]:-${ZINIT[SRC]}}/${ZINIT[REPO]:-zinit}"
 if [[ ! -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
-  {
-    log::info "cloning ${ZI_REPO} to ${(D)ZINIT[BIN_DIR]}"
-    command git clone \
-      --branch "${ZINIT[BRANCH]:-main}" \
-      --quiet \
-      "https://github.com/${ZI_REPO}" \
-      "${ZINIT[BIN_DIR]}" \
-      && log::info 'setting up zinit' \
-      && command chmod g-rwX ${zi_dir} \
-      && zcompile "${ZINIT[BIN_DIR]}/zinit.zsh" \
-      && log::info 'installed zinit'
-  } || log::error 'failed to download zinit'
+  log::info "cloning ${ZI_REPO} to ${(D)ZINIT[BIN_DIR]}"
+  command git clone \
+    --branch "${ZINIT[BRANCH]:-main}" \
+    --quiet \
+    "https://github.com/${ZI_REPO}" \
+    "${ZINIT[BIN_DIR]}" \
+    && command chmod g-rwX ${zi_dir} \
+    && zcompile "${ZINIT[BIN_DIR]}/zinit.zsh" \
+    && log::info 'installed zinit' \
+    || log::error 'failed to install zinit'
 fi
+unset zi_dir ZI_REPO
 if [[ -e "${ZINIT[BIN_DIR]}/zinit.zsh" ]]; then
-  builtin source "${ZINIT[BIN_DIR]}/zinit.zsh" \
-    && autoload _zinit \
-    && ((${+_comps})) \
-    && _comps[zinit]=_zinit
+  builtin source "${ZINIT[BIN_DIR]}/zinit.zsh"
 else
   log::error 'failed to find zinit installation'
   return 1
 fi
 
-eval "MODE_CURSOR_"{'SEARCH="#ff00ff blinking underline"','VICMD="green block"','VIINS="#ffff00  bar"'}";"
+typeset -gx DISABLE_MAGIC_FUNCTIONS=true
+MODE_CURSOR_SEARCH="#ff00ff blinking underline"
+MODE_CURSOR_VICMD="green block"
+MODE_CURSOR_VIINS="#ffff00 bar"
 
 zi id-as for \
     ver'fix/binary-selection-glob' \
@@ -49,6 +48,8 @@ zi id-as for \
   @zdharma-continuum/zinit-annex-{'bin-gem-node','linkman'}
 
 zi id-as aliases for load @vladdoster/z{'sh','init'}-aliases.plugin.zsh
+# zsh-aliases defines alias zdd, which would shadow functions/zdd
+(( ${+aliases[zdd]} )) && unalias zdd
 
 zi id-as aliases for \
     from'gh-r' lbin'!' \

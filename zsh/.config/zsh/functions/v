@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Open files in $EDITOR.
 
@@ -17,14 +17,13 @@ zparseopts -D -F -K -- \
 if (( $#help )); then
   print -r -- "Usage: $0 [options] [files...]"
   print -r -- 'Options:'
-  print -r -- '  -d, --debug            turn on execution tracing'
+  print -r -- '  -d, --debug            print the command instead of running it (dry run)'
   print -r -- '  -h, --help             show list of command-line options'
   return 0
 fi
 
-# $EDITOR is resolved once to an absolute binary in rc.d/00-env.zsh
 if (( $#debug )); then
-  print -r -- $EDITOR "$@"
+  print -r -- ${=EDITOR:-vi} "$@"
 else
-  $EDITOR "$@"
+  edit::file "$@"
 fi

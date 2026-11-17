@@ -1,19 +1,26 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Pick a dotfile with fzf and source it.
+#
+# The source runs outside emulate -L, so setopt lines in the file stay in effect.
+# A typeset in the file still creates a local of this function.
 
-emulate -L zsh
-setopt extendedglob
+local self=$0 choice
 
-local -a files=(${DOTFILES:-$HOME/.config/dotfiles}/**/*(.N))
+() {
+  emulate -L zsh
+  setopt extendedglob
 
-if (( ! $#files )); then
-    log::error "$0: no files below ${(D)${DOTFILES:-$HOME/.config/dotfiles}}"
+  local -a files=(${DOTFILES:-$HOME/.config/dotfiles}/(^.git/)#*(.ND))
+
+  if (( ! $#files )); then
+    log::error "$self: no files below ${(D)${DOTFILES:-$HOME/.config/dotfiles}}"
     return 1
-fi
+  fi
 
-local choice=$(print -rl -- $files | fzf)
+  choice=$(print -rl -- $files | fzf)
+} || return 1
 
 [[ -n $choice ]] || return 1
 

@@ -1,7 +1,10 @@
 #!/usr/bin/env zsh
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 
-setopt local_options typeset_silent extended_glob prompt_subst no_global_rcs
+setopt typeset_silent extended_glob no_global_rcs
+# no_global_rcs skips /etc/zshrc in login shells. Keep the two settings it makes on macOS.
+disable log
+setopt combining_chars
 
 export -T INFOPATH=${INFOPATH:-:} infopath
 export -T MANPATH=${MANPATH:-:} manpath
@@ -23,6 +26,7 @@ typeset -gUa path {'cd','f','info','mail','man'}path
     ${GOBIN:-${GOPATH:-$HOME/go}/bin}         # go
   )
   path=(${^toolpath}(N/) $path)
-  fpath=(${ZDOTDIR}/{functions,completions}(N/) $fpath)
+  # ~/.bun goes last: a stale _bun from a standalone install must not shadow Homebrew's
+  fpath=(${ZDOTDIR}/{functions,completions}(N/) ${HOME}/.docker/completions(N/) $fpath ${HOME}/.bun(N/))
   autoload -Uz -- ${ZDOTDIR}/functions/*~*.(md|zwc)(N-.:t)
 }

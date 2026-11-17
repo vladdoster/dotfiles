@@ -1,5 +1,4 @@
 #compdef zgd
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 
-_arguments "1:directory:_files -W ${XDG_DATA_HOME:-$HOME/.local/share}/zinit/zinit.git -g '*(/N:t)'"
-
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+_arguments "1:directory:_files -/ -W ${XDG_DATA_HOME:-$HOME/.local/share}/zinit/zinit.git"

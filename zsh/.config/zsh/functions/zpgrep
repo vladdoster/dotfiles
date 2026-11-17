@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Print the lines of each file that match a PCRE, or of stdin when given no file.
 
@@ -7,18 +7,19 @@ emulate -L zsh
 setopt extendedglob
 zmodload zsh/zutil || return 1
 zmodload zsh/pcre || return 1
+zmodload zsh/mapfile || return 1
 
 local -a opt_help
 zparseopts -D -F -K -- {h,-help}=opt_help || return 1
 
 if (( $#opt_help )); then
-    print -r -- "Usage: $0 [-h|--help] <perl5-compatible regex> [file ...]"
-    return 0
+  print -r -- "Usage: $0 [-h|--help] <perl5-compatible regex> [file ...]"
+  return 0
 fi
 
 if (( ! $# )); then
-    log::error "$0 requires a pattern"
-    return 1
+  log::error "$0 requires a pattern"
+  return 1
 fi
 
 local pattern=$1
@@ -31,21 +32,23 @@ local file line
 integer stat=1
 
 if (( ! $# )); then
-    while IFS= read -r line; do
-        pcre_match -- "$line" && { stat=0; print -r -- $line }
-    done
-    return $stat
+  while IFS= read -r line || [[ -n $line ]]; do
+    pcre_match -- "$line" && { stat=0; print -r -- $line }
+  done
+  return $stat
 fi
 
 for file; do
-    if [[ ! -r $file ]]; then
-        log::error "$0: cannot read: $file"
-        continue
-    fi
-    # (@) and the quotes keep empty lines, so patterns like ^$ can match them
-    for line in "${(@f)$(<$file)}"; do
-        pcre_match -- "$line" && { stat=0; print -r -- $line }
-    done
+  if [[ ! -r $file ]]; then
+    log::error "$0: cannot read: $file"
+    continue
+  fi
+  # $(<file) drops trailing newlines; mapfile keeps them, so ^$ matches trailing empty lines
+  [[ -n ${mapfile[$file]} ]] || continue
+  # (@) and the quotes keep empty lines; drop the final newline so it adds no empty line
+  for line in "${(@f)${mapfile[$file]%$'\n'}}"; do
+    pcre_match -- "$line" && { stat=0; print -r -- $line }
+  done
 done
 
 return $stat

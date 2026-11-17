@@ -1,4 +1,5 @@
 #compdef zsh::rld
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 
 _arguments \
   '(- *)'{-h,--help}'[Print usage]' \
@@ -6,5 +7,3 @@ _arguments \
   '--debug[Trace execution with xtrace]' \
   '--dry-run[Validate only, skip the restart]' \
   '(-v --verbose)'{-v,--verbose}'[Show validation output]'
-
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

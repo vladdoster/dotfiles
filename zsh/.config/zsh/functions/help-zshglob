@@ -1,10 +1,10 @@
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Print a reference table of zsh glob qualifiers.
 
 emulate -L zsh
 
-builtin print -- "
+builtin print -r -- "
     /      directories
     .      plain files
     @      symbolic links
@@ -37,6 +37,6 @@ builtin print -- "
   print (foo|bar).*     # Files starting with 'foo' or 'bar'
   print *~*.*           # All Files that do not contain a dot
   chmod 644 *(.^x)      # make all plain non-executable files publically readable
-  print -l *(.c|.h)     # Lists *.c and *.h
+  print -l *.(c|h)      # Lists *.c and *.h
   print **/*(g:users:)  # Recursively match all files that are owned by group 'users'
   echo /proc/*/cwd(:h:t:s/self//) # Analogous to >ps ax | awk '{print $1}'<"
