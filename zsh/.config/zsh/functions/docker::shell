@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Build a sandbox image and start a shell in it.
 #
@@ -30,7 +30,8 @@ fi
 
 (( $#verbose )) && docker_verbosity=plain
 
-local -l container_tag=${tag[-1]}
+# zparseopts keeps the = of --tag=NAME and --file=PATH in the value
+local -l container_tag=${tag[-1]#=}
 
 # the image name comes last, so extra docker run arguments are placed before it
 local -a run_opts=(
@@ -42,12 +43,12 @@ local -a run_opts=(
 )
 
 if (( $#file )); then
-  local dockerfile=${file[-1]:A}
+  local dockerfile=${${file[-1]#=}:A}
   if [[ ! -f $dockerfile ]]; then
     log::error "$0: no such file: ${file[-1]}"
     return 1
   fi
-  print -P -- "%F{green}===>%f Building ${container_tag} container"
+  log::info "Building ${container_tag} container"
   command docker buildx build \
     --build-arg "USER=${USER}" \
     --file $dockerfile \
@@ -55,8 +56,8 @@ if (( $#file )); then
     --platform linux/x86_64 \
     --progress=$docker_verbosity \
     --tag ${container_tag}:latest \
-    . || { log::error "$0: failed to build ${file[-1]}"; return 1 }
-  print -P -- "%F{green}===>%f Starting shell in ${container_tag} container"
+    ${dockerfile:h} || { log::error "$0: failed to build ${file[-1]}"; return 1 }
+  log::info "Starting shell in ${container_tag} container"
   command docker run $run_opts --user $USER --security-opt seccomp=unconfined ${container_tag}:latest
   return
 fi
@@ -108,5 +109,5 @@ command docker buildx build \
   CMD ["-l"]
 EOF
 
-print -P -- "%F{green}===>%f Starting shell in ${container_tag} container"
+log::info "Starting shell in ${container_tag} container"
 command docker run $run_opts ${container_tag}:latest

@@ -1,59 +1,60 @@
 #compdef dkr
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 
 local curcontext="$curcontext" state line ret=1
 
+(( $+functions[_dkr_commands] )) ||
 _dkr_commands() {
-    local -a commands=(
-        "sandbox:Create docker container suitable for development"
-        "nuke:Clean up sandbox container resources"
-    )
+  local -a commands=(
+    "sandbox:Create docker container suitable for development"
+    "nuke:Clean up sandbox container resources"
+  )
 
-    _describe -t commands 'command' commands "$@"
+  _describe -t commands 'command' commands "$@"
 }
 
+(( $+functions[_dkr_sandbox_subcommands] )) ||
 _dkr_sandbox_subcommands() {
-    local subcommands
-    subcommands=(
-        "build:Build sandbox docker image"
-        "run:Start an shell session"
-    )
-    _describe -t subcommands 'subcommand' subcommands "$@"
+  local subcommands
+  subcommands=(
+    "build:Build sandbox docker image"
+    "run:Start an shell session"
+  )
+  _describe -t subcommands 'subcommand' subcommands "$@"
 }
 
 _arguments -C \
-    '(-h --help)'{-h,--help}'[Print usage information and exit]' \
-    '(-v --version)'{-v,--version}'[Print version number and exit]' \
-    '1: :_dkr_commands' \
-    '*:: :->args' && ret=0
+  '(-h --help)'{-h,--help}'[Print usage information and exit]' \
+  '(-v --version)'{-v,--version}'[Print version number and exit]' \
+  '1: :_dkr_commands' \
+  '*:: :->args' && ret=0
 
 case $state in
-    args)
-        case $words[1] in
-            nuke)
-                _arguments \
-                    '(-h --help)'{-h,--help}'[Print usage information and exit]' \
-                    '--volumes[Also remove all docker volumes]' \
-                    && ret=0
-                ;;
-            sandbox)
-                local -i subcommand_index=${words[(I)(build|run)]}
-                if (( subcommand_index && subcommand_index < CURRENT )); then
-                    _message 'no more arguments'
-                    ret=0
-                else
-                    local -a distros=('alpine' 'debian' 'ubuntu' 'zinit') platforms=('amd64' 'arm64' 'arm64v8')
-                    _arguments -C -A '-*' \
-                        '(-h --help)'{-h,--help}'[Print usage information and exit]' \
-                        '(-d --distro)'{-d,--distro}"[Specify the Linux distribution]:distribution:($distros)" \
-                        '(-p --platform)'{-p,--platform}"[Specify the target platform]:platform:($platforms)" \
-                        '1: :_dkr_sandbox_subcommands' \
-                        && ret=0
-                fi
-                ;;
-        esac
+  args)
+    case $words[1] in
+      nuke)
+        _arguments \
+          '(-h --help)'{-h,--help}'[Print usage information and exit]' \
+          '--volumes[Also remove all docker volumes]' \
+          && ret=0
         ;;
+      sandbox)
+        local -i subcommand_index=${words[(I)(build|run)]}
+        if (( subcommand_index && subcommand_index < CURRENT )); then
+          _message 'no more arguments'
+          ret=0
+        else
+          local -a distros=('alpine' 'debian' 'ubuntu' 'zinit') platforms=('amd64' 'arm64')
+          _arguments -C -A '-*' \
+            '(-h --help)'{-h,--help}'[Print usage information and exit]' \
+            '(-d --distro)'{-d,--distro}"[Specify the Linux distribution]:distribution:($distros)" \
+            '(-p --platform)'{-p,--platform}"[Specify the target platform]:platform:($platforms)" \
+            '1: :_dkr_sandbox_subcommands' \
+            && ret=0
+        fi
+        ;;
+    esac
+    ;;
 esac
 
 return ret
-
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:

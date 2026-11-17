@@ -1,23 +1,23 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Create and clean up docker sandbox containers for development.
 
 # Helpers are prefixed so they cannot collide with anything else in the shell.
 
-dkr::log () {
+dkr::log() {
   builtin print -r -- "${*}"
 }
 
 # colour comes from prompt escapes, so a line costs no subshell
-dkr::log-color () {
+dkr::log-color() {
   local color=$1
   builtin shift
   # the quotes matter: unquoted, the expansion ends at the brace of %F{...}
   builtin print -r -- "${(%):-"%F{$color}"}${*}${(%):-%f}"
 }
 
-dkr::running () {
+dkr::running() {
   zmodload zsh/zselect || return 1
   integer n
   for (( n = 0; n < 4; n++ )); do
@@ -28,7 +28,7 @@ dkr::running () {
   return 1
 }
 
-dkr::sandbox_run () {
+dkr::sandbox_run() {
   local name=sbox-${distro}-${platform} target=linux/${platform} home=/home
   if [[ $distro == zinit ]]; then
     name=${distro}-minimal target=linux/amd64 home=/root
@@ -37,14 +37,14 @@ dkr::sandbox_run () {
     --platform $target --tty $name
 }
 
-dkr::sandbox_build () {
+dkr::sandbox_build() {
   local dockerfile
   case $distro in
     (zinit) dockerfile=$(cat <<-'DOCKERFILE'
           # syntax=docker/dockerfile:1.3-labs
           FROM amd64/ubuntu:latest
-          ENV DEBIAN_FRONTEND noninteractive
-          ENV TERM xterm-256color
+          ENV DEBIAN_FRONTEND=noninteractive
+          ENV TERM=xterm-256color
           RUN apt-get update --quiet=2 \
             && apt-get install --assume-yes \
               acl apt-utils autoconf autogen automake \
@@ -115,7 +115,7 @@ EOF
           CMD ["zsh"]
 DOCKERFILE
 )
-      dkr::log-color green "Building ${platform} ${distro} container"
+      dkr::log-color green "Building amd64 ${distro} container"
       command docker buildx build --load --platform linux/amd64 --progress=plain --tag zinit-minimal:latest - <<EOF
       ${dockerfile}
 EOF
@@ -133,7 +133,7 @@ EOF
                   bash build-base \
                   cmake coreutils curl \
                   dialog \
-                  exa \
+                  eza \
                   file \
                   gcc git go delta \
                   jq \
@@ -232,7 +232,7 @@ DOCKERFILE
       ${dockerfile}
 EOF
 }
-dkr::sandbox_usage () {
+dkr::sandbox_usage() {
   dkr::log-color green "Usage:"
   dkr::log "  dkr sandbox [options] <command>"
   dkr::log
@@ -246,16 +246,17 @@ dkr::sandbox_usage () {
   dkr::log "  run               Run ubuntu development sandbox"
 }
 
-dkr::sandbox () {
+dkr::sandbox() {
   local -a help
   local -a opt_platform=(arm64) opt_distro=(debian)
   zmodload zsh/zutil || return 1
-  zparseopts -D -F -K -- {h,-help}=help {d,-distro}:=opt_distro {p,-platform}:=opt_platform || return 1
+  # -E also reads options typed after the subcommand
+  zparseopts -D -E -F -K -- {h,-help}=help {d,-distro}:=opt_distro {p,-platform}:=opt_platform || return 1
   if (( $#help )); then
     dkr::sandbox_usage
     return 0
   fi
-  if (( ! $# )); then
+  if (( $# != 1 )); then
     dkr::sandbox_usage >&2
     return 1
   fi
@@ -266,10 +267,11 @@ dkr::sandbox () {
   fi
   dkr::running || return 1
   # the build and run helpers read these through zsh's dynamic scoping
-  local -l distro=$opt_distro[-1] platform=$opt_platform[-1]
+  # zparseopts keeps the = of --distro=NAME in the value
+  local -l distro=${opt_distro[-1]#=} platform=${opt_platform[-1]#=}
   dkr::sandbox_$1
 }
-dkr::nuke_usage () {
+dkr::nuke_usage() {
   dkr::log-color green "Usage:"
   dkr::log "  dkr nuke [options]"
   dkr::log
@@ -278,7 +280,7 @@ dkr::nuke_usage () {
   dkr::log "      --volumes       Also remove all docker volumes"
 }
 
-dkr::nuke () {
+dkr::nuke() {
   builtin emulate -L zsh -o EXTENDED_GLOB
   local -a opt_help opt_volumes
   zmodload zsh/zutil || return 1
@@ -293,15 +295,13 @@ dkr::nuke () {
   fi
   dkr::running || return 1
   dkr::log-color green 'Nuking docker...'
-  local resource id
+  local resource
   local -a resources
   for resource in container image; do
     resources=(${(f)"$(command docker $resource ls --quiet)"})
     (( $#resources )) || continue
     dkr::log-color cyan "Removing $#resources ${resource}s..."
-    for id in $resources; do
-      command docker $resource rm --force $id
-    done
+    command docker $resource rm --force -- $resources
   done
   dkr::log-color cyan 'Pruning docker system resources...'
   command docker system prune --all --force || return
@@ -314,7 +314,7 @@ dkr::nuke () {
   fi
 }
 
-dkr::usage () {
+dkr::usage() {
   dkr::log
   dkr::log-color green "Usage:"
   dkr::log "  dkr [options] <command>"
@@ -328,53 +328,59 @@ dkr::usage () {
   dkr::log "  sandbox               Run ubuntu development sandbox"
 }
 
-dkr::version () {
+dkr::version() {
   dkr::log "dkr version 0.1.0"
 }
 emulate -L zsh
 setopt extendedglob
-zmodload zsh/zutil || return 1
 
-local -a help version
-builtin zparseopts -D -F -K -- {h,-help}=help {v,-version}=version || return 1
+# the helpers above are global once defined, so remove them however dkr exits
+{
+  zmodload zsh/zutil || return 1
 
-if (( $#help )); then
-  dkr::usage
-  return 0
-fi
+  local -a help version
+  builtin zparseopts -D -F -K -- {h,-help}=help {v,-version}=version || return 1
 
-if (( $#version )); then
-  dkr::version
-  return 0
-fi
+  if (( $#help )); then
+    dkr::usage
+    return 0
+  fi
 
-if (( ! $# )) || [[ -z ${1// } ]]; then
-  builtin print -rl -- \
-    '     _____          ___           ___      ' \
-    '    /  /::\        /__/|         /  /\     ' \
-    '   /  /:/\:\      |  |:|        /  /::\    ' \
-    '  /  /:/  \:\     |  |:|       /  /:/\:\   ' \
-    ' /__/:/ \__\:|  __|  |:|      /  /:/~/:/   ' \
-    ' \  \:\ /  /:/ /__/\_|:|____ /__/:/ /:/___ ' \
-    '  \  \:\  /:/  \  \:\/:::::/ \  \:\/:::::/ ' \
-    '   \  \:\/:/    \  \::/~~~~   \  \::/~~~~  ' \
-    '    \  \::/      \  \:\        \  \:\      ' \
-    '     \__\/        \  \:\        \  \:\     ' \
-    '                   \__\/         \__\/     '
-  dkr::usage
-  return 0
-fi
+  if (( $#version )); then
+    dkr::version
+    return 0
+  fi
 
-local cmd=$1
-builtin shift
+  if (( ! $# )) || [[ -z ${1// } ]]; then
+    builtin print -rl -- \
+      '     _____          ___           ___      ' \
+      '    /  /::\        /__/|         /  /\     ' \
+      '   /  /:/\:\      |  |:|        /  /::\    ' \
+      '  /  /:/  \:\     |  |:|       /  /:/\:\   ' \
+      ' /__/:/ \__\:|  __|  |:|      /  /:/~/:/   ' \
+      ' \  \:\ /  /:/ /__/\_|:|____ /__/:/ /:/___ ' \
+      '  \  \:\  /:/  \  \:\/:::::/ \  \:\/:::::/ ' \
+      '   \  \:\/:/    \  \::/~~~~   \  \::/~~~~  ' \
+      '    \  \::/      \  \:\        \  \:\      ' \
+      '     \__\/        \  \:\        \  \:\     ' \
+      '                   \__\/         \__\/     '
+    dkr::usage
+    return 0
+  fi
 
-# dispatch from a declared list, so the internal helpers are not reachable as commands
-local -a subcmds=(nuke sandbox)
+  local cmd=$1
+  builtin shift
 
-if (( ! ${subcmds[(I)$cmd]} )); then
-  dkr::log-color red "Command '$cmd' can not be found."
-  dkr::usage >&2
-  return 1
-fi
+  # dispatch from a declared list, so the internal helpers are not reachable as commands
+  local -a subcmds=(nuke sandbox)
 
-dkr::$cmd "$@"
+  if (( ! ${subcmds[(Ie)$cmd]} )); then
+    dkr::log-color red "Command '$cmd' can not be found."
+    dkr::usage >&2
+    return 1
+  fi
+
+  dkr::$cmd "$@"
+} always {
+  unfunction -m 'dkr::*'
+}
