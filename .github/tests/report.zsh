@@ -81,7 +81,8 @@ check() {
 }
 
 # report <title> [markdown-block]... -- print the totals and append the job summary: the
-# outcome, the given blocks (context alerts, tables), every check, then each failure.
+# outcome, then a collapsed section with the given blocks (context alerts, tables), every check,
+# and each failure. comment.zsh posts the same text to the pull request.
 # Blocks are separated by blank lines, which keep a table out of the alert above it. Returns 1
 # if any check failed.
 report() {
@@ -98,10 +99,12 @@ report() {
       else
         alert TIP "**All $pass checks passed.**"
       fi
-      print
+      # Markdown inside <details> needs a blank line after the HTML tags.
+      print -rl -- "" "<details>" "<summary>Full results</summary>" ""
       for block in "$@"; do print -rl -- "$block" ""; done
       print -rl -- "| Result | Area | Check |" "| --- | --- | --- |" $report_rows ""
       for block in $report_failures; do print -rl -- "$block" ""; done
+      print -rl -- "</details>" ""
     } >> $GITHUB_STEP_SUMMARY
   fi
   ((fail == 0))

@@ -1,5 +1,6 @@
 #!/usr/bin/env zsh
-# Regression checks for install.zsh, the Makefile targets it drives, the Brewfile, and extract.
+# Regression checks for install.zsh, the Makefile targets it drives, the Brewfile, extract, and
+# comment.zsh.
 # Needs only zsh, git, make, and python3; nothing is installed. Runs on macOS and Linux:
 #   zsh .github/tests/install.zsh
 # In GitHub Actions, failures are also annotations, and the results go to the job summary.
@@ -134,6 +135,32 @@ print -r -- 'not an archive' > $work/broken.tar.gz
 out=$(cd $work && extract -r broken.tar.gz 2>&1) && rc=0 || rc=$?
 ((rc == 1)) && [[ -f $work/broken.tar.gz ]]
 check "\`extract -r\` keeps an archive that failed to unpack" $? "exit $rc" "${(@f)out}"
+
+##############################################################################
+# Pull request comment                                                       #
+##############################################################################
+area Comment .github/tests/comment.zsh
+# A stand-in for gh keeps one comment in $GH_STORE: list it, read it, or write it.
+print -r -- '#!/bin/sh
+case "$*" in
+  *--paginate*) if [ -f "$GH_STORE" ]; then echo 1; fi ;;
+  *--jq*) cat "$GH_STORE" ;;
+  *) for a; do case $a in body=@*) cp "${a#body=@}" "$GH_STORE" ;; esac; done ;;
+esac' > $work/bin/gh
+chmod +x $work/bin/gh
+comment() {
+  PATH=$work/bin:$PATH GH_STORE=$work/comment.md PR=1 GITHUB_REPOSITORY=o/r RUNNER_TEMP=$work \
+    zsh $repo/.github/tests/comment.zsh "$@"
+}
+print one > $work/results.md
+comment a "Job A" failure
+print two > $work/results.md
+comment b "Job B" success
+print three > $work/results.md
+comment a "Job A" success
+out=$(< $work/comment.md)
+[[ $out == *three*two* && $out != *one* ]]
+check "a job replaces its section of the sticky comment and keeps the others" $? "${(@f)out}"
 
 [[ $OSTYPE == darwin* ]] && os=macOS || os=Linux
 report "Install regression checks · $os" \
