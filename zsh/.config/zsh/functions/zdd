@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Open a path below $ZDOTDIR: edit it if it is a file, cd to it and list it otherwise.
 
@@ -11,27 +11,22 @@ local -a opt_help opt_debug
 zparseopts -D -F -E -K -- {h,-help}=opt_help {d,-debug}=opt_debug || return 1
 
 if (( $#opt_help )); then
-    print -r -- "Usage: $0 [-h|--help] [-d|--debug] [path]"
-    print -r -- 'Options:'
-    print -r -- '  -d, --debug        turn on execution tracing'
-    print -r -- '  -h, --help         show list of command-line options'
-    return 0
+  print -r -- "Usage: $0 [-h|--help] [-d|--debug] [path]"
+  print -r -- 'Options:'
+  print -r -- '  -d, --debug        turn on execution tracing'
+  print -r -- '  -h, --help         show list of command-line options'
+  return 0
 fi
 
 (( $#opt_debug )) && setopt xtrace
 
 local dest=${ZDOTDIR:-$HOME/.config/zsh}/$1
 
-if [[ -f $dest ]]; then
-    ${EDITOR:-vi} -- $dest
-elif [[ -d $dest ]]; then
-    builtin cd -- $dest || return 1
-    if (( $+commands[eza] )); then
-        command eza --all --classify --color=always
-    else
-        command ls -A
-    fi
+open::path $dest || return 1
+[[ -d $dest ]] || return 0
+
+if (( $+commands[eza] )); then
+  command eza --all --classify --color=always
 else
-    log::error "$0: no such path: ${(D)dest}"
-    return 1
+  command ls -A
 fi

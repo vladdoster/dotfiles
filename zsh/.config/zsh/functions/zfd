@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Edit zsh function files, or the matching completion files with -c.
 #
@@ -11,18 +11,18 @@ zmodload zsh/zutil || return 1
 
 local -a opt_completion opt_debug opt_help
 zparseopts -D -F -K -- \
-    {c,-completion}=opt_completion \
-    {d,-debug}=opt_debug \
-    {h,-help}=opt_help \
-    || return 1
+  {c,-completion}=opt_completion \
+  {d,-debug}=opt_debug \
+  {h,-help}=opt_help \
+  || return 1
 
 if (( $#opt_help )); then
-    print -r -- "Usage: $0 [options] [function ...]"
-    print -r -- 'Options:'
-    print -r -- '  -c, --completion       edit completion definitions'
-    print -r -- '  -d, --debug            turn on execution tracing'
-    print -r -- '  -h, --help             show list of command-line options'
-    return 0
+  print -r -- "Usage: $0 [options] [function ...]"
+  print -r -- 'Options:'
+  print -r -- '  -c, --completion       edit completion definitions'
+  print -r -- '  -d, --debug            turn on execution tracing'
+  print -r -- '  -h, --help             show list of command-line options'
+  return 0
 fi
 
 (( $#opt_debug )) && setopt xtrace
@@ -30,12 +30,13 @@ fi
 local base=${ZDOTDIR:-$HOME/.config/zsh}
 
 if (( ! $# )); then
-    builtin cd -- $base/functions
-    return
+  builtin cd -- $base/functions
+  return
 fi
 
+# -O opens one split window per file
 if (( $#opt_completion )); then
-    ${EDITOR:-vi} -O -- $base/completions/_${^@}
+  edit::file -O -- $base/completions/_${^@#_}
 else
-    ${EDITOR:-vi} -O -- $base/functions/${^@}
+  edit::file -O -- $base/functions/${^@}
 fi
