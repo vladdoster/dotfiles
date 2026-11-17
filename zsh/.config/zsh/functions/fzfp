@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # fzf with a file preview bound to ?.
 
@@ -7,6 +7,6 @@ emulate -L zsh
 
 fzf --ansi --bind '?:toggle-preview' --inline-info --reverse --tabstop=1 --preview='
   [[ $(file --mime {}) =~ binary ]] \
-  && echo {} is a binary file \
+  && printf "%s is a binary file\n" {} \
   || highlight --style base16/nord -O ansi -l {} \
-  || head -500 {} 2> /dev/null'
+  || head -500 {} 2> /dev/null' "$@"

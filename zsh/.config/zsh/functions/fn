@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Print the definition of one or more functions, optionally copying it.
 #
@@ -12,64 +12,67 @@ zmodload zsh/zutil || return 1
 
 local -a opt_help opt_copy opt_indent
 zparseopts -D -F -K -- \
-    {h,-help}=opt_help \
-    {c,-copy}=opt_copy \
-    {x,-indent}:=opt_indent \
-    || return 1
+  {h,-help}=opt_help \
+  {c,-copy}=opt_copy \
+  {x,-indent}:=opt_indent \
+  || return 1
 
 # a delegating wrapper (F) sets this so messages name the command the user typed
 local self=${_fn_command:-$0}
 
 if (( $#opt_help )); then
-    print -r -- "Usage: $self [-h|--help] [-c|--copy] [-x|--indent N] [function ...]"
-    print -r -- 'Options:'
-    print -r -- '  -c, --copy         copy the definition to the clipboard'
-    print -r -- '  -h, --help         show list of command-line options'
-    print -r -- '  -x, --indent       indent the body by N spaces (default: 4)'
-    return 0
+  print -r -- "Usage: $self [-h|--help] [-c|--copy] [-x|--indent N] [function ...]"
+  print -r -- 'Options:'
+  print -r -- '  -c, --copy         copy the definition to the clipboard'
+  print -r -- '  -h, --help         show list of command-line options'
+  print -r -- '  -x, --indent       indent the body by N spaces (default: 4)'
+  return 0
 fi
 
-integer indent=${opt_indent[-1]:-4}
+# -x=N leaves the = attached to the value
+local indent_arg=${${opt_indent[-1]#=}:-4}
 
-if [[ ${opt_indent[-1]:-4} != <-> ]]; then
-    log::error "$self: integer expected after --indent: ${opt_indent[-1]}"
-    return 1
+if [[ $indent_arg != <-> ]]; then
+  log::error "$self: integer expected after --indent: ${opt_indent[-1]}"
+  return 1
 fi
+
+integer indent=$indent_arg
 
 if (( ! $# )); then
-    print -u2 -r -- "Usage: $self [-h|--help] [-c|--copy] [-x|--indent N] [function ...]"
-    return 1
+  print -u2 -r -- "Usage: $self [-h|--help] [-c|--copy] [-x|--indent N] [function ...]"
+  return 1
 fi
 
 local fn body REPLY
 integer stat=0
 
 for fn in "$@"; do
-    if (( ! $+functions[$fn] )); then
-        log::error "$self: function not defined: $fn"
-        stat=1
-        continue
-    fi
+  if (( ! $+functions[$fn] )); then
+    log::error "$self: function not defined: $fn"
+    stat=1
+    continue
+  fi
 
-    builtin autoload +X -- $fn 2>/dev/null
+  builtin autoload +X -- $fn 2>/dev/null
 
-    body=$(builtin functions -x $indent -- $fn)
+  body=$(builtin functions -x $indent -- $fn)
 
-    if [[ -z $body ]]; then
-        log::error "$self: no definition for: $fn"
-        stat=1
-        continue
-    fi
+  if [[ -z $body ]]; then
+    log::error "$self: no definition for: $fn"
+    stat=1
+    continue
+  fi
 
-    if (( $#opt_copy )); then
-        REPLY=
-        builtin read -q ${(%):-"?%s%F{cyan}==>%f%s Copy $fn? [y/N]: "} && REPLY=y
-        print -r --
-        [[ $REPLY == y ]] || continue
-        print -r -- $body | pbcopy || stat=1
-    else
-        print -r -- $body
-    fi
+  if (( $#opt_copy )); then
+    REPLY=
+    builtin read -q ${(%):-"?%s%F{cyan}==>%f%s Copy $fn? [y/N]: "} && REPLY=y
+    print -r --
+    [[ $REPLY == y ]] || continue
+    print -r -- $body | pbcopy || stat=1
+  else
+    print -r -- $body
+  fi
 done
 
 return $stat

@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Remove the files zsh generates below $ZDOTDIR: compdumps, session logs and digests.
 #
@@ -9,43 +9,43 @@
 emulate -L zsh
 setopt extendedglob globdots
 zmodload zsh/zutil || return 1
-zmodload zsh/files || return 1
+zmodload -F zsh/files b:zf_rm || return 1
 
 local -a opt_help opt_debug opt_dryrun
 zparseopts -D -E -F -K -- \
-    {h,-help}=opt_help \
-    -debug=opt_debug \
-    -dryrun=opt_dryrun \
-    || return 1
+  {h,-help}=opt_help \
+  -debug=opt_debug \
+  -dryrun=opt_dryrun \
+  || return 1
 
 if (( $#opt_help )); then
-    print -r -- "Usage: $0 [options]"
-    print -r -- 'Options:'
-    print -r -- '      --debug        turn on execution tracing'
-    print -r -- '      --dryrun       show files that would be deleted'
-    print -r -- '  -h, --help         show list of command-line options'
-    return 0
+  print -r -- "Usage: $0 [options]"
+  print -r -- 'Options:'
+  print -r -- '      --debug        turn on execution tracing'
+  print -r -- '      --dryrun       show files that would be deleted'
+  print -r -- '  -h, --help         show list of command-line options'
+  return 0
 fi
 
 (( $#opt_debug )) && setopt xtrace
 
 local base=${ZDOTDIR:-$HOME/.config/zsh}
-local -a to_delete=($base/**/*.z(comp*|sh_sessions|wc)(N.))
+local -a to_delete=($base/**/*.z(comp*|sh_sessions|wc)(N.) $base/.zsh_sessions/*(N.))
 
 if (( ! $#to_delete )); then
-    print -r -- "$0: no files to clean"
-    return 0
+  log::info "$0: no files to clean"
+  return 0
 fi
 
 if (( $#opt_dryrun )); then
-    print -r -- "$0: would remove $#to_delete files:"
-    print -C 4 -- ${to_delete:t}
-    return 0
+  log::info "$0: would remove $#to_delete files:"
+  print -rC4 -- ${to_delete:t}
+  return 0
 fi
 
-if rm -f $to_delete; then
-    print -r -- "$0: removed $#to_delete files"
+if zf_rm -f $to_delete; then
+  log::info "$0: removed $#to_delete files"
 else
-    log::error "$0: failed to remove files"
-    return 1
+  log::error "$0: failed to remove files"
+  return 1
 fi

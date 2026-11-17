@@ -1,5 +1,5 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Put keg-only homebrew formulae and GNU tool directories on $PATH.
 #
@@ -12,18 +12,18 @@ zmodload zsh/zutil || return 1
 
 local -a opt_all opt_debug opt_help
 builtin zparseopts -D -E -F -K -- \
-    {a,-all}=opt_all \
-    {d,-debug}=opt_debug \
-    {h,-help}=opt_help \
-    || return 1
+  {a,-all}=opt_all \
+  {d,-debug}=opt_debug \
+  {h,-help}=opt_help \
+  || return 1
 
 if (( $#opt_help )); then
-    print -r -- "Usage: $0 [options] [keg-pattern ...]"
-    print -r -- 'Options:'
-    print -r -- '  -a, --all          add all unlinked kegs found'
-    print -r -- '  -d, --debug        turn on execution tracing'
-    print -r -- '  -h, --help         show list of command-line options'
-    return 0
+  print -r -- "Usage: $0 [options] [keg-pattern ...]"
+  print -r -- 'Options:'
+  print -r -- '  -a, --all          add all keg-only formulae and gnubin dirs'
+  print -r -- '  -d, --debug        turn on execution tracing'
+  print -r -- '  -h, --help         show list of command-line options'
+  return 0
 fi
 
 (( $#opt_debug )) && setopt xtrace
@@ -39,17 +39,17 @@ local pat keg util name
 
 # --raw-output already prints one name per line; @sh only added quotes to strip again
 local -a keg_only=(${(f)"$(command brew info --installed --json=v1 |
-    command jq --raw-output 'map(select(.keg_only == true)) | .[].name')"})
+  command jq --raw-output 'map(select(.keg_only == true)) | .[].name')"})
 
 local -a selected=()
 
 for pat in $patterns; do
-    selected+=(${(M)keg_only:#*${~pat}*})
+  selected+=(${(M)keg_only:#*${~pat}*})
 done
 
 for keg in ${(uo)selected}; do
-    path=($prefix/opt/$keg/bin $path)
-    print -P -- "%F{green}==>%f [+] ${keg}"
+  path=($prefix/opt/$keg/bin(N/) $path)
+  log::info "[+] ${keg}"
 done
 
 local -a gnu_prefixes=(/opt/homebrew/opt /usr/local/opt)
@@ -58,11 +58,11 @@ local -a gnubins=(${^gnu_prefixes}/*/libexec/gnubin(N/))
 selected=()
 
 for pat in $patterns; do
-    selected+=(${(M)gnubins:#*${~pat}*})
+  selected+=(${(M)gnubins:#*${~pat}*})
 done
 
 for util in ${(uo)selected}; do
-    name=${${util:h:h}:t}
-    path=($util $path)
-    print -P -- "%F{green}==>%f [+] ${name}"
+  name=${${util:h:h}:t}
+  path=($util $path)
+  log::info "[+] ${name}"
 done
