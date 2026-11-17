@@ -1,10 +1,9 @@
 #autoload
-# vim: set et:ft=zsh:sw=2:st=2:ts=2:tw=100:
+# vim: set et ft=zsh sw=2 sts=2 ts=2 tw=100:
 #
 # Add one or more directories to $PATH.
 #
-# The path array is tied to PATH and declared -U in .zprofile, so assigning through it
-# keeps entries unique.
+# PATH entries match as absolute paths. A trailing slash names the same directory.
 
 emulate -L zsh
 setopt extendedglob
@@ -12,55 +11,68 @@ zmodload zsh/zutil || return 1
 
 local -a opt_help opt_debug opt_prepend
 builtin zparseopts -D -F -E -K -- \
-    {h,-help}=opt_help \
-    {d,-debug}=opt_debug \
-    {p,-prepend}=opt_prepend \
-    || return 1
+  {h,-help}=opt_help \
+  {d,-debug}=opt_debug \
+  {p,-prepend}=opt_prepend \
+  || return 1
 
 if (( $#opt_help )); then
-    print -r -- "Usage: $0 [options] <directory>..."
-    print -r -- 'Options:'
-    print -r -- '  -d, --debug        turn on execution tracing'
-    print -r -- '  -h, --help         show list of command-line options'
-    print -r -- '  -p, --prepend      prepend each directory to $PATH'
-    return 0
+  print -r -- "Usage: $0 [options] <directory>..."
+  print -r -- 'Options:'
+  print -r -- '  -d, --debug        turn on execution tracing'
+  print -r -- '  -h, --help         show list of command-line options'
+  print -r -- '  -p, --prepend      prepend each directory to $PATH'
+  return 0
 fi
 
 (( $#opt_debug )) && setopt xtrace
 
 if (( ! $# )); then
-    log::error "$0 requires one or more directories. Try '$0 --help' for usage."
-    return 1
+  log::error "$0 requires one or more directories. Try '$0 --help' for usage."
+  return 1
 fi
 
 local dir verb=appended
+local -a have=("${(@)path:a}") rest
 local -aU dirs
-integer stat=0
+integer stat=0 lead=0
 
-for dir in "$@"; do
-    if [[ ! -d $dir ]]; then
-        log::error "not a directory: ${(qq)dir}"
-        stat=1
-    # -U keeps the first copy of an entry. An append leaves an existing entry in place.
-    elif (( ! $#opt_prepend && ${path[(Ie)$dir]} )); then
-        log::warn "already in PATH: $dir"
-    else
-        dirs+=($dir)
-    fi
+# :A resolves symlinks and turns opt/<formula> into a versioned Cellar path. :a keeps the link.
+for dir in "${@:a}"; do
+  if [[ ! -d $dir ]]; then
+    log::error "not a directory: ${(qq)dir}"
+    stat=1
+  # An append leaves an existing entry in place.
+  elif (( ! $#opt_prepend && ${have[(Ie)$dir]} )); then
+    log::warn "already in PATH: $dir"
+  else
+    dirs+=($dir)
+  fi
 done
 
 (( $#dirs )) || return $stat
 
 # One assignment keeps the argument order. A prepend per directory reverses it.
 if (( $#opt_prepend )); then
-    path=($dirs $path)
-    verb=prepended
+  verb=prepended
+  # Directories that already lead PATH in argument order stay in place.
+  for dir in $dirs; do
+    [[ $dir == $have[lead+1] ]] || break
+    (( ++lead ))
+    log::warn "already at the front of PATH: $dir"
+  done
+  # Drop the old copy of each directory. The path array is not always unique.
+  for dir in $path; do
+    (( ${dirs[(Ie)${dir:a}]} )) || rest+=($dir)
+  done
+  path=($dirs $rest)
+  shift $lead dirs
 else
-    path+=($dirs)
+  path+=($dirs)
 fi
 
 for dir in $dirs; do
-    log::info "$0: $verb $dir"
+  log::info "$0: $verb $dir"
 done
 
 return $stat
