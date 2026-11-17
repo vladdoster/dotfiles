@@ -70,13 +70,14 @@ run() { out=$(zsh $repo/install.zsh "$@" 2>&1 < /dev/null) && rc=0 || rc=$? }
 run --help
 ((rc == 0)) && [[ $out == install.zsh* ]]
 check "\`--help\` prints usage" $? "exit $rc" "${(@f)out}"
-run stow
+# --dry-run: a broken guard prints the bootstrap and does not run it.
+run stow --dry-run
 ((rc == 1)) && [[ $out == *'did you mean: install.zsh --only stow'* ]]
 check "an operand is rejected with a hint" $? "exit $rc" "${(@f)out}"
 run --only bogus
 ((rc == 1)) && [[ $out == *'unknown section: bogus'* ]]
 check "an unknown section is rejected" $? "exit $rc" "${(@f)out}"
-run --only ''
+run --only '' --dry-run
 ((rc == 1)) && [[ $out == *'--only given with no sections'* ]]
 check "\`--only\` with no sections is rejected" $? "exit $rc" "${(@f)out}"
 

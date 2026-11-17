@@ -88,7 +88,7 @@ session() {
 # Fresh install                                                              #
 ##############################################################################
 area "Fresh install" install.zsh
-session fresh "Fresh install" "$oneliner --branch $branch"
+session fresh "Fresh install" "$oneliner --branch ${(q)branch}"
 ((rc == 0)); check "the one-liner installs on a fresh account" $? $excerpt
 # The bug this guards: NONINTERACTIVE Homebrew never asked, then failed on sudo.
 [[ $prompts == *sudo=* ]]; check "\`brew-install\` asked for the sudo password" $? "prompts: ${prompts:-none}"
@@ -97,14 +97,15 @@ session fresh "Fresh install" "$oneliner --branch $branch"
 
 area Installed Brewfile
 session check "Check the install" 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" &&
-  brew bundle check --no-upgrade --file=~/.config/dotfiles/Brewfile && command -v node stow zsh'
+  brew bundle check --no-upgrade --file=~/.config/dotfiles/Brewfile &&
+  for c in node stow zsh; do command -v $c || exit 1; done'
 ((rc == 0)); check "every Brewfile entry is installed; \`node\`, \`stow\`, \`zsh\` on PATH" $? $excerpt
 
 ##############################################################################
 # Re-run and the shell section                                               #
 ##############################################################################
 area Re-run install.zsh
-session rerun "Re-run" "$oneliner --branch $branch"
+session rerun "Re-run" "$oneliner --branch ${(q)branch}"
 ((rc == 0)) && [[ $out == *'updating the existing clone'* && $out == *'homebrew already installed'* ]]
 check "re-running the one-liner updates the clone and finishes" $? $excerpt
 
