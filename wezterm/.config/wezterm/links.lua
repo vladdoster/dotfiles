@@ -5,6 +5,11 @@ local M = {}
 function M.setup(config)
   -- The default wezterm rules match URLs of any scheme and host, and email addresses.
   local rules = wezterm.default_hyperlink_rules()
+  -- Compact JSON puts text straight after the closing quote of a URL.
+  -- Stop each URL match at a double quote.
+  for _, rule in ipairs(rules) do
+    rule.regex = rule.regex:gsub('%[%^\\s', '[^\\s"'):gsub('\\S', '[^\\s"]')
+  end
   for _, rule in ipairs({
     -- Local paths: /abs, ~/x, ./x, ../x with optional :line:col suffix.
     -- The open-uri handler below resolves and opens them.
