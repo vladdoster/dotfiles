@@ -12,7 +12,8 @@ _accept-line-with-url() {
     zle .accept-line
     return
   fi
-  if [[ $BUFFER =~ '^https://([^/]*git[^/]*/|[^[:space:]]*\.git$)' ]]; then
+  # GitHub Enterprise Cloud serves repos from <tenant>.ghe.com.
+  if [[ $BUFFER =~ '^https://([^/]*git[^/]*/|[^/]*\.ghe\.com/|[^[:space:]]*\.git$)' ]]; then
     repo=${BUFFER//\/tree\/*/.git}
     print -rs -- $repo
     BUFFER="git clone ${(q)repo} && cd ${(q)${repo:t}%.git}"
