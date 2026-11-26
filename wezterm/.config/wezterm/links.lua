@@ -18,6 +18,13 @@ function M.setup(config)
       format = 'localpath:$1',
       highlight = 1,
     },
+    -- Match bare relative paths of three or more segments, such as src/pkg/mod.py. The open-uri
+    -- handler resolves them against the pane cwd. A final period belongs to the sentence.
+    {
+      regex = [[(?:^|[\s"'(=])([\w.+@%-]+(?:/[\w.+@%-]+){2,}(?<!\.))(?::\d+){0,2}]],
+      format = 'localpath:$1',
+      highlight = 1,
+    },
     -- Symlink target in a long listing. Without this the GitHub rule below links its pieces.
     {
       regex = [[(?:\d{2}:\d{2}|\d{4}) .+? -> (.*\S)]],
@@ -27,8 +34,9 @@ function M.setup(config)
     -- Make username/project paths clickable. This implies paths like the following are for GitHub.
     -- As long as a full URL hyperlink regex exists above this it should not match a full URL to
     -- GitHub or GitLab / BitBucket (i.e. https://gitlab.com/user/project.git is still a whole clickable URL)
+    -- The lookarounds reject a piece of a longer path, such as src/pkg in a/src/pkg/b.
     {
-      regex = [[["]?([\w\d]{1}[-\w\d]+)(/){1}([-\w\d\.]+)["]?]],
+      regex = [[(?<![\w./-])["]?([\w\d]{1}[-\w\d]+)(/){1}([-\w\d\.]+)["]?(?![\w./-])]],
       format = 'https://www.github.com/$1/$3',
     },
   }) do
