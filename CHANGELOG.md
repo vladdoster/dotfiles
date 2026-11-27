@@ -1,3 +1,16 @@
+# [4.74.0](https://github.com/vladdoster/dotfiles/compare/v4.73.1...v4.74.0) (2026-11-27)
+
+
+### Bug Fixes
+
+* **wezterm:** link relative paths as one path ([42524f9](https://github.com/vladdoster/dotfiles/commit/42524f92f82fee6fcf245c776f3a53b1a1ab07c5))
+* **wezterm:** stop URL links at a double quote ([3a85919](https://github.com/vladdoster/dotfiles/commit/3a85919d2217db709983d66d3f3426d8982d4cc0))
+
+
+### Features
+
+* **zsh:** clone pasted ghe.com repo URLs ([f860ee0](https://github.com/vladdoster/dotfiles/commit/f860ee0f59cc4315522878f0833d8eba814da563))
+
 ## [4.73.1](https://github.com/vladdoster/dotfiles/compare/v4.73.0...v4.73.1) (2026-11-17)
 
 
